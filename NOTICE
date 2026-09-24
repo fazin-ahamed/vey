@@ -1,0 +1,20 @@
+Vey
+Copyright 2026 The Vey Authors
+
+This product includes software developed by the Vey authors.
+
+Third-party components
+----------------------
+
+Vey's default English semantic encoder is
+`mixedbread-ai/mxbai-embed-xsmall-v1`, a separate work by the Mixedbread AI
+authors, redistributed via the Hugging Face hub and licensed under the
+Apache License 2.0. Copyright and attribution remain with the upstream authors.
+Vey does not modify or retrain the encoder; Vey trains only small heads and
+selectors on top of frozen representations.
+
+The Apache License 2.0 text is available at:
+  https://www.apache.org/licenses/LICENSE-2.0
+
+No model weights are committed to this repository. Installation fetches the
+pinned encoder from the Hugging Face hub at run time.
