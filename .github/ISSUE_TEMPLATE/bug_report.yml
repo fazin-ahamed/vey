@@ -1,0 +1,53 @@
+name: Bug report
+description: Something behaves differently from what is documented.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Not a security issue? Report those privately through SECURITY.md.
+  - type: input
+    id: version
+    attributes:
+      label: Vey version
+      placeholder: "1.0.0"
+    validations:
+      required: true
+  - type: input
+    id: python
+    attributes:
+      label: Python version
+      placeholder: "3.11.16"
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      placeholder: "Linux 6.x / macOS 15 / Windows 11"
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What did you observe?
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Minimal reproduction
+      description: The exact command or the smallest code snippet.
+    validations:
+      required: true
+  - type: textarea
+    id: anything
+    attributes:
+      label: Anything else

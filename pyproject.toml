@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vey"
+version = "1.0.0"
+description = "A lightweight machine-native decision runtime for fast, typed decisions without autoregressive generation."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+dependencies = [
+  "numpy>=1.20",
+  "torch>=2.0",
+  "transformers>=4.48",
+  "safetensors>=0.4",
+  "huggingface_hub>=0.20",
+]
+
+[project.optional-dependencies]
+parity = ["laya==0.3.20", "rank_bm25"]
+demo = ["rich>=13"]
+dev = ["pytest>=7"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

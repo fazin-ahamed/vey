@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+title: "Vey: a lightweight machine-native decision runtime"
+message: "If you use Vey in your research, please cite this work."
+type: software
+authors:
+  - name: "The Vey Authors"
+repository-code: "https://github.com/fazin-ahamed/vey"
+license: Apache-2.0
+version: "1.0.0"
+abstract: >-
+  Vey is a lightweight decision runtime for fast, typed decisions without
+  autoregressive generation. It composes exact structured decisions, a frozen
+  24M semantic encoder, BM25 and semantic rank fusion, typed tool/action
+  compilation, and calibrated trust and abstention.

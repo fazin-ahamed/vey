@@ -1,0 +1,15 @@
+{
+  "vey_version": "1.0.0",
+  "language": ["en"],
+  "runtime_not_model": true,
+  "generates_output_tokens": false,
+  "semantic_encoder": {
+    "repo": "mixedbread-ai/mxbai-embed-xsmall-v1",
+    "parameters": 24100000,
+    "frozen": true,
+    "license": "apache-2.0",
+    "ownership": "upstream (Mixedbread AI); not trained by the Vey project"
+  },
+  "lanes": ["structured", "semantic", "retrieval", "act", "trust"],
+  "source": "https://github.com/fazin-ahamed/vey"
+}
