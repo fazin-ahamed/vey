@@ -181,7 +181,7 @@ the frozen comparator as teacher, changes the cost from quadratic to linear.
 
 Same host and protocol as above (i5-12400F, 6 threads, warm, median of 20).
 
-| K | pairwise 150M | pointwise 150M | pointwise 22M |
+| K | pairwise 150M | pointwise 150M | pointwise field student |
 |---:|---:|---:|---:|
 | 2 | 59 ms | 38 ms | 17 ms |
 | 4 | 262 ms | 64 ms | **23 ms** |
@@ -192,12 +192,42 @@ Same host and protocol as above (i5-12400F, 6 threads, warm, median of 20).
 Laya's 421M English model, measured on this same CPU with the same protocol,
 scores every option in one forward pass: **77 ms / 161 ms / 170 ms** p50 at
 K = 2 / 4 / 8. The pairwise comparator is slower than Laya at K=4 (262 vs 161
-ms) and far slower beyond it. The 22M pointwise student is faster than Laya at
-every measured K.
+ms) and far slower beyond it. The pointwise field student is faster than Laya
+at every measured K.
 
 Quality against the pairwise teacher on 400 held-out decisions: the 150M
-student agrees on the winner **84.3%** of the time, the 22M student **93.8%**.
-The smaller model tracked the teacher better, which is consistent with the
-relation being a simple field rather than something that needs model capacity.
+student agrees on the winner **84.3%** of the time, the smaller student
+**93.8%**. The smaller model tracked the teacher better, which is consistent
+with the relation being a simple field rather than something that needs model
+capacity.
+
+Parameter counts are total, including embeddings. The smaller student is
+DeBERTa-v3-xsmall at **70.8M total parameters**: 49.4M of that is the
+vocabulary embedding table and 21.3M is the transformer body, plus a 0.15M
+potential head, serialized to 283 MB. Calling it a 22M model would count only
+the body and is not how the 150M or the 421M Laya figures are counted.
+
 These are research measurements, not a released model: the students cover one
 ordinal axis, and the pairwise comparator remains the shipped artifact.
+
+## Semantic Field Atlas (frozen teacher, per axis)
+
+Integrability is not special to one axis. The same decomposition on 150
+held-out generic decisions per axis, with the teacher's own ranking checked
+against the latent value that generated the text:
+
+| axis | integrability | integrability, 10th pct | curl RMS | latent agreement |
+|---|---:|---:|---:|---:|
+| room to maneuver | 1.0000 | 0.9999 | 0.0051 | 0.900 |
+| advance toward the objective | 1.0000 | 0.9999 | 0.0047 | 0.920 |
+| remaining options | 1.0000 | 1.0000 | 0.0033 | 0.933 |
+| safety margin | 0.9951 | 0.9917 | 0.0113 | 0.527 |
+
+All four land in the field regime (integrability at or above 0.99), so a
+pointwise student is the right architecture for each of them, not just the one
+it was trained on. Safety margin is the outlier on accuracy: the field is
+integrable but the teacher's ranking agrees with the latent value only about
+half the time, which means the comparator reads that axis weakly. That is a
+grounding gap, not a geometry problem, and a student distilled from this
+teacher would inherit it.
+
