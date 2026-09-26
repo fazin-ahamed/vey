@@ -9,12 +9,23 @@ verifiable mechanisms rather than one learned monolith:
     retrieval/    BM25 lexical lane, semantic lane, and reciprocal-rank fusion
     act/          ToolCard schema, typed slot extraction, exact action compiler
     trust/        observation record, calibrated risk controls, action policy
+    crux/         Vey 2: frozen NLI predicate grounder + trained ordinal
+                  comparator + a deterministic decision executor
     evaluation/   metrics shared by the lanes (calibration, risk-coverage)
 
 Every lane is replaceable and independently measured. See ``docs/LIMITATIONS.md``
 for what Vey does not do.
 
-Quick start::
+Vey 2 quick start::
+
+    import vey
+    r = vey.decide("minimize latency, then cost",
+                   {"a": "latency 30 ms; cost 5", "b": "latency 30 ms; cost 2"},
+                   explain=True)
+    r.answer               # "b"
+    r.certificate.to_dict()  # versioned machine-evidence, not generated text
+
+Vey 1 quick start::
 
     from vey import ToolCard, ArgSpec, compile_call, FieldDecision
     from vey.act.extract import extract_slot
@@ -29,7 +40,7 @@ Quick start::
     call.outcome  # 'ACT' only when every required slot is resolved and valid
 """
 
-__version__ = "1.0.0"
+__version__ = "2.0.0-rc1"
 
 from .act import (
     ArgSpec,
@@ -44,11 +55,24 @@ from .act import (
     VALUE_STATE,
 )
 from .act.extract import extract_slot
-from .trust import Observation, PolicyConfig, decide
+from .trust import Observation, PolicyConfig
 from .trust.observation import from_scores
+
+# Vey 2: semantic decision runtime (CRUX). The top-level ``decide`` is the
+# semantic decision entrypoint; the Vey 1 trust-policy decision is unchanged and
+# remains importable as ``vey.trust.decide``.
+from .decision import Candidate, Certificate, DecisionRequest, DecisionResult
+from .runtime import Runtime, decide
 
 __all__ = [
     "__version__",
+    # Vey 2 semantic decision runtime
+    "decide",
+    "Runtime",
+    "DecisionRequest",
+    "DecisionResult",
+    "Certificate",
+    "Candidate",
     # action compiler
     "ToolCard",
     "ArgSpec",
@@ -65,5 +89,4 @@ __all__ = [
     "Observation",
     "from_scores",
     "PolicyConfig",
-    "decide",
 ]
