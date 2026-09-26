@@ -169,3 +169,35 @@ rather than a pairwise comparison.
 The structured lane is four orders of magnitude cheaper than the CRUX lane on
 the same host, which is why the router uses it whenever the candidates expose
 numeric or enum facts.
+
+## Replacing the pairwise comparator with a pointwise field (research)
+
+The pairwise comparator's relation matrix decomposes almost entirely into a
+scalar potential. On 200 held-out generic decisions the Hodge integrability was
+**1.0000** (10th percentile 0.9999) and the triangle curl RMS was **0.005**, so
+the `K*(K-1)` cross-encodings recompute a value that one encoding per candidate
+can express. A student that predicts that potential directly, trained against
+the frozen comparator as teacher, changes the cost from quadratic to linear.
+
+Same host and protocol as above (i5-12400F, 6 threads, warm, median of 20).
+
+| K | pairwise 150M | pointwise 150M | pointwise 22M |
+|---:|---:|---:|---:|
+| 2 | 59 ms | 38 ms | 17 ms |
+| 4 | 262 ms | 64 ms | **23 ms** |
+| 8 | 1,228 ms | 108 ms | 33 ms |
+| 16 | 5,494 ms | 198 ms | 84 ms |
+| 32 | 23,514 ms | 419 ms | 140 ms |
+
+Laya's 421M English model, measured on this same CPU with the same protocol,
+scores every option in one forward pass: **77 ms / 161 ms / 170 ms** p50 at
+K = 2 / 4 / 8. The pairwise comparator is slower than Laya at K=4 (262 vs 161
+ms) and far slower beyond it. The 22M pointwise student is faster than Laya at
+every measured K.
+
+Quality against the pairwise teacher on 400 held-out decisions: the 150M
+student agrees on the winner **84.3%** of the time, the 22M student **93.8%**.
+The smaller model tracked the teacher better, which is consistent with the
+relation being a simple field rather than something that needs model capacity.
+These are research measurements, not a released model: the students cover one
+ordinal axis, and the pairwise comparator remains the shipped artifact.
