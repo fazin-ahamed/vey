@@ -34,20 +34,21 @@ language into typed evidence and executes decisions deterministically.**
   agreement / 0 deaths** vs Laya 421M: 81 / 0.910 / 1.
 - Raw-consequence Snake (seeds 611–614, run once, NO planner verdicts): **CRUX 155
   food / 0.971 agreement / 0 deaths** vs Laya: 17 / 0.404 / 0.
-- Permutation at the D6 run was **0.965**; CRUX-P subsequently achieved **1.000**
-  order+rename invariance on 1,500 generic held-out decisions. Snake was not rerun.
+- Permutation at the raw-consequence measurement was **0.965**; the later
+  permutation-exact change achieved **1.000** order+rename invariance on 1,500
+  generic held-out decisions. Snake was not rerun.
 - **Disclosed tradeoff:** removing the candidate-name signal cost ~4 points of
   generic composition accuracy (0.951 → 0.914), still above the ≥0.90 gate, in
   exchange for exact invariance.
 
 ## Known limitations (RC)
 
-- The CRUX crux lane requires the trained ordinal-comparator artifact
-  (fine-tuned, not frozen-zero-shot). Configure it with `VEY_CRUX_COMPARATOR`
-  (a local `comparator.pt`) or `VEY_CRUX_COMPARATOR_HF` (a Hugging Face
-  `repo_id[@revision]`). Without it the crux lane **fails closed** with an
-  actionable error; the structured lane needs no artifact. A model-download-free
-  experience is guaranteed only for the structured lane.
+- The CRUX crux lane loads the trained ordinal-comparator weights
+  (`comparator.safetensors`, fine-tuned, not frozen-zero-shot) from the Hugging
+  Face Hub (`fazinahamed/vey`, pinned revision). Override with
+  `VEY_CRUX_COMPARATOR` (a local file) or `VEY_CRUX_COMPARATOR_HF`
+  (`repo_id[@revision]`). The lane **fails closed** only if that fetch fails;
+  the structured lane needs no artifact and is model-free.
 - This RC ships the `structured` and `crux` lanes plus the Vey 2 router. The
   Vey 1 lanes (`semantic`, `retrieval`, `structured`/FactMemory, `act`, `trust`)
   are unchanged under `src/vey`; folding them into the Vey 2 router is follow-up

@@ -131,7 +131,7 @@ def compose(frame: dict, trust_floor: float = .5):
     g.meter(bottom + 7, left, fill, 41)
     g.put(bottom + 7, left + 43, f"{fill * 100:4.1f}%", MUTED)
 
-    g.put(4, right, "Vey R0.5 · demo head", GREEN)
+    g.put(4, right, "Vey 2 · CRUX lane", GREEN)
     g.put(5, right, f"{frame['backend']} · local", MUTED)
     g.put(7, right, "NEXT MOVE", FG)
     g.put(7, right + 15, "HEAD PROBABILITIES", MUTED)

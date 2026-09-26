@@ -1,8 +1,10 @@
 # Snake demo
 
-The Snake demo is a feature-assisted demonstration of Vey's structured decision
-loop. It is not evidence that the routing head perceives raw game frames. The
-head consumes engineered board features, not pixels.
+The Snake demo drives Vey's decision loop with the Vey 2 CRUX lane. Each move
+is described by its consequences (legality, reachable area, food progress,
+mobility, wall clearance) and the trained ordinal comparator ranks the four
+moves. It is not evidence that any model perceives raw game frames: the lane
+consumes consequence text derived from the board, not pixels.
 
 ```bash
 pip install -e .
@@ -11,13 +13,15 @@ python -m examples.snake.snake
 
 ## What it shows
 
-A small policy head scores legal moves and the runtime applies the same rules
-that drive the rest of Vey:
+The CRUX lane ranks the four moves and the runtime applies the same rules that
+drive the rest of Vey:
 
-- hard legality masks applied before scoring,
+- a hard legality mask applied before the chosen move executes,
 - an online reliability estimate per move,
-- exact recent-history predicates,
-- a deterministic no-op when trust is low, instead of a random move.
+- a deterministic fallback to the planner when trust is low or the proposed move
+  fails the safety check, instead of a random move.
+
+Pass `--legacy-head` to use the older distilled R0.5 SuccessHead instead.
 
 The recorded runs (seed, pacing, and deadline criteria) are reproducible, so a
 campaign can be replayed move-for-move.

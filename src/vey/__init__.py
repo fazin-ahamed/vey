@@ -3,7 +3,7 @@
 Fast, typed decisions without autoregressive generation. Vey composes narrow,
 verifiable mechanisms rather than one learned monolith:
 
-    structured/   exact candidate decisions over typed state (the R0.5 lane)
+    structured/   exact candidate decisions over typed state (the exact lane)
     semantic/     a frozen 24M sentence encoder; pooled head for fixed labels,
                   cosine matcher for open/novel candidates
     retrieval/    BM25 lexical lane, semantic lane, and reciprocal-rank fusion
