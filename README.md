@@ -12,6 +12,41 @@ autoregressive generation.**
 Vey answers *which candidate, which value, should I act, should I ask* with
 narrow mechanisms you can measure one at a time. It emits no output tokens.
 
+## Vey 2: semantic decisions (CRUX)
+
+Vey 2 adds `vey.decide`, a semantic decision runtime that grounds natural
+language into typed evidence and executes the decision deterministically. It
+routes each decision to the cheapest lane that can answer it: a deterministic
+`structured` lane when candidates expose numeric/enum facts (no model), or the
+`crux` lane (a frozen NLI predicate grounder + a trained antisymmetric ordinal
+comparator) when qualitative language grounding is required.
+
+```python
+import vey
+
+result = vey.decide(
+    question="minimize latency, then cost",
+    candidates={
+        "a": "latency 30 ms; cost 5",
+        "b": "latency 30 ms; cost 2",
+        "c": "latency 90 ms; cost 1",
+    },
+    explain=True,
+)
+result.answer          # "b"
+result.decision_mode   # "structured" (resolved on facts; no model loaded)
+result.certificate.to_dict()  # versioned machine-evidence, not generated text
+```
+
+The decision is a pure function of the unordered *set* of candidate
+consequence-texts, order- and rename-invariant by construction. Every decision
+returns a versioned machine-evidence `Certificate` (the typed decision program,
+per-candidate grounded values, and survivors), never generated reasoning. The
+crux lane's comparator artifact is configured via `VEY_CRUX_COMPARATOR` /
+`VEY_CRUX_COMPARATOR_HF`; without it the crux lane fails closed while the
+structured lane keeps running. See [docs/CRUX.md](docs/CRUX.md). The Vey 1
+trust-policy decision is unchanged and remains at `vey.trust.decide`.
+
 ## What it combines
 
 - **Exact structured decisions**: typed candidate sets with hard eligibility
@@ -107,6 +142,7 @@ loop. **It is not evidence that the routing head perceives raw game frames.**
 ## Documentation
 
 - [Architecture](docs/ARCHITECTURE.md): the lanes and why they are separate
+- [CRUX](docs/CRUX.md): the Vey 2 semantic decision API and executor
 - [Development](docs/DEVELOPMENT.md): how to extend the package
 - [Model card](docs/MODEL_CARD.md): intended uses, non-intended uses, data
 - [Decision API](docs/DECISION_API.md): the public interfaces

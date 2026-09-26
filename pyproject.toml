@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "vey"
-version = "1.0.0"
-description = "A lightweight machine-native decision runtime for fast, typed decisions without autoregressive generation."
+version = "2.0.0-rc1"
+description = "A machine-native decision runtime: fast, typed decisions without autoregressive generation, plus the CRUX semantic decision engine (frozen NLI grounding + a deterministic executor)."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "Apache-2.0" }

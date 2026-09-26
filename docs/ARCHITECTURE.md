@@ -4,51 +4,29 @@ Vey is a set of narrow lanes, each independently measured and replaceable.
 Structure, semantics, and trust are separate problems, and one model does not
 have to solve all three.
 
-```
-                      user / state
-                           │
-              ┌────────────┴────────────┐
-              │                         │
-        structured input            natural language
-              │                         │
-        ┌─────▼─────┐           ┌───────▼────────┐
-        │ exact lane │           │ semantic  24M   │
-        │ R0.5 +     │           │ frozen encoder  │
-        │ FactMemory  │           └───────┬────────┘
-        └─────┬─────┘                   │
-              │              ┌───────────┴───────────┐
-              │              │                       │
-              │        fixed labels            open candidates
-              │        (pooled head)           (cosine matcher)
-              │              │                       │
-              │              └───────────┬───────────┘
-              │                          │
-              │                  ┌───────▼────────┐
-              │                  │  BM25 lexical  │
-              │                  │  lane          │
-              │                  └───────┬────────┘
-              │                          │
-              │                  ┌───────▼────────┐
-              │                  │  RRF fusion    │
-              │                  └───────┬────────┘
-              └──────────┬───────────────┘
-                         │
-                    ┌────▼─────┐
-                    │ decision │
-                    └────┬─────┘
-                         │
-         ┌───────────────┼────────────────┐
-         │               │                │
-   ┌─────▼──────┐  ┌─────▼──────┐  ┌──────▼───────┐
-   │ ToolCard   │  │  typed     │  │ trust        │
-   │ selection  │→ │  extraction│→ │ observation  │
-   │ (24M)      │  │  + exact   │  │ + risk       │
-   └────────────┘  │  compiler  │  └──────┬───────┘
-                   └─────┬──────┘         │
-                         │           ┌────▼─────┐
-                    ACT  │           │ policy   │
-                         │           │(determ.) │
-                    ASK_FOR_INFO    └──────────┘
+```mermaid
+flowchart TD
+    IN["user / state"]
+    IN --> STRUCT["structured input"]
+    IN --> NL["natural language"]
+
+    STRUCT --> EXACT["exact lane<br/>R0.5 + FactMemory"]
+    NL --> ENC["semantic 24M frozen encoder"]
+    ENC --> POOL["fixed labels<br/>pooled head"]
+    ENC --> MATCH["open candidates<br/>cosine matcher"]
+    POOL --> BM25["BM25 lexical lane"]
+    MATCH --> BM25
+    BM25 --> RRF["RRF fusion"]
+
+    EXACT --> DEC{"decision"}
+    RRF --> DEC
+
+    DEC --> TOOL["ToolCard selection (24M)"]
+    TOOL --> EXTRACT["typed extraction<br/>+ exact compiler"]
+    EXTRACT --> TRUST["trust observation + risk"]
+    TRUST --> POLICY["policy (deterministic)"]
+    EXTRACT --> OUT(["ACT / ASK_FOR_INFO"])
+    POLICY --> OUT
 ```
 
 ## The lanes
@@ -120,3 +98,43 @@ Each boundary exists because a measurement forced it:
 
 See [LIMITATIONS.md](LIMITATIONS.md) for what was measured and deliberately not
 retained.
+
+## Vey 2: the CRUX lane and the router
+
+Vey 2 adds a semantic decision runtime on top of these lanes. `vey.decide`
+routes a `(question, candidates)` decision to the cheapest lane that can answer
+it:
+
+- **structured**: every axis/filter in the compiled program resolves against
+  explicit numeric/enum candidate facts. A deterministic `DictGrounder`
+  executes it. No model loads.
+- **crux**: otherwise, a frozen NLI predicate grounder plus a trained
+  antisymmetric ordinal comparator ground the language, and the *same*
+  permutation-exact executor runs the program. The ~150M backbone loads lazily
+  and only when qualitative language grounding is actually required.
+
+```mermaid
+flowchart LR
+    Q["decide(question, candidates)"] --> C["compile to typed program"]
+    C --> R{"facts resolve<br/>every stage?"}
+    R -->|yes| S["structured lane<br/>DictGrounder, no model"]
+    R -->|no| X["crux lane<br/>NLI grounder + ordinal comparator"]
+    S --> E["permutation-exact executor"]
+    X --> E
+    E --> RES["answer + versioned Certificate"]
+```
+
+The decision is a pure function of the unordered *set* of candidate
+consequence-texts: identity-free grounding (the grounder never sees candidate
+names), value quantization, and a content-deterministic tie-break give exact
+order- and rename-invariance. The learned components ground narrow typed
+questions (entailment/contradiction margins, ordinal relation, semantic
+distance), and a deterministic microcode executor owns the final decision. No
+neural component owns final action utility.
+
+Every decision returns a machine-evidence `Certificate` (versioned
+`schema_version`, the typed `decision_program`, per-candidate grounded
+`evidence`, and the surviving candidate ids), never generated reasoning text.
+If the CRUX comparator artifact is not configured, the crux lane fails closed
+with an actionable error; the structured lane still runs with no artifact. See
+[CRUX.md](CRUX.md).

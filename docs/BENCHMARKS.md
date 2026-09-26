@@ -73,3 +73,43 @@ ask over guessing). See [LIMITATIONS.md](LIMITATIONS.md).
 
 Benchmarks retrieve their upstream datasets at run time; no dataset is bundled.
 See `benchmarks/reproduce/` for the scripts and their expected environment.
+
+## Vey 2 / CRUX (immutable, preregistered, run-once)
+
+Preregistered zero-shot Snake control benchmarks. Numbers are **immutable**:
+the values measured at the time of each run, not retro-edited. Thresholds were
+frozen before scoring; each seed block was consumed exactly once.
+
+### Planner-assisted variant (options carry planner verdicts), seeds 711–714
+
+| system | params | food | deaths | planner agreement | permutation |
+|---|---:|---:|---:|---:|---:|
+| **CRUX** | ~150M | **136** | **0** | **1.000** | **1.000** |
+| Laya | 421M | 81 | 1 | 0.910 | 0.880 |
+
+### Raw-consequence variant (NO planner verdicts; model must derive utility), seeds 611–614
+
+| system | params | food | deaths | agreement | permutation (at measurement) |
+|---|---:|---:|---:|---:|---:|
+| **CRUX** | ~150M | **155** | **0** | **0.971** | 0.965 |
+| Laya | 421M | 17 | 0 | 0.404 | 0.433 |
+
+The raw-consequence gap (155 vs 17 food) is the load-bearing result: CRUX
+reconstructs the decision from grounded consequences rather than reading verdict
+labels, at a ~150M frozen backbone versus a 421M decision model.
+
+### Permutation invariance
+
+The raw-consequence run measured **0.965** permutation agreement at the time.
+A later change removed the candidate-order/name dependence **architecturally**
+(identity-free grounding + content-deterministic tie-break + value
+quantization), reaching **1.000 order- and rename-invariance on 1,500 generic
+held-out decisions**. Snake was **not** rerun after this change; the historical
+0.965 number above is left unchanged. Composition accuracy on those held-out
+decisions moved 0.951 → **0.914**, a disclosed tradeoff: removing the
+illegitimate candidate-name signal costs ~4 points of composition accuracy in
+exchange for exact invariance, still above the ≥0.90 preregistered gate.
+
+Not claimed: a universal "Vey > Laya". These are specific preregistered control
+benchmarks. Snake is a closed benchmark family (all seed blocks consumed);
+future capability selection uses generic decision suites, not Snake.
