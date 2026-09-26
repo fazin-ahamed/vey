@@ -1,4 +1,4 @@
-"""Frozen NLI backbone — the CRUX predicate grounder.
+"""Frozen NLI backbone: the CRUX predicate grounder.
 
 A frozen natural-language-inference model answers narrow typed questions by the
 sign of an entailment-minus-contradiction margin. It never produces a final

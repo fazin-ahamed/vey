@@ -22,7 +22,7 @@ class DecisionRequest:
 
 @dataclass
 class Certificate:
-    """Machine-readable decision evidence — never generated reasoning text.
+    """Machine-readable decision evidence: never generated reasoning text.
 
     schema_version : certificate schema version (a public API contract).
     decision_program : typed microcode stages executed, e.g.

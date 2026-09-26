@@ -1,8 +1,8 @@
-"""Semantic Resolution — a grounded value carries both a magnitude and a
+"""Semantic Resolution: a grounded value carries both a magnitude and a
 resolution (epsilon). Natural language yields intervals, not exact floats, so two
 grounded values within epsilon are treated as semantically TIED and the decision
 defers to the next priority. This is the first-class version of the
-epsilon-lexicographic rule validated in D6/CRUX-P.
+epsilon-lexicographic rule validated on the permutation-exact release.
 """
 from __future__ import annotations
 

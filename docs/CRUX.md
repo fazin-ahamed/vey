@@ -90,4 +90,8 @@ is `"tie"`.
 resolves against explicit numeric/enum candidate fields (no model). Otherwise it
 uses the **CRUX** lane (frozen ModernBERT-base-NLI predicate grounder + trained
 antisymmetric ordinal comparator, ~150M, loaded once per process). Reuse a
-`vey.Runtime` to control device and keep the backbone warm.
+`vey.Runtime` to control device and keep the backbone warm. The comparator
+weights ship on the Hugging Face Hub (`fazinahamed/vey`,
+`comparator.safetensors`) and load on first use; set `VEY_CRUX_COMPARATOR` to a
+local file or `VEY_CRUX_COMPARATOR_HF` to `repo_id[@revision]` to override. The
+lane fails closed only if that fetch fails.

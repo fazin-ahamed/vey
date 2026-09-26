@@ -42,8 +42,10 @@ The decision is a pure function of the unordered *set* of candidate
 consequence-texts, order- and rename-invariant by construction. Every decision
 returns a versioned machine-evidence `Certificate` (the typed decision program,
 per-candidate grounded values, and survivors), never generated reasoning. The
-crux lane's comparator artifact is configured via `VEY_CRUX_COMPARATOR` /
-`VEY_CRUX_COMPARATOR_HF`; without it the crux lane fails closed while the
+crux lane's comparator weights ship on the Hugging Face Hub
+(`fazinahamed/vey`, `comparator.safetensors`) and load on first use; override
+with `VEY_CRUX_COMPARATOR` (local file) or `VEY_CRUX_COMPARATOR_HF`
+(`repo_id[@revision]`). The lane fails closed only if that fetch fails, while the
 structured lane keeps running. See [docs/CRUX.md](docs/CRUX.md). The Vey 1
 trust-policy decision is unchanged and remains at `vey.trust.decide`.
 

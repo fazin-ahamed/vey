@@ -1,4 +1,4 @@
-"""Antisymmetric ordinal comparator — the CRUX ranking primitive.
+"""Antisymmetric ordinal comparator: the CRUX ranking primitive.
 
 For an axis and two option texts A, B:
 

@@ -1,4 +1,4 @@
-"""CRUX grounder — frozen NLI predicate grounder + trained antisymmetric ordinal
+"""CRUX grounder: frozen NLI predicate grounder + trained antisymmetric ordinal
 comparator, behind a single Grounder interface.
 
     predicate(texts, concept)  -> per-candidate bipolar margin (>0 satisfies)
@@ -9,15 +9,18 @@ Artifact contract (self-contained; no private paths):
 
   * The NLI backbone (``VEY_CRUX_NLI``, default ``tasksource/ModernBERT-base-nli``)
     downloads from the public Hugging Face Hub on first use.
-  * The trained ordinal-comparator weights are loaded from, in order:
-      1. ``VEY_CRUX_COMPARATOR`` — a local path to a ``.pt`` state file, or
-      2. ``VEY_CRUX_COMPARATOR_HF`` — a ``repo_id[@revision]`` on the Hub,
-         fetched via ``huggingface_hub`` and cached.
-    If neither resolves, the CRUX lane FAILS CLOSED with an actionable error;
-    it never silently degrades to a different decision. The structured lane
-    needs no artifact.
+  * The trained ordinal-comparator weights resolve in order:
+      1. ``VEY_CRUX_COMPARATOR``: a local ``comparator.safetensors`` (or a
+         legacy ``.pt`` state file), else
+      2. ``VEY_CRUX_COMPARATOR_HF``: a ``repo_id[@revision]`` on the Hub, else
+      3. the published default ``fazinahamed/vey`` at a pinned revision.
+    If the file cannot be resolved or fetched, the CRUX lane FAILS CLOSED with an
+    actionable error; it never silently degrades. The structured lane needs no
+    artifact.
 
-The state file is ``{"model_id": str, "enc": state_dict, "head": state_dict}``.
+The safetensors file holds ``enc.*`` and ``head.*`` tensors with metadata
+``{"model_id": str, ...}``. The legacy ``.pt`` is
+``{"model_id": str, "enc": state_dict, "head": state_dict}``.
 """
 from __future__ import annotations
 
@@ -56,24 +59,55 @@ class CruxArtifactError(RuntimeError):
     """Raised when the CRUX comparator artifact cannot be resolved (fail-closed)."""
 
 
+DEFAULT_COMPARATOR_HF = "fazinahamed/vey"
+# Pinned published revision of the comparator artifact (exact commit for
+# reproducibility; set to None to track the repo default branch).
+DEFAULT_COMPARATOR_REV: str | None = "04d22c8b3cff843d7e64c61ab6550ba412898c94"
+COMPARATOR_FILENAME = "comparator.safetensors"
+
+
 def _resolve_comparator_path() -> str:
     local = os.environ.get("VEY_CRUX_COMPARATOR")
     if local:
         if not os.path.exists(local):
-            raise CruxArtifactError(
-                f"VEY_CRUX_COMPARATOR={local!r} does not exist.")
+            raise CruxArtifactError(f"VEY_CRUX_COMPARATOR={local!r} does not exist.")
         return local
     hf = os.environ.get("VEY_CRUX_COMPARATOR_HF")
     if hf:
-        from huggingface_hub import hf_hub_download
         repo, _, rev = hf.partition("@")
-        return hf_hub_download(repo_id=repo, filename="comparator.pt",
-                               revision=rev or None)
-    raise CruxArtifactError(
-        "The CRUX lane needs the trained ordinal comparator, but no artifact is "
-        "configured. Set VEY_CRUX_COMPARATOR to a local comparator.pt, or "
-        "VEY_CRUX_COMPARATOR_HF to a 'repo_id[@revision]' on the Hugging Face "
-        "Hub. The structured lane runs without any artifact.")
+        rev = rev or None
+    else:
+        repo, rev = DEFAULT_COMPARATOR_HF, DEFAULT_COMPARATOR_REV
+    try:
+        from huggingface_hub import hf_hub_download
+        return hf_hub_download(repo_id=repo, filename=COMPARATOR_FILENAME, revision=rev)
+    except Exception as e:  # noqa: BLE001 - fail closed with an actionable message
+        raise CruxArtifactError(
+            f"Could not fetch the CRUX comparator ({COMPARATOR_FILENAME}) from "
+            f"{repo!r}: {e}. Set VEY_CRUX_COMPARATOR to a local file, or "
+            "VEY_CRUX_COMPARATOR_HF to 'repo_id[@revision]'. The structured lane "
+            "runs without any artifact.") from e
+
+
+def _load_comparator_state(path: str, device: str):
+    """Return (model_id, enc_state_dict, head_state_dict) from a safetensors or
+    legacy .pt comparator file."""
+    if path.endswith(".safetensors"):
+        from safetensors import safe_open
+        enc, head = {}, {}
+        with safe_open(path, framework="pt", device="cpu") as f:
+            model_id = (f.metadata() or {}).get("model_id")
+            for k in f.keys():
+                if k.startswith("enc."):
+                    enc[k[4:]] = f.get_tensor(k)
+                elif k.startswith("head."):
+                    head[k[5:]] = f.get_tensor(k)
+        if not model_id:
+            raise CruxArtifactError(f"{path}: missing 'model_id' metadata.")
+        return model_id, enc, head
+    import torch
+    ck = torch.load(path, map_location=device, weights_only=False)
+    return ck["model_id"], ck["enc"], ck["head"]
 
 
 class SageGrounder:
@@ -91,14 +125,13 @@ class SageGrounder:
     def _ensure(self):
         if self._nli is not None:
             return
-        import torch
         from .backbone import NLIGrounder
         from .ordinal import OrdinalComparator
-        path = _resolve_comparator_path()        # fail-closed before any download
-        ck = torch.load(path, map_location=self.device, weights_only=False)
+        path = _resolve_comparator_path()        # fail-closed before any model load
+        model_id, enc_sd, head_sd = _load_comparator_state(path, self.device)
         self._nli = NLIGrounder(self.nli_model, device=self.device)
-        self._cmp = OrdinalComparator(ck["model_id"], device=self.device)
-        self._cmp.load_state(ck["enc"], ck["head"])
+        self._cmp = OrdinalComparator(model_id, device=self.device)
+        self._cmp.load_state(enc_sd, head_sd)
 
     def predicate(self, texts, concept, threshold=None):
         self._ensure()

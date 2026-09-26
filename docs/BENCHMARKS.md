@@ -113,3 +113,59 @@ exchange for exact invariance, still above the ≥0.90 preregistered gate.
 Not claimed: a universal "Vey > Laya". These are specific preregistered control
 benchmarks. Snake is a closed benchmark family (all seed blocks consumed);
 future capability selection uses generic decision suites, not Snake.
+
+## CRUX runtime characterization (CPU, i5-12400F, 6 torch threads)
+
+Measured on the frozen `v2.0.0-rc1` comparator with no changes to the model.
+Warm numbers are the median of repeated calls after warmup on one loaded
+`Runtime`, so model load is excluded. The pairwise ordinal comparison encodes
+`K*(K-1)` sequences per decision, so latency grows roughly with `K²`.
+
+| | |
+|---|---|
+| model load | 6.1 s (first call only) |
+| artifact on disk | 598 MB (`comparator.safetensors`, fp32) |
+| RSS before / after load | 375 MB / 1,289 MB (delta 914 MB) |
+| peak process RSS | 1,980 MB |
+| warm decision, K=4, p50 / p95 / p99 | 262 ms / 434 ms / 435 ms |
+
+### Candidate scaling (one ordinal axis)
+
+| candidates K | pairwise comparisons | warm p50 | warm p95 |
+|---:|---:|---:|---:|
+| 2 | 2 | 59 ms | 88 ms |
+| 4 | 12 | 260 ms | 433 ms |
+| 8 | 56 | 1,228 ms | 1,454 ms |
+| 16 | 240 | 5,494 ms | 6,133 ms |
+| 32 | 992 | 23,514 ms | 26,202 ms |
+
+The growth is close to quadratic: K=32 costs about 19× K=8 while doing 18× the
+comparisons. For a large candidate set (a router over many models, a tool
+library) the cost is dominated by the pairwise stage, which is the point at
+which a cheap preselection step should narrow the set before CRUX ranks it.
+
+### Predicate scaling (K=8)
+
+Categorical filters are linear in the number of predicates, and cheaper than an
+ordinal stage because each predicate is one entailment pass over the candidates
+rather than a pairwise comparison.
+
+| predicates | warm p50 |
+|---:|---:|
+| 1 | 464 ms |
+| 2 | 1,022 ms |
+| 4 | 1,323 ms |
+| one ordinal stage (for comparison) | 1,263 ms |
+
+### Other factors (K=8 unless noted)
+
+| factor | warm p50 |
+|---|---:|
+| candidate text 16 / 32 / 64 / 128 tokens | 1,174 / 1,277 / 1,322 / 1,583 ms |
+| CPU threads 1 / 2 / 4 / 6 | 5,810 / 3,121 / 1,737 / 1,386 ms |
+| batched grounding vs one sequence at a time (K=16) | 5,424 ms vs 7,427 ms |
+| structured lane dispatch (no model) | 0.12 ms |
+
+The structured lane is four orders of magnitude cheaper than the CRUX lane on
+the same host, which is why the router uses it whenever the candidates expose
+numeric or enum facts.

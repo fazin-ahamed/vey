@@ -135,6 +135,8 @@ neural component owns final action utility.
 Every decision returns a machine-evidence `Certificate` (versioned
 `schema_version`, the typed `decision_program`, per-candidate grounded
 `evidence`, and the surviving candidate ids), never generated reasoning text.
-If the CRUX comparator artifact is not configured, the crux lane fails closed
-with an actionable error; the structured lane still runs with no artifact. See
+The CRUX comparator weights ship on the Hugging Face Hub (`fazinahamed/vey`,
+`comparator.safetensors`); the crux lane fails closed with an actionable error
+only if that artifact cannot be fetched. The structured lane needs no artifact.
+See
 [CRUX.md](CRUX.md).

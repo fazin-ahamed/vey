@@ -21,7 +21,7 @@ import torch
 from rich.console import Console
 from rich.live import Live
 
-from .vey_snake import ORDER, SnakeGame, TorchScorer, Trust, train_demo_head
+from .vey_snake import ORDER, SnakeGame, CruxScorer, TorchScorer, Trust, train_demo_head
 from .snake_tui import MIN_HEIGHT, MIN_WIDTH, dashboard, layout_size
 
 
@@ -39,13 +39,16 @@ def provenance(args, backend: str) -> dict:
             "numpy": np.__version__, "torch": torch.__version__, "backend": backend,
             "gpu": torch.cuda.get_device_name(0) if torch.cuda.is_available() else None,
             "platform": platform.platform(),
-            "generated_utc": datetime.now(timezone.utc).isoformat(), "model": "demo-specific distilled SuccessHead 9→32→1",
+            "generated_utc": datetime.now(timezone.utc).isoformat(), "model": "Vey 2 CRUX ordinal comparator",
             "interpretation": "feature-assisted demo, not production routing or raw-board perception"}
 
 
 def prepare(args):
-    head = train_demo_head(args.seed, args.train_episodes, args.train_epochs)
-    return TorchScorer(head), "torch-cpu"
+    if getattr(args, "legacy_head", False):
+        head = train_demo_head(args.seed, args.train_episodes, args.train_epochs)
+        return TorchScorer(head), "torch-cpu-r0.5-head"
+    import vey
+    return CruxScorer(vey.Runtime(device="cpu")), "vey2-crux"
 
 
 def analyze_actions(game):
@@ -78,12 +81,14 @@ def _reachable(game, start, blocked):
                 pending.append(p)
     return seen
 
-
 def move(game, trust, scorer, *, shield=True, floor=0.5):
     before = snapshot(game)
     rows = [game.features(d, trust.ema.get(d, 0.8)) for d in ORDER]
     t = time.perf_counter()
-    probs = np.asarray(scorer.score_rows(rows), dtype=np.float32)
+    if isinstance(scorer, CruxScorer):
+        probs = np.asarray(scorer.score_rows(game, trust), dtype=np.float32)
+    else:
+        probs = np.asarray(scorer.score_rows(rows), dtype=np.float32)
     infer_ms = (time.perf_counter() - t) * 1000
     if probs.shape != (4,) or not np.isfinite(probs).all():
         raise ValueError("head must return four finite action scores")
@@ -430,6 +435,7 @@ def main():
         p.add_argument("--train-episodes", type=int, default=14)
         p.add_argument("--train-epochs", type=int, default=80)
         p.add_argument("--unassisted", action="store_true", help="raw four-way head argmax, no legality mask or trust/safety shield")
+        p.add_argument("--legacy-head", action="store_true", help="use the distilled R0.5 SuccessHead instead of the CRUX lane")
     common(ap)
     common(bench)
     ap.add_argument("--max-speed", action="store_true")
