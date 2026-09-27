@@ -1,10 +1,10 @@
 # Snake demo
 
-The Snake demo drives Vey's decision loop with the Vey 2 CRUX lane. Each move
-is described by its consequences (legality, reachable area, food progress,
-mobility, wall clearance) and the trained ordinal comparator ranks the four
-moves. It is not evidence that any model perceives raw game frames: the lane
-consumes consequence text derived from the board, not pixels.
+The Snake demo drives Vey's decision loop through ``vey.decide``. Each move is
+described by its consequences (legality, reachable area, food progress,
+mobility, wall clearance) and the runtime routes the decision to whichever lane
+owns those axes. It is not evidence that any model perceives raw game frames:
+the lane consumes consequence text derived from the board, not pixels.
 
 ```bash
 pip install -e .
@@ -13,7 +13,7 @@ python -m examples.snake.snake
 
 ## What it shows
 
-The CRUX lane ranks the four moves and the runtime applies the same rules that
+The runtime ranks the four moves and then applies the same rules that
 drive the rest of Vey:
 
 - a hard legality mask applied before the chosen move executes,

@@ -17,9 +17,11 @@ narrow mechanisms you can measure one at a time. It emits no output tokens.
 Vey 2 adds `vey.decide`, a semantic decision runtime that grounds natural
 language into typed evidence and executes the decision deterministically. It
 routes each decision to the cheapest lane that can answer it: a deterministic
-`structured` lane when candidates expose numeric/enum facts (no model), or the
-`crux` lane (a frozen NLI predicate grounder + a trained antisymmetric ordinal
-comparator) when qualitative language grounding is required.
+`structured` lane when candidates expose numeric/enum facts (no model), a
+`field` lane for the ordinal axes a distilled scalar field was validated on
+(one forward pass per candidate), and the `crux` lane (a frozen NLI predicate
+grounder plus a trained antisymmetric ordinal comparator) for everything else
+that needs language grounding.
 
 ```python
 import vey
@@ -42,11 +44,13 @@ The decision is a pure function of the unordered *set* of candidate
 consequence-texts, order- and rename-invariant by construction. Every decision
 returns a versioned machine-evidence `Certificate` (the typed decision program,
 per-candidate grounded values, and survivors), never generated reasoning. The
-crux lane's comparator weights ship on the Hugging Face Hub
-(`fazinahamed/vey`, `comparator.safetensors`) and load on first use; override
-with `VEY_CRUX_COMPARATOR` (local file) or `VEY_CRUX_COMPARATOR_HF`
-(`repo_id[@revision]`). The lane fails closed only if that fetch fails, while the
-structured lane keeps running. See [docs/CRUX.md](docs/CRUX.md). The Vey 1
+field lane's weights (`field.safetensors`) and the crux lane's comparator
+weights (`comparator.safetensors`) both ship on the Hugging Face Hub
+(`fazinahamed/vey`) and load on first use. Override the field with
+`VEY_CRUX_FIELD` or `VEY_CRUX_FIELD_HF`, and the comparator with
+`VEY_CRUX_COMPARATOR` or `VEY_CRUX_COMPARATOR_HF` (`repo_id[@revision]`). A
+learned lane fails closed only if its own fetch fails, while the structured
+lane keeps running. See [docs/CRUX.md](docs/CRUX.md). The Vey 1
 trust-policy decision is unchanged and remains at `vey.trust.decide`.
 
 ## What it combines

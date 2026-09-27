@@ -108,6 +108,9 @@ it:
 - **structured**: every axis/filter in the compiled program resolves against
   explicit numeric/enum candidate facts. A deterministic `DictGrounder`
   executes it. No model loads.
+- **field**: every stage is a MAX on an ordinal axis the distilled scalar field
+  was validated on. One forward pass per candidate replaces the comparator's
+  K*(K-1). The field loads lazily and only for those axes.
 - **crux**: otherwise, a frozen NLI predicate grounder plus a trained
   antisymmetric ordinal comparator ground the language, and the *same*
   permutation-exact executor runs the program. The ~150M backbone loads lazily
@@ -118,8 +121,11 @@ flowchart LR
     Q["decide(question, candidates)"] --> C["compile to typed program"]
     C --> R{"facts resolve<br/>every stage?"}
     R -->|yes| S["structured lane<br/>DictGrounder, no model"]
-    R -->|no| X["crux lane<br/>NLI grounder + ordinal comparator"]
+    R -->|no| F{"every stage a MAX<br/>on a validated axis?"}
+    F -->|yes| D["field lane<br/>O(K) scalar field"]
+    F -->|no| X["crux lane<br/>NLI grounder + ordinal comparator"]
     S --> E["permutation-exact executor"]
+    D --> E
     X --> E
     E --> RES["answer + versioned Certificate"]
 ```
@@ -135,8 +141,8 @@ neural component owns final action utility.
 Every decision returns a machine-evidence `Certificate` (versioned
 `schema_version`, the typed `decision_program`, per-candidate grounded
 `evidence`, and the surviving candidate ids), never generated reasoning text.
-The CRUX comparator weights ship on the Hugging Face Hub (`fazinahamed/vey`,
-`comparator.safetensors`); the crux lane fails closed with an actionable error
-only if that artifact cannot be fetched. The structured lane needs no artifact.
-See
-[CRUX.md](CRUX.md).
+The field weights (`field.safetensors`) and the crux lane's comparator
+weights (`comparator.safetensors`) both ship on the Hugging Face Hub
+(`fazinahamed/vey`). The field lane fails closed with an actionable error
+only if its own artifact cannot be fetched. The structured lane needs no
+artifact. See [CRUX.md](CRUX.md).

@@ -4,11 +4,11 @@ This is an independently implemented showcase. It is NOT a benchmark of the
 production routing task and it is not evidence that the routing SuccessHead
 understands raw Snake boards.
 
-Each move is scored by the Vey 2 CRUX lane: the four candidate moves are
-described by their consequences (legality, reachable area, food progress,
-mobility, wall clearance) and the trained ordinal comparator ranks them. The
-step then uses:
-    move consequences -> CRUX ordinal comparator -> hard legality mask
+Each move is scored by ``vey.decide``: the four candidate moves are described
+by their consequences (legality, reachable area, food progress, mobility, wall
+clearance) and the runtime routes the decision to whichever lane owns those
+axes. The step then uses:
+    move consequences -> vey.decide -> hard legality mask
 
 The runtime, recorder, replay verifier and benchmark live in `snake_runtime`;
 the reference-style presentation in `snake_tui`; the video/GIF/poster exporter
@@ -307,14 +307,13 @@ def train_demo_head(seed: int = 0, episodes: int = 14, epochs: int = 80) -> Succ
 
 
 class CruxScorer:
-    """Scores the four moves with the Vey 2 CRUX lane instead of the R0.5 head.
+    """Scores the four moves through the public ``decide`` entrypoint.
 
-    Each move is a candidate whose consequence text is its planner analysis
-    (legality, reachable area, food progress, mobility, wall clearance). The
-    instruction asks for the move that advances toward food the most while
-    keeping the most open space, so the trained ordinal comparator does the
-    ranking the demo head used to approximate. The hard legality mask, trust
-    gate and safety shield still run after this, exactly as before.
+    Each move is a candidate whose text is its consequence: whether it
+    advances toward food, and how much open space, mobility and wall clearance
+    it leaves. The instruction names those two axes, and the runtime routes the
+    decision to whichever lane currently owns them. This demo does not pick a
+    lane itself, so a change in routing changes what plays.
     """
 
     QUESTION = (
@@ -323,6 +322,7 @@ class CruxScorer:
 
     def __init__(self, runtime):
         self.runtime = runtime
+        self.mode = None
 
     @staticmethod
     def describe(game, direction: str, ema: float) -> str:
@@ -335,16 +335,11 @@ class CruxScorer:
                 f"mobility {a.mobility:.0%}; wall clearance {a.wall_clearance:.0%}")
 
     def score_rows(self, game, trust) -> list[float]:
-        from vey.crux.compiler import compile_instruction
-        from vey.crux.compose import ground_program
+        from vey import decide
         candidates = {d: self.describe(game, d, trust.ema.get(d, 0.8)) for d in ORDER}
-        # The comparator loads once and stays warm; only the grounding runs
-        # per move, which is what the demo's inference timing should show.
-        grounder = self.runtime._crux_grounder()
-        grounder._ensure()
-        program = compile_instruction(self.QUESTION)
-        grounded = ground_program(grounder, list(candidates.values()), program)
-        return [sum(g.values[i] for g in grounded) for i in range(len(ORDER))]
+        result = decide(self.QUESTION, candidates, runtime=self.runtime)
+        self.mode = result.decision_mode
+        return [result.probabilities.get(d, 0.0) for d in ORDER]
 
 
 class TorchScorer:
