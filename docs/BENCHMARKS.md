@@ -431,3 +431,26 @@ real but it belongs to the specific example, not to the method of using
 examples. Wiring one-low-one-high into the cold path would make accuracy depend
 on a choice the caller cannot currently verify.
 
+## True labels compile a new criterion past the zero-shot ceiling (research)
+
+The same vendor lock-in prose, but the training target is the grade that
+generated the text rather than another model's judgment. Scored two ways: on
+prose built from the clauses the model trained on, and on a second set written
+with entirely different clause wording so memorizing phrases cannot help.
+
+| true-labeled examples | seen wording | unseen wording |
+|---:|---:|---:|
+| 25 | 1.000 | 0.961 |
+| 100 | 1.000 | 0.989 |
+| 400 | 1.000 | 0.991 |
+
+Twenty-five verified examples clear 0.95 on wording the model never saw, where
+the best zero-shot method on this prose, a single hypothesis pair, scores
+0.752. The field was capped at its labeler's accuracy in every earlier run
+because the labels were noisy. With exact labels the cap disappears and the
+criterion transfers to new phrasing immediately.
+
+The cost of compiling a new criterion is therefore the cost of getting correct
+labels, not of training. The model's own zero-shot judgments are not correct
+enough to be those labels, which is why self-compilation stays closed.
+
