@@ -364,3 +364,23 @@ genuinely new criterion the compilation buys speed, not accuracy: the fast
 field reproduces the NLI judgment at field cost, and the residual error is the
 grounding, which neither model resolves.
 
+## Richer hypotheses do not ground a new criterion better (research)
+
+The 0.752 above came from one pair of short hypotheses. Replacing it with a
+semantic contract, four anchors on each pole aggregated by median, was tested
+on the same prose and the same latent grades:
+
+| grounding | sign accuracy |
+|---|---:|
+| one short hypothesis pair | 0.752 |
+| four anchors per pole, median | 0.220 |
+| four anchors, hypothesis prior subtracted | 0.158 |
+| one verbose hypothesis pair | 0.733 |
+
+The contract made grounding worse, and subtracting the hypothesis-only prior
+made it worse again. A single longer hypothesis still scores 0.733, so the
+damage is the aggregation, not the wording: the median over several paraphrases
+washes out a signal that each hypothesis carries on its own. For a criterion
+the model was not trained on, the best cold path found here is the simplest
+one, a single direct hypothesis pair, and elaborating it does not buy accuracy.
+
