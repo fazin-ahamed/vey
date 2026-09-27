@@ -231,3 +231,30 @@ half the time, which means the comparator reads that axis weakly. That is a
 grounding gap, not a geometry problem, and a student distilled from this
 teacher would inherit it.
 
+## Axis-conditioned field student (research)
+
+One model takes both the axis and the candidate and emits a scalar potential,
+trained on all four graded axes at once. Supervision is the latent grade that
+generated the text, not the pairwise teacher, because the teacher ranks safety
+margin correctly only about half the time and distilling it would copy that
+error. The loss is on field differences plus a ranking term, so the arbitrary
+zero point of the potential carries no weight. Evaluated on 400 held-out
+decisions per axis:
+
+| axis | winner agreement | pairwise sign accuracy |
+|---|---:|---:|
+| room to maneuver | 0.938 | 1.000 |
+| advance toward the objective | 0.927 | 1.000 |
+| remaining options | 0.917 | 1.000 |
+| safety margin | 0.630 | 0.774 |
+
+The first three axes are learned to the point where no held-out pair is ordered
+wrong. Safety margin is the exception, and since the target here is the latent
+value rather than the teacher, the gap is in reading that axis from prose, not
+in inheriting the comparator's weakness.
+
+Warm K=4 latency for this run was 54 ms, slower than the 23 ms single-axis
+student. Both use the same encoder, and the difference is the tokenizer: this
+measurement used DeBERTa's slow sentencepiece tokenizer, the earlier one a fast
+tokenizer. The model cost is unchanged; the tokenization path is not a result.
+
