@@ -210,6 +210,12 @@ the body and is not how the 150M or the 421M Laya figures are counted.
 These are research measurements, not a released model: the students cover one
 ordinal axis, and the pairwise comparator remains the shipped artifact.
 
+The shipped field, measured through `vey.decide` on this CPU rather than the
+research harness: one validated axis, K=4, warm, median of 8 calls, **51 ms**.
+It picked the candidate that advances toward food. The Snake demo grounds two
+axes per move on CPU, so its on-screen inference time is about twice this.
+
+
 ## Semantic Field Atlas (frozen teacher, per axis)
 
 Integrability is not special to one axis. The same decomposition on 150
