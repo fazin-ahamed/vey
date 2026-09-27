@@ -233,6 +233,11 @@ sequence per axis-candidate pair, so the gain is the removed per-axis overhead,
 not shared computation.
 
 
+A single axis does not go through the batched path. Routing it there made one
+axis slower, 41 ms to 51 ms, for no gain. With the direct path restored the
+same measurement reads 38 ms, 79 ms and 103 ms for one, two and three axes.
+
+
 ## Semantic Field Atlas (frozen teacher, per axis)
 
 Integrability is not special to one axis. The same decomposition on 150
@@ -550,6 +555,25 @@ the same grade, was added at the best cell (4 families, 40 each):
 It does nothing at a small weight and costs ten points at a large one. The
 ranking loss already pulls same-grade sentences together, and forcing it
 harder collapses the differences the ranking depends on.
+
+## One encoding can carry all three compiled axes (research)
+
+The shipped field encodes the axis and the candidate together and emits one
+number, so three axes cost three passes. A model with the same backbone that
+encodes only the candidate and emits all three coordinates at once, trained on
+the same teacher labels and scored on decisions held out of that training:
+
+| axis | shipped field | shared encoding |
+|---|---:|---:|
+| food progress | 0.958 | 0.954 |
+| open space | 0.961 | 0.966 |
+| headroom | 0.956 | 0.981 |
+
+Food progress is four thousandths under the shipped field. The other two are
+above it. The axis is no longer read from text at runtime; it is a coordinate
+of a vector the candidate encoding already contains. That is what makes the
+encoder cost independent of how many of these axes a decision names.
+
 
 ## A factor bottleneck on templated sentences does not test the ceiling (research)
 
