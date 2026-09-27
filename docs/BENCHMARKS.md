@@ -574,6 +574,20 @@ above it. The axis is no longer read from text at runtime; it is a coordinate
 of a vector the candidate encoding already contains. That is what makes the
 encoder cost independent of how many of these axes a decision names.
 
+A confirmation run on a fresh held-out split of 250 decisions, untouched by
+both models, scores both on the same pairs:
+
+| axis | shipped field | shared encoding |
+|---|---:|---:|
+| food progress | 0.9519 | 0.9470 |
+| open space | 0.9756 | 0.9756 |
+| headroom | 0.9860 | 0.9854 |
+
+Food progress reads 0.005 lower. A paired bootstrap of that difference over
+10,000 resamples of the same pairs gives a 95% interval of [-0.0146, +0.0049],
+which crosses zero, so the gap is within what this sample can resolve. Open
+space and headroom match or exceed the shipped field outright.
+
 
 ## A factor bottleneck on templated sentences does not test the ceiling (research)
 
