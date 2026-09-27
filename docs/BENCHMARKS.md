@@ -335,3 +335,32 @@ these templated sentences are far easier than the prose the field will see in
 practice. Treat 50 as a floor on the number of examples a new axis needs, not
 as the number to budget for real criterion text.
 
+## Compiling a criterion from varied prose (research)
+
+The templated result above used sentences the model could memorize. This one
+uses a criterion neither model was trained on, vendor lock-in, written as
+varied prose across several sentence frames, and scored against the latent
+grade that generated the text.
+
+The pairwise comparator cannot label it: 0.508 sign accuracy, chance. The
+frozen NLI backbone can, at 0.752, using entailment of "easy to switch vendors
+later" minus entailment of "locks you in." So the labeler for a new criterion
+is the NLI backbone, not the comparator.
+
+A field student trained on those NLI labels, evaluated on prose it did not
+train on:
+
+| labeled examples | sign accuracy vs latent |
+|---:|---:|
+| 50 | 0.766 |
+| 200 | 0.749 |
+| 800 | 0.790 |
+
+The field reaches the labeler and stops there. Fifty examples already match
+the NLI backbone's own 0.752, and eight hundred only reach 0.790. More labels
+from the same source do not help, because the limit is how well the criterion
+can be read from the prose, and the student cannot outgrow its teacher. For a
+genuinely new criterion the compilation buys speed, not accuracy: the fast
+field reproduces the NLI judgment at field cost, and the residual error is the
+grounding, which neither model resolves.
+
