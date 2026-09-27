@@ -258,3 +258,29 @@ student. Both use the same encoder, and the difference is the tokenizer: this
 measurement used DeBERTa's slow sentencepiece tokenizer, the earlier one a fast
 tokenizer. The model cost is unchanged; the tokenization path is not a result.
 
+## Unseen-axis generalization (research, negative)
+
+The same architecture trained on four semantic families (capacity, progress,
+remaining options, reversibility), each with several axis wordings, and tested
+on a fifth family it never saw (risk: safety margin, likelihood of failure,
+hazard, exposure to risk).
+
+| family | winner agreement | pairwise sign accuracy |
+|---|---:|---:|
+| capacity (trained) | 0.907 | 1.000 |
+| progress (trained) | 0.937 | 1.000 |
+| remaining options (trained) | 0.917 | 1.000 |
+| reversibility (trained) | 0.910 | 1.000 |
+| risk (held out) | 0.245 | 0.458 |
+
+Trained families are learned completely. The held-out family scores below
+chance, so the model is not reading the axis and applying it to new wording.
+
+A counterfactual confirms the mechanism. One option keeps unbounded room but
+moves away from the objective; another leaves no room but completes it. Asked
+for spare capacity the model should prefer the first, and asked for progress
+the second. It preferred the second under both axes. The axis text is not
+controlling the score, so the current field student does not generalize to a
+semantic criterion it was not trained on. That is the open problem, and it is
+not solved by this architecture as it stands.
+
