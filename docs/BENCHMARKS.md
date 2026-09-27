@@ -384,3 +384,29 @@ washes out a signal that each hypothesis carries on its own. For a criterion
 the model was not trained on, the best cold path found here is the simplest
 one, a single direct hypothesis pair, and elaborating it does not buy accuracy.
 
+## An example defines a new criterion better than its name (research)
+
+The same vendor lock-in prose, scored by entailment against a concrete
+example of each pole instead of against an abstract hypothesis. The examples
+are written separately from the probe text, so nothing is copied across.
+
+| grounding | sign accuracy | winner |
+|---|---:|---:|
+| abstract hypothesis pair | 0.752 | 0.483 |
+| one low example and one high example | 0.825 | 0.600 |
+| comparative against one example of each pole | 0.712 | 0.575 |
+| two example pairs, averaged | 0.820 | 0.575 |
+| four example pairs, averaged | 0.804 | 0.633 |
+
+One pair of examples beats the best hypothesis by seven points on ordering and
+twelve on the winner. That is the first thing in this line that moved the
+zero-shot ceiling rather than lowering it. More examples do not add anything:
+two and four pairs score no better than one, so the gain is in seeing the
+criterion instantiated, not in averaging over instances. Asking which option
+has more lock-in than a reference is worse than asking which option resembles
+it.
+
+So a criterion the model has never seen is grounded best by one example of what
+low looks like and one of what high looks like. The name of the criterion, and
+any number of paraphrases of it, are strictly worse.
+
