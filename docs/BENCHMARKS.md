@@ -311,3 +311,27 @@ managed on held-out risk but well short of the trained families. Binding the
 axis fixes axis control on known criteria. It does not by itself produce a
 correct field for a criterion the model has not been trained on.
 
+## Compiling a new axis into the fast field (research)
+
+The base field is trained on capacity, progress and remaining options, then
+fine-tuned on reversibility alone at increasing budgets. Each budget repeats
+the fine-tune set until roughly 1,600 passes, so the variable is how many
+distinct examples the new axis gets, not how long it trains. Sign accuracy on
+held-out data:
+
+| reversibility examples | reversibility | capacity | progress | options |
+|---:|---:|---:|---:|---:|
+| 50 | 1.000 | 1.000 | 1.000 | 1.000 |
+| 200 | 0.994 | 0.992 | 1.000 | 0.999 |
+| 800 | 0.991 | 0.996 | 1.000 | 1.000 |
+| 2,000 | 0.996 | 0.994 | 1.000 | 0.999 |
+
+Fifty examples are enough, and fine-tuning the new axis does not disturb the
+ones already compiled. That supports the two-tier runtime: the pairwise model
+handles a criterion until it is compiled, and compilation is cheap.
+
+The caveat is the data. The base training loss fell to 0.0001, which means
+these templated sentences are far easier than the prose the field will see in
+practice. Treat 50 as a floor on the number of examples a new axis needs, not
+as the number to budget for real criterion text.
+
