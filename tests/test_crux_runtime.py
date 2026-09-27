@@ -185,3 +185,59 @@ def test_certificate_is_machine_evidence():
     # evidence is numeric machine values, not free text
     for ev in cert["evidence"].values():
         assert all(isinstance(v, (int, float)) for v in ev.values())
+
+
+# ---------------------------------------------------------------- field lane
+class _Unused:
+    """Stands in for a lane the router must not replace."""
+
+class MockField:
+    """Scores a validated axis from the length of the candidate text, so the
+    winner depends only on content."""
+
+    def ordinal(self, texts, axis):
+        return [float(len(t)) for t in texts]
+
+
+def test_router_field_lane_validated_axes():
+    rt = Runtime(field_scorer=MockField(), crux_grounder=_Unused())
+    r = vey.decide(question="Choose the move with the most food progress.",
+                   candidates={"a": "short", "b": "a much longer description"},
+                   runtime=rt)
+    assert r.decision_mode == "field"
+    assert r.answer == "b"
+
+
+def test_router_field_two_validated_axes():
+    rt = Runtime(field_scorer=MockField(), crux_grounder=_Unused())
+    r = vey.decide(
+        question="Choose the move with the most food progress, then the most open space.",
+        candidates={"a": "advances toward the food", "b": "moves away from the food entirely"},
+        runtime=rt)
+    assert r.decision_mode == "field"
+
+
+def test_router_filter_stays_on_crux():
+    rt = Runtime(crux_grounder=MockGrounder())
+    r = vey.decide(question="Choose the permitted option with the most headroom.",
+                   candidates={"a": "permitted; headroom ample", "b": "permitted; headroom little"},
+                   runtime=rt)
+    assert r.decision_mode == "crux"
+
+
+def test_router_unknown_axis_stays_on_crux():
+    rt = Runtime(crux_grounder=MockGrounder())
+    r = vey.decide(question="Choose the option with the most vendor lock-in.",
+                   candidates={"a": "lock ample", "b": "lock little"},
+                   runtime=rt)
+    assert r.decision_mode == "crux"
+    assert r.answer == "a"
+
+
+def test_field_lane_never_builds_the_comparator():
+    sentinel = object()
+    rt = Runtime(field_scorer=MockField(), crux_grounder=sentinel)
+    vey.decide(question="Choose the option with the most headroom.",
+               candidates={"a": "x", "b": "yyyy"}, runtime=rt)
+    # Still the injected object: the real comparator was never built.
+    assert rt._crux is sentinel

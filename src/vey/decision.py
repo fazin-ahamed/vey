@@ -47,7 +47,7 @@ class Certificate:
 class DecisionResult:
     answer: str | None
     probabilities: dict[str, float]
-    decision_mode: str            # "structured" | "crux" | "abstain"
+    decision_mode: str            # "structured" | "field" | "crux" | "abstain"
     trust: dict[str, Any]
     certificate: Certificate | None = None
 

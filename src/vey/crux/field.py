@@ -66,9 +66,11 @@ class FieldScorer:
             meta_axes = None
         self.axes = tuple(meta_axes.split(",")) if meta_axes else FIELD_AXES
         model_id = "microsoft/deberta-v3-xsmall"
-        self.tok = AutoTokenizer.from_pretrained(model_id)
+        rev = "4b419818330868dff6a60ad3e6b1c730f8b8c0c6"
+        self.base_revision = rev
+        self.tok = AutoTokenizer.from_pretrained(model_id, revision=rev)
         from transformers import AutoConfig
-        cfg = AutoConfig.from_pretrained(model_id)
+        cfg = AutoConfig.from_pretrained(model_id, revision=rev)
         self.enc = AutoModel.from_config(cfg)
         enc_state = {k[len("enc."):]: v for k, v in tensors.items() if k.startswith("enc.")}
         head_state = {k[len("head.net."):] if k.startswith("head.net.") else k[len("head."):]: v

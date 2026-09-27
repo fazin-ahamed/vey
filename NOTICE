@@ -6,15 +6,30 @@ This product includes software developed by the Vey authors.
 Third-party components
 ----------------------
 
-Vey's default English semantic encoder is
-`mixedbread-ai/mxbai-embed-xsmall-v1`, a separate work by the Mixedbread AI
-authors, redistributed via the Hugging Face hub and licensed under the
-Apache License 2.0. Copyright and attribution remain with the upstream authors.
-Vey does not modify or retrain the encoder; Vey trains only small heads and
-selectors on top of frozen representations.
+Vey uses three upstream models. None of their weights are committed to this
+repository; each is fetched from the Hugging Face hub at run time. Copyright
+and attribution remain with the upstream authors.
 
-The Apache License 2.0 text is available at:
-  https://www.apache.org/licenses/LICENSE-2.0
+1. Default English semantic encoder: `mixedbread-ai/mxbai-embed-xsmall-v1`,
+   by the Mixedbread AI authors, Apache License 2.0. Vey does not modify or
+   retrain it. Vey trains small heads and selectors on top of the frozen
+   representation.
 
-No model weights are committed to this repository. Installation fetches the
-pinned encoder from the Hugging Face hub at run time.
+2. Field encoder: `microsoft/deberta-v3-xsmall`, by Microsoft, MIT License.
+   The published field artifact (`field.safetensors`) is a fine-tune of this
+   encoder plus a head trained by the Vey project. Because the encoder weights
+   are MIT-licensed, the MIT copyright notice applies to that portion of the
+   artifact:
+
+       Copyright (c) Microsoft Corporation.
+       Licensed under the MIT License.
+
+3. Predicate grounder: `tasksource/ModernBERT-base-nli`, Apache License 2.0,
+   itself a fine-tune of `answerdotai/ModernBERT-base`. Vey uses it frozen for
+   the CRUX lane's categorical predicates and does not redistribute its
+   weights.
+
+License texts:
+
+  Apache License 2.0: https://www.apache.org/licenses/LICENSE-2.0
+  MIT License:        https://opensource.org/license/mit

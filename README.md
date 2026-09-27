@@ -180,7 +180,11 @@ simpler control first.
 
 ## License
 
-AGPL-3.0-only. Every release, including `v1.0.0` and `v2.0.0-rc1`, is under it.
+AGPL-3.0-only from commit `e52bcf2` onward, which is the current tree and
+every release tagged after it. The `v1.0.0` and `v2.0.0-rc1` tags were
+published when the repository still carried the Apache License 2.0, and anyone
+who obtained those snapshots keeps the Apache grant for them. The license
+change does not reach backward.
 
 Use, study, modify and redistribute Vey under the AGPL-3.0 terms.
 Modifications and covered derivative works stay under that license, including

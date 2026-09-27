@@ -15,7 +15,7 @@ result = vey.decide(
 
 result.answer          # "a"
 result.probabilities   # {"a": ..., "b": 0.0, "c": ...}
-result.decision_mode   # "structured" | "crux" | "abstain"
+result.decision_mode   # "structured" | "field" | "crux" | "abstain"
 result.trust           # {"state": "confident"|"tie"|"abstain", "eligible": n, "primary_margin": ...}
 ```
 
@@ -86,12 +86,19 @@ is `"tie"`.
 
 ## Lanes and cost
 
-`decide()` uses the deterministic **structured** lane when every axis/filter
-resolves against explicit numeric/enum candidate fields (no model). Otherwise it
-uses the **CRUX** lane (frozen ModernBERT-base-NLI predicate grounder + trained
-antisymmetric ordinal comparator, ~150M, loaded once per process). Reuse a
-`vey.Runtime` to control device and keep the backbone warm. The comparator
-weights ship on the Hugging Face Hub (`fazinahamed/vey`,
-`comparator.safetensors`) and load on first use; set `VEY_CRUX_COMPARATOR` to a
-local file or `VEY_CRUX_COMPARATOR_HF` to `repo_id[@revision]` to override. The
-lane fails closed only if that fetch fails.
+`decide()` picks the cheapest lane that can answer the decision:
+
+- **structured**, when every stage resolves against explicit numeric or enum
+  candidate fields. No model loads.
+- **field**, when every stage is a MAX on an axis the distilled scalar field was
+  measured on (`food progress`, `open space`, `headroom`). One forward pass per
+  candidate. The field weights are `field.safetensors` on `fazinahamed/vey`,
+  pinned revision `3eb1460a82c98fc99c350032b9cf29a74075a4a6`. Override with
+  `VEY_CRUX_FIELD` or `VEY_CRUX_FIELD_HF`.
+- **crux**, for everything else that needs language grounding: a frozen
+  ModernBERT-base-NLI predicate grounder plus the trained pairwise ordinal
+  comparator. The comparator weights are `comparator.safetensors` on the same
+  repo. Override with `VEY_CRUX_COMPARATOR` or `VEY_CRUX_COMPARATOR_HF`.
+
+A learned lane fails closed only if its own artifact cannot be fetched. Reuse a
+`vey.Runtime` to control the device and keep a loaded lane warm.

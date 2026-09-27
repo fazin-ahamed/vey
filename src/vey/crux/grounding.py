@@ -28,6 +28,7 @@ import os
 from typing import Protocol, runtime_checkable
 
 DEFAULT_NLI = "tasksource/ModernBERT-base-nli"
+DEFAULT_NLI_REV = "de4ab7e77845098b7fab7f6ab9d370ddff27b19c"
 
 _PREDICATE_PROPS = {
     "permitted": ("This option is permitted and satisfies the stated constraint.",
@@ -129,7 +130,7 @@ class SageGrounder:
         from .ordinal import OrdinalComparator
         path = _resolve_comparator_path()        # fail-closed before any model load
         model_id, enc_sd, head_sd = _load_comparator_state(path, self.device)
-        self._nli = NLIGrounder(self.nli_model, device=self.device)
+        self._nli = NLIGrounder(self.nli_model, device=self.device, revision=DEFAULT_NLI_REV)
         self._cmp = OrdinalComparator(model_id, device=self.device)
         self._cmp.load_state(enc_sd, head_sd)
 

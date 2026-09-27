@@ -39,7 +39,8 @@ def provenance(args, backend: str) -> dict:
             "numpy": np.__version__, "torch": torch.__version__, "backend": backend,
             "gpu": torch.cuda.get_device_name(0) if torch.cuda.is_available() else None,
             "platform": platform.platform(),
-            "generated_utc": datetime.now(timezone.utc).isoformat(), "model": "Vey 2 CRUX ordinal comparator",
+            "generated_utc": datetime.now(timezone.utc).isoformat(),
+            "model": "Vey 2 runtime (structured, field, or crux lane)",
             "interpretation": "feature-assisted demo, not production routing or raw-board perception"}
 
 
@@ -213,7 +214,8 @@ def run(args, scorer=None, backend=None):
                 timestamps.append(time.perf_counter())
                 rate = (len(timestamps) - 1) / max(1e-9, timestamps[-1] - timestamps[0]) if len(timestamps) > 1 else 0.0
                 frame = {"type": "move", **result, "step": total, "round": round_num,
-                         "seed": args.seed + round_num, "backend": backend, "interventions": interventions,
+                         "seed": args.seed + round_num, "backend": backend,
+                         "lane": getattr(scorer, "mode", None), "interventions": interventions,
                          "fps": fps, "rate": rate, "paused": False, "mode": "raw" if args.unassisted else "shielded",
                          "elapsed_s": time.perf_counter() - started, "best_score": game.best, "tick_ms": 0.0}
                 last_frame = frame

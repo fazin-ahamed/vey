@@ -21,10 +21,12 @@ class NLIGrounder:
     """Frozen sequence-classification NLI model. Provides categorical predicate
     grounding (bipolar margins) and an evidence-based support state."""
 
-    def __init__(self, model_id: str, device: str = "cpu", batch_size: int = 128):
+    def __init__(self, model_id: str, device: str = "cpu", batch_size: int = 128,
+                 revision: str | None = None):
         from transformers import AutoModelForSequenceClassification, AutoTokenizer
-        self.tok = AutoTokenizer.from_pretrained(model_id)
-        self.model = AutoModelForSequenceClassification.from_pretrained(model_id).to(device).eval()
+        self.tok = AutoTokenizer.from_pretrained(model_id, revision=revision)
+        self.model = AutoModelForSequenceClassification.from_pretrained(
+            model_id, revision=revision).to(device).eval()
         self.device = device
         self.bs = batch_size
         self.model_id = model_id
