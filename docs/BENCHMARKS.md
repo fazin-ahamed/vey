@@ -476,3 +476,24 @@ So cheap compilation is not yet a capability. It is a result on one criterion,
 and the budget a new criterion needs remains something to measure per
 criterion rather than a number to quote.
 
+## Wording diversity transfers where more labels do not (research)
+
+Implementation burden again, but the variable is how many ways each grade is
+phrased rather than how many rows there are. Every condition trains on the
+same 160 examples. The two scoring families, "lift" and "disruption," appear
+in no training condition.
+
+| wording families in training | sign accuracy on unseen families |
+|---:|---:|
+| 1 | 0.712 |
+| 2 | 0.826 |
+| 4 | 0.852 |
+| 8 | 0.781 |
+
+Going from one phrasing to four raises transfer by fourteen points at a fixed
+example count, which is more than quadrupling the labels achieved in the table
+above. The eighth family gives it back: 0.781, below the four-family result.
+So diversity is the lever, and it saturates. Past a handful of distinct ways
+to express the criterion, adding more phrasings at a fixed budget thins out
+each one and transfer falls.
+
