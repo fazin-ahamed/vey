@@ -454,3 +454,25 @@ The cost of compiling a new criterion is therefore the cost of getting correct
 labels, not of training. The model's own zero-shot judgments are not correct
 enough to be those labels, which is why self-compilation stays closed.
 
+## That sample efficiency does not survive a new criterion (research)
+
+The same procedure on three criteria unrelated to vendor lock-in, each trained
+on true latent grades and scored on clause wording and sentence frames held
+out of training:
+
+| criterion | 25 labels | 100 | 400 |
+|---|---:|---:|---:|
+| implementation burden | 0.705 | 0.689 | 0.719 |
+| urgency | 0.763 | 0.787 | 0.828 |
+| reversibility | 0.848 | 0.853 | 0.832 |
+
+None reaches 0.95, and none improves meaningfully past 100 labels. Vendor
+lock-in's 0.961 at 25 examples was a property of that criterion's wording, not
+of the method. Where the held-out sentences stay close to the training ones,
+transfer looks free. Where they do not, the field saturates well below the
+zero-shot hypothesis baseline's complement and more labels do not close it.
+
+So cheap compilation is not yet a capability. It is a result on one criterion,
+and the budget a new criterion needs remains something to measure per
+criterion rather than a number to quote.
+
