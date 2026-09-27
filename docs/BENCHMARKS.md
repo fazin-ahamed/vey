@@ -588,6 +588,28 @@ Food progress reads 0.005 lower. A paired bootstrap of that difference over
 which crosses zero, so the gap is within what this sample can resolve. Open
 space and headroom match or exceed the shipped field outright.
 
+## Six of twelve layers carry the compiled field (research)
+
+Depth was ablated two ways on the development split. A linear head on a
+frozen encoder scores 0.70 to 0.77 on every layer probed, last layer included,
+so the coordinates are not linearly readable from the stock representation;
+the encoder has to be trained for them. Retraining truncated models is the
+real measurement:
+
+| depth | food progress | open space | headroom |
+|---:|---:|---:|---:|
+| 12 | 0.9470 | 0.9756 | 0.9854 |
+| 8 | 0.9439 | 0.9762 | 0.9866 |
+| 6 | 0.9464 | 0.9775 | 0.9799 |
+| 4 | 0.9330 | 0.9738 | 0.9817 |
+
+Eight and six layers are non-inferior to twelve on every axis separately;
+six reads above twelve on food progress. Four layers loses food progress. The
+shallowest depth that holds all three coordinates is six, which halves the
+transformer compute. The frozen-encoder probes also rule out reading these
+coordinates off the stock model without training it.
+
+
 
 ## A factor bottleneck on templated sentences does not test the ceiling (research)
 
