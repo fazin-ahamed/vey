@@ -410,3 +410,24 @@ So a criterion the model has never seen is grounded best by one example of what
 low looks like and one of what high looks like. The name of the criterion, and
 any number of paraphrases of it, are strictly worse.
 
+## That gain depends on which example is chosen (research)
+
+The 0.825 above used one hand-picked pair. Twenty distinct phrasings of each
+pole, all stating the same grade, were then paired at random and rerun on the
+identical probe:
+
+| over 24 prototype pairs | sign accuracy |
+|---|---:|
+| median | 0.567 |
+| 10th percentile | 0.390 |
+| 90th percentile | 0.790 |
+| worst | 0.352 |
+| best | 0.827 |
+
+The best pair reproduces the earlier number and the median falls to 0.567,
+below the 0.752 of a plain hypothesis. Most valid examples of the pole are
+worse than no example at all, and the worst are close to noise. So the gain is
+real but it belongs to the specific example, not to the method of using
+examples. Wiring one-low-one-high into the cold path would make accuracy depend
+on a choice the caller cannot currently verify.
+
