@@ -497,3 +497,34 @@ So diversity is the lever, and it saturates. Past a handful of distinct ways
 to express the criterion, adding more phrasings at a fixed budget thins out
 each one and transfer falls.
 
+## The diversity gain is not dilution, and an invariance loss does not help (research)
+
+The drop at eight families above could have been each family getting too few
+examples. Separating the two, on the same held-out wording:
+
+| families | examples each | total | unseen-family accuracy |
+|---:|---:|---:|---:|
+| 4 | 20 | 80 | 0.772 |
+| 4 | 40 | 160 | 0.827 |
+| 8 | 20 | 160 | 0.740 |
+| 8 | 40 | 320 | 0.819 |
+
+Eight families given the same 40 examples as four score 0.819 against 0.827.
+The extra diversity does not help once each phrasing is adequately learned, so
+the earlier drop was not an artifact of splitting the budget. Four ways of
+expressing the criterion transfers as well as eight.
+
+An explicit invariance loss, penalizing disagreement between two phrasings of
+the same grade, was added at the best cell (4 families, 40 each):
+
+| loss weight | unseen-family accuracy |
+|---:|---:|
+| 0 | 0.827 |
+| 0.1 | 0.827 |
+| 0.3 | 0.810 |
+| 1.0 | 0.722 |
+
+It does nothing at a small weight and costs ten points at a large one. The
+ranking loss already pulls same-grade sentences together, and forcing it
+harder collapses the differences the ranking depends on.
+
