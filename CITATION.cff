@@ -5,7 +5,7 @@ type: software
 authors:
   - name: "The Vey Authors"
 repository-code: "https://github.com/fazin-ahamed/vey"
-license: Apache-2.0
+license: AGPL-3.0-only
 version: "1.0.0"
 abstract: >-
   Vey is a lightweight decision runtime for fast, typed decisions without

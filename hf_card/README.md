@@ -1,5 +1,5 @@
 ---
-license: apache-2.0
+license: agpl-3.0
 library_name: vey
 language:
   - en
@@ -96,5 +96,5 @@ a drop-in replacement for an LLM on knowledge or multi-step inference tasks.
 
 ## License
 
-Vey code is Apache-2.0. The default encoder is a separate Apache-2.0 work by the
-Mixedbread AI authors.
+Vey code and the trained weights in this repository are AGPL-3.0-only. The
+default encoder is a separate Apache-2.0 work by the Mixedbread AI authors.

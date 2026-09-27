@@ -1,6 +1,6 @@
 <a href="https://github.com/fazin-ahamed/vey/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/fazin-ahamed/vey/ci.yml?label=CI" alt="CI"></a>
 <img src="https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue" alt="Python versions">
-<img src="https://img.shields.io/badge/license-Apache--2.0-green" alt="License">
+<img src="https://img.shields.io/badge/license-AGPL--3.0-blue" alt="License">
 <a href="https://huggingface.co/fazinahamed/vey"><img src="https://img.shields.io/badge/Hugging%20Face-runtime-ff9d00" alt="Hugging Face"></a>
 <a href="https://github.com/fazin-ahamed/vey/releases"><img src="https://img.shields.io/github/v/release/fazin-ahamed/vey?label=release" alt="Release"></a>
 
@@ -180,5 +180,15 @@ simpler control first.
 
 ## License
 
-Apache-2.0. The default semantic encoder is a separate Apache-2.0 work by the
-Mixedbread AI authors; see [NOTICE](NOTICE).
+AGPL-3.0-only. Every release, including `v1.0.0` and `v2.0.0-rc1`, is under it.
+
+Use, study, modify and redistribute Vey under the AGPL-3.0 terms.
+Modifications and covered derivative works stay under that license, including
+its requirement to offer source to users of a modified version served over a
+network. An organization that needs terms the AGPL does not allow, such as
+closed-source distribution or an OEM arrangement, can ask the Vey project for
+a commercial license.
+
+The default semantic encoder is a separate Apache-2.0 work by the Mixedbread
+AI authors; see [NOTICE](NOTICE). The "Vey" name and logo are trademarks and
+are not granted by the code license.
