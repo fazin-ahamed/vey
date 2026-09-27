@@ -611,6 +611,29 @@ coordinates off the stock model without training it.
 
 
 
+## The six-layer shared field fails the promotion gates (research)
+
+The speed gate passed first: K=4, three coordinates, CPU, warm, p50 18.9 ms
+against 103 ms for the shipped three-axis path, 5.45 times. The frozen
+protocol then opened one untouched split of 250 decisions, seed 11, and scored
+only the six-layer model against the shipped field.
+
+| gate | required | measured |
+|---|---:|---:|
+| food progress paired delta | >= -0.010 | -0.0126 |
+| open space paired delta | >= -0.010 | -0.0013 |
+| headroom paired delta | >= -0.010 | -0.0025 |
+| winner agreement | >= 0.995 | 0.800 |
+| survivor-trace agreement | >= 0.990 | 0.476 |
+| permutation invariance | 1.000 | 1.000 |
+
+Food progress, the winner, and the survivor trace all fail. The pairwise
+coordinate scores stay close, but after lexicographic composition the decision
+itself changes on one case in five and the survivor set on about half. The
+shipped field stays the public runtime. This split is closed; the next attempt
+needs a new one.
+
+
 ## A factor bottleneck on templated sentences does not test the ceiling (research)
 
 The next attempt scored a sentence through a handful of semantic factors and
