@@ -284,3 +284,30 @@ controlling the score, so the current field student does not generalize to a
 semantic criterion it was not trained on. That is the open problem, and it is
 not solved by this architecture as it stands.
 
+## Axis-bound field (research)
+
+The previous student ignored the axis because ignoring it was still optimal:
+each option mentioned only one fact. Here every option states two facts from
+two families, and the score is the support for the queried axis minus the
+support for its opposite, so the axis has to select which fact counts.
+Reversibility was absent from training.
+
+| family | winner agreement | pairwise sign accuracy |
+|---|---:|---:|
+| capacity (trained) | 0.917 | 1.000 |
+| progress (trained) | 0.937 | 1.000 |
+| remaining options (trained) | 0.927 | 1.000 |
+| reversibility (held out) | 0.388 | 0.621 |
+
+The trained families are again perfect at the pair level. The axis now controls
+the score: one option keeps unbounded room but abandons the objective, the
+other leaves no room but completes it, and the model prefers the first under
+spare capacity and the second under progress. The earlier student preferred the
+same option under both.
+
+The held-out family is only partly there. Reversibility, never seen in
+training, reaches 0.621 sign accuracy, above the 0.458 the unbound student
+managed on held-out risk but well short of the trained families. Binding the
+axis fixes axis control on known criteria. It does not by itself produce a
+correct field for a criterion the model has not been trained on.
+
