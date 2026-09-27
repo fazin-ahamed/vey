@@ -634,6 +634,28 @@ shipped field stays the public runtime. This split is closed; the next attempt
 needs a new one.
 
 
+## The shared field only disagrees at the resolution boundary (research)
+
+A fresh diagnostic split of 250 decisions, seed 13, compares the six-layer
+shared field to the shipped field pair by pair. Each pair is classed as
+strictly better, tied, or strictly worse at the Semantic Resolution band of
+0.15.
+
+| axis | ternary agreement | crossings |
+|---|---:|---:|
+| food progress | 0.9486 | 84 of 1635 |
+| open space | 0.9664 | 55 of 1635 |
+| headroom | 0.9829 | 28 of 1635 |
+
+Every crossing falls in the two bins touching the band, teacher gaps of 0.15
+to 0.20. No pair whose teacher gap exceeds 0.30 crosses, and no pair inside
+0.10 does either. A per-axis scale fit, forcing the student difference to match
+the teacher's, gives multipliers of 0.954, 0.993 and 0.998 and moves ternary
+agreement by about a thousandth. The student is not mis-scaled. It is wrong
+exactly where the teacher's own gap sits on the boundary the executor uses,
+which a ranking loss never sees.
+
+
 ## A factor bottleneck on templated sentences does not test the ceiling (research)
 
 The next attempt scored a sentence through a handful of semantic factors and
