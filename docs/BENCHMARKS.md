@@ -528,3 +528,20 @@ It does nothing at a small weight and costs ten points at a large one. The
 ranking loss already pulls same-grade sentences together, and forcing it
 harder collapses the differences the ranking depends on.
 
+## A factor bottleneck on templated sentences does not test the ceiling (research)
+
+The next attempt scored a sentence through a handful of semantic factors and
+trained on controlled interventions: two sentences differing in exactly one
+factor, with the score required to move only when the axis depends on that
+factor. On wording held out of training it scored 1.000, and the loss was
+flat from the first epoch.
+
+That number is not comparable to the 0.827 above. The sentences were three
+clauses joined by "and", and an intervention replaced one clause in place, so
+the model only had to notice which clause's words changed. That is lexical
+differencing on a fixed template, not reading a rewritten sentence. The 0.827
+was measured on sentences whose whole surface changed. This run does not move
+that ceiling, and a factor model only becomes evidence once the intervention
+rewrites the sentence instead of editing a slot in it.
+
+
