@@ -40,14 +40,21 @@ class Grounded:
 def ground_program(grounder, texts: list[str], program: list[Stage]) -> list[Grounded]:
     stripped = [strip_identity(t) for t in texts]
     ord_res = getattr(grounder, "ordinal_resolution", DEFAULT_RESOLUTION["ordinal"])
+    ordinal = [st for st in program if st.kind != "FILTER"]
+    batched = None
+    many = getattr(grounder, "ordinal_many", None)
+    if many is not None and len(ordinal) > 1:
+        batched = many(stripped, [st.key for st in ordinal])
     out: list[Grounded] = []
+    seen = 0
     for st in program:
         if st.kind == "FILTER":
             vals = [quantize(v) for v in grounder.predicate(stripped, st.key, st.threshold)]
             out.append(Grounded(st, vals, DEFAULT_RESOLUTION["predicate"]))
-        else:  # MAX / MIN
-            vals = [quantize(v) for v in grounder.ordinal(stripped, st.key)]
-            out.append(Grounded(st, vals, ord_res))
+        else:
+            raw = batched[st.key] if batched is not None else grounder.ordinal(stripped, st.key)
+            out.append(Grounded(st, [quantize(v) for v in raw], ord_res))
+            seen += 1
     return out
 
 

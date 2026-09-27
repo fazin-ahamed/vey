@@ -216,6 +216,23 @@ It picked the candidate that advances toward food. The Snake demo grounds two
 axes per move on CPU, so its on-screen inference time is about twice this.
 
 
+Scoring every ordinal axis of one decision in a single encoder invocation,
+instead of one invocation per axis, on the same CPU and the same weights.
+Quantized potentials are identical to the per-axis path and the winner is
+unchanged under candidate permutation.
+
+| axes | per-axis invocations | one invocation |
+|---:|---:|---:|
+| 1 | 41 ms | 51 ms |
+| 2 | 104 ms | 79 ms |
+| 3 | 155 ms | 110 ms |
+
+One axis is slightly slower batched, because the batch machinery has nothing to
+amortize. Two and three axes are faster. The transformer still encodes one
+sequence per axis-candidate pair, so the gain is the removed per-axis overhead,
+not shared computation.
+
+
 ## Semantic Field Atlas (frozen teacher, per axis)
 
 Integrability is not special to one axis. The same decomposition on 150

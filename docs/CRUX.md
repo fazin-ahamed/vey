@@ -91,10 +91,12 @@ is `"tie"`.
 - **structured**, when every stage resolves against explicit numeric or enum
   candidate fields. No model loads.
 - **field**, when every stage is a MAX on an axis the distilled scalar field was
-  measured on (`food progress`, `open space`, `headroom`). One forward pass per
-  candidate. The field weights are `field.safetensors` on `fazinahamed/vey`,
-  pinned revision `3eb1460a82c98fc99c350032b9cf29a74075a4a6`. Override with
-  `VEY_CRUX_FIELD` or `VEY_CRUX_FIELD_HF`.
+  measured on (`food progress`, `open space`, `headroom`). Cost is one
+  axis-conditioned encoding per candidate per axis, with every ordinal axis of a
+  decision scored in one encoder invocation. Compute stays proportional to the
+  number of axis-candidate pairs. The field weights are `field.safetensors` on
+  `fazinahamed/vey`, pinned revision `3eb1460a82c98fc99c350032b9cf29a74075a4a6`.
+  Override with `VEY_CRUX_FIELD` or `VEY_CRUX_FIELD_HF`.
 - **crux**, for everything else that needs language grounding: a frozen
   ModernBERT-base-NLI predicate grounder plus the trained pairwise ordinal
   comparator. The comparator weights are `comparator.safetensors` on the same

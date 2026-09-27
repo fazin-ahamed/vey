@@ -90,11 +90,21 @@ class FieldScorer:
     @torch.no_grad()
     def ordinal(self, texts: list[str], axis: str) -> list[float]:
         """One potential per text, higher meaning more of the axis."""
-        seqs = [f"Axis: {axis}. Candidate: {t}" for t in texts]
+        return self.ordinal_many(texts, [axis])[axis]
+
+    @torch.no_grad()
+    def ordinal_many(self, texts: list[str], axes: list[str]) -> dict[str, list[float]]:
+        """Score every axis in one encoder pass. Returns one potential list per
+        axis, each aligned to ``texts``. The transformer still sees one sequence
+        per axis-candidate pair; the saving is a single invocation instead of one
+        per axis."""
+        seqs = [f"Axis: {a}. Candidate: {t}" for a in axes for t in texts]
         outs = []
         for i in range(0, len(seqs), 32):
             e = self.tok(seqs[i:i + 32], padding=True, truncation=True, max_length=96,
                          return_tensors="pt").to(self.device)
             cls = self.enc(**e).last_hidden_state[:, 0]
             outs.append(self.head(cls).squeeze(-1).cpu())
-        return [round(float(x), 6) for x in torch.cat(outs)]
+        vals = [round(float(x), 6) for x in torch.cat(outs)]
+        k = len(texts)
+        return {a: vals[i * k:(i + 1) * k] for i, a in enumerate(axes)}
