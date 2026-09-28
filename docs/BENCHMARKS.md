@@ -656,6 +656,27 @@ exactly where the teacher's own gap sits on the boundary the executor uses,
 which a ranking loss never sees.
 
 
+## An epsilon-relation loss does not move the boundary (research)
+
+The six-layer shared field again, with the loss changed and nothing else. Each
+pair is hinged into the interior of the class the shipped field assigns it at
+the 0.15 band, with a 0.02 margin, and pairs near the band are weighted up to
+four times. Ranking and potential losses stay in at 0.1 and 0.05. Scored on a
+fresh development split, seed 17:
+
+| axis | ternary agreement | tie to strict | strict to tie |
+|---|---:|---:|---:|
+| food progress | 0.9496 | 35 | 47 |
+| open space | 0.9717 | 24 | 22 |
+| headroom | 0.9828 | 22 | 6 |
+
+No pair flipped from better to worse. The agreement is the same as the
+ranking-trained model measured on the diagnostic split, 0.9486, 0.9664 and
+0.9829. The prerequisite for opening another final split was 0.99 on every
+axis. This does not approach it, so that split stays undrawn and the shipped
+field stays the runtime.
+
+
 ## A factor bottleneck on templated sentences does not test the ceiling (research)
 
 The next attempt scored a sentence through a handful of semantic factors and
