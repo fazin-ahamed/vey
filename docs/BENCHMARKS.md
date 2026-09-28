@@ -697,6 +697,30 @@ under noise of 0.16. Nothing beyond 0.10 flips at 0.04. Of 354 pairs within
 directions are common. A score error only changes the decision when it crosses
 the band, and how close the decision already is tells you whether it will.
 
+## A certified scout is cheap on two axes and expensive on the hard one (research)
+
+A six-layer student of the shipped field, scored on 250 held-out decisions. A
+pair is certified when the student's distance from the 0.15 band exceeds a
+calibrated error radius, meaning its ternary relation cannot reach the band.
+The smallest radius that catches every wrong relation, and the fraction of
+pairs that radius still leaves uncertified:
+
+| axis | shared scout, bare text | control, axis-conditioned |
+|---|---|---|
+| food progress | radius 0.0618, uncertified 0.300 | radius 0.0487, uncertified 0.238 |
+| open space | radius 0.0545, uncertified 0.152 | radius 0.0484, uncertified 0.133 |
+| headroom | radius 0.0359, uncertified 0.074 | radius 0.0108, uncertified 0.023 |
+
+The control changes only the input: the shipped field's "Axis: … Candidate: …"
+format with a one-output head, instead of bare text with three outputs. Same
+depth, loss, epochs, split and batch size. Axis conditioning helps every
+coordinate and helps headroom most, collapsing its radius from 0.0359 to
+0.0108. It does not rescue food progress, which improves from 0.300 to 0.238
+uncertified and remains the axis where a certified cascade would have to pay
+for deep computation on nearly a quarter of pairs. The gap on food progress is
+therefore not the missing axis name. It is the missing depth.
+
+
 
 ## A factor bottleneck on templated sentences does not test the ceiling (research)
 
