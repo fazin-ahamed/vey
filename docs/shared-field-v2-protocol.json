@@ -1,0 +1,35 @@
+{
+  "study": "shared field v2: epsilon-relation loss",
+  "date": "2026-09-28",
+  "frozen_before_training": true,
+  "architecture": "unchanged 6-layer shared candidate encoder, three coordinates, no runtime change",
+  "epsilon": 0.15,
+  "epsilon_is_runtime": "not changed",
+  "margin_m": 0.02,
+  "loss": {
+    "primary": "hinge on the three executor relations",
+    "strict_better": "relu(epsilon + m - d_student)",
+    "strict_worse": "relu(epsilon + m + d_student)",
+    "tie": "relu(abs(d_student) - (epsilon - m))",
+    "boundary_weights": {"abs_gap_minus_eps_le_0.05": 4, "le_0.10": 2, "else": 1},
+    "lambda_rank": 0.1,
+    "lambda_potential": 0.05
+  },
+  "teacher": "shipped field scores, the product reference. Not the raw pairwise potentials.",
+  "development_split": "seed 17, 10% holdout of the 2500 grouped decisions. Not seeds 0, 7, 11, or 13.",
+  "development_selection": [
+    "ternary relation agreement per axis",
+    "boundary crossing rate, split into TIE to STRICT and STRICT to TIE",
+    "winner agreement vs shipped field",
+    "survivor-trace agreement vs shipped field"
+  ],
+  "hard_requirements_before_any_final_split": {
+    "ternary_per_axis_min": 0.99,
+    "winner_agreement_min": 0.995,
+    "survivor_trace_agreement_min": 0.99,
+    "permutation_invariance": 1.0,
+    "speed": "no regression beyond noise versus the 18.9 ms six-layer measurement"
+  },
+  "final_split": "not drawn unless every hard requirement passes. Original product gates unchanged.",
+  "not_in_this_run": ["trace distillation", "INT8", "smaller student", "epsilon change", "architecture change"]
+}
