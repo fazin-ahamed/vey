@@ -719,9 +719,10 @@ coordinate and helps headroom most, collapsing its radius from 0.0359 to
 uncertified and remains the axis where a certified cascade would have to pay
 for deep computation on nearly a quarter of pairs. The gap on food progress is
 therefore not the missing axis name. The two candidate explanations left were
-a weak readout or missing depth, and the probe below settles it.
+a weak readout or missing depth; the probe below rules out the first but does
+not prove the second.
 
-## A frozen-representation probe finds no recoverable boundary information (research)
+## A stronger readout does not recover near-boundary accuracy (research)
 
 The six-layer control's encoder was frozen completely and an overpowered head,
 four times wider with two hidden layers, was trained on its mean-pooled token
@@ -735,12 +736,20 @@ information survived six layers, this head should recover it.
 | within 0.02 of the band | 0.7268 | 0.7268 |
 
 The probe matches the deployed head everywhere, including exactly 0.7268 in
-the tightest band. The boundary information is not sitting in the six-layer
-representation behind a weak readout; it is absent. A continuation from
-layer six is the remaining fix for food progress, and an earlier probe that
-scored 0.6885 in the tight band is invalid: it froze a freshly initialized
-encoder and never loaded the trained weights, and its number measures random
-layers, not this representation.
+the tightest band. A much larger head on the same states recovers no additional
+near-boundary accuracy, so the limit is the representation rather than the
+readout, and there is currently no evidence that a cheaper readout can solve
+the boundary. Two caveats bound the claim. The probe pools mean tokens while
+the deployed head reads the CLS state, so the comparison varies pooling
+alongside head capacity. And its training loss averages Huber uniformly over
+all pairs, which easy pairs dominate, so it was never optimized for the
+near-band region it is measured in; training loss reached 0.0002 in one epoch
+while held-out near-band agreement stayed 0.7268, a gap consistent with
+boundary under-fitting as well as absence. A boundary-focused probe is the
+discriminating follow-up. An earlier probe that scored 0.6885 in the tight band
+is invalid: it froze a freshly initialized encoder and never loaded the
+trained weights, so its number measures random layers, not this
+representation.
 
 ## Frontier topology and oracle closure on food progress (research)
 
@@ -765,9 +774,12 @@ continuation could buy, the mean candidate-deepenings per decision:
 | random | 1.664 |
 | closest to boundary | 1.752 |
 
-Degree-first refinement halves the work of the naive union, collapsing about
-three unresolved relations per deepened candidate. The frontier is sparse and
-degree-first is the ordering that exploits it.
+An edge whose two endpoints were both deepened is exact, but an edge with one
+deepened and one scout endpoint keeps the scout's error on the unrefined side,
+and the simulation re-certified those mixed edges with the full 0.0487
+scout-scout radius. That is the conservative choice: a calibrated radius for
+mixed edges could only certify more of them and lower the 1.104 further. The
+frontier is sparse, and degree-first is the ordering that exploits it.
 
 
 
