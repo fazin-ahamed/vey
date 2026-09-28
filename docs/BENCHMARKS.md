@@ -677,6 +677,27 @@ axis. This does not approach it, so that split stays undrawn and the shipped
 field stays the runtime.
 
 
+## Trace stability tracks distance to the resolution boundary (research)
+
+The shipped field's own scores, perturbed, on 120 decisions. For each decision
+the distance from the nearest candidate to the 0.15 Semantic Resolution band is
+recorded, then uniform noise is added to the scores until the executor's trace
+changes.
+
+| distance to nearest boundary | decisions | trace flipped by noise of 0.04 or less |
+|---|---:|---:|
+| under 0.02 | 41 | 0.76 |
+| 0.02 to 0.05 | 34 | 0.53 |
+| 0.05 to 0.10 | 25 | 0.12 |
+| 0.10 to 0.20 | 20 | 0.00 |
+
+The median decision sits 0.031 from a boundary, and 103 of 120 traces flip
+under noise of 0.16. Nothing beyond 0.10 flips at 0.04. Of 354 pairs within
+0.05 of the band, 204 lie just inside it and 150 just outside, so both error
+directions are common. A score error only changes the decision when it crosses
+the band, and how close the decision already is tells you whether it will.
+
+
 ## A factor bottleneck on templated sentences does not test the ceiling (research)
 
 The next attempt scored a sentence through a handful of semantic factors and
