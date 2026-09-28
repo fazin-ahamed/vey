@@ -751,6 +751,32 @@ is invalid: it froze a freshly initialized encoder and never loaded the
 trained weights, so its number measures random layers, not this
 representation.
 
+## Boundary-focused probes do not extract it either (research)
+
+The discriminating follow-up ran: four probes on the same frozen six-layer
+states, the same stratified minibatches (40% of examples with a teacher gap
+within 0.02 of the band, 30% within 0.05, 15% within 0.10, 15% beyond), and
+both a gap loss and the executor-relation loss.
+
+| probe | A within 0.02 | A within 0.05 | all pairs |
+|---|---:|---:|---:|
+| CLS, deployed-sized head | 0.6120 | 0.6667 | 0.8837 |
+| CLS, four-times-wider head | 0.6284 | 0.6691 | 0.8812 |
+| mean-pooled, wide head | 0.6339 | 0.7348 | 0.9251 |
+| token-attention, wide head | 0.6284 | 0.8005 | 0.9501 |
+
+The tight band does not move for any readout: 0.61 to 0.63, against 0.63 from
+the deployed-sized CLS probe. Head capacity, pooling choice and boundary-
+focused training all fail to extract the missing distinction. These numbers
+are within this run's own protocol and are not comparable to the 0.7268 of the
+uniformly trained probe above, which was evaluated under a different
+training distribution. Within this controlled comparison, the six-layer
+states do not make the near-boundary distinction readily recoverable by any
+readout tried, which is the engineering justification for continuation layers
+on food progress. It is not a proof of absence: a finite set of probes cannot
+establish that.
+
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
