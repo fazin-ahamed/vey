@@ -718,7 +718,56 @@ coordinate and helps headroom most, collapsing its radius from 0.0359 to
 0.0108. It does not rescue food progress, which improves from 0.300 to 0.238
 uncertified and remains the axis where a certified cascade would have to pay
 for deep computation on nearly a quarter of pairs. The gap on food progress is
-therefore not the missing axis name. It is the missing depth.
+therefore not the missing axis name. The two candidate explanations left were
+a weak readout or missing depth, and the probe below settles it.
+
+## A frozen-representation probe finds no recoverable boundary information (research)
+
+The six-layer control's encoder was frozen completely and an overpowered head,
+four times wider with two hidden layers, was trained on its mean-pooled token
+states against the same food-progress pair differences. If the boundary
+information survived six layers, this head should recover it.
+
+| teacher gap | overpowered probe | deployed head |
+|---|---:|---:|
+| all pairs | 0.9659 | 0.9665 |
+| within 0.05 of the band | 0.8637 | 0.8662 |
+| within 0.02 of the band | 0.7268 | 0.7268 |
+
+The probe matches the deployed head everywhere, including exactly 0.7268 in
+the tightest band. The boundary information is not sitting in the six-layer
+representation behind a weak readout; it is absent. A continuation from
+layer six is the remaining fix for food progress, and an earlier probe that
+scored 0.6885 in the tight band is invalid: it froze a freshly initialized
+encoder and never loaded the trained weights, and its number measures random
+layers, not this representation.
+
+## Frontier topology and oracle closure on food progress (research)
+
+With the control's certificate radius of 0.0487 on 250 held-out decisions, the
+unresolved food-progress edges form small graphs:
+
+| statistic | value |
+|---|---:|
+| decisions with no frontier | 0.328 |
+| mean unresolved edges | 1.596 |
+| mean max degree | 1.312 |
+| mean connected components | 0.712 |
+
+A third of decisions need no deep computation at all. Substituting the shipped
+field's true potential for a refined candidate, which bounds what any
+continuation could buy, the mean candidate-deepenings per decision:
+
+| strategy | deepenings |
+|---|---:|
+| every frontier vertex | 2.212 |
+| highest degree first | 1.104 |
+| random | 1.664 |
+| closest to boundary | 1.752 |
+
+Degree-first refinement halves the work of the naive union, collapsing about
+three unresolved relations per deepened candidate. The frontier is sparse and
+degree-first is the ordering that exploits it.
 
 
 
