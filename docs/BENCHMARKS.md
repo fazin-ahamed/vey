@@ -751,6 +751,37 @@ is invalid: it froze a freshly initialized encoder and never loaded the
 trained weights, so its number measures random layers, not this
 representation.
 
+## The layer-depth curve is flat, and the diagnostic is the bottleneck (research)
+
+The same deployed-sized CLS probe was trained independently on every layer's
+hidden state of the shipped 12-layer field encoder, food progress only. If
+boundary information emerged at some depth, agreement in the tight band would
+rise with layer. It does not:
+
+| layer | agreement within 0.02 | uncertified fraction |
+|---:|---:|---:|
+| 1 | 0.5410 | 0.967 |
+| 3 | 0.5738 | 0.803 |
+| 6 | 0.6066 | 0.804 |
+| 8 | 0.6120 | 0.844 |
+| 10 | 0.6284 | 0.875 |
+| 12 | 0.5519 | 0.925 |
+
+Layer 12 scores no better than layer 1. This is the uninterpretable outcome:
+the shipped head reproduces its own scores by construction, so the missing
+distinction is recoverable from the final layer, yet the probe cannot get it
+at any depth. The curve measures the diagnostic's ceiling, not where semantic
+resolution emerges. Two caveats bound the read. This probes the stock
+pretrained encoder, so it is architecture evidence only and says nothing
+about appending layers to the independently trained six-layer scout; that
+lineage difference is real and a continuation from the exact scout checkpoint
+must be trained separately. And the probe is a small CLS head, which the
+boundary-focused runs show is the weakest of the readouts tried. The result
+closes nothing about depth; it says the next diagnostic must be the
+continuation itself, trained end to end from the six-layer checkpoint and
+measured on the tight band.
+
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
