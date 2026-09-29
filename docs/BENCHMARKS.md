@@ -1182,6 +1182,38 @@ fraction drops 13 percent relative to the baseline.
 This is one seed (7), matching the fold run, so it confirms exactness of the
 gain rather than its magnitude across seeds. The final split remains untouched.
 
+## STEF axis transfer: same recipe, same result on two of three axes (research)
+
+The frozen food-progress recipe applied unchanged to the other two axes, each
+independently from the same Phase 1 snapshot. No retuning of any kind: same
+band, same learning rates, same schedule, same fold construction.
+
+| axis | delta A_0.02 | 95% CI | clears zero | tight pairs | A_0.05 baseline to folded |
+|---|---:|---|---|---:|---|
+| food progress | +0.039 | [0.0163, 0.0619] | yes | 1,386 | 0.775 to 0.811 |
+| open space | +0.0529 | [0.0188, 0.0855] | yes | 699 | 0.766 to 0.811 |
+| headroom | +0.0276 | [-0.0069, 0.0633] | no | 434 | 0.828 to 0.874 |
+
+Food progress reproduces the promoted numbers exactly, confirming the
+pipeline is deterministic end to end. Open space gains more than food did.
+Headroom points the same direction but its interval touches zero, so the
+effect is unproven there rather than refuted; with 434 tight pairs, roughly a
+third of the food sample, the interval is wide enough that a real +0.03 gain
+could hide inside it. The A_0.05 columns, absent from the earlier
+evaluation, are now filled: the wider band moves the same direction on all
+three axes.
+
+The tight-band density differs by axis by construction: the band sits at
+plus-or-minus 0.02 around a gap of 0.15, but the median teacher gap is 0.157
+on food, 0.364 on open space, and 0.505 on headroom, so the band samples a
+thinner slice of each successive axis. That is the price of not retuning, and
+the confidence intervals carry it honestly.
+
+The in-run exactness numbers (0.004 to 0.033) measure the wrong quantity: the
+probe compares against the gated composition while training was ungated, so
+the discrepancy is the gate's value, not a fold error. The fold itself was
+verified exact to 1.19e-07 in the BRF-5 section.
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
