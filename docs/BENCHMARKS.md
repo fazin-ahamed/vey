@@ -1215,6 +1215,40 @@ so it is not a gate mismatch. It is not used as evidence. The binding
 verification remains the BRF-5 section: 1.19e-07 worst error across 807 held
 candidates and 2.38e-07 across 4096 random features.
 
+## STEF shared field: one field, three axes, all gates pass (research)
+
+The deployment question: can one STEF-trained field improve the hard axis
+without damaging the easy ones? One encoder, one shared head, three
+axis-conditioned linear auxiliaries trained jointly in a single phase, then
+folded. Phase 1 is byte-identical to every prior run, pooled scale. Phase 2
+normalizes by per-axis scale (0.261, 0.507, 0.675) and weights the three
+axis losses equally, so headroom's thinner band does not shrink its gradient.
+Gates were fixed before the run: food delta above zero with CI low above
+zero, open space and headroom non-inferior at -0.01, A_0.05 non-inferior at
+-0.005 on all three.
+
+| axis | delta A_0.02 | 95% CI | tight pairs | A_0.05 baseline to folded |
+|---|---:|---|---:|---|
+| food progress | +0.0397 | [0.0171, 0.0625] | 1,386 | 0.775 to 0.811 |
+| open space | +0.0486 | [0.0142, 0.0824] | 699 | 0.766 to 0.809 |
+| headroom | +0.0300 | [-0.0047, 0.0653] | 434 | 0.828 to 0.874 |
+
+All five gates pass. Food and open space gain as much under the shared head
+as they did when trained alone, so the axes do not interfere destructively;
+headroom's point estimate holds at +0.03, its interval still touching zero at
+a third of the food sample, and nothing degrades on any axis. Headroom has
+now landed near +0.03 in two independent runs, which accumulates confidence
+without settling it.
+
+The auxiliary vectors are near-orthogonal (cosines 0.17, -0.10, -0.15), so
+the axes need distinct correction directions and no shared low-rank basis
+compresses them. Deployment cost is six extra hidden units, 384 to 390, one
+antipodal pair per axis, in a single stock head.
+
+This is the last pair-level result needed: STEF is a candidate replacement
+for the shipped field. What remains is program-level evidence, not more
+pair-level architecture work.
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
