@@ -1088,7 +1088,7 @@ features; it is not a proof that the gain survives merging the weights and
 dropping the gate. That measurement is still missing, and it is the one that
 would decide whether the residual can be deleted at inference.
 
-## BRF-4b: the residual must ship, the gate must not (research)
+## BRF-4b: the residual must ship, the gate does not matter (research)
 
 The same joint training as BRF-4, scored three ways on the post-training head:
 the trained model, the residual deleted, and the residual kept with its gate
@@ -1108,23 +1108,47 @@ branch and from +0.080 to +0.024 for the mlp, both below the +0.042 that the
 executor loss achieves on the bare scalar head. The residual is load-bearing at
 inference. It is not training-only scaffolding, and it cannot be deleted.
 
-Removing the gate does not. The ungated residual holds +0.071 against +0.073
-gated for the linear branch and +0.076 against +0.080 for the mlp, and on one
-seed the ungated score is the best of the three. The ambiguity gate suppresses
-the residual where it would help rather than concentrating it where it matters.
+Removing the gate does not either. Gated and ungated differ by 0.002 to 0.005
+on every arm and seed, inside the seed spread, so the gate is functionally
+irrelevant at inference rather than harmful. The simpler ungated form is the
+one to ship.
 
-The catalyst ratio says the same thing from the other direction. Of the
-functional change learned during the joint phase, the residual carries 0.11 to
-0.20 and the head the rest. That is several times the 3 percent static output
-share, because the gate aims the residual's small magnitude at exactly the
-pairs the metric counts. The head absorbs most of the change, but the slice the
-residual carries is the slice the score depends on.
+Of the functional change learned during the joint phase, the residual carries
+0.11 to 0.20 and the head the rest, several times its 3 percent static output
+share. The head absorbs most of the change, but the slice the residual carries
+is the slice the score depends on, which is why deleting it costs more than its
+magnitude suggests.
 
 So the deployed model is the scalar head plus a small ungated residual, and the
 residual is a linear layer on the same features: nothing relational, nothing
 gated, and about 3 percent of the output magnitude. Whether that residual can
-be fused into the head by retraining the head to absorb it, rather than by
-algebra, is open.
+be absorbed rather than shipped is answered in the next section: it folds
+exactly into the head.
+
+## BRF-5: the ungated residual folds exactly into the head (research)
+
+GELU(z) - GELU(-z) = z, so a linear residual r(h) = a^T h + beta is reproduced
+exactly by two extra hidden units with weights (a, beta) and (-a, -beta) and
+output weights +1 and -1. The training-time decomposition becomes an ordinary
+GELU head two neurons wider, with no residual branch and no gate.
+
+Verified on one seed (7) with the trained weights: the folded head and the two
+separate branches differ by at most 1.19e-07 across 807 held candidates and
+2.38e-07 across 4096 random feature vectors, both FP32 rounding. The held-set
+agreement is identical: A_0.02 0.6867 for both forms on 150 tight pairs.
+
+One seed is thin for a claim that closes the architectural line, and seed 7 was
+the weakest arm in BRF-4b, so this verifies the fold's exactness numerically
+rather than across seeds. The identity itself is seed-independent; what varies
+is whether a retrained fold lands on the same numbers, which is the same
+retraining caveat that applies to any BRF arm.
+
+The deployed model is the original scalar field head at width 386 rather than
+384: 0.3 percent wider, no relational machinery, no gate, no residual kernel.
+The two-path training parameterization and the deployed one-path model compute
+the same function. The open question from BRF-4b, whether the residual can be
+absorbed rather than shipped, is answered: it is absorbed, exactly, and the
+absorption is algebraic rather than a retraining gamble.
 
 ## Frontier topology and oracle closure on food progress (research)
 
