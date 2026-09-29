@@ -767,11 +767,15 @@ rise with layer. It does not:
 | 10 | 0.6284 | 0.875 |
 | 12 | 0.5519 | 0.925 |
 
-Layer 12 scores no better than layer 1. This is the uninterpretable outcome:
-the shipped head reproduces its own scores by construction, so the missing
-distinction is recoverable from the final layer, yet the probe cannot get it
-at any depth. The curve measures the diagnostic's ceiling, not where semantic
-resolution emerges. Two caveats bound the read. This probes the stock
+Layer 12 scores no better than layer 1. This is the uninterpretable outcome.
+The teacher labels were verified to be the shipped field's own output, 312
+score comparisons with a worst absolute difference of 0.000000, so the shipped
+head can recover its own field exactly and the missing distinction is
+recoverable from the final layer; yet the probe cannot get it at any depth.
+The full 12-layer curve is in the run log; the table above elides the
+intervening layers. The curve measures the diagnostic's ceiling, not where
+semantic resolution emerges.
+Two caveats bound the read. This probes the stock
 pretrained encoder, so it is architecture evidence only and says nothing
 about appending layers to the independently trained six-layer scout; that
 lineage difference is real and a continuation from the exact scout checkpoint
