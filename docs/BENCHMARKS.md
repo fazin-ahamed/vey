@@ -1088,6 +1088,44 @@ features; it is not a proof that the gain survives merging the weights and
 dropping the gate. That measurement is still missing, and it is the one that
 would decide whether the residual can be deleted at inference.
 
+## BRF-4b: the residual must ship, the gate must not (research)
+
+The same joint training as BRF-4, scored three ways on the post-training head:
+the trained model, the residual deleted, and the residual kept with its gate
+removed.
+
+| scoring | mean A_0.02 (scaled) | delta vs A | spread | per-seed deltas | positive every seed |
+|---|---:|---:|---:|---|---|
+| linear, full | 0.7133 | +0.0733 | 0.043 | +0.053, +0.033, +0.133 | yes |
+| linear, residual deleted | 0.6689 | +0.0289 | 0.017 | +0.047, +0.007, +0.033 | yes |
+| linear, gate removed | 0.7111 | +0.0711 | 0.038 | +0.067, +0.027, +0.120 | yes |
+| mlp, full | 0.7200 | +0.0800 | 0.039 | +0.040, +0.067, +0.133 | yes |
+| mlp, residual deleted | 0.6644 | +0.0244 | 0.013 | +0.033, +0.007, +0.033 | yes |
+| mlp, gate removed | 0.7155 | +0.0755 | 0.036 | +0.053, +0.047, +0.127 | yes |
+
+Deleting the residual collapses the gain from +0.073 to +0.029 for the linear
+branch and from +0.080 to +0.024 for the mlp, both below the +0.042 that the
+executor loss achieves on the bare scalar head. The residual is load-bearing at
+inference. It is not training-only scaffolding, and it cannot be deleted.
+
+Removing the gate does not. The ungated residual holds +0.071 against +0.073
+gated for the linear branch and +0.076 against +0.080 for the mlp, and on one
+seed the ungated score is the best of the three. The ambiguity gate suppresses
+the residual where it would help rather than concentrating it where it matters.
+
+The catalyst ratio says the same thing from the other direction. Of the
+functional change learned during the joint phase, the residual carries 0.11 to
+0.20 and the head the rest. That is several times the 3 percent static output
+share, because the gate aims the residual's small magnitude at exactly the
+pairs the metric counts. The head absorbs most of the change, but the slice the
+residual carries is the slice the score depends on.
+
+So the deployed model is the scalar head plus a small ungated residual, and the
+residual is a linear layer on the same features: nothing relational, nothing
+gated, and about 3 percent of the output magnitude. Whether that residual can
+be fused into the head by retraining the head to absorb it, rather than by
+algebra, is open.
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
