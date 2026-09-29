@@ -1173,8 +1173,8 @@ pairs, so comparisons sharing a decision stay together.
 
 The paired delta is +0.039 with a 95 percent confidence interval of
 [0.0163, 0.0619], entirely above zero, so the effect is not small-sample noise.
-It is smaller than the +0.07 of the three-seed runs, which is the expected
-direction for a larger and harder pool, and the interval's upper bound is
+It is smaller than the +0.07 of the three-seed runs. That narrowing is
+observed, not explained. The interval's upper bound is
 consistent with the earlier estimate. The certificate improvements move with
 it: the folded head's radius is 16 percent smaller and its uncertified
 fraction drops 13 percent relative to the baseline.
