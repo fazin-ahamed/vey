@@ -1014,7 +1014,9 @@ promotion is withdrawn on that basis, not on the strength of this run alone.
 The comparison BRF-2 left open, run with one variable. D8J and D8F see the same
 loss, the same two epochs, and the same residual learning rate; the only
 difference is that D8J puts the head in the optimizer at 3e-6 and D8F keeps it
-out. Guards assert the head changed for every moving arm and did not change for
+out. The encoder is trained in Phase 1 and excluded from the Phase 2 and Phase
+3 optimizer in every arm; the joint phase encodes under no_grad, so no gradient
+reaches it there. Guards assert the head changed for every moving arm and did not change for
 D8F, and the recorded head movement confirms it: exactly 0.0 for D8F, 0.0049 to
 0.0063 for every other arm.
 
@@ -1051,6 +1053,40 @@ presence of a residual branch. The residual's job is to exist, not to reason
 over candidates. Arm B, the executor loss on the bare scalar, gains only
 +0.042 and is not positive on every seed, so the residual's presence still
 matters, but its form does not.
+
+## BRF-4: the residual's function class does not matter either (research)
+
+A function-class ladder on the same base and the same joint schedule. Every
+residual is zero-initialized and trained jointly with the head.
+
+| arm | mean A_0.02 (scaled) | delta vs A | spread | per-seed deltas | positive every seed | residual share |
+|---|---:|---:|---:|---|---|---:|
+| A scalar | 0.6400 | - | - | - | - | - |
+| B executor on bare scalar | 0.6822 | +0.0422 | 0.031 | +0.053, 0.000, +0.073 | no | - |
+| R-linear | 0.7133 | +0.0733 | 0.043 | +0.053, +0.033, +0.133 | yes | 0.031 |
+| R-fixed | 0.7133 | +0.0733 | 0.039 | +0.060, +0.033, +0.127 | yes | 0.031 |
+| R-mlp | 0.7133 | +0.0733 | 0.038 | +0.053, +0.040, +0.127 | yes | 0.031 |
+
+The three residuals tie to four decimals. R-linear is a single linear layer on
+the same features the head already sees. R-fixed is a linear layer on a frozen
+random projection, so it cannot learn a representation at all; it only supplies
+fixed basis functions. R-mlp is the per-candidate MLP that led BRF-3. All three
+gain +0.0733, all positive on every seed, all within each other's spread.
+
+The residual carries about 3 percent of the final output magnitude in every
+arm: its root-mean-square is 0.007 against 0.20 to 0.24 for the head. So the
+branch that accounts for the gain contributes almost none of the score. That is
+the signature of an optimization catalyst rather than a second field: the
+residual changes the directions the executor objective can move in, and the
+head absorbs the result.
+
+What this does not show. The base head is a two-layer network with a GELU, not
+a linear map, and the residual is multiplied by a data-dependent gate, so the
+two branches do not sum to a single linear function and cannot be folded
+together algebraically. R-linear is a cheap linear residual on the same
+features; it is not a proof that the gain survives merging the weights and
+dropping the gate. That measurement is still missing, and it is the one that
+would decide whether the residual can be deleted at inference.
 
 ## Frontier topology and oracle closure on food progress (research)
 
