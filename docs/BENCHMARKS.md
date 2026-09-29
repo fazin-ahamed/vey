@@ -909,6 +909,60 @@ not add executor-shaped losses.
 
 
 
+
+## BRF-1: the residual plus executor fine-tune clears the gate (research)
+
+Full-recipe confirmation of the boundary residual, three seeds. Phase 1 now
+matches the strong scalar recipe exactly: three-axis conditioning, six layers,
+batch 16, single learning rate 3e-5, three full passes. The residual attaches
+to the frozen converged field; each arm restores the base snapshot before its
+own training and scoring, so no arm sees another's mutated weights. Alpha is
+fit on a 50-row calibration split excluded from training; the gate uses the
+scale-corrected column.
+
+| arm | mean A_0.02 (scaled) | delta vs A | spread | positive every seed | best radius | uncertified |
+|---|---:|---:|---:|---|---:|---:|
+| A scalar | 0.6400 | - | - | - | 0.0804 | 0.371 |
+| C0 candidate cross-attention | 0.6533 | +0.0133 | 0.0499 | no | 0.0953 | 0.424 |
+| C4 four learned slots | 0.6555 | +0.0155 | 0.0515 | no | 0.0953 | 0.424 |
+| C8 eight learned slots | 0.6533 | +0.0133 | 0.0484 | no | 0.0953 | 0.424 |
+| D8 C8 + executor fine-tune | 0.7067 | **+0.0667** | 0.0340 | yes | **0.0710** | **0.339** |
+| M monotone odd map | 0.6378 | -0.0022 | 0.0062 | no | 0.0800 | 0.370 |
+
+The residual alone does not clear the gate. C0, C4 and C8 improve the scalar
+field by about 0.013 on average, but with a seed spread of roughly 0.05, so
+the effect is not separable from noise. Their raw agreement looked higher
+(0.66 to 0.75) because the residual arms also fixed the field's scale
+contracture, alpha 0.91 to 0.97 against the baseline's 0.83 to 0.91; after
+correction the gain shrinks to the noise floor. The slot bottleneck adds
+nothing over plain candidate cross-attention within 0.002 across both slot
+counts.
+
+The decisive term is the short Phase-3 executor fine-tune, and it only works
+once the residual exists. D8 gains +0.0667 mean over the same-seed baseline,
+positive on all three seeds (+0.033, +0.053, +0.113), with the tightest
+spread (0.034) and the strongest certificate of any arm in either run:
+radius 0.071 to 0.078, uncertified 0.339 to 0.358, correlation 0.996. It also
+lands at alpha 1.007 to 1.020, scale-correct within two percent, so its
+advantage is not a scale artifact. The monotone map control is a clean null,
+-0.002 with a 0.006 spread, which rules out the entire gain being a
+calibration trick.
+
+The interaction is the finding. Executor-shaped losses cost the scalar field
+about 0.04 when applied directly, in BRF-0 arm B and in the earlier
+epsilon-relation experiment, but the same losses gain 0.05 to 0.06 when the
+residual geometry is already present. The residual supplies a region in
+parameter space where the executor objective can be optimized without
+damaging the competent scalar field; without it, the same objective
+degrades that field.
+
+This clears the preregistered +0.05 promotion gate on the mean and on every
+seed, with D8 the promoted arm. It does not reach the 0.80 target: D8's mean
+agreement is 0.7067 against 0.6400 for the base, on a 200-decision held
+slice. The boundary problem is narrowed, not solved. Correlation with the
+teacher remains at least 0.99 on every arm, so ordering is still solved and
+the remaining error is threshold placement, exactly as BRF-0 showed.
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
