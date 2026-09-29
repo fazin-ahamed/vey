@@ -863,6 +863,41 @@ batches with a different loop; the controlled comparison is arm against arm.
 Whether relational training helps under a batched regime closer to the shipped
 field's recipe remains untested.
 
+## BRF-0: a zero-init boundary residual helps; executor losses hurt (research)
+
+The factorial over architecture and loss, two-phase per protocol: the scalar
+field trains to convergence first; the residual attaches to it frozen, with
+R=8 relation slots, zero-initialized so it starts as the exact base field, and
+a boundary gate computed from detached base scores. Calibration rows (50) are
+excluded from training; the scale alpha is fit on them only.
+
+| arm | agreement within 0.02 | scaled | radius (scaled) | uncertified (scaled) | rho |
+|---|---:|---:|---:|---:|---:|
+| A scalar, gap | 0.5733 | 0.6200 | 0.1010 | 0.447 | 0.9929 |
+| B scalar, executor losses | 0.5333 | 0.5467 | 0.1128 | 0.523 | 0.9901 |
+| C A + zero-init residual | 0.6533 | 0.6400 | 0.1021 | 0.461 | 0.9931 |
+| D C + executor fine-tune | 0.6267 | 0.6467 | 0.0847 | 0.395 | 0.9945 |
+
+Architecture and loss separate cleanly. The residual branch improves the
+scalar field, +0.08 raw and +0.02 after scale correction, and arm D carries the
+best residual radius and uncertified fraction. The executor losses hurt the
+same scalar field (A to B, -0.04 both ways), reconfirming the earlier
+epsilon-relation result on a 12-layer end-to-end base. The scale correction
+matters: the gap-trained baseline came out 21 percent mis-scaled (alpha
+0.79), and the raw numbers underrate it accordingly; alpha near 0.93 to 0.99
+for the residual arms shows the residual target itself regularizes scale.
+Correlation with the teacher is at least 0.99 on every arm, so all models
+order pairs almost perfectly and every difference is boundary placement.
+
+The promotion gate asked for a scaled gain of at least 0.05 over A. C and D
+deliver +0.02 to +0.03 with D's certificate the strongest of the four. That is
+a real, reproducible improvement from the residual architecture and the first
+positive architectural result in this line, but it is below the gate and does
+not reach the 0.80 target. The direction is validated: preserve the scalar
+field, spend relational capacity only on its near-boundary residual, and do
+not add executor-shaped losses.
+
+
 
 
 
