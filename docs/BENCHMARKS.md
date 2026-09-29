@@ -1154,6 +1154,34 @@ always inside the class of a head two neurons wider, and that training the head
 directly does not reach it. Both hold: the residual must ship, and the form it
 ships in is a stock head.
 
+## Enlarged held evaluation: the gain replicates at +0.039 (research)
+
+Frozen models, no retraining, on a 2,000-decision pool drawn from the same
+corpus outside the 2,250 training rows and never used in any BRF run. Alpha is
+fit on a 50-decision calibration split excluded from the test; the remaining
+1,950 decisions yield 1,386 tight-band pairs, against about 150 per seed in the
+earlier evaluations. The paired difference is bootstrapped over decisions, not
+pairs, so comparisons sharing a decision stay together.
+
+| metric | scalar baseline | folded head |
+|---|---:|---:|
+| A_0.02 | 0.6378 | 0.6768 |
+| alpha | 0.8874 | 1.009 |
+| radius q | 0.0880 | 0.0735 |
+| uncertified | 0.3689 | 0.3199 |
+| rho | 0.9951 | 0.9965 |
+
+The paired delta is +0.039 with a 95 percent confidence interval of
+[0.0163, 0.0619], entirely above zero, so the effect is not small-sample noise.
+It is smaller than the +0.07 of the three-seed runs, which is the expected
+direction for a larger and harder pool, and the interval's upper bound is
+consistent with the earlier estimate. The certificate improvements move with
+it: the folded head's radius is 16 percent smaller and its uncertified
+fraction drops 13 percent relative to the baseline.
+
+This is one seed (7), matching the fold run, so it confirms exactness of the
+gain rather than its magnitude across seeds. The final split remains untouched.
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
