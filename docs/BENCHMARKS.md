@@ -866,10 +866,18 @@ field's recipe remains untested.
 ## BRF-0: a zero-init boundary residual helps; executor losses hurt (research)
 
 The factorial over architecture and loss, two-phase per protocol: the scalar
-field trains to convergence first; the residual attaches to it frozen, with
-R=8 relation slots, zero-initialized so it starts as the exact base field, and
-a boundary gate computed from detached base scores. Calibration rows (50) are
-excluded from training; the scale alpha is fit on them only.
+field trains to convergence first; the residual attaches to it frozen. The
+residual is per-decision candidate-to-candidate cross-attention, not learned
+relation slots: there is no slot parameter and the module-level slot count was
+unused. It is zero-initialized, so it starts as the exact base field. The
+boundary gate reads the live base scores; the base stayed fixed because the
+encoder and head were excluded from the Phase-2 optimizer, which the smoke
+test verified, and not because the gate detached them. Arm D's fine-tune put
+the head back into the optimizer at a small learning rate. Calibration rows
+(50) are excluded from training; the scale alpha is fit on them only. All four
+arms trained on 600 with-replacement rows per epoch, a lighter recipe than the
+full passes behind the ~0.74 baselines, so absolute levels are arm-against-arm
+only.
 
 | arm | agreement within 0.02 | scaled | radius (scaled) | uncertified (scaled) | rho |
 |---|---:|---:|---:|---:|---:|
