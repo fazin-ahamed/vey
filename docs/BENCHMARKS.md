@@ -785,36 +785,6 @@ closes nothing about depth; it says the next diagnostic must be the
 continuation itself, trained end to end from the six-layer checkpoint and
 measured on the tight band.
 
-## Appending depth to the scout degrades the field at every step (research)
-
-The continuation experiment: the exact six-layer scout trained first, frozen,
-then extended with 1, 2, 3, 4 and 6 new transformer blocks initialized from
-its last layer, each trained only on the new blocks and a correction head that
-predicts the gap residual. Sampling matched the deployment distribution, half
-the examples within 0.02 of the band. Held-out food progress:
-
-| depth | agreement within 0.02 | within 0.05 | all | residual radius | uncertified |
-|---|---:|---:|---:|---:|---:|
-| 6 | 0.6885 | 0.8321 | 0.9580 | 0.0571 | 0.272 |
-| 6+1 | 0.6175 | 0.7421 | 0.9336 | 0.1269 | 0.625 |
-| 6+2 | 0.5519 | 0.6204 | 0.8642 | 0.2354 | 0.986 |
-| 6+3 | 0.5683 | 0.6326 | 0.8508 | 0.2959 | 1.000 |
-| 6+4 | 0.5137 | 0.5255 | 0.4963 | 0.6361 | 1.000 |
-| 6+6 | 0.4754 | 0.5085 | 0.6772 | 0.4096 | 0.997 |
-
-Every added layer makes the field worse, monotonically in the tight band, and
-the residual radius grows with depth in step: 0.057 to 0.127 to 0.235 to 0.296
-to 0.636. The continuation blocks were initialized from the scout's own final
-layer and run on top of a representation that layer was trained to produce as
-terminal, so each block compounds an untrained transformation of an already
-final state. The result is real under this setup but does not cleanly separate
-"additional depth cannot help" from "this initialization compounds variance":
-the radius growth is the signature of the second. What it does establish is
-that naive block-append continuation is not the rescue mechanism, and that the
-6L field's tight-band agreement of 0.6885 under the deployment distribution is
-the number any continuation must beat.
-
-
 
 ## Frontier topology and oracle closure on food progress (research)
 
