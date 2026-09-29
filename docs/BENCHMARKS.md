@@ -1242,12 +1242,43 @@ without settling it.
 
 The auxiliary vectors are near-orthogonal (cosines 0.17, -0.10, -0.15), so
 the axes need distinct correction directions and no shared low-rank basis
-compresses them. Deployment cost is six extra hidden units, 384 to 390, one
-antipodal pair per axis, in a single stock head.
+compresses them. The deployed form for a three-axis field is three per-axis
+folded heads, each a 386-wide stock head with its own antipodal pair; a
+single 390-wide head would emit one scalar, not three axis scores.
 
 This is the last pair-level result needed: STEF is a candidate replacement
 for the shipped field. What remains is program-level evidence, not more
 pair-level architecture work.
+
+## STEF at program level: the executor traces agree, and the right ones are fixed (research)
+
+The real Vey executor on the 1,950 untouched test decisions, program
+"Prefer more food progress, then more open space, then more headroom" —
+compiling to MAX food progress / MAX open space / MAX headroom at the ordinal
+resolution 0.15, the same epsilon every experiment in this line used. Three
+scorers: the teacher's FieldScorer potentials, the Phase-1 head, and the
+folded STEF heads. Trace agreement compares every stage's survivor set.
+
+| metric | baseline | STEF | delta | 95% CI |
+|---|---:|---:|---:|---|
+| full trace agreement | 0.8359 | 0.8744 | +0.0385 | [0.0226, 0.0549] |
+| winner agreement | 0.9308 | 0.9513 | +0.0205 | [0.0103, 0.0308] |
+| first-stage survivor set | 0.8518 | 0.8882 | +0.0365 | [0.0210, 0.0518] |
+
+The trace delta's interval is entirely above zero: the promotion condition.
+The decomposition shows the mechanism working as intended. Of 320 decisions
+where the baseline trace disagreed with the teacher, STEF repairs 168, a
+52.5 percent fix rate. Of 1,630 decisions the baseline got right, STEF breaks
+93, a 5.7 percent regression rate. The fix rate is nine times the regression
+rate, so the gain is concentrated in exactly the boundary mistakes the
+training targeted, not spread as noise.
+
+The trace delta, +0.0385, is nearly identical to the pair-level food gain,
++0.0397, and the survivor-set agreement moves most of the three metrics. The
+repaired boundary pairs propagate through the executor at close to the rate
+the pair metric predicted, and they land where the executor's epsilon
+resolution actually decides survivor sets. STEF survives composition through
+the real program executor.
 
 ## Frontier topology and oracle closure on food progress (research)
 
