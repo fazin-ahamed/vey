@@ -956,12 +956,58 @@ parameter space where the executor objective can be optimized without
 damaging the competent scalar field; without it, the same objective
 degrades that field.
 
-This clears the preregistered +0.05 promotion gate on the mean and on every
-seed, with D8 the promoted arm. It does not reach the 0.80 target: D8's mean
-agreement is 0.7067 against 0.6400 for the base, on a 200-decision held
-slice. The boundary problem is narrowed, not solved. Correlation with the
-teacher remains at least 0.99 on every arm, so ordering is still solved and
-the remaining error is threshold placement, exactly as BRF-0 showed.
+Withdrawn. BRF-2 reruns this arm under the sequential schedule the protocol
+specified, base frozen and the executor loss applied only after the residual
+converges, and the gain reverses to -0.0133 with no seed-positive arm. The
++0.0667 belongs to the joint schedule in which the residual and the executor
+loss trained together with the head free to move, not to the architecture;
+see the BRF-2 section. The numbers below remain a valid record of what that
+run measured, but the promotion does not hold, and neither does the
+interaction claim: under the sequential schedule the executor loss helps the
+bare scalar and hurts every residual arm.
+
+## BRF-2: the BRF-1 gain does not survive the sequential schedule (research)
+
+Mechanism dissection. Same strong base, same seeds, same arms as BRF-1 plus a
+decisive control: DP, a per-candidate residual with no candidate interactions
+at all. Phase 2 (residual only) and Phase 3 (executor) are now strictly
+sequential, with the base frozen throughout -- the schedule as written, where
+BRF-1's D8 trained residual and executor jointly with the head free to move.
+
+| arm | mean A_0.02 (scaled) | delta vs A | per-seed deltas | positive every seed |
+|---|---:|---:|---|---|
+| A scalar | 0.6400 | - | - | - |
+| B executor on bare scalar | 0.6600 | +0.0200 | +0.047, -0.013, +0.027 | no |
+| D0 cross-attention + executor | 0.6266 | -0.0134 | -0.007, -0.073, +0.040 | no |
+| D4 four slots + executor | 0.6356 | -0.0044 | -0.013, -0.067, +0.067 | no |
+| D8 eight slots + executor | 0.6267 | -0.0133 | -0.013, -0.067, +0.040 | no |
+| DP per-candidate + executor | 0.6267 | -0.0133 | -0.020, -0.080, +0.060 | no |
+
+The result is negative and the ordering is unambiguous: arm B, the executor
+loss applied directly to the bare scalar with no residual at all, is the best
+arm in the run at +0.0200, above every residual arm, all of which are negative
+against the baseline. The executor loss does not need a residual to help under
+this schedule, and the residual does not help with or without it.
+
+DP matches every relational variant within 0.01, so candidate interactions
+contribute nothing measurable, and the residual arms' raw advantage (0.65 to
+0.71 against 0.55 to 0.64) is scale repair: their alpha sits near 0.92 against
+the baseline's 0.88, and after correction the gain is gone. The relational
+machinery is not the mechanism, and under this schedule the residual itself is
+not one either.
+
+BRF-2 does not reconcile with BRF-1, and the difference is a schedule confound
+the two runs cannot separate. BRF-1's D8 gained +0.0667 with the residual and
+the executor loss trained jointly from the start and the head free to move at
+3e-6; BRF-2's identical arm loses 0.0133 with the base frozen and the executor
+loss applied only after the residual converged. The frozen-versus-joint
+distinction is exactly what the protocol asked to be tested, and BRF-2 does not
+test it, because every D arm in this run freezes the base. The missing
+comparison is a D8 variant that trains jointly as BRF-1 did, on this run's
+code and metrics. Until that exists, BRF-1's +0.0667 cannot be attributed to
+the architecture rather than to the joint schedule, and the boundary-residual
+line has no demonstrated mechanism under the protocol as written. BRF-1's
+promotion is withdrawn on that basis, not on the strength of this run alone.
 
 ## Frontier topology and oracle closure on food progress (research)
 
