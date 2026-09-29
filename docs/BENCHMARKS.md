@@ -1009,6 +1009,49 @@ the architecture rather than to the joint schedule, and the boundary-residual
 line has no demonstrated mechanism under the protocol as written. BRF-1's
 promotion is withdrawn on that basis, not on the strength of this run alone.
 
+## BRF-3: the gain is the moving head, not the residual structure (research)
+
+The comparison BRF-2 left open, run with one variable. D8J and D8F see the same
+loss, the same two epochs, and the same residual learning rate; the only
+difference is that D8J puts the head in the optimizer at 3e-6 and D8F keeps it
+out. Guards assert the head changed for every moving arm and did not change for
+D8F, and the recorded head movement confirms it: exactly 0.0 for D8F, 0.0049 to
+0.0063 for every other arm.
+
+| arm | mean A_0.02 (scaled) | delta vs A | spread | per-seed deltas | positive every seed |
+|---|---:|---:|---:|---|---|
+| A scalar | 0.6400 | - | - | - | - |
+| B executor on bare scalar | 0.6822 | +0.0422 | 0.031 | +0.053, 0.000, +0.073 | no |
+| DPJ per-candidate, head moving | 0.7133 | +0.0733 | 0.028 | +0.053, +0.053, +0.113 | yes |
+| D0J cross-attention, head moving | 0.7156 | +0.0756 | 0.037 | +0.040, +0.060, +0.127 | yes |
+| D8F eight slots, head frozen | 0.6533 | +0.0133 | 0.048 | -0.007, -0.033, +0.080 | no |
+| D8J eight slots, head moving | 0.7200 | +0.0800 | 0.036 | +0.040, +0.073, +0.127 | yes |
+
+D8J beats D8F by 0.067 on identical code, and its +0.080 reproduces BRF-1's
++0.067 under the matched procedure, so the earlier number was not an artifact.
+The gain is the moving head.
+
+But the structure of the residual does not matter. DPJ, a per-candidate
+residual with no candidate interactions at all, gains +0.073, and D0J, plain
+candidate cross-attention, gains +0.076. Both are positive on every seed and
+within 0.007 of D8J. The eight-slot bottleneck adds nothing over the simplest
+residual that exists. What the joint schedule needs is some residual
+parameterization present while the head moves, not relational machinery.
+
+The frontier diagnostic rejects the local-warping interpretation. Mean score
+movement near the band is smaller than movement far from it for every joint
+arm, with near-to-far ratios of 0.41 to 0.65. The training moves the metric
+more where the teacher is far from the threshold, not where it is close. D8F,
+the frozen arm, is the only one where near-band movement exceeds far-band
+movement, and it is also the arm that does not work.
+
+The mechanism, then, is narrower than BRF-1 claimed and cheaper than the
+architecture it proposed: joint executor fine-tuning of the scalar head in the
+presence of a residual branch. The residual's job is to exist, not to reason
+over candidates. Arm B, the executor loss on the bare scalar, gains only
++0.042 and is not positive on every seed, so the residual's presence still
+matters, but its form does not.
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
