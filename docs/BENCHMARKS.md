@@ -785,6 +785,41 @@ closes nothing about depth; it says the next diagnostic must be the
 continuation itself, trained end to end from the six-layer checkpoint and
 measured on the tight band.
 
+## Continuation does not recover the boundary, and the frontier version is worse (research)
+
+The continuation experiment, corrected after an earlier version was retracted
+for training on the wrong target: the deep branch now learns only the
+correction, the pair difference of its delta against the teacher gap minus the
+scout gap, and the new blocks initialize from the stock pretrained encoder's
+layers 7 through 6+N rather than copies of the scout's last layer. Seed pinned,
+stratified to the deployment distribution, the exact frozen scout as prefix,
+and the frontier-only ablation included. Held-out food progress:
+
+| depth | agreement within 0.02 | uncertified | frontier-only, uncertified |
+|---|---:|---:|---:|
+| 6 | 0.7377 | 0.2686 | - |
+| 6+1 | 0.6011 | 0.3410 | 0.5177 |
+| 6+2 | 0.7596 | 0.2765 | 0.4019 |
+| 6+3 | 0.7213 | 0.3039 | 0.3465 |
+| 6+4 | 0.7158 | 0.2533 | 0.7607 |
+| 6+6 | 0.7268 | 0.2613 | 0.7229 |
+
+No depth clears the scout meaningfully. The best, 6+2, gains 0.022 in the
+tight band while its uncertified fraction rises. The frontier-only ablation is
+the harder finding: when only unresolved candidates pass through the deep
+blocks, the mixed scout-deep edges become less certifiable than the scout
+alone, 0.40 to 0.76 uncertified against 0.27 for the plain scout. Localizing
+the extra computation to the frontier, the mechanism the cascade depends on,
+degrades the certificate rather than tightening it. A second run of the same
+configuration before the seed was pinned reproduced the same direction with the
+baseline at 0.7541, so the pattern is not seed noise.
+
+Two earlier versions of this experiment are retracted on the record: one
+trained the correction head on the full gap instead of the residual, and one
+initialized the new blocks as copies of the scout's own last layer. The result
+above is the one under the corrected protocol.
+
+
 
 ## Frontier topology and oracle closure on food progress (research)
 
