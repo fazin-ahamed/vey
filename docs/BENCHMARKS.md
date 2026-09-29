@@ -819,6 +819,43 @@ trained the correction head on the full gap instead of the residual, and one
 initialized the new blocks as copies of the scout's own last layer. The result
 above is the one under the corrected protocol.
 
+## Flux-0: relational, gauge-fixed training does not beat the scalar head (research)
+
+The first program-conditioned field experiment. Three arms, each with its own
+freshly initialized 12-layer encoder trained end to end, the same per-arm seed,
+the same deployment-stratified sampling, one decision per gradient step.
+Baseline A is the existing architecture's shape, a per-candidate scalar head
+with plain gap Huber. Flux-B adds a pooled set context, gauge projection onto a
+zero-sum potential, and executor-aware losses (gap, margin-to-epsilon, ternary
+relation hinge, survivor BCE). Flux-C adds a raw pair-difference branch with
+Laplacian projection and a cycle-consistency loss.
+
+| arm | agreement within 0.02 | within 0.05 | all | radius | uncertified |
+|---|---:|---:|---:|---:|---:|
+| baseline A | 0.6284 | 0.7956 | 0.9488 | 0.0790 | 0.349 |
+| Flux-B | 0.5792 | 0.6569 | 0.8940 | 0.3001 | 0.789 |
+| Flux-C | 0.5519 | 0.7129 | 0.9153 | 0.2072 | 0.721 |
+
+Both Flux arms score below the plain scalar head in the tight band and carry a
+residual radius three to four times larger. The relational machinery did not
+break the boundary ceiling; it cost accuracy. The Flux arms' training losses
+oscillate while the baseline converges smoothly, so the multi-term objective
+was harder to optimize, not easier. An earlier version of this run is invalid
+and is not counted: it trained all arms on a frozen stock encoder whose
+activations were computed under no_grad, so no arm ever trained its encoder,
+and the heads saw boundary information the record already shows is not
+linearly readable from stock states. The comparison above is the corrected,
+end-to-end run with the gradient verified by smoke test before launch.
+
+The honest negative is narrow: under this training regime, one decision per
+step, K candidates jointly encoded, the specific set-context and gauge
+machinery tested here did not help. The absolute numbers are not comparable to
+the ~0.74 fine-tuned baseline in earlier sections, which trained on multi-row
+batches with a different loop; the controlled comparison is arm against arm.
+Whether relational training helps under a batched regime closer to the shipped
+field's recipe remains untested.
+
+
 
 
 ## Frontier topology and oracle closure on food progress (research)
