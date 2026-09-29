@@ -836,16 +836,24 @@ Laplacian projection and a cycle-consistency loss.
 | Flux-B | 0.5792 | 0.6569 | 0.8940 | 0.3001 | 0.789 |
 | Flux-C | 0.5519 | 0.7129 | 0.9153 | 0.2072 | 0.721 |
 
-Both Flux arms score below the plain scalar head in the tight band and carry a
-residual radius three to four times larger. The relational machinery did not
-break the boundary ceiling; it cost accuracy. The Flux arms' training losses
-oscillate while the baseline converges smoothly, so the multi-term objective
-was harder to optimize, not easier. An earlier version of this run is invalid
-and is not counted: it trained all arms on a frozen stock encoder whose
-activations were computed under no_grad, so no arm ever trained its encoder,
-and the heads saw boundary information the record already shows is not
-linearly readable from stock states. The comparison above is the corrected,
-end-to-end run with the gradient verified by smoke test before launch.
+Both Flux arms score below the plain scalar head in the tight band, the
+scale-invariant and therefore comparable metric. Their residual radii are not
+comparable across arms in this run: the baseline's only loss directly
+minimizes the gap residual, while the Flux arms split their objective across
+four terms in which magnitude is one quarter of the mean, so a scale mismatch
+inflates their radius mechanically. The arms also differ in loss, not only
+architecture: the earlier epsilon-relation experiment (422934b) already showed
+executor-shaped losses do not help the same architecture, so the deficit
+cannot be attributed to set context or gauge projection alone. The set
+context implemented here was a mean-pooled context through a tanh bottleneck,
+the floor of the design space, not a slotted bottleneck. The Flux arms'
+training losses oscillate while the baseline converges smoothly, so the
+multi-term objective was harder to optimize, not easier. An earlier version
+of this run is invalid and is not counted: it trained all arms on a frozen
+stock encoder whose activations were computed under no_grad, so no arm ever
+trained its encoder. The comparison above is the corrected, end-to-end run,
+with every arm's encoder trained and the gradient verified by a smoke test
+before launch.
 
 The honest negative is narrow: under this training regime, one decision per
 step, K candidates jointly encoded, the specific set-context and gauge
