@@ -1134,21 +1134,25 @@ GELU head two neurons wider, with no residual branch and no gate.
 
 Verified on one seed (7) with the trained weights: the folded head and the two
 separate branches differ by at most 1.19e-07 across 807 held candidates and
-2.38e-07 across 4096 random feature vectors, both FP32 rounding. The held-set
-agreement is identical: A_0.02 0.6867 for both forms on 150 tight pairs.
+2.38e-07 across 4096 random feature vectors, both FP32 rounding. Those two
+errors are the evidence. The two forms also score identically, but that is an
+identity rather than a measurement: the metric uses only pairwise differences,
+and the folded head differs from the separate branches by a per-decision
+constant that cancels in every difference, so the two cannot disagree on it.
+The reported 0.6867 is raw and single-seed, since this run fits no scale
+factor, and it is not comparable to the scaled three-seed tables above.
 
-One seed is thin for a claim that closes the architectural line, and seed 7 was
-the weakest arm in BRF-4b, so this verifies the fold's exactness numerically
-rather than across seeds. The identity itself is seed-independent; what varies
-is whether a retrained fold lands on the same numbers, which is the same
-retraining caveat that applies to any BRF arm.
+One seed is enough here because the claim is algebraic, not statistical. The
+identity does not depend on the seed; the check is against floating-point noise.
 
 The deployed model is the original scalar field head at width 386 rather than
-384: 0.3 percent wider, no relational machinery, no gate, no residual kernel.
-The two-path training parameterization and the deployed one-path model compute
-the same function. The open question from BRF-4b, whether the residual can be
-absorbed rather than shipped, is answered: it is absorbed, exactly, and the
-absorption is algebraic rather than a retraining gamble.
+384, which is 0.52 percent wider: no relational machinery, no gate, no residual
+kernel. The two-path training parameterization and the deployed one-path model
+compute the same function. This does not retract BRF-4b. The residual is still
+load-bearing at inference; the fold shows that the load-bearing function was
+always inside the class of a head two neurons wider, and that training the head
+directly does not reach it. Both hold: the residual must ship, and the form it
+ships in is a stock head.
 
 ## Frontier topology and oracle closure on food progress (research)
 
