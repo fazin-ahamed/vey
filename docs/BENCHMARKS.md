@@ -1209,10 +1209,11 @@ on food, 0.364 on open space, and 0.505 on headroom, so the band samples a
 thinner slice of each successive axis. That is the price of not retuning, and
 the confidence intervals carry it honestly.
 
-The in-run exactness numbers (0.004 to 0.033) measure the wrong quantity: the
-probe compares against the gated composition while training was ungated, so
-the discrepancy is the gate's value, not a fold error. The fold itself was
-verified exact to 1.19e-07 in the BRF-5 section.
+The in-run exactness probe, a single-decision check, disagreed by 0.004 to
+0.033 and the cause is unexplained: both sides of the comparison were ungated,
+so it is not a gate mismatch. It is not used as evidence. The binding
+verification remains the BRF-5 section: 1.19e-07 worst error across 807 held
+candidates and 2.38e-07 across 4096 random features.
 
 ## Frontier topology and oracle closure on food progress (research)
 

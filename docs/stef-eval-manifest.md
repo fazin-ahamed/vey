@@ -28,12 +28,16 @@ rebuild it. Raw rows are not committed; this is the recipe.
 ## The teacher
 
 - `FieldScorer` from `vey.crux.field`, `ordinal_many(options, axes)`, device cpu.
+- Artifact revision: `3eb1460a82c98fc99c350032b9cf29a74075a4a6` (DEFAULT_FIELD_REV,
+  field.py:26), resolved through the published default, not a local override.
 - Axes, in teacher-column order: food progress, open space, headroom.
 - Returns continuous potentials, not ranks. A label that is an integer is a
   sign the call was wrong.
 
 ## The evaluation
 
+- Seed 7, single run. Weights were not persisted, so a re-score means re-running
+  the deterministic training.
 - Bootstrap: 10,000 resamples over decisions, `random.Random(0)`.
 - Tight band: absolute gap within 0.02 of 0.15.
 - Tight pairs on the 1,950 test decisions: 1,386, across 884 decisions.
