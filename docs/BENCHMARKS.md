@@ -1417,6 +1417,46 @@ Program Risk Calibration belongs on the queue ahead of Snake, because Snake
 fallback behavior would otherwise integration-test a trust policy with a
 known blind spot.
 
+## Survivor-Set Certificate: the two-sided rule closes the blind spot (research)
+
+The runtime-computable two-sided rule, no teacher required. At each stage
+with model scores s_i, best M, and gap g_i = M - s_i, a kept candidate is
+certified when g_i + q_a <= 0.15 and a dropped candidate when
+g_i - q_a > 0.15, with the per-axis radius q_a. A program is certified when
+every reached stage passes both sides and the final set is a singleton.
+Equivalently: no candidate may sit in the uncertainty shell
+(0.15 - q_a, 0.15 + q_a) around the boundary. For STEF's radii the keep
+threshold is a gap at or below 0.069 food, 0.059 open, 0.083 headroom.
+
+The rule is exact in the sense that it proves both assertions the trace
+makes: dropped candidates truly deserve dropping, and kept candidates truly
+belong. Recomputed locally on the same 1,950 persisted rows:
+
+| rule | model | coverage | certified precision | correct-certified | UCB95 |
+|---|---|---:|---:|---:|---:|
+| drop-only (old) | base | 0.2077 | 0.9951 | 0.2067 | 0.0178 |
+| drop-only (old) | STEF | 0.2882 | 0.9537 | 0.2749 | 0.0669 |
+| SSC, lambda 1 | base | 0.0000 | - | 0.0000 | - |
+| SSC, lambda 1 | STEF | 0.0903 | 1.0000 | 0.0903 | 0.0214 |
+
+All 26 wrong-certified STEF programs, and both of the baseline's, fail the
+keep-side: the survivor-set diagnosis was complete, and the one-sided rule
+was the entire defect. SSC's precision is perfect on these rows, 176 of 176.
+
+The honest trade: the drop-only rule was coverage-rich and precision-weak;
+SSC is precision-perfect and coverage-poor. The strict two-sided guarantee
+is what it says. The baseline certifies nothing at all under the correct
+rule, because its per-axis radii exceed the keep-side headroom everywhere,
+so certification under SSC exists only because STEF halved the radii. The
+lambda sweep (diagnostic only on these heavily examined rows) shows
+coverage falling with lambda while precision holds.
+
+The queue follows: a fresh calibration and evaluation pool, selection and
+validation halves for the program-level lambda, and the preregistered PRC
+gate at a 1 percent trace-error budget with a Clopper-Pearson bound. These
+1,950 rows are retired from future final claims; they are design and
+debugging data now.
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
