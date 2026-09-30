@@ -1606,65 +1606,79 @@ Live games are a secondary behavioral demonstration only, run after the
 replay gate. Once the two fields choose differently their future states
 diverge, so food, deaths and score cannot be the scientific gate.
 
-## Snake integration: the gate passes vacuously and exposes a domain gap (research)
+## Snake integration: winner transfer survives, band reproduction collapses (research)
 
-Run exactly as preregistered above. Seed 7, confirmed by the radii: the
-refit produced 0.0811/0.0913/0.0671, identical to the validated shipping
-model. 800 planner-driven states, seeds 101-104, identical rows for both
-fields. The question compiled to the two expected stages.
+Run as preregistered above, then corrected once. The first recorded version
+of this section concluded that the heads do not track the field on Snake
+text at all. That conclusion is false, and it is false on the numbers that
+version itself committed. Inclusion-exclusion on its own table gives
+P(baseline winner = teacher winner) at least 0.7462 + 0.7588 - 1 = 0.505,
+and the same for STEF at least 0.478, against a 0.25 winner chance. The
+protocol asked for move agreement with the teacher and the first run
+substituted planner agreement, which cannot adjudicate tracking. This
+section replaces that one with the direct measurement.
+
+Seed 7, radii frozen at the validated refit rather than recomputed:
+0.0811/0.0913/0.0671 for STEF and 0.1155/0.1814/0.1588 for the baseline,
+each reproduced exactly on the two earlier runs. 800 planner-driven states,
+seeds 101-104, identical rows. The question compiled to the two expected
+stages. The winner used here is compose's winner, the extreme on the first
+ordinal stage with the content tie-break, not the first id of the final
+survivor band. Per-decision rows are persisted.
 
 | metric | baseline | STEF | teacher |
 |---|---:|---:|---:|
 | trace agreement | 0.0000 | 0.0000 | — |
 | trace delta | 0.0000 [0.0000, 0.0000] | | |
+| winner agreement with teacher | **0.8375** | **0.7725** | — |
 | planner move agreement | 0.7462 | 0.7188 | 0.7588 |
 | strict SSC coverage | 0.0000 | 0.0000 | — |
-| latency p50 / p95 / p99, ms | 0.52 / 0.58 / 0.66 | 0.38 / 0.43 / 0.50 | — |
+| head-only latency p50 / p95 / p99, ms | 0.355 / 0.385 / 0.435 | 0.255 / 0.278 / 0.339 | — |
 
-The preregistered gate is trace delta at or above zero with no latency
-regression. Both hold: the delta is exactly zero and STEF is faster than
-the baseline at every percentile. That is the letter of the gate, and it is
-not the finding.
+Winner agreement is more than triple the 0.25 chance floor. The heads do
+track the teacher's top candidate. The latency bound, stated before this
+rerun as STEF p95 at or below 1.2 times the baseline's, holds: 0.278 against
+a ceiling of 0.462. The latency is head-only on the two queried axes, over
+precomputed embeddings; the encoder pass is shared and excluded.
 
-The finding is that neither field reproduces the teacher's trace on a single
-decision. A per-axis ranking diagnostic, added after the first run returned
-zeros, shows why. Full candidate-ordering agreement with the teacher field:
+The trace agreement stays exactly zero, and the full-ordering diagnostic
+explains the gap between a correct winner and a wrong trace. Full
+candidate-ordering agreement with the teacher, reproduced exactly from the
+first run:
 
 | axis | baseline | STEF | chance (4 candidates) |
 |---|---:|---:|---:|
 | food progress | 0.0300 | 0.0300 | 0.0417 |
 | open space | 0.0925 | 0.0312 | 0.0417 |
-| headroom | 0.0312 | 0.0312 | 0.0417 |
 
-The heads are at or below chance. They do not track the field on Snake text
-at all, so the planner agreement near 0.75 is not field reproduction; the
-teacher field itself agrees with the planner only 0.7588 of the time, and
-the heads land nearby without following it.
+Conditional on the winner being correct, the full food-progress ordering is
+still right only 0.0358 of the time for the baseline and 0.0388 for STEF.
+The top candidate transfers and the ranks below it do not. The open-space
+baseline cell at 0.0925 is above its chance floor, which the first version
+of this section reported and then contradicted.
 
-The cause is the text distribution. The heads were trained entirely on the
-d6 prose options, median 174 characters, of the form "the action is not
-permitted - it violates the stated constraint". Snake's candidate texts are
-the demo's own terse consequence strings, median 85 characters, of the form
-"moves away from the food; reachable open space 100%". The shipped field
-scorer transfers across that gap because it was trained on the broad corpus;
-the distilled 6-layer heads do not. The field's own spreads on these texts
-are real, 0.213 on food progress and 0.248 on open space, both above the
-0.15 band, so the teacher traces are genuine and the failure is entirely on
-the student side.
+The corrected reading is band sensitivity, not register blindness. Snake's
+candidate texts carry small field gaps: a sampled state shows a 0.001 gap
+between two near-identical candidates and a 0.135 food-progress gap sitting
+against the 0.15 band edge. Exact full-order reproduction and epsilon-band
+membership are both brittle at that scale, while the identity of the top
+candidate is not. The text-register difference is real, median 174 characters
+of prose against median 85 of terse consequence strings, but it does not
+explain a student that finds the teacher's winner 84 percent of the time.
 
-Per the protocol, nothing was retuned after seeing this. The 1 percent SSC
-bound was never claimed to transfer, and with zero certified decisions there
-is nothing to transfer: the certificate declined, which the protocol said to
-read as non-transfer rather than as a Snake failure.
+What transfers and what does not, stated at the resolution the data
+supports. Winner-level transfer survives the demo's text. Full-order
+reproduction and epsilon-band reproduction collapse, which is why every
+trace disagrees and why the strict certificate certifies nothing. The
+certificate's refusal is still read as non-transfer of the 1 percent bound,
+per the protocol, and not as a Snake failure.
 
-What this closes and what it opens. The integration measurement is done and
-it is negative. Vey 2's accuracy mechanism is validated on the distribution
-it was trained on, across three seeds, and it does not survive contact with
-the demo's text. The gap is distillation-domain, not architecture: the
-teacher field scores these strings correctly and the students cannot. Closing
-it means training the students on text in the demo's register, or routing
-Snake through the teacher field directly. Both are new work, and neither was
-inside the preregistered protocol, so both wait.
+The fix this points at is score calibration at the band boundary, not
+retraining on the demo's register and not routing around the students. That
+remains new work outside the preregistered protocol, and it waits. The
+non-regression gate holds, and it now holds on a measurement that says
+something: the students match the teacher's decision and miss its
+confidence structure.
 
 ## Frontier topology and oracle closure on food progress (research)
 
