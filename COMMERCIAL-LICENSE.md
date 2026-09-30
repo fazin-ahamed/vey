@@ -19,8 +19,9 @@ Vey is available under the Functional Source License 1.1 (FSL-1.1-MIT).
   Vey's functionality and which competes with the product or service
   the copyright holder offers using it.
 
-Competing use, OEM embedding, closed-source redistribution, and
-alternative terms are available under a separate commercial license.
+Commercial licenses are available for Competing Use, OEM arrangements,
+redistribution arrangements that require terms beyond FSL-1.1-MIT, and other
+custom commercial terms.
 
 ## Two-year MIT conversion
 
@@ -43,9 +44,10 @@ forward and does not revoke any grant already made.
 
 ## Commercial licensing
 
-Competing use, OEM terms, closed-source redistribution, and custom
-commercial terms are available from the copyright holder. Open a
-GitHub issue with the title "Commercial license inquiry" to start.
+Commercial licenses are available for Competing Use, OEM arrangements,
+redistribution arrangements that require terms beyond FSL-1.1-MIT, and other
+custom commercial terms. Open a GitHub issue with the title "Commercial
+license inquiry" to start.
 
 ## Contributions
 

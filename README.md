@@ -192,9 +192,10 @@ product or service whose value derives substantially from Vey's functionality.
 Internal use, research, self-hosting, and building other products on top of
 Vey are all permitted. Every version becomes plain MIT two years after its
 distribution date, so the restriction is a window, not a permanent state.
-Competing use, OEM embedding, and closed-source redistribution are available
-under a commercial license; open a GitHub issue titled "Commercial license
-inquiry".
+Commercial licenses cover Competing Use, OEM arrangements, and redistribution
+arrangements needing terms beyond FSL-1.1-MIT; open a GitHub issue titled
+"Commercial license inquiry".
+
 The default semantic encoder is a separate Apache-2.0 work by the Mixedbread
 AI authors; see [NOTICE](NOTICE). The "Vey" name and logo are trademarks and
 are not granted by the code license.
