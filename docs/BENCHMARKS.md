@@ -1377,6 +1377,46 @@ scores are persisted at
 vey-data/decisionmix/d2/stef/cprogram_per_decision.json: the recompute is a
 local analysis, not a retrain.
 
+## Certificate decomposition: the failures are not threshold failures (research)
+
+All numbers below are local analyses of the persisted per-decision rows; no
+GPU, no retraining.
+
+Per-relation, STEF's calibration claim is honest and the baseline's is not:
+certified relations whose true error exceeds their per-axis radius number
+4 of 3,606 for STEF (0.11 percent) and 51 of 2,986 for the baseline (1.71
+percent). The baseline's food-progress relations breach their own radius at
+2.07 percent. So the earlier certified-precision gap is not explained by
+per-relation miscalibration.
+
+The slack hypothesis also fails. The baseline's wrong-certified programs
+carry slack 0.041 over threshold, not near zero, and STEF's spread from
+0.001 to 0.071. And the sharpest finding: zero of the 26 wrong-certified
+programs contain an erroneous required relation. In every one, every
+certified best-vs-dropped relation is genuinely true under the teacher.
+
+The failure channel is survivor-set divergence. Twenty-five of the 26
+diverge at stage 0: the model keeps candidates the teacher dropped and drops
+candidates the teacher kept, while every drop the model made is certifiably
+correct. The certification rule validates drops against the model's own band
+but never checks that the model's kept-set matches the band membership of the
+teacher's scores. The rule is incomplete, not the field.
+
+The risk-coverage sweep confirms the failures are threshold-invariant. With
+the radius scaled by lambda from 1.0 to 4.0, STEF's certified risk plateaus
+near 0.03 to 0.05 and never approaches the baseline's 0.008; no lambda
+recovers baseline precision while retaining coverage. The 157 decisions STEF
+certifies and the baseline does not are 84.7 percent trace-correct, so the
+newly acquired coverage is genuinely good. The trust layer needs a
+survivor-set relation, not a larger radius.
+
+What this sets up: the certificate must be calibrated at the same
+compositional level as the executor. A rule that certifies drops but not
+kept-set membership can underwrite a program whose trace still diverges.
+Program Risk Calibration belongs on the queue ahead of Snake, because Snake
+fallback behavior would otherwise integration-test a trust policy with a
+known blind spot.
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
