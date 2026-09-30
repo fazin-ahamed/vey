@@ -1457,6 +1457,51 @@ gate at a 1 percent trace-error budget with a Clopper-Pearson bound. These
 1,950 rows are retired from future final claims; they are design and
 debugging data now.
 
+## PRC arms: strict SSC is the certificate that ships (research)
+
+Fresh untouched pools, drawn and labeled per a manifest recorded before any
+model touched them: 1,500 selection, 5,500 validation, 500 final, all
+disjoint, all outside the retired 1,950 design rows. The corpus supports only
+7,500 untouched rows after the design pool, so the attachment's
+2000+5500+2000 allocation was adjusted to 1500+5500+500 to protect the
+validation gate. Per-axis radii refit on the design pool's calibration split.
+Lambda* was chosen on selection (0.55, the smallest lambda with zero
+certified failures and enough certified programs to rank), frozen, and
+tested once on validation. Exact one-sided Clopper-Pearson bounds; the
+budget is 1 percent.
+
+| arm | validation coverage | certified | wrong | risk | CP-UCB95 | final coverage | final wrong |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| A drop-only | 0.3222 | 1,772 | 104 | 0.0587 | 0.0752 | 0.3420 | 15 |
+| B strict SSC | 0.0835 | 459 | 0 | 0.0000 | **0.0065** | 0.0820 | 0 |
+| C PRC, lambda 0.55 | 0.1369 | 753 | 1 | 0.0013 | 0.0129 | 0.1480 | 1 |
+
+The gate has a clean verdict. Arm B passes: zero failures in 459 certified
+programs, upper bound 0.0065, well under the 1 percent budget, and it
+reproduces on the untouched final pool, 41 certified with zero wrong. Arm C
+misses: one failure among 753 certified puts its upper bound at 0.0129.
+The single failure is exactly the shape the pool arithmetic predicted: at
+this sample size the gate tolerates zero failures, and one lands at the
+boundary. Per the preregistered protocol, lambda was frozen before
+validation and the miss stands; no retuning.
+
+Arm A's numbers confirm the blind spot scales rather than shrinks on fresh
+data: 104 wrong-certified at 5.9 percent risk on validation, worse than the
+design pool's 26 at 4.6 percent, because the one-sided rule certifies more
+as it reaches farther.
+
+The trust layer is frozen on strict SSC. Certificate mode "strict" is the
+shipping rule: lambda 1, two-sided, singleton final. The PRC relaxation
+demonstrably buys coverage, 64 percent more than strict SSC, but its risk
+control is not tight enough to certify at the 1 percent budget on this
+data; if a future pool supports a looser budget, mode "risk" can return,
+but it earns nothing at 1 percent today.
+
+Per-decision rows for all three arms and pools are persisted under
+vey-data/decisionmix/d2/stef/prc/ with the split manifest. Trust-layer
+architecture is closed: relation calibration, then the survivor-set
+certificate, both two-sided and runtime-computable.
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
