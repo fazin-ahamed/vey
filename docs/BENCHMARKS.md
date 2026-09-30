@@ -1275,8 +1275,10 @@ training targeted, not spread as noise.
 
 The trace delta, +0.0385, is nearly identical to the pair-level food gain,
 +0.0397, and the survivor-set agreement moves most of the three metrics. The
-repaired boundary pairs propagate through the executor at close to the rate
-the pair metric predicted, and they land where the executor's epsilon
+repaired boundary pairs happened to move the trace by almost the same amount
+as the pair metric, in this one program. That is an observation, not a rule:
+the program has three axes and lexicographic reachability, so there is no
+reason the two gains must coincide in general. They do land where the executor's epsilon
 resolution actually decides survivor sets. STEF survives composition through
 the real program executor.
 
