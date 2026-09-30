@@ -29,6 +29,14 @@ Every version of Vey becomes available under the plain MIT license
 two years after its distribution date. The protection period is a
 window, not a permanent restriction.
 
+## Model weights
+
+Vey model weights released from the v2.0.0-rc3 licensing boundary forward are
+licensed under FSL-1.1-MIT, the same grant as the code; the weights repository
+carries its own copy of the license. Weight revisions previously distributed
+under AGPL-3.0 retain that historical grant. Commercial terms beyond
+FSL-1.1-MIT are available separately.
+
 ## Fair Source, not OSI open source
 
 During the protection period Vey is source-available under the FSL,

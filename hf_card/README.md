@@ -1,5 +1,7 @@
 ---
-license: agpl-3.0
+license: other
+license_name: FSL-1.1-MIT
+license_link: https://huggingface.co/fazinahamed/vey/blob/main/LICENSE
 library_name: vey
 language:
   - en
