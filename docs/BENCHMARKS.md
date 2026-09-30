@@ -1502,6 +1502,34 @@ vey-data/decisionmix/d2/stef/prc/ with the split manifest. Trust-layer
 architecture is closed: relation calibration, then the survivor-set
 certificate, both two-sided and runtime-computable.
 
+## Seed replication: seed 11 passes both gates (research)
+
+The frozen shared recipe, seed 11, zero tuning. Evaluation on the retired
+1,950 design rows, whose role is robustness replication.
+
+| gate | seed 7 | seed 11 |
+|---|---|---|
+| trace delta above zero | +0.0385 [0.0226, 0.0549] | +0.0718 [0.0554, 0.0887] |
+| fix rate above regression rate | 52.5% / 5.7% | 56.1% / 4.8% |
+| trace agreement, base to STEF | 0.8359 to 0.8744 | 0.8036 to 0.8754 |
+
+Both gates pass with a larger margin than seed 7. STEF lands at essentially
+the same trace agreement from a weaker starting point, which is itself
+informative: the mechanism converges to the same place from a different
+initialization rather than riding one lucky basin.
+
+Strict-SSC coverage is recorded, not gated, and it is zero for this seed
+against seed 7's 0.0903. The cause is arithmetic, not a defect: seed 11's
+per-axis radii are wider (0.0999/0.0977/0.0546 vs 0.0811/0.0913/0.0671), the
+uncertainty windows around the executor band are wider with them (0.200 and
+0.195 on food and open space against 0.162 and 0.183), and a 5-candidate
+decision almost always puts at least one candidate gap inside a window that
+wide. SSC coverage is radius-sensitive by construction; a decision that
+clears the window on one seed may not clear it on another at equal accuracy.
+That variance is the certificate's honest operating characteristic, not a
+regression, and it is the number to track when the field's calibration
+improves further.
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
