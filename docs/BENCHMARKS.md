@@ -1558,6 +1558,54 @@ Replication is complete. What remains for Vey 2 is Snake integration with
 the frozen system: shared STEF, strict SSC, the real executor, trace
 agreement primary.
 
+## Snake integration protocol, preregistered before measurement (research)
+
+The final Vey 2 gate. Recorded before any Snake measurement, so the numbers
+below this section cannot influence the protocol.
+
+Model: the seed-7 shipping model, the one whose strict SSC was actually
+validated on the fresh DecisionMix pools. Seeds 11 and 13 were replication
+runs; selecting one of them after seeing its trace score would be post-hoc
+model selection, and their certificate geometry differs. Seed 7 only.
+
+Dataset: 800 recorded Snake states, 200 each from seeds 101-104, generated
+by driving the deterministic planner through the demo game. The trajectory
+depends on the planner alone, so baseline and STEF are scored on identical
+rows. Candidate texts are the demo's own descriptions; the instruction is
+the demo's own question, "Choose the move with the most food progress, then
+the most open space", which compiles to two stages, MAX food progress then
+MAX open space. Headroom is not queried.
+
+Teacher: the shipped field scorer on those candidate texts, the same teacher
+every prior trace measurement used. The planner's move is a separate
+secondary agreement metric, not the trace teacher.
+
+Fixed and not touched after results: compiler, executor, epsilon 0.15,
+candidate order, fallback logic, per-axis radii refit on the retired design
+pool's calibration split exactly as in the replication runs. Compose traces
+are normalized at the boundary, once, before anything consumes them.
+
+Primary gate, integration rather than efficacy: trace delta at or above
+zero, and no meaningful latency regression. A confidence interval whose
+lower bound clears zero is the strong close but is not required; this run
+was preregistered as non-regression, and raising the bar after the fact
+would be the same post-hoc move the protocol exists to prevent.
+
+Reported alongside, not gated: move agreement with the planner, baseline
+fixes versus regressions, strict-SSC coverage, precision among certified
+decisions, the uncertified rate, and p50/p95/p99 latency for both fields on
+the same machine.
+
+The existing 1 percent SSC risk bound does not transfer. It was measured on
+the DecisionMix validation distribution, and Snake was never part of that
+exchangeability assumption. SSC numbers on Snake are an integration
+measurement. Zero certified cases would mean the certificate declined to
+transfer, not that Snake failed.
+
+Live games are a secondary behavioral demonstration only, run after the
+replay gate. Once the two fields choose differently their future states
+diverge, so food, deaths and score cannot be the scientific gate.
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
