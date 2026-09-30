@@ -181,10 +181,10 @@ simpler control first.
 ## License
 
 Vey is Fair Source under the Functional Source License 1.1 (FSL-1.1-MIT) from
-the release carrying this notice onward. The `v1.0.0` and `v2.0.0-rc1` tags
-were published under Apache-2.0 and remain so; the tree between them and this
-change was published under AGPL-3.0 and those snapshots keep that grant. The
-license change does not reach backward.
+tag `v2.0.0-rc3` onward. The `v1.0.0` and `v2.0.0-rc1` tags were published
+under Apache-2.0 and remain so; the tree from `e52bcf2` through `12e87ce` was
+published under AGPL-3.0 and those snapshots keep that grant. The license
+change does not reach backward.
 
 Use, study, modify and redistribute Vey, including commercially, with one
 restriction during the two-year protection period: do not offer a competing
