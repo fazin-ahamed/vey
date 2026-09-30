@@ -1282,6 +1282,53 @@ reason the two gains must coincide in general. They do land where the executor's
 resolution actually decides survivor sets. STEF survives composition through
 the real program executor.
 
+## STEF deployment: latency non-inferior, calibration radius halved (research)
+
+Two deployment measurements on the frozen seed-7 models.
+
+Latency, head-only, local CPU (torch 2.5.1, six threads), identical hidden
+states, the full three-axis scoring operation, 4,000 iterations each:
+
+| model | mean | p50 | p95 | p99 | parameters |
+|---|---:|---:|---:|---:|---:|
+| baseline, three 384-wide calls | 98.8 us | 93.4 us | 143.7 us | 155.6 us | 148,225 |
+| STEF, three 386-wide calls | 100.9 us | 98.2 us | 112.1 us | 153.1 us | 148,997 |
+
+The two-neuron widening costs about two microseconds at p50 on this machine
+and 772 parameters per head, 0.52 percent, and it is faster in the tail. Not
+zero, but noise-level.
+
+Latency, full field, the same Modal T4 container for both models: encode
+three axis prompts plus compose, per decision, over the 1,950 test decisions.
+
+| model | mean | p50 | p95 | p99 |
+|---|---:|---:|---:|---:|
+| baseline | 33,182 us | 32,736 us | 35,484 us | 44,631 us |
+| STEF | 33,127 us | 32,691 us | 35,311 us | 42,423 us |
+
+STEF is non-inferior within measurement noise and faster at p99. The two
+levels were measured on different machines, so the head and field columns are
+not comparable to each other, only within each level.
+
+Calibration radius, fit on the 50-decision calibration split, all three axes
+pooled: the baseline's 0.999-quantile error is 0.1814 and STEF's is 0.0913.
+STEF's calibration error is half the baseline's. This number is
+definition-independent and is the strongest certification evidence in the
+run: the executor can certify the same relations with roughly half the
+fallback radius.
+
+Certificate rate, with an explicit definitional caveat. The run computed
+certification under a survivor-pair definition: pairs among each stage's
+surviving candidates, skipping stages that keep everyone. That is not the
+program's operational definition, which is every relation the executed trace
+actually relied on (best versus each dropped candidate, plus the final
+tie-break). Under the survivor-pair definition the rates are 0.5405 baseline
+and 0.6200 STEF, directionally consistent with the radius halving, but the
+operational C_program is not yet computed. Per-decision rows, 1,950 with
+trace and certificate flags for both models, are persisted at
+vey-data/decisionmix/d2/stef/cert_per_decision.json so the recompute and the
+failure-mode breakdown are local analyses, not retrains.
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
