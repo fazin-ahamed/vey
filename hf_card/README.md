@@ -1,6 +1,6 @@
 ---
 license: other
-license_name: FSL-1.1-MIT
+license_name: fsl-1.1-mit
 license_link: https://huggingface.co/fazinahamed/vey/blob/main/LICENSE
 library_name: vey
 language:
