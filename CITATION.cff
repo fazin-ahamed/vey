@@ -6,7 +6,7 @@ authors:
   - name: "The Vey Authors"
 repository-code: "https://github.com/fazin-ahamed/vey"
 license: FSL-1.1-MIT
-version: "2.0.0-rc2"
+version: "2.0.0"
 abstract: >-
   Vey is a lightweight decision runtime for fast, typed decisions without
   autoregressive generation. It composes exact structured decisions, a frozen
