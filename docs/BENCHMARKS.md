@@ -1530,6 +1530,34 @@ That variance is the certificate's honest operating characteristic, not a
 regression, and it is the number to track when the field's calibration
 improves further.
 
+## Seed replication: seed 13 passes; three seeds, three passes (research)
+
+Seed 13, same frozen recipe, same retired evaluation rows.
+
+| gate | seed 7 | seed 11 | seed 13 |
+|---|---|---|---|
+| trace delta | +0.0385 [0.0226, 0.0549] | +0.0718 [0.0554, 0.0887] | +0.0369 [0.0241, 0.0497] |
+| fix vs regression | 52.5% / 5.7% | 56.1% / 4.8% | 40.6% / 2.8% |
+| base to STEF trace | 0.8359 to 0.8744 | 0.8036 to 0.8754 | 0.8497 to 0.8867 |
+
+All three seeds pass both gates. The fix-to-regression ratio is at least
+nine to one on every seed and reaches 14.3 to 1 on seed 13, whose baseline
+is the strongest of the three. STEF's final trace agreement lands in a
+narrow band, 0.874 to 0.887, from baselines spanning 0.80 to 0.85, so the
+mechanism converges to the same operating point from different
+initializations. The trace delta varies with baseline strength, as expected:
+the strongest baseline leaves the least to repair and still gains 3.7
+points. Seed 7 was not a lucky basin.
+
+Strict-SSC coverage is zero for seeds 11 and 13, matching the radius-window
+arithmetic recorded for seed 11; seed 13's radii (0.102/0.099/0.053) put its
+food window at 0.204. Certificate coverage at the current field
+calibration remains seed-sensitive; the accuracy mechanism does not.
+
+Replication is complete. What remains for Vey 2 is Snake integration with
+the frozen system: shared STEF, strict SSC, the real executor, trace
+agreement primary.
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
