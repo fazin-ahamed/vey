@@ -1329,6 +1329,54 @@ trace and certificate flags for both models, are persisted at
 vey-data/decisionmix/d2/stef/cert_per_decision.json so the recompute and the
 failure-mode breakdown are local analyses, not retrains.
 
+## Operational C_program: STEF certifies 39 percent more programs, and the trade is visible (research)
+
+The operational definition, preregistered before the run: a decision is
+certified when every comparison the executed trace relied on is certified.
+Per ordinal stage, the stage-best versus every candidate the stage dropped;
+a drop is certified when the model's gap exceeds the executor band plus
+twice the per-axis radius, gap greater than 0.15 + 2*q_a. Survivor-vs-
+survivor comparisons are not required; a multi-member final survivor set is
+recorded uncertified, because the stage band caps those margins below the
+certification threshold by construction. Per-axis radii fit on the
+50-decision calibration split only: baseline q = 0.116, 0.181, 0.159 and
+STEF q = 0.081, 0.091, 0.067 on food, open space, and headroom.
+
+| metric | baseline | STEF |
+|---|---:|---:|
+| C_program | 0.2077 | 0.2882 |
+| certified decisions | 405 | 562 |
+| certified and trace-correct | 403 | 536 |
+| certified and trace-wrong | 2 | 26 |
+| certified precision | 0.9951 | 0.9537 |
+
+Delta C is +0.0805 with a decision-level paired 95 percent interval of
+[0.0687, 0.0928], entirely above zero. The absolute rate is low by
+construction, as preregistered: the drop threshold needs a gap above
+roughly 0.33 (STEF) or 0.51 (baseline), and multi-survivor finals are
+uncertifiable by definition. The earlier survivor-pair 0.62 measured a
+different, weaker question.
+
+The precision trade is real and is the honest finding. STEF certifies 39
+percent more programs, but 26 of its certified decisions disagree with the
+teacher trace against 2 for the baseline: certified precision falls from
+0.9951 to 0.9537. All 26 have singleton final sets and certified relations
+concentrated on open space (49 relations) and food progress (28), with the
+smallest certified margin at 0.001, sitting essentially on the threshold.
+The per-relation radius is a 99.9 percent quantile, so roughly one relation
+in a thousand can breach it; STEF certifies more relations per decision and
+therefore takes more tail risk. The certificate is not weakened silently;
+the added coverage costs about four points of certified precision.
+
+The gate passes on its preregistered form, C_STEF greater than C_base with
+the paired interval above zero, which the halved radius delivers. The ideal
+form, precision holding while coverage grows, does not hold at this radius.
+Whether a tighter quantile (99.99 percent) restores precision while keeping
+most of the coverage gain is a one-line follow-up now that the per-decision
+scores are persisted at
+vey-data/decisionmix/d2/stef/cprogram_per_decision.json: the recompute is a
+local analysis, not a retrain.
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
