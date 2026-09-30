@@ -1,0 +1,49 @@
+{
+  "host": {
+    "cpu": "Intel Core i5-12400F",
+    "torch_threads": 6,
+    "device": "cpu",
+    "batch_size": 1
+  },
+  "definitions": {
+    "end_to_end": "tokenize + 24M query encode + dot products against cached candidate embeddings",
+    "scorer_only": "dot products against an already-encoded query vector",
+    "model_weight_payload_mb": "sum of live model parameter and buffer bytes, FP32"
+  },
+  "latency_ms": {
+    "end_to_end_p50": {"banking77": 2.863, "clinc150": 2.760, "massive": 2.598},
+    "end_to_end_p95": {"banking77": 3.888, "clinc150": 3.300, "massive": 3.196},
+    "end_to_end_p99": {"banking77": 4.227, "clinc150": 3.413, "massive": 3.553},
+    "scorer_only_p50": {"banking77": 0.037, "clinc150": 0.070, "massive": 0.030},
+    "long_context_p95": {"range": [9, 11], "note": "after BM25 sentence pre-selection"}
+  },
+  "memory": {
+    "vey_model_weight_payload_mb": 92.0,
+    "vey_peak_process_rss_mb": 825,
+    "laya_model_weight_payload_mb": 1607.1
+  },
+  "accuracy": {
+    "pooled_fixed_label": {"banking77": 0.884, "clinc150": 0.832, "massive": 0.780},
+    "open_candidate_matcher": {"banking77": 0.658, "clinc150": 0.675, "massive": 0.471},
+    "tool_selection_known": 0.669,
+    "tool_selection_novel": 0.828
+  },
+  "safety": {
+    "unsupported_argument_rate": 0.0,
+    "schema_validity": 1.0,
+    "type_validity": 1.0,
+    "trust_auroc_intent": [0.717, 0.767],
+    "trust_auroc_tool": 0.806,
+    "ood_recall_at_10pct_false_unknown": [0.065, 0.12],
+    "tool_end_to_end_exact": [0.09, 0.11]
+  },
+  "parity_vs_laya": {
+    "note": "identical rows, candidate descriptions and labels; upstream laya 0.3.20 pinned at 55cf4c4e",
+    "banking77": {"vey_accuracy": 0.658, "laya_accuracy": 0.431, "vey_p50_ms": 2.863, "laya_p50_ms": 478.969},
+    "clinc150": {"vey_accuracy": 0.675, "laya_accuracy": 0.593, "vey_p50_ms": 2.760, "laya_p50_ms": 1014.777},
+    "massive": {"vey_accuracy": 0.471, "laya_accuracy": 0.403, "vey_p50_ms": 2.598, "laya_p50_ms": 378.022}
+  },
+  "not_measured": {
+    "jev_live_latency": "no direct TypeSafe credentials were used; Jev quality comes from the public JevBench v1.4 result (63.29)"
+  }
+}

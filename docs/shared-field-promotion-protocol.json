@@ -1,0 +1,23 @@
+{
+  "study": "shared-field architecture promotion",
+  "date": "2026-09-27",
+  "question": "Is the candidate-shared encoder, at some transformer depth, close enough to the shipped per-axis field that its Vey decisions are preserved?",
+  "research_gate_outcome": {
+    "criterion": "per-axis pairwise accuracy >= 0.955 on a held-out split",
+    "shared_field_food_progress": 0.947,
+    "result": "FAILED. The cheaper architecture is recorded, not promoted on this gate."
+  },
+  "product_non_inferiority_gate": {
+    "note": "Set before any depth measurement is seen. Frozen.",
+    "per_axis_paired_degradation_max": -0.01,
+    "end_to_end_winner_agreement_min": 0.995,
+    "survivor_trace_agreement_min": 0.99,
+    "permutation_rename_invariance": 1.0,
+    "unsupported_axis_routing": "unchanged (still falls back to crux)",
+    "cpu_speedup_min_for_three_axes": 2.0
+  },
+  "depths": [12, 8, 6, 4],
+  "development_split": "confirmation split, seed 7 (used for depth selection)",
+  "final_split": "a new held-out split drawn after depth selection, reserved for the promotion decision",
+  "rule": "choose the shallowest depth that is non-inferior on every axis separately on the development split; confirm on the final split before any promotion"
+}

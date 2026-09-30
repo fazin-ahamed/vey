@@ -1,0 +1,39 @@
+name: Benchmark report
+description: Reproduce, challenge, or extend a published benchmark number.
+labels: ["benchmark"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Benchmark claims in this repo require raw evidence. See CONTRIBUTING.md.
+  - type: input
+    id: benchmark
+    attributes:
+      label: Which benchmark?
+      placeholder: "strict parity, closed-set intent, tool selection, trust..."
+    validations:
+      required: true
+  - type: input
+    id: hardware
+    attributes:
+      label: Hardware
+      description: CPU model, GPU, thread count, batch size.
+      placeholder: "i5-12400F, 6 threads, batch 1"
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Exact command used
+      description: So the result can be reproduced verbatim.
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: Result, with before/after if it is a challenge
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Vey version, Python version, OS, package versions.
