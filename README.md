@@ -1,6 +1,6 @@
 <a href="https://github.com/fazin-ahamed/vey/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/fazin-ahamed/vey/ci.yml?label=CI" alt="CI"></a>
 <img src="https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue" alt="Python versions">
-<img src="https://img.shields.io/badge/license-AGPL--3.0-blue" alt="License">
+<img src="https://img.shields.io/badge/license-FSL--1.1--MIT-blue" alt="License">
 <a href="https://huggingface.co/fazinahamed/vey"><img src="https://img.shields.io/badge/Hugging%20Face-runtime-ff9d00" alt="Hugging Face"></a>
 <a href="https://github.com/fazin-ahamed/vey/releases"><img src="https://img.shields.io/github/v/release/fazin-ahamed/vey?label=release" alt="Release"></a>
 
@@ -180,19 +180,21 @@ simpler control first.
 
 ## License
 
-AGPL-3.0-only from commit `e52bcf2` onward, which is the current tree and
-every release tagged after it. The `v1.0.0` and `v2.0.0-rc1` tags were
-published when the repository still carried the Apache License 2.0, and anyone
-who obtained those snapshots keeps the Apache grant for them. The license
-change does not reach backward.
+Vey is Fair Source under the Functional Source License 1.1 (FSL-1.1-MIT) from
+the release carrying this notice onward. The `v1.0.0` and `v2.0.0-rc1` tags
+were published under Apache-2.0 and remain so; the tree between them and this
+change was published under AGPL-3.0 and those snapshots keep that grant. The
+license change does not reach backward.
 
-Use, study, modify and redistribute Vey under the AGPL-3.0 terms.
-Modifications and covered derivative works stay under that license, including
-its requirement to offer source to users of a modified version served over a
-network. An organization that needs terms the AGPL does not allow, such as
-closed-source distribution or an OEM arrangement, can ask the Vey project for
-a commercial license.
-
+Use, study, modify and redistribute Vey, including commercially, with one
+restriction during the two-year protection period: do not offer a competing
+product or service whose value derives substantially from Vey's functionality.
+Internal use, research, self-hosting, and building other products on top of
+Vey are all permitted. Every version becomes plain MIT two years after its
+distribution date, so the restriction is a window, not a permanent state.
+Competing use, OEM embedding, and closed-source redistribution are available
+under a commercial license; open a GitHub issue titled "Commercial license
+inquiry".
 The default semantic encoder is a separate Apache-2.0 work by the Mixedbread
 AI authors; see [NOTICE](NOTICE). The "Vey" name and logo are trademarks and
 are not granted by the code license.

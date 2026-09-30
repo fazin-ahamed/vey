@@ -74,11 +74,12 @@ The public API is stable; lanes are the extension point. See
   data at run time under its own license.
 - **No secrets, tokens, credentials, or local filesystem paths.** Not in code,
   comments, tests, fixtures, or committed result files.
-- **AGPL-3.0 compatible contributions only.** By submitting, you certify that
-  you have the right to submit the code under the AGPL-3.0, and you grant the
-  Vey project the right to include it in Vey and to offer it under the
-  project's commercial license as well as the AGPL. This is what lets the
-  project keep a single codebase under both licenses.
+- **FSL-1.1-MIT compatible contributions only.** By submitting, you certify
+  that you have the right to submit the code under the FSL-1.1-MIT, and you
+  grant the Vey project the right to include it in Vey, to distribute it
+  under the MIT license once a version's two-year protection period ends, and
+  to offer it under the project's commercial license. This is what lets the
+  project keep a single codebase across all three licenses.
 
 ## Reporting
 

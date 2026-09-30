@@ -96,5 +96,5 @@ a drop-in replacement for an LLM on knowledge or multi-step inference tasks.
 
 ## License
 
-Vey code and the trained weights in this repository are AGPL-3.0-only. The
+Vey code and the trained weights in this repository are FSL-1.1-MIT. The
 default encoder is a separate Apache-2.0 work by the Mixedbread AI authors.

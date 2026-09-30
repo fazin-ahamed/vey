@@ -17,6 +17,6 @@
 
 - [ ] No secrets, tokens, local paths, or private data anywhere in the diff
 - [ ] No downloaded datasets or model weights committed
-- [ ] Contribution is AGPL-3.0 compatible and grants the relicensing right in CONTRIBUTING.md
+- [ ] Contribution is FSL-1.1-MIT compatible and grants the rights described in CONTRIBUTING.md
 - [ ] New mechanisms are compared against a simpler control, with evidence
 - [ ] Public API stayed stable, or the break is intentional and documented

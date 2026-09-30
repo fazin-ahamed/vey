@@ -1,6 +1,6 @@
 # Trademarks
 
-The name "Vey" and the Vey logo are trademarks of the Vey project. The AGPL
+The name "Vey" and the Vey logo are trademarks of the Vey project. The FSL-1.1-MIT license
 grant covers the code and the trained weights. It does not grant any right to
 use the name or logo.
 

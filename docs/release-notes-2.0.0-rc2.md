@@ -20,7 +20,7 @@ the axes it was measured on.**
   `de4ab7e77845098b7fab7f6ab9d370ddff27b19c`.
 - **Held-out agreement with the pairwise teacher**, on decisions the field did
   not train on: food progress 0.958, open space 0.961, headroom 0.956.
-- **License.** AGPL-3.0-only from commit `e52bcf2` onward. The `v1.0.0` and
+- **License.** AGPL-3.0-only from commit `e52bcf2` onward (historical; the tree moved to FSL-1.1-MIT on 2026-09-30). The `v1.0.0` and
   `v2.0.0-rc1` tags were published under Apache-2.0, and anyone who obtained
   those snapshots keeps that grant. See `NOTICE` for the MIT and Apache
   notices on the upstream encoders, and `COMMERCIAL-LICENSE.md` for proprietary
