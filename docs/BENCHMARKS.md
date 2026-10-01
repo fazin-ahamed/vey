@@ -1878,6 +1878,51 @@ Gates, all measured on validation; the final pool is reported untouched:
 Hard rule: if topology improves but full-chain latency does not drop, it is
 a fidelity result, not a speed result, and does not earn the speed claim.
 
+## BSC result: fidelity improves, the certificate still refuses (research)
+
+Fit and gates as preregistered above, on the persisted frozen seed-7 scores
+of the three new pools (400 states each, seeds 201-202/211-212/221-222).
+
+The weighting earned nothing: weighted and unweighted fits gave identical
+calibration and validation trace agreement, so the unweighted fit ships.
+Alpha 3.7517 on food progress, 1.5803 on open space, applied to every number
+below.
+
+| pool | frozen trace | BSC trace | frozen winner | BSC winner |
+|---|---:|---:|---:|---:|
+| validation | 0.0000 | 0.1200 | — | — |
+| final, untouched | 0.0000 | 0.0650 | 0.8575 | 0.8575 |
+
+Gate verdicts. Winner invariance holds exactly, asserted per state on both
+pools. Trace agreement improves on both, from exactly zero to 0.1200 and
+0.0650. Strict SSC coverage is 0/400 on validation for frozen and 0/400 for
+BSC: gate 3 fails. The cause is structural. With the calibration-refit
+radius 0.083 on food, the keep-side window is 0.067 wide, and 178 of 308
+clean validation states carry two stage-1 survivors whose second sits
+outside the window while remaining inside the band. The student's Snake-text
+residual at the 0.999 quantile is 0.083, over half the band itself, and a
+positive per-axis scale cannot fix that: scaling widens gaps and windows
+symmetrically. Duplicate-text states are unfixable by any calibration since
+the inputs are byte-identical; they are 100/400 of calibration, 92/400 of
+validation, 81/400 of final. A clean-state-only refit (alpha 3.6963 and
+1.5215, radii 0.0834 and 0.1681) certifies 0/308 clean states at stage 1.
+
+Because coverage is zero under both, the production chains are identical,
+so the latency gate cannot improve and no speed claim is earned. BSC is
+recorded as a fidelity result only, per the hard rule.
+
+The finding at its resolution: the Snake epsilon-topology deficit is two
+problems, and BSC addresses exactly one. The geometry problem, student gaps
+systematically too small relative to epsilon, is calibratable, and
+calibration moves trace agreement off zero on fresh episodes without moving
+a single winner. The certificate problem is structural: the two-sided strict
+rule needs residuals far smaller than half the band, and this student does
+not have them on Snake text. What could change that is a better student
+(smaller radius), a per-pair or per-state radius, or relaxed strictness on
+this domain. Each is a new preregistered experiment, none is BSC, and BSC's
+alphas are recorded here so any successor starts from them rather than from
+scratch.
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
