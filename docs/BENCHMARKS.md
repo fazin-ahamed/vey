@@ -1763,9 +1763,18 @@ on the two queried axes, and the teacher top margin. The margin bins are
 difference says whether any loss sits at microscopic margins or takes
 large-margin winners too.
 
-Fold parity. On the Snake hidden states, the maximum absolute difference
-between the split head and the folded head must be floating-point noise. A
-larger gap means the fold identity failed and the run stops.
+Fold parity, amended before the seed-7 rerun. The first seed-7 run measured
+a maximum absolute score gap of 5.8e-2 between the split head and the folded
+head and aborted. That gap equals the mean of the residual over the state's
+candidates: the training centers the residual per candidate set and the fold
+does not, so the fold shifts every candidate in a state by the same constant.
+A constant shift changes no pairwise difference, so it cannot move a winner,
+a top set, a trace, or a margin. The decision-relevant quantity is the
+maximum change in any pairwise candidate difference, and the gate applies to
+that. It must be floating-point noise. The absolute gap is reported and does
+not stop the run. This correction is algebraic rather than empirical: it
+holds at any measured magnitude, which is why it is being made after seeing
+the 5.8e-2 and not tuned against it.
 
 Lock rule, fixed now. If the difference is at or above zero on most seeds,
 or the pooled interval contains zero with no consistent negative direction,
