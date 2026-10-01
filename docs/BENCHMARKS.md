@@ -1717,6 +1717,65 @@ certificate abstains entirely. The open question is why the repair that helps
 on DecisionMix costs top-1 robustness here. It is unanswered, and it blocks
 locking Vey 2.
 
+## Pinned Snake transfer replication, preregistered before training (research)
+
+The 0.8375 to 0.7725 reversal came from a training split that no longer
+exists, and a reconstruction that matched its row count trained a different
+model. Matching those two numbers is not the goal and would be accidental if
+it happened. This study replaces that run. It is written down before the
+split is drawn and before any model trains.
+
+Split, defined here and then hashed. Source is the d6 generic train corpus,
+12,000 rows. Shuffle with seed 0. Take the first 2,500 rows. Group by the
+option-tuple key; a group is complete only when all three axes are labeled.
+Shuffle the complete groups with seed 17. Cut at 90 percent: the first part
+is train, the remainder is dev. The dev rows are for the in-distribution
+trace check only and are not used to choose anything. Teacher labels come
+from the shipped field scorer, revision 3eb1460a82c98fc99c350032b9cf29a74075a4a6.
+Encoder is microsoft/deberta-v3-xsmall at the revision pinned by
+transformers 4.48.0. Persisted before training, with sha256 of the canonical
+JSON: train rows, dev rows, the id lists, the manifest, and the Snake states
+already at vey-data/decisionmix/d2/snake/states.json (sha256 289a4694, full
+hash 289a4694f756246955c784c7f8a6b0dadb1c35c343a628cec6c3a4d48176c44e). The
+manifest records this commit, the seeds, and the algorithm above. If a
+rebuild does not reproduce the train hash, the rebuild is wrong.
+
+Models. The frozen recipe, unchanged: six layers, three epochs of pooled
+scalar training, two epochs of the shared residual, the exact antipodal
+fold, no tuning. Seeds 7, 11, and 13, because the question is now whether
+the reversal is a property of the recipe or of one realization. Each seed
+persists its checkpoint and its per-decision Snake outputs under
+vey-data/decisionmix/d2/snake/. Nothing is deleted after the run.
+
+Primary metric. 117 of the 800 states have byte-identical candidate texts,
+so the exact-winner comparison is tie-fragile. The teacher top set is
+T(x) = {i : t_i = max_j t_j} on the deciding axis, food progress. A model is
+correct when its compose winner is in T(x). Per seed, report both rates and
+their difference, STEF minus baseline, with a paired bootstrap interval and
+the exact discordant counts: baseline correct and STEF wrong, against
+baseline wrong and STEF correct, with the exact McNemar probability. The
+chance rate is the mean of |T(x)|/K over states, not 0.25.
+
+Reported, not gated: exact compose-winner agreement, trace agreement, strict
+SSC coverage, full-order agreement as a diagnostic only, head-only latency
+on the two queried axes, and the teacher top margin. The margin bins are
+[0, 0.01), [0.01, 0.05), [0.05, 0.10), [0.10, infinity), and the per-bin
+difference says whether any loss sits at microscopic margins or takes
+large-margin winners too.
+
+Fold parity. On the Snake hidden states, the maximum absolute difference
+between the split head and the folded head must be floating-point noise. A
+larger gap means the fold identity failed and the run stops.
+
+Lock rule, fixed now. If the difference is at or above zero on most seeds,
+or the pooled interval contains zero with no consistent negative direction,
+the historical reversal stands as a result from an unrecoverable split and
+is not reproduced, and Vey 2 locks with Snake topology transfer left open.
+If the difference is negative on the seeds and the pooled interval lies
+below zero, Vey 2 stays open and the problem is named as stated: the recipe
+improves in-distribution topology and harms out-of-distribution top-1. No
+fix is designed before that result exists.
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
