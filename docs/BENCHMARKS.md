@@ -1673,12 +1673,49 @@ trace disagrees and why the strict certificate certifies nothing. The
 certificate's refusal is still read as non-transfer of the 1 percent bound,
 per the protocol, and not as a Snake failure.
 
-The fix this points at is score calibration at the band boundary, not
-retraining on the demo's register and not routing around the students. That
-remains new work outside the preregistered protocol, and it waits. The
-non-regression gate holds, and it now holds on a measurement that says
-something: the students match the teacher's decision and miss its
-confidence structure.
+Two findings, not one, and only one of them has a candidate cause. The trace
+and certificate failure is a band-membership failure: both fields score the
+teacher's top candidate and neither reproduces the epsilon survivor sets.
+Calibration at the band boundary could address that and nothing else.
+
+The other finding is a reversal, and band calibration cannot explain it.
+Winner agreement is 0.8375 for the baseline and 0.7725 for STEF, so STEF is
+6.5 points worse at the decision itself, before any band is consulted. The
+marginals alone put the exact McNemar upper bound near 0.004, so this is not
+sampling noise on 800 rows. The fold is not the suspect: the exact fold is an
+algebraic identity, and unless that identity fails numerically on these
+hidden states the statement is that the STEF-trained function generalizes
+worse than the baseline function on Snake top-1. That is a property of the
+trained function, not of the deployment conversion.
+
+The reversal is undiagnosed. The per-decision rows this section previously
+called persisted were written to /tmp and are gone; the commit that claimed
+persistence touched only this file. Reproducing them needs the training rows,
+and those are also gone. The recipe recorded for them, a seed-0 shuffle cut
+at 2,500 and a seed-17 90/10 group split, rebuilds to the right count but
+trains to a scalar epoch-0 loss of 0.0267, which none of the recorded runs
+produced, and a model trained on it scores Snake at 0.8712/0.8250 rather than
+0.8375/0.7725. Those rows were discarded rather than analyzed as if they were
+the recorded model. Until the training rows are recovered or the run is
+redone from a pinned split, the discordant-pair counts, the tie-robust
+top-set agreement, and the margin split of the 52 net losses are not
+computable, and no fix should be chosen.
+
+What is durable: the 800 recorded states, regenerated from the planner and
+seeds 101-104, at
+vey-data/decisionmix/d2/snake/states.json, sha256 289a4694. Of them, 117 have
+byte-identical candidate texts, 33 because two or more moves are illegal and
+share one fixed description, 84 because legal moves quantize to the same
+percentages. The full-order chance floor of 0.0417 and the exact-winner
+metric are both tie-fragile on those rows, and the tie-robust top-set metric
+is the one to lead with once scores exist again.
+
+The record as it stands, and no wider: on DecisionMix, STEF beats the
+baseline on all three seeds. On Snake top-1, both transfer and the baseline
+wins. On Snake survivor topology, neither transfers. On Snake, the
+certificate abstains entirely. The open question is why the repair that helps
+on DecisionMix costs top-1 robustness here. It is unanswered, and it blocks
+locking Vey 2.
 
 ## Frontier topology and oracle closure on food progress (research)
 
