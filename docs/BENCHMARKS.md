@@ -1785,6 +1785,63 @@ below zero, Vey 2 stays open and the problem is named as stated: the recipe
 improves in-distribution topology and harms out-of-distribution top-1. No
 fix is designed before that result exists.
 
+## Pinned Snake transfer: the reversal does not reproduce, Vey 2 locks (research)
+
+Run as preregistered above. Train split sha256
+257a9489858db9b83c590d7df674d0c725c05f575466235abbd5073d42cc5309, dev
+sha256 1621dd6b6cc95fa3baa4f656e163afb2e0b18e941cfb5165c0c212ce901f54a4,
+states sha256 289a4694f756246955c784c7f8a6b0dadb1c35c343a628cec6c3a4d48176c44e.
+Row files persisted and hashed under vey-data/decisionmix/d2/snake/:
+seed 7 3f9fb982a5730656736cd4e1858aec4ace9b7005297df02a1db0c1bad7ba2a29,
+seed 11 f4117303db41b42e8b33dd83d300a20838d59d0b29bbe292230f38d2a77632c7,
+seed 13 a58acb9a63bb5756f5d8306e62e991863d4589b1155ce050065127764ef30aa4.
+Checkpoints alongside.
+
+Fold parity held on all three seeds as pairwise gaps 4.8e-8, 5.2e-8, 6.0e-8,
+floating-point noise. The absolute gaps, 5.8e-2 to 7.3e-2, are the per-state
+residual mean and move no decision.
+
+Tie-robust top-set agreement on the deciding axis, chance 0.2553:
+
+| seed | baseline | STEF | delta | CI | n10 / n01 | p |
+|---|---:|---:|---:|---|---|---:|
+| 7 | 0.8588 | 0.8712 | +0.0125 | [+0.0050, +0.0212] | 1 / 11 | 0.0063 |
+| 11 | 0.1200 | 0.8387 | +0.7188 | — | 0 / 575 | 0.0000 |
+| 13 | 0.9038 | 0.8912 | −0.0125 | [−0.0224, −0.0037] | 10 / 0 | 0.0020 |
+
+Seed 11's baseline scored 0.1200, below the 0.2553 chance rate, with a normal
+loss curve across all three training epochs. That is a failed baseline
+generalization on this text, not a STEF gain, so it is excluded from the pool
+and reported as itself. Its 575-to-0 discordant split is one seed's baseline
+failing on nearly every decision, not a mechanism effect.
+
+Over the two healthy seeds, 1600 pairs: baseline 0.8812, STEF 0.8812, delta
++0.0000, CI [−0.0056, +0.0056], n10 11, n01 11, exact McNemar p 1.0000.
+Perfectly balanced.
+
+Margin behavior on the healthy seeds: every disagreement sits below teacher
+margin 0.01, both models score 1.0000 at margin 0.01 and above, and seed 7's
+small-margin losses exactly offset seed 13's. The only place STEF and the
+baseline differ on Snake is at microscopic teacher margins, and there they
+cancel.
+
+The lock rule, fixed before these numbers existed, is met on its first
+branch: the pooled interval contains zero, symmetric, with no consistent
+negative direction. Vey 2 locks. The historical 0.8375 to 0.7725 reversal is a
+result from an unrecoverable training split, not reproduced, and not evidence
+against the mechanism.
+
+What stays open, named precisely. Trace agreement on Snake is 0.0000 on seeds
+7 and 13 and 0.1238 on seed 11's STEF: the students find the teacher's winner
+as well as the baseline does and do not reproduce its epsilon bands, so the
+survivor topology does not travel out of distribution and the strict
+certificate correctly refuses everywhere (coverage 0.0000 on all three
+seeds). Restricted-candidate evals keep the trace-agreement requirement;
+unrestricted production runs deploy behind the fallback chain. This is an
+out-of-distribution fidelity limitation at the band level, recorded as the
+open limitation of Vey 2, and the signal by which future Laya versus
+frozen-Vey decisions are judged.
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
