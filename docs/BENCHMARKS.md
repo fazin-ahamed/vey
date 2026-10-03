@@ -1961,6 +1961,54 @@ criteria is recorded as "learned criterion interpolation, not arbitrary
 criterion generalization," and the next step is diagnosis, not capacity.
 B-STEF waits until CBF passes on genuinely unseen criteria.
 
+### CBF-0 validity correction, before the corrected fit
+
+The first procedural corpus and timed-out ALS run are invalid, not CBF
+evidence. Its in-family queries were training paraphrases with an
+"unseen in-family" prefix. Its gold rank broke ties by candidate position,
+and several criteria shared targets despite opposite meanings. The reported
+m=32 gains cannot establish unseen-criterion transfer. Those artifacts are
+retained separately as invalid-v0; they are not used below.
+
+The corrected experiment is a synthetic numeric multiattribute test, not a
+Jev/Laya parity claim. Each family has four distinct attributes/criterion
+groups with four paraphrases. Ten families train on groups 0/1 and hold out
+groups 2/3 completely. Compliance, similarity, and intent-routing are entirely
+held out. Sanity evaluation uses forms 2/3 of seen groups, while training uses
+forms 0/1. Every candidate describes all four independent attributes. A
+criterion scores only its named attribute, with a fixed positive or negative
+direction. Scores are normalized attribute values; neither gold nor text
+depends on candidate position. Identical scenarios are queried under several
+criteria, so ignoring the criterion cannot recover all winners.
+
+K is 2/4/8/16. Train uses eight scenarios per K/family; each evaluation level
+uses four, with disjoint deterministic scenario seeds. IDs, criteria, rows,
+encoder revision, and source hashes are persisted before fitting.
+The frozen full DeBERTa-v3-xsmall uses safetensors revision
+eb2d654bf0a5b628c8be6c4be7d29118fbef95b8, normalized mean pooling, and
+independent text encoding. Only two bias-free linear maps are trained:
+m=32/64, seed 7, AdamW, learning rate 0.001, weight decay 0.0001,
+200 epochs, batch size 128, squared error against scores in [0,1].
+This replaces the impractical dense ALS solver; no outcome-driven tuning.
+
+G1 requires a criterion-group-paired 95% bootstrap lower bound above zero
+against frozen cosine similarity on each genuinely unseen level. Bootstrap
+uses 10,000 draws, seed 0, resampling whole criterion IDs equally.
+G2 additionally requires positive accuracy deltas on at least two of the
+three held-out families and a positive hard-transfer macro delta.
+G3 requires bitwise-equal scores mapped back through reversed and seeded
+candidate permutations at every K, not approximate sorted-score equality.
+G4 selects 64 only if its unseen-criterion advantage over 32 is at least
+one percentage point with paired CI above zero; otherwise 32 remains the
+next-experiment candidate. Hard-transfer regression vetoes promotion of 64.
+No dimension earns promotion if G1/G2 fail.
+
+Reports retain per-row scores, tie-aware ranking/correlation metrics,
+family/K bins, criterion-direction cosines, and a criterion-blind scoring
+control. Undefined correlations are counted and represented as null.
+B-STEF and replication remain blocked until this corrected CBF-0 passes.
+
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
