@@ -119,9 +119,53 @@ def encode(root, source, protocol):
     np.save(root / 'texts.npy', np.array(texts))
     meta = dict(encoder=ENCODER, revision=REVISION, stock_not_Vey2=True,
                 encoder_weight_sha256=hashlib.sha256(weight_path.read_bytes()).hexdigest(),
-                config=model.config.to_dict(), loading=loading, layers=layers, width=width,
+                config=model.config.to_dict(), loading={k: sorted(v) if isinstance(v, set) else v for k, v in loading.items()},
+                layers=layers, width=width,
                 texts=len(texts), forwards=len(shards), raw_shards=shards,
                 pools=list(POOLS), features=names, maximum_original_cache_error=error,
                 dtype='float32', token_states_persisted=True)
     put(root, 'encoder_manifest.json', canonical(meta) + b'\n')
     print('Frozen encoder capture complete; original cache max error', error, flush=True)
+
+
+def recover_manifest(root, source):
+    """Recover metadata from completed capture; never run another forward."""
+    import zipfile
+    cache = np.load(source / 'embeddings.npz', allow_pickle=False)
+    texts = np.load(root / 'texts.npy', allow_pickle=False)
+    assert np.array_equal(texts, cache['texts'])
+    model, loading = AutoModel.from_pretrained(ENCODER, revision=REVISION, use_safetensors=True,
+                                              dtype=torch.float32, output_loading_info=True)
+    assert not loading['missing_keys'] and not loading['mismatched_keys']
+    assert model.config._commit_hash == REVISION
+    layers, width = model.config.num_hidden_layers + 1, model.config.hidden_size
+    shards = []
+    for start in range(0, len(texts), 64):
+        name = f'hidden/{start:05d}.npz'
+        with np.load(root / name, allow_pickle=False) as data:
+            indices = data['indices']; tokens = int(data['lengths'].sum())
+            assert np.array_equal(indices, np.arange(start, min(start + 64, len(texts))))
+        with zipfile.ZipFile(root / name) as archive:
+            with archive.open('hidden.npy') as stream:
+                version = np.lib.format.read_magic(stream)
+                header = (np.lib.format.read_array_header_1_0(stream) if version == (1, 0)
+                          else np.lib.format.read_array_header_2_0(stream))
+        shape, _, dtype = header
+        assert shape == (tokens, layers, width) and dtype == np.float32
+        shards.append(dict(file=name, tokens=tokens, shape=list(shape)))
+    names = [f'L{layer:02d}_{pool}.npy' for pool in POOLS for layer in range(layers)]
+    for name in names:
+        values = np.load(root / name, mmap_mode='r')
+        assert values.shape == (len(texts), width) and values.dtype == np.float32
+    error = float(np.max(np.abs(np.load(root / f'L{layers-1:02d}_shipped.npy') - cache['values'])))
+    assert error <= 1e-6
+    weight_path = Path(hf_hub_download(ENCODER, 'model.safetensors', revision=REVISION))
+    meta = dict(encoder=ENCODER, revision=REVISION, stock_not_Vey2=True,
+                encoder_weight_sha256=hashlib.sha256(weight_path.read_bytes()).hexdigest(),
+                config=model.config.to_dict(), loading={k: sorted(v) if isinstance(v, set) else v for k, v in loading.items()},
+                layers=layers, width=width, texts=len(texts), forwards=len(shards),
+                raw_shards=shards, pools=list(POOLS), features=names,
+                maximum_original_cache_error=error, dtype='float32', token_states_persisted=True,
+                recovery='Original capture completed; loading-info set serialization failed. CPU-only weight reload, zero additional forwards.')
+    put(root, 'encoder_manifest.json', canonical(meta) + b'\n')
+    print('Recovered complete encoder manifest without another forward; parity', error, flush=True)

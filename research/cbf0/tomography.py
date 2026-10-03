@@ -254,7 +254,7 @@ def inputs(protocol):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--stage', choices=('cached', 'encode', 'layers'), required=True)
+    parser.add_argument('--stage', choices=('cached', 'encode', 'recover', 'layers'), required=True)
     args = parser.parse_args()
     protocol = json.loads(PROTOCOL.read_text())
     root = Path(protocol['output_root']); root.mkdir(parents=True, exist_ok=True)
@@ -288,6 +288,9 @@ def main():
             return
         from tomography_encode import encode
         encode(root, source, protocol)
+    elif args.stage == 'recover':
+        from tomography_encode import recover_manifest
+        recover_manifest(root, source)
     else:
         cached = json.loads((root / 'cached_results.json').read_text())
         if not cached['new_encoder_pass_required']:
