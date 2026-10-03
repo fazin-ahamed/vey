@@ -1,8 +1,9 @@
 {
   "experiment": "CBF-6 Schema Relation Encoder",
   "source_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-grounding-v1",
-  "output_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-relation-v1",
+  "output_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-relation-v1/pretraining-amended",
   "baseline": "Verified 5d8c8da; ASG closed permanently as a negative result; no ASG rerun",
+  "pretraining_amendment": "cf4fb73 corpus construction rejected 'equally many uses' as a weighting keyword under the unchanged CBF5 compiler; replace only 'equally many' with 'the same number of' in its two reversal partners before any model result. Original partial evidence retained at parent root. Fresh stock encoder instantiated before adaptation to avoid inherited inference-mode caches; labels, meanings, gates, architecture and training recipe unchanged.",
   "hypothesis": "Joint criterion/schema self-attention supports ternary relations that independent frozen geometry failed to ground; head or one-layer adaptation may recover fresh signed transfer.",
   "primary_metric": "Fresh final joint signed-atom accuracy; all G0-G7 required, then frozen-architecture seed replication before any promotion.",
   "secondary_metrics": ["axis accuracy","conditional sign with denominator","all four-by-three uncalibrated softmax relation matrices","exact-state decisions","composition","causal correct-new","literal regression","permutation"],

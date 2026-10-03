@@ -208,7 +208,8 @@ def main():
             if rev_outcome['passed']: selected=name+'_reversal'; break
     if selected is None:
         # A and B have both failed development; adaptation keeps A's head shape.
-        model.encoder.layer[-1].requires_grad_(False); module=head('linear'); module.load_state_dict(a_state,strict=True)
+        del model; torch.cuda.empty_cache(); tokenizer,model,_=load_encoder()
+        module=head('linear'); module.load_state_dict(a_state,strict=True)
         module,layer,details=adaptation_train(module,model,tokenizer,training,validation,mean,std,cfg['progression']['C_recipe'])
         adapted_h,adapted_evidence=encode_pairs([(q,f) for q in score_texts for f in SCHEMA],tokenizer,model)
         np.save(root/'C_development_features.npy',adapted_h); put(root,'C_development_inputs.json',canonical(adapted_evidence)+b'\n')

@@ -34,7 +34,7 @@ MEANING_PAIRS = (
          'The percentage of fault-ending attempts is a failure proportion; decreasing it increases reliability.'),
         ('Prefer a higher chance of completing a run without malfunction.', 'Prefer a lower chance of completing a run without malfunction.',
          'Successful completion is explicitly conditioned on absence of malfunction; its higher probability is higher reliability.'),
-        ('Choose fewer functional faults over equally many uses.', 'Choose more functional faults over equally many uses.',
+        ('Choose fewer functional faults over the same number of uses.', 'Choose more functional faults over the same number of uses.',
          'Equal exposure makes the functional-fault counts comparable; fewer faults is higher reliability.'),
         ('Prefer a lower frequency of loss of function.', 'Prefer a higher frequency of loss of function.',
          'Loss of function is failure; a lower event frequency is higher reliability.'),
