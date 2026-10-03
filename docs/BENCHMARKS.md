@@ -1986,7 +1986,10 @@ uses four, with disjoint deterministic scenario seeds. IDs, criteria, rows,
 encoder revision, and source hashes are persisted before fitting.
 The frozen full DeBERTa-v3-xsmall uses safetensors revision
 eb2d654bf0a5b628c8be6c4be7d29118fbef95b8, normalized mean pooling, and
-independent text encoding. Only two bias-free linear maps are trained:
+independent FP32 text encoding. The first cache inherited half precision
+from the upstream weights and the head's first forward rejected its dtype;
+that cache is retained but excluded. No head update occurred before the
+explicit FP32 correction. Only two bias-free linear maps are trained:
 m=32/64, seed 7, AdamW, learning rate 0.001, weight decay 0.0001,
 200 epochs, batch size 128, squared error against scores in [0,1].
 This replaces the impractical dense ALS solver; no outcome-driven tuning.

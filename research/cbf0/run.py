@@ -36,7 +36,7 @@ def embed(root,device):
     manifest,criteria,rows=load(root)
     texts=sorted({t for r in rows for t in [r['criterion'],*r['candidates']]})
     metadata=dict(encoder=ENCODER,revision=REVISION,pooling=CONFIG['pooling'],
-                  texts_sha256=hashlib.sha256(canonical(texts)).hexdigest(),
+                  dtype='float32', texts_sha256=hashlib.sha256(canonical(texts)).hexdigest(),
                   corpus_sha256=manifest['files']['rows.jsonl'])
     cache=root/'embeddings.npz'
     if cache.exists():
@@ -46,7 +46,8 @@ def embed(root,device):
     torch.set_num_threads(4)
     torch.manual_seed(7)
     tokenizer=AutoTokenizer.from_pretrained(ENCODER,revision=REVISION)
-    encoder=AutoModel.from_pretrained(ENCODER,revision=REVISION,use_safetensors=True).to(device).eval()
+    encoder=AutoModel.from_pretrained(ENCODER,revision=REVISION,use_safetensors=True,
+                                     dtype=torch.float32).to(device).eval()
     encoder.requires_grad_(False)
     result=[]
     with torch.inference_mode():
@@ -58,7 +59,7 @@ def embed(root,device):
             mask=tokens['attention_mask'].unsqueeze(-1)
             pooled=(hidden*mask).sum(1)/mask.sum(1)
             pooled=nn.functional.normalize(pooled,p=2,dim=1)
-            result.append(pooled.cpu().numpy())
+            result.append(pooled.float().cpu().numpy())
             if offset%1024==0:
                 print(f'Embedding {offset}/{len(texts)}',flush=True)
     np.savez_compressed(cache,texts=np.array(texts),values=np.concatenate(result))
@@ -160,6 +161,7 @@ def measure(root):
     torch.set_num_threads(1)
     manifest,criteria,rows=load(root)
     cache=np.load(root/'embeddings.npz',allow_pickle=False)
+    assert cache['values'].dtype == np.float32
     E=dict(zip(cache['texts'].tolist(),cache['values']))
     train=[r for r in rows if r['split']=='train']
     models={};heads={};losses={};blind={}
@@ -263,7 +265,11 @@ def main():
         manifest,_,_=load(args.root)
         meta=json.loads((args.root/'embeddings_meta.json').read_text())
         assert meta['corpus_sha256']==manifest['files']['rows.jsonl'] and meta['revision']==REVISION
-        protocol=dict(config=CONFIG,manifest=manifest,commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip())
+        assert meta['dtype'] == 'float32'
+        protocol=dict(config=CONFIG,manifest=manifest,
+                      embedding_sha256=hashlib.sha256((args.root/'embeddings.npz').read_bytes()).hexdigest(),
+                      source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                      commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip())
         (args.root/'run_manifest.json').write_bytes(canonical(protocol)+b'\n')
         measure(args.root)
 
