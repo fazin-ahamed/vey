@@ -2011,6 +2011,87 @@ family/K bins, criterion-direction cosines, and a criterion-blind scoring
 control. Undefined correlations are counted and represented as null.
 B-STEF and replication remain blocked until this corrected CBF-0 passes.
 
+### CBF-0 corrected result: neither dimension passes
+
+Recipe commit `6c721ee`, seed 7, both fixed 200-epoch fits completed.
+This is a synthetic numeric-attribute screen, not a natural-domain arbitrary
+criterion demonstration. Frozen Vey 2 was not changed.
+
+| evaluation | decisions | cosine top-1 | CBF-32 top-1 | CBF-64 top-1 | 32 minus cosine, paired 95% CI |
+|---|---:|---:|---:|---:|---:|
+| seen criteria, unseen wording | 640 | 0.271875 | 0.281250 | 0.296875 | +0.009375 [-0.046875, +0.065625] |
+| unseen criteria, known families | 1280 | 0.262500 | 0.292188 | 0.290625 | +0.029688 [-0.039844, +0.103145] |
+| wholly held-out families | 768 | 0.279948 | 0.273438 | 0.269531 | -0.006510 [-0.091146, +0.078125] |
+
+CBF-64 versus cosine also fails the unseen gates: known-family criterion
+delta +0.028125, CI [-0.041406, +0.104707]; held-family delta -0.010417,
+CI [-0.084635, +0.061198]. Even wording-only improvement is not established:
+the CBF-64 delta +0.025000 has CI [-0.031250, +0.084375].
+Thus neither arbitrary-criterion generalization nor a reliable
+wording-interpolation improvement is demonstrated.
+
+CBF-32 ranking and continuous-score diagnostics:
+
+| evaluation | pairwise | Spearman | Kendall tau-b | Pearson |
+|---|---:|---:|---:|---:|
+| unseen wording | 0.576977 | 0.206414 | 0.153955 | 0.232386 |
+| unseen criterion | 0.551800 | 0.134717 | 0.103599 | 0.145861 |
+| held family | 0.534621 | 0.083059 | 0.069243 | 0.086203 |
+
+CBF-32 top-1 by candidate count:
+
+| evaluation | K=2 | K=4 | K=8 | K=16 |
+|---|---:|---:|---:|---:|
+| unseen wording | 0.506250 | 0.287500 | 0.218750 | 0.112500 |
+| unseen criterion | 0.521875 | 0.362500 | 0.178125 | 0.106250 |
+| held family | 0.536458 | 0.296875 | 0.156250 | 0.104167 |
+
+Both dimensions improve on two held families, but compliance regresses
+enough that aggregate hard transfer is negative:
+
+| held family | cosine | CBF-32 | CBF-64 |
+|---|---:|---:|---:|
+| compliance | 0.367188 | 0.207031 | 0.226562 |
+| intent-routing | 0.265625 | 0.316406 | 0.316406 |
+| similarity | 0.207031 | 0.296875 | 0.265625 |
+
+The criterion-blind control averages the training criterion directions
+and otherwise uses the same learned candidate map. Its held-family top-1
+is 0.307292 at 32 and 0.343750 at 64, above the corresponding conditioned
+models. On unseen criteria in known families it is worse (0.246875 and
+0.218750). Query conditioning has mixed effects; robust transfer is not
+established. No causal account of this failure is claimed.
+
+Mean criterion-direction cosine within/across families is 0.873416/0.723193
+at 32 and 0.785976/0.555222 at 64. These are diagnostics of the averaged
+four-wording directions, not a gate or evidence of useful decisions.
+
+G1 and G2 fail at both dimensions. G3 passes: reloaded checkpoint scores
+exactly match all 2688 saved decisions, with 10,752 mapped-winner
+permutation checks, zero predicted top ties, and 8064 candidate-subset
+checks. G4 rejects 64: its unseen-criterion delta versus 32 is -0.001563,
+CI [-0.025000, +0.019531], and hard-transfer accuracy also decreases.
+The projection parameter counts are 24,576 versus 49,152. This is a
+parameter-cost comparison, not a latency or production-speed claim.
+32 is only the smaller failed experimental configuration; nothing ships.
+No replication or B-STEF was launched.
+
+All per-decision scores and metrics, both dimensions and controls, every
+family/K bin, split/source/cache hashes, checkpoints, and direction cosines
+are retained under
+`/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/corrected-v1/`.
+Git records the full metric and hash inventory in
+`research/cbf0/result_manifest.json`; weights and datasets stay outside Git.
+The invalid original corpus/scripts and rejected FP16 cache remain
+separately marked and are not evidence for this result.
+
+Key SHA-256:
+
+- rows: `0fecbf151bdf44507c97f7a359eb713ebdf208f6e17c4bf5c7ba6ce1e626769e`
+- predictions: `a3ff7c1f5a088d25962c316fe505c9fc9a258824c67c6ae6673f1f8f8363a0a5`
+- results: `97723ece8d7e0c36975c3ca362719d8ca6560a885b404787e3ae7575e6be96af`
+
+
 
 ## Frontier topology and oracle closure on food progress (research)
 
