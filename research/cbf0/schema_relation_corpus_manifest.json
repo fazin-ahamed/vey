@@ -1,0 +1,72 @@
+{
+  "counts": {
+    "development_atoms.json": 32,
+    "development_compositions.json": 50,
+    "literal_cases.json": 155,
+    "literal_holdout_atoms.json": 32,
+    "training_atoms.json": 32,
+    "validation_atoms.json": 32
+  },
+  "experiment": "CBF-6",
+  "files": {
+    "development_atoms.json": "ee874582bb478ed59dcb1b156696c1c4bfc85037ead7157d1028c287119c227a",
+    "development_compositions.json": "f1b31913ccfcddbf0f09789a97a9fdf3ecc9f3613f12f247d36e49de46c43aaf",
+    "final_atoms.json": "42e8728dd77406c6b588c101aa34f590fe564daec46178fa34dea22cc788c68d",
+    "final_compositions.json": "7d9ca2272d1a2425feca97d8d57903bcae9946f107df2334a9a667350764ae3b",
+    "final_corpus_audit.json": "b0f00c04cfeae4ac6207056f01dcced8d8b418801d937bedc51464f64b0d0067",
+    "literal_cases.json": "d5d9ca925e9026c07d97c9ba9b1c2147ab73ee5c39e591c40f42ee35915fcd47",
+    "literal_holdout_atoms.json": "48abff332a4c21066c15b83b25dd4419eeec4b34e3c6e26fe788b10f91968e6d",
+    "states.json": "61c512fd526508bd82655edeface81d7ad975da16a009ba66232433b64971700",
+    "training_atoms.json": "c241f0bf945bdd9de815a12cc34682b01d53e7547ca7de967605412c8b30265b",
+    "validation_atoms.json": "ffb25de413372ddcae8d4751738f3574f0923d662e69ebc5cd66ef0912106a0a"
+  },
+  "final_atoms": 128,
+  "final_compositions": 128,
+  "final_labels_never_in_training": true,
+  "license_class": "shipping-train",
+  "meaning_audit": {
+    "ambiguous": 0,
+    "before_outcomes": true,
+    "correct": 128,
+    "independent_annotation_sha256": "c439da6f6ccbd7267ad013f3c21712cfdd3da692d770f142e494487adc068b6d",
+    "n": 128,
+    "sha256": "62f19796cb2b5591d11e2a9aa995bfc56b899bac495db63f13610b9db326eedf"
+  },
+  "pretraining_science_review": {
+    "resolution_sha256": "1b1582a7effc474c4f4dd2c115f78fcc438d82184168d14192abcd6c839833b6",
+    "sha256": "58ff9ca63da1054d2aa22276d8c85e53e63144b77c9c8e3c94d4a3ef508b627d",
+    "two_omissions_repaired_before_outcomes": true
+  },
+  "protocol_sha256": "f9e0e5f711fbb11f08e4b70e80f33401f8ee20531336500dedffcfd62d62910e",
+  "relation_class_order": [
+    -1,
+    0,
+    1
+  ],
+  "schema": [
+    "reliability",
+    "purchase expense",
+    "operating expense",
+    "convenience"
+  ],
+  "source_CBF4_lineage": {
+    "inventory_sha256": "7eca466459d902ed913a516c793ef79606009e97a72bb74714544a683eefce4a",
+    "verified_files": {
+      "grammar-corrected/criteria.json": "f49ea2fb527ab9a16329ae481499681a6a329226d68e1f470206bda8b7e19e36",
+      "grammar-corrected/encoder_manifest.json": "106e852d1dd39e1496f368c2d34a2bfde5a3997810b031785f0fc0039b2f4305",
+      "grammar-corrected/layer1_span.npy": "29bee6299645bc28a2581ea407143f7500c00c14e39fd93521b8e4cc0d1a6eca",
+      "grammar-corrected/score-corrected/decisions.jsonl": "c89671297aa6f6249cdd987ea9870046d5072ea2fd77909355a2072e741c92b4",
+      "grammar-corrected/score-corrected/results.json": "a105be3034ed71d5122193685a446ec10a92d826e582553fdc3a56c1a9d23646",
+      "grammar-corrected/states.json": "61c512fd526508bd82655edeface81d7ad975da16a009ba66232433b64971700",
+      "grammar-corrected/texts.npy": "ef9647f32bbdc68b44a8d323a69a4a63baa86b9c871757d0b012e20402a9cfce"
+    }
+  },
+  "source_CBF5_files": {
+    "criteria.json": "9fe068e1dad7825cae3953807f5b8a56642ce63c501abfadabaf62c935c15039",
+    "results.json": "feef95a495ac2a62b6fb667c9496b56ce8915d1c7c2ae8d8dcd7ed67d17503f4",
+    "states.json": "61c512fd526508bd82655edeface81d7ad975da16a009ba66232433b64971700"
+  },
+  "source_inventory_sha256": "871e6e3adc69a44c98d34a50ab7b118e9dfec763553670b4725789fb9fa25388",
+  "training_criterion_weights_never_in_model_input": true,
+  "training_source_criteria": 288
+}

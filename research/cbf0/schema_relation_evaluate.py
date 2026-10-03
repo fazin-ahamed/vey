@@ -53,7 +53,7 @@ def atom_summary(atoms,resolutions):
 
 def evaluate(root,tag,atoms,compositions,literals,states,matrices,g0):
     output=root/tag; output.mkdir()
-    texts=semantic_contexts(atoms,compositions); resolutions={q:decode(matrices[q]) for q in texts}
+    texts=sorted(set(semantic_contexts(atoms,compositions))|{c['text'] for c in g0}); resolutions={q:decode(matrices[q]) for q in texts}
     put(output,'relation_matrices.json',canonical([dict(text=q,fields=['reliability','purchase expense','operating expense','convenience'],classes=[-1,0,1],matrix=np.asarray(matrices[q]).tolist(),resolution=resolutions[q]) for q in texts])+b'\n')
     atomic=atom_summary(atoms,resolutions); relation=literal_relation_summary(g0,matrices)
     queries=[dict(c,stratum='alias') for c in atoms]+[dict(c,stratum='alias_composition') for c in compositions]+literals
@@ -105,10 +105,10 @@ def evaluate(root,tag,atoms,compositions,literals,states,matrices,g0):
                 eligible+=1; before=cached[(first['id'],state['id'])]; after=cached[(second['id'],state['id'])]
                 if before['teacher']==after['teacher']: continue
                 n+=1; a,b=before['winner'],after['winner']; correct=int(b==after['teacher'])
-                flags=dict(correct_new=correct,changed_to_new=int(correct and a is not None and b is not None and a!=b),
+                flags=dict(correct_new=correct,student_changed=int(a!=b),changed_to_new=int(correct and a is not None and b is not None and a!=b),
                            both_endpoints=int(a==before['teacher'] and correct),top_set_new=after['top1'])
                 counts.update(flags); stream.write(canonical(dict(scenario_id=state['id'],before=first['id'],after=second['id'],teacher_before=before['teacher'],teacher_after=after['teacher'],**flags))+b'\n')
-    causal=dict(representatives=len(reps),eligible_pairs=eligible,n=n,**{key+'_rate':counts[key]/n for key in ('correct_new','changed_to_new','both_endpoints','top_set_new')})
+    causal=dict(representatives=len(reps),eligible_pairs=eligible,n=n,**{key+'_rate':counts[key]/n for key in ('correct_new','student_changed','changed_to_new','both_endpoints','top_set_new')})
     put(output,'causal_representatives.json',canonical([dict(id=c['id'],text=c['text'],weights=c['weights']) for c in reps])+b'\n')
     cfg=json.loads(PROTOCOL.read_text())['gates']
     gates=dict(G0=relation['accuracy']>=cfg['G0_literal_relation'],G1=atomic['axis_accuracy']>=cfg['G1_axis'],

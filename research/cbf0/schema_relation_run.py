@@ -184,6 +184,7 @@ def main():
                      seed=7,paid_resources=False,meaning_audit_sha256=sha(audit_path))
     put(root,'environment.json',canonical(environment)+b'\n')
     tokenizer,model,lineage=load_encoder(); put(root,'encoder_lineage.json',canonical(lineage)+b'\n')
+    frozen_encoder_before=tensor_hash(model.named_parameters())
     H,evidence=encode_pairs(all_pairs,tokenizer,model)
     np.save(root/'frozen_pair_features.npy',H); put(root,'frozen_pair_inputs.json',canonical(evidence)+b'\n')
     lookup={q:i for i,q in enumerate(all_texts)}
@@ -193,6 +194,10 @@ def main():
     X=torch.tensor((train_h-mean)/std); V=torch.tensor((val_h-mean)/std); _,y=pairs_for(training); _,vy=pairs_for(validation)
     outcomes={}; checkpoints={}; selected=None; reversal_used=False; a_state=None
     def record(name,module,details,layer=None,score_features=None):
+        if layer is None:
+            details['frozen_encoder_before_sha256']=frozen_encoder_before
+            details['frozen_encoder_after_sha256']=tensor_hash(model.named_parameters())
+            assert details['frozen_encoder_before_sha256']==details['frozen_encoder_after_sha256']
         torch.save(dict(head=state_copy(module),last_layer=layer,kind=details['kind']),root/(name+'_checkpoint.pt'))
         put(root,name+'_training.json',canonical(details)+b'\n'); matrices=matrices_for(module,score_h if score_features is None else score_features,mean,std,score_texts)
         outcome=evaluate(root,'development_'+name,dev,comps,literals,states,matrices,g0); outcomes[name]=outcome; checkpoints[name]=(details['kind'],state_copy(module),layer)

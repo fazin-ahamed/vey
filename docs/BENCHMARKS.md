@@ -3061,6 +3061,66 @@ a fresh protocol output root; verification consumes persisted evidence and
 refuses to overwrite its own proof.
 
 
+## CBF-6: schema relation encoder (preregistered research)
+
+**HYPOTHESIS:** joint criterion/field self-attention may support the ternary
+relation `lower / unrelated / higher` that independent prototype geometry
+failed to ground. ASG remains a closed negative result; this is a different
+interface, not an ASG rerun. No CBF-6 quality result is recorded here yet.
+
+Preregistration `cf4fb73` fixes the linear frozen-pair head, one 64-wide GELU
+control if it fails development, and final-transformer-layer-only adaptation
+if both frozen heads fail. Amendment `a473500` replaces two uses of
+`equally many uses`, rejected by the unchanged compiler's weighting grammar,
+with `the same number of uses` before any model outcome. The original partial
+corpus remains preserved. Encoder adaptation starts from a fresh stock load.
+The protocol is `research/cbf0/schema_relation_protocol.json`.
+
+**MEASURED, pretraining audit:** the new final contains128 atomic aliases:
+16 per signed direction across the four fields, organized as64 reversal
+pairs. A blinded independent reviewer read shuffled questions without authored
+labels or pair IDs and agreed with128/128 axis/sign labels, with zero ambiguous
+items. Normalized duplicate, literal-field-name, complete old-alias inclusion,
+and training-text duplicate checks have zero hits. Content-word and shared
+ngram overlap is retained rather than silently filtering ordinary shared words.
+The128 new compositions form64 reversal pairs and use every final atom.
+Their teacher coefficients are checked under the frozen compiler. Candidate
+states are byte-identical to CBF-4/5; none are encoded neurally.
+
+Literal-only training, validation and G0 each contain32 unique atoms, paired
+with the four bare canonical fields. Validation templates4/5 are held out
+with whole-text grouping; numerical weights never enter model input. The old
+32 aliases and50 compositions are development only. Checkpoints minimize
+unweighted literal-validation cross-entropy, never alias/G0/final metrics.
+Head A/B share training and preprocessing; adaptation changes initialization
+and optimization as declared, so it is not an isolated encoder-only causal
+comparison. Only a preregistered near-pass weak-sign trigger permits one
+literal reversal-equivariance control.
+
+The selected architecture opens final once, after immutable development
+selection. G0–G7 require literal relation0.95, axis0.85, conditional sign0.90,
+joint atom0.80, alias decisions0.80, composition decisions0.80, causal
+correct-new0.80, and exact/permutation1.0. Conditional sign retains its
+correct-axis denominator. Causal correctness does not require the student to
+change its answer; changed-to-new and both-endpoints are separate diagnostics.
+Intervals use10,000 seed0 bootstrap draws over the64 reversal pairs, not
+derived candidate/swapping rows as independent examples.
+
+Every4-by-3 softmax matrix is uncalibrated class mass, not a certificate or
+validated correctness probability. A seed7 pass triggers fixed-architecture
+seeds11/13 replication before promotion. B-STEF remains blocked until fresh
+transfer, replication, OOD utility and architecture-specific exact foldability.
+A negative result activates the declared axis/orientation/stronger-encoder
+branch; it does not terminate the autonomous endgame.
+
+Raw evidence stays under
+`vey-data/decisionmix/d3/cbf/schema-relation-v1/pretraining-amended`.
+Git stores counts, revisions, hashes and license class in
+`research/cbf0/schema_relation_corpus_manifest.json`, not corpus/checkpoint
+payloads. `schema_relation_prepare.py`, `schema_relation_run.py` and
+`schema_relation_verify.py` separate preparation, measurement and independent
+head/decoder/integer-decision reconstruction. Output creation refuses overwrite.
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
