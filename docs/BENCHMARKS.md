@@ -3293,6 +3293,19 @@ copies the original blinded labels, and writes corrected lineage once. The
 literal execution probe uses distinct attempt directories; no evidence writer
 is bypassed to overwrite an earlier attempt.
 
+**MEASURED preflight:** commit `393a5a6` regenerated the final atom/composition
+files byte-identically and preserved128/128 accepted blinded meanings. Actual
+stock/NLI-xsmall execution checked16 literal pairs total: native SentencePiece
+IDs matched, cache reloads matched, both encoders retained their full parameter
+hashes with zero gradients, and the R heads had positive gradients. The NLI
+native classifier replay was bitwise exact on two pairs; cached-pooler/classifier
+probabilities differed from full native inference by at most `5.9605e-8` on
+eight pairs. Actual loaded parameter counts are70,682,112 stock and70,831,107
+NLI. This proves execution/parity only, not semantic transfer or calibration.
+Hashes and the retained failed preflight are recorded in
+`research/cbf0/relation_pretrained_preflight_manifest.json`.
+
+
 
 
 ## Frontier topology and oracle closure on food progress (research)

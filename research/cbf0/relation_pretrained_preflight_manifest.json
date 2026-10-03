@@ -1,0 +1,103 @@
+{
+  "B_STEF_allowed": false,
+  "artifact_files": {
+    "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/relation-pretrained-v1/preexecution-amended/corpus_manifest.json": {
+      "bytes": 4426,
+      "sha256": "b50ec9200b53a0ec5c4f13f2c638f486f21cdc75150e7c144162656f70a73126"
+    },
+    "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/relation-pretrained-v1/preexecution-amended/literal-preflight-attempts/20261003T222953186320/preflight_proof.json": {
+      "bytes": 3674,
+      "sha256": "2101b9ae320cb4bcf3718951f77df92e0563287f3cc77a7663d68bcce27a882c"
+    },
+    "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/relation-pretrained-v1/preexecution-amended/meaning_audit.json": {
+      "bytes": 432,
+      "sha256": "c3cc53c191ac75ad006ee18292b34f18bc537dc9b152bab5a31a7512b2799d04"
+    },
+    "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/relation-pretrained-v1/preexecution-amended/preparation_replay.json": {
+      "bytes": 953,
+      "sha256": "af4f7161cd58a3f9f1bc5339ef69d92f3f72d3f8831e6f85514a1e45e30419e7"
+    },
+    "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/relation-pretrained-v1/preflight_failure_20261003T221944186765.json": {
+      "bytes": 1611,
+      "sha256": "60915c67d7f054afc695d8606c24e5801a4f2682f6cddd8e3d33135c72b3cfad"
+    }
+  },
+  "data_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/relation-pretrained-v1/preexecution-amended",
+  "development_final_quality_obtained": false,
+  "evidence_class": "MEASURED",
+  "experiment": "CBF-7",
+  "models": {
+    "nli_xsmall": {
+      "cache_reload_identical": true,
+      "cached_native_probability_max_error": 5.960464477539063e-08,
+      "floating_parameters": 70831107,
+      "frozen_after_sha256": "b94fd54d708c2d54f67184e20975a939441709b0e9b2677511a498bb817191cd",
+      "frozen_before_sha256": "b94fd54d708c2d54f67184e20975a939441709b0e9b2677511a498bb817191cd",
+      "head_gradient_L1": 337.43742287158966,
+      "input_evidence_sha256": "6f3441b633899a8acce86c334abd2372f770d335906e17bf849f7f7ab71c1dab",
+      "native_forward_parity": {
+        "checked": 2,
+        "class_index_map": {
+          "-1": 0,
+          "0": 2,
+          "1": 1
+        },
+        "details": "model(**inputs).logits == classifier(pooler(encoder(...).last_hidden_state)) bitwise",
+        "exact": true,
+        "pairs": 8
+      },
+      "native_tokenizer_parity": {
+        "comparator": "Pinned native SentencePiece model",
+        "format": "higher",
+        "pairs": 8,
+        "parity": true,
+        "spm_sha256": "c679fbf93643d19aab7ee10c0b99e460bdbc02fedf34b92b05af343b4af586fd"
+      },
+      "pairs": 8,
+      "pretrained_gradients": 0,
+      "width": 384
+    },
+    "stock_xsmall": {
+      "cache_reload_identical": true,
+      "floating_parameters": 70682112,
+      "frozen_after_sha256": "2bb660c9a5ce8336b430ba6ca0d4d1c65e0510a199983ef6c1c84625ed1ec9ee",
+      "frozen_before_sha256": "2bb660c9a5ce8336b430ba6ca0d4d1c65e0510a199983ef6c1c84625ed1ec9ee",
+      "head_gradient_L1": 366.81061869859695,
+      "input_evidence_sha256": "6f3441b633899a8acce86c334abd2372f770d335906e17bf849f7f7ab71c1dab",
+      "native_tokenizer_parity": {
+        "comparator": "Pinned native SentencePiece model",
+        "format": "higher",
+        "pairs": 8,
+        "parity": true,
+        "spm_sha256": "c679fbf93643d19aab7ee10c0b99e460bdbc02fedf34b92b05af343b4af586fd"
+      },
+      "pairs": 8,
+      "pretrained_gradients": 0,
+      "width": 384
+    }
+  },
+  "preflight_git_revision": "393a5a6d7ac09decae6588a99d4561e4285f3c34",
+  "protocol_sha256": "9e299221b2d84e9ccbfbfe0cd2366894cd2cc1de8317bd8ddef2dd2516b12bcb",
+  "replay": {
+    "atoms_byte_identical": true,
+    "compositions_byte_identical": true,
+    "final_atoms_sha256": "218e8d45822fb5e764a7f975552bcb905f70a05100d8fa5acbdcbc1386492f38",
+    "final_compositions_sha256": "d3c343026aca9eff308dfae636d334730d9c6c52899e6f11de28a034497c9670",
+    "first_preparation_generator_uncommitted": true,
+    "first_preparation_git_not_fabricated": true,
+    "generator_committed_before_replay": true,
+    "original_audit_sha256": "7b1d481f426a1a086c8302ee486f7412431cec881af442d3ad8974a9b9a01e03",
+    "original_manifest_sha256": "6b86fe0502a8172a2f49ab1c90d48fb52eeb545da8b46685d74a3047b6c977ef",
+    "prepared_source_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/relation-pretrained-v1",
+    "protocol_sha256": "9e299221b2d84e9ccbfbfe0cd2366894cd2cc1de8317bd8ddef2dd2516b12bcb",
+    "reason": "Immutable evidence writer rejected in-place metadata amendment before any model load; original failure and files retained.",
+    "replay_git_revision": "393a5a6d7ac09decae6588a99d4561e4285f3c34"
+  },
+  "scope": "Literal-only execution; no development/final quality scoring",
+  "source_sha256": {
+    "relation_pretrained_corpus.py": "060c9012741b8a33c083043d011bb0be0b19151140b8f158c30d21acb88693b4",
+    "relation_pretrained_encoder.py": "80430d880f075475b9a5d8513941d3c7db3cd8d51b6a9c5eac3b18713042ec7b",
+    "relation_pretrained_preflight.py": "ad9e20ec3cd10e55170dba28726d694b698a46b24638ac46158b968e82700775",
+    "relation_pretrained_run.py": "bd7bd628ec3dc3ded04f14e5ce200bae35cf86110df8d4cbbeda9abc91cd7cb8"
+  }
+}
