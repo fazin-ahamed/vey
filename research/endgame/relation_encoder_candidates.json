@@ -1,0 +1,1352 @@
+{
+  "schema_version": 1,
+  "inspection_date": "2026-10-03",
+  "status": "SOURCE_INSPECTION_ONLY; parent must commit evaluation protocol before any scores",
+  "evidence_rules": {
+    "MEASURED": "Observed source metadata, configurations, declarations, or local cache paths only. No model-quality/runtime measurement was performed.",
+    "INFERENCE": "Recommendation, semantic reasoning, or conservative eligibility classification derived from cited observations.",
+    "HYPOTHESIS": "A proposed model behavior requiring a preregistered future experiment.",
+    "publisher_claims": "Quoted official/model-author claims, not independently reproduced evidence or apples-to-apples superiority."
+  },
+  "resource_compliance": {
+    "weights_downloaded": false,
+    "weights_loaded": false,
+    "model_forwards": 0,
+    "training": false,
+    "paid_calls": false,
+    "accounts_created": false,
+    "tests_build_lint_formatters": false,
+    "network_fetches": "Public metadata, README, config, tokenizer_config, license, and primary documentation only",
+    "max_metadata_workers": 4,
+    "tensor_libraries_imported": false
+  },
+  "rationale": {
+    "evidence_class": "INFERENCE",
+    "basis": "Parent-reported CBF6 development failure: selected A only2/32 axis and2/32joint; B ties, C0/32axes with undefined sign. This justifies a controlled stronger criterion interface, not an absence-of-information conclusion, generative-model scaling, or final-driven arm tuning.",
+    "final_boundary": "CBF6 final results are closed evidence; they are not candidate selection or prompt tuning data. Frozen Vey2 and exact compiler/state/code stay unchanged."
+  },
+  "sources": {
+    "cross-encoder/nli-deberta-v3-xsmall": {
+      "api": "https://huggingface.co/api/models/cross-encoder/nli-deberta-v3-xsmall",
+      "pinned_card": "https://huggingface.co/cross-encoder/nli-deberta-v3-xsmall/blob/a150876415327c80daeff35ca6f68f5ed8cf5c24/README.md",
+      "pinned_config": "https://huggingface.co/cross-encoder/nli-deberta-v3-xsmall/blob/a150876415327c80daeff35ca6f68f5ed8cf5c24/config.json",
+      "pinned_tokenizer_config": "https://huggingface.co/cross-encoder/nli-deberta-v3-xsmall/blob/a150876415327c80daeff35ca6f68f5ed8cf5c24/tokenizer_config.json",
+      "pinned_file_list": "https://huggingface.co/cross-encoder/nli-deberta-v3-xsmall/tree/a150876415327c80daeff35ca6f68f5ed8cf5c24"
+    },
+    "cross-encoder/nli-deberta-v3-small": {
+      "api": "https://huggingface.co/api/models/cross-encoder/nli-deberta-v3-small",
+      "pinned_card": "https://huggingface.co/cross-encoder/nli-deberta-v3-small/blob/fa2804872c3b4bd748f38c0185cc85775361e735/README.md",
+      "pinned_config": "https://huggingface.co/cross-encoder/nli-deberta-v3-small/blob/fa2804872c3b4bd748f38c0185cc85775361e735/config.json",
+      "pinned_tokenizer_config": "https://huggingface.co/cross-encoder/nli-deberta-v3-small/blob/fa2804872c3b4bd748f38c0185cc85775361e735/tokenizer_config.json",
+      "pinned_file_list": "https://huggingface.co/cross-encoder/nli-deberta-v3-small/tree/fa2804872c3b4bd748f38c0185cc85775361e735"
+    },
+    "tasksource/ModernBERT-base-nli": {
+      "api": "https://huggingface.co/api/models/tasksource/ModernBERT-base-nli",
+      "pinned_card": "https://huggingface.co/tasksource/ModernBERT-base-nli/blob/de4ab7e77845098b7fab7f6ab9d370ddff27b19c/README.md",
+      "pinned_config": "https://huggingface.co/tasksource/ModernBERT-base-nli/blob/de4ab7e77845098b7fab7f6ab9d370ddff27b19c/config.json",
+      "pinned_tokenizer_config": "https://huggingface.co/tasksource/ModernBERT-base-nli/blob/de4ab7e77845098b7fab7f6ab9d370ddff27b19c/tokenizer_config.json",
+      "pinned_file_list": "https://huggingface.co/tasksource/ModernBERT-base-nli/tree/de4ab7e77845098b7fab7f6ab9d370ddff27b19c"
+    },
+    "BalaRajesh1/mmbert-small-nli": {
+      "api": "https://huggingface.co/api/models/BalaRajesh1/mmbert-small-nli",
+      "pinned_card": "https://huggingface.co/BalaRajesh1/mmbert-small-nli/blob/2e7a7a1b86760ec00c5596f86e5b8bcb9ff8d9fb/README.md",
+      "pinned_config": "https://huggingface.co/BalaRajesh1/mmbert-small-nli/blob/2e7a7a1b86760ec00c5596f86e5b8bcb9ff8d9fb/config.json",
+      "pinned_tokenizer_config": "https://huggingface.co/BalaRajesh1/mmbert-small-nli/blob/2e7a7a1b86760ec00c5596f86e5b8bcb9ff8d9fb/tokenizer_config.json",
+      "pinned_file_list": "https://huggingface.co/BalaRajesh1/mmbert-small-nli/tree/2e7a7a1b86760ec00c5596f86e5b8bcb9ff8d9fb"
+    },
+    "MoritzLaurer/mDeBERTa-v3-base-mnli-xnli": {
+      "api": "https://huggingface.co/api/models/MoritzLaurer/mDeBERTa-v3-base-mnli-xnli",
+      "pinned_card": "https://huggingface.co/MoritzLaurer/mDeBERTa-v3-base-mnli-xnli/blob/8adb042d524ecd5c26d3e3ba0e3fbcf7e2d0864c/README.md",
+      "pinned_config": "https://huggingface.co/MoritzLaurer/mDeBERTa-v3-base-mnli-xnli/blob/8adb042d524ecd5c26d3e3ba0e3fbcf7e2d0864c/config.json",
+      "pinned_tokenizer_config": "https://huggingface.co/MoritzLaurer/mDeBERTa-v3-base-mnli-xnli/blob/8adb042d524ecd5c26d3e3ba0e3fbcf7e2d0864c/tokenizer_config.json",
+      "pinned_file_list": "https://huggingface.co/MoritzLaurer/mDeBERTa-v3-base-mnli-xnli/tree/8adb042d524ecd5c26d3e3ba0e3fbcf7e2d0864c"
+    },
+    "snli_official": "https://nlp.stanford.edu/projects/snli/",
+    "mnli_official": "https://cims.nyu.edu/~sbowman/multinli/",
+    "mnli_license_paper": "https://cims.nyu.edu/~sbowman/multinli/paper.pdf",
+    "xnli_license": "https://github.com/facebookresearch/XNLI/blob/main/LICENSE",
+    "anli_license": "https://github.com/facebookresearch/anli/blob/main/LICENSE",
+    "sbert_official_nli_benchmarks": "https://sbert.net/docs/cross_encoder/pretrained_models.html#nli",
+    "modernbert_pretraining": "https://huggingface.co/answerdotai/ModernBERT-base/blob/8949b909ec900327062f0ebf497f51aef5e6f0c8/README.md",
+    "modernbert_paper": "https://arxiv.org/abs/2412.13663",
+    "mmbert_pretraining": "https://huggingface.co/jhu-clsp/mmBERT-small/blob/abc32620dd4f6ab06f5fbe905dc25f310618e09f/README.md",
+    "mmbert_paper": "https://arxiv.org/abs/2509.06888",
+    "deberta_xsmall_pretraining": "https://huggingface.co/microsoft/deberta-v3-xsmall/blob/4b419818330868dff6a60ad3e6b1c730f8b8c0c6/README.md",
+    "deberta_small_pretraining": "https://huggingface.co/microsoft/deberta-v3-small/blob/a36c739020e01763fe789b4b85e2df55d6180012/README.md",
+    "mdeberta_pretraining": "https://huggingface.co/microsoft/mdeberta-v3-base/blob/main/README.md",
+    "deberta_v3_paper": "https://arxiv.org/abs/2111.09543",
+    "translated_nli_card": "https://huggingface.co/datasets/MoritzLaurer/multilingual-NLI-26lang-2mil7/blob/510a233972a0d7ff0f767d82f46e046832c10538/README.md"
+  },
+  "dataset_license_register": [
+    {
+      "dataset": "nyu-mll/multi_nli",
+      "revision": "da70db2af9d09693783c3320c4249840212ee221",
+      "declared_hf_license": [
+        "cc-by-3.0",
+        "cc-by-sa-3.0",
+        "mit",
+        "other"
+      ],
+      "evidence_class": "MEASURED",
+      "inspection_source": "https://huggingface.co/api/datasets/nyu-mll/multi_nli",
+      "dataset_card": "https://huggingface.co/datasets/nyu-mll/multi_nli/blob/da70db2af9d09693783c3320c4249840212ee221/README.md",
+      "primary_source_refs": [
+        "mnli_official",
+        "mnli_license_paper"
+      ],
+      "eligibility": {
+        "evidence_class": "INFERENCE",
+        "category": "conditional/review",
+        "reason": "Mixed OANC permissive terms, fiction CC-BY3.0/CC-SA3.0 and US public domain; geography and share-alike obligations require review, not a single MIT dataset."
+      }
+    },
+    {
+      "dataset": "stanfordnlp/snli",
+      "revision": "cdb5c3d5eed6ead6e5a341c8e56e669bb666725b",
+      "declared_hf_license": [
+        "cc-by-sa-4.0"
+      ],
+      "evidence_class": "MEASURED",
+      "inspection_source": "https://huggingface.co/api/datasets/stanfordnlp/snli",
+      "dataset_card": "https://huggingface.co/datasets/stanfordnlp/snli/blob/cdb5c3d5eed6ead6e5a341c8e56e669bb666725b/README.md",
+      "primary_source_refs": [
+        "snli_official"
+      ],
+      "eligibility": {
+        "evidence_class": "INFERENCE",
+        "category": "conditional/review",
+        "reason": "Official CC-BY-SA4.0; Flickr30k source captions share-alike, small VisualGenome subset. Attribution/share-alike and downstream weight implications require review."
+      }
+    },
+    {
+      "dataset": "facebook/anli",
+      "revision": "8e4813d81f46d313dac7892e1c28076917cfcdf9",
+      "declared_hf_license": [
+        "cc-by-nc-4.0"
+      ],
+      "evidence_class": "MEASURED",
+      "inspection_source": "https://huggingface.co/api/datasets/facebook/anli",
+      "dataset_card": "https://huggingface.co/datasets/facebook/anli/blob/8e4813d81f46d313dac7892e1c28076917cfcdf9/README.md",
+      "primary_source_refs": [
+        "anli_license"
+      ],
+      "eligibility": {
+        "evidence_class": "INFERENCE",
+        "category": "research-eval-only",
+        "reason": "Official CC-BY-NC4.0. Never shipping training under user policy."
+      }
+    },
+    {
+      "dataset": "pietrolesci/nli_fever",
+      "revision": "1eddac63112eee1fdf1966e0bca27a5ff248c772",
+      "declared_hf_license": null,
+      "evidence_class": "MEASURED",
+      "inspection_source": "https://huggingface.co/api/datasets/pietrolesci/nli_fever",
+      "dataset_card": "https://huggingface.co/datasets/pietrolesci/nli_fever/blob/1eddac63112eee1fdf1966e0bca27a5ff248c772/README.md",
+      "primary_source_refs": [],
+      "eligibility": {
+        "evidence_class": "INFERENCE",
+        "category": "research-eval-only",
+        "reason": "Missing declared license in inspected dataset card metadata; source FEVER/Wikipedia obligations do not automatically establish license of this transformed artifact."
+      }
+    },
+    {
+      "dataset": "alisawuffles/WANLI",
+      "revision": "61c95318fd71c55b6ba355d76253254615f387ec",
+      "declared_hf_license": [
+        "cc-by-4.0"
+      ],
+      "evidence_class": "MEASURED",
+      "inspection_source": "https://huggingface.co/api/datasets/alisawuffles/WANLI",
+      "dataset_card": "https://huggingface.co/datasets/alisawuffles/WANLI/blob/61c95318fd71c55b6ba355d76253254615f387ec/README.md",
+      "primary_source_refs": [],
+      "eligibility": {
+        "evidence_class": "INFERENCE",
+        "category": "shipping-train",
+        "reason": "Publisher HF dataset metadata declares CC-BY4.0; attribution required. This is not approval for every other dataset in a checkpoint mixture."
+      }
+    },
+    {
+      "dataset": "metaeval/lingnli",
+      "revision": "0d5cbee5220a13b3c0701d3a165d70d006a35339",
+      "declared_hf_license": "unknown",
+      "evidence_class": "MEASURED",
+      "inspection_source": "https://huggingface.co/api/datasets/metaeval/lingnli",
+      "dataset_card": "https://huggingface.co/datasets/tasksource/lingnli/blob/0d5cbee5220a13b3c0701d3a165d70d006a35339/README.md",
+      "primary_source_refs": [],
+      "eligibility": {
+        "evidence_class": "INFERENCE",
+        "category": "research-eval-only",
+        "reason": "Dataset metadata license unknown; no shipping training permission established."
+      }
+    },
+    {
+      "dataset": "sick",
+      "revision": "3871bfd379988eff098ff381e61435ebef8c214f",
+      "declared_hf_license": [
+        "cc-by-nc-sa-3.0"
+      ],
+      "evidence_class": "MEASURED",
+      "inspection_source": "https://huggingface.co/api/datasets/sick",
+      "dataset_card": "https://huggingface.co/datasets/RobZamp/sick/blob/3871bfd379988eff098ff381e61435ebef8c214f/README.md",
+      "primary_source_refs": [],
+      "eligibility": {
+        "evidence_class": "INFERENCE",
+        "category": "research-eval-only",
+        "reason": "Inspected HF dataset metadata declares CC-BY-NC-SA3.0; NC prohibits shipping training by policy. Original license not separately resolved here."
+      }
+    },
+    {
+      "dataset": "xnli",
+      "revision": "b8dd5d7af51114dbda02c0e3f6133f332186418e",
+      "declared_hf_license": null,
+      "evidence_class": "MEASURED",
+      "inspection_source": "https://huggingface.co/api/datasets/xnli",
+      "dataset_card": "https://huggingface.co/datasets/facebook/xnli/blob/b8dd5d7af51114dbda02c0e3f6133f332186418e/README.md",
+      "primary_source_refs": [
+        "xnli_license"
+      ],
+      "eligibility": {
+        "evidence_class": "INFERENCE",
+        "category": "research-eval-only",
+        "reason": "HF alias metadata has no license field; original publisher repository explicitly CC-BY-NC4.0. Never shipping training."
+      }
+    },
+    {
+      "dataset": "MoritzLaurer/multilingual-NLI-26lang-2mil7",
+      "revision": "510a233972a0d7ff0f767d82f46e046832c10538",
+      "declared_hf_license": null,
+      "evidence_class": "MEASURED",
+      "inspection_source": "https://huggingface.co/api/datasets/MoritzLaurer/multilingual-NLI-26lang-2mil7",
+      "dataset_card": "https://huggingface.co/datasets/MoritzLaurer/multilingual-NLI-26lang-2mil7/blob/510a233972a0d7ff0f767d82f46e046832c10538/README.md",
+      "primary_source_refs": [
+        "translated_nli_card",
+        "anli_license"
+      ],
+      "eligibility": {
+        "evidence_class": "INFERENCE",
+        "category": "research-eval-only",
+        "reason": "No artifact-level license field; declared translated source mixture includes ANLI NC and LingNLI unknown. Translation does not erase source restrictions."
+      }
+    }
+  ],
+  "candidates": [
+    {
+      "repo_id": "cross-encoder/nli-deberta-v3-xsmall",
+      "revision": "a150876415327c80daeff35ca6f68f5ed8cf5c24",
+      "last_modified": "2025-04-11T09:26:22.000Z",
+      "evidence_class": "MEASURED",
+      "source_refs": [
+        "cross-encoder/nli-deberta-v3-xsmall"
+      ],
+      "open_access": {
+        "private": false,
+        "gated": false
+      },
+      "architecture": {
+        "architectures": [
+          "DebertaV2ForSequenceClassification"
+        ],
+        "model_type": "deberta-v2",
+        "hidden_size": 384,
+        "intermediate_size": 1536,
+        "num_hidden_layers": 12,
+        "num_attention_heads": 6,
+        "vocab_size": 128100,
+        "max_position_embeddings": 512,
+        "classifier_pooling": null,
+        "local_attention": null,
+        "global_attn_every_n_layers": null
+      },
+      "parameter_evidence": {
+        "floating_tensor_elements": 70831107,
+        "nonfloating_buffer_elements": 512,
+        "hf_safetensors_total_elements": 70831619,
+        "method": "HF API safetensors metadata, no weight download. Floating elements are parameter-count proxy; integral position-ID buffers must not be counted as trainable parameters. No live model instantiation count."
+      },
+      "context": {
+        "config_max_position_embeddings": 512,
+        "tokenizer_model_max_length": 512,
+        "nli_training_or_validation_context_tokens": null,
+        "conservative_pair_token_limit": 512
+      },
+      "labels": {
+        "id2label": {
+          "0": "contradiction",
+          "1": "entailment",
+          "2": "neutral"
+        },
+        "label2id": {
+          "contradiction": 0,
+          "entailment": 1,
+          "neutral": 2
+        },
+        "three_label_direct_control_available": true
+      },
+      "artifact_availability": {
+        "remote_safetensors": true,
+        "remote_onnx_files": [
+          "onnx/model.onnx",
+          "onnx/model_O1.onnx",
+          "onnx/model_O2.onnx",
+          "onnx/model_O3.onnx",
+          "onnx/model_O4.onnx",
+          "onnx/model_qint8_arm64.onnx",
+          "onnx/model_qint8_avx512.onnx",
+          "onnx/model_qint8_avx512_vnni.onnx",
+          "onnx/model_quint8_avx2.onnx"
+        ],
+        "local_cache_scope": "/home/fazinahamed/.cache/huggingface/hub exact model/snapshots/*/model.safetensors only; custom caches elsewhere not searched",
+        "local_safetensors_path": null,
+        "local_safetensors_integrity": "not inspected; no weights read"
+      },
+      "weight_license": {
+        "declared": "apache-2.0",
+        "source": "pinned model card YAML",
+        "standalone_license_file": [],
+        "not_dataset_clearance": true
+      },
+      "model_adaptation": "Pretrained NLI cross-encoder checkpoint, not stock MLM encoder. Pair input through native tokenizer API; head labels are order-specific.",
+      "metadata_digests": {
+        "pinned_card_sha256": "4aeb5585a9eeb71b2d572249f9faa22ef3378c6abee3eeaffaae8c961068a2c6",
+        "config_canonical_json_sha256": "b0027342263fe791b95079d592847fb702ec69c783d26d57e9689103abea468e"
+      },
+      "official_benchmark_claims": [
+        {
+          "dataset": "SNLI test",
+          "metric": "accuracy",
+          "value": 0.9164,
+          "source": "pinned model card",
+          "independently_reproduced": false
+        },
+        {
+          "dataset": "MNLI mismatched",
+          "metric": "accuracy",
+          "value": 0.8777,
+          "source": "pinned model card and official SBERT NLI table",
+          "split_caveat": "Card/table name does not establish whether hidden test or public development set; no score-file reconstruction here.",
+          "independently_reproduced": false
+        }
+      ],
+      "runtime_claims": {
+        "nli_checkpoint_throughput_or_latency": null,
+        "qualification": "No candidate-specific reproducible latency/throughput with hardware/batch/token/precision qualifiers located in inspected model card. Training duration and base-architecture efficiency are not inference measurements."
+      },
+      "unknowns": [
+        "Exact upstream base revision used during fine-tuning not declared by this checkpoint.",
+        "Full reproducible fine-tuning sample/hash inventory not established by model card.",
+        "No criterion-schema transfer evidence; publisher NLI accuracy is not evidence for Vey task.",
+        "No measured local RTX3060/CPU latency, memory, or ONNX numerical parity."
+      ],
+      "fine_tuning_data": {
+        "declared_datasets": [
+          "nyu-mll/multi_nli",
+          "stanfordnlp/snli"
+        ],
+        "source": "pinned model card",
+        "license_register_refs": [
+          "nyu-mll/multi_nli",
+          "stanfordnlp/snli"
+        ]
+      },
+      "pretraining_provenance": {
+        "base_model": "microsoft/deberta-v3-xsmall",
+        "declared": "160GB DeBERTaV2-style pretraining corpus; exact dataset/version/license ledger not enumerated in base card.",
+        "source_refs": [
+          "deberta_xsmall_pretraining",
+          "deberta_v3_paper"
+        ],
+        "status": "known high-level provenance, incomplete constituent license audit"
+      },
+      "multilingual_scope": {
+        "declared": "English",
+        "validated_languages": [
+          "en"
+        ],
+        "additional_language_support": "Not established"
+      },
+      "eligibility": {
+        "evidence_class": "INFERENCE",
+        "category": "conditional/review",
+        "research_eval": true,
+        "shipping_training_approved": false,
+        "shipping_checkpoint_approved": false,
+        "reason": "Apache2 NLI weights plus MIT base; declared NLI tuning uses SNLI share-alike and mixed-license MNLI, not declared NC. Commercial deployment is plausible after attribution/share-alike/jurisdiction and pretraining-provenance review, not automatically approved."
+      }
+    },
+    {
+      "repo_id": "cross-encoder/nli-deberta-v3-small",
+      "revision": "fa2804872c3b4bd748f38c0185cc85775361e735",
+      "last_modified": "2025-04-15T08:18:25.000Z",
+      "evidence_class": "MEASURED",
+      "source_refs": [
+        "cross-encoder/nli-deberta-v3-small"
+      ],
+      "open_access": {
+        "private": false,
+        "gated": false
+      },
+      "architecture": {
+        "architectures": [
+          "DebertaV2ForSequenceClassification"
+        ],
+        "model_type": "deberta-v2",
+        "hidden_size": 768,
+        "intermediate_size": 3072,
+        "num_hidden_layers": 6,
+        "num_attention_heads": 12,
+        "vocab_size": 128100,
+        "max_position_embeddings": 512,
+        "classifier_pooling": null,
+        "local_attention": null,
+        "global_attn_every_n_layers": null
+      },
+      "parameter_evidence": {
+        "floating_tensor_elements": 141897219,
+        "nonfloating_buffer_elements": 512,
+        "hf_safetensors_total_elements": 141897731,
+        "method": "HF API safetensors metadata, no weight download. Floating elements are parameter-count proxy; integral position-ID buffers must not be counted as trainable parameters. No live model instantiation count."
+      },
+      "context": {
+        "config_max_position_embeddings": 512,
+        "tokenizer_model_max_length": 512,
+        "nli_training_or_validation_context_tokens": null,
+        "conservative_pair_token_limit": 512
+      },
+      "labels": {
+        "id2label": {
+          "0": "contradiction",
+          "1": "entailment",
+          "2": "neutral"
+        },
+        "label2id": {
+          "contradiction": 0,
+          "entailment": 1,
+          "neutral": 2
+        },
+        "three_label_direct_control_available": true
+      },
+      "artifact_availability": {
+        "remote_safetensors": true,
+        "remote_onnx_files": [
+          "onnx/model.onnx",
+          "onnx/model_O1.onnx",
+          "onnx/model_O2.onnx",
+          "onnx/model_O3.onnx",
+          "onnx/model_O4.onnx",
+          "onnx/model_qint8_arm64.onnx",
+          "onnx/model_qint8_avx512.onnx",
+          "onnx/model_qint8_avx512_vnni.onnx",
+          "onnx/model_quint8_avx2.onnx"
+        ],
+        "local_cache_scope": "/home/fazinahamed/.cache/huggingface/hub exact model/snapshots/*/model.safetensors only; custom caches elsewhere not searched",
+        "local_safetensors_path": null,
+        "local_safetensors_integrity": "not inspected; no weights read"
+      },
+      "weight_license": {
+        "declared": "apache-2.0",
+        "source": "pinned model card YAML",
+        "standalone_license_file": [],
+        "not_dataset_clearance": true
+      },
+      "model_adaptation": "Pretrained NLI cross-encoder checkpoint, not stock MLM encoder. Pair input through native tokenizer API; head labels are order-specific.",
+      "metadata_digests": {
+        "pinned_card_sha256": "a9aa108025ad1984374c5e80365406bafe331aea5abc30239e1796ec0a7c267d",
+        "config_canonical_json_sha256": "73d898a08bd94e056af7dfa4ad1f8e97f1b8e4c0c4699fa71168e2f4e581b23b"
+      },
+      "official_benchmark_claims": [
+        {
+          "dataset": "SNLI test",
+          "metric": "accuracy",
+          "value": 0.9165,
+          "source": "pinned model card",
+          "independently_reproduced": false
+        },
+        {
+          "dataset": "MNLI mismatched",
+          "metric": "accuracy",
+          "value": 0.8755,
+          "source": "pinned model card and official SBERT NLI table",
+          "independently_reproduced": false
+        }
+      ],
+      "runtime_claims": {
+        "nli_checkpoint_throughput_or_latency": null,
+        "qualification": "No candidate-specific reproducible latency/throughput with hardware/batch/token/precision qualifiers located in inspected model card. Training duration and base-architecture efficiency are not inference measurements."
+      },
+      "unknowns": [
+        "Exact upstream base revision used during fine-tuning not declared by this checkpoint.",
+        "Full reproducible fine-tuning sample/hash inventory not established by model card.",
+        "No criterion-schema transfer evidence; publisher NLI accuracy is not evidence for Vey task.",
+        "No measured local RTX3060/CPU latency, memory, or ONNX numerical parity."
+      ],
+      "fine_tuning_data": {
+        "declared_datasets": [
+          "nyu-mll/multi_nli",
+          "stanfordnlp/snli"
+        ],
+        "source": "pinned model card",
+        "license_register_refs": [
+          "nyu-mll/multi_nli",
+          "stanfordnlp/snli"
+        ]
+      },
+      "pretraining_provenance": {
+        "base_model": "microsoft/deberta-v3-small",
+        "declared": "160GB DeBERTaV2-style pretraining corpus; exact dataset/version/license ledger not enumerated in base card.",
+        "source_refs": [
+          "deberta_small_pretraining",
+          "deberta_v3_paper"
+        ],
+        "status": "known high-level provenance, incomplete constituent license audit"
+      },
+      "multilingual_scope": {
+        "declared": "English",
+        "validated_languages": [
+          "en"
+        ],
+        "additional_language_support": "Not established"
+      },
+      "eligibility": {
+        "evidence_class": "INFERENCE",
+        "category": "conditional/review",
+        "research_eval": true,
+        "shipping_training_approved": false,
+        "shipping_checkpoint_approved": false,
+        "reason": "Apache2 NLI weights plus MIT base; declared NLI tuning uses SNLI share-alike and mixed-license MNLI, not declared NC. Commercial deployment is plausible after attribution/share-alike/jurisdiction and pretraining-provenance review, not automatically approved."
+      }
+    },
+    {
+      "repo_id": "tasksource/ModernBERT-base-nli",
+      "revision": "de4ab7e77845098b7fab7f6ab9d370ddff27b19c",
+      "last_modified": "2025-01-06T08:58:31.000Z",
+      "evidence_class": "MEASURED",
+      "source_refs": [
+        "tasksource/ModernBERT-base-nli"
+      ],
+      "open_access": {
+        "private": false,
+        "gated": false
+      },
+      "architecture": {
+        "architectures": [
+          "ModernBertForSequenceClassification"
+        ],
+        "model_type": "modernbert",
+        "hidden_size": 768,
+        "intermediate_size": 1152,
+        "num_hidden_layers": 22,
+        "num_attention_heads": 12,
+        "vocab_size": 50368,
+        "max_position_embeddings": 2048,
+        "classifier_pooling": "mean",
+        "local_attention": 128,
+        "global_attn_every_n_layers": 3
+      },
+      "parameter_evidence": {
+        "floating_tensor_elements": 149607171,
+        "nonfloating_buffer_elements": 0,
+        "hf_safetensors_total_elements": 149607171,
+        "method": "HF API safetensors metadata, no weight download. Floating elements are parameter-count proxy; integral position-ID buffers must not be counted as trainable parameters. No live model instantiation count."
+      },
+      "context": {
+        "config_max_position_embeddings": 2048,
+        "tokenizer_model_max_length": 1000000000000000019884624838656,
+        "nli_training_or_validation_context_tokens": null,
+        "conservative_pair_token_limit": 2048,
+        "base_context_claim": 8192,
+        "warning": "Pinned NLI config is2048; tokenizer huge model_max_length is an unbounded sentinel, not usable context. Do not overwrite with base8192 or infer long-context quality from architecture."
+      },
+      "labels": {
+        "id2label": {
+          "0": "entailment",
+          "1": "neutral",
+          "2": "contradiction"
+        },
+        "label2id": {
+          "contradiction": 2,
+          "entailment": 0,
+          "neutral": 1
+        },
+        "three_label_direct_control_available": true
+      },
+      "artifact_availability": {
+        "remote_safetensors": true,
+        "remote_onnx_files": [],
+        "local_cache_scope": "/home/fazinahamed/.cache/huggingface/hub exact model/snapshots/*/model.safetensors only; custom caches elsewhere not searched",
+        "local_safetensors_path": "/home/fazinahamed/.cache/huggingface/hub/models--tasksource--ModernBERT-base-nli/snapshots/de4ab7e77845098b7fab7f6ab9d370ddff27b19c/model.safetensors",
+        "local_safetensors_integrity": "not inspected; no weights read"
+      },
+      "weight_license": {
+        "declared": "apache-2.0",
+        "source": "pinned model card YAML",
+        "standalone_license_file": [],
+        "not_dataset_clearance": true
+      },
+      "model_adaptation": "Pretrained NLI cross-encoder checkpoint, not stock MLM encoder. Pair input through native tokenizer API; head labels are order-specific.",
+      "metadata_digests": {
+        "pinned_card_sha256": "c1d2045f515eb23e6edee371c86b000697ad3039521933d21ff5b53b8b631fbe",
+        "config_canonical_json_sha256": "a91cdb7e97d8ff7785cadd783df315b9995edd0b6750c8d56f493aad6a2d7405"
+      },
+      "official_benchmark_claims": [
+        {
+          "dataset": "glue/mnli",
+          "metric": "test_accuracy",
+          "value": 0.87,
+          "source": "pinned card multitask test table",
+          "head_caveat": "Scores use different classification heads over same transformer; not all are this exported three-label NLI head.",
+          "independently_reproduced": false
+        },
+        {
+          "dataset": "anli/a1",
+          "metric": "test_accuracy",
+          "value": 0.66,
+          "source": "pinned card multitask test table",
+          "head_caveat": "Scores use different classification heads over same transformer; not all are this exported three-label NLI head.",
+          "independently_reproduced": false
+        },
+        {
+          "dataset": "anli/a2",
+          "metric": "test_accuracy",
+          "value": 0.49,
+          "source": "pinned card multitask test table",
+          "head_caveat": "Scores use different classification heads over same transformer; not all are this exported three-label NLI head.",
+          "independently_reproduced": false
+        },
+        {
+          "dataset": "anli/a3",
+          "metric": "test_accuracy",
+          "value": 0.44,
+          "source": "pinned card multitask test table",
+          "head_caveat": "Scores use different classification heads over same transformer; not all are this exported three-label NLI head.",
+          "independently_reproduced": false
+        },
+        {
+          "dataset": "folio",
+          "metric": "test_accuracy",
+          "value": 0.66,
+          "source": "pinned card multitask test table",
+          "head_caveat": "Scores use different classification heads over same transformer; not all are this exported three-label NLI head.",
+          "independently_reproduced": false
+        },
+        {
+          "dataset": "doc-nli",
+          "metric": "test_accuracy",
+          "value": 0.77,
+          "source": "pinned card multitask test table",
+          "head_caveat": "Scores use different classification heads over same transformer; not all are this exported three-label NLI head.",
+          "independently_reproduced": false
+        },
+        {
+          "dataset": "zero-shot-label-nli",
+          "metric": "test_accuracy",
+          "value": 0.82,
+          "source": "pinned card multitask test table",
+          "head_caveat": "Scores use different classification heads over same transformer; not all are this exported three-label NLI head.",
+          "independently_reproduced": false
+        }
+      ],
+      "runtime_claims": {
+        "nli_checkpoint_throughput_or_latency": null,
+        "qualification": "No candidate-specific reproducible latency/throughput with hardware/batch/token/precision qualifiers located in inspected model card. Training duration and base-architecture efficiency are not inference measurements."
+      },
+      "unknowns": [
+        "Exact upstream base revision used during fine-tuning not declared by this checkpoint.",
+        "Full reproducible fine-tuning sample/hash inventory not established by model card.",
+        "No criterion-schema transfer evidence; publisher NLI accuracy is not evidence for Vey task.",
+        "No measured local RTX3060/CPU latency, memory, or ONNX numerical parity."
+      ],
+      "fine_tuning_data": {
+        "declared_datasets": "All tasksource NLI tasks named in card and all datasets in its test table; table headings are task identifiers, not exact pinned HF dataset IDs.",
+        "card_table_task_names": [
+          "glue/mnli",
+          "glue/qnli",
+          "glue/rte",
+          "glue/mrpc",
+          "glue/qqp",
+          "glue/cola",
+          "glue/sst2",
+          "super_glue/boolq",
+          "super_glue/cb",
+          "super_glue/multirc",
+          "super_glue/wic",
+          "super_glue/axg",
+          "anli/a1",
+          "anli/a2",
+          "anli/a3",
+          "sick/label",
+          "sick/entailment_AB",
+          "snli",
+          "scitail/snli_format",
+          "hans",
+          "WANLI",
+          "recast/recast_ner",
+          "recast/recast_sentiment",
+          "recast/recast_verbnet",
+          "recast/recast_megaveridicality",
+          "recast/recast_verbcorner",
+          "recast/recast_kg_relations",
+          "recast/recast_factuality",
+          "recast/recast_puns",
+          "probability_words_nli/reasoning_1hop",
+          "probability_words_nli/usnli",
+          "probability_words_nli/reasoning_2hop",
+          "nan-nli",
+          "nli_fever",
+          "breaking_nli",
+          "conj_nli",
+          "fracas",
+          "dialogue_nli",
+          "mpe",
+          "dnc",
+          "recast_white/fnplus",
+          "recast_white/sprl",
+          "recast_white/dpr",
+          "robust_nli/IS_CS",
+          "robust_nli/LI_LI",
+          "robust_nli/ST_WO",
+          "robust_nli/PI_SP",
+          "robust_nli/PI_CD",
+          "robust_nli/ST_SE",
+          "robust_nli/ST_NE",
+          "robust_nli/ST_LM",
+          "robust_nli_is_sd",
+          "robust_nli_li_ts",
+          "add_one_rte",
+          "paws/labeled_final",
+          "pragmeval/pdtb",
+          "lex_glue/scotus",
+          "lex_glue/ledgar",
+          "dynasent/dynabench.dynasent.r1.all/r1",
+          "dynasent/dynabench.dynasent.r2.all/r2",
+          "cycic_classification",
+          "lingnli",
+          "monotonicity-entailment",
+          "scinli",
+          "naturallogic",
+          "dynahate",
+          "syntactic-augmentation-nli",
+          "autotnli",
+          "defeasible-nli/atomic",
+          "defeasible-nli/snli",
+          "help-nli",
+          "nli-veridicality-transitivity",
+          "lonli",
+          "dadc-limit-nli",
+          "folio",
+          "tomi-nli",
+          "puzzte",
+          "temporal-nli",
+          "counterfactually-augmented-snli",
+          "cnli",
+          "boolq-natural-perturbations",
+          "equate",
+          "logiqa-2.0-nli",
+          "mindgames",
+          "ConTRoL-nli",
+          "logical-fallacy",
+          "cladder",
+          "conceptrules_v2",
+          "zero-shot-label-nli",
+          "scone",
+          "monli",
+          "SpaceNLI",
+          "propsegment/nli",
+          "FLD.v2/default",
+          "FLD.v2/star",
+          "SDOH-NLI",
+          "scifact_entailment",
+          "AdjectiveScaleProbe-nli",
+          "resnli",
+          "semantic_fragments_nli",
+          "dataset_train_nli",
+          "nlgraph",
+          "ruletaker",
+          "PARARULE-Plus",
+          "logical-entailment",
+          "nope",
+          "LogicNLI",
+          "contract-nli/contractnli_a/seg",
+          "contract-nli/contractnli_b/full",
+          "nli4ct_semeval2024",
+          "biosift-nli",
+          "SIGA-nli",
+          "FOL-nli",
+          "doc-nli",
+          "mctest-nli",
+          "natural-language-satisfiability",
+          "idioms-nli",
+          "lifecycle-entailment",
+          "MSciNLI",
+          "hover-3way/nli",
+          "seahorse_summarization_evaluation",
+          "missing-item-prediction/contrastive",
+          "Pol_NLI",
+          "synthetic-retrieval-NLI/count",
+          "synthetic-retrieval-NLI/position",
+          "synthetic-retrieval-NLI/binary",
+          "babi_nli",
+          "gen_debiased_nli"
+        ],
+        "training_steps": 200000,
+        "training_hardware": "Nvidia A30 GPU; training hardware, not inference qualifier",
+        "license_register_refs": [
+          "nyu-mll/multi_nli",
+          "stanfordnlp/snli",
+          "facebook/anli",
+          "sick",
+          "alisawuffles/WANLI",
+          "metaeval/lingnli"
+        ],
+        "unresolved": "Complete tasksource mixture revisions/licenses/preprocessing require a separate source-level audit; tasksource code license does not license all underlying datasets."
+      },
+      "pretraining_provenance": {
+        "base_model": "answerdotai/ModernBERT-base",
+        "declared": "2T tokens English text and code; base card does not enumerate a complete source/license ledger.",
+        "source_refs": [
+          "modernbert_pretraining",
+          "modernbert_paper"
+        ],
+        "status": "declared mixture; incomplete constituent rights audit"
+      },
+      "multilingual_scope": {
+        "declared": "English",
+        "other_languages": "No NLI benchmark support established"
+      },
+      "eligibility": {
+        "evidence_class": "INFERENCE",
+        "category": "research-eval-only",
+        "research_eval": true,
+        "shipping_training_approved": false,
+        "shipping_checkpoint_approved": false,
+        "reason": "Apache2 weight tag does not clear declared ANLI CC-BY-NC4.0, SICK NC-SA, or many unaudited mixture tasks. Keep NC-derived pretrained checkpoint a research control; no shipping training/distillation unless independently cleared."
+      }
+    },
+    {
+      "repo_id": "BalaRajesh1/mmbert-small-nli",
+      "revision": "2e7a7a1b86760ec00c5596f86e5b8bcb9ff8d9fb",
+      "last_modified": "2026-02-28T17:13:46.000Z",
+      "evidence_class": "MEASURED",
+      "source_refs": [
+        "BalaRajesh1/mmbert-small-nli"
+      ],
+      "open_access": {
+        "private": false,
+        "gated": false
+      },
+      "architecture": {
+        "architectures": [
+          "ModernBertForSequenceClassification"
+        ],
+        "model_type": "modernbert",
+        "hidden_size": 384,
+        "intermediate_size": 1152,
+        "num_hidden_layers": 22,
+        "num_attention_heads": 6,
+        "vocab_size": 256000,
+        "max_position_embeddings": 8192,
+        "classifier_pooling": "mean",
+        "local_attention": 128,
+        "global_attn_every_n_layers": 3
+      },
+      "parameter_evidence": {
+        "floating_tensor_elements": 140642691,
+        "nonfloating_buffer_elements": 0,
+        "hf_safetensors_total_elements": 140642691,
+        "method": "HF API safetensors metadata, no weight download. Floating elements are parameter-count proxy; integral position-ID buffers must not be counted as trainable parameters. No live model instantiation count.",
+        "card_claim_params": 117000000,
+        "discrepancy": "Card ~117M contradicts140,642,691 floating elements and official base card140M. Use actual Hub tensor metadata count, not card comparison table."
+      },
+      "context": {
+        "config_max_position_embeddings": 8192,
+        "tokenizer_model_max_length": 8192,
+        "nli_training_or_validation_context_tokens": 128,
+        "conservative_pair_token_limit": 128,
+        "warning": "Config/tokenizer8192 but card training128 and limitations explicitly say long pairs truncate. Use128 for comparable short-criterion screen; longer NLI remains unvalidated."
+      },
+      "labels": {
+        "id2label": {
+          "0": "entailment",
+          "1": "neutral",
+          "2": "contradiction"
+        },
+        "label2id": {
+          "contradiction": 2,
+          "entailment": 0,
+          "neutral": 1
+        },
+        "three_label_direct_control_available": true
+      },
+      "artifact_availability": {
+        "remote_safetensors": true,
+        "remote_onnx_files": [],
+        "local_cache_scope": "/home/fazinahamed/.cache/huggingface/hub exact model/snapshots/*/model.safetensors only; custom caches elsewhere not searched",
+        "local_safetensors_path": null,
+        "local_safetensors_integrity": "not inspected; no weights read"
+      },
+      "weight_license": {
+        "declared": "mit",
+        "source": "pinned model card YAML",
+        "standalone_license_file": [],
+        "not_dataset_clearance": true
+      },
+      "model_adaptation": "Pretrained NLI cross-encoder checkpoint, not stock MLM encoder. Pair input through native tokenizer API; head labels are order-specific.",
+      "metadata_digests": {
+        "pinned_card_sha256": "b5088905e34e70bec537a7f705b89e9abff27ba309814fa75ffa4122bf99666c",
+        "config_canonical_json_sha256": "a0d6c71d4697e607ced7248142ff4f380415d4045db312c0e7b5ec20a2537b8f"
+      },
+      "official_benchmark_claims": [
+        {
+          "dataset": "MNLI matched",
+          "metric": "accuracy",
+          "value": 0.8556,
+          "source": "pinned model-author card",
+          "independently_reproduced": false
+        },
+        {
+          "dataset": "MNLI mismatched",
+          "metric": "accuracy",
+          "value": 0.8536,
+          "source": "pinned model-author card",
+          "independently_reproduced": false
+        },
+        {
+          "dataset": "SNLI test",
+          "metric": "accuracy",
+          "value": 0.8827,
+          "source": "pinned model-author card",
+          "independently_reproduced": false
+        },
+        {
+          "dataset": "ANLI R1 test",
+          "metric": "accuracy",
+          "value": 0.535,
+          "source": "pinned model-author card",
+          "independently_reproduced": false
+        },
+        {
+          "dataset": "ANLI R2 test",
+          "metric": "accuracy",
+          "value": 0.408,
+          "source": "pinned model-author card",
+          "independently_reproduced": false
+        },
+        {
+          "dataset": "ANLI R3 test",
+          "metric": "accuracy",
+          "value": 0.3958,
+          "source": "pinned model-author card",
+          "independently_reproduced": false
+        },
+        {
+          "dataset": "WANLI test",
+          "metric": "accuracy",
+          "value": 0.6918,
+          "source": "pinned model-author card",
+          "independently_reproduced": false
+        },
+        {
+          "dataset": "XNLI test15languages",
+          "metric": "accuracy",
+          "value": 0.7772,
+          "source": "pinned model-author card",
+          "independently_reproduced": false
+        }
+      ],
+      "runtime_claims": {
+        "nli_checkpoint_throughput_or_latency": null,
+        "qualification": "No candidate-specific reproducible latency/throughput with hardware/batch/token/precision qualifiers located in inspected model card. Training duration and base-architecture efficiency are not inference measurements."
+      },
+      "unknowns": [
+        "Exact upstream base revision used during fine-tuning not declared by this checkpoint.",
+        "Full reproducible fine-tuning sample/hash inventory not established by model card.",
+        "No criterion-schema transfer evidence; publisher NLI accuracy is not evidence for Vey task.",
+        "No measured local RTX3060/CPU latency, memory, or ONNX numerical parity.",
+        "Model card has incorrect2021 mmBERT citation versus official2025 paper, unreconciled~117M size, and inconsistent example totals.",
+        "Card claims1833-language NLI coverage without1833-language evaluation; base pretraining is not downstream validation."
+      ],
+      "fine_tuning_data": {
+        "declared_datasets": [
+          "nyu-mll/multi_nli",
+          "stanfordnlp/snli",
+          "facebook/anli",
+          "pietrolesci/nli_fever",
+          "alisawuffles/WANLI",
+          "metaeval/lingnli",
+          "sick",
+          "xnli",
+          "MoritzLaurer/multilingual-NLI-26lang-2mil7"
+        ],
+        "license_register_refs": [
+          "nyu-mll/multi_nli",
+          "stanfordnlp/snli",
+          "facebook/anli",
+          "pietrolesci/nli_fever",
+          "alisawuffles/WANLI",
+          "metaeval/lingnli",
+          "sick",
+          "xnli",
+          "MoritzLaurer/multilingual-NLI-26lang-2mil7"
+        ],
+        "declared_examples": "Over1.8M in introduction; ~2.1M total in training section; not reconciled",
+        "training_languages": "26+ claimed; English plus XNLI15 and sampled multilingual-NLI26. No exact language/sample hashes supplied.",
+        "source": "pinned card",
+        "training_pair_max_length": 128,
+        "training_details": {
+          "batch_per_gpu": 32,
+          "precision": "FP16",
+          "epochs_planned": 3,
+          "early_stop_at_fraction_max_steps": "~19%",
+          "training_time_hours": 5.38,
+          "hardware": "Not named in inspected training table; duration not runtime benchmark"
+        }
+      },
+      "pretraining_provenance": {
+        "base_model": "jhu-clsp/mmBERT-small",
+        "declared": "3T+ tokens: DCLM, FineWeb2/FineWeb2-HQ, Wikipedia/MegaWika, StarCoder/ProLong code, ArXiv/PeS2o, StackExchange, textbooks; progressive1800+languages.",
+        "source_refs": [
+          "mmbert_pretraining",
+          "mmbert_paper"
+        ],
+        "status": "Public source-mixture/phases known; constituent redistribution/training rights not fully audited, Gemma2 tokenizer provenance requires separate review"
+      },
+      "multilingual_scope": {
+        "base_pretraining_languages_claim": 1833,
+        "fine_tuning_languages_claim": "26+",
+        "publisher_nli_benchmark_languages": 15,
+        "benchmark": "XNLI test; per-language results not supplied in inspected card",
+        "qualification": "1833 is base language-coverage claim, NOT evidence of NLI competence or criterion transfer in1833 languages.105 HF language tags also are not validation."
+      },
+      "eligibility": {
+        "evidence_class": "INFERENCE",
+        "category": "research-eval-only",
+        "research_eval": true,
+        "shipping_training_approved": false,
+        "shipping_checkpoint_approved": false,
+        "reason": "MIT weight tag does not clear ANLI/XNLI NC, SICK NC-SA, LingNLI unknown, or transformed FEVER/translated mixture missing license. No shipping training or distillation under user policy."
+      }
+    },
+    {
+      "repo_id": "MoritzLaurer/mDeBERTa-v3-base-mnli-xnli",
+      "revision": "8adb042d524ecd5c26d3e3ba0e3fbcf7e2d0864c",
+      "last_modified": "2024-01-08T12:37:16.000Z",
+      "evidence_class": "MEASURED",
+      "source_refs": [
+        "MoritzLaurer/mDeBERTa-v3-base-mnli-xnli"
+      ],
+      "open_access": {
+        "private": false,
+        "gated": false
+      },
+      "architecture": {
+        "architectures": [
+          "DebertaV2ForSequenceClassification"
+        ],
+        "model_type": "deberta-v2",
+        "hidden_size": 768,
+        "intermediate_size": 3072,
+        "num_hidden_layers": 12,
+        "num_attention_heads": 12,
+        "vocab_size": 251000,
+        "max_position_embeddings": 512,
+        "classifier_pooling": null,
+        "local_attention": null,
+        "global_attn_every_n_layers": null
+      },
+      "parameter_evidence": {
+        "floating_tensor_elements": 278811651,
+        "nonfloating_buffer_elements": 512,
+        "hf_safetensors_total_elements": 278812163,
+        "method": "HF API safetensors metadata, no weight download. Floating elements are parameter-count proxy; integral position-ID buffers must not be counted as trainable parameters. No live model instantiation count."
+      },
+      "context": {
+        "config_max_position_embeddings": 512,
+        "tokenizer_model_max_length": 512,
+        "nli_training_or_validation_context_tokens": null,
+        "conservative_pair_token_limit": 512
+      },
+      "labels": {
+        "id2label": {
+          "0": "entailment",
+          "1": "neutral",
+          "2": "contradiction"
+        },
+        "label2id": {
+          "contradiction": 2,
+          "entailment": 0,
+          "neutral": 1
+        },
+        "three_label_direct_control_available": true
+      },
+      "artifact_availability": {
+        "remote_safetensors": true,
+        "remote_onnx_files": [
+          "onnx/model.onnx",
+          "onnx/model_quantized.onnx"
+        ],
+        "local_cache_scope": "/home/fazinahamed/.cache/huggingface/hub exact model/snapshots/*/model.safetensors only; custom caches elsewhere not searched",
+        "local_safetensors_path": null,
+        "local_safetensors_integrity": "not inspected; no weights read"
+      },
+      "weight_license": {
+        "declared": "mit",
+        "source": "pinned model card YAML",
+        "standalone_license_file": [],
+        "not_dataset_clearance": true
+      },
+      "model_adaptation": "Pretrained NLI cross-encoder checkpoint, not stock MLM encoder. Pair input through native tokenizer API; head labels are order-specific.",
+      "metadata_digests": {
+        "pinned_card_sha256": "c6cc8ca44d55e6ff3dd75672c8fcc41c22ca18b551aa52fb5d611d720a5f966b",
+        "config_canonical_json_sha256": "c0c1b9247edf1c3a36917b580f7a70dead912fa3124e9d1a1493be790d05c84e"
+      },
+      "official_benchmark_claims": [
+        {
+          "dataset": "XNLI test",
+          "metric": "mean accuracy over15languages",
+          "value": 0.808,
+          "examples": 75150,
+          "source": "pinned card",
+          "independently_reproduced": false
+        }
+      ],
+      "runtime_claims": {
+        "nli_checkpoint_throughput_or_latency": null,
+        "qualification": "No candidate-specific reproducible latency/throughput with hardware/batch/token/precision qualifiers located in inspected model card. Training duration and base-architecture efficiency are not inference measurements.",
+        "precision_caveat": "Card warns mDeBERTa did not support FP16 and links microsoft/DeBERTa issue77; checkpoint is storedF16, which is not evidence that FP16 inference is numerically valid. Future parent must preregister and validate precision; no automatic parity claim."
+      },
+      "unknowns": [
+        "Exact upstream base revision used during fine-tuning not declared by this checkpoint.",
+        "Full reproducible fine-tuning sample/hash inventory not established by model card.",
+        "No criterion-schema transfer evidence; publisher NLI accuracy is not evidence for Vey task.",
+        "No measured local RTX3060/CPU latency, memory, or ONNX numerical parity."
+      ],
+      "fine_tuning_data": {
+        "declared_datasets": [
+          "nyu-mll/multi_nli",
+          "xnli"
+        ],
+        "source": "pinned card",
+        "train_splits": "MNLI English train392702 + professionally translated XNLI DEVELOPMENT2490x15=37350; not machine-translated XNLI training corpus.",
+        "contamination_caveat": "XNLI development is training data for this checkpoint; must not treat it as independent evaluation or calibration holdout.",
+        "license_register_refs": [
+          "nyu-mll/multi_nli",
+          "xnli"
+        ]
+      },
+      "pretraining_provenance": {
+        "base_model": "microsoft/mdeberta-v3-base",
+        "declared": "2.5T CC100 multilingual data,100languages",
+        "source_refs": [
+          "mdeberta_pretraining",
+          "deberta_v3_paper"
+        ],
+        "status": "Known corpus identity; web-content rights not cleared by MIT checkpoint license"
+      },
+      "multilingual_scope": {
+        "base_pretraining_languages_claim": 100,
+        "fine_tuning_languages": 15,
+        "publisher_test_languages": 15,
+        "unsupported_extension": "NLI on remaining85languages is cross-lingual transfer claim with expected lower quality, not measured support."
+      },
+      "eligibility": {
+        "evidence_class": "INFERENCE",
+        "category": "research-eval-only",
+        "research_eval": true,
+        "shipping_training_approved": false,
+        "shipping_checkpoint_approved": false,
+        "reason": "MIT weights with explicit XNLI NC DEVELOPMENT fine-tuning; not shipping-train under policy. Optional<=350M research comparator only, not default smallest roster."
+      }
+    }
+  ],
+  "direct_label_control": {
+    "evidence_class": "INFERENCE",
+    "requested_form": {
+      "premise": "q verbatim",
+      "hypothesis": "This criterion prefers higher {field}.",
+      "mapping": {
+        "contradiction": "lower",
+        "neutral": "unrelated",
+        "entailment": "higher"
+      }
+    },
+    "verdict": "A falsifiable low-cost diagnostic, NOT a generally valid semantic reduction. Conditionally defensible only on a preregistered restricted domain of explicit, unconditional, single-field monotone preference statements with exactly three allowed meanings.",
+    "semantic_hazards": [
+      "An imperative/question such as Which option is cheaper? does not literally assert what a criterion prefers; interpreting it as a statement is an unvalidated pragmatic conversion.",
+      "This criterion has a deictic/metalinguistic referent not explicitly established by raw q.",
+      "Contradiction of prefers higher need not imply prefers lower: prefer equality/middle range, ignore field, avoid extremes, threshold, or conditional preferences are additional possibilities.",
+      "NLI neutral means neither entailment nor contradiction/insufficient evidence; it is not equivalent to unrelated field.",
+      "Compositions and conditional criteria can support conflicting directions, cancellation, or non-monotone preference; one NLI label cannot represent all semantics.",
+      "Negated preference does not logically establish the opposite preference without an explicit exhaustiveness assumption."
+    ],
+    "implementation_requirements_for_parent": [
+      "Use model config ID labels, not fixed universal positions. cross-encoder DeBERTa uses0contradiction/1entailment/2neutral; ModernBERT/mmBERT/mDeBERTa use0entailment/1neutral/2contradiction.",
+      "Use tokenizer(premise,hypothesis) native pair formatting; do not treat CLS or mean vectors as separately trained sentence embeddings.",
+      "No HF zero-shot pipeline binary entailment normalization for this control; record all3raw logits/probabilities and mapped label.",
+      "Freeze exact strings, field verbalizations, pair token budget, special-token accounting, truncation policy, label interpretation, and UNKNOWN policy before scores.",
+      "Preregister grammar-level entailment counterexamples and antonym/negation/conditional/composition strata independently of model output.",
+      "Optional separate explicitly declared control: compare entailment of both higher and lower hypotheses, with neither/both→UNKNOWN; this is a different arm, not a post-failure mapping repair.",
+      "Calibrate only on a disjoint calibration set; raw NLI softmax is not validated criterion confidence or a certificate."
+    ],
+    "performance_hypothesis": {
+      "evidence_class": "HYPOTHESIS",
+      "claim": "Task-adapted pair inference may improve criterion transfer over the stock encoder interface; no result observed."
+    }
+  },
+  "recommended_smallest_roster": {
+    "evidence_class": "INFERENCE",
+    "decision_owner": "Parent; recommendation is not an executed or frozen selection.",
+    "core_new_checkpoint": "cross-encoder/nli-deberta-v3-xsmall",
+    "reason": "70.831M, same384-wide12layer family as stock control, genuine3labels, onlySNLI+MNLI declared NLI tuning, non-NC declared fine-tuning provenance subject to SA/mixed-license review. Minimizes architectural confounding; not globally smallest conceivable NLI model.",
+    "required_controls": [
+      "Immutable existing stock DeBERTa-v3-xsmall CBF6 interface/results as historical negative control, not fresh final reuse.",
+      "Exact literal compiler/oracle on identical fresh cases; scores get no semantic credit.",
+      "Criterion/field-blind or lexical-ID control to detect template/field leakage; preregister without enlarging protocol unnecessarily.",
+      "Same stock DeBERTa-v3-xsmall task-adaptation alternative on independently licensed, shipping-eligible training material if shipping provenance blocks pretrained NLI; adaptation scope and data/budget must be fixed before scores."
+    ],
+    "small_open_bakeoff_if_parent_wants_two_new_checkpoints": [
+      "cross-encoder/nli-deberta-v3-xsmall",
+      "cross-encoder/nli-deberta-v3-small"
+    ],
+    "conditional_extension": "Add tasksource/ModernBERT-base-nli only as separately labeled NC-derived research-eval control when testing another architecture/NLI mixture is necessary. Do not claim fair architecture isolation: pretraining, dimensions, and fine-tuning mixtures differ.",
+    "multilingual_extension": "BalaRajesh1/mmbert-small-nli fits<=200M actual tensor count and384width; keep research-only,128validated training length, no1833-language validation claim. Optional mDeBERTa278.8M research-only comparator if multilingual question remains unresolved; no reason to start with both.",
+    "shipping_path": "Neither NC-derived research checkpoints nor missing-license datasets are sources for shipping training/distillation. Stock encoder + audited permissive task supervision is the explicit alternative, not automatic clearance of base web provenance.",
+    "trigger": "CBF6 development failures only; no candidate/prompt selection driven by closed final."
+  },
+  "stock_encoder_alternatives": [
+    {
+      "repo_id": "microsoft/deberta-v3-xsmall",
+      "revision": "4b419818330868dff6a60ad3e6b1c730f8b8c0c6",
+      "evidence_class": "MEASURED",
+      "source": "https://huggingface.co/microsoft/deberta-v3-xsmall/blob/4b419818330868dff6a60ad3e6b1c730f8b8c0c6/config.json",
+      "weight_license": "mit",
+      "architecture": {
+        "architectures": null,
+        "model_type": "deberta-v2",
+        "hidden_size": 384,
+        "intermediate_size": 1536,
+        "num_hidden_layers": 12,
+        "num_attention_heads": 6,
+        "vocab_size": 128100,
+        "max_position_embeddings": 512
+      },
+      "remote_safetensors": false,
+      "remote_pytorch_bin": true,
+      "existing_nli_label_map": null,
+      "pretraining_type": "DeBERTaV3 ELECTRA-style replaced-token pretraining",
+      "role": {
+        "evidence_class": "INFERENCE",
+        "type": "Stock encoder task-adaptation control, NOT pretrained NLI direct-label inference. A random/new classifier head has no NLI semantics until trained.",
+        "eligibility": "conditional/review",
+        "shipping_training_approved": false,
+        "reason": "Weight license is permissive; complete constituent pretraining-license audit remains unresolved. New task supervision must come solely from audited shipping-train material; NC research controls must not generate shipping targets."
+      }
+    },
+    {
+      "repo_id": "answerdotai/ModernBERT-base",
+      "revision": "8949b909ec900327062f0ebf497f51aef5e6f0c8",
+      "evidence_class": "MEASURED",
+      "source": "https://huggingface.co/answerdotai/ModernBERT-base/blob/8949b909ec900327062f0ebf497f51aef5e6f0c8/config.json",
+      "weight_license": "apache-2.0",
+      "architecture": {
+        "architectures": [
+          "ModernBertForMaskedLM"
+        ],
+        "model_type": "modernbert",
+        "hidden_size": 768,
+        "intermediate_size": 1152,
+        "num_hidden_layers": 22,
+        "num_attention_heads": 12,
+        "vocab_size": 50368,
+        "max_position_embeddings": 8192
+      },
+      "remote_safetensors": true,
+      "remote_pytorch_bin": true,
+      "existing_nli_label_map": null,
+      "pretraining_type": "Masked language modeling",
+      "role": {
+        "evidence_class": "INFERENCE",
+        "type": "Stock encoder task-adaptation control, NOT pretrained NLI direct-label inference. A random/new classifier head has no NLI semantics until trained.",
+        "eligibility": "conditional/review",
+        "shipping_training_approved": false,
+        "reason": "Weight license is permissive; complete constituent pretraining-license audit remains unresolved. New task supervision must come solely from audited shipping-train material; NC research controls must not generate shipping targets."
+      }
+    },
+    {
+      "repo_id": "jhu-clsp/mmBERT-small",
+      "revision": "abc32620dd4f6ab06f5fbe905dc25f310618e09f",
+      "evidence_class": "MEASURED",
+      "source": "https://huggingface.co/jhu-clsp/mmBERT-small/blob/abc32620dd4f6ab06f5fbe905dc25f310618e09f/config.json",
+      "weight_license": "mit",
+      "architecture": {
+        "architectures": [
+          "ModernBertForMaskedLM"
+        ],
+        "model_type": "modernbert",
+        "hidden_size": 384,
+        "intermediate_size": 1152,
+        "num_hidden_layers": 22,
+        "num_attention_heads": 6,
+        "vocab_size": 256000,
+        "max_position_embeddings": 8192
+      },
+      "remote_safetensors": false,
+      "remote_pytorch_bin": true,
+      "existing_nli_label_map": null,
+      "pretraining_type": "Masked language modeling",
+      "role": {
+        "evidence_class": "INFERENCE",
+        "type": "Stock encoder task-adaptation control, NOT pretrained NLI direct-label inference. A random/new classifier head has no NLI semantics until trained.",
+        "eligibility": "conditional/review",
+        "shipping_training_approved": false,
+        "reason": "Weight license is permissive; complete constituent pretraining-license audit remains unresolved. New task supervision must come solely from audited shipping-train material; NC research controls must not generate shipping targets."
+      }
+    }
+  ],
+  "excluded_or_noncore_options": [
+    {
+      "repo_id": "MoritzLaurer/deberta-v3-xsmall-zeroshot-v1.1-all-33",
+      "revision": "262ae02f29173eec1c250f90804dc7edc677dcff",
+      "reason": "Binaryentailment/not_entailment only, cannot distinguish lower from unrelated via requested3label mapping. Its all33datasets tuning includesANLI NC and several other licenses, so research-eval-only. Broader neutral benchmark datasets AGNews/DAIR Emotion/Banking77/MASSIVE were in declared training; not wholly unseen dataset transfer.",
+      "declared_weight_license": "mit",
+      "floating_tensor_elements": 70830722,
+      "id2label": {
+        "0": "entailment",
+        "1": "not_entailment"
+      },
+      "context": 512,
+      "card_source": "https://huggingface.co/MoritzLaurer/deberta-v3-xsmall-zeroshot-v1.1-all-33/blob/262ae02f29173eec1c250f90804dc7edc677dcff/README.md",
+      "pipeline_source": "https://huggingface.co/MoritzLaurer/deberta-v3-large-zeroshot-v1.1-all-33/blob/main/README.md",
+      "publisher_benchmark_caveat": "Card explicitly says no zero-shot evaluation; listed NLI accuracies arebinary,not3label and trained tasks are not unseen.",
+      "publisher_runtime_claim": {
+        "dataset": "MNLI matched",
+        "texts_per_second": 1573.0,
+        "hardware": "A10G",
+        "batch_size": 128,
+        "precision": "Not separately specified for this table",
+        "token_length": "Task-dependent, not fixed across tasks",
+        "source": "pinned card",
+        "qualification": "Not transferable toRTX3060/CPU, batch1, or per-field criterion decisions."
+      },
+      "card_parameter_discrepancy": "Card says22Mbackbone+128Mvocabulary, inconsistent with70,830,722HubF16tensor elements; original Microsoftxsmall says48Membedding.142MBcard value approximately agrees with70.8MF16, but not a verified local artifact-size claim."
+    },
+    {
+      "repo_id": "cross-encoder/nli-MiniLM2-L6-H768",
+      "revision": "b95119ce93d3e065de6214e38cd4a97b0f2f2c6d",
+      "floating_tensor_elements": 82120707,
+      "reason": "Genuine3label SNLI+MNLI control withApache2weight tag, but larger than70.8Mxsmall and a different distillation lineage; redundant for smallest first bakeoff.",
+      "source": "https://huggingface.co/cross-encoder/nli-MiniLM2-L6-H768",
+      "known_base": "nreimers/MiniLMv2-L6-H768-distilled-from-RoBERTa-Large",
+      "base_provenance_caveat": "Base README only linksMicrosoftUniLM/MiniLM; complete teacher/data/license lineage not established.",
+      "eligibility": "conditional/review",
+      "publisher_accuracy_mnli_mismatched": 0.8689,
+      "benchmark_source": "https://sbert.net/docs/cross_encoder/pretrained_models.html#nli"
+    }
+  ],
+  "global_unknowns": [
+    "Source/API inspection does not verify tensor contents, checkpoint authenticity beyond pinned Hubrevision, runtime loadability, safetensor integrity, or model quality.",
+    "No claims of complete rights clearance; a permissive weight tag is distinct from known NC fine-tuning provenance and incomplete upstream rights.",
+    "Publisher tasks overlap possible neutral-suite sources; independent freshcriterion benchmark required. XNLIdevelopment is in mDeBERTatraining.",
+    "Long-context efficiency claims for ModernBERT/mmBERT base withFlashAttention/unpadding are hardware/kernel-dependent and do not establish short-criterion latency on targetRTX3060 orCPUs.",
+    "Tasksource card multitask head test results do not establish performance of the exportedNLIhead on arbitrary criteria."
+  ]
+}
