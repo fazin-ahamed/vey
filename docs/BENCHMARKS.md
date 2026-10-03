@@ -2439,6 +2439,57 @@ SHA-256:
 - criterion predictions: `0487a691b421ff66a9a222d6b3035dfcba6d41b83e72487e681fc99d8766217f`
 - results: `8eef26577b3414953156f1d5d5607f84e14ce0be7366c74e1882fdaa72d49cb9`
 
+### CBF-3: representation-interface tomography, preregistration
+
+CBF-3 first tests cached geometry, without neural retraining or capacity
+increase. Difference OLS fits the original training scenarios' unordered
+pairs, equivalent to scenario-centered rows weighted by sqrt(K).
+Both it and the absolute comparator map 384 to four numeric attributes;
+the latter reuses CBF-2's first four columns. True minimizing-criterion
+constants cancel in ranking, so no estimated fifth intercept is compared.
+Adequacy remains top-1/pairwise at least 0.95 on unseen-criterion and
+held-family splits and each held family.
+
+Family-local OLS uses all existing rows as diagnostic data, including
+previously held families. Its 13x13 transfer matrix must distinguish
+resubstitution diagonals from four-fold scenario-grouped CV inside every
+family, stratified by source split/K, seed 7. Training interpolation on
+a small family is not evidence of transferable numeric coordinates.
+
+Template projection uses only the 20 supported criterion IDs. Two
+crossfit groups split ten families into five donor and five recipient
+families. Donors' four template means define a rank-at-most-three contrast
+subspace; evaluated recipient strings never fit that projection.
+All templates are observed through donors, so this is known-template
+nuisance analysis, not unseen-template deployment. One global projection
+per crossfit group is applied without OLS renormalization; no
+criterion-specific parameters. Rerun 20-class centroid retrieval,
+original-wording OLS, and three-wording-to-one-wording OLS.
+Repair requires retrieval 0.95, wording-out top-1 0.95, and cosine 0.99.
+
+If global difference adequacy and template repair do not both pass, make
+one frozen FP32 pass over the exact original sorted texts using the same
+stock DeBERTa revision as CBF-0, not Vey-2 weights. Persist every layer's
+valid token states, offsets, IDs, masks, and fixed pooled features.
+Final shipped pooling must reproduce the original cache within 1e-6.
+Candidate readouts are shipped mean, CLS, content mean, numeric-token
+union mean, and attribute-name/value-token union mean; criterion readouts
+are shipped mean, CLS, content mean, and attribute-keyword mean.
+Every readout stays 384-wide, normalized, with no layer/attribute
+concatenation. Span selection uses visible benchmark grammar, not latent
+facts or numeric targets; it is a grammar-assisted diagnostic interface.
+Embedding output and every transformer layer are swept with the same
+closed-form probes, without selecting a smaller posthoc suite.
+
+Same-layer token-readout success against weak mean pooling supports a
+pooling bottleneck; earlier-layer success supports a depth/readout choice.
+Failure of this finite suite does not prove that all frozen readouts lack
+information. Supported-wording or oracle-hybrid success does not establish
+full unseen-criterion transfer. Best layer results are exploratory, not
+promotion evidence. B-STEF remains blocked throughout this audit.
+Exact protocol: `research/cbf0/tomography_protocol.json`; artifacts remain
+under `vey-data/decisionmix/d3/cbf/tomography-v1/`.
+
 
 
 

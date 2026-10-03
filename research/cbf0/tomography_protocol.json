@@ -1,0 +1,32 @@
+{
+  "experiment": "CBF-3 representation interface tomography",
+  "source_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/corrected-v1",
+  "ceiling_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/ceiling-v1",
+  "output_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/tomography-v1",
+  "solver": "Same CBF-2 FP64 minimum-norm economy SVD, no bias, no centering except explicitly defined difference objective; machine-epsilon rank cutoff; all deployed diagnostic candidate maps remain 384 to 4, all criterion maps 384 to existing five oracle coordinates, within width32",
+  "difference_objective": "Original train scenarios only, equal weight for every unordered within-scenario candidate pair. Solve using the exact identity sum(i<j)||r_i-r_j||^2=K*sum(i)||r_i-mean(r)||^2: center each scenario's H/Y and weight rows by sqrt(K). Record pair counts and independently verify objective equality. Compare cached CBF-2 absolute first-four-output OLS with difference OLS; minimizing criteria rank by minus the predicted selected attribute, true constant cancels. No learned fifth intercept in either comparison.",
+  "family_local": "All existing rows, deduplicated candidates per family, purely diagnostic including previously held families. Fit one four-output OLS per family, evaluate every family (13x13 matrix); diagonal is resubstitution, not generalization evidence. Four-fold scenario-grouped CV inside every family, stratified by original source split and K, seed7; require disjoint candidate texts. Persist train/CV and cross-family per-slot MSE/R2/correlations/order and oracle-criterion top1. No family-specific serving heads.",
+  "template_projection": "Only 20 supported criterion IDs. Split their ten families into two seed7 groups of five. For each recipient group, use the other group's ten IDs and all four wordings to estimate four template means, subtract grand template mean, retain the three nonzero SVD contrast directions. P is a global per-crossfit projection, no criterion-specific parameters. Recipient test strings are absent from nuisance estimation; donor examples include all templates, so this tests known-template nuisance, not unseen-template deployment. Project without renormalizing before OLS, preserving a linear function class; cosine retrieval normalizes as required. Rerun baseline and projected 20-class centroid retrieval, original-two-wording OLS, and four three-wording-to-one-wording OLS folds; score only recipients, then aggregate equal folds. No held target labels used to estimate nuisance.",
+  "cached_gates": {
+    "difference_adequate": "top1 and pairwise >=0.95 on original unseen criterion AND held-family splits AND every held family",
+    "family_coordinate_evidence": "family-local out-of-scenario CV (not diagonal fits) top1 and all four R2 >=0.95 in each family while cross-family transfer is below adequacy",
+    "template_repaired": "crossfit semantic-ID accuracy >=0.95 and projected equal-fold oracle-candidate top1 >=0.95 and mean direction cosine >=0.99",
+    "new_encoder_pass": "Only if difference_adequate AND template_repaired do not both pass. Family-local success alone does not repair global transport. Never launch B-STEF or full-CBF training here."
+  },
+  "encoder": {
+    "model": "microsoft/deberta-v3-xsmall",
+    "revision": "eb2d654bf0a5b628c8be6c4be7d29118fbef95b8",
+    "dtype": "FP32",
+    "batch_size": 64,
+    "texts": "Original embedding cache's sorted unique strings, one forward per text, no augmentation or normalization changes to input text",
+    "lineage": "Same stock checkpoint as CBF-0 through CBF-2, not trained Vey-2 weights; reject missing/mismatched encoder keys; record weight-file hash and config/tokenizer lineage",
+    "save": "Every layer including embedding output, every valid token, FP32 uncompressed batch shards with text indices, lengths, token IDs, character offsets, special masks, visible-text span masks; save fixed pooled features at all layers",
+    "parity": "Final normalized shipped-pool features must match original cache max abs error <=1e-6; no pooling promotion if lineage/parity fails"
+  },
+  "candidate_interfaces": ["shipped normalized mean including valid special tokens", "CLS first token", "content mean excluding special tokens", "numeric-value-token union mean", "attribute-name/value-token union mean"],
+  "criterion_interfaces": ["shipped normalized mean", "CLS first token", "content mean excluding special tokens", "criterion-attribute-keyword-token mean"],
+  "span_policy": "Character spans parsed from visible benchmark text grammar only, no facts/values/criterion-ID labels enter pooling. Numeric spans are digit substrings, name/value spans union each field's name and digits; criterion spans strip one of the four visible preference templates. Token selected by positive overlap of tokenizer offsets with character spans, excluding special/padding. All means remain 384-wide, L2-normalized; never concatenate attributes or layers. This grammar-assisted span selector is a diagnostic interface, not a deployable arbitrary-text parser.",
+  "layer_probes": "Every layer/readout, no posthoc subset. Candidate absolute and difference OLS fit original train only, report every original split and family/K; supported criterion centroid, original-wording OLS and wording-out folds reuse CBF-2 recipes. Save decoder weights, predicted attributes/query vectors, spectra and masks. Best observed layers are exploratory diagnostic maxima, not a promoted interface or independent test result.",
+  "interpretation": "Same-layer token readout high versus same-layer shipped mean low supports pooling bottleneck. Earlier-layer high supports a depth/readout choice. Family-local training perfection without CV does not support family-dependent coordinates. Failure of this finite suite blocks tested frozen linear readouts, not every possible frozen encoder interface or nonlinear decoder. Hybrid oracle success does not demonstrate full unseen criterion transfer or unblock B-STEF.",
+  "forbidden": ["B-STEF", "new examples", "neural training", "larger widths", "new layers", "attention readouts", "layer/attribute concatenation", "serving family heads", "posthoc gate tuning"]
+}
