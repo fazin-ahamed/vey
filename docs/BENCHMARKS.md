@@ -2632,6 +2632,64 @@ SHA-256:
 
 
 
+## CBF-4: Exact-State / Semantic-Criterion Field (preregistered research)
+
+CBF-3's local keyword result recovered literal axis cues under fixed polarity;
+it did not establish semantic criterion mapping. CBF-4 removes candidate
+reconstruction from the experiment. A deterministic parser owns four exact
+state coordinates: reliability, purchase expense, operating expense, and
+convenience. Only the criterion map is learned.
+
+The original corpus contains separate quality, cost, and preference scenarios.
+This screen joins their existing candidate facts by source split, K, repetition,
+and candidate index. It resamples no numeric value, but the joined four-field
+state is a **new benchmark input**, not the original single-family input.
+Training diagnostics use original train states; alias/polarity tests use
+unseen-wording states; composition tests use unseen-criterion states.
+
+`research/cbf0/exact_state_protocol.json` freezes the complete recipe before
+corpus construction or encoding. `exact_state_build.py` fixes all authored
+aliases and question renderers. Training supports every axis, both polarities,
+and magnitudes one/two. Tests cover:
+
+- aliases containing none of the literal axis tokens, absent from training;
+- unseen same-attribute positive/negative question pairs on fixed candidates;
+- weighted compositions with held positive-ray directions;
+- entire held axis-pair supports, not just held question strings.
+
+Four interfaces: literal keyword lookup with generic polarity/weight cues
+(UNKNOWN on absent names), frozen final mean, layer-1 mean, and layer-1 mean
+over the entire semantic expression after generic task-prefix removal.
+The span selector never searches for attribute names; it retains polarity,
+weights, aliases, and every clause. One stock DeBERTa-v3-xsmall FP32 pass
+encodes **criterion strings only**. Three identical bias-free 384-to-4 maps
+use six training-template-out folds to select a fixed-grid ridge coefficient.
+No test criterion participates in fitting. Four active coordinates remain
+within the previous width32 budget; no candidate parameters remain.
+
+Gates, fixed before measurement:
+
+1. Alias top1 at least 0.80, with paired semantic-direction-cluster significance
+   above lexical lookup. Report nominal 95% and three-comparison simultaneous
+   intervals; the simultaneous lower bound must exceed zero.
+2. Polarity top1 at least 0.90, every held literal reverse-question direction
+   cosine negative, and a student winner change for every teacher-changing
+   polarity reversal.
+3. Composition and held-support top1 each at least 0.80, with disjoint training
+   direction rays and held supports.
+4. On teacher-changing criterion swaps, the student chooses the **new teacher
+   winner** at least 0.80 of the time. This rate does not additionally require
+   the student to change; changed-to-new and both-endpoint rates are separate.
+5. Exactly identical restored scores and content-tie-broken winner after
+   reversed and seed7-shuffled candidate orders.
+
+Report every interface and stratum, not an observed best layer. Any passing
+learned interface only opens a separately preregistered CBF-4 replication;
+B-STEF stays blocked until replication passes. This controlled four-axis
+screen is not arbitrary-criterion or Jev parity, and it does not validate
+semantic candidate extraction. Frozen Vey-2 is untouched.
+
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the

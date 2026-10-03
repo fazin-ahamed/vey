@@ -1,0 +1,53 @@
+{
+  "experiment": "CBF-4 Exact-State / Semantic-Criterion Field",
+  "source_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/corrected-v1",
+  "output_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/exact-state-v1",
+  "state": {
+    "axes": ["reliability", "purchase expense", "operating expense", "convenience"],
+    "join": "Original quality/cost/preference scenarios joined by source split, K, repetition and candidate index; parse visible source strings, select named fields, render joined four-field states. No resampling or invention of numeric facts. This is a new structured benchmark, not the old single-family input unchanged.",
+    "features": "Deterministic named-field integer-percent parser, divided by 100 for student scores; four active coordinates within existing width32 budget; no candidate encoder/map/learned extraction",
+    "split": "Original train scenarios for training diagnostics; unseen_wording scenarios for alias/polarity; unseen_criterion scenarios for weighted composition/held-combination. Whole scenario and candidate texts disjoint.",
+    "teacher": "Exact integer sum of coefficient times percent. Gold top sets exact; stable fact-content tie-break for a concrete winner, never candidate position."
+  },
+  "criteria": {
+    "A_alias": "Four authored opposite-direction alias pairs per axis; every literal axis token absent; aliases never in training. Both signs, weight1. All axis/sign directions supported by literal training.",
+    "B_polarity": "Four unseen literal question templates per axis, both signs, same fixed candidate sets; every positive/negative question pair evaluated.",
+    "C_composition": "Known axis pairs, held coefficient ratio1:2, all four sign combinations; all positive-ray-equivalent directions excluded from training. Three unseen composition templates.",
+    "D_held_combination": "Entire axis-pair supports (reliability, operating expense) and (purchase expense, convenience) absent from training; weights1:1,2:1,1:2, all sign combinations; three unseen composition templates. Positive rays disjoint from training.",
+    "training": "All four signed single axes with magnitude1/2; pairs (0,1),(1,2),(2,3),(0,3), magnitudes1:1/2:1, all signs; six literal templates per direction. All four coordinates and signed magnitudes supported. Direct criterion-vector supervision only; no IDs/catalog/teacher weights supplied to inference.",
+    "freeze": "Complete authored alias inventory and renderer/split rules in exact_state_build.py committed with this protocol before corpus construction or encoding; no posthoc wording/vector changes."
+  },
+  "interfaces": {
+    "lexical": "Strong literal-axis lookup control; recognize only four schema names plus generic surface polarity/weight cues, no alias dictionary and no criterion-ID access. Return UNKNOWN if no schema axis is present; unknown counts incorrect, never artificial first-position fallback.",
+    "final_mean": "Frozen final layer normalized mean of valid tokens including special tokens, unchanged shipped pooling",
+    "layer1_mean": "Same normalized valid-token mean at first transformer layer",
+    "layer1_span": "First transformer layer normalized content-token mean over the whole semantic expression. Remove only generic task prefixes Choose the option with the / Choose using / Prefer / Aim for and terminal period. Retain operators, negation, weights, every clause and alias. No axis-name lookup, catalog access, oracle values, or labels in span selection."
+  },
+  "encoder": {
+    "model": "microsoft/deberta-v3-xsmall",
+    "revision": "eb2d654bf0a5b628c8be6c4be7d29118fbef95b8",
+    "weight_sha256": "964ceb3612da6cfdb45997d380fdb95f92c7499ffcabb50cbeea55e04756cafd",
+    "lineage": "Same stock CBF encoder, not trained Vey-2; reject missing/mismatched keys; explicitly FP32, frozen eval",
+    "batch_size": 64,
+    "token_limit": 96,
+    "pass": "Sorted unique new criterion strings only, exactly one forward per text; save layer1/final token states, token IDs, offsets, valid/special/span masks and fixed pooled features. No candidate encoding."
+  },
+  "fit": {
+    "class": "Identical bias-free 384-to-4 criterion map for all three learned interfaces, FP64 SVD ridge; four active dimensions <= prior32; no extra layers, attention, candidate parameters or neural fine-tuning",
+    "objective": "Mean squared error against the explicit four criterion coefficients",
+    "ridge_grid": [0, 1e-8, 1e-6, 0.0001, 0.01, 0.1, 1, 10, 100],
+    "selection": "Six grouped leave-one-training-template-out folds, atomic and composition template index held out together. Select lowest mean held-template coefficient MSE, ties prefer larger ridge. Refit all training queries. No test labels, features or decisions used in fitting/selection."
+  },
+  "metrics": {
+    "accuracy": "Teacher-top-set membership; UNKNOWN incorrect; equal query/scenario rows, report every stratum and K. Concrete-winner accuracy also reported.",
+    "G1": "Alias top1>=0.80 and paired semantic-direction-cluster bootstrap lower bound>0 versus lexical. Report95% and simultaneous98.333333% intervals for three predeclared learned comparisons; promotion uses simultaneous interval.",
+    "G2": "Polarity top1>=0.90; every held literal same-attribute opposite-question pair has strictly negative predicted direction cosine; student concrete winner changes for every teacher-changing polarity-reversal pair. Report each axis and alias reversal diagnostics too.",
+    "G3": "Composition AND held-combination top1>=0.80 separately; verified training/test ray disjointness and held pair-support disjointness; no criterion-ID inference.",
+    "G4": "P(student_after==teacher_after | teacher_before!=teacher_after)>=0.80. All ordered semantically different direction pairs within each test stratum and template, same candidates. Concrete content-tie-broken winners. Student_changed is NOT additionally required in this gate; also report changed-to-new and both-endpoint accuracy, per-stratum rates and tie-aware counterpart.",
+    "G5": "Every test query/scenario/arm: exact score equality after reversed and seed7-shuffled candidate order, restoring scores to original order, and identical concrete content winner. No tolerance.",
+    "bootstrap": {"repetitions": 10000, "seed": 0, "unit": "Semantic criterion direction, not repeated surface strings or candidate rows", "paired": true},
+    "promotion": "A predeclared learned interface must pass ALL G1-G5 including multiplicity-controlled G1. Passing only opens a separately preregistered CBF-4 replication; B-STEF remains blocked until replication passes. Layer1_mean is the headline interface, not a posthoc winner."
+  },
+  "forbidden": ["candidate neural reconstruction", "candidate tomography", "B-STEF", "model size increase", "encoder training", "alias-aware lexical rules", "oracle attribute span selection", "criterion-ID memorization", "posthoc threshold/template/direction tuning", "Vey-2 frozen changes"],
+  "scope": "Controlled four-axis alias/polarity/composition/held-support screen; no arbitrary open-world criterion, natural-domain candidate extraction, multilingual or Jev-parity claim."
+}
