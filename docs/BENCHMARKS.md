@@ -2154,6 +2154,103 @@ uniquely identified criterion bottleneck. The machine protocol is
 `research/cbf0/audit_protocol.json`; evidence stays in
 `vey-data/decisionmix/d3/cbf/audit-v1/`.
 
+### CBF-1 result: exact factorization, two inadequate text mappings
+
+Recipe `ca6a8ef`; checkpoint-only analysis `e2a9aef`. Both 200-epoch
+fits completed once. The first scoring pass failed when a NumPy boolean
+reached JSON serialization. Native-boolean conversion and a scoring-only
+resume fixed delivery; neither checkpoint was retrained. Only the five
+printed epoch-loss observations per arm survived that failure, not the
+complete per-epoch history. Exact frozen-model coordinate errors are
+persisted separately.
+
+Gate 0 passes on all 3968 source rows: maximum score error **0.0**,
+top-1 and pairwise **1.0** throughout. The task does admit the pinned
+dot-product factorization. Compliance's CBF-0 collapse is not caused by
+an unrepresented threshold function: this corpus has no such function.
+This does not validate bilinear representation of real compliance,
+similarity, or routing tasks.
+
+| evaluation | oracle/oracle | text candidate, true criterion | exact candidate, text criterion | full CBF-32 |
+|---|---:|---:|---:|---:|
+| training rows | 1.000000 | 0.421875 | 1.000000 | 0.480469 |
+| seen criteria, unseen wording | 1.000000 | 0.421875 | 0.460938 | 0.281250 |
+| unseen criteria, known families | 1.000000 | 0.434375 | 0.239844 | 0.292188 |
+| wholly held-out families | 1.000000 | 0.380208 | 0.363281 | 0.273438 |
+
+Neither hybrid meets the preregistered 0.95 adequacy gate. The candidate
+probe is already poor on its training rows despite receiving all four
+numeric targets: attribute-coordinate training MSEs are
+0.058326/0.057576/0.061540/0.058492. It preserves some usable structure:
+versus cosine, unseen-criterion top-1 delta is +0.171875,
+paired CI [+0.110938, +0.239844]; held-family delta is +0.100260,
+CI [+0.007813, +0.200521]. These relative gains do not make the
+candidate representation adequate.
+
+The criterion probe fits train queries (top-1 1.0; final frozen vector
+MSE about 0.00000452), but does not transfer reliably even to unseen
+wordings of those criteria. Its held-family delta against cosine is
++0.083333, CI [-0.020866, +0.194010].
+
+Training criterion targets span only **3** of the five active dimensions:
+attribute slots 0/1 and the constant. Every known-family unseen criterion
+requires an unsupported slot 2/3. Within held families, the criterion
+hybrid reaches 0.500000 on supported directions and 0.226562 on
+unsupported directions. Thus its wholly unseen-coordinate failure does
+not isolate a defect in the neural encoder. However, the in-span
+unseen-wording failure remains real.
+
+Held-family top-1 by diagnostic arm:
+
+| family | text candidate, true criterion | exact candidate, text criterion | full CBF-32 |
+|---|---:|---:|---:|
+| compliance | 0.375000 | 0.351562 | 0.207031 |
+| intent-routing | 0.406250 | 0.371094 | 0.316406 |
+| similarity | 0.359375 | 0.367188 | 0.296875 |
+
+Criterion swaps are direct fixed-candidate interventions, not cosine
+diagnostics. Denominators below are ordered wording-expanded pairs;
+semantic criterion IDs must differ.
+
+| evaluation | swaps | teacher changes | CRA | student changes given teacher change | changes to new teacher winner | both endpoints correct |
+|---|---:|---:|---:|---:|---:|---:|
+| unseen wording | 1280 | 968 | 0.504688 | 0.431818 | 0.092975 | 0.033058 |
+| unseen criterion | 5120 | 3840 | 0.588672 | 0.603646 | 0.127083 | 0.041146 |
+| held family | 9216 | 7072 | 0.556858 | 0.544118 | 0.103224 | 0.046380 |
+
+The last three rates condition on teacher change. On teacher-stable
+pairs, full CBF-32 changes anyway at rates 0.269231/0.456250/0.401119.
+Oracle/oracle has CRA 1, correct-new-winner rate 1, and no teacher-stable
+changes. Both criterion-blind controls have exactly zero student changes.
+Criterion use is therefore present, but often does not implement the
+requested direction; it is not simply ignored. On held-family
+teacher-changing pairs, only 730 of 3848 student changes reach the new
+teacher winner, and both endpoints are correct in 328 of 7072 pairs.
+
+Decision-tree outcome: **both tested text mappings are inadequate**.
+The oracle hypothesis is valid for this corpus, but neither a unique
+criterion bottleneck nor a pure joint-alignment failure has been isolated.
+This fixed-budget linear probe does not prove information is absent from
+the encoder or rule out optimizer limitations. No larger model, more
+epochs, new data, anchored-basis method, or B-STEF is justified by this
+audit alone. Vey 2 remains unchanged.
+
+Evidence includes all four arms plus cosine/blind controls, train/eval
+ranking and continuous correlations, every family/K bin, basis support,
+coordinate MSEs, 3968 per-decision rows, and 15,616 causal swap rows.
+Reloaded checkpoints reproduced every score; 7936 hybrid permutation
+checks and all fixed-candidate swap/control checks passed.
+The complete metric/hash inventory is
+`research/cbf0/audit_result_manifest.json`; data/checkpoints remain under
+`vey-data/decisionmix/d3/cbf/audit-v1/`.
+
+SHA-256:
+
+- predictions: `eb6abbb4add4cbcbaa091f15a575a263210a206b87cd5b1078065477860c4344`
+- swaps: `9c9359c7c0678ae0f0ad63437039422c7afdc19a981e9051e54c86cdd5597d2e`
+- results: `bb6a3cd674dc40bc1e00ded4b4fa002bf84ea1b019913295c8e33701f4c3cfc6`
+
+
 
 
 ## Frontier topology and oracle closure on food progress (research)
