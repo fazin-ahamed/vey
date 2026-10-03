@@ -1923,6 +1923,44 @@ this domain. Each is a new preregistered experiment, none is BSC, and BSC's
 alphas are recorded here so any successor starts from them rather than from
 scratch.
 
+## CBF-0: criterion basis field, preregistered before any corpus (research)
+
+Second post-Vey-2 experiment, branch post-v2/cbf, Vey 2 frozen at
+vey-2-final. Recorded before the criterion corpus exists.
+
+Model: s(x, q) = c(q)^T z(x), z and c both in R^m, m in {32, 64}. No
+cross-attention, no candidate interaction, no slots, no residual branches,
+no per-criterion heads. z(x) and c(q) come from a shared frozen text
+encoder followed by one linear probe each.
+
+Question: can one shared field score candidates for criteria it never
+trained on.
+
+Split, the critical part. Every paraphrase of a semantic criterion is one
+group. Three levels: seen criterion with unseen wording at test time
+(sanity), unseen criterion within a family seen in training (primary
+development), entire families held out of training (hard transfer).
+Families: preference, risk, urgency, relevance, suitability, quality, cost,
+safety, compliance, plausibility, similarity, sentiment, intent-routing.
+If "low financial risk" is test-only, "safer financially" and
+"minimize financial exposure" are absent from training.
+
+Gates, all on held-out-criterion levels, paired 95% CI. G1: CBF top-1 beats
+the frozen-embedding cosine baseline between criterion and candidate text.
+G2: positive transfer across the held-out families, per family. G3: exact
+candidate-permutation invariance, asserted in code. G4: m=64 versus m=32;
+a tie ships 32, and 64 must earn its cost.
+
+Persisted per split: top-1 accuracy, pairwise agreement, Kendall/Spearman
+rank agreement, rho(s, t) where the teacher is continuous, binned by
+K in {2, 4, 8, 16}. Criterion-direction cosine cos(c(q1), c(q2)) is a
+diagnostic only; no regularizer without evidence pointing there.
+
+Failure reading fixed in advance: clearing unseen wording but not unseen
+criteria is recorded as "learned criterion interpolation, not arbitrary
+criterion generalization," and the next step is diagnosis, not capacity.
+B-STEF waits until CBF passes on genuinely unseen criteria.
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
