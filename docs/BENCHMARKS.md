@@ -2690,6 +2690,172 @@ screen is not arbitrary-criterion or Jev parity, and it does not validate
 semantic candidate extraction. Frozen Vey-2 is untouched.
 
 
+### CBF-4 result: tested criterion maps fail with exact candidate state
+
+Preregistration: `739b567`. Measurement implementation: `6a33275`.
+Correctness amendment pinned before its six new encodings: `3f3db51`.
+The corpus contains 288 training questions, 32 alias questions, 32 polarity
+questions, 48 held-weight compositions, and 72 held-support compositions.
+Training activates all four outputs under both signs and magnitudes one/two
+(target rank4). Composition test rays are absent from training, including
+positive scalar equivalents; the two held axis-pair supports are absent too.
+All alias strings omit every literal axis token. The test contains 2,944
+question/scenario rows, balanced over K=2/4/8/16 within each stratum.
+
+The initial frozen FP32 stock DeBERTa-v3-xsmall pass encoded 472 unique
+questions in eight batches (7,812 valid tokens; maximum28 tokens).
+A grammar-only amendment encoded six new strings in one additional batch,
+without repeating any original encoding or refitting. Final evidence uses
+472 questions and7,800 tokens; total capture is478 strings and7,876 tokens
+over nine batches, with **zero candidate forwards**. Missing/mismatched
+encoder keys are empty. The final/layer1 means include valid special tokens;
+the layer1 span preserves the entire expression, removes only the frozen
+generic task-prefix patterns, excludes special tokens, and never looks up
+an attribute name. Unrecognized prefixes remain in the span. Each trained
+map is 384-to-4 (1,536 active parameters), within the previous width32 budget.
+
+Six training-template-out folds selected ridge0.1 for final mean, ridge0.1
+for layer1 mean, and ridge1 for layer1 span. Training coefficient MSE is
+0.603607 / 0.591313 / 0.673146 respectively; these are regularized selected
+models, not interpolation ceilings. No test query or candidate decision
+participated in selection. All models and gates were frozen before scoring.
+
+#### Held-question decision accuracy
+
+Teacher-top-set membership; UNKNOWN counts incorrect. Alias/polarity each
+have512 rows, composition768, held support1,152.
+
+| interface | A: aliases | B: polarity | C: compositions | D: held supports |
+|---|---:|---:|---:|---:|
+| lexical schema lookup + surface polarity/weights | 0.000000 | 1.000000 | 1.000000 | 1.000000 |
+| frozen final mean | 0.267578 | 0.302734 | 0.311198 | 0.328125 |
+| layer1 mean (predeclared headline) | 0.318359 | 0.347656 | 0.337240 | 0.329861 |
+| layer1 semantic-expression span | 0.320313 | 0.373047 | 0.308594 | 0.315104 |
+
+The lexical control returns UNKNOWN on all aliases, not a positional
+candidate fallback; it recovers the exact signed coefficients on all440
+literal questions, including all held composition directions. This confirms
+that the candidate parser, criterion coefficient basis, and teacher are
+compatible. It is not an alias-aware semantic control.
+
+All learned interfaces are statistically above an abstaining lexical
+baseline on aliases, but none approaches the required0.80 accuracy:
+
+| interface | alias improvement | paired95% CI | simultaneous CI, three comparisons |
+|---|---:|---|---|
+| final mean | +0.267578 | [0.197266,0.347656] | [0.181641,0.369141] |
+| layer1 mean | +0.318359 | [0.257813,0.386719] | [0.244141,0.400391] |
+| layer1 span | +0.320313 | [0.250000,0.398438] | [0.238281,0.417969] |
+
+Bootstrap: 10,000 paired draws, seed0, eight signed semantic-direction
+clusters. This interval describes this four-axis alias screen; beating
+UNKNOWN is not sufficient evidence of useful semantic criterion mapping.
+
+#### Polarity and causal criterion swaps
+
+Each literal positive/negative pair reverses the teacher winner on all16
+fixed candidate scenarios: 16 question pairs, 256 reversal cases.
+
+| interface | negative reverse-pair cosines /16 | mean reverse cosine | student winner-change rate |
+|---|---:|---:|---:|
+| lexical | 16 | -1.000000 | 1.000000 |
+| final mean | 1 | +0.598741 | 0.500000 |
+| layer1 mean | 9 | -0.061979 | 0.769531 |
+| layer1 span | 14 | -0.624856 | 0.886719 |
+
+Span pooling improves direction reversal but does not ground the correct
+axis sufficiently: polarity decision accuracy remains0.373047. On alias
+reversals, negative cosines occur in only2/16,3/16,7/16 pairs for final,
+layer1 mean, and layer1 span; the lexical control abstains.
+
+The causal screen evaluates every ordered semantically different criterion
+pair within each test stratum/template on the same candidate set:
+45,184 eligible pairs, 34,622 teacher-changing pairs.
+
+| interface | new teacher winner (G4) | changed to new teacher winner | both endpoints correct |
+|---|---:|---:|---:|
+| lexical | 0.916354 | 0.916354 | 0.916354 |
+| final mean | 0.278233 | 0.131015 | 0.069147 |
+| layer1 mean | 0.299318 | 0.172780 | 0.081105 |
+| layer1 span | 0.287043 | 0.157588 | 0.075732 |
+
+G4 is exactly the requested conditional new-winner accuracy, **without**
+additionally requiring a student change. The verification found5,097 /
+4,381 /4,482 correct-new cases with an unchanged student winner in the
+three learned interfaces; these count toward G4, not changed-to-new.
+Per-stratum and tie-aware rates are persisted. Lexical lookup is perfect
+on all teacher-changing literal pairs and abstains on alias pairs.
+
+#### Gates, arithmetic correction, and evidence
+
+All three learned interfaces fail G1,G2,G3,G4 and pass G5. No learned
+interface qualifies for replication or B-STEF. The lexical control passes
+G2-G5 but fails alias transfer; it is not a learned semantic field.
+
+G5 checks reversed and seed7-shuffled orders on every test row/arm:
+23,552 comparisons, including1,024 lexical abstention comparisons.
+All22,528 numeric comparisons have exactly identical restored scores
+and content-tie-broken winners; maximum score error0.
+
+The initial score implementation divided each percent before summation.
+Although the lexical coefficient vectors were exact, floating-point
+roundoff split mathematical ties: two teacher scores of5 became
+0.04999999999999993 and0.05000000000000002. This changed three lexical
+concrete winners and some pairwise relations. The correction sums
+coefficient times integer percent first, then divides once by100.
+It changes no data, coefficient, model, hyperparameter, or gate.
+The initial artifacts remain at the study root; the arithmetic-only replay
+is in `score-corrected/`, using saved vectors with **no refitting or
+additional encoder forward**. That replay left all learned winners and
+quality summaries unchanged. Corrected lexical literal top1, concrete
+winner, and pairwise agreement are all1.000000.
+
+Corpus review also found three alias pairs with malformed wrappers, such
+as “Choose the option with the least likely to fail.” The amendment
+`exact_state_amendment.json` pins the six sentence-only repairs before
+encoding them. It changes no alias meaning, coefficient, training query,
+state, literal test question, head, ridge choice, interface, or gate.
+Every training feature and fitted map is byte-identical. Even perfect
+predictions on all six repairs could raise the original alias top1 to
+at most0.455078 /0.501953 /0.501953, so the amendment cannot manufacture
+a passing verdict. G2-G4 had already failed independently.
+
+Final tables above use `grammar-corrected/score-corrected/`; all original
+and arithmetic-only evidence remains preserved. The grammar repair changes
+only alias predictions: alias top1 becomes0.267578 /0.318359 /0.320313
+from0.267578 /0.314453 /0.314453. Every literal-stratum summary is unchanged.
+The semantic span policy is unchanged, including retaining unrecognized
+generic prefixes; no attribute knowledge was added to span selection.
+
+Persisted-evidence verification reconstructed the three pooled interfaces
+from every saved layer1/final token state (maximum error1.79e-7), checked
+1,920 parsed source fields against the original donor strings, recovered
+every query vector from saved features/maps exactly, and verified all2,944
+decision rows,84,480 scalar scores, and34,622 teacher-changing swap records.
+There are27 composed teacher-top-set tie rows; tie handling is content-based,
+never position-based. Verification performs zero encoder forwards/refits.
+
+This fails the **tested frozen linear criterion interfaces** under the
+preregistered training/selection recipe. It does not establish that the
+encoder lacks criterion semantics or that every nonlinear criterion map
+would fail. Candidate reconstruction cannot explain this result: state
+is exact. No candidate tomography, larger model, B-STEF, replication, or
+semantic candidate extraction was launched. Frozen product source,
+tests, examples, and `vey-2-final` remain unchanged.
+
+Artifacts: `vey-data/decisionmix/d3/cbf/exact-state-v1/`; inventory and full
+final corrected metrics: `research/cbf0/exact_state_result_manifest.json`.
+Final measurement/verification commands:
+
+```sh
+ROOT=/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/exact-state-v1/grammar-corrected
+python research/cbf0/exact_state_run.py --root "$ROOT" --replay
+python research/cbf0/exact_state_verify.py --root "$ROOT" --replay
+```
+
+The replay command refuses to overwrite existing measured evidence.
+
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
