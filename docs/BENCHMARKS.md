@@ -2490,6 +2490,144 @@ promotion evidence. B-STEF remains blocked throughout this audit.
 Exact protocol: `research/cbf0/tomography_protocol.json`; artifacts remain
 under `vey-data/decisionmix/d3/cbf/tomography-v1/`.
 
+### CBF-3 result: criterion cues recover; candidate suite remains inadequate
+
+Recipe `397d7cd`; manifest-only recovery `287a429`. No neural head was
+trained, no width increased, and B-STEF was not run.
+
+#### Cached objective and family transport
+
+Difference OLS uses 12,400 unordered training pairs. Its weighted-centered
+objective was independently verified against the explicit pair sum.
+Both comparisons below use four output attributes and true criterion
+directions; the minimizing constant cancels, unlike CBF-2's estimated
+fifth-output score convention.
+
+| evaluation | absolute top-1 | difference top-1 | absolute pairwise | difference pairwise |
+|---|---:|---:|---:|---:|
+| train | 0.565625 | 0.528125 | 0.792121 | 0.763194 |
+| unseen wording | 0.471875 | 0.471875 | 0.757768 | 0.741272 |
+| unseen criterion | 0.534375 | 0.503125 | 0.763270 | 0.751659 |
+| held family | 0.302083 | 0.307292 | 0.570933 | 0.598810 |
+
+The difference objective does not repair the interface. Absolute
+reconstruction R2 is not an adequacy criterion for a difference-trained
+map: scenario offsets are unconstrained and cancel in decisions.
+
+Family-local four-fold scenario CV ranges from 0.362500 to 0.506250
+top-1; **zero of 13 families** meets the high-CV gate. Previously held
+families illustrate the resubstitution trap:
+
+| family | fit-on-all-family top-1 | out-of-scenario CV top-1 | CV slot R2s |
+|---|---:|---:|---|
+| compliance | 1.000000 | 0.421875 | -0.0352 / 0.2017 / 0.1345 / 0.1822 |
+| intent-routing | 1.000000 | 0.406250 | -0.2827 / -0.3256 / -0.8413 / 0.0199 |
+| similarity | 1.000000 | 0.468750 | -0.0161 / 0.3991 / -0.1343 / 0.1737 |
+
+The 156 off-diagonal family-transfer cells average 0.273658 top-1,
+range 0.131250-0.375000. All local fits and the 13x13 matrix are purely
+diagnostic. High training interpolation with poor CV does not establish
+an adequate family-dependent coordinate system. It also does not prove
+the encoder has lost the information.
+
+#### Template nuisance
+
+Cross-fitted rank-three template removal changes semantic-ID retrieval
+from 0.350000 to **0.475000**, original-wording OLS top-1 from
+0.345313 to **0.548438**, and wording-out macro top-1 from
+0.493750 to **0.627734**. Mean wording-out direction cosine increases
+from 0.519734 to **0.731171**.
+Oracle-direction retrieval stays 0.650000; centroid decision accuracy
+changes only from 0.712500 to 0.718750. Template nuisance matters, but
+the repair gate still fails. Donors expose all templates; evaluated
+recipient strings do not estimate their own projection.
+
+#### One frozen pass, complete token evidence
+
+All **5368** original strings were encoded once in **84** batches:
+**131,964 valid tokens**, **13 states** (embedding output plus 12 layers),
+width **384**, FP32. Every valid token state, token ID, offset, special
+mask, and span mask is persisted. Final shipped features match the
+original cache with maximum error **0.0**. No encoder keys were missing
+or mismatched; the stock checkpoint SHA-256 is
+`964ceb3612da6cfdb45997d380fdb95f92c7499ffcabb50cbeea55e04756cafd`.
+This is the CBF stock encoder, not trained Vey-2 weights.
+
+Capture completed and saved all states/features before metadata
+serialization rejected Hugging Face's loading-info sets. Recovery converted
+those sets to lists and reloaded weights on CPU solely for metadata;
+**zero additional encoder forwards** occurred.
+
+The complete suite contains **65 candidate** and **52 criterion**
+layer/readout combinations. Every candidate interface fails adequacy.
+Exploratory maxima, not promoted choices:
+
+- Best absolute training top-1: layer-10 content mean, 0.584375.
+- Best absolute unseen-criterion top-1: 0.534375 (including layer-9
+  numeric mean and the original final shipped mean).
+- Best held-family top-1: embedding-output numeric mean, 0.401042
+  absolute / 0.421875 difference.
+- Best minimum training slot R2 across all absolute readouts remains
+  0.600621 at final shipped pooling. No readout approaches exact numeric
+  recovery on all four coordinates.
+
+Final-layer numeric pooling has training slot R2s
+0.555520/0.537270/0.581860/0.545860 and held-family top-1
+0.328125 absolute / 0.317708 difference. Numeric-token selection is not
+a candidate-side rescue. Union pooling does not separately expose fields,
+so this is not a proof against every possible structured token interface.
+
+The criterion side has a positive interface result:
+
+| criterion interface | semantic-ID retrieval | wording-out top-1 | mean direction cosine |
+|---|---:|---:|---:|
+| final shipped mean | 0.350000 | 0.493750 | 0.519734 |
+| layer-1 shipped mean | 1.000000 | 0.820313 | 0.963705 |
+| embedding-output keyword mean | 1.000000 | 1.000000 | 1.000000 |
+| layer-1 keyword mean | 1.000000 | 0.977344 | 0.998629 |
+| layer-2 keyword mean | 1.000000 | 0.957422 | 0.996450 |
+| final keyword mean | 0.650000 | 0.651172 | 0.745562 |
+
+Keyword readouts at embedding output and layers 1/2 pass supported-wording
+gates. Same-layer keyword versus whole-mean differences support an
+interface bottleneck for these criterion cues; earlier-layer results also
+show that later contextualization reduces their linear accessibility.
+
+The perfect embedding-output result is **lexical identity recovery**:
+grammar-assisted spans retain the same literal attribute name across
+templates. This corpus fixes polarity per attribute, so removing
+preference words does not challenge reversal or new-combination semantics.
+It does not demonstrate arbitrary-question understanding or unseen
+semantic-criterion transfer. No interface is promoted from this scan.
+
+#### Decision and verification
+
+The objective-mismatch branch fails. The high-family-local-CV branch
+fails. Template nuisance has a measured partial effect, not a complete
+repair. A criterion readout/depth bottleneck is supported; no candidate
+readout in the fixed suite is adequate. Thus the whole frozen encoder
+line is **not** jointly falsified: stable criterion cues exist outside
+the final pooled vector, while candidate decoding remains unresolved.
+The factorization itself remains valid; full unseen-criterion transfer
+and B-STEF remain blocked. Vey 2 is unchanged.
+
+Verification reconstructed all fixed features from saved raw token states
+with maximum error **2.384186e-7**, checked visible-text span masks, and
+reproduced **670,800** candidate attribute vectors plus **6240** criterion
+query vectors from saved decoders. Cached verification also reproduced
+all **5160** out-of-scenario family predictions.
+Full metrics, spectra, masks, CV IDs, transfer matrices, decoder weights,
+raw states, and hashes are inventoried in
+`research/cbf0/tomography_result_manifest.json`; data remains under
+`vey-data/decisionmix/d3/cbf/tomography-v1/`.
+
+SHA-256:
+
+- cached results: `aa30699db4fef7cd8ecad6ee52eb364542dd44107f42aae6cd0c0b46bab2d18d`
+- layer results: `0d29f6918b3308dc5f7052af43fe5efe5dbb2a6463248457cb71efb7fd8be953`
+- raw-state verification: `48062482cbaefd2bb61de6c873f9af42aeef0794777b7166f441a6b2ae6e7e86`
+
+
 
 
 
