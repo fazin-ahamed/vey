@@ -504,12 +504,19 @@ def model_artifacts(root, model_key, cfg, baseline=False):
                                              local_files_only=True, trust_remote_code=False)
     require(hashlib.sha256(tokenizer.backend_tokenizer.to_str().encode()).hexdigest() == lineage['tokenizer_sha256'], 'actual tokenizer hash')
     parameters = 0
-    classifier, pooler = {}, {}
+    classifier, pooler, count_exclusions = {}, {}, {}
     with safe_open(weight_path, framework='np', device='cpu') as tensors:
         excluded = set(lineage['loading'].get('unexpected_keys', [])) if model_key == 'stock_xsmall' else set()
         for name in tensors.keys():
-            if name not in excluded:
-                parameters += math.prod(tensors.get_slice(name).get_shape())
+            tensor = tensors.get_slice(name)
+            reason = ('unexpected task/alias weight' if name in excluded else
+                      'non-floating buffer' if tensor.get_dtype() not in ('F16', 'BF16', 'F32', 'F64') else
+                      'inactive absolute position embedding' if model_key == 'stock_xsmall' and
+                      not config['position_biased_input'] and 'embeddings.position_embeddings.' in name else None)
+            if reason is not None:
+                count_exclusions[name] = dict(reason=reason, shape=tensor.get_shape(), dtype=tensor.get_dtype())
+            else:
+                parameters += math.prod(tensor.get_shape())
         if model_key != 'stock_xsmall':
             for name in ('weight', 'bias'):
                 classifier[name] = tensors.get_tensor('classifier.' + name)
@@ -519,6 +526,7 @@ def model_artifacts(root, model_key, cfg, baseline=False):
     if 'floating_parameters_metadata' in spec:
         require(parameters == spec['floating_parameters_metadata'], 'preregistered parameter count')
     return dict(lineage=lineage, tokenizer=tokenizer, parameters=parameters, classifier=classifier, pooler=pooler,
+                parameter_count_exclusions=count_exclusions,
                 hashes={str(weight_path): sha(weight_path), str(config_path): sha(config_path), str(root / filename): sha(root / filename)})
 
 
@@ -608,7 +616,7 @@ def main(root, cfg):
             env['threads'] <= 4 and env['one_model_resident_at_a_time'] is True and
             env['token_limit'] == 128 and env['pair_batch'] == 32, 'measurement environment lineage')
     repo = Path(__file__).parents[2]
-    frozen = subprocess.check_output(['git', 'rev-parse', 'vey-2-final'], cwd=repo, text=True).strip()
+    frozen = subprocess.check_output(['git', 'rev-parse', 'vey-2-final^{commit}'], cwd=repo, text=True).strip()
     require(frozen == FROZEN_VEY2, 'frozen Vey2 tag')
     code_hashes = {}
     for name in ('relation_pretrained_protocol.json', 'relation_pretrained_run.py', 'relation_pretrained_encoder.py',

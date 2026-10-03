@@ -3305,6 +3305,104 @@ NLI. This proves execution/parity only, not semantic transfer or calibration.
 Hashes and the retained failed preflight are recorded in
 `research/cbf0/relation_pretrained_preflight_manifest.json`.
 
+### CBF-7 measured result: relation pretraining helps, grounding remains unearned
+
+**MEASURED: negative fresh-transfer screen.** Measurement code/preflight was
+committed at `2872d54` before outcomes. All eight development arms failed the
+joint gate set, so the preregistered larger-model trigger fired and the frozen
+fallback selection chose `nli_xsmall_native`. Its development joint score tied
+the learned higher-hypothesis CLS head at20/32; alias decision accuracy
+0.6973 versus0.6895 broke the tie. Selection was persisted before final
+tokenization; no final result selected a different arm.
+
+| Development arm | G0 relation | Joint signed atoms | Sign given correct axis | Alias decisions | Compositions |
+|---|---:|---:|---:|---:|---:|
+| Stock bare, exact CBF6 reuse | 0.8906 | 2/32 | 2/2 | 0.0625 | 0.0138 |
+| Stock higher CLS | 0.7813 | 2/32 | 2/2 | 0.0625 | 0.0000 |
+| NLI xsmall bare CLS | 0.9688 | 17/32 | 17/25 | 0.5313 | 0.3875 |
+| NLI xsmall higher CLS | 0.9688 | 20/32 | 20/20 | 0.6895 | 0.5863 |
+| NLI xsmall higher pooler | 0.9922 | 19/32 | 19/19 | 0.6309 | 0.4388 |
+| NLI xsmall native | 0.5000 | 20/32 | 20/21 | 0.6973 | 0.5813 |
+| NLI small higher pooler | 0.9531 | 18/32 | 18/18 | 0.6191 | 0.5150 |
+| NLI small native | 0.5859 | 11/32 | 11/11 | 0.4395 | 0.2900 |
+
+The selected native interface's fresh results:
+
+| Gate | Result | Required | Outcome |
+|---|---:|---:|---|
+| G0 literal relation | 64/128 =0.5000 | >=0.95 | FAIL |
+| G1 axis | 51/128 =0.3984 | >=0.85 | FAIL |
+| G2 sign given correct axis | 49/51 =0.9608 | >=0.90 | PASS, point gate |
+| G3 joint signed atom, primary | 49/128 =0.3828 | >=0.80 | FAIL |
+| G4 alias decisions | 1066/2048 =0.5205 | >=0.80 | FAIL |
+| G5 composition decisions | 735/2048 =0.3589 | >=0.80 | FAIL |
+| G6 teacher-changing correct-new | 0.3445 of150,188 | >=0.80 | FAIL |
+| G7 exact literal/permutation path | 1.0000 | 1.0000 | PASS |
+
+G0 matched-field classes were32/32 correct, but unrelated classes only32/96:
+the native NLI bridge does not reliably express this preference-relatedness
+interface. UNKNOWN occurred in11/128 atoms. Conditional sign excludes
+wrong-axis/UNKNOWN cases and is not overall polarity robustness. Causal
+correct-new does not require the student to change; changed-to-new was0.2195,
+both-endpoints-correct0.1236 and student-changed0.7598.
+
+Nominal95% descriptive64-reversal-pair bootstrap intervals (10,000 draws,
+seed0): axis[0.2891,0.5078], joint[0.2734,0.4922],
+sign[0.8980,1.0000], alias[0.4355,0.6084],
+composition[0.3018,0.4180]. The G2 point pass does not exclude a conditional
+sign rate below0.90. These are a fixed four-field wording assay, not confidence
+bounds on arbitrary-family transfer or neutral competitor non-inferiority.
+
+All155 literal cases and4960 literal decisions were exact with zero neural
+literal callbacks. The final contains13,152 decisions and26,304 permutation
+comparisons (24,256 numeric,2048 UNKNOWN), with zero score/winner mismatches.
+The independent CPU verifier reconstructed every arm's matrices, head/native
+parameters, original-order normalization, epoch selection, compiled programs,
+decisions, causal rows, gates, selection and fresh intervals; all checks passed.
+It also re-tokenized inputs, checked model/source hashes and confirmed
+byte-identical baseline reuse. Verification required correcting its annotated
+tag lookup and safetensors parameter accounting: integer position-ID buffers
+and inactive/alias/task tensors are not live floating model parameters.
+Original verification failures remain retained; no quality measurement reran.
+Native normalizer metadata strings `zeros`/`ones` are descriptive sentinels,
+not SHA-256 digests; the verifier checked the actual arrays and archive bytes.
+
+**INFERENCE:** the NLI checkpoint package materially improves shared development
+grounding relative to stock, but this is not an isolated pretraining-algorithm
+causal result. Generic higher hypotheses improve conditional orientation while
+field recovery remains limiting. More model capacity did not help development.
+CBF6 and CBF7 fresh pools differ; their final scores are not a paired delta.
+No calibration, certificate, speed, broad OOD or competitor win is established.
+
+Artifacts: `relation-pretrained-v1/preexecution-amended` under the decisionmix
+data root; immutable results SHA-256
+`75be4cf4345a33af142580a1b69008cfef56a618ec507686d61e72f418b3418e`,
+independent verification
+`2bcf7fb4907f2a194ce02a869be7a5572de9f7b49721f9354a2c31d68aac005e`.
+`research/cbf0/relation_pretrained_result_manifest.json` records lineage.
+Verdict: `C7_NOT_EARNED_ON_FRESH_CORPUS`; no replication trigger, no B-STEF.
+
+### CBF-8 preregistration: targeted field-domain support
+
+**HYPOTHESIS, before outcomes:** commit `b651301` freezes a two-by-two control:
+literal-only versus literal-plus64 training-only semantic atoms, and generic
+higher-field hypotheses versus the same hypotheses with fixed field
+definitions. The NLI-xsmall encoder, raw CLS interface, linear R head, loss,
+seed7 and400-epoch recipe remain unchanged. The literal/generic arm reuses the
+CBF7 learned checkpoint exactly; three eligible arms isolate data, definition
+and interaction effects. Thirty-two additional semantic validation atoms are
+diagnostic only; checkpoint selection still uses unchanged literal validation.
+
+Different authors supply training and fresh128-atom/128-composition final
+corpora; blinded meanings and lexical exclusions freeze before model execution.
+Definitions contain no evaluation aliases. Old development is selection-only;
+old finals are exclusion-only. All controls run; one development-selected arm
+opens final, with unchanged G0–G7 gates and descriptive pair-cluster intervals.
+A clean support failure retires literal-only fixed-registry grounding as a
+general solution and opens criterion-conditioned Ephemeral Atoms, not another
+arbitrary head-width tweak. A pass requires seeds11/13 and fresh-family/OOD
+utility before B-STEF. This screen does not complete the endgame mandate.
+
 
 
 
