@@ -159,7 +159,7 @@ def main():
     results=json.loads((root/'results.json').read_text());selection=json.loads((root/'selection.json').read_text());assert results['selection']==selection and selection['final_openings']==1
     dev=json.loads((root/'development_atoms.json').read_text());comps=json.loads((root/'development_compositions.json').read_text());literals=json.loads((root/'literal_cases.json').read_text());states=json.loads((root/'states.json').read_text());checks={}
     for state in states:
-        facts=[dict((key,int(value)) for key,value in re.findall(r'([^:;]+): (\d+) percent',text)) for text in state['candidates']]
+        facts=[dict((key.strip(),int(value)) for key,value in re.findall(r'([^:;]+): (\d+) percent',text)) for text in state['candidates']]
         assert [[f[field] for field in SCHEMA] for f in facts]==state['parsed_facts']
     for name in selection['stages']:
         checkpoint=torch.load(root/(name+'_checkpoint.pt'),map_location='cpu',weights_only=True);details=json.loads((root/(name+'_training.json')).read_text())

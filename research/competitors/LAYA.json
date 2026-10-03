@@ -1,0 +1,991 @@
+{
+  "competitor": "Laya",
+  "retrieved_at_UTC": "2026-10-03T17:49:43.768812Z",
+  "pinned_source_revision": "859b8ee595cc04f84dd2af476d6d1d90ec1fea46",
+  "sources": [
+    {
+      "url": "https://api.github.com/repos/NandhaKishorM/laya/git/trees/859b8ee595cc04f84dd2af476d6d1d90ec1fea46?recursive=1",
+      "sha256_if_available": "f9cb6d76efe9085aee9a070a8a66bb71a3d0f21a55f7a11d7ee86fd559cd8fcb"
+    },
+    {
+      "url": "https://api.github.com/repos/NandhaKishorM/laya/releases/latest",
+      "sha256_if_available": "768f449289dda9dc5e72952ed6af93daffbea9a138065e972ce860e10d019cc1"
+    },
+    {
+      "url": "https://pypi.org/pypi/laya/json",
+      "sha256_if_available": "6fee217a8de8a309ff8d128394649115394d9aa97624ce055bf03827c3dc049a"
+    },
+    {
+      "url": "https://api.github.com/repos/NandhaKishorM/laya/commits/v0.3.25",
+      "sha256_if_available": "ccd9eeb4f2394405cc1ab1d9b8f26583196af03ac4fd0be854a774474d3609f9"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/docs/cli-mcp.md",
+      "sha256_if_available": "3bd7444360533c8ec330ed6be795c8ce1bdea8ee9cc54ed19159ad7a3619443b"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/README.md",
+      "sha256_if_available": "fa0331c6565bd442fcd66ac1df1832dba52fbcbb1074bcfce1a746f80b86f3d0"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/docs/langchain.md",
+      "sha256_if_available": "4994f3f8426bd579bf3812def60ba42db515f3d501f2283edf66ddbd18c0cd06"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/docs/questions-and-answers.md",
+      "sha256_if_available": "d3c595886a380697ac309c2c18f252ccd4c30f9feb6d266ec85caf4d08f92362"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/BENCHMARKS.md",
+      "sha256_if_available": "a8377611795291e4855638b9fb9ec6d9d085ea724ffb016c8559fa52401dad6c"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/docs/routing.md",
+      "sha256_if_available": "20e1434454adb83b9826e0e3d3757f50a52c439797c99f17d4b4c28e17216423"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/pyproject.toml",
+      "sha256_if_available": "d21a82242e259ca3efc327bd3302cde5d73e18c3106af23896e1afee1c4f4f4a"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/docs/http-api.md",
+      "sha256_if_available": "9c972e0053e6da0566e9860ea5573b4ce203a7ae931ad8fc4c1cb32ed22542e6"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/LICENSE",
+      "sha256_if_available": "a6cba85bc92e0cff7a450b1d873c0eaa2e9fc96bf472df0247a26bec77bf3ff9"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/docs/typescript-sdk.md",
+      "sha256_if_available": "bff43e404b55c9a8d9ad7d6913e94e6c35052c2fb07f4a805915d064c27387d2"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/docs/reference/agent.md",
+      "sha256_if_available": "ff2b7497c4f6e5da95b46b71c8c94683397cdad5a91c15dd1f0dfed9f3cddfdc"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/laya/revisions.py",
+      "sha256_if_available": "3d07822d231e94d7e22da0fbae89cac159b7525ff87c54efb72f10a09f7319bc"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/laya/calibrate.py",
+      "sha256_if_available": "046ab37810cd6ebc26534d012bd4109faf76203adc627e525f77effdb82b1c19"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/laya/confidence.py",
+      "sha256_if_available": "b46851bc1b2cb89ae63febebae96656381a1f076d19fc186ecfdbd1fbf88fd9b"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/research/results/t4_colab_benchmark.json",
+      "sha256_if_available": "484a20273e75c659a2275f09bdb78a4b682363402b591c4bfc8ab12a382d1ec8"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/docs/fast-backends.md",
+      "sha256_if_available": "f0931490c90155ea2300b8980002402203be38d8e3aca7c6de547c072fa29710"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/laya/router.py",
+      "sha256_if_available": "8efe0be26560f394cd41fc1efaf6d96021b9418f9d53a38a757259039e9fcb0a"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/research/results/nvidia_capacity_20260925.json",
+      "sha256_if_available": "c5e6f179f6170daee685126a3e2e7ae9abfab3a64fbd0cb46e309111ee8132d6"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/research/results/long_context_multilingual.json",
+      "sha256_if_available": "09c6fced8e9800ff6c76bd021318a0417fcee43506c45e3d46850989a8380368"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/docs/reference/router.md",
+      "sha256_if_available": "ec82616b8c56339cbf5a130e12c3e97ae5bf918803666cb5863e40a82eed12dc"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/research/results/cpu_51_language_sweep_refreshed.json",
+      "sha256_if_available": "e7561983ef2f372c7501306a8a92ac9ecf7979761bdae837b9b0d14c2419e486"
+    },
+    {
+      "url": "https://huggingface.co/api/models/convaiinnovations/laya",
+      "sha256_if_available": "f0c437cba6c4c20285850ed4df744b89c8b04d416f5fea1c88095f49499842bf"
+    },
+    {
+      "url": "https://huggingface.co/convaiinnovations/laya/resolve/55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851/README.md",
+      "sha256_if_available": "00355613796b3f5860b0d5b20392381d26580ec242e04a1fd150c7f116858602"
+    },
+    {
+      "url": "https://huggingface.co/convaiinnovations/laya/resolve/55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851/rl_agent_config.json",
+      "sha256_if_available": "ae287b56bbcf5f8c4f4541ae9dfd00c914c4c48b940b8398c3058af37ba92bbd"
+    },
+    {
+      "url": "https://huggingface.co/api/models/convaiinnovations/laya-multilingual",
+      "sha256_if_available": "b2a1e1b79a1bcb3f7d3ee9fa8a4d75f61e3b6e9683ff6e449bef9aa1aa01ec1a"
+    },
+    {
+      "url": "https://huggingface.co/convaiinnovations/laya-multilingual/resolve/e4e9ddf21a7b1903b7acffd8814ad4307bf63a67/README.md",
+      "sha256_if_available": "e85d16c3fe35fe7094ef51a7cfa81144a5cc07558e5faddcff753a8153e38a0b"
+    },
+    {
+      "url": "https://huggingface.co/convaiinnovations/laya-multilingual/resolve/e4e9ddf21a7b1903b7acffd8814ad4307bf63a67/rl_agent_config.json",
+      "sha256_if_available": "25061739243b617ad88d1219ba6f8a9c86c5881ca28df024fa2d9b3b2fcc30c6"
+    },
+    {
+      "url": "https://huggingface.co/api/models/convaiinnovations/laya-typed-decisions",
+      "sha256_if_available": "32105539b10f5a6ebd9d68a153d6e69e3a910c9750a7990da3bcd389610111d8"
+    },
+    {
+      "url": "https://huggingface.co/convaiinnovations/laya-typed-decisions/resolve/1a793eb568e6718f15941d08f85432581df534e3/README.md",
+      "sha256_if_available": "83e67a995a70a9a9ef6cc1f8c68da654f11eee081c9bb14de07c37b08fcc3113"
+    },
+    {
+      "url": "https://huggingface.co/convaiinnovations/laya-typed-decisions/resolve/1a793eb568e6718f15941d08f85432581df534e3/rl_agent_config.json",
+      "sha256_if_available": "ebf0cd524d92342a6be5e48e9fca3d7c2babfb5a56ccd79d2171ef5d8c7f7be8"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/research/scripts/bench_latency.py",
+      "sha256_if_available": "b83cdc954c33af7f8cff47a5490ce0fc060ef64d8936c8f335485056fc140c72"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/research/scripts/laya_benchmark_colab.ipynb",
+      "sha256_if_available": "84fd892500bf160574493bb096cb1720f484e5c8de34937641576ceae937be32"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/research/results/app_benchmark_results.json",
+      "sha256_if_available": "15a7ba8a4d123cd1de499ef8036d14ce52e25bfb2bf6ac1d03702135d79c0a05"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/laya-ts/README.md",
+      "sha256_if_available": "7260d9e0e54bd31371aee90745cfb7f9dbcff7c77e663f9aa919cfb73397f227"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/laya-ts/package.json",
+      "sha256_if_available": "bb28defb06bd4d1188ffa82aa46f4b231fd8496fa5cc0d6b09dc84b3fe5afdf2"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/sdk/typescript/package.json",
+      "sha256_if_available": "0e7c8a0cb18142de18e9ba4df5c7d2d03688dc32ce64ab6342b9e21ee138e033"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/laya/common.py",
+      "sha256_if_available": "0e4020cc844db80b28e446f3d5fed5a927ae6a8dc4af806fdd334107855211c2"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/laya/agent.py",
+      "sha256_if_available": "fce3efddb648b7911d3054773b233873493ba57fedc023f073a60368f5e237b4"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/research/results/cpu_51_language_sweep_clamped.json",
+      "sha256_if_available": "c0c25d5409fa2ca1ffac8e6f729fffde327d2daf8eec315f0fce24e0e6427913"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/research/results/latency_cpu_m7a_xlarge_20260924.json",
+      "sha256_if_available": "f2a8dadb84ad39beb0b248b1ed99de956ebb86c26af59d19669fe943c943ab79"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/laya/serve.py",
+      "sha256_if_available": "e3ab7c88aaf071c9774a0b03d644a97aacc306445bfaa9819422edc5e5b28520"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/benchmarks/results/fast_english_rtx4070.json",
+      "sha256_if_available": "6e3ca6766c8ab74be1333fe2135b2f082f2ca962754644cf7201fed5a05e9d8d"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/benchmarks/results/fast_multilingual_rtx4070.json",
+      "sha256_if_available": "28805e6f88d2a65393e42882d9a32c3990cf40a00d7a0fe1c7ede8c3cf90250b"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/benchmarks/results/aoti_multilingual_rtx4070.json",
+      "sha256_if_available": "a5eb709b0fb8edd472ac0efd7d8e49ccda7d6c172ee0dbd97546e4749fb17f95"
+    },
+    {
+      "url": "https://registry.npmjs.org/laya-ts/latest",
+      "sha256_if_available": null,
+      "retrieval_result": "HTTP404"
+    },
+    {
+      "url": "https://registry.npmjs.org/laya-client/latest",
+      "sha256_if_available": null,
+      "retrieval_result": "HTTP404"
+    }
+  ],
+  "version": {
+    "python_source": "0.3.25",
+    "pypi": "0.3.25",
+    "latest_github_release": "v0.3.25",
+    "release_published_UTC": "2026-10-03T15:58:35Z",
+    "release_commit": "8a976468b57c1b53541363dc86523263c9b68d34",
+    "source_commit_UTC": "2026-10-03T17:31:47Z",
+    "inspection_started_UTC": "2026-10-03T17:35:16.072627Z",
+    "model_cards_runtime_whats_new": "0.3.20",
+    "benchmark_versions_not_relabelled": true,
+    "typescript_source_versions": {
+      "laya-ts": "0.1.0",
+      "laya-client": "0.1.0"
+    },
+    "typescript_npm_latest": {
+      "laya-ts": null,
+      "laya-client": null
+    },
+    "npm_observation": "Both public registry latest lookups returned HTTP404; no npm publication confirmed."
+  },
+  "models": [
+    {
+      "name": "laya",
+      "role": "english",
+      "huggingface_repo": "convaiinnovations/laya",
+      "huggingface_revision": "55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851",
+      "huggingface_last_modified": "2026-09-24T05:39:22.000Z",
+      "parameters_total": 421293830,
+      "parameters_evidence": "MEASURED metadata inspection; not resident model count",
+      "encoder": "answerdotai/ModernBERT-large",
+      "head_layers": 2,
+      "max_len_default": 512,
+      "head_max_len_default": 192,
+      "max_context_claimed": null,
+      "max_context_independently_verified": null,
+      "temperature_raw": [
+        1.6369030475616455,
+        1.2514300346374512,
+        1.983399510383606
+      ],
+      "temperature_by_options_raw": {
+        "choice:3-5": 1.7601518630981445,
+        "choice:6-10": 1.0000158548355103,
+        "score:3-5": 1.2514300346374512,
+        "noul:2": 1.983399510383606,
+        "choice:11+": 0.10058280825614929,
+        "choice:2": 1.9063563346862793
+      },
+      "license_declared": "apache-2.0"
+    },
+    {
+      "name": "laya-multilingual",
+      "role": "multilingual",
+      "huggingface_repo": "convaiinnovations/laya-multilingual",
+      "huggingface_revision": "e4e9ddf21a7b1903b7acffd8814ad4307bf63a67",
+      "huggingface_last_modified": "2026-09-24T05:39:24.000Z",
+      "parameters_total": 321908998,
+      "parameters_evidence": "MEASURED metadata inspection; not resident model count",
+      "encoder": "jhu-clsp/mmBERT-base",
+      "head_layers": 2,
+      "max_len_default": 1024,
+      "head_max_len_default": 256,
+      "max_context_claimed": 8192,
+      "max_context_independently_verified": null,
+      "temperature_raw": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "temperature_by_options_raw": {},
+      "license_declared": "apache-2.0"
+    },
+    {
+      "name": "laya-typed-decisions",
+      "role": "typed-decisions specialist",
+      "huggingface_repo": "convaiinnovations/laya-typed-decisions",
+      "huggingface_revision": "1a793eb568e6718f15941d08f85432581df534e3",
+      "huggingface_last_modified": "2026-09-24T04:08:17.000Z",
+      "parameters_total": 421293830,
+      "parameters_evidence": "MEASURED metadata inspection; not resident model count",
+      "encoder": "answerdotai/ModernBERT-large",
+      "head_layers": 2,
+      "max_len_default": 1024,
+      "head_max_len_default": 256,
+      "max_context_claimed": null,
+      "max_context_independently_verified": null,
+      "temperature_raw": [
+        1.0148024559020996,
+        1.0374259948730469,
+        1.0575125217437744
+      ],
+      "temperature_by_options_raw": {
+        "choice:3-5": 1.7601518630981445,
+        "choice:6-10": 1.0000158548355103,
+        "score:3-5": 1.2514300346374512,
+        "noul:2": 1.983399510383606,
+        "choice:11+": 0.10058280825614929,
+        "choice:2": 1.9063563346862793
+      },
+      "license_declared": "apache-2.0"
+    }
+  ],
+  "capabilities": {
+    "evidence_status": "MEASURED source inspection; not runtime-exercised",
+    "non_autoregressive": true,
+    "question_types": [
+      "choice argmax and full probability distribution",
+      "noul P(true)",
+      "score expected ordinal level and distribution"
+    ],
+    "action_head": "Separate act_probability; not answer confidence.",
+    "schema": "Enum, boolean, bounded integer projection via decide/decide_batch; no free strings, arrays or nested objects.",
+    "languages_claimed": "100+; MASSIVE51 and XNLI15 are smaller reported measured populations.",
+    "routing": {
+      "default": "English forEnglish; multilingual forrecognized nonEnglish; heuristic ambiguity defaults configurable.",
+      "typed_specialist": "Explicit model=typed-decisions or task=typed_decisions; optional exact known question-ID detection, offbydefault.",
+      "default_bundle_repo": "convaiinnovations/laya",
+      "default_bundle_revision_to_pin": "55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851",
+      "bundle_subfolders": {
+        "english": null,
+        "multilingual": "multilingual",
+        "typed-decisions": "typed-decisions"
+      },
+      "standalone_repos_option": true,
+      "reviewed_revision_pins_opt_in": true,
+      "resident_default": 2,
+      "lazy_load": true
+    },
+    "high_K": {
+      "recommended_default_options_approx": 20,
+      "HTTP_max_choice_options": 100,
+      "HTTP_max_questions": 64,
+      "HTTP_default_total_budget_cap": 8192,
+      "remedies": [
+        "Per-request head_max_len=512,max_len=1024; validate budget tradeoff.",
+        "Embedding shortlist topk20, optionallycached label embeddings; reportrecall and conditional probabilities.",
+        "Coarse-to-fine label decomposition."
+      ],
+      "state_room": "max_len - actual rendered head_len -1; fourtokenfloor can make actualhead exceed nominalcap.",
+      "collapsed_option_reporting": true
+    },
+    "calibration": {
+      "shipped_calibrated_guarantee": false,
+      "temperature_bounds": [
+        0.5,
+        5.0
+      ],
+      "bucket_temperature_overrides_type": true,
+      "raw_temperature_available": true,
+      "records": "records_from_labeled(agent,pairs) gathers raw logits; pincheckpoint/question/backend/dtype.",
+      "temperature_type_floor": 10,
+      "temperature_bucket_floor": 2000,
+      "compute_ece_default": false,
+      "compute_ece_true_holdout_fraction": 0.2,
+      "small_buckets_excluded_from_heldout_report": true,
+      "binning_available_since_current_release": true,
+      "binning_bucket_floor": 200,
+      "binning_applies_to": "answer_confidence, not full optionprobability distribution; perlanguageoverride bypasses globalbinning.",
+      "abstention_threshold_bucket_floor": 100,
+      "abstention_default_target_error": 0.1,
+      "abstention_guarantee": "Empirical only, no formal coverageguarantee.",
+      "threshold_unknown_bucket_fallback": "map default, otherwise0.0; gate nothing.",
+      "binning_threshold_caveat": "fit_abstention_thresholds consumes temperature-scaled logits, not binningmap; validatecuts on actual recalibrated confidence scale.",
+      "persist": [
+        "save_calibration",
+        "load_calibration"
+      ],
+      "procedure": "Disjoint fit/thresholddevelopment/finaleval; validate bytype/options/language and deployedprecision; no threshold transfer assumed.",
+      "confidence_fields": "entropyconfidence is notmaxp; answer_confidence ismaxp before optionalhistogrambinning."
+    },
+    "deployment": [
+      "CPU",
+      "CUDA",
+      "MPS",
+      "XPU",
+      "optionalcompile",
+      "optionalTileLang",
+      "ONNXAgent"
+    ],
+    "batching": "Agent and Router shared compatible schema forwards, restore inputorder; ONNXAgent batch supported.",
+    "HTTP": {
+      "endpoints": [
+        "GET /health",
+        "POST /v1/systemone",
+        "POST /v1/systemone/batch"
+      ],
+      "schema_decisions_transport": "Client projection onto typed systemone endpoint; no/v1/decide route.",
+      "cross_request_dynamic_queue_batching": false,
+      "auth": "Optionalbearer, healthdeploymentdetails protectedwhen keyconfigured.",
+      "idle_unload": true
+    },
+    "MCP": {
+      "transport": "stdio",
+      "tools": [
+        "laya_route",
+        "laya_predict",
+        "laya_shortlist",
+        "laya_preset",
+        "laya_predict_batch",
+        "laya_route_batch",
+        "laya_decide",
+        "laya_status"
+      ],
+      "shared_HTTP_mode": "LAYA_BASE_URL; no localmodel load; heterogeneousbatch per-itemHTTP; remote shortlist/hooks unsupported."
+    },
+    "Python": ">=3.10, PyTorch/HF/safetensors, CLI, hooks, calibration, structuredhelpers.",
+    "TypeScript": {
+      "HTTP": "laya-client source, ESM/CJS, nativefetch",
+      "local": "laya-ts ESM-only splitONNX NodeCPU/CUDA and browserWebGPU/WASM; requires exportartifacts; sortbylengthnotported.",
+      "published_npm_confirmed": false
+    },
+    "LangChain": true,
+    "LangGraph": true,
+    "LlamaIndex": true,
+    "CrewAI": true,
+    "ONNX": "Export/runtime, predict_batch,predict_long,decide_batch; provider-specificparity unmeasured here.",
+    "quantization": "CPUdynamicweightINT8 defaultper-tensor; substantial reportedparitydrift; no assumedcalibrationparity.",
+    "pricing_model": "Apache2software selfhosted; operatingcost notmeasured."
+  },
+  "published_metrics": [
+    {
+      "name": "typed_decisions_finetuned",
+      "checkpoint": "laya-typed-decisions",
+      "values": {
+        "cases": 400,
+        "decisions": 2000,
+        "accuracy": 0.766,
+        "soft_accuracy": 0.471,
+        "table_brier": 0.061,
+        "ECE": 0.213,
+        "score_MAE": 0.242,
+        "workflow_accuracy": {
+          "agent_trace_observability": 0.73,
+          "customer_service": 0.764,
+          "invoice_processing": 0.804,
+          "security_incidents": 0.766
+        }
+      },
+      "source_url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/BENCHMARKS.md",
+      "evidence_status": "HYPOTHESIS: published report; not independently reproduced by Vey",
+      "limitations": [
+        "No committed result file backs specialist headline or workflow rows.",
+        "Specialist fine-tuned on benchmark own training split; not arbitrary zero-shot ability.",
+        "Brier definition not independently reconstructed; table_brier is reported table quantity.",
+        "T4 multilingual latency cannot be assigned to this checkpoint."
+      ]
+    },
+    {
+      "name": "typed_decisions_base",
+      "checkpoint": "laya and laya-multilingual",
+      "values": {
+        "laya_accuracy": 0.362,
+        "multilingual_accuracy": 0.3515,
+        "majority_accuracy": 0.461,
+        "random_accuracy": 0.318
+      },
+      "source_url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/research/results/t4_colab_benchmark.json",
+      "evidence_status": "HYPOTHESIS: published report; not independently reproduced by Vey",
+      "limitations": [
+        "Not strongest appropriate typed competitor; include specialist separately."
+      ]
+    },
+    {
+      "name": "MASSIVE51_refreshed",
+      "checkpoint": "laya-multilingual and laya",
+      "values": {
+        "languages": 51,
+        "cases": 5100,
+        "options": 20,
+        "multilingual_macro_accuracy": 0.4008,
+        "multilingual_macro_ECE": 0.3911,
+        "multilingual_languages_above_3x_random": 48,
+        "english_macro_accuracy": 0.2269,
+        "english_macro_ECE_as_served": 0.5709,
+        "english_only_accuracy": {
+          "laya": 0.82,
+          "multilingual": 0.71
+        },
+        "superseded_multilingual_macro_accuracy": 0.3661,
+        "superseded_multilingual_macro_ECE": 0.3869
+      },
+      "source_url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/research/results/cpu_51_language_sweep_refreshed.json",
+      "evidence_status": "HYPOTHESIS: published report; not independently reproduced by Vey",
+      "limitations": [
+        "Runtime 0.3.20, seed13, 100/language; vendor reports agreement across three machines.",
+        "100+ supported languages is broader than 51 evaluated."
+      ]
+    },
+    {
+      "name": "temperature_clamp_rerun",
+      "checkpoint": "laya",
+      "values": {
+        "clamp_min": 0.5,
+        "clamp_max": 5.0,
+        "choice_11plus_raw_temperature": 0.10058280825614929,
+        "choice_11plus_served_temperature": 0.5,
+        "macro_accuracy_raw_and_served": 0.2269,
+        "macro_ECE_raw": 0.7331,
+        "macro_ECE_served": 0.5709
+      },
+      "source_url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/research/results/cpu_51_language_sweep_clamped.json",
+      "evidence_status": "HYPOTHESIS: published report; not independently reproduced by Vey",
+      "limitations": [
+        "20-choice sweep; accuracy unchanged under positive scalar temperature.",
+        "Old raw ECE values are not current served confidence."
+      ]
+    },
+    {
+      "name": "T4_warm_SDK_latency",
+      "checkpoint": "laya and laya-multilingual",
+      "values": {
+        "laya": {
+          "1_questions": {
+            "p50_ms": 39.5,
+            "p95_ms": 44.8,
+            "ms_per_question": 39.5
+          },
+          "5_questions": {
+            "p50_ms": 84.5,
+            "p95_ms": 86.0,
+            "ms_per_question": 16.89
+          },
+          "10_questions": {
+            "p50_ms": 158.6,
+            "p95_ms": 160.1,
+            "ms_per_question": 15.86
+          },
+          "50_questions": {
+            "p50_ms": 771.3,
+            "p95_ms": 806.7,
+            "ms_per_question": 15.43
+          }
+        },
+        "laya-multilingual": {
+          "1_questions": {
+            "p50_ms": 32.8,
+            "p95_ms": 38.8,
+            "ms_per_question": 32.83
+          },
+          "5_questions": {
+            "p50_ms": 40.1,
+            "p95_ms": 43.5,
+            "ms_per_question": 8.02
+          },
+          "10_questions": {
+            "p50_ms": 72.3,
+            "p95_ms": 74.4,
+            "ms_per_question": 7.23
+          },
+          "50_questions": {
+            "p50_ms": 337.4,
+            "p95_ms": 693.7,
+            "ms_per_question": 6.75
+          }
+        }
+      },
+      "source_url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/research/results/t4_colab_benchmark.json",
+      "evidence_status": "HYPOTHESIS: published report; not independently reproduced by Vey",
+      "limitations": [
+        "Tesla T4; torch2.11+cu128; timing synchronized system_one including tokenization/forward/decode; 20 calls after3 warmups.",
+        "1-question p50 32.8ms multilingual versus39.5ms English; no typed-specialist T4 row.",
+        "Question batching over one state is not concurrent HTTP server capacity.",
+        "Cold load, model download and network excluded."
+      ]
+    },
+    {
+      "name": "T4_published_throughput",
+      "checkpoint": "laya and laya-multilingual",
+      "values": {
+        "questions_per_second_published_range": [
+          103,
+          332
+        ]
+      },
+      "source_url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/BENCHMARKS.md",
+      "evidence_status": "HYPOTHESIS: published report; not independently reproduced by Vey",
+      "limitations": [
+        "Workload-dependent reported throughput; not a same-host Vey capacity comparison."
+      ]
+    },
+    {
+      "name": "T4_option_order_flip_rate",
+      "checkpoint": "laya and laya-multilingual",
+      "values": {
+        "laya": {
+          "massive_intent.en": {
+            "n": 200,
+            "flip_rate": 0.15
+          },
+          "en.emotion": {
+            "n": 200,
+            "flip_rate": 0.04
+          },
+          "xnli.en": {
+            "n": 200,
+            "flip_rate": 0.0
+          }
+        },
+        "laya-multilingual": {
+          "massive_intent.en": {
+            "n": 200,
+            "flip_rate": 0.23
+          },
+          "en.emotion": {
+            "n": 200,
+            "flip_rate": 0.09
+          },
+          "xnli.en": {
+            "n": 200,
+            "flip_rate": 0.015
+          }
+        }
+      },
+      "source_url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/research/results/t4_colab_benchmark.json",
+      "evidence_status": "HYPOTHESIS: published report; not independently reproduced by Vey",
+      "limitations": [
+        "200 cases/suite; option order positional.",
+        "Typed-specialist .766 order robustness unmeasured."
+      ]
+    },
+    {
+      "name": "T4_temperature_repair_suite_mean",
+      "checkpoint": "laya and laya-multilingual",
+      "values": {
+        "english_mean_ECE_shipped": 0.4656,
+        "english_mean_ECE_refit": 0.0812,
+        "multilingual_mean_ECE_shipped": 0.3135,
+        "multilingual_mean_ECE_refit": 0.1059
+      },
+      "source_url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/research/results/t4_colab_benchmark.json",
+      "evidence_status": "HYPOTHESIS: published report; not independently reproduced by Vey",
+      "limitations": [
+        "Notebook uses first half for fit and second half for eval per suite; bucket fit floor25, not current runtime floor2000.",
+        "Mean across suites, not universal current deployed ECE or specialist ECE."
+      ]
+    },
+    {
+      "name": "Applications_best_suitable_checkpoints",
+      "checkpoint": "checkpoint-specific",
+      "values": {
+        "AG_News_typed_accuracy": 0.953,
+        "Emotion_typed_accuracy": 0.6,
+        "Banking77_typed_accuracy": 0.492,
+        "Banking77_base_accuracy": 0.425,
+        "best_spam_accuracy": 0.993,
+        "best_phishing_accuracy": 0.993,
+        "best_guardrails_accuracy": 0.762,
+        "toxicity_accuracy": 0.53
+      },
+      "source_url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/research/results/app_benchmark_results.json",
+      "evidence_status": "HYPOTHESIS: published report; not independently reproduced by Vey",
+      "limitations": [
+        "CPU runtime0.2.1, seed13, 400/task.",
+        "AGNews/spam/phishing in training; Emotion/Banking77/toxicity/jailbreak source held out.",
+        "HighK remedy not reflected in default Banking77 row."
+      ]
+    },
+    {
+      "name": "wide_head_synthetic_options",
+      "checkpoint": "laya",
+      "values": {
+        "default_correct_out_of_24": 24,
+        "wide_correct_out_of_24": 20,
+        "default_correct_out_of_48": 1,
+        "wide_correct_out_of_48": 43,
+        "default_correct_out_of_72": 1,
+        "wide_correct_out_of_72": 63,
+        "wide_max_len": 1024,
+        "wide_head_max_len": 512
+      },
+      "source_url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/docs/langchain.md",
+      "evidence_status": "HYPOTHESIS: published report; not independently reproduced by Vey",
+      "limitations": [
+        "Reported synthetic label examples; not Banking77 reproduction.",
+        "Wider heads sometimes worsen accuracy; select on development, not final eval."
+      ]
+    },
+    {
+      "name": "long_context",
+      "checkpoint": "laya-multilingual",
+      "values": [
+        {
+          "pad_tokens": 0,
+          "limit": 1024,
+          "n": 20,
+          "correct": 19,
+          "accuracy": 0.95,
+          "median_latency_s": 0.017,
+          "median_input_tokens": 61
+        },
+        {
+          "pad_tokens": 0,
+          "limit": 8192,
+          "n": 20,
+          "correct": 19,
+          "accuracy": 0.95,
+          "median_latency_s": 0.016,
+          "median_input_tokens": 61
+        },
+        {
+          "pad_tokens": 1000,
+          "limit": 1024,
+          "n": 20,
+          "correct": 13,
+          "accuracy": 0.65,
+          "median_latency_s": 0.224,
+          "median_input_tokens": 1024
+        },
+        {
+          "pad_tokens": 1000,
+          "limit": 8192,
+          "n": 20,
+          "correct": 16,
+          "accuracy": 0.8,
+          "median_latency_s": 0.211,
+          "median_input_tokens": 1032
+        },
+        {
+          "pad_tokens": 2000,
+          "limit": 1024,
+          "n": 20,
+          "correct": 7,
+          "accuracy": 0.35,
+          "median_latency_s": 0.198,
+          "median_input_tokens": 1024
+        },
+        {
+          "pad_tokens": 2000,
+          "limit": 8192,
+          "n": 20,
+          "correct": 17,
+          "accuracy": 0.85,
+          "median_latency_s": 0.503,
+          "median_input_tokens": 2040
+        },
+        {
+          "pad_tokens": 3000,
+          "limit": 1024,
+          "n": 20,
+          "correct": 7,
+          "accuracy": 0.35,
+          "median_latency_s": 0.208,
+          "median_input_tokens": 1024
+        },
+        {
+          "pad_tokens": 3000,
+          "limit": 8192,
+          "n": 20,
+          "correct": 17,
+          "accuracy": 0.85,
+          "median_latency_s": 0.895,
+          "median_input_tokens": 3006
+        },
+        {
+          "pad_tokens": 4000,
+          "limit": 1024,
+          "n": 20,
+          "correct": 7,
+          "accuracy": 0.35,
+          "median_latency_s": 0.216,
+          "median_input_tokens": 1024
+        },
+        {
+          "pad_tokens": 4000,
+          "limit": 8192,
+          "n": 20,
+          "correct": 18,
+          "accuracy": 0.9,
+          "median_latency_s": 1.707,
+          "median_input_tokens": 3972
+        },
+        {
+          "pad_tokens": 5000,
+          "limit": 1024,
+          "n": 20,
+          "correct": 7,
+          "accuracy": 0.35,
+          "median_latency_s": 0.262,
+          "median_input_tokens": 1024
+        },
+        {
+          "pad_tokens": 5000,
+          "limit": 8192,
+          "n": 20,
+          "correct": 11,
+          "accuracy": 0.55,
+          "median_latency_s": 2.586,
+          "median_input_tokens": 4938
+        },
+        {
+          "pad_tokens": 6000,
+          "limit": 1024,
+          "n": 20,
+          "correct": 7,
+          "accuracy": 0.35,
+          "median_latency_s": 0.253,
+          "median_input_tokens": 1024
+        },
+        {
+          "pad_tokens": 6000,
+          "limit": 8192,
+          "n": 20,
+          "correct": 17,
+          "accuracy": 0.85,
+          "median_latency_s": 3.505,
+          "median_input_tokens": 5946
+        },
+        {
+          "pad_tokens": 7000,
+          "limit": 1024,
+          "n": 20,
+          "correct": 7,
+          "accuracy": 0.35,
+          "median_latency_s": 0.264,
+          "median_input_tokens": 1024
+        },
+        {
+          "pad_tokens": 7000,
+          "limit": 8192,
+          "n": 20,
+          "correct": 8,
+          "accuracy": 0.4,
+          "median_latency_s": 4.503,
+          "median_input_tokens": 6912
+        }
+      ],
+      "source_url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/research/results/long_context_multilingual.json",
+      "evidence_status": "HYPOTHESIS: published report; not independently reproduced by Vey",
+      "limitations": [
+        "Runtime0.3.18, Apple MPS, one4-option department question,20 padded cases/row.",
+        "Total context8192 is not all usable state tokens; question head consumes space.",
+        "Accuracy variable beyond4000padding tokens; not a diverse long-document evaluation."
+      ]
+    },
+    {
+      "name": "RTX4070_Ti_SUPER_fast_end_to_end",
+      "checkpoint": "laya and multilingual",
+      "values": {
+        "english_one_question_72tokens_stock_ms": 17.7,
+        "english_one_question_72tokens_fast_ms": 4.6,
+        "multilingual_one_question_72tokens_stock_ms": 14.1,
+        "multilingual_one_question_72tokens_fast_ms": 2.8
+      },
+      "source_url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/BENCHMARKS.md",
+      "evidence_status": "HYPOTHESIS: published report; not independently reproduced by Vey",
+      "limitations": [
+        "Optional TileLang fusedkernels/CUDAgraphs; torch2.11+CUDA13,TileLang0.1.14.",
+        "End-to-end predict includingtokenization, warmbucket; firstbucket compiles.",
+        "Different GPU/input/checkpoint from headline typedquality andT4speed."
+      ]
+    },
+    {
+      "name": "EPYC_9R14_CPU",
+      "checkpoint": "all three",
+      "values": {
+        "one_question_p50_ms": {
+          "english": 580,
+          "multilingual": 193,
+          "typed-decisions": 584
+        },
+        "cores": 4
+      },
+      "source_url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/research/results/latency_cpu_m7a_xlarge_20260924.json",
+      "evidence_status": "HYPOTHESIS: published report; not independently reproduced by Vey",
+      "limitations": [
+        "m7a.xlarge,16GiBRAM,fp32,4threads,runtime0.3.20;10calls after2warmups.",
+        "Not Vey target CPU; coldload cachedependent."
+      ]
+    },
+    {
+      "name": "external_NVIDIA_capacity",
+      "checkpoint": "laya English",
+      "values": {
+        "p99_130ms_decisions_per_second_TensorRT_FP16": {
+          "RTX_PRO_5000_Blackwell": 42,
+          "RTX_PRO_6000_Blackwell": 146,
+          "H100_NVL": 175
+        },
+        "H100_p99_50ms_decisions_per_second": 105
+      },
+      "source_url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/research/results/nvidia_capacity_20260925.json",
+      "evidence_status": "HYPOTHESIS: published report; not independently reproduced by Vey",
+      "limitations": [
+        "External study source https://github.com/bhushankinge/laya-cuda-bench at6cf4148ef4d148273eae83604815fb63ca2254de.",
+        "Laya commit6a5819129eb220570792e417e49723d697efd76f.",
+        "1000SAMgov notices<=472tokens,3decisions/request,one run/configuration.",
+        "Custom dynamicbatch serving harness; TensorRT is external ONNXRuntimeprovider, not native Laya backend.",
+        "Independent of vendor author is not independent Vey reproduction."
+      ]
+    },
+    {
+      "name": "INT8_documented_parity",
+      "checkpoint": "English and multilingual",
+      "values": {
+        "per_tensor_eager_agreement_approx": {
+          "english": 0.67,
+          "multilingual": 0.83
+        },
+        "per_channel_eager_agreement_approx": {
+          "english": 0.32,
+          "multilingual": 0.4
+        }
+      },
+      "source_url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/docs/reference/agent.md",
+      "evidence_status": "HYPOTHESIS: published report; not independently reproduced by Vey",
+      "limitations": [
+        "Dynamic CPUweightINT8 defaultper-tensor; not accuracy-safe by default.",
+        "No CUDAINT8MatMul kernel; provider can fall back pernode."
+      ]
+    },
+    {
+      "name": "AOTInductor_forward_only",
+      "checkpoint": "bundled multilingual at1c5edc17a7acd8701df6fc341c0d179f1c62c982",
+      "values": {
+        "AOTI_forward_ms_reported": [
+          2.2674,
+          2.4154,
+          3.6018
+        ],
+        "rows_evaluated": 7
+      },
+      "source_url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/docs/fast-backends.md",
+      "evidence_status": "HYPOTHESIS: published report; not independently reproduced by Vey",
+      "limitations": [
+        "RTX4070TiSUPER;explicitbf16; excludestokenization/export/compile.",
+        "Sevenrow parity is not broad modelquality; package caller handles calibration/formatting."
+      ]
+    }
+  ],
+  "pricing": {
+    "software_per_decision_fee": 0,
+    "basis": "Open-source selfhosting, not free compute.",
+    "hosted_API_price": null,
+    "hardware_cost": null,
+    "energy_per_decision": null,
+    "operating_cost_per_verified_decision": null
+  },
+  "license": {
+    "repository": "Apache-2.0",
+    "python_package": "Apache-2.0",
+    "HF_cards_all_three": "apache-2.0",
+    "legal_audit_performed": false
+  },
+  "known_limitations": [
+    "Typed .766 lacks committed resultrows; use specialist but labelheadline unverified.",
+    "DefaultEnglish outsideEnglish is avoidablyweak; route appropriately.",
+    "Currentconfidence differs from oldrawtemps; RLCD is notdeployment calibrationproof.",
+    "Headbudget cancollapse highK labels; widening/shortlisting exists and mustbeevaluated.",
+    "Optionorder positional; publishedfliprates nonzero.",
+    "Cancellationnegation, booleanchoice andnoul labelbias reported in narrowcases.",
+    "Heldouttoxicity .530 andordinalSST5 .372 documenttasklimits, notuniversalweakness.",
+    "8Kcontext quality evidenced onlyby20paddedcases/row; longwindowselectorconfidence notwhole-documentcalibrated.",
+    "Backend/dtype flips andINT8drift requireactualpathcalibration.",
+    "Defaultresidentroutercan usemultiplemodels; 12GBVRAM unmeasured.",
+    "npm source exists but bothpubliclatestlookups404."
+  ],
+  "direct_evaluation_status": {
+    "source_and_metadata": "MEASURED primary-source inspection",
+    "model_quality": "HYPOTHESIS published only",
+    "latency_throughput": "HYPOTHESIS published only",
+    "weights_downloaded": false,
+    "model_inference_run": false,
+    "paid_API_calls": false,
+    "tests_build_lint_formatters_run": false,
+    "same_host_Vey_comparison_run": false,
+    "source_inspection_does_not_reproduce_vendor_scores": true
+  },
+  "unmeasured": {
+    "raw_typed_specialist_headline_artifact": null,
+    "independent_quality": null,
+    "independent_performance": null,
+    "typed_specialist_T4_latency": null,
+    "typed_specialist_headline_order_robustness": null,
+    "strong_highK_Banking77_control": null,
+    "broad_8K_document_reliability": null,
+    "calibration_final_holdout_at_Vey_operating_point": null,
+    "12GB_peak_VRAM": null,
+    "peak_RSS": null,
+    "joules_per_verified_decision": null,
+    "same_host_Vey_advantage": null,
+    "hosted_pricing": null
+  }
+}

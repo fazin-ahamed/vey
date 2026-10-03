@@ -3121,6 +3121,89 @@ payloads. `schema_relation_prepare.py`, `schema_relation_run.py` and
 `schema_relation_verify.py` separate preparation, measurement and independent
 head/decoder/integer-decision reconstruction. Output creation refuses overwrite.
 
+### CBF-6 result: literal-trained pair heads do not earn semantic transfer
+
+**Hypothesis and controls.** The joint stock-pair interface was tested with
+a1155-parameter linear head, a24,835-parameter GELU head, then the same linear
+head with only the final transformer layer trainable. All arms used literal-only
+data, unchanged exact state/compiler, and literal-validation checkpoint selection.
+Measurement commit `789a18f` follows preregistration `cf4fb73`, pre-outcome
+grammar amendment `a473500`, and blinded corpus freeze `c8db098`.
+
+**MEASURED, development progression:**
+
+| Arm | Selected epoch | Literal validation CE | G0 | Old-alias axis | Joint | Sign given correct axis |
+|---|---:|---:|---:|---:|---:|---:|
+| A: frozen linear | 10 | 0.644220 | 0.890625 | 2/32 | 2/32 | 2/2 |
+| B: frozen GELU | 3 | 0.413298 | 0.890625 | 2/32 | 2/32 | 2/2 |
+| C: final-layer adaptation | 1 | 0.453979 | 0.859375 | 0/32 | 0/32 | undefined |
+
+All three fail development. The preregistered joint/decision/earlier-arm
+tie-break selects A before final opens. The2/2 conditional signs do not establish
+general orientation robustness. No reversal trigger is eligible; no reversal
+arm or seed replication is run.
+
+**MEASURED, fresh final, selected A:**
+
+| Gate / metric | Result | Required | Outcome |
+|---|---:|---:|---|
+| G0 held literal ternary relation | 114/128 =0.890625 | 0.95 | FAIL |
+| G1 atomic axis | 10/128 =0.078125 | 0.85 | FAIL |
+| G2 sign given correct axis | 3/10 =0.300000 | 0.90 | FAIL |
+| G3 joint signed atom, primary | 3/128 =0.0234375 | 0.80 | FAIL |
+| G4 alias top-set decision | 66/2048 =0.0322266 | 0.80 | FAIL |
+| G5 composition top-set decision | 13/2048 =0.0063477 | 0.80 | FAIL |
+| G6 teacher-changing correct-new | 0.0086691 | 0.80 | FAIL |
+| G7 exact literal and permutation | 1.000000 | 1.00 | PASS |
+
+A returns UNKNOWN for113/128 final atoms. G0's96/96 unrelated predictions hide
+weak matched-field behavior:18/32 matched predictions are correct. Runtime
+literal execution is separate and remains perfect on155 compiled criteria and
+4,960 decisions, with zero neural literal callbacks. No learned primitive,
+probability-calibration, certification or performance promotion follows.
+
+**Uncertainty.** The64 atomic reversal-pair bootstrap gives nominal95% intervals:
+axis[0.0234375,0.140625], joint[0,0.0546875], conditional sign[0,0.4545455],
+alias decisions[0.0078125,0.0625]. The64 composition reversal pairs give
+[0,0.0170898]. These are descriptive intervals; the frozen gates use point
+thresholds. The150,188 derived swaps are not independent semantic samples.
+
+**Mechanism evidence.** C trains1,774,464 encoder parameters and1155 head
+parameters; its first encoder/head gradient L1 sums are1668.22/7.76567, with
+zero frozen-prefix gradients and identical before/after frozen-prefix hashes.
+A/B encoder hashes remain identical. A separate actual-encoder smoke alternates
+backward and inference twice with nonzero final-layer/head gradients.
+The generic Mistral-regex warning does not justify rewriting this tokenizer:
+524 criterion/field inputs match the pinned native SentencePiece token IDs
+exactly, including accent/currency fixtures. Cache-only loading avoids an online
+startup timeout without changing any model/tokenizer artifact.
+
+**MEASURED, independent reconstruction:** all four stage/final G0–G7 sets,
+1,440 pair inputs, observed matrices, exact coefficients and integer decisions
+are reproduced. Final proof covers13,152 decisions,26,304 reversed/shuffled
+permutation checks with zero mismatches, and150,188 causal rows. Maximum
+head-softmax discrepancy is2.214e-7 across the reconstructed stages.
+The first verifier run failed because its independent regex retained leading
+field-key whitespace; that failure is preserved, only the verifier key stripping
+was repaired, and the original measurement was not rerun or altered.
+
+**INFERENCE:** this literal-only stock-pair interface, including the declared
+one-layer adaptation, did not earn alias transfer. This does not prove the
+semantic information is absent, that more head width solves it, or that
+orientation is robust on the two development successes.
+
+**HYPOTHESIS / next branch:** task-pretrained small relation/NLI encoders may
+provide a stronger interface. A controlled open-encoder bake-off is selected
+from the development failures, with license/provenance, size, class labels,
+context and multilingual scope checked before preregistration. It requires a
+new sealed final; CBF-6 final outcomes do not tune later arms. B-STEF remains
+blocked. The autonomous endgame continues.
+
+Artifacts and complete hashes are in
+`research/cbf0/schema_relation_result_manifest.json`; raw features, tokens,
+matrices, training histories/checkpoints, decisions, swaps, intervals and
+verification stay in the amended data root. No frozen Vey-2 runtime changed.
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the

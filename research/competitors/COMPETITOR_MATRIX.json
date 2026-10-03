@@ -1,0 +1,473 @@
+{
+  "access": {
+    "MCA_source": "https://typesafe.ai/legal/mca",
+    "authenticated_calls": 0,
+    "credential_environment_presence": {
+      "JEV_API_KEY": false,
+      "TYPESAFE_API_KEY": false
+    },
+    "permission_risk": "Section2.3(b) restricts competing-product development. Ordinary key possession is not evidence of permission for this project. Do not accept terms or send requests without established authorization.",
+    "secrets_read_or_published": false
+  },
+  "critical_cells": [
+    {
+      "CI95": null,
+      "Jev": null,
+      "Laya": null,
+      "Vey": null,
+      "dimension": "exact/rule decisions",
+      "green": false,
+      "hardware": null,
+      "paired_delta": null,
+      "sample_count": null,
+      "status": "UNMEASURED_NEUTRAL_COMPARISON"
+    },
+    {
+      "CI95": null,
+      "Jev": null,
+      "Laya": null,
+      "Vey": null,
+      "dimension": "Choice accuracy",
+      "green": false,
+      "hardware": null,
+      "paired_delta": null,
+      "sample_count": null,
+      "status": "UNMEASURED_NEUTRAL_COMPARISON"
+    },
+    {
+      "CI95": null,
+      "Jev": null,
+      "Laya": null,
+      "Vey": null,
+      "dimension": "Score/ordinal quality",
+      "green": false,
+      "hardware": null,
+      "paired_delta": null,
+      "sample_count": null,
+      "status": "UNMEASURED_NEUTRAL_COMPARISON"
+    },
+    {
+      "CI95": null,
+      "Jev": null,
+      "Laya": null,
+      "Vey": null,
+      "dimension": "Noul/Boolean quality",
+      "green": false,
+      "hardware": null,
+      "paired_delta": null,
+      "sample_count": null,
+      "status": "UNMEASURED_NEUTRAL_COMPARISON"
+    },
+    {
+      "CI95": null,
+      "Jev": null,
+      "Laya": null,
+      "Vey": null,
+      "dimension": "probability calibration",
+      "green": false,
+      "hardware": null,
+      "paired_delta": null,
+      "sample_count": null,
+      "status": "UNMEASURED_NEUTRAL_COMPARISON"
+    },
+    {
+      "CI95": null,
+      "Jev": null,
+      "Laya": null,
+      "Vey": null,
+      "dimension": "arbitrary criterion transfer",
+      "green": false,
+      "hardware": null,
+      "paired_delta": null,
+      "sample_count": null,
+      "status": "UNMEASURED_NEUTRAL_COMPARISON"
+    },
+    {
+      "CI95": null,
+      "Jev": null,
+      "Laya": null,
+      "Vey": null,
+      "dimension": "OOD robustness",
+      "green": false,
+      "hardware": null,
+      "paired_delta": null,
+      "sample_count": null,
+      "status": "UNMEASURED_NEUTRAL_COMPARISON"
+    },
+    {
+      "CI95": null,
+      "Jev": null,
+      "Laya": null,
+      "Vey": null,
+      "dimension": "option-order invariance",
+      "green": false,
+      "hardware": null,
+      "paired_delta": null,
+      "sample_count": null,
+      "status": "UNMEASURED_NEUTRAL_COMPARISON"
+    },
+    {
+      "CI95": null,
+      "Jev": null,
+      "Laya": null,
+      "Vey": null,
+      "dimension": "high-K cardinality",
+      "green": false,
+      "hardware": null,
+      "paired_delta": null,
+      "sample_count": null,
+      "status": "UNMEASURED_NEUTRAL_COMPARISON"
+    },
+    {
+      "CI95": null,
+      "Jev": null,
+      "Laya": null,
+      "Vey": null,
+      "dimension": "multilingual",
+      "green": false,
+      "hardware": null,
+      "paired_delta": null,
+      "sample_count": null,
+      "status": "UNMEASURED_NEUTRAL_COMPARISON"
+    },
+    {
+      "CI95": null,
+      "Jev": null,
+      "Laya": null,
+      "Vey": null,
+      "dimension": "long context",
+      "green": false,
+      "hardware": null,
+      "paired_delta": null,
+      "sample_count": null,
+      "status": "UNMEASURED_NEUTRAL_COMPARISON"
+    },
+    {
+      "CI95": null,
+      "Jev": null,
+      "Laya": null,
+      "Vey": null,
+      "dimension": "p50/p95 latency",
+      "green": false,
+      "hardware": null,
+      "paired_delta": null,
+      "sample_count": null,
+      "status": "UNMEASURED_NEUTRAL_COMPARISON"
+    },
+    {
+      "CI95": null,
+      "Jev": null,
+      "Laya": null,
+      "Vey": null,
+      "dimension": "batched throughput",
+      "green": false,
+      "hardware": null,
+      "paired_delta": null,
+      "sample_count": null,
+      "status": "UNMEASURED_NEUTRAL_COMPARISON"
+    },
+    {
+      "CI95": null,
+      "Jev": null,
+      "Laya": null,
+      "Vey": null,
+      "dimension": "memory footprint",
+      "green": false,
+      "hardware": null,
+      "paired_delta": null,
+      "sample_count": null,
+      "status": "UNMEASURED_NEUTRAL_COMPARISON"
+    },
+    {
+      "CI95": null,
+      "Jev": null,
+      "Laya": null,
+      "Vey": null,
+      "dimension": "self-hosting",
+      "green": false,
+      "hardware": null,
+      "paired_delta": null,
+      "sample_count": null,
+      "status": "UNMEASURED_NEUTRAL_COMPARISON"
+    },
+    {
+      "CI95": null,
+      "Jev": null,
+      "Laya": null,
+      "Vey": null,
+      "dimension": "failure handling",
+      "green": false,
+      "hardware": null,
+      "paired_delta": null,
+      "sample_count": null,
+      "status": "UNMEASURED_NEUTRAL_COMPARISON"
+    },
+    {
+      "CI95": null,
+      "Jev": null,
+      "Laya": null,
+      "Vey": null,
+      "dimension": "exact+semantic composition",
+      "green": false,
+      "hardware": null,
+      "paired_delta": null,
+      "sample_count": null,
+      "status": "UNMEASURED_NEUTRAL_COMPARISON"
+    },
+    {
+      "CI95": null,
+      "Jev": null,
+      "Laya": null,
+      "Vey": null,
+      "dimension": "certification/fallback",
+      "green": false,
+      "hardware": null,
+      "paired_delta": null,
+      "sample_count": null,
+      "status": "UNMEASURED_NEUTRAL_COMPARISON"
+    },
+    {
+      "CI95": null,
+      "Jev": null,
+      "Laya": null,
+      "Vey": null,
+      "dimension": "Python/HTTP ecosystem",
+      "green": false,
+      "hardware": null,
+      "paired_delta": null,
+      "sample_count": null,
+      "status": "UNMEASURED_NEUTRAL_COMPARISON"
+    },
+    {
+      "CI95": null,
+      "Jev": null,
+      "Laya": null,
+      "Vey": null,
+      "dimension": "ONNX/runtime portability",
+      "green": false,
+      "hardware": null,
+      "paired_delta": null,
+      "sample_count": null,
+      "status": "UNMEASURED_NEUTRAL_COMPARISON"
+    },
+    {
+      "CI95": null,
+      "Jev": null,
+      "Laya": null,
+      "Vey": null,
+      "dimension": "MCP/agent integration",
+      "green": false,
+      "hardware": null,
+      "paired_delta": null,
+      "sample_count": null,
+      "status": "UNMEASURED_NEUTRAL_COMPARISON"
+    }
+  ],
+  "direct_Jev": "PROVISIONAL \u2014 DIRECT JEV EVALUATION NOT PERFORMED; authorization and existing budget unestablished",
+  "dossiers": {
+    "Jev": {
+      "evidence": "MEASURED primary-source inspection; advertised capability/quality remains unreproduced.",
+      "path": "research/competitors/JEV.json",
+      "retrieved_at_UTC": "2026-10-03T17:37:41Z",
+      "sha256": "8785779e7430305319e3be4d5ecc3224c77ab6a29c52dd4d24bbff2c8cc43889",
+      "source_revision": {
+        "community_mcp": {
+          "commit": "10737f071d4b299c3db30243093d2e739c2d03ad"
+        },
+        "javascript_sdk": {
+          "commit": "66880ccded6cb642dc1809620c2b108c33730214",
+          "tag": "v0.6.0"
+        },
+        "langchain_integration": {
+          "commit": "115dbbd158c95044c2a2281e326dc8e6a44a3c23",
+          "scope": "README last-modifying commit and package metadata inspected at this revision"
+        },
+        "model_weights": null,
+        "python_sdk": {
+          "commit": "f078f1e208a0d885154dc758344ae4fce77ac168",
+          "tag": "v0.7.2"
+        },
+        "website_and_docs": null,
+        "website_and_docs_note": "Public live pages inspected; no immutable source revision or content SHA-256 supplied. Retrieval date is not a weight or documentation revision.",
+        "workflow_evals": {
+          "commit": "0ac3b8ad845429f0d8e064ecfb2430a47c5a25cb"
+        }
+      }
+    },
+    "Laya": {
+      "evidence": "MEASURED primary-source inspection; advertised capability/quality remains unreproduced.",
+      "path": "research/competitors/LAYA.json",
+      "retrieved_at_UTC": "2026-10-03T17:49:43.768812Z",
+      "sha256": "63e080043735bc026eff118a60f5fdb2263e0d349321a30406b3500f12f66496",
+      "source_revision": "859b8ee595cc04f84dd2af476d6d1d90ec1fea46"
+    }
+  },
+  "fairness": "Identical decomposition, exact rules and shared workflow code for all systems wherever possible. Compare semantic decisions, not Vey's code against competitor neural arithmetic. Exact native architectural support can be compared separately, never fabricated as an accuracy win when both shared workflows are perfect.",
+  "non_inferiority": {
+    "ECE_Brier_NI_margin_absolute": 0.01,
+    "NLL_NI_margin_absolute": 0.02,
+    "accuracy_NI_margin_absolute": 0.01,
+    "confidence_level": 0.95,
+    "latency_unit": "Paired interleaved quiet-hardware blocks; same runtime/hardware and documented precision/cache settings",
+    "memory_relative_material_loss": 0.05,
+    "non_inferiority": "Simultaneous confidence interval excludes specified material regression; lack of significance is not equivalence",
+    "normalized_MAE_NI_margin_absolute": 0.01,
+    "performance_relative_material_loss": 0.05,
+    "quality_unit": "Independent source example/document/session, grouped variants kept together",
+    "rank_correlation_NI_margin_absolute": 0.01,
+    "simultaneous_critical_family": true,
+    "superiority": "Simultaneous confidence interval strictly excludes zero in favorable direction"
+  },
+  "performance_caveat": "Laya must run on the same local hardware/runtime; vendor T4 numbers are not local measurements. Jev server hardware/model-only timing are not public, so hosted round-trip and local model-only latency are not apples-to-apples. Report unavailable comparisons explicitly.",
+  "recommended_Laya_targets": {
+    "checkpoint_roster": [
+      {
+        "encoder": "answerdotai/ModernBERT-large",
+        "head_layers": 2,
+        "head_max_len_default": 192,
+        "huggingface_last_modified": "2026-09-24T05:39:22.000Z",
+        "huggingface_repo": "convaiinnovations/laya",
+        "huggingface_revision": "55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851",
+        "license_declared": "apache-2.0",
+        "max_context_claimed": null,
+        "max_context_independently_verified": null,
+        "max_len_default": 512,
+        "name": "laya",
+        "parameters_evidence": "MEASURED metadata inspection; not resident model count",
+        "parameters_total": 421293830,
+        "role": "english",
+        "temperature_by_options_raw": {
+          "choice:11+": 0.10058280825614929,
+          "choice:2": 1.9063563346862793,
+          "choice:3-5": 1.7601518630981445,
+          "choice:6-10": 1.0000158548355103,
+          "noul:2": 1.983399510383606,
+          "score:3-5": 1.2514300346374512
+        },
+        "temperature_raw": [
+          1.6369030475616455,
+          1.2514300346374512,
+          1.983399510383606
+        ]
+      },
+      {
+        "encoder": "jhu-clsp/mmBERT-base",
+        "head_layers": 2,
+        "head_max_len_default": 256,
+        "huggingface_last_modified": "2026-09-24T05:39:24.000Z",
+        "huggingface_repo": "convaiinnovations/laya-multilingual",
+        "huggingface_revision": "e4e9ddf21a7b1903b7acffd8814ad4307bf63a67",
+        "license_declared": "apache-2.0",
+        "max_context_claimed": 8192,
+        "max_context_independently_verified": null,
+        "max_len_default": 1024,
+        "name": "laya-multilingual",
+        "parameters_evidence": "MEASURED metadata inspection; not resident model count",
+        "parameters_total": 321908998,
+        "role": "multilingual",
+        "temperature_by_options_raw": {},
+        "temperature_raw": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "encoder": "answerdotai/ModernBERT-large",
+        "head_layers": 2,
+        "head_max_len_default": 256,
+        "huggingface_last_modified": "2026-09-24T04:08:17.000Z",
+        "huggingface_repo": "convaiinnovations/laya-typed-decisions",
+        "huggingface_revision": "1a793eb568e6718f15941d08f85432581df534e3",
+        "license_declared": "apache-2.0",
+        "max_context_claimed": null,
+        "max_context_independently_verified": null,
+        "max_len_default": 1024,
+        "name": "laya-typed-decisions",
+        "parameters_evidence": "MEASURED metadata inspection; not resident model count",
+        "parameters_total": 421293830,
+        "role": "typed-decisions specialist",
+        "temperature_by_options_raw": {
+          "choice:11+": 0.10058280825614929,
+          "choice:2": 1.9063563346862793,
+          "choice:3-5": 1.7601518630981445,
+          "choice:6-10": 1.0000158548355103,
+          "noul:2": 1.983399510383606,
+          "score:3-5": 1.2514300346374512
+        },
+        "temperature_raw": [
+          1.0148024559020996,
+          1.0374259948730469,
+          1.0575125217437744
+        ]
+      }
+    ],
+    "high_K": {
+      "HTTP_default_total_budget_cap": 8192,
+      "HTTP_max_choice_options": 100,
+      "HTTP_max_questions": 64,
+      "collapsed_option_reporting": true,
+      "recommended_default_options_approx": 20,
+      "remedies": [
+        "Per-request head_max_len=512,max_len=1024; validate budget tradeoff.",
+        "Embedding shortlist topk20, optionallycached label embeddings; reportrecall and conditional probabilities.",
+        "Coarse-to-fine label decomposition."
+      ],
+      "state_room": "max_len - actual rendered head_len -1; fourtokenfloor can make actualhead exceed nominalcap."
+    },
+    "release_commit": "8a976468b57c1b53541363dc86523263c9b68d34",
+    "routing": {
+      "bundle_subfolders": {
+        "english": null,
+        "multilingual": "multilingual",
+        "typed-decisions": "typed-decisions"
+      },
+      "default": "English forEnglish; multilingual forrecognized nonEnglish; heuristic ambiguity defaults configurable.",
+      "default_bundle_repo": "convaiinnovations/laya",
+      "default_bundle_revision_to_pin": "55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851",
+      "lazy_load": true,
+      "resident_default": 2,
+      "reviewed_revision_pins_opt_in": true,
+      "standalone_repos_option": true,
+      "typed_specialist": "Explicit model=typed-decisions or task=typed_decisions; optional exact known question-ID detection, offbydefault."
+    },
+    "runtime_release": "0.3.25",
+    "source_inspection_commit": "859b8ee595cc04f84dd2af476d6d1d90ec1fea46"
+  },
+  "scope": "Current public source snapshot; NOT direct neutral head-to-head evidence. No overall victory claim.",
+  "vendor_claims_not_reproduced": [
+    {
+      "checkpoint": "typed-decisions specialist",
+      "metric": "typed-decisions accuracy",
+      "qualification": "Published headline without committed per-example reproduction; no matching fastest T4 timing.",
+      "system": "Laya",
+      "value": 0.766
+    },
+    {
+      "metric": "MASSIVE51 macro accuracy",
+      "qualification": "Refreshed vendor report; old .3661 superseded, not our measurement.",
+      "route": "multilingual",
+      "system": "Laya",
+      "value": 0.4008
+    },
+    {
+      "metric": "T4 mean single-query seconds",
+      "qualification": "Vendor benchmark only; not typed specialist, not local3060.",
+      "route": "multilingual",
+      "system": "Laya",
+      "value": 0.0328
+    },
+    {
+      "metric": "direct Choice cardinality",
+      "qualification": "Documented API limit, not quality/invariance measurement.",
+      "system": "Jev",
+      "value": 255
+    },
+    {
+      "metric": "USD per million input tokens",
+      "qualification": "Public advertised input price; outputs free. No spending authorized here.",
+      "system": "Jev",
+      "value": 0.042
+    }
+  ]
+}

@@ -1,0 +1,401 @@
+{
+  "competitor": "Jev / TypeSafe AI",
+  "retrieved_at_UTC": "2026-10-03T17:37:41Z",
+  "pinned_source_revision": {
+    "website_and_docs": null,
+    "website_and_docs_note": "Public live pages inspected; no immutable source revision or content SHA-256 supplied. Retrieval date is not a weight or documentation revision.",
+    "model_weights": null,
+    "python_sdk": {"tag": "v0.7.2", "commit": "f078f1e208a0d885154dc758344ae4fce77ac168"},
+    "javascript_sdk": {"tag": "v0.6.0", "commit": "66880ccded6cb642dc1809620c2b108c33730214"},
+    "langchain_integration": {"commit": "115dbbd158c95044c2a2281e326dc8e6a44a3c23", "scope": "README last-modifying commit and package metadata inspected at this revision"},
+    "community_mcp": {"commit": "10737f071d4b299c3db30243093d2e739c2d03ad"},
+    "workflow_evals": {"commit": "0ac3b8ad845429f0d8e064ecfb2430a47c5a25cb"}
+  },
+  "sources": [
+    {"url": "https://typesafe.ai/", "sha256_if_available": null},
+    {"url": "https://typesafe.ai/blog/introducing-system-one-models-and-jev", "sha256_if_available": null},
+    {"url": "https://docs.typesafe.ai/llms.txt", "sha256_if_available": null},
+    {"url": "https://docs.typesafe.ai/introduction.md", "sha256_if_available": null},
+    {"url": "https://docs.typesafe.ai/models.md", "sha256_if_available": null},
+    {"url": "https://docs.typesafe.ai/api.md", "sha256_if_available": null},
+    {"url": "https://docs.typesafe.ai/primitives/choice.md", "sha256_if_available": null},
+    {"url": "https://docs.typesafe.ai/primitives/score.md", "sha256_if_available": null},
+    {"url": "https://docs.typesafe.ai/primitives/noul.md", "sha256_if_available": null},
+    {"url": "https://docs.typesafe.ai/confidence.md", "sha256_if_available": null},
+    {"url": "https://docs.typesafe.ai/model-jaggedness/jev-1.13.md", "sha256_if_available": null},
+    {"url": "https://docs.typesafe.ai/sdk.md", "sha256_if_available": null},
+    {"url": "https://docs.typesafe.ai/sdk/python.md", "sha256_if_available": null},
+    {"url": "https://docs.typesafe.ai/sdk/python/changelog.md", "sha256_if_available": null},
+    {"url": "https://docs.typesafe.ai/sdk/javascript.md", "sha256_if_available": null},
+    {"url": "https://docs.typesafe.ai/sdk/javascript/changelog.md", "sha256_if_available": null},
+    {"url": "https://api.github.com/repos/typesafe-ai/typesafe-sdk-python/git/ref/tags/v0.7.2", "sha256_if_available": null},
+    {"url": "https://api.github.com/repos/typesafe-ai/typesafe-sdk-js/git/ref/tags/v0.6.0", "sha256_if_available": null},
+    {"url": "https://github.com/typesafe-ai/typesafe-sdk-python/blob/f078f1e208a0d885154dc758344ae4fce77ac168/pyproject.toml", "sha256_if_available": null},
+    {"url": "https://github.com/typesafe-ai/typesafe-sdk-python/blob/f078f1e208a0d885154dc758344ae4fce77ac168/LICENSE", "sha256_if_available": null},
+    {"url": "https://github.com/typesafe-ai/typesafe-sdk-js/blob/66880ccded6cb642dc1809620c2b108c33730214/package.json", "sha256_if_available": null},
+    {"url": "https://docs.typesafe.ai/introduction/coding-agents.md", "sha256_if_available": null},
+    {"url": "https://docs.typesafe.ai/agent-skill.md", "sha256_if_available": null},
+    {"url": "https://github.com/langchain-ai/langchain/blob/115dbbd158c95044c2a2281e326dc8e6a44a3c23/libs/partners/typesafe/README.md", "sha256_if_available": null},
+    {"url": "https://github.com/langchain-ai/langchain/blob/115dbbd158c95044c2a2281e326dc8e6a44a3c23/libs/partners/typesafe/pyproject.toml", "sha256_if_available": null},
+    {"url": "https://github.com/MarkChu-git/typesafe-mcp/blob/10737f071d4b299c3db30243093d2e739c2d03ad/README.md", "sha256_if_available": null},
+    {"url": "https://github.com/typesafe-ai", "sha256_if_available": null},
+    {"url": "https://evals.typesafe.ai/", "sha256_if_available": null},
+    {"url": "https://github.com/typesafe-ai/WorkflowEvals", "sha256_if_available": null},
+    {"url": "https://api.github.com/repos/typesafe-ai/WorkflowEvals/commits?per_page=1", "sha256_if_available": null},
+    {"url": "https://docs.typesafe.ai/cookbooks/parallel_questions.md", "sha256_if_available": null},
+    {"url": "https://docs.typesafe.ai/cookbooks/rerank_typesafe.md", "sha256_if_available": null, "inspection_scope": "Initial methodology excerpt"},
+    {"url": "https://docs.typesafe.ai/cookbooks/semantic_find.md", "sha256_if_available": null, "inspection_scope": "Initial methodology excerpt"},
+    {"url": "https://docs.typesafe.ai/legal.md", "sha256_if_available": null},
+    {"url": "https://typesafe.ai/legal/mca", "sha256_if_available": null},
+    {"url": "https://typesafe.ai/legal/terms", "sha256_if_available": null}
+  ],
+  "version": {
+    "documented_current_model": "jev-1.13.0",
+    "aliases": {"jev-latest": "jev-1.13.0", "jev-preview": "jev-1.13.0"},
+    "alias_resolution_evidence": "MEASURED_SOURCE_INSPECTION, not an authenticated models-list response",
+    "release_date_UTC": null,
+    "model_hash": null,
+    "website_footer_version": "0.01",
+    "website_footer_is_model_version": false,
+    "launch_article_visible_date": "2026-09-15",
+    "launch_article_metadata_date": "2026-09-28",
+    "jaggedness_last_reviewed": "2026-10-02",
+    "source": "https://docs.typesafe.ai/models.md"
+  },
+  "models": [
+    {
+      "id": "jev-1.13.0",
+      "family": "Jev 1.13 / System One",
+      "parameter_count": null,
+      "weight_payload_bytes": null,
+      "architecture_dimensions": null,
+      "checkpoint_url": null,
+      "training_method_vendor_name": "Reinforcement Learning for Calibrated Decisions (RLCD)",
+      "training_method_quality_evidence": "HYPOTHESIS / vendor-reported",
+      "customer_finetuning": "Vendor documents no per-customer fine-tuning or LoRA; same weights serve accounts",
+      "input_modalities": ["text", "textual JSON object", "textual JSON array"],
+      "non_text_modalities_documented_supported": false,
+      "context_limits_documented_tokens": {"state_plus_all_questions": 64000, "state_plus_longest_question": 32000},
+      "context_limit_runtime_tested": false,
+      "language_support": {"primary": "English", "other_languages": "Handled but unequal performance, including CJK scripts", "enumerated_supported_languages": null, "per_language_metrics": null},
+      "source": "https://docs.typesafe.ai/models.md"
+    }
+  ],
+  "capabilities": {
+    "evidence_class": "MEASURED_SOURCE_INSPECTION",
+    "evidence_scope": "Public documentation/source contract only; no endpoint or SDK execution",
+    "http": {
+      "evaluation_endpoint": "POST https://api.typesafe.ai/v1/systemone",
+      "model_listing_endpoint": "GET https://api.typesafe.ai/v1/models",
+      "authentication": "Bearer API key",
+      "request_fields": ["model", "state", "questions"],
+      "state_types": ["string", "object", "array"],
+      "question_ids_sent_to_model": false,
+      "response_fields": ["model", "answers", "usage.input_tokens", "usage.output_tokens"],
+      "response_model_reports_versioned_id": true,
+      "documented_error_statuses": [401, 422, 429, 529],
+      "source": "https://docs.typesafe.ai/api.md"
+    },
+    "question_types": {
+      "choice": {
+        "criteria": "Map from supplied option names to string/object/array/null descriptions",
+        "maximum_options_documented": 255,
+        "response_fields": ["type", "choice", "probabilities", "confidence"],
+        "choice_rule": "Highest-probability supplied option",
+        "probabilities": "One per option, sum to 1",
+        "confidence_formula": "(p_max - 1/n) / (1 - 1/n), n > 1",
+        "source": "https://docs.typesafe.ai/primitives/choice.md"
+      },
+      "score": {
+        "criteria": "Ordered descriptive levels, indexed from 0",
+        "minimum_levels_recommended": 2,
+        "maximum_levels_documented": 10,
+        "response_fields": ["type", "score", "legend", "probabilities", "confidence"],
+        "score_rule": "sum(i * p_i), range [0,n-1]",
+        "confidence_formula": "max(0, 1 - sum(p_i * abs(i-m)) / MAD_unif); m=modal level, MAD_unif=sum(abs(i-(n-1)/2))/n",
+        "exact_numeric_interpolation_supported": "Vendor warns score levels have weak numerical calibration; not reliable for exact magnitude reconstruction",
+        "source": "https://docs.typesafe.ai/primitives/score.md"
+      },
+      "noul": {
+        "criteria": "Optional true/false descriptions",
+        "response_fields": ["type", "noul"],
+        "noul_semantics": "Probability of yes in [0,1], not Boolean",
+        "separate_confidence_field": false,
+        "optional_caller_confidence_formula": "abs(2*p - 1)",
+        "source": "https://docs.typesafe.ai/primitives/noul.md"
+      }
+    },
+    "confidence_vs_calibration": {
+      "confidence_is_distribution_statistic": true,
+      "confidence_is_independently_measured_correctness_probability": false,
+      "probability_calibration_claim": "HYPOTHESIS / vendor-reported RLCD claim; not reproduced",
+      "independent_ECE": null,
+      "independent_Brier_score": null,
+      "independent_log_loss": null,
+      "selective_risk_guarantee": null,
+      "source": "https://docs.typesafe.ai/confidence.md"
+    },
+    "batching": {
+      "mixed_primitives_single_state_single_call_documented": true,
+      "shared_state_ingested_once_vendor_claim": true,
+      "independent_parallel_questions_vendor_claim": true,
+      "maximum_question_count": null,
+      "multi_state_offline_batch_endpoint": null,
+      "note": "Question fan-out is not a separate asynchronous multi-state batch service",
+      "source": "https://docs.typesafe.ai/introduction.md"
+    },
+    "high_K": {
+      "direct_choice_limit": 255,
+      "vendor_example_choice_size": 218,
+      "larger_than_255_strategy": "Wikiracing demo independently scores then makes explicit choice in a second stage",
+      "accuracy_vs_K": null,
+      "calibration_vs_K": null,
+      "candidate_permutation_invariance": null,
+      "empirical_scaling_complexity": null,
+      "sources": ["https://docs.typesafe.ai/cookbooks/semantic_find.md", "https://typesafe.ai/blog/introducing-system-one-models-and-jev"]
+    },
+    "order_robustness": {
+      "guaranteed": false,
+      "vendor_limitation": "Choice option order can change answer; first-option preference observed",
+      "independent_permutation_measurement": null,
+      "source": "https://docs.typesafe.ai/model-jaggedness/jev-1.13.md"
+    },
+    "runtime_and_deployment": {
+      "documented": "Proprietary TypeSafe-hosted API and console",
+      "public_model_weights": null,
+      "local_inference_runtime": null,
+      "on_premise_offer": null,
+      "ONNX": null,
+      "quantization": null,
+      "inference_hardware": null,
+      "peak_process_RSS_bytes": null,
+      "load_RSS_delta_bytes": null,
+      "GPU_memory_requirement_bytes": null,
+      "source": "https://typesafe.ai/legal/mca"
+    },
+    "python": {
+      "package": "typesafe-sdk",
+      "inspected_documented_release": "0.7.2",
+      "release_date": "2026-09-26",
+      "minimum_python": "3.10",
+      "sync": true,
+      "async": true,
+      "optional_HTTP2": true,
+      "typed_Pydantic_response_models": true,
+      "default_retries": true,
+      "commit": "f078f1e208a0d885154dc758344ae4fce77ac168",
+      "installed_or_executed": false,
+      "source": "https://docs.typesafe.ai/sdk/python/changelog.md"
+    },
+    "typescript_javascript": {
+      "package": "@typesafe-ai/sdk",
+      "inspected_documented_release": "0.6.0",
+      "release_date": "2026-09-15",
+      "minimum_Node": "20",
+      "formats": ["ESM", "CommonJS", "TypeScript declarations"],
+      "default_retries": true,
+      "commit": "66880ccded6cb642dc1809620c2b108c33730214",
+      "browser_runtime_validation": null,
+      "installed_or_executed": false,
+      "source": "https://docs.typesafe.ai/sdk/javascript.md"
+    },
+    "coding_agents": {
+      "official_integration_skill": true,
+      "Jev_is_chat_or_coding_model_replacement": false,
+      "skill_is_MCP_server": false,
+      "source": "https://docs.typesafe.ai/introduction/coding-agents.md"
+    },
+    "MCP": {
+      "official_server_identified": null,
+      "community_server": "MarkChu-git/typesafe-mcp",
+      "community_commit": "10737f071d4b299c3db30243093d2e739c2d03ad",
+      "community_runtime_documented": "Bun, stdio",
+      "community_tools": ["jev_models", "jev_check", "jev_classify", "jev_score", "jev_ask"],
+      "act_review_abstain_is_wrapper_policy_not_Jev_response": true,
+      "community_Streamable_HTTP": "README lists as not implemented",
+      "package_release_version": null,
+      "runtime_tested": false,
+      "source": "https://github.com/MarkChu-git/typesafe-mcp/blob/10737f071d4b299c3db30243093d2e739c2d03ad/README.md"
+    },
+    "LangChain": {
+      "partner_package": "langchain-typesafe",
+      "inspected_source_package_version": "0.0.1a2",
+      "commit": "115dbbd158c95044c2a2281e326dc8e6a44a3c23",
+      "interface": "TypeSafeClassifier Runnable invoke/ainvoke, state/questions request, message conversion",
+      "experimental_middleware": ["ModelRouterMiddleware", "AutoModeMiddleware"],
+      "experimental_API_stability": "May change without notice",
+      "runtime_tested": false,
+      "source": "https://github.com/langchain-ai/langchain/blob/115dbbd158c95044c2a2281e326dc8e6a44a3c23/libs/partners/typesafe/README.md"
+    },
+    "LangGraph": {
+      "dedicated_integration_identified": null,
+      "native_package": null,
+      "runtime_tested": false,
+      "note": "LangChain Runnable and agent composition documented; not proof of separate native LangGraph integration or incompatibility"
+    },
+    "data_handling": {
+      "customer_requests_not_used_for_training": "Vendor policy claim, not audited",
+      "enterprise_ZDR_offered": "Vendor policy claim, not blanket guarantee for all accounts",
+      "source": "https://docs.typesafe.ai/legal.md"
+    }
+  },
+  "published_metrics": [
+    {
+      "metric": "workflow_speed_and_cost_headline",
+      "values": {"speedup": 193.6, "cost_reduction_factor": 444.6},
+      "evidence_class": "HYPOTHESIS / vendor-reported",
+      "independently_reproduced": false,
+      "model_revision_for_headline": null,
+      "limitations": "Vendor-selected four System One workflows; vendor says gains are high end; no Vey/same-host comparison",
+      "source": "https://typesafe.ai/blog/introducing-system-one-models-and-jev"
+    },
+    {
+      "metric": "end_to_end_response_time_claim_ms",
+      "values": {"min": 70, "max": 500},
+      "evidence_class": "HYPOTHESIS / vendor-reported",
+      "independently_reproduced": false,
+      "percentile": null,
+      "limitations": "Generally vendor laptops on West Coast near service; workload/percentile not independently established",
+      "source": "https://typesafe.ai/blog/introducing-system-one-models-and-jev"
+    },
+    {
+      "metric": "homepage_recorded_demo",
+      "values": {"Jev_seconds": 0.114, "Jev_USD": 0.000081, "LLM_seconds": 8.566, "LLM_USD": 0.013880},
+      "evidence_class": "HYPOTHESIS / vendor-reported",
+      "independently_reproduced": false,
+      "limitations": "One short dense demonstration; vendor acknowledges input favors Jev; distinct from aggregate workflow ratios",
+      "source": "https://typesafe.ai/"
+    },
+    {
+      "metric": "service_rate_limits_not_measured_throughput",
+      "values": {"input_tokens_per_second": 100000, "requests_per_second": 80},
+      "evidence_class": "MEASURED_SOURCE_INSPECTION of vendor quota documentation",
+      "independently_reproduced": false,
+      "limitations": "Dynamic limits may change without notice; not sustained throughput or latency measurement",
+      "source": "https://docs.typesafe.ai/models.md"
+    },
+    {
+      "metric": "parallel_question_cookbook",
+      "model": "jev-1.12",
+      "values": {"questions": 13, "repeats_per_strategy": 5, "document_characters": 53777, "batched_seconds": 0.27, "sequential_singles_total_seconds": 2.71, "batched_USD": 0.000497, "singles_USD": 0.006090, "published_speedup": 10.0, "published_cost_reduction_factor": 12.2},
+      "evidence_class": "HYPOTHESIS / vendor-reported",
+      "independently_reproduced": false,
+      "limitations": "Sequential sum baseline, not concurrent calls; 11 questions invariant across 5 repeats, two Nouls noisy with slightly different means; cannot extrapolate to universal determinism or current 1.13.0",
+      "source": "https://docs.typesafe.ai/cookbooks/parallel_questions.md"
+    },
+    {
+      "metric": "CLERC_reranking_example",
+      "model": null,
+      "values": {"queries": 40, "shortlist_size": 30, "corpus_passages": 3565, "BM25_top1": 0.05, "Jev_reranked_top1": 0.18, "BM25_top10": 0.38, "Jev_reranked_top10": 0.62},
+      "evidence_class": "HYPOTHESIS / vendor-reported",
+      "independently_reproduced": false,
+      "limitations": "Finite cookbook example; model revision not established from inspected excerpt; not broad semantic adequacy",
+      "source": "https://docs.typesafe.ai/cookbooks/rerank_typesafe.md"
+    },
+    {
+      "metric": "workflow_reference_agreement",
+      "values": null,
+      "evidence_class": "HYPOTHESIS / vendor-reported",
+      "independently_reproduced": false,
+      "methodology": "Four workflows weighted equally; consensus reference averages GPT-6 Astra and Claude Fable 5.1 at high thinking; evaluated models use provider-default reasoning",
+      "limitations": "Assumes workflow/harness correct; reference agreement rather than independently verified ground-truth accuracy; numeric chart extraction not performed",
+      "source": "https://evals.typesafe.ai/"
+    },
+    {
+      "metric": "zero_hallucinations_and_type_errors",
+      "vendor_claim_rate": 0,
+      "independent_semantic_error_rate": null,
+      "evidence_class": "HYPOTHESIS / vendor schema-construction claim",
+      "independently_reproduced": false,
+      "limitations": "Vendor explicitly says zero figure is not empirical; schema-valid output may be semantically wrong or adversarially steered",
+      "source": "https://typesafe.ai/blog/introducing-system-one-models-and-jev"
+    }
+  ],
+  "pricing": {
+    "currency": "USD",
+    "published_input_per_billion_tokens": 42,
+    "published_input_per_million_tokens": 0.042,
+    "published_output_per_million_tokens": 0,
+    "evidence_class": "MEASURED_SOURCE_INSPECTION of published tariff; billing not exercised",
+    "basis": "Input tokens; output free",
+    "actual_per_decision_cost": null,
+    "minimum_spend": null,
+    "promotional_credit_amount": null,
+    "enterprise_price": null,
+    "cache_discount": null,
+    "credit_expiry": "Purchased credits generally 12 months or term end if earlier, unless Order changes it",
+    "taxes": "Excluded under MCA unless applicable agreement differs",
+    "pricing_sustainability": "Unconfirmed; launch article acknowledges subsidy cannot be disproved from public information",
+    "sources": ["https://docs.typesafe.ai/models.md", "https://typesafe.ai/legal/mca"]
+  },
+  "license": {
+    "Jev": "Proprietary hosted service under Master Customer Agreement",
+    "open_weight_license": null,
+    "python_sdk": "MIT",
+    "javascript_sdk": "MIT (package metadata and repository license classification)",
+    "langchain_partner_package": "MIT",
+    "community_MCP": "MIT (README and repository classification)",
+    "workflow_eval_code": "Apache-2.0; datasets separately licensed",
+    "MCA_last_updated": "2026-09-23",
+    "competitive_research_restriction": "MCA 2.3(b): Services/Output may not be used for distillation, training an imitator, or developing/facilitating a similar or competing product/service",
+    "authorization_note": "Ordinary API access/key is not evidence of permission for Vey competitor evaluation. Separate written authorization/agreement must resolve applicable restrictions before calls.",
+    "source": "https://typesafe.ai/legal/mca"
+  },
+  "known_limitations": {
+    "evidence_class": "MEASURED_SOURCE_INSPECTION of vendor-admitted failure modes, not independent failure reproduction",
+    "model_scope": "Jev 1.13",
+    "last_reviewed": "2026-10-02",
+    "items": [
+      "Literal interpretation including scoping, negations and implied intent",
+      "Unreliable counting, numeric precision, numeric representations and math",
+      "Weak numerical calibration of Score levels for exact magnitude interpolation",
+      "Unreliable date/time ordering and arithmetic",
+      "Indirection, double negatives and multiple reasoning hops",
+      "Accuracy degradation with irrelevant large-state content",
+      "Adversarial state content can steer answers; state not treated as hostile by default",
+      "Contradictory instructions/criteria confuse model",
+      "Choice option order sensitivity and first-option preference",
+      "Not a generative text, coding or chat model",
+      "English better supported than other languages",
+      "Moving aliases and dynamic rate limits can change behavior/availability"
+    ],
+    "context_rot_distinction": "Independent-question isolation claim is not immunity to irrelevant-state context rot",
+    "source": "https://docs.typesafe.ai/model-jaggedness/jev-1.13.md"
+  },
+  "direct_evaluation_status": {
+    "status": "NOT_RUN",
+    "mode": "Public primary-source documentation and source inspection only",
+    "authenticated_requests": 0,
+    "inference_calls": 0,
+    "paid_calls": 0,
+    "account_actions": 0,
+    "large_weight_downloads": 0,
+    "SDK_installations": 0,
+    "build_test_lint_formatter_runs": 0,
+    "authorization_for_competitive_evaluation": null,
+    "Jev_superiority_confirmed": false,
+    "Vey_superiority_confirmed": false,
+    "independent_quality_claims": "None; all performance/calibration claims remain HYPOTHESIS until separately authorized evaluation"
+  },
+  "unmeasured": {
+    "model_size_and_weight_hash": null,
+    "training_compute_and_energy": null,
+    "deployment_hardware_and_memory": null,
+    "local_CPU_GPU_inference": null,
+    "ONNX_and_quantization": null,
+    "latency_p50_p95_p99": null,
+    "sustained_throughput": null,
+    "batch_and_concurrency_scaling": null,
+    "energy_per_verified_decision": null,
+    "Vey_task_accuracy": null,
+    "criterion_causal_swap_accuracy": null,
+    "high_K_accuracy_and_calibration": null,
+    "candidate_order_and_question_order_robustness": null,
+    "calibration_ECE_Brier_log_loss": null,
+    "selective_risk_coverage": null,
+    "adversarial_safety": null,
+    "multilingual_quality": null,
+    "runtime_HTTP_SDK_MCP_LangChain_LangGraph_behavior": null,
+    "actual_billing_and_retention": null
+  }
+}

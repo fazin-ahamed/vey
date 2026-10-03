@@ -1,0 +1,340 @@
+{
+  "B_STEF_allowed": false,
+  "counts": {
+    "final_atoms": 128,
+    "final_causal_rows": 150188,
+    "final_compositions": 128,
+    "final_decision_rows": 13152,
+    "final_permutation_checks": 26304
+  },
+  "data_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-relation-v1/pretraining-amended",
+  "evidence_classes": {
+    "hypothesis": "Task-pretrained small relation/NLI encoders may supply the missing interface. Controlled bake-off selected from development failures; no final tuning.",
+    "inference": "These literal-only stock-pair heads and one-layer adaptation did not earn fresh semantic transfer; this does not prove missing information.",
+    "measured": "All staged predictions and final gates, exact literals/permutations, gradient/frozen-prefix and independent reconstruction."
+  },
+  "experiment": "CBF-6",
+  "files": {
+    "A_checkpoint.pt": {
+      "bytes": 6134,
+      "sha256": "bc853a978ca72027586a56d4bf08965ae65f3f408d4940c36700302ea62437a6"
+    },
+    "A_training.json": {
+      "bytes": 60305,
+      "sha256": "637a690d28afc100b8323acbd22811820a10099ef414b937c2d18f58789bb247"
+    },
+    "B_checkpoint.pt": {
+      "bytes": 101368,
+      "sha256": "228ec1f2d861a86a1b6ef7df6ba89cd524e49f533f362f9250036b76564dc474"
+    },
+    "B_training.json": {
+      "bytes": 60841,
+      "sha256": "cec3c29f4c8fd9d76309f6be42c881b6117e128205c6c9538b5b10e7aebd7f03"
+    },
+    "C_checkpoint.pt": {
+      "bytes": 7108494,
+      "sha256": "fbc9f29a710064536c7850976d2b68b7f34e5216c27aaa54babc6ed5fddf9ada"
+    },
+    "C_development_features.npy": {
+      "bytes": 417920,
+      "sha256": "f009552485120273c68391aeff1077cd93ad6453ad33fc7c5bcefb2684e7665a"
+    },
+    "C_development_inputs.json": {
+      "bytes": 60823,
+      "sha256": "0cbaa06da49c5e96aeab29feb28d6b083c2a6ae882b8914fc0221fa29c4fbc3d"
+    },
+    "C_training.json": {
+      "bytes": 4656,
+      "sha256": "9a89c8442cc5cd7f466e418a6ab87f728504d1ded7ee2c3001a03a32b4dbcc0d"
+    },
+    "blind_meaning_key.json": {
+      "bytes": 11651,
+      "sha256": "40608520e927738e59d085c6a4a573572aadc32a6e270a06459d0b7b5309d4dd"
+    },
+    "blind_meaning_predictions.json": {
+      "bytes": 18624,
+      "sha256": "c439da6f6ccbd7267ad013f3c21712cfdd3da692d770f142e494487adc068b6d"
+    },
+    "blind_meaning_questions.json": {
+      "bytes": 13975,
+      "sha256": "b073df47a54c50a764b4f789828a02d7a7ffa973a2d0856669c8db130e5aad3f"
+    },
+    "corpus_manifest.json": {
+      "bytes": 2753,
+      "sha256": "a9387366c4409bd8926a346ff5fb6e522d9ef6d2cdc5432569884105b10632ea"
+    },
+    "development_A/causal_representatives.json": {
+      "bytes": 12383,
+      "sha256": "19eefdf91d4d5b3b2543564fbb2a9c31e94d84a7364d748d88c6a3ed5ca6d8a4"
+    },
+    "development_A/compiled_queries.json": {
+      "bytes": 102258,
+      "sha256": "2e59a11bbd3569d2b9bd595d514f1b9e61cc5c6566628d40592387a48b6e0285"
+    },
+    "development_A/decisions.jsonl": {
+      "bytes": 2859652,
+      "sha256": "c4b8d0eda55ec29397090e9d75dca502b9f8b46fe90ed3488b1c97d1cf4181c5"
+    },
+    "development_A/relation_matrices.json": {
+      "bytes": 43040,
+      "sha256": "b9dd6b69c32aeed144ad51107cc2053a5461c19fefc85c6b10a562882484b556"
+    },
+    "development_A/results.json": {
+      "bytes": 2463,
+      "sha256": "1bd78e1797d4013859e0a72fa15ccc792568088471940cc110ae01558bc2c732"
+    },
+    "development_A/teacher_changing_swaps.jsonl": {
+      "bytes": 23753100,
+      "sha256": "87d80761640f64a14ad6d9f80fa555004036fa29e5f3b76dc7d76a142336d92c"
+    },
+    "development_B/causal_representatives.json": {
+      "bytes": 12383,
+      "sha256": "19eefdf91d4d5b3b2543564fbb2a9c31e94d84a7364d748d88c6a3ed5ca6d8a4"
+    },
+    "development_B/compiled_queries.json": {
+      "bytes": 100960,
+      "sha256": "4080497b60f63d62178fddb34e158abf5ad29797be2028989afa279342940130"
+    },
+    "development_B/decisions.jsonl": {
+      "bytes": 2857976,
+      "sha256": "00fe6e7ef5b16420e3164f0eb3a25006c641f77e17108c24e320dfa901c3bdea"
+    },
+    "development_B/relation_matrices.json": {
+      "bytes": 40738,
+      "sha256": "132b1d27e906d21475331a0a9e3fa50fe4b42e5c1d26fb3b425af6d99ff1efcb"
+    },
+    "development_B/results.json": {
+      "bytes": 2395,
+      "sha256": "9dc4a604e3414d538058804c3b0931f32acaa6cf3a9614871b0457db8d25ee06"
+    },
+    "development_B/teacher_changing_swaps.jsonl": {
+      "bytes": 23753100,
+      "sha256": "87d80761640f64a14ad6d9f80fa555004036fa29e5f3b76dc7d76a142336d92c"
+    },
+    "development_C/causal_representatives.json": {
+      "bytes": 12383,
+      "sha256": "19eefdf91d4d5b3b2543564fbb2a9c31e94d84a7364d748d88c6a3ed5ca6d8a4"
+    },
+    "development_C/compiled_queries.json": {
+      "bytes": 96226,
+      "sha256": "bcde3a76dacf9d29677d9aeb864122815d9d19272ffe5fbddf67a3f65c56ebbf"
+    },
+    "development_C/decisions.jsonl": {
+      "bytes": 2855825,
+      "sha256": "7a744a30a7879a72fbe7be30a4523df51c3c38ccc30bbed116162bd29d29acc7"
+    },
+    "development_C/relation_matrices.json": {
+      "bytes": 37996,
+      "sha256": "16d0140f90ff90c2cb96ab7bdea3617a855d69a3d086448a3706a6164988cbf1"
+    },
+    "development_C/results.json": {
+      "bytes": 2249,
+      "sha256": "870fdb7e6a96ec1f2990b97bce1047f0f2c13319faf7e50612dd551dc44b8087"
+    },
+    "development_C/teacher_changing_swaps.jsonl": {
+      "bytes": 23753100,
+      "sha256": "58a8773fe35846ca8de96e1aa127b87dcf4165f8aabc17fabd23881c78da1d9b"
+    },
+    "development_atoms.json": {
+      "bytes": 23848,
+      "sha256": "ee874582bb478ed59dcb1b156696c1c4bfc85037ead7157d1028c287119c227a"
+    },
+    "development_compositions.json": {
+      "bytes": 45565,
+      "sha256": "f1b31913ccfcddbf0f09789a97a9fdf3ecc9f3613f12f247d36e49de46c43aaf"
+    },
+    "encoder_lineage.json": {
+      "bytes": 2094,
+      "sha256": "5453ebab3b79921266052b2e880e3a60787d7d01e666534e03d5c529d27d6f6b"
+    },
+    "environment.json": {
+      "bytes": 949,
+      "sha256": "b19c48c8af88436b4b7f4355d3288cdfa2793a0ea221eac5d3055274e58a8202"
+    },
+    "final/causal_representatives.json": {
+      "bytes": 15780,
+      "sha256": "a51cdfd336aaeb21907d3841661598732a63c0b556b371c794913776315d1a6f"
+    },
+    "final/compiled_queries.json": {
+      "bytes": 172304,
+      "sha256": "9d808ff285a6945865f0b06dd858c3eea5c94f189addb0095eb3ed3a8c69bada"
+    },
+    "final/decisions.jsonl": {
+      "bytes": 4536696,
+      "sha256": "e3606ae3bee78d6b73bc4bc09a6e090a67ddff820d8cc691636dc0ed3e197737"
+    },
+    "final/intervals.json": {
+      "bytes": 312,
+      "sha256": "4541c7da3f62d2b3a2d4d58e9c20f210db778c75b13d7e43c127a671605e02a3"
+    },
+    "final/relation_matrices.json": {
+      "bytes": 87620,
+      "sha256": "349fc4eeae7620b6691019af431fcbb7d1fc489ee5111d50ca7b228f98afa1a7"
+    },
+    "final/results.json": {
+      "bytes": 2705,
+      "sha256": "83e17b81888937f6177e44f7e7c1da4f0e938d47b1c70981df23ef8a20e6dc22"
+    },
+    "final/teacher_changing_swaps.jsonl": {
+      "bytes": 37584326,
+      "sha256": "9f6341bc18a82d0f995105a4b49e968d817fb5469a566ccdff75a3f3d2a2ce22"
+    },
+    "final_atoms.json": {
+      "bytes": 37511,
+      "sha256": "42e8728dd77406c6b588c101aa34f590fe564daec46178fa34dea22cc788c68d"
+    },
+    "final_compositions.json": {
+      "bytes": 68491,
+      "sha256": "7d9ca2272d1a2425feca97d8d57903bcae9946f107df2334a9a667350764ae3b"
+    },
+    "final_corpus_audit.json": {
+      "bytes": 650424,
+      "sha256": "b0f00c04cfeae4ac6207056f01dcced8d8b418801d937bedc51464f64b0d0067"
+    },
+    "frozen_pair_features.npy": {
+      "bytes": 811136,
+      "sha256": "6fb788daf60f6f82c981714a879d8467241273645fc59b31c4e95f332f57b136"
+    },
+    "frozen_pair_inputs.json": {
+      "bytes": 106976,
+      "sha256": "5dbdcf7640f39681bc4adbc6971c4843c039b42cb55e03a749b1675f388990bf"
+    },
+    "literal_cases.json": {
+      "bytes": 111692,
+      "sha256": "d5d9ca925e9026c07d97c9ba9b1c2147ab73ee5c39e591c40f42ee35915fcd47"
+    },
+    "literal_holdout_atoms.json": {
+      "bytes": 7074,
+      "sha256": "48abff332a4c21066c15b83b25dd4419eeec4b34e3c6e26fe788b10f91968e6d"
+    },
+    "meaning_audit.json": {
+      "bytes": 1091,
+      "sha256": "62f19796cb2b5591d11e2a9aa995bfc56b899bac495db63f13610b9db326eedf"
+    },
+    "normalizer.npz": {
+      "bytes": 3572,
+      "sha256": "e5228553734c0d3791c878a71f7420675b81e3ca7d1dd6ffa5197f0b65f0ae50"
+    },
+    "pretraining_audit_resolution.json": {
+      "bytes": 784,
+      "sha256": "1b1582a7effc474c4f4dd2c115f78fcc438d82184168d14192abcd6c839833b6"
+    },
+    "pretraining_gradient_smoke.json": {
+      "bytes": 2600,
+      "sha256": "ed1c75bdab63be01e0243cb6fcae4fc2203ab36dd76ce7daa773c3191309c519"
+    },
+    "pretraining_science_review.json": {
+      "bytes": 12650,
+      "sha256": "58ff9ca63da1054d2aa22276d8c85e53e63144b77c9c8e3c94d4a3ef508b627d"
+    },
+    "pretraining_tokenizer_smoke.json": {
+      "bytes": 74414,
+      "sha256": "2971f28b7a30be6ce42d3c8c8ad1ca8eadd89705a9e88c59a265dfbca70a5d17"
+    },
+    "results.json": {
+      "bytes": 6075,
+      "sha256": "56c710472d2b2892d411069732e297c84e931e9a83342ba96f68f6e2ffb39634"
+    },
+    "selected_final_pair_features.npy": {
+      "bytes": 983168,
+      "sha256": "3e9163d09f7cadcf41cbe56f23cfd359857ac73e1d1d13a82117c9543a9a54aa"
+    },
+    "selected_final_pair_inputs.json": {
+      "bytes": 153511,
+      "sha256": "a6aa9296716474083591aae49ce3e01b200fa117681fa1e8a10d07fc41d1f06c"
+    },
+    "selection.json": {
+      "bytes": 327,
+      "sha256": "17cc96713361429ef43105eaee849d001aac67366fd573eb21174e4eb739db88"
+    },
+    "states.json": {
+      "bytes": 77106,
+      "sha256": "61c512fd526508bd82655edeface81d7ad975da16a009ba66232433b64971700"
+    },
+    "training_atoms.json": {
+      "bytes": 49318,
+      "sha256": "c241f0bf945bdd9de815a12cc34682b01d53e7547ca7de967605412c8b30265b"
+    },
+    "validation_atoms.json": {
+      "bytes": 49550,
+      "sha256": "ffb25de413372ddcae8d4751738f3574f0923d662e69ebc5cd66ef0912106a0a"
+    },
+    "verification.json": {
+      "bytes": 1131,
+      "sha256": "3ac415e500425608f849b7a36246919ae2d04174a5e8d6a5e71e00eedfc93fe2"
+    },
+    "verification_failure_1.json": {
+      "bytes": 568,
+      "sha256": "76533732fc4314c2dfedc73b46cb3db00f82a80b05146956533fc3088ce03800"
+    }
+  },
+  "final_gates": {
+    "G0": false,
+    "G1": false,
+    "G2": false,
+    "G3": false,
+    "G4": false,
+    "G5": false,
+    "G6": false,
+    "G7": true
+  },
+  "intervals": {
+    "alias_decision_CI95": [
+      0.0078125,
+      0.0625
+    ],
+    "axis_CI95": [
+      0.0234375,
+      0.140625
+    ],
+    "composition_decision_CI95": [
+      0.0,
+      0.01708984375
+    ],
+    "joint_CI95": [
+      0.0,
+      0.0546875
+    ],
+    "opposite_atom_pairs": 64,
+    "opposite_composition_pairs": 64,
+    "point_gates_only": true,
+    "repetitions": 10000,
+    "seed": 0,
+    "sign_given_axis_CI95": [
+      0.0,
+      0.45454545454545453
+    ]
+  },
+  "license_class": "shipping-train",
+  "measurement_git_revision": "789a18fa0994fd97605ec340360ff76a1a83fc72",
+  "next_branch": "Controlled small open relation-encoder bake-off. C has zero correct development axes and undefined conditional sign, so orientation robustness is unestablished; no eligible reversal arm. New final required before any next measurement.",
+  "primary": {
+    "axis_accuracy": 0.078125,
+    "axis_correct": 10,
+    "conditional_sign_accuracy": 0.3,
+    "joint_accuracy": 0.0234375,
+    "joint_correct": 3,
+    "n": 128,
+    "sign_given_axis_correct": 3,
+    "sign_given_axis_denominator": 10,
+    "unknown": 113
+  },
+  "protocol_sha256": "f9e0e5f711fbb11f08e4b70e80f33401f8ee20531336500dedffcfd62d62910e",
+  "replication_triggered": false,
+  "selection": {
+    "development_passed": false,
+    "final_openings": 1,
+    "final_outcomes_never_select_arm": true,
+    "meaning_audit_sha256": "62f19796cb2b5591d11e2a9aa995bfc56b899bac495db63f13610b9db326eedf",
+    "protocol_sha256": "f9e0e5f711fbb11f08e4b70e80f33401f8ee20531336500dedffcfd62d62910e",
+    "reversal_triggered": false,
+    "selected": "A",
+    "stages": [
+      "A",
+      "B",
+      "C"
+    ]
+  },
+  "verdict": "SRE_NOT_EARNED_ON_FRESH_CORPUS",
+  "verification_failure_preserved": "verification_failure_1.json; independent field-key whitespace repaired without changing source measurement or gates."
+}
