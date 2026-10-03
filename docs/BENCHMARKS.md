@@ -2301,6 +2301,145 @@ transfer before B-STEF is unblocked. This audit never launches B-STEF.
 The exact protocol is `research/cbf0/ceiling_protocol.json`; artifacts
 remain under `vey-data/decisionmix/d3/cbf/ceiling-v1/`.
 
+### CBF-2 result: partial linear recovery, wording failures, no resplit fit
+
+Recipe `2109906`. CBF-2A-C completed with zero neural retraining and no
+new encoder pass or examples. All four preregistered supported-span gates
+fail. CBF-2D training was not run; B-STEF remains prohibited.
+
+#### Candidate least-squares ceiling
+
+The deduplicated training matrix has shape **2400 x 384**, numerical rank
+**384**, condition number **44,678.914095**, and singular-value entropy
+effective rank **25.028211**. Each candidate had uniform multiplicity 4
+in the original 9600 flattened training pairs. OLS normal-equation
+residual infinity norm is **2.440226e-11**; an independent
+`numpy.linalg.lstsq` reproduces its training MSE within 1e-12.
+These statistics concern the cached pooled vectors, not encoder tokens.
+
+OLS training recovery, pooled over unique candidates; slots refer to the
+fixed family-local attribute order:
+
+| slot | minimum MSE | R2 | Pearson | Spearman | macro scenario pairwise |
+|---|---:|---:|---:|---:|---:|
+| 0 | 0.031408 | 0.619435 | 0.787042 | 0.798742 | 0.798240 |
+| 1 | 0.031697 | 0.612799 | 0.782814 | 0.793609 | 0.786001 |
+| 2 | 0.031065 | 0.628054 | 0.792499 | 0.804134 | 0.811536 |
+| 3 | 0.031961 | 0.600621 | 0.774997 | 0.786245 | 0.803806 |
+
+The comparable pooled SGD slot R2s are 0.298749/0.303946/0.264437/0.279788.
+SGD therefore left substantial linear recovery unused, but the exact
+least-squares solution still does not approach perfect attribute recovery.
+This is the training MSE optimum in the pinned bias-free function class,
+not an optimal ranking bound or proof that every readout must fail.
+
+Ridge selects **lambda=0.0001** using 1800 inner-train and 600
+inner-validation candidates, grouped by whole scenarios. Validation numeric
+MSE is 0.046518. The selected solution refits only the original training
+pool, and its normal equations were independently checked.
+
+Text candidate / oracle criterion top-1:
+
+| evaluation | old SGD | OLS | selected ridge |
+|---|---:|---:|---:|
+| train | 0.421875 | 0.567188 | 0.548438 |
+| unseen wording | 0.421875 | 0.471875 | 0.478125 |
+| unseen criterion | 0.434375 | 0.534375 | 0.512500 |
+| held family | 0.380208 | 0.302083 | 0.328125 |
+
+Training improvement is real (+0.145313 top-1 for OLS) but neither exact
+decoding nor held-family transfer is solved. OLS held-family slot R2s
+are -7.790504/-0.904533/-8.078671/-8.019249; ridge also remains negative
+on every slot. Among supported held-family directions, selected-ridge
+top-1 is 0.291667. Optimization alone does not close this interface's gap.
+Per-family named-attribute metrics are retained, not just these slot means.
+
+#### Supported criterion wording ceiling
+
+Nearest-centroid semantic-ID recovery is **14/40 = 0.35**. Exact oracle
+direction recovery is **26/40 = 0.65**, and exact-candidate decision
+accuracy is **0.712500**. These are different metrics: wrong semantic IDs
+can share the correct signed slot, and wrong directions can accidentally
+choose the same winner.
+
+Same-data OLS, using exactly the two original training wordings per
+criterion, reaches **0.345313** exact-candidate top-1 versus SGD's
+**0.460938**. Mean direction cosine is 0.274544; vector MSE is 1.689852.
+Replacing SGD with the minimum-norm solution does not repair wording
+generalization.
+
+Leave-one-wording-out OLS, training on the other three wordings per ID:
+
+| held template index | top-1 | mean direction cosine | vector MSE | nonzero-coordinate sign accuracy |
+|---|---:|---:|---:|---:|
+| 0 | 0.629688 | 0.736919 | 0.213448 | 0.950000 |
+| 1 | 0.542188 | 0.686015 | 0.225085 | 0.875000 |
+| 2 | 0.331250 | 0.184544 | 1.289919 | 0.625000 |
+| 3 | 0.471875 | 0.471459 | 0.416085 | 0.750000 |
+
+Equal-fold macro top-1 is **0.493750**, mean cosine **0.519734**.
+Micro top-1 is 0.524479 because the original corpus has more decisions
+for templates 0/1. The macro result is the preregistered gate quantity.
+All queries here use supported directions; slots 2/3 are excluded.
+The centroid failure demonstrates inadequate invariance for this retrieval
+interface, not that semantic information is absent from the entire encoder.
+Three-wording folds change supervision coverage and cannot alone establish
+a solver-only diagnosis.
+
+#### Supported causal decomposition
+
+Held-family swaps restricted to two supported directions contain **1536**
+ordered pairs, with **1216** teacher changes. All arms below use that
+identical subset and the original saved CBF-1 checkpoints:
+
+| arm | CRA | student changes given teacher change | changes to new teacher winner | both endpoints correct |
+|---|---:|---:|---:|---:|
+| oracle/oracle | 1.000000 | 1.000000 | 1.000000 | 1.000000 |
+| text candidate / oracle criterion | 0.479167 | 0.368421 | 0.065789 | 0.026316 |
+| oracle candidate / text criterion | 0.651042 | 0.641447 | 0.270559 | 0.187500 |
+| full CBF-32 | 0.571615 | 0.544408 | 0.097862 | 0.044408 |
+
+The last three rates condition on teacher change. Teacher-stable unwanted
+change rates are 0/0.100000/0.312500/0.325000 in the same row order.
+Both blind controls have zero changes. Bad candidate geometry already
+corrupts responses with perfect criteria; the supported criterion mapper
+also fails with exact candidates. These errors do not add linearly, and
+the full model's 0.103224 rate on all held swaps has a different denominator.
+All-swap and supported-swap family/K reports remain available.
+
+#### Decision and durable evidence
+
+All supported-span gates fail. The same-corpus support-complete plan is
+feasible and audited: **1344 train / 288 unseen-wording / 64 unseen-direction
+/ 768 held-family rows**; target span rank 5; maximum held-direction
+span residual 7.327682e-16. Scenarios and candidate strings are disjoint.
+The held direction is negative slot 3, expressible from supported targets.
+No mixed-coordinate questions were generated or claimed. This plan was
+not fitted because the prerequisite gates failed.
+
+The justified conclusion is narrower than abandoning every frozen encoder:
+**this pooled frozen representation plus a bias-free linear numeric
+interface is inadequate**, with both optimization underuse and a substantial
+least-squares recovery ceiling. Its supported criterion wording interface
+also fails. No larger basis, extra epochs, B-STEF, or new architecture was
+run. Representation-interface investigation is the next justified branch,
+not a capacity escalation.
+
+Saved solver weights reproduce all 3968 candidate decision rows and 120
+criterion query vectors. Independent least-squares/ridge checks and
+supported causal reaggregation pass. Spectra, per-attribute metrics,
+family/K bins, query folds, grouped ridge IDs, the conditional split plan,
+and artifact hashes are recorded in
+`research/cbf0/ceiling_result_manifest.json`. Data and numerical weights
+stay under `vey-data/decisionmix/d3/cbf/ceiling-v1/`. Vey 2 is unchanged.
+
+SHA-256:
+
+- candidate predictions: `a2d8ac74b27c43b2dbad6e47103b95767d4a5958b387124b6c097611e376c647`
+- criterion predictions: `0487a691b421ff66a9a222d6b3035dfcba6d41b83e72487e681fc99d8766217f`
+- results: `8eef26577b3414953156f1d5d5607f84e14ce0be7366c74e1882fdaa72d49cb9`
+
+
 
 
 
