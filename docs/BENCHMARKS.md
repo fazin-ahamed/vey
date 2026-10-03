@@ -2250,6 +2250,57 @@ SHA-256:
 - swaps: `9c9359c7c0678ae0f0ad63437039422c7afdc19a981e9051e54c86cdd5597d2e`
 - results: `bb6a3cd674dc40bc1e00ded4b4fa002bf84ea1b019913295c8e33701f4c3cfc6`
 
+### CBF-2: linear ceilings and supported-span audit, preregistration
+
+CBF-2A-C use only cached representations and saved CBF-1 scores. No neural
+refitting, new encoder pass, data, capacity, or B-STEF. Candidate OLS is
+the FP64 economy-SVD minimum-norm solution without a bias or centering.
+The cutoff is machine epsilon times max(N,d) times the largest singular
+value. Uniformly repeated training candidates are deduplicated only after
+checking their weights and targets agree. All five original probe outputs
+are solved to preserve intercept-score parity; the first four are exactly
+the requested numeric-attribute least-squares solution.
+
+Ridge uses lambdas 1e-8/1e-6/1e-4/0.01/1/100, selected by four-attribute
+MSE on an inner validation split of original train scenarios. Within each
+family/K group, seed 7 selects two of eight scenarios for validation.
+The selected lambda then refits original training candidates only.
+Persist the spectrum, rank, condition number, entropy effective rank,
+normal-equation residual, per-slot and named-attribute MSE/R2/correlations/
+within-scenario ordering, and oracle-criterion decision metrics.
+This is an attribute least-squares ceiling, not a maximum-ranking theorem.
+
+For CBF-2B, only the 20 supported training criterion IDs are eligible.
+Nearest-centroid retrieval uses their original two training wordings and
+tests their 40 unseen wording strings. Semantic-ID accuracy and oracle
+direction accuracy are distinct: a wrong semantic ID may share the same
+numeric direction. OLS first repeats that exact 40-string train/40-string
+test setup for solver parity with SGD, then runs four leave-template-out
+folds with three wordings per ID training and one testing. Report direction
+cosine, vector MSE, sign accuracy, exact-candidate decision accuracy, fold
+IDs, and equal-fold macro metrics. The three-wording folds change coverage,
+so their gains alone cannot identify optimizer effects.
+
+CBF-2C reaggregates the saved swaps for every arm. Report all swaps and
+the subset where both criterion directions are supported, with oracle and
+blind controls on identical subsets and split/family/K denominators.
+
+CBF-2D may run only if candidate OLS train top-1 and all four slot R2s
+reach 0.95, selected-ridge supported transfer reaches 0.95, centroid
+semantic-ID accuracy reaches 0.95, and leave-wording-out OLS reaches
+top-1 0.95 with mean cosine 0.99. Otherwise no neural training occurs.
+An existing-row resplit is audited regardless: reserve one quarter of
+scenarios per known-family/source-split/K stratum, train only wording
+indices 0/1, and hold out the existing negative-slot-3 direction. Held
+families remain excluded. Require rank-5 training targets, all evaluation
+directions in their span, and disjoint scenarios/candidate strings.
+No mixed-coordinate criteria exist, so no novel-combination claim is made.
+If gated in, full CBF-32 retains the original 200-epoch recipe and must
+pass paired unseen-direction and held-family gains plus multi-family
+transfer before B-STEF is unblocked. This audit never launches B-STEF.
+The exact protocol is `research/cbf0/ceiling_protocol.json`; artifacts
+remain under `vey-data/decisionmix/d3/cbf/ceiling-v1/`.
+
 
 
 
