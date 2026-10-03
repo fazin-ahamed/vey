@@ -192,25 +192,35 @@ def audit(protocol, root, stage):
                         source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                         protocol_sha256=hashlib.sha256(PROTOCOL.read_bytes()).hexdigest(),
                         commit=subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip())
-    put(root, 'run_manifest.json', canonical(run_manifest) + b'\n')
+    if stage == 'run':
+        put(root, 'run_manifest.json', canonical(run_manifest) + b'\n')
+    else:
+        original = json.loads((root / 'run_manifest.json').read_text())
+        assert original['protocol'] == protocol
+    put(root, 'analysis_manifest.json', canonical(run_manifest) + b'\n')
     torch.set_num_threads(1)
     cache = np.load(source / 'embeddings.npz', allow_pickle=False)
     assert cache['values'].dtype == np.float32
     E = dict(zip(cache['texts'].tolist(), cache['values']))
     by_id = {c['id']: c for c in criteria}
-    q_inputs, x_inputs, q_targets, x_targets = [], [], [], []
-    for r in rows:
-        if r['split'] != 'train':
-            continue
-        for text, phi in zip(r['candidates'], numeric(r)):
-            q_inputs.append(E[r['criterion']]); x_inputs.append(E[text])
-            q_targets.append(direction(by_id[r['criterion_id']])); x_targets.append(phi)
-    candidate, candidate_loss = probe(np.stack(x_inputs), np.stack(x_targets), protocol, 'candidate')
-    criterion, criterion_loss = probe(np.stack(q_inputs), np.stack(q_targets), protocol, 'criterion')
-    save_file(candidate.state_dict(), str(root / 'candidate_probe.safetensors'))
-    save_file(criterion.state_dict(), str(root / 'criterion_probe.safetensors'))
-    B = candidate.weight.detach().numpy()[:5]
-    A = criterion.weight.detach().numpy()[:5]
+    if stage == 'run':
+        q_inputs, x_inputs, q_targets, x_targets = [], [], [], []
+        for r in rows:
+            if r['split'] != 'train':
+                continue
+            for text, phi in zip(r['candidates'], numeric(r)):
+                q_inputs.append(E[r['criterion']]); x_inputs.append(E[text])
+                q_targets.append(direction(by_id[r['criterion_id']])); x_targets.append(phi)
+        candidate, candidate_loss = probe(np.stack(x_inputs), np.stack(x_targets), protocol, 'candidate')
+        criterion, criterion_loss = probe(np.stack(q_inputs), np.stack(q_targets), protocol, 'criterion')
+        save_file(candidate.state_dict(), str(root / 'candidate_probe.safetensors'))
+        save_file(criterion.state_dict(), str(root / 'criterion_probe.safetensors'))
+        put(root, 'training_loss_observations.json', canonical(dict(
+            full_epoch_history_available=True,
+            candidate=candidate_loss, criterion=criterion_loss)) + b'\n')
+    training_losses = json.loads((root / 'training_loss_observations.json').read_text())
+    B = load_file(str(root / 'candidate_probe.safetensors'))['weight'].numpy()[:5]
+    A = load_file(str(root / 'criterion_probe.safetensors'))['weight'].numpy()[:5]
     base = load_file(str(source / 'm32.safetensors'))
     A0, B0 = base['criterion.weight'].numpy(), base['candidate.weight'].numpy()
     previous = {r['id']: r for r in map(json.loads, (source / 'predictions.jsonl').read_text().splitlines())}
@@ -228,7 +238,7 @@ def audit(protocol, root, stage):
         zx = np.array([B @ E[text] for text in r['candidates']])
         rec = {k: r[k] for k in ('id', 'scenario_id', 'split', 'criterion_id', 'family', 'K')}
         rec['gold'] = r['scores']
-        rec['criterion_supported'] = np.linalg.norm(psi[[2, 3]]) == 0
+        rec['criterion_supported'] = bool(np.linalg.norm(psi[[2, 3]]) == 0)
         rec['scores'] = dict(oracle_oracle=(phi @ psi).tolist(),
                             text_candidate_oracle_criterion=(zx.astype(np.float64) @ psi).tolist(),
                             oracle_candidate_text_criterion=(phi @ cq.astype(np.float64)).tolist(),
@@ -282,7 +292,7 @@ def audit(protocol, root, stage):
         verdict = 'consistent_with_joint_alignment_or_optimization_failure'
     result = dict(gate0=sanity, candidate_hybrid_adequate=ca, criterion_hybrid_adequate=qa,
                   verdict=verdict, B_STEF_allowed=False, splits=splits, swaps=swap_stats,
-                  loss_curves=dict(candidate=candidate_loss, criterion=criterion_loss),
+                  training_loss_observations=training_losses,
                   vector_mse={s: {side: np.mean([v[side] for v in vs], axis=0).tolist()
                                   for side in ('candidate_coordinates', 'criterion_coordinates')}
                               for s, vs in mse.items()}, basis_support=basis_support,
@@ -298,7 +308,7 @@ def audit(protocol, root, stage):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--stage', choices=('sanity', 'run'), default='sanity')
+    parser.add_argument('--stage', choices=('sanity', 'run', 'analyze'), default='sanity')
     args = parser.parse_args()
     protocol = json.loads(PROTOCOL.read_text())
     audit(protocol, Path(protocol['output_root']), args.stage)
