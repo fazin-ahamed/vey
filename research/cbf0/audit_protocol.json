@@ -1,0 +1,35 @@
+{
+  "experiment": "CBF-1 oracle factorization and criterion swap audit",
+  "parent_commit": "c4a25f88d720cedfa93bb83e39f678565d43534d",
+  "source_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/corrected-v1",
+  "output_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/audit-v1",
+  "width": 32,
+  "basis": "Four normalized numeric attributes in the family's catalog order, followed by constant 1, padded with zeros to width 32. Criterion is signed one-hot at its attribute slot, with constant coordinate 1 for minimizing criteria, otherwise 0.",
+  "basis_scope": "Valid only for this benchmark's same-family candidate sets. No thresholds, distance-reference criteria, or categorical labels are generated. Does not establish general-task linear representability.",
+  "arms": ["oracle_oracle", "text_candidate_oracle_criterion", "oracle_candidate_text_criterion", "cbf32"],
+  "hybrid_targets": "Candidate map receives all four numeric attributes plus constant on existing train candidates. Criterion map receives the exact signed one-hot plus constant on existing train queries. This privileged supervision is diagnostic only; full CBF-32 is reloaded, not refit.",
+  "hybrid_training": {
+    "architecture": "one bias-free linear map from frozen 384-wide text embeddings to width 32 per hybrid; only first five coordinates participate",
+    "seed": 7,
+    "epochs": 200,
+    "batch_size": 128,
+    "optimizer": "AdamW",
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "loss": "mean squared vector error on the five active coordinates",
+    "sampling": "same flattened train candidate/query pairs as CBF-0; equal example weights; no new rows, no held-out labels in fitting"
+  },
+  "gate0": "Every source row: top-1 and pairwise agreement 1, maximum oracle score absolute error <= 1e-12.",
+  "hybrid_adequacy": "Top-1 and pairwise >= 0.95 on BOTH genuinely unseen splits and EACH wholly held-out family. Report baseline-paired criterion-group CI too; a relative gain alone does not establish adequate attributes.",
+  "support_diagnostic": "Training criteria use only slots 0/1. Slots 2/3 are absent from training criterion directions, although all candidate attributes are supervised in the candidate probe. Report criterion target span rank, unsupported target residuals, and held-family metrics for supported versus unsupported directions. Unsupported-coordinate failure is not evidence that an encoder lacks semantic information.",
+  "decision_tree": "Oracle fail: oracle factorization/hypothesis not validated. Oracle pass + candidate hybrid fail: tested fixed-budget candidate map is inadequate; do not claim information absent from frozen embeddings. Candidate hybrid pass + criterion hybrid fail: criterion mapping limitation, qualified by unsupported-direction identifiability. Both hybrids pass + full CBF fail: consistent with joint alignment/optimization failure, not proof of a unique cause. Both hybrids fail: both tested mappings inadequate, not a uniquely identified criterion bottleneck.",
+  "swaps": {
+    "pairing": "For each fixed evaluation scenario, all ordered pairs of rows with distinct semantic criterion IDs; retain all wording combinations. Same-criterion wording swaps excluded. Teacher-stable pairs retained as controls; no fitting on swaps.",
+    "CRA": "Mean(student winner changed == teacher winner changed), all criterion swaps.",
+    "primary_conditional_metrics": ["student change rate given teacher change", "student changed AND arrived at the new teacher winner given teacher change", "both old and new student winners correct given teacher change"],
+    "stable_control": "Student change rate conditional on teacher winner staying the same",
+    "weighting": "Equal ordered row-pair weights; report split/family/K bins and explicit denominators. Conditional rates null when denominator is zero. Also retain criterion-blind32/64 interventions from CBF-0."
+  },
+  "forbidden": ["B-STEF", "new examples", "natural-language datasets", "new encoder passes", "larger widths", "extra layers", "attention", "family-specific heads", "extra epochs", "outcome-driven tuning"],
+  "artifacts": ["run_manifest.json", "two hybrid safetensors", "predictions.jsonl", "swaps.jsonl", "criterion_basis_support.json", "results.json", "tracked metric and hash manifest"]
+}

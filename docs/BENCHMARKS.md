@@ -2091,6 +2091,69 @@ Key SHA-256:
 - predictions: `a3ff7c1f5a088d25962c316fe505c9fc9a258824c67c6ae6673f1f8f8363a0a5`
 - results: `97723ece8d7e0c36975c3ca362719d8ca6560a885b404787e3ae7575e6be96af`
 
+### CBF-1: oracle factorization and criterion-swap audit, preregistration
+
+CBF-0 failed; B-STEF remains prohibited. CBF-1 reuses its exact rows,
+splits, frozen FP32 embeddings, and CBF-32 checkpoint. No new examples,
+encoder pass, widths, layers, attention, heads per family, or extra epochs.
+
+The actual generator assigns every criterion a signed preference on one
+numeric attribute. Compliance has no thresholds; similarity has no
+reference-vector distance; intent routing has no categorical label.
+Those names must not be mistaken for richer tasks the corpus does not
+contain. Oracle numeric features are the family's four values divided by
+100, in fixed catalog order, followed by constant 1, padded to width 32.
+Oracle criterion features are a signed one-hot on the selected attribute,
+with constant coordinate 1 for minimizing criteria and 0 otherwise.
+Their dot product is exactly value or 1 minus value. This basis is valid
+for the generated same-family candidate sets, not a universal semantics
+claim for mixed-family sets or natural-language criteria.
+
+The four cells are oracle/oracle, text candidate/oracle criterion,
+oracle candidate/text criterion, and the unchanged full CBF-32.
+The hybrids each fit one bias-free linear map from the frozen text
+embedding, using the original flattened train pairs, seed 7, AdamW
+0.001/0.0001, batch 128, 200 epochs. The loss is vector MSE on the five
+active coordinates. Other padded coordinates stay zero. Candidate targets
+expose all four numeric values on existing training examples; criterion
+targets expose the signed selection vector only for existing train queries.
+Privileged oracle supervision makes these diagnostic probes, not deployable
+models or objective-parity competitors to CBF-0.
+
+Gate 0 requires perfect top-1/pairwise on every source row and maximum
+score error at most 1e-12. A hybrid is considered adequate only if top-1
+and pairwise are at least 0.95 on both genuinely unseen splits and each
+held-out family. Baseline-paired CIs, seen-wording metrics, family/K bins,
+training losses, and per-coordinate reconstruction errors are also retained.
+Failure means the tested fixed-budget map is inadequate, not that
+information is absent from the frozen embedding.
+
+An identification caveat is pinned before fitting: train criteria select
+only attribute slots 0/1. The criterion probe has no target support for
+slots 2/3, unlike the densely supervised candidate probe. Report the
+training target span, out-of-span criterion directions, and held-family
+supported/unsupported-direction subsets. An unsupported-direction failure
+cannot uniquely diagnose a neural criterion encoder defect.
+
+For causal swaps, retain every ordered pair of distinct semantic criteria
+on the same evaluation candidate set, including all wording combinations.
+CRA is the probability that student winner-change equals teacher
+winner-change. Separately report teacher-change counts, student change
+given teacher change, change to the new teacher winner, correctness of
+both endpoints, and student change on teacher-stable pairs. The old
+criterion-blind controls must have zero student changes. Persist per-swap
+rows plus split/family/K denominators; no model fitting uses these swaps.
+
+Decision tree: oracle failure invalidates this factorization; candidate
+hybrid failure identifies an inadequate tested candidate map; candidate
+success with criterion failure points to criterion mapping only subject to
+the basis-support caveat; two successful hybrids with full CBF failure are
+consistent with joint alignment/optimization failure, not proof of a unique
+cause. If both hybrids fail, neither side is adequate and there is no
+uniquely identified criterion bottleneck. The machine protocol is
+`research/cbf0/audit_protocol.json`; evidence stays in
+`vey-data/decisionmix/d3/cbf/audit-v1/`.
+
 
 
 ## Frontier topology and oracle closure on food progress (research)
