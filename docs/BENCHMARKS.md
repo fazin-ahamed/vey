@@ -3263,6 +3263,29 @@ shipping training; B-STEF stays blocked. Candidate roster, provenance and
 license register are in `research/endgame/relation_encoder_candidates.json`;
 the frozen protocol is `research/cbf0/relation_pretrained_protocol.json`.
 
+**Pre-outcome execution amendment.** The first corpus preparation ran before
+the generator was committed, contrary to the intended commit-before-build
+order. Its original files are retained. The generator and scoring code are
+committed before deterministic regeneration proof or quality measurement;
+no original preparation revision is invented. The independent blinded review
+accepted128/128 atomic meanings with zero ambiguities.
+
+The pipeline worker ran a literal/live-pair native-library parity probe.
+Its accompanying “no model output” statement was incorrect; native forwards
+did occur. No CBF7 development/final quality evaluation was performed.
+Source review found dict/tuple cache mismatches, missing NumPy and stock-count
+metadata assumptions, classifier-versus-encoder output misuse, native
+double-pooling/row/device errors, a reversed parameter-count tie-break,
+duplicated final-cache tags, and an undefined final interface. Repairs precede
+quality outcomes; gates, data, training and pair formats remain unchanged.
+The protocol's alias-input wording is clarified: aliases are criterion inputs,
+never inserted into schema hypotheses. Native SentencePiece is the tokenizer
+comparator, not a Transformers5 “slow” alias backed by the same fast tokenizer.
+Model residency uses the shared `/tmp/vey-gpu.lock`; mock-wiring smoke fixtures
+are removed in favor of an actual frozen-pair preflight and saved-artifact
+reconstruction. These are lineage/correctness changes, not a research result.
+
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
