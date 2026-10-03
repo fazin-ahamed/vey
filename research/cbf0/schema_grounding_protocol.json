@@ -1,0 +1,56 @@
+{
+  "experiment": "CBF-5 Antipodal Schema Grounding + Exact Criterion Compiler",
+  "source_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/exact-state-v1/grammar-corrected",
+  "output_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-grounding-v1",
+  "CBF4_best_arm": "layer1_span",
+  "CBF4_alias_decision_target": 0.3203125,
+  "source_inventory": "exact_state_result_manifest.json at verified2401efd",
+  "representation": {
+    "encoder": "Same frozen stock microsoft/deberta-v3-xsmall, revision eb2d654bf0a5b628c8be6c4be7d29118fbef95b8, explicitly FP32",
+    "feature": "Normalized mean of first-transformer-layer content tokens overlapping the parser's semantic-term character span, preserving intrinsic polarity; for single atoms and prototype questions use unchanged CBF-4 semantic_span policy",
+    "lineage": "Reuse corrected CBF-4 cached layer1 span features and token evidence for old atomic contexts. Encode each NEW isolated atomic context once, never a full composition or candidate; canonical context is the parser's visible atomic clause with terminal period. Exact outer operators/weights never enter neural input. Persist context text, spans, masks, raw layer1 states and derived features; no training, larger width, coefficient regressor, or oracle-axis selection.",
+    "term_parser": "Visible grammar and schema names only. Split explicit clause conjunctions and exact weighting/operator frames; retain intrinsic semantic comparatives inside alias atoms. Neither alias catalog, criterion IDs nor teacher weights may enter parsing or inference. Exact outer weights/operators multiply signed resolved atoms. Unsupported multi-clause syntax must fail, never silently drop an alias.",
+    "scope": "Controlled criterion grammar, not a universal English parser. All tested user examples included."
+  },
+  "prototypes": {
+    "membership": "Exactly48 existing train atomic questions: four axes, both signs, magnitude1, six templates. No aliases, held wording, composition questions or evaluation outcomes used.",
+    "formula": "p[j,s] = normalize(mean(h(q) for the six training atomic questions in that axis/sign class)); same eight base prototypes in EVERY method",
+    "query_tie_break": "Canonical schema index for equal retrieval evidence; exact-zero orientation UNKNOWN. Projection-null FP64 roundoff norms<=eps*384 are also UNKNOWN, not arbitrary cosine directions."
+  },
+  "projection": {
+    "recipe": "CBF-3 template-nuisance recipe reapplied in chosen layer1 span space: mean over balanced eight signed classes for each of six training templates, subtract grand template mean, FP64 SVD, machine-epsilon rank cutoff, retain all nonzero contrasts, rank<=5. Train only; no alias fitting or posthoc rank selection.",
+    "application": "P(h)=h-(h B^T)B; cosine re-normalizes projected h and the SAME projected base prototypes. Never refit/re-average prototypes after projection."
+  },
+  "methods": {
+    "cosine_positive": "axis=argmax_j cos(h,p[j,+]); orientation=sign(cos(h,p[j,+])-cos(h,p[j,-])) within that chosen axis",
+    "asg": "E[j]=cos(h,p[j,+])-cos(h,p[j,-]); axis=argmax abs(E); orientation=sign(E[axis])",
+    "asg_projected": "Same ASG after train-only nuisance projection of query and base prototypes",
+    "cosine_signed": "Strong ordinary retrieval control: nearest of all eight signed base prototypes, its axis/sign",
+    "cosine_positive_projected": "Positive-first control under the same projector to isolate antipodal effect from projection effect",
+    "cosine_signed_projected": "Nearest of all eight projected base prototypes; same-space strong control for projected ASG"
+  },
+  "compiler": {
+    "literal": "Code owns schema-name resolution, generic surface polarity, numeric/word weights, term aggregation, and exact fixed-unit scoring. Reuse CBF-4 lexical cues on recognized literal terms; do not apply generic least/most polarity to unknown aliases.",
+    "semantic": "Only unknown alias atoms enter resolver. Sum exact outer multiplier times resolved signed basis atom into integer four-coordinate c(q). UNKNOWN causes whole criterion UNKNOWN; legitimate algebraic cancellation remains a zero vector.",
+    "state": "Unchanged CBF-4 exact four-axis candidate strings/states, integer-percent summation before global division100; content tie-break, never candidate index."
+  },
+  "cases": {
+    "old_alias": "All32 corrected CBF-4 alias questions unchanged, primary decision comparison on16 original unseen_wording states (512 paired rows)",
+    "literal_tests": "Every CBF-4 held literal polarity/composition/held-combination question, plus supplied literal examples. Require coefficient equality and1.0 decision/pairwise/exact-winner; not semantic credit.",
+    "alias_composition": "Fixed50 new questions: six unordered axis pairs, four intrinsic sign combinations, two surface frames. Frame0 joins complete variant0 alias questions with '; also ', equal weights. Frame1 wraps complete variant1 alias questions in 'With weight two: ...; with weight one: ...'. No literal axis names. Plus supplied natural least-likely-to-fail / regular-running-bill-small question and its most-likely-to-fail / large counterpart. Teacher vectors exact sum of signed atoms. Primary composition decisions on16 original unseen_criterion states; individual component labels diagnostic only.",
+    "causal": "Evaluate all old aliases and new alias compositions on both original test-state populations. Select one model-blind lexicographically first question per positive coefficient ray, then all ordered different-ray pairs on same state. Every question contains semantic aliases; filter only by teacher concrete winner changing. Report correct-new, changed-to-new, both-endpoint and tie-aware rates separately.",
+    "freeze": "Generator/questions/parser/prototype/projector rules committed before constructing or encoding new composition corpus. No wording/direction/threshold selection from outcomes. Reused CBF-4 aliases are a development screen, not an independent replication."
+  },
+  "gates": {
+    "G1_atoms": "Old-alias joint signed-atom accuracy>=0.80; separately report axis accuracy, sign accuracy CONDITIONAL on correct axis with numerator/denominator, unconditional sign diagnostic, and joint accuracy. Zero conditional denominator is undefined, not perfect.",
+    "G2_alias_decision": "Old-alias teacher-top-set decision accuracy>=0.80, simultaneous paired semantic-direction-cluster bootstrap improvement lower bound>0 versus frozen CBF-4 best layer1_span, and absolute accuracy CI lower bound>0.3203125",
+    "G3_literal_compiler": "All literal tests coefficient-exact and decision/pairwise/concrete-winner1.0 for every method; zero semantic credit",
+    "G4_alias_composition": "New alias-composition teacher-top-set decision accuracy>=0.80; report component axis/sign/joint and exact compiled-vector correctness",
+    "G5_causal": "P(student_after==teacher_after | teacher_before!=teacher_after)>=0.80 on alias-containing criterion swaps. Do NOT additionally require student_changed; report that stronger metric separately.",
+    "G6_permutation": "Exact restored scores and content-winner under reversed and seed7-shuffled candidates for all semantic/literal cases; UNKNOWN remains UNKNOWN",
+    "ASG_mechanism": "An ASG variant must pass G1-G6 AND exceed BOTH positive-first and eight-signed ordinary retrieval in the SAME raw/projected space on joint alias atoms AND alias decisions, with simultaneous paired bootstrap delta lower bounds>0. If retrieval meets task gates without such an ASG advantage, keep simpler retrieval; never credit projection as antipodal benefit.",
+    "bootstrap": {"repetitions": 10000, "seed": 0, "alias_unit": "Eight signed semantic-direction clusters; all surface forms and paired candidate rows kept together", "pairing": "Identical draws and row populations for CBF-4 and all CBF-5 arms", "family_size": 20, "familywise": "Bonferroni over20 intervals: six method-vs-CBF4 differences, six method absolute decision accuracies, and eight planned ASG-vs-control joint-atom/decision differences; report nominal95% and simultaneous intervals"},
+    "diagnosis": "Predeclare axis high>=0.80 and conditional sign high>=0.90. Low axis/high sign suggests schema grounding and justifies tiny axis-specific learned metric NEXT, not now. High axis/low sign suggests comparative orientation. Both high plus all task gates: expand schema axes before B-STEF. Both low: this frozen interface/prototype-retrieval recipe is operationally insufficient; a stronger criterion encoder is a next candidate, not proof semantic information is absent. Report exact counts and avoid high-confidence claims from tiny conditional denominators."
+  },
+  "forbidden": ["continuous384-to4 coefficient regression", "candidate neural path", "model widening", "encoder training", "learned semantic metric in this study", "alias-aware exact lookup", "oracle term/axis selection", "posthoc prototype/template/rank/gate tuning", "B-STEF", "frozen Vey-2 changes"]
+}

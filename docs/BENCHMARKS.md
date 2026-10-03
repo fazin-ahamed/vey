@@ -2856,6 +2856,60 @@ python research/cbf0/exact_state_verify.py --root "$ROOT" --replay
 The replay command refuses to overwrite existing measured evidence.
 
 
+## CBF-5: schema-grounded criterion compiler (preregistered research)
+
+CBF-4 leaves axis grounding versus orientation unresolved: opposite question
+vectors do not prove either correct schema axis or correct sign. CBF-5
+separates semantic atom resolution from exact operators and composition.
+No continuous coefficient regressor, candidate neural path, model widening,
+encoder fine-tuning, or B-STEF.
+
+`research/cbf0/schema_grounding_protocol.json` fixes the study before new
+composition corpus construction or scoring. Eight positive/negative schema
+prototypes are normalized means of the48 weight-one atomic training questions
+(four axes, both signs, six templates). Unknown aliases alone enter the
+semantic resolver; literal names, polarity operators, weights, aggregation,
+and integer-percent field scoring stay in code.
+
+Three requested comparisons: raw positive-prototype axis cosine with sign
+resolved within that axis's prototype pair; signed antipodal grounding using
+the maximum absolute positive-minus-negative cosine difference; and the
+same antipodal score after template-nuisance projection. Strong eight-signed
+nearest-prototype retrieval and projected ordinary retrieval controls prevent
+crediting a weak polarity baseline or projection itself as an antipodal gain.
+Every method shares the same eight base prototypes.
+
+Projection reapplies the CBF-3 training-template-mean/SVD recipe in the
+chosen layer1 semantic-span space: six centered balanced template means,
+all nonzero contrasts, rank at most5. It does not transplant a final-layer
+projector, use held queries, or refit projected prototypes.
+
+All32 corrected CBF-4 alias questions remain unchanged for paired comparison.
+New hard test:50 alias compositions covering all six axis pairs, both signs,
+exact unit/double weights, and the supplied natural fail-likelihood /
+regular-running-bill question plus its reverse. The parser isolates atomic
+contexts; the neural resolver never receives a full composition or outer
+weight frame. Cached old atomic features are reused; only new atomic contexts
+are encoded. Exact candidate states remain unchanged.
+
+Report alias axis accuracy, sign accuracy conditional on correct axis
+(including its numerator/denominator), and joint signed-atom accuracy
+separately. Task gates: joint atoms and alias decisions at least0.80,
+paired/clustered improvement over the frozen CBF-4 best0.3203125, exact
+literal compilation at1.0 (no semantic credit), alias-composition decisions
+at least0.80, correct new teacher winner at least0.80 on alias-containing
+teacher-changing swaps, and exact permutation invariance.
+
+An antipodal variant earns its mechanism only if it also beats both ordinary
+retrieval controls in the same raw/projected space on joint atoms and alias
+decisions with simultaneous paired lower bounds above zero. Otherwise retain
+simpler retrieval if it meets the task gates. Bootstrap keeps semantic
+direction clusters intact; reused CBF-4 aliases are a development screen,
+not independent confirmation. Passing opens many-axis expansion before
+B-STEF; failing suggests an evidence-scoped axis or orientation follow-up,
+not that semantic information is absent from every encoder readout.
+
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
