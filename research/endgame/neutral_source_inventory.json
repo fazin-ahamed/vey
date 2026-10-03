@@ -1,0 +1,2156 @@
+{
+  "schema": "vey.endgame.neutral-source-inventory.v1",
+  "retrieved_at_utc": "2026-10-03T18:25:40.397411+00:00",
+  "audit_kind": "Metadata/source feasibility only; not finalized protocol, model ranking, evaluation, dataset legal opinion or final-source selection.",
+  "evidence_classes": {
+    "MEASURED": "Direct metadata/source inspection; statements about corpus collection, split hygiene, licenses or vendor training are publisher claims unless independently reconstructed.",
+    "INFERENCE": "Reasoned leakage/grouping risk; no rows compared or model contamination established.",
+    "HYPOTHESIS": "Proposed future source/transfer role, not achieved capability."
+  },
+  "scope_guards": {
+    "final_example_rows_opened": false,
+    "test_row_endpoints_called": false,
+    "data_archives_downloaded": false,
+    "model_weights_optimizer_artifacts_credentials_opened": false,
+    "model_evaluations_training_paid_calls_accounts": false,
+    "tests_build_lint_formatters_run": false,
+    "code_compiler_state_frozen_vey2_modified": false,
+    "data_written_to_git": false,
+    "new_repository_artifacts": "Only this metadata inventory",
+    "network_concurrency_max": 4,
+    "large_downloads": "None; APIs, READMEs/licenses and one research paper PDF only."
+  },
+  "license_policy": {
+    "shipping-train": "Primary permissive dataset grant established; attribution and modification duties apply; never extends to unknown upstream rights. No final/model artifacts have been trained or shipped by this audit.",
+    "conditional/review": "Commercial-use-compatible declared grant may exist, but provenance, upstream grants, SA obligations, or data-versus-code scope still require documented review before shipping training.",
+    "research-eval-only": "NC/research-only/missing/ambiguous sources excluded from shipping training. Missing license is not a grant of research redistribution permission either.",
+    "weights_vs_data": "A pretrained model Apache/MIT weight license never proves its training datasets permissible or establishes unknown training provenance; peer model inventory/parent must track both independently."
+  },
+  "sources": [
+    {
+      "id": "LocalLLaMA/typed-decisions",
+      "role": "Competitor-aligned typed-workflow replication stratum; never the entire neutral suite",
+      "canonical_repository": "https://huggingface.co/datasets/LocalLLaMA/typed-decisions",
+      "revision": "d0e2f0c42fef86cc15d1688d25a19f5ba7c85b18",
+      "revision_evidence": "MEASURED: Hub API repository commit at retrieval; not proof historical exports used this commit.",
+      "declared_license": "apache-2.0",
+      "license_class": "conditional/review",
+      "license_basis": "Card declares Apache-2.0. Synthetic source text/teacher-output rights and provider terms still need provenance review before redistribution. Do not infer dataset license from Laya weight license. Classification is conditional pending the undisclosed generation-model/provider provenance review; declared Apache-2.0 is recorded, not negated.",
+      "shipping_training_allowed_now": false,
+      "provenance": {
+        "evidence_class": "MEASURED",
+        "source_statement": "Independent benchmark by LocalLLaMA; card says unaffiliated with TypeSafe. Latent factors sampled independently; model renders textual artifacts; teacher labels each case three times at temperature 0.7; gold is mean distribution. Exact generator/teacher model identifier not disclosed in inspected card."
+      },
+      "split_sizes": {
+        "all": {
+          "train_cases": 1200,
+          "test_cases": 400,
+          "train_decisions": 6000,
+          "test_decisions": 2000
+        },
+        "per_workflow": {
+          "train_cases": 300,
+          "test_cases": 100
+        },
+        "workflows": [
+          "agent_trace_observability",
+          "customer_service",
+          "invoice_processing",
+          "security_incidents"
+        ],
+        "validation": null
+      },
+      "languages": [
+        "en"
+      ],
+      "cached_metadata": [],
+      "duplicate_and_group_risks": {
+        "evidence_class": "INFERENCE",
+        "risks": [
+          "Five correlated decisions per state: state/case is sampling unit.",
+          "All config duplicates workflow configs; never count both.",
+          "Latent factors/question templates reused across splits can leak schema even if case IDs/text differ.",
+          "Card claims packaging rejects cross-split case-ID/state duplicates; not independently audited here."
+        ],
+        "deduplication_performed": false
+      },
+      "prior_exposure_or_training_leakage": {
+        "MEASURED": [
+          "Strongest Laya typed specialist model card says it fine-tuned on this 1200-case training split.",
+          "Specialist checkpoint pin 1a793eb568e6718f15941d08f85432581df534e3; Laya current bundle pin is parent-owned.",
+          "Official test publicly leaderboard-scored; not fresh final for competitor selection."
+        ],
+        "INFERENCE": [
+          "Possible schema/teacher alignment advantage; test contamination in unspecified backbones remains unknown."
+        ],
+        "Vey_local_cache": "No matching LocalLLaMA cache in inspected data inventory. tasksource/procedural-typed-decisions is a different corpus, not this corpus."
+      },
+      "notes": [
+        "Ownership correction: source declares independent, not verified Laya- or TypeSafe-owned; call competitor-trained/aligned, not competitor-owned.",
+        "Use gold distributions as teacher preferences, not exact factual ground truth.",
+        "No test example rows opened."
+      ],
+      "primary_sources": [
+        {
+          "url": "https://huggingface.co/api/datasets/LocalLLaMA/typed-decisions",
+          "sha256": "186c169a83b66c95b2cccea75882c0ef4bb1b4ba0cd99d524b6850fba9042a31"
+        },
+        {
+          "url": "https://huggingface.co/datasets/LocalLLaMA/typed-decisions/resolve/d0e2f0c42fef86cc15d1688d25a19f5ba7c85b18/README.md",
+          "sha256": "257572fae9b6601eb143b9842da9d40ee0f13e1cb239e335d86b020cd4fe483d"
+        },
+        {
+          "url": "https://datasets-server.huggingface.co/info?dataset=LocalLLaMA%2Ftyped-decisions&config=all",
+          "sha256": "91d0dde5643919a66fd1975f1499529403dbd42e03593bde95a4eebea2df9172"
+        },
+        {
+          "url": "https://huggingface.co/convaiinnovations/laya-typed-decisions/resolve/1a793eb568e6718f15941d08f85432581df534e3/README.md",
+          "sha256": "83e67a995a70a9a9ef6cc1f8c68da654f11eee081c9bb14de07c37b08fcc3113"
+        }
+      ]
+    },
+    {
+      "id": "fancyzhx/ag_news",
+      "role": "Legacy public four-way classification comparability; research evaluation only",
+      "canonical_repository": "https://huggingface.co/datasets/fancyzhx/ag_news",
+      "revision": "eb185aade064a813bc0b7f42de02595523103ca4",
+      "revision_evidence": "MEASURED: Hub API repository commit at retrieval; not proof historical exports used this commit.",
+      "declared_license": [
+        "unknown"
+      ],
+      "license_class": "research-eval-only",
+      "license_basis": "Hub says unknown. Original Antonio Gulli corpus page permits non-commercial research, prohibits changing/renaming redistribution, and says original publishers own article copyright. This is not shipping-train; verify derivative subset permission for intended public benchmark redistribution.",
+      "shipping_training_allowed_now": false,
+      "provenance": {
+        "evidence_class": "MEASURED",
+        "source_statement": "Real news text collected from over 2000 publishers by ComeToMyHead; four-class subset popularized by Zhang et al."
+      },
+      "split_sizes": {
+        "train": 120000,
+        "test": 7600,
+        "validation": null
+      },
+      "languages": [
+        "en"
+      ],
+      "cached_metadata": [],
+      "duplicate_and_group_risks": {
+        "evidence_class": "INFERENCE",
+        "risks": [
+          "Syndicated same-story and near-duplicate articles across sources/splits.",
+          "Group by story/event/publisher/time where original IDs can be recovered; title/body normalized duplicate hashes alone insufficient."
+        ],
+        "deduplication_performed": false
+      },
+      "prior_exposure_or_training_leakage": {
+        "MEASURED": [
+          "Pinned current Laya README marks AG News in training mix."
+        ],
+        "INFERENCE": [
+          "Widely used text-classification benchmark; backbone/other-model exposure likely, exact overlap unknown."
+        ],
+        "Vey": "No AG News export/cache discovered in inspected manifests; absence here is not exhaustive proof."
+      },
+      "notes": [
+        "Canonical subset Hub revision recorded; original corpus web page has no git revision."
+      ],
+      "primary_sources": [
+        {
+          "url": "https://huggingface.co/api/datasets/fancyzhx/ag_news",
+          "sha256": "c00d020a4ac72f8ee9133bbe65b25f7fdd195983e4ba7ddeea290d6bc576db8f"
+        },
+        {
+          "url": "https://huggingface.co/datasets/fancyzhx/ag_news/resolve/eb185aade064a813bc0b7f42de02595523103ca4/README.md",
+          "sha256": "0ae9549054c5eca6a2284b1a6e8505b1ec92a39613aca402336429762b544a62"
+        },
+        {
+          "url": "http://groups.di.unipi.it/~gulli/AG_corpus_of_news_articles.html",
+          "sha256": null,
+          "observed_terms": [
+            "non-commercial use",
+            "article copyright retained by original publishers",
+            "no changing/renaming redistribution"
+          ]
+        },
+        {
+          "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/BENCHMARKS.md",
+          "sha256": "a8377611795291e4855638b9fb9ec6d9d085ea724ffb016c8559fa52401dad6c"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/README.md",
+          "sha256": "fa0331c6565bd442fcd66ac1df1832dba52fbcbb1074bcfce1a746f80b86f3d0"
+        }
+      ]
+    },
+    {
+      "id": "dair-ai/emotion",
+      "role": "Legacy English six-emotion comparability; research evaluation only",
+      "canonical_repository": "https://huggingface.co/datasets/dair-ai/emotion",
+      "revision": "cab853a1dbdf4c42c2b3ef2173804746df8825fe",
+      "revision_evidence": "MEASURED: Hub API repository commit at retrieval; not proof historical exports used this commit.",
+      "declared_license": [
+        "other"
+      ],
+      "license_class": "research-eval-only",
+      "license_basis": "Hub other; both Hub licensing section and official DAIR README explicitly educational and research purposes only. No shipping training permission.",
+      "shipping_training_allowed_now": false,
+      "provenance": {
+        "evidence_class": "MEASURED",
+        "source_statement": "Real English Twitter text with weakly/machine-derived emotional labels using hashtag supervision from CARER/DAIR; card marks machine-generated annotations, not synthetic authored states."
+      },
+      "split_sizes": {
+        "split": {
+          "train": 16000,
+          "validation": 2000,
+          "test": 2000
+        },
+        "unsplit": {
+          "train": 416809
+        }
+      },
+      "languages": [
+        "en"
+      ],
+      "cached_metadata": [],
+      "duplicate_and_group_risks": {
+        "evidence_class": "INFERENCE",
+        "risks": [
+          "Split and unsplit variants may overlap; never use unsplit training with split final.",
+          "User/tweet/thread/retweet duplicates and hashtag-derived lexical label leakage.",
+          "Original social platform rights/privacy/deletions require review."
+        ],
+        "deduplication_performed": false
+      },
+      "prior_exposure_or_training_leakage": {
+        "MEASURED": [
+          "Pinned current Laya README marks DAIR Emotion held out from reported task-training mix."
+        ],
+        "INFERENCE": [
+          "Held out in one task-training mix does not prove absent from encoder pretraining or all subsequent checkpoints."
+        ],
+        "Vey": "No DAIR cache/export found in scoped inventories; GoEmotions is different and already exposed."
+      },
+      "notes": [],
+      "primary_sources": [
+        {
+          "url": "https://huggingface.co/api/datasets/dair-ai/emotion",
+          "sha256": "e1eeb65524f3422a37e71ca94e3f2b0acd4734b78f7abdf0f5d9160b1fcbb87c"
+        },
+        {
+          "url": "https://huggingface.co/datasets/dair-ai/emotion/resolve/cab853a1dbdf4c42c2b3ef2173804746df8825fe/README.md",
+          "sha256": "7b10e5670f3e5b0a12274e90aad8f85fc48d8e25eccb4e4c16933cd8b7dfc373"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/dair-ai/emotion_dataset/20a91d4596ca8956598ed861fe0944fba12432c3/README.md",
+          "sha256": "d8cb4c5c04f00a4bd483ddfd17c422ff9eab65fb9b859515c1b2b227a99c5068"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/BENCHMARKS.md",
+          "sha256": "a8377611795291e4855638b9fb9ec6d9d085ea724ffb016c8559fa52401dad6c"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/README.md",
+          "sha256": "fa0331c6565bd442fcd66ac1df1832dba52fbcbb1074bcfce1a746f80b86f3d0"
+        }
+      ],
+      "original_repository_revision": "20a91d4596ca8956598ed861fe0944fba12432c3"
+    },
+    {
+      "id": "PolyAI/banking77",
+      "role": "English intent/high-K legacy comparability; not fresh final",
+      "canonical_repository": "https://huggingface.co/datasets/PolyAI/banking77",
+      "revision": "90d4e2ee5521c04fc1488f065b8b083658768c57",
+      "revision_evidence": "MEASURED: Hub API repository commit at retrieval; not proof historical exports used this commit.",
+      "declared_license": [
+        "cc-by-4.0"
+      ],
+      "license_class": "shipping-train",
+      "license_basis": "Official PolyAI task-specific-datasets README explicitly applies repository CC-BY-4.0 license to datasets; preserve attribution and modifications.",
+      "shipping_training_allowed_now": true,
+      "provenance": {
+        "evidence_class": "MEASURED",
+        "source_statement": "Official PolyAI README: online banking queries annotated with corresponding intents; 77 intents. Production-log/customer authorship is not independently established in inspected metadata."
+      },
+      "split_sizes": {
+        "train": 10003,
+        "test": 3080,
+        "validation": null
+      },
+      "languages": [
+        "en"
+      ],
+      "cached_metadata": [],
+      "duplicate_and_group_risks": {
+        "evidence_class": "INFERENCE",
+        "risks": [
+          "Intent paraphrase/near-duplicate and customer-thread groups if IDs available.",
+          "Label sorted/capped exports are not fresh random final; cap must be preregistered.",
+          "Original official train differs from D1 train/dev carve."
+        ],
+        "deduplication_performed": false
+      },
+      "prior_exposure_or_training_leakage": {
+        "MEASURED": [
+          "Local export manifests: 2000 train and 2000 test, revision auto.",
+          "D1 manifest: 9547 train +456 validation carved from official train; 3080 test.",
+          "Public Vey benchmark docs already measured Banking77."
+        ],
+        "INFERENCE": [
+          "This official test has been consumed by Vey research and Laya benchmarking, so never describe old test pool as untouched final.",
+          "Existing competitor dossier reports Banking77 held out from Apps training; exact per-checkpoint training corpus not established by primary README inspected here."
+        ],
+        "backbone_pretraining_overlap": "Unknown."
+      },
+      "notes": [],
+      "primary_sources": [
+        {
+          "url": "https://huggingface.co/api/datasets/PolyAI/banking77",
+          "sha256": "d4a012001b18c5c42faae25dcdc17bc00aa03b83a4fb874f9139327c7abae176"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/PolyAI-LDN/task-specific-datasets/57ec275d8078af65b7731c2a98be812d844a6d6b/README.md",
+          "sha256": "7b9ce9069931cc2de89dce8c7ffb53d07806cf413601ccf133b9af5227b3a373"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/PolyAI-LDN/task-specific-datasets/57ec275d8078af65b7731c2a98be812d844a6d6b/LICENSE",
+          "sha256": "7e7170e3cebf88a9f60c7b8421418323c09304da1af4d5e90f4da1dc1c8a2661"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/BENCHMARKS.md",
+          "sha256": "a8377611795291e4855638b9fb9ec6d9d085ea724ffb016c8559fa52401dad6c"
+        }
+      ],
+      "original_repository_revision": "57ec275d8078af65b7731c2a98be812d844a6d6b"
+    },
+    {
+      "id": "AmazonScience/massive",
+      "role": "Multilingual/intent parallel corpus; fixed 51-locale legacy stratum and optional separately declared 52nd locale",
+      "canonical_repository": "https://huggingface.co/datasets/AmazonScience/massive",
+      "revision": "ff6bd8e4b27c3543e4f8fe2108f32bb95a6f8740",
+      "revision_evidence": "MEASURED: Hub API repository commit at retrieval; not proof historical exports used this commit.",
+      "declared_license": [
+        "cc-by-4.0"
+      ],
+      "license_class": "shipping-train",
+      "license_basis": "Official NOTICE.md explicitly MASSIVE data CC-BY-4.0 and SLURP source text CC-BY-4.0. Repository code is Apache-2.0, not data license.",
+      "shipping_training_allowed_now": true,
+      "provenance": {
+        "evidence_class": "MEASURED",
+        "source_statement": "Human English SLURP voice-assistant utterances localized/translated by human workers; parallel across locales. MASSIVE 1.1 card currently contains 52 locales, including zh-TW."
+      },
+      "split_sizes": {
+        "per_locale": {
+          "train": 11514,
+          "validation": 2033,
+          "test": 2974
+        },
+        "local_cached_config": "en-US",
+        "config_count_current_card": 52
+      },
+      "languages": [
+        "af-ZA",
+        "am-ET",
+        "ar-SA",
+        "az-AZ",
+        "bn-BD",
+        "ca-ES",
+        "cy-GB",
+        "da-DK",
+        "de-DE",
+        "el-GR",
+        "en-US",
+        "es-ES",
+        "fa-IR",
+        "fi-FI",
+        "fr-FR",
+        "he-IL",
+        "hi-IN",
+        "hu-HU",
+        "hy-AM",
+        "id-ID",
+        "is-IS",
+        "it-IT",
+        "ja-JP",
+        "jv-ID",
+        "ka-GE",
+        "km-KH",
+        "kn-IN",
+        "ko-KR",
+        "lv-LV",
+        "ml-IN",
+        "mn-MN",
+        "ms-MY",
+        "my-MM",
+        "nb-NO",
+        "nl-NL",
+        "pl-PL",
+        "pt-PT",
+        "ro-RO",
+        "ru-RU",
+        "sl-SL",
+        "sq-AL",
+        "sv-SE",
+        "sw-KE",
+        "ta-IN",
+        "te-IN",
+        "th-TH",
+        "tl-PH",
+        "tr-TR",
+        "ur-PK",
+        "vi-VN",
+        "zh-CN",
+        "zh-TW"
+      ],
+      "cached_metadata": [
+        "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/AmazonScience___massive/en-US/1.0.0/71d360eb7d7a18565ff8c10609cebf714fce3cc390e173ba5b02ffd48543cdc1/dataset_info.json"
+      ],
+      "duplicate_and_group_risks": {
+        "evidence_class": "INFERENCE",
+        "risks": [
+          "All translations/localizations of original utterance ID must share split and inference group.",
+          "Locales are not independent samples; never multiply independent N by 51.",
+          "zh-CN/zh-TW variant and domain/intent templates increase correlation.",
+          "English-source pretraining/task exposure can transfer into every translated locale."
+        ],
+        "deduplication_performed": false
+      },
+      "prior_exposure_or_training_leakage": {
+        "MEASURED": [
+          "Local en-US 2000 train/2000 test and 500 validation export manifests; validation pin matches current Hub revision.",
+          "D1 manifest uses complete en-US official splits; public Vey docs measured MASSIVE.",
+          "Current Laya multilingual vendor sweep measured 51 locales."
+        ],
+        "INFERENCE": [
+          "Cached en-US pools and prior sweep rows are exposed research, not fresh final.",
+          "Exact source overlap in Laya training weights/backbone not established here."
+        ]
+      },
+      "notes": [
+        "Standard 51-locale definition: current card list excluding zh-TW; parent must pin exact list before final.",
+        "52 locale codes do not imply 52 independent languages; two Chinese locales are present."
+      ],
+      "primary_sources": [
+        {
+          "url": "https://huggingface.co/api/datasets/AmazonScience/massive",
+          "sha256": "6a2fbd5cb3fa3b9f6dae86e82d4949291618681d3a854ef5ef0f556833996bc6"
+        },
+        {
+          "url": "https://huggingface.co/datasets/AmazonScience/massive/resolve/ff6bd8e4b27c3543e4f8fe2108f32bb95a6f8740/README.md",
+          "sha256": "9a74b2298db2cb509eb39725612ef5d5b9eb99d59ef7c960ab01f58526051e3d"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/alexa/massive/f966f21846043aabef9b0f974fa7970027f43738/NOTICE.md",
+          "sha256": "db1466b051afd1d9ad34b7bd6346a1857f568a0c5f6534168813b4ad3c26013e"
+        }
+      ],
+      "original_repository_revision": "f966f21846043aabef9b0f974fa7970027f43738"
+    },
+    {
+      "id": "nvidia/HelpSteer2",
+      "role": "Independent human-rated ordinal/Score and paired criterion-conditioned control candidate",
+      "canonical_repository": "https://huggingface.co/datasets/nvidia/HelpSteer2",
+      "revision": "990b2711a36180dd19d9c94b8627844866f8982a",
+      "revision_evidence": "MEASURED: Hub API repository commit at retrieval; not proof historical exports used this commit.",
+      "declared_license": "cc-by-4.0",
+      "license_class": "conditional/review",
+      "license_basis": "NVIDIA official card explicitly CC-BY-4.0. Prompt provenance mostly user-contributed ShareGPT, response weights in-house; review upstream prompt rights/privacy and derived-rubric redistribution before shipping training. No NC condition found in inspected license declaration.",
+      "shipping_training_allowed_now": false,
+      "provenance": {
+        "evidence_class": "MEASURED",
+        "source_statement": "21362 prompt-response rows; mostly ShareGPT user prompts plus about 5% Scale human prompts; two responses per prompt from a mix of ten early in-house LLMs. Scale human annotators rate helpfulness/correctness/coherence/complexity/verbosity on 0–4 Likert scale; released scores are means after outlier filtering."
+      },
+      "split_sizes": {
+        "train_responses": 20324,
+        "validation_responses": 1038,
+        "test": null,
+        "total_responses": 21362
+      },
+      "languages": [
+        "en"
+      ],
+      "cached_metadata": [],
+      "duplicate_and_group_risks": {
+        "evidence_class": "INFERENCE",
+        "risks": [
+          "Prompt and both sibling responses are one group; multi-turn shared prefixes and source conversation IDs also grouped.",
+          "Disagreements/preference releases reuse original rows; never concatenate as independent examples.",
+          "Means can be fractional; do not force integer-level labels without preregistered transformation.",
+          "Attribute labels are correlated; helpfulness ordering does not establish desired ordering of verbosity/complexity for every user."
+        ],
+        "deduplication_performed": false
+      },
+      "prior_exposure_or_training_leakage": {
+        "MEASURED": [
+          "No HelpSteer2 cache in inspected decisionmix inventory."
+        ],
+        "INFERENCE": [
+          "Common reward-model training corpus; exclude models trained on it from fresh transfer claims or tag train overlap.",
+          "No inspected primary source proves Laya/Vey2 have never seen prompt text."
+        ]
+      },
+      "notes": [
+        "Clean explicit licensed semantic ordinal candidate unlike SST5/STSB mirrors with missing license; conditional category preserves upstream review.",
+        "Five fixed rubrics are not arbitrary unseen criteria or novel composition proof.",
+        "Existing public validation is not a private sealed final merely because this audit did not read it."
+      ],
+      "primary_sources": [
+        {
+          "url": "https://huggingface.co/api/datasets/nvidia/HelpSteer2",
+          "sha256": "16e1abe92ad199a0e5429c8fea8ca5fccfcd2ec7a00606314688040a14496245"
+        },
+        {
+          "url": "https://huggingface.co/datasets/nvidia/HelpSteer2/resolve/990b2711a36180dd19d9c94b8627844866f8982a/README.md",
+          "sha256": "835effb9e7d9cd0e8b7b8c1816d1d97a8961a036543108e4a0b6a5e22712ff7b"
+        },
+        {
+          "url": "https://datasets-server.huggingface.co/info?dataset=nvidia%2FHelpSteer2&config=default",
+          "sha256": "1fa4357f5628032cb8d5349d5c75c1c70935ea5e425a6d5196df1ab632b38966"
+        }
+      ]
+    },
+    {
+      "id": "google/boolq",
+      "role": "Natural yes/no Boolean legacy trained-source comparability; not fresh transfer",
+      "canonical_repository": "https://huggingface.co/datasets/google/boolq",
+      "revision": "35b264d03638db9f4ce671b711558bf7ff0f80d5",
+      "revision_evidence": "MEASURED: Hub API repository commit at retrieval; not proof historical exports used this commit.",
+      "declared_license": [
+        "cc-by-sa-3.0"
+      ],
+      "license_class": "conditional/review",
+      "license_basis": "Original Google BoolQ README: CC-BY-SA-3.0; Hub agrees. Share-alike and Wikipedia/source attribution obligations need review for derived suite/shipping artifacts; no NC restriction declared.",
+      "shipping_training_allowed_now": false,
+      "provenance": {
+        "evidence_class": "MEASURED",
+        "source_statement": "Naturally occurring yes/no questions generated in unprompted/unconstrained settings, paired with Wikipedia passages; human factual labels."
+      },
+      "split_sizes": {
+        "train": 9427,
+        "validation": 3270,
+        "official_unlabeled_test": 3245
+      },
+      "languages": [
+        "en"
+      ],
+      "cached_metadata": [],
+      "duplicate_and_group_risks": {
+        "evidence_class": "INFERENCE",
+        "risks": [
+          "Wikipedia page/passage duplicates, overlapping excerpts and paraphrased question groups.",
+          "Do not randomly split question rows sharing passage/page; group by page/source document.",
+          "Full passage must stay accessible to all compared systems; no test-label invention."
+        ],
+        "deduplication_performed": false
+      },
+      "prior_exposure_or_training_leakage": {
+        "MEASURED": [
+          "No matching cache in scoped metadata.",
+          "Pinned current Laya README explicitly marks BoolQ in training mix."
+        ],
+        "INFERENCE": [
+          "Widely used SuperGLUE-era benchmark and public Wikipedia; pretraining/task-training overlap unknown."
+        ]
+      },
+      "notes": [
+        "Independent dataset owner does not imply independent training exposure."
+      ],
+      "primary_sources": [
+        {
+          "url": "https://huggingface.co/api/datasets/google/boolq",
+          "sha256": "36592f38ee1e08944762e0bdd0eac359fda7da95e2e98d92ec9cb745667ff899"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google-research-datasets/boolean-questions/90af34107399cc7a446b373dc4ee35b8001da7c2/README.md",
+          "sha256": "0afe70d7cdbb644637592212f0cb15339389910bf00f35764ec3c545257aa663"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/README.md",
+          "sha256": "fa0331c6565bd442fcd66ac1df1832dba52fbcbb1074bcfce1a746f80b86f3d0"
+        }
+      ],
+      "original_repository_revision": "90af34107399cc7a446b373dc4ee35b8001da7c2"
+    },
+    {
+      "id": "clinc/clinc_oos",
+      "role": "Explicit OOD-intent legacy stratum; not a fresh OOD final",
+      "canonical_repository": "https://huggingface.co/datasets/clinc/clinc_oos",
+      "revision": "155b9c710419136e17307b80d0a13e68cd46b4ec",
+      "revision_evidence": "MEASURED: Hub API repository commit at retrieval; not proof historical exports used this commit.",
+      "declared_license": [
+        "cc-by-3.0"
+      ],
+      "license_class": "shipping-train",
+      "license_basis": "Hub card CC-BY-3.0; preserve attribution. A local blank dataset_info license is not evidence no license exists.",
+      "shipping_training_allowed_now": true,
+      "provenance": {
+        "evidence_class": "MEASURED",
+        "source_statement": "English intent-detection/OOS corpus; Hub metadata records 150 in-scope intents plus OOS and three overlapping configurations. Annotation human-crowdsourcing origin is standard upstream description but not independently audited here."
+      },
+      "split_sizes": {
+        "plus": {
+          "train": 15250,
+          "validation": 3100,
+          "test": 5500
+        },
+        "small": {
+          "train": 7600,
+          "validation": 3100,
+          "test": 5500
+        },
+        "imbalanced": {
+          "train": 10625,
+          "validation": 3100,
+          "test": 5500
+        }
+      },
+      "languages": [
+        "en"
+      ],
+      "cached_metadata": [
+        "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/clinc___clinc_oos/plus/0.0.0/155b9c710419136e17307b80d0a13e68cd46b4ec/dataset_info.json",
+        "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/clinc___clinc_oos/imbalanced/0.0.0/155b9c710419136e17307b80d0a13e68cd46b4ec/dataset_info.json",
+        "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/clinc___clinc_oos/small/0.0.0/155b9c710419136e17307b80d0a13e68cd46b4ec/dataset_info.json"
+      ],
+      "duplicate_and_group_risks": {
+        "evidence_class": "INFERENCE",
+        "risks": [
+          "Same evaluation across configurations; never count each config as independent.",
+          "Intent paraphrase/source-worker groups if available.",
+          "OOS label tests corpus-defined rejection, not arbitrary domain or criterion OOD."
+        ],
+        "deduplication_performed": false
+      },
+      "prior_exposure_or_training_leakage": {
+        "MEASURED": [
+          "All three configs cached. D1 plus splits fully present; old exports and public Vey comparisons consumed this source."
+        ],
+        "INFERENCE": [
+          "Use only exposed legacy reference stratum unless genuine disjoint unavailable-family/split evidence is established.",
+          "Laya pretraining/task-training overlap unknown."
+        ]
+      },
+      "notes": [],
+      "primary_sources": [
+        {
+          "url": "https://huggingface.co/api/datasets/clinc/clinc_oos",
+          "sha256": "e8e035bfa9428f5412f04a38b95cde460d4f4289adc3675df29e2b971b72167d"
+        }
+      ]
+    },
+    {
+      "id": "allenai/qasper",
+      "role": "Independent natural long-context evidence/Boolean selection candidate",
+      "canonical_repository": "https://huggingface.co/datasets/allenai/qasper",
+      "revision": "fdc9d8214fbab5dd782958601db4d678e6934a54",
+      "revision_evidence": "MEASURED: Hub API repository commit at retrieval; not proof historical exports used this commit.",
+      "declared_license": [
+        "cc-by-4.0"
+      ],
+      "license_class": "shipping-train",
+      "license_basis": "Official AllenAI Hub card and pinned dataset_infos.json say CC-BY-4.0; retain dataset/paper attribution, review underlying full-paper rights if republishing text.",
+      "shipping_training_allowed_now": true,
+      "provenance": {
+        "evidence_class": "MEASURED",
+        "source_statement": "5049 questions over 1585 NLP papers. Questions by NLP practitioners after reading title/abstract; different practitioners answer with supporting evidence. Real scientific full-text contexts, not repeated padding."
+      },
+      "split_sizes": {
+        "unit": "paper, not question",
+        "train_papers": 888,
+        "validation_papers": 281,
+        "test_papers": 416,
+        "total_questions_card": 5049,
+        "train_questions_card": 2593,
+        "validation_questions_card": 1005,
+        "test_questions": null
+      },
+      "languages": [
+        "en"
+      ],
+      "cached_metadata": [],
+      "duplicate_and_group_risks": {
+        "evidence_class": "INFERENCE",
+        "risks": [
+          "All questions/answers/evidence for one paper in same group.",
+          "Versions of same paper/title/preprint and duplicated cited sections can cross groups.",
+          "Multiple annotations per question are correlated; not independent decisions.",
+          "Length threshold >=8192 tokens is not proved by metadata: parent must preregister tokenizer/eligibility before reading final."
+        ],
+        "deduplication_performed": false
+      },
+      "prior_exposure_or_training_leakage": {
+        "MEASURED": [
+          "No QASPER cache in scoped metadata."
+        ],
+        "INFERENCE": [
+          "Frequently included in LongBench/SCROLLS and QA training; any model using these aggregates may already have seen this test.",
+          "Vey2/Laya exact training membership unknown."
+        ]
+      },
+      "notes": [
+        "Card split table lacks test-question count; dataset metadata proves 416 test papers, not a per-question test count.",
+        "Adaptation to typed candidate/evidence decisions requires independent mapping/adjudication, not fabricated MCQ distractors or gold labels."
+      ],
+      "primary_sources": [
+        {
+          "url": "https://huggingface.co/api/datasets/allenai/qasper",
+          "sha256": "c4b9dea3d0bdd98c7b9204383c97d5914110cab9290cb6ebfb63d12fea7d621f"
+        },
+        {
+          "url": "https://huggingface.co/datasets/allenai/qasper/resolve/fdc9d8214fbab5dd782958601db4d678e6934a54/README.md",
+          "sha256": "da348d3f8277f8a93ca397941f6a525433e282858b1c0562aed3f667d8e55b05"
+        },
+        {
+          "url": "https://datasets-server.huggingface.co/info?dataset=allenai%2Fqasper&config=qasper",
+          "sha256": "972d607186f45a1d256bc196b827674079cb53f3119867ae65c1627439aa60c4"
+        }
+      ]
+    },
+    {
+      "id": "asappresearch/abcd",
+      "role": "Independent human workflow/policy-and-action candidate",
+      "canonical_repository": "https://github.com/asappresearch/abcd",
+      "revision": "6b8700ce67c6b37b062dd7a60abc76d7ef832a97",
+      "declared_license": "MIT repository license",
+      "license_class": "conditional/review",
+      "shipping_training_allowed_now": false,
+      "license_basis": "Official repository LICENSE is MIT for Software and documentation; no separate data-specific grant found in inspected README. Confirm data/KB/guideline rights before treating conversations as shipping-train. Paper CC-BY license is not a dataset license substitute.",
+      "provenance": {
+        "evidence_class": "MEASURED",
+        "source_statement": "Expert Live Chat collects human-to-human crowdsourced simulated customer-agent conversations guided by company procedures, with machine KB/action outputs; not real production customer logs. 55 user intents and 30 action options in official README."
+      },
+      "split_sizes": {
+        "total_dialogues_paper": 10042,
+        "train_dialogues_paper": 8034,
+        "dev": null,
+        "test": null,
+        "remaining_dev_plus_test_arithmetic": 2008,
+        "note": "Paper Table 2 proves training count; inspected primary metadata did not provide dev/test counts separately. No data archive opened to manufacture them."
+      },
+      "languages": [
+        "en"
+      ],
+      "cached_metadata": [],
+      "duplicate_and_group_risks": {
+        "evidence_class": "INFERENCE",
+        "risks": [
+          "Conversation is sampling unit; all turns/action labels stay grouped.",
+          "Shared flow/subflow/company policy and KB templates require whole workflow/flow holdouts for transfer.",
+          "Worker and identical scenario/entity/canned KB outputs induce correlation.",
+          "Guideline/ontology cannot disclose target action if serving state is supposed to require derivation."
+        ],
+        "deduplication_performed": false
+      },
+      "prior_exposure_or_training_leakage": {
+        "MEASURED": [
+          "No ABCD cache in scoped inventory."
+        ],
+        "INFERENCE": [
+          "Common dialogue training source; exact membership in Vey2/Laya or candidate encoders unknown."
+        ]
+      },
+      "primary_sources": [
+        {
+          "url": "https://raw.githubusercontent.com/asappresearch/abcd/6b8700ce67c6b37b062dd7a60abc76d7ef832a97/README.md",
+          "sha256": "b08125bfdbeadd5b6086aabe5534cc2c8778cbd203de843eae0186ebf1cb549d"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/asappresearch/abcd/6b8700ce67c6b37b062dd7a60abc76d7ef832a97/LICENSE",
+          "sha256": "3ab7e179a7f13027b7bc64293541f0e9beacca3701cade67fb8fce78c2d9317b"
+        },
+        {
+          "url": "https://aclanthology.org/2021.naacl-main.239.pdf",
+          "sha256": "1a3624bb00fe4dcd4bb1c66a60abac88e74e1f19feb7a764bb350151609d69b1"
+        }
+      ]
+    },
+    {
+      "id": "tasksource/procedural-typed-decisions",
+      "role": "Independent synthetic exact-reasoning/control pool, separate from natural-domain neutral evidence",
+      "canonical_repository": "https://huggingface.co/datasets/tasksource/procedural-typed-decisions",
+      "revision": "609513a3faddf729123266efe9861456fe748f95",
+      "revision_evidence": "MEASURED: Hub API repository commit at retrieval; not proof historical exports used this commit.",
+      "declared_license": "apache-2.0",
+      "license_class": "shipping-train",
+      "license_basis": "Official card Apache-2.0; deterministic generator controls are not human semantic transfer evidence.",
+      "shipping_training_allowed_now": true,
+      "provenance": {
+        "evidence_class": "MEASURED",
+        "source_statement": "Procedurally generated structured states/questions/exact answers; 13 tasks including arithmetic, belief tracking, event state reconstruction, policy and uncertainty, evidence sufficiency, retrieval, taxonomy."
+      },
+      "split_sizes": {
+        "all": {
+          "train": 260000,
+          "validation": 13000,
+          "test": 13000
+        },
+        "per_task": {
+          "train": 20000,
+          "validation": 1000,
+          "test": 1000
+        },
+        "tasks": 13
+      },
+      "languages": [
+        "en"
+      ],
+      "cached_metadata": [
+        "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/tasksource___procedural-typed-decisions/arithmetic/0.0.0/b4f55bea135283127b2945c8e6fc7e68e9c56a4a/dataset_info.json",
+        "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/tasksource___procedural-typed-decisions/entity_belief_tracking/0.0.0/b4f55bea135283127b2945c8e6fc7e68e9c56a4a/dataset_info.json",
+        "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/tasksource___procedural-typed-decisions/entity_belief_tracking/0.0.0/916e6cce365a65c37d58db70c9e369795817651e/dataset_info.json",
+        "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/tasksource___procedural-typed-decisions/event_state_reconstruction/0.0.0/b4f55bea135283127b2945c8e6fc7e68e9c56a4a/dataset_info.json"
+      ],
+      "duplicate_and_group_risks": {
+        "evidence_class": "INFERENCE",
+        "risks": [
+          "All config duplicates task configs.",
+          "Same generator/templates/latent distributions permit template shortcuts despite exact distinct states.",
+          "Card claims unique states/cross-split no state duplicates; not independently proved here."
+        ],
+        "deduplication_performed": false
+      },
+      "prior_exposure_or_training_leakage": {
+        "MEASURED": [
+          "Arithmetic/entity_belief_tracking/event_state_reconstruction cached in older Vey research at builder fingerprints b4f55... and 916e6...."
+        ],
+        "INFERENCE": [
+          "Those cached old configs cannot be named fresh final.",
+          "Other 10 task configs are not proven unexposed by cache absence.",
+          "Laya exact training membership unknown."
+        ]
+      },
+      "notes": [
+        "Do not confuse tasksource/procedural-typed-decisions with LocalLLaMA/typed-decisions used by Laya."
+      ],
+      "primary_sources": [
+        {
+          "url": "https://huggingface.co/api/datasets/tasksource/procedural-typed-decisions",
+          "sha256": "7436dca8160916d979efeede5f77f4d29461cf896848f40c5881efb8b171db1e"
+        },
+        {
+          "url": "https://huggingface.co/datasets/tasksource/procedural-typed-decisions/resolve/609513a3faddf729123266efe9861456fe748f95/README.md",
+          "sha256": "962f58df799ef51abfb60270ccb78e3017550cf08cf97549cb07b979615db75e"
+        },
+        {
+          "url": "https://datasets-server.huggingface.co/info?dataset=tasksource%2Fprocedural-typed-decisions&config=all",
+          "sha256": "ae45053cddce310af917e67af2fd823c7e42f6cae61512cf36d4fb5b52a540d1"
+        }
+      ]
+    },
+    {
+      "id": "Team-ACE/ToolACE",
+      "role": "Independent synthetic tool/workflow source candidate; already locally used reference",
+      "canonical_repository": "https://huggingface.co/datasets/Team-ACE/ToolACE",
+      "revision": "6bda777c88d21e5a204703c1ee45597a8fa4f734",
+      "revision_evidence": "MEASURED: Hub API repository commit at retrieval; not proof historical exports used this commit.",
+      "declared_license": "apache-2.0",
+      "license_class": "conditional/review",
+      "license_basis": "Official Hub card Apache-2.0; synthetic-generation provider/model terms not audited, must be tracked separately. Classification is conditional pending the undisclosed generation-model/provider provenance review; declared Apache-2.0 is recorded, not negated.",
+      "shipping_training_allowed_now": false,
+      "provenance": {
+        "evidence_class": "MEASURED",
+        "source_statement": "Multi-agent synthetic tool-calling dialogues over diversified tool definitions; not observed real workflow logs."
+      },
+      "split_sizes": {
+        "train": 11300
+      },
+      "languages": [
+        "en",
+        "zh"
+      ],
+      "cached_metadata": [],
+      "duplicate_and_group_risks": {
+        "evidence_class": "INFERENCE",
+        "risks": [
+          "Same tool schemas, semantic task and generated dialogue variants stay grouped.",
+          "No official sealed final evident; deriving one after inspection/training risks leakage."
+        ],
+        "deduplication_performed": false
+      },
+      "prior_exposure_or_training_leakage": {
+        "MEASURED": [
+          "Cache lock references Team-ACE/ToolACE revision 6bda777c88d21e5a204703c1ee45597a8fa4f734.",
+          "Public Vey MODEL_CARD says tool-selection numbers use ToolACE."
+        ],
+        "INFERENCE": [
+          "Exposed tool schemas/corpus cannot serve untouched final without independent exclusion ledger.",
+          "Exact Laya membership unknown."
+        ]
+      },
+      "notes": [],
+      "primary_sources": [
+        {
+          "url": "https://huggingface.co/api/datasets/Team-ACE/ToolACE",
+          "sha256": "5ec5957862fee57015e56fb69392f9e04434d0d2cf0482622c46143408ba41af"
+        },
+        {
+          "url": "https://huggingface.co/datasets/Team-ACE/ToolACE/resolve/6bda777c88d21e5a204703c1ee45597a8fa4f734/README.md",
+          "sha256": "4e82e47712cfdc0bc86b3b0c6b03f5f2f00a1ca54ccfa696276833743c85e460"
+        },
+        {
+          "url": "https://datasets-server.huggingface.co/info?dataset=Team-ACE%2FToolACE&config=default",
+          "sha256": "ab8a08bae81f374ba01b957e8da5228c915c4ca01a9ef36cfa4d70391ea6b7fb"
+        }
+      ]
+    },
+    {
+      "id": "Salesforce/xlam-function-calling-60k",
+      "role": "Independent synthetic verifiable API workflow candidate; cached legacy",
+      "canonical_repository": "https://huggingface.co/datasets/Salesforce/xlam-function-calling-60k",
+      "revision": "26d14ebfe18b1f7b524bd39b404b50af5dc97866",
+      "revision_evidence": "MEASURED: Hub API repository commit at retrieval; not proof historical exports used this commit.",
+      "declared_license": "cc-by-4.0",
+      "license_class": "conditional/review",
+      "license_basis": "Official Hub card CC-BY-4.0; generator DeepSeek-V2-Chat and Mixtral-8x22B-Inst provenance is disclosed. Review upstream executable API/tool/document rights and generator terms separately.",
+      "shipping_training_allowed_now": false,
+      "provenance": {
+        "evidence_class": "MEASURED",
+        "source_statement": "APIGen generates synthetic function-call requests, verifies format/executions/semantics; 33659 entries DeepSeek and remainder Mixtral; 3673 executable APIs across 21 categories."
+      },
+      "split_sizes": {
+        "train": 60000,
+        "validation": null,
+        "test": null
+      },
+      "languages": [
+        "en"
+      ],
+      "cached_metadata": [],
+      "duplicate_and_group_risks": {
+        "evidence_class": "INFERENCE",
+        "risks": [
+          "Shared API/function/tool schema and function templates; group API family rather than random row split.",
+          "Generation distribution/model artifacts differ from human production workflows.",
+          "Three verification stages do not automatically guarantee independent human semantic labels."
+        ],
+        "deduplication_performed": false
+      },
+      "prior_exposure_or_training_leakage": {
+        "MEASURED": [
+          "Cache lock references source revision matching current pin."
+        ],
+        "INFERENCE": [
+          "Already fetched earlier research; no fresh-final proof.",
+          "Laya exact training membership unknown."
+        ]
+      },
+      "notes": [],
+      "primary_sources": [
+        {
+          "url": "https://huggingface.co/api/datasets/Salesforce/xlam-function-calling-60k",
+          "sha256": "277a36392652c96c5f92aed81068a1bd66152b9d492d0d3331a055e720f9fcb0"
+        },
+        {
+          "url": "https://huggingface.co/datasets/Salesforce/xlam-function-calling-60k/resolve/26d14ebfe18b1f7b524bd39b404b50af5dc97866/README.md",
+          "sha256": "8564c08b4555289ef4bb488f876ea4d7505d18e9f09edd9ec7869e6d0bbe523f"
+        }
+      ]
+    },
+    {
+      "id": "freshstack/queries-oct-2024",
+      "role": "Independent real technical retrieval plus synthetic relevance labels; legacy exposed topics",
+      "canonical_repository": "https://huggingface.co/datasets/freshstack/queries-oct-2024",
+      "revision": "023ac3a14caf9d6ebb13d01adcfb8fa05e5a9630",
+      "revision_evidence": "MEASURED: Hub API repository commit at retrieval; not proof historical exports used this commit.",
+      "declared_license": "cc-by-sa-4.0",
+      "license_class": "conditional/review",
+      "license_basis": "Official card CC-BY-SA-4.0. Stack Overflow attribution/share-alike and generated labels need review; companion technical-document corpus has separate upstream licensing.",
+      "shipping_training_allowed_now": false,
+      "provenance": {
+        "evidence_class": "MEASURED",
+        "source_statement": "Real Stack Overflow questions/accepted answers; GPT-4o generates nuggets and relevance judgments. Mixed real source text and synthetic labels, not human-gold-only evidence."
+      },
+      "split_sizes": {
+        "test_queries_by_topic": {
+          "angular": 129,
+          "godot": 99,
+          "langchain": 203,
+          "laravel": 184,
+          "yolo": 57
+        },
+        "train": null,
+        "validation": null
+      },
+      "languages": [
+        "English description; no language metadata in Hub card"
+      ],
+      "cached_metadata": [
+        "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/freshstack___queries-oct-2024/godot/0.0.0/023ac3a14caf9d6ebb13d01adcfb8fa05e5a9630/dataset_info.json",
+        "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/freshstack___queries-oct-2024/langchain/0.0.0/023ac3a14caf9d6ebb13d01adcfb8fa05e5a9630/dataset_info.json",
+        "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/freshstack___queries-oct-2024/laravel/0.0.0/023ac3a14caf9d6ebb13d01adcfb8fa05e5a9630/dataset_info.json"
+      ],
+      "duplicate_and_group_risks": {
+        "evidence_class": "INFERENCE",
+        "risks": [
+          "Query/accepted-answer ID, all nuggets and retrieved judgments are correlated and stay in one group.",
+          "Same technical docs reused across queries; group source release/project/version for OOD transfer.",
+          "Label-generator bias must be separate from human adjudication."
+        ],
+        "deduplication_performed": false
+      },
+      "prior_exposure_or_training_leakage": {
+        "MEASURED": [
+          "Laravel, langchain and godot query/corpus dataset_info caches present."
+        ],
+        "INFERENCE": [
+          "Public Oct-2024 topics are not fresh unexposed final.",
+          "Angular/yolo cache absence does not establish training absence."
+        ]
+      },
+      "notes": [
+        "Official companion collection freshstack/corpus-oct-2024 must be licensed independently."
+      ],
+      "primary_sources": [
+        {
+          "url": "https://huggingface.co/api/datasets/freshstack/queries-oct-2024",
+          "sha256": "e9837b0d97cf979e9fa070c6ba7ab7c1499e80bb74de431db4913034b1c95dea"
+        },
+        {
+          "url": "https://huggingface.co/datasets/freshstack/queries-oct-2024/resolve/023ac3a14caf9d6ebb13d01adcfb8fa05e5a9630/README.md",
+          "sha256": null
+        }
+      ]
+    }
+  ],
+  "excluded_or_unresolved_fallbacks": [
+    {
+      "id": "stanfordnlp/sst",
+      "canonical_repository": "https://huggingface.co/datasets/stanfordnlp/sst",
+      "revision": "82523085b89b96509979ffe069ebb3075b0692a5",
+      "declared_license": [
+        "unknown"
+      ],
+      "license_class": "research-eval-only",
+      "shipping_training_allowed_now": false,
+      "reason": "Hub explicitly unknown license; underlying Rotten Tomatoes rights unresolved. Do not infer shipping permission from sentiment code license.",
+      "split_sizes_from_metadata": [
+        {
+          "config": "default",
+          "splits": [
+            {
+              "name": "train",
+              "num_bytes": 2818768,
+              "num_examples": 8544
+            },
+            {
+              "name": "validation",
+              "num_bytes": 366205,
+              "num_examples": 1101
+            },
+            {
+              "name": "test",
+              "num_bytes": 730154,
+              "num_examples": 2210
+            }
+          ]
+        },
+        {
+          "config": "dictionary",
+          "splits": [
+            {
+              "name": "dictionary",
+              "num_bytes": 12121843,
+              "num_examples": 239232
+            }
+          ]
+        },
+        {
+          "config": "ptb",
+          "splits": [
+            {
+              "name": "train",
+              "num_bytes": 2185694,
+              "num_examples": 8544
+            },
+            {
+              "name": "validation",
+              "num_bytes": 284132,
+              "num_examples": 1101
+            },
+            {
+              "name": "test",
+              "num_bytes": 566248,
+              "num_examples": 2210
+            }
+          ]
+        }
+      ],
+      "languages": [
+        "en"
+      ],
+      "primary_sources": [
+        {
+          "url": "https://huggingface.co/api/datasets/stanfordnlp/sst",
+          "sha256": "9b50e9977d66a88f4575d7da6c4f6cc71ba1e09f24f8472ac609fcc072228377"
+        }
+      ],
+      "research_evaluation_permission": "Unresolved where missing/ambiguous; classification is exclusion from shipping, not a grant of research redistribution rights."
+    },
+    {
+      "id": "SetFit/sst5",
+      "canonical_repository": "https://huggingface.co/datasets/SetFit/sst5",
+      "revision": "e51bdcd8cd3a30da231967c1a249ba59361279a3",
+      "declared_license": null,
+      "license_class": "research-eval-only",
+      "shipping_training_allowed_now": false,
+      "reason": "Mirror lacks license and dataset split metadata in inspected card; obtain upstream permission rather than use mirror as legal evidence.",
+      "split_sizes_from_metadata": [],
+      "languages": null,
+      "primary_sources": [
+        {
+          "url": "https://huggingface.co/api/datasets/SetFit/sst5",
+          "sha256": "39bb3ec8dfae64e72d357ec3d96a21740c1f13923caf0a4c2d1201a5c3111dee"
+        }
+      ],
+      "research_evaluation_permission": "Unresolved where missing/ambiguous; classification is exclusion from shipping, not a grant of research redistribution rights."
+    },
+    {
+      "id": "sentence-transformers/stsb",
+      "canonical_repository": "https://huggingface.co/datasets/sentence-transformers/stsb",
+      "revision": "ab7a5ac0e35aa22088bdcf23e7fd99b220e53308",
+      "declared_license": null,
+      "license_class": "research-eval-only",
+      "shipping_training_allowed_now": false,
+      "reason": "Useful human 0–5 similarity Score, but inspected mirror has no license declaration. Training source commonly in sentence-embedding/NLI models, and ordinary alias paraphrase pairs can share sentences across splits.",
+      "split_sizes_from_metadata": [
+        {
+          "config": null,
+          "splits": [
+            {
+              "name": "train",
+              "num_bytes": 755098,
+              "num_examples": 5749
+            },
+            {
+              "name": "validation",
+              "num_bytes": 216064,
+              "num_examples": 1500
+            },
+            {
+              "name": "test",
+              "num_bytes": 169987,
+              "num_examples": 1379
+            }
+          ]
+        }
+      ],
+      "languages": [
+        "en"
+      ],
+      "primary_sources": [
+        {
+          "url": "https://huggingface.co/api/datasets/sentence-transformers/stsb",
+          "sha256": "5ee06459913a1d64e2d1292e3a0bf7d6eb0a31d8a54ad7bf2cfa721a38c41e67"
+        }
+      ],
+      "research_evaluation_permission": "Unresolved where missing/ambiguous; classification is exclusion from shipping, not a grant of research redistribution rights."
+    },
+    {
+      "id": "cardiffnlp/tweet_eval",
+      "canonical_repository": "https://huggingface.co/datasets/cardiffnlp/tweet_eval",
+      "revision": "b3a375baf0f409c77e6bc7aa35102b7b3534f8be",
+      "declared_license": [
+        "unknown"
+      ],
+      "license_class": "research-eval-only",
+      "shipping_training_allowed_now": false,
+      "reason": "Hub unknown; original task/Twitter terms need individual review. Sentiment is ordered but labels do not cure missing permission.",
+      "split_sizes_from_metadata": [
+        {
+          "config": "emoji",
+          "splits": [
+            {
+              "name": "train",
+              "num_bytes": 3803167,
+              "num_examples": 45000
+            },
+            {
+              "name": "test",
+              "num_bytes": 4255901,
+              "num_examples": 50000
+            },
+            {
+              "name": "validation",
+              "num_bytes": 396079,
+              "num_examples": 5000
+            }
+          ]
+        },
+        {
+          "config": "emotion",
+          "splits": [
+            {
+              "name": "train",
+              "num_bytes": 338871,
+              "num_examples": 3257
+            },
+            {
+              "name": "test",
+              "num_bytes": 146645,
+              "num_examples": 1421
+            },
+            {
+              "name": "validation",
+              "num_bytes": 38273,
+              "num_examples": 374
+            }
+          ]
+        },
+        {
+          "config": "hate",
+          "splits": [
+            {
+              "name": "train",
+              "num_bytes": 1223650,
+              "num_examples": 9000
+            },
+            {
+              "name": "test",
+              "num_bytes": 428934,
+              "num_examples": 2970
+            },
+            {
+              "name": "validation",
+              "num_bytes": 154144,
+              "num_examples": 1000
+            }
+          ]
+        },
+        {
+          "config": "irony",
+          "splits": [
+            {
+              "name": "train",
+              "num_bytes": 259187,
+              "num_examples": 2862
+            },
+            {
+              "name": "test",
+              "num_bytes": 75897,
+              "num_examples": 784
+            },
+            {
+              "name": "validation",
+              "num_bytes": 86017,
+              "num_examples": 955
+            }
+          ]
+        },
+        {
+          "config": "offensive",
+          "splits": [
+            {
+              "name": "train",
+              "num_bytes": 1648061,
+              "num_examples": 11916
+            },
+            {
+              "name": "test",
+              "num_bytes": 135473,
+              "num_examples": 860
+            },
+            {
+              "name": "validation",
+              "num_bytes": 192417,
+              "num_examples": 1324
+            }
+          ]
+        },
+        {
+          "config": "sentiment",
+          "splits": [
+            {
+              "name": "train",
+              "num_bytes": 5425122,
+              "num_examples": 45615
+            },
+            {
+              "name": "test",
+              "num_bytes": 1279540,
+              "num_examples": 12284
+            },
+            {
+              "name": "validation",
+              "num_bytes": 239084,
+              "num_examples": 2000
+            }
+          ]
+        },
+        {
+          "config": "stance_abortion",
+          "splits": [
+            {
+              "name": "train",
+              "num_bytes": 68694,
+              "num_examples": 587
+            },
+            {
+              "name": "test",
+              "num_bytes": 33171,
+              "num_examples": 280
+            },
+            {
+              "name": "validation",
+              "num_bytes": 7657,
+              "num_examples": 66
+            }
+          ]
+        },
+        {
+          "config": "stance_atheism",
+          "splits": [
+            {
+              "name": "train",
+              "num_bytes": 54775,
+              "num_examples": 461
+            },
+            {
+              "name": "test",
+              "num_bytes": 25716,
+              "num_examples": 220
+            },
+            {
+              "name": "validation",
+              "num_bytes": 6320,
+              "num_examples": 52
+            }
+          ]
+        },
+        {
+          "config": "stance_climate",
+          "splits": [
+            {
+              "name": "train",
+              "num_bytes": 40249,
+              "num_examples": 355
+            },
+            {
+              "name": "test",
+              "num_bytes": 19925,
+              "num_examples": 169
+            },
+            {
+              "name": "validation",
+              "num_bytes": 4801,
+              "num_examples": 40
+            }
+          ]
+        },
+        {
+          "config": "stance_feminist",
+          "splits": [
+            {
+              "name": "train",
+              "num_bytes": 70509,
+              "num_examples": 597
+            },
+            {
+              "name": "test",
+              "num_bytes": 33305,
+              "num_examples": 285
+            },
+            {
+              "name": "validation",
+              "num_bytes": 8035,
+              "num_examples": 67
+            }
+          ]
+        },
+        {
+          "config": "stance_hillary",
+          "splits": [
+            {
+              "name": "train",
+              "num_bytes": 69596,
+              "num_examples": 620
+            },
+            {
+              "name": "test",
+              "num_bytes": 34487,
+              "num_examples": 295
+            },
+            {
+              "name": "validation",
+              "num_bytes": 7532,
+              "num_examples": 69
+            }
+          ]
+        }
+      ],
+      "languages": [
+        "en"
+      ],
+      "primary_sources": [
+        {
+          "url": "https://huggingface.co/api/datasets/cardiffnlp/tweet_eval",
+          "sha256": "a42a58b32a985f2e9472dbc30863652f690f87bd2e824b2baef8141951184d5a"
+        }
+      ],
+      "research_evaluation_permission": "Unresolved where missing/ambiguous; classification is exclusion from shipping, not a grant of research redistribution rights."
+    },
+    {
+      "id": "THUDM/LongBench",
+      "canonical_repository": "https://huggingface.co/datasets/THUDM/LongBench",
+      "revision": "5e628be450b7e67fb7ae6e201bd6d8f7056f7672",
+      "declared_license": null,
+      "license_class": "research-eval-only",
+      "shipping_training_allowed_now": false,
+      "reason": "Aggregate lacks Hub license; per-source rights differ, mixes real and synthetic tasks. Already uses source validation/test datasets: not an independent fresh final. English/Chinese 4750 public test cases.",
+      "split_sizes_from_metadata": [],
+      "languages": [
+        "en",
+        "zh"
+      ],
+      "primary_sources": [
+        {
+          "url": "https://huggingface.co/api/datasets/THUDM/LongBench",
+          "sha256": "4697b2378aa19a251892e305a161136c085768d49cb2d7b81e2c93d0d2670f05"
+        }
+      ],
+      "research_evaluation_permission": "Unresolved where missing/ambiguous; classification is exclusion from shipping, not a grant of research redistribution rights."
+    },
+    {
+      "id": "tau/scrolls",
+      "canonical_repository": "https://huggingface.co/datasets/tau/scrolls",
+      "revision": "927b875150ac8f02262ddd3b078d33a9debc935b",
+      "declared_license": null,
+      "license_class": "research-eval-only",
+      "shipping_training_allowed_now": false,
+      "reason": "Aggregate has no license declaration in inspected metadata; original tasks have heterogeneous rights and repeated document-ID targets. Prefer specific source QASPER over licensing aggregate.",
+      "split_sizes_from_metadata": [],
+      "languages": [
+        "en"
+      ],
+      "primary_sources": [
+        {
+          "url": "https://huggingface.co/api/datasets/tau/scrolls",
+          "sha256": "0596c73ac1c5117d32d995dbd2a073e3351d39c4b8ffdbedb08bd3b4c42daaf0"
+        }
+      ],
+      "research_evaluation_permission": "Unresolved where missing/ambiguous; classification is exclusion from shipping, not a grant of research redistribution rights."
+    },
+    {
+      "id": "eladsegal/strategyqa",
+      "canonical_repository": "https://github.com/eladsegal/strategyqa",
+      "revision": "1ba1e97452e189569357876f2854b01357ffbe37",
+      "declared_license": "MIT repository code; dataset-specific terms not located",
+      "license_class": "research-eval-only",
+      "shipping_training_allowed_now": false,
+      "reason": "Independent implicit-reasoning Boolean alternative worth rights review, but original dataset page now redirects to paper on Semantic Scholar. Code MIT does not establish data/Wikipedia grant. No actual data downloaded to resolve counts.",
+      "split_sizes": {
+        "official_train": null,
+        "official_test": null,
+        "unofficial_baseline_split": "90%/10% of official train according to official code README; not official validation"
+      },
+      "languages": [
+        "en"
+      ],
+      "primary_sources": [
+        {
+          "url": "https://raw.githubusercontent.com/eladsegal/strategyqa/1ba1e97452e189569357876f2854b01357ffbe37/README.md",
+          "sha256": "80ab310e481985c8fdd8913b9e250c0d5e83fc9edde27d4770b6d08436bcd34e"
+        },
+        {
+          "url": "https://allenai.org/data/strategyqa",
+          "observed_redirect": "Semantic Scholar paper"
+        }
+      ],
+      "research_evaluation_permission": "Unresolved; do not infer permission from code license."
+    }
+  ],
+  "cached_metadata_inventory": [
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/BeIR___scifact/corpus/0.0.0/b3b5335604bf5ee3c4447671af975ea25143d4f5/dataset_info.json",
+      "sha256": "e9cc33e43b46a5d09107e2ad7aa0a42f72920bb7df43ababff34d0e61307848f",
+      "config": "corpus",
+      "homepage": "",
+      "splits": {
+        "corpus": 5183
+      },
+      "cache_hash_is_not_remote_revision": true,
+      "dataset_info_license_nonempty": false,
+      "dataset_info_license_prefix": ""
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/BeIR___scifact/queries/0.0.0/b3b5335604bf5ee3c4447671af975ea25143d4f5/dataset_info.json",
+      "sha256": "c4982438b2ef93c92140e67e62fd1f4ba0fef436b74f982630814a02daa8c13f",
+      "config": "queries",
+      "homepage": "",
+      "splits": {
+        "queries": 1109
+      },
+      "cache_hash_is_not_remote_revision": true,
+      "dataset_info_license_nonempty": false,
+      "dataset_info_license_prefix": ""
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/BeIR___scifact-qrels/default/0.0.0/2938d17dc3b09882fdb8c12bbbe2e2dc0e75a029/dataset_info.json",
+      "sha256": "2d9d1f9ac882b1a206afc26a0414fa5826e665b74faaf9aa557c1841989a1850",
+      "config": "default",
+      "homepage": "",
+      "splits": {
+        "train": 919,
+        "test": 339
+      },
+      "cache_hash_is_not_remote_revision": true,
+      "dataset_info_license_nonempty": false,
+      "dataset_info_license_prefix": ""
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/BeIR___fiqa/corpus/0.0.0/979c07a7cb5ccc6ca009792241fa1250b98055dd/dataset_info.json",
+      "sha256": "0ddb57d497a87aa2c775b779c2c04a4677737dae4017985b420d52c0ab1a57cf",
+      "config": "corpus",
+      "homepage": "",
+      "splits": {
+        "corpus": 57638
+      },
+      "cache_hash_is_not_remote_revision": true,
+      "dataset_info_license_nonempty": false,
+      "dataset_info_license_prefix": ""
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/BeIR___fiqa/queries/0.0.0/979c07a7cb5ccc6ca009792241fa1250b98055dd/dataset_info.json",
+      "sha256": "2e0ad6f8d3f778bbfcdacdca40c6674747182aaba9f96dc698b48e5887822e7e",
+      "config": "queries",
+      "homepage": "",
+      "splits": {
+        "queries": 6648
+      },
+      "cache_hash_is_not_remote_revision": true,
+      "dataset_info_license_nonempty": false,
+      "dataset_info_license_prefix": ""
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/BeIR___fiqa-qrels/default/0.0.0/252958f2d646e22cab6d0c72dd3f0d5de6d0655a/dataset_info.json",
+      "sha256": "adcca72677926312504402df89b4c6a248eb8a2083b316aa5110fecae2aba0e3",
+      "config": "default",
+      "homepage": "",
+      "splits": {
+        "train": 14166,
+        "validation": 1238,
+        "test": 1706
+      },
+      "cache_hash_is_not_remote_revision": true,
+      "dataset_info_license_nonempty": false,
+      "dataset_info_license_prefix": ""
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/rajpurkar___squad_v2/squad_v2/0.0.0/3ffb306f725f7d2ce8394bc1873b24868140c412/dataset_info.json",
+      "sha256": "f915169fca6df0a64fbbc7741676bb7db5edf474335ab77c30c79abee1c100a3",
+      "config": "squad_v2",
+      "homepage": "",
+      "splits": {
+        "train": 130319,
+        "validation": 11873
+      },
+      "cache_hash_is_not_remote_revision": true,
+      "dataset_info_license_nonempty": false,
+      "dataset_info_license_prefix": ""
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/freshstack___corpus-oct-2024/godot/0.0.0/069f66dc323e163b48b10d08408d282733d4393b/dataset_info.json",
+      "sha256": "273e9188541eaf27064e2bfa0474c6032f7098746516176586df0bea63afd209",
+      "config": "godot",
+      "homepage": "",
+      "splits": {
+        "train": 25482
+      },
+      "cache_hash_is_not_remote_revision": true,
+      "dataset_info_license_nonempty": false,
+      "dataset_info_license_prefix": ""
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/freshstack___corpus-oct-2024/langchain/0.0.0/069f66dc323e163b48b10d08408d282733d4393b/dataset_info.json",
+      "sha256": "3d58f09ea50d039e491dfdfd7a5384491de6347c21462ca3e290f3b0eb5f6560",
+      "config": "langchain",
+      "homepage": "",
+      "splits": {
+        "train": 49514
+      },
+      "cache_hash_is_not_remote_revision": true,
+      "dataset_info_license_nonempty": false,
+      "dataset_info_license_prefix": ""
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/freshstack___corpus-oct-2024/laravel/0.0.0/069f66dc323e163b48b10d08408d282733d4393b/dataset_info.json",
+      "sha256": "e05596a7d10184ca55d349b78059a1a21b3377dfc51df74f2e9f5120efc82cc5",
+      "config": "laravel",
+      "homepage": "",
+      "splits": {
+        "train": 52351
+      },
+      "cache_hash_is_not_remote_revision": true,
+      "dataset_info_license_nonempty": false,
+      "dataset_info_license_prefix": ""
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/freshstack___queries-oct-2024/godot/0.0.0/023ac3a14caf9d6ebb13d01adcfb8fa05e5a9630/dataset_info.json",
+      "sha256": "f4a09f96385eb3c9c2a7e415755e62502fa6d1e5669d0c5f66fbe9818f16e8b0",
+      "config": "godot",
+      "homepage": "",
+      "splits": {
+        "test": 99
+      },
+      "cache_hash_is_not_remote_revision": true,
+      "dataset_info_license_nonempty": false,
+      "dataset_info_license_prefix": ""
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/freshstack___queries-oct-2024/langchain/0.0.0/023ac3a14caf9d6ebb13d01adcfb8fa05e5a9630/dataset_info.json",
+      "sha256": "7bf1e2016bb6c351e8308928c438790cb33f19af72031f9d8dac564cae6e4f94",
+      "config": "langchain",
+      "homepage": "",
+      "splits": {
+        "test": 203
+      },
+      "cache_hash_is_not_remote_revision": true,
+      "dataset_info_license_nonempty": false,
+      "dataset_info_license_prefix": ""
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/freshstack___queries-oct-2024/laravel/0.0.0/023ac3a14caf9d6ebb13d01adcfb8fa05e5a9630/dataset_info.json",
+      "sha256": "76ab279b78224a3446d6f52f146147f26fde760583377c1a470148b387f2cdc0",
+      "config": "laravel",
+      "homepage": "",
+      "splits": {
+        "test": 184
+      },
+      "cache_hash_is_not_remote_revision": true,
+      "dataset_info_license_nonempty": false,
+      "dataset_info_license_prefix": ""
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/AmazonScience___massive/en-US/1.0.0/71d360eb7d7a18565ff8c10609cebf714fce3cc390e173ba5b02ffd48543cdc1/dataset_info.json",
+      "sha256": "214a255ddd95f03899f684044b4ac11374df8b89ba3c11249cc5ebdf5c006b11",
+      "config": "en-US",
+      "homepage": "https://github.com/alexa/massive",
+      "splits": {
+        "train": 11514,
+        "validation": 2033,
+        "test": 2974
+      },
+      "cache_hash_is_not_remote_revision": true,
+      "dataset_info_license_nonempty": true,
+      "dataset_info_license_prefix": "Copyright Amazon.com Inc. or its affiliates.\n\nAttribution 4.0 International\n\n=======================================================================\n\n"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/clinc___clinc_oos/plus/0.0.0/155b9c710419136e17307b80d0a13e68cd46b4ec/dataset_info.json",
+      "sha256": "6c1cd9f5378188c672ca894f6b9d97c5c71882c63ac9e0575b4e730c84f749b6",
+      "config": "plus",
+      "homepage": "",
+      "splits": {
+        "train": 15250,
+        "validation": 3100,
+        "test": 5500
+      },
+      "cache_hash_is_not_remote_revision": true,
+      "dataset_info_license_nonempty": false,
+      "dataset_info_license_prefix": ""
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/clinc___clinc_oos/imbalanced/0.0.0/155b9c710419136e17307b80d0a13e68cd46b4ec/dataset_info.json",
+      "sha256": "cdd9955efdcafa88f75f316cd674148b4ca4608a1f4f7dc6cd133a97fa7e9485",
+      "config": "imbalanced",
+      "homepage": "",
+      "splits": {
+        "train": 10625,
+        "validation": 3100,
+        "test": 5500
+      },
+      "cache_hash_is_not_remote_revision": true,
+      "dataset_info_license_nonempty": false,
+      "dataset_info_license_prefix": ""
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/clinc___clinc_oos/small/0.0.0/155b9c710419136e17307b80d0a13e68cd46b4ec/dataset_info.json",
+      "sha256": "037f01dbda215b65930e2829cda5c5ba313354221ab62395db78f70fd4d5f0db",
+      "config": "small",
+      "homepage": "",
+      "splits": {
+        "train": 7600,
+        "validation": 3100,
+        "test": 5500
+      },
+      "cache_hash_is_not_remote_revision": true,
+      "dataset_info_license_nonempty": false,
+      "dataset_info_license_prefix": ""
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/google-research-datasets___go_emotions/raw/0.0.0/add492243ff905527e67aeb8b80c082af02207c3/dataset_info.json",
+      "sha256": "910d5ace6f43575af1b7cac6fc9c87463966d89faff3afb60941b98d65e716b9",
+      "config": "raw",
+      "homepage": "",
+      "splits": {
+        "train": 211225
+      },
+      "cache_hash_is_not_remote_revision": true,
+      "dataset_info_license_nonempty": false,
+      "dataset_info_license_prefix": ""
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/google-research-datasets___go_emotions/simplified/0.0.0/add492243ff905527e67aeb8b80c082af02207c3/dataset_info.json",
+      "sha256": "c00abcea4c0a732263c8aeddff6bb08563f36074f6ea93ac57d58ba4f6cc8726",
+      "config": "simplified",
+      "homepage": "",
+      "splits": {
+        "train": 43410,
+        "validation": 5426,
+        "test": 5427
+      },
+      "cache_hash_is_not_remote_revision": true,
+      "dataset_info_license_nonempty": false,
+      "dataset_info_license_prefix": ""
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/tasksource___procedural-typed-decisions/arithmetic/0.0.0/b4f55bea135283127b2945c8e6fc7e68e9c56a4a/dataset_info.json",
+      "sha256": "843697e9e8a8d24ec2002c97c905c5cb16f5a256f41e797cf04c6e824f912d8e",
+      "config": "arithmetic",
+      "homepage": "",
+      "splits": {
+        "train": 20000,
+        "validation": 1000,
+        "test": 1000
+      },
+      "cache_hash_is_not_remote_revision": true,
+      "dataset_info_license_nonempty": false,
+      "dataset_info_license_prefix": ""
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/tasksource___procedural-typed-decisions/entity_belief_tracking/0.0.0/b4f55bea135283127b2945c8e6fc7e68e9c56a4a/dataset_info.json",
+      "sha256": "2f46b0eaeba7d0f6db86840f69715475beac5050a1c46113c491fd2aedbba88d",
+      "config": "entity_belief_tracking",
+      "homepage": "",
+      "splits": {
+        "train": 20000,
+        "validation": 1000,
+        "test": 1000
+      },
+      "cache_hash_is_not_remote_revision": true,
+      "dataset_info_license_nonempty": false,
+      "dataset_info_license_prefix": ""
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/tasksource___procedural-typed-decisions/entity_belief_tracking/0.0.0/916e6cce365a65c37d58db70c9e369795817651e/dataset_info.json",
+      "sha256": "3e7ee84f25b2f1e1cd10384e08f8735497aff16e4e96d02dfb14b868bcfb3bf6",
+      "config": "entity_belief_tracking",
+      "homepage": "",
+      "splits": {
+        "train": 20000,
+        "validation": 1000,
+        "test": 1000
+      },
+      "cache_hash_is_not_remote_revision": true,
+      "dataset_info_license_nonempty": false,
+      "dataset_info_license_prefix": ""
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/datasets/tasksource___procedural-typed-decisions/event_state_reconstruction/0.0.0/b4f55bea135283127b2945c8e6fc7e68e9c56a4a/dataset_info.json",
+      "sha256": "52120c8c5e5baa6dd271e70462111c802d6c70c2417fdadd8a1d44d158bbadd9",
+      "config": "event_state_reconstruction",
+      "homepage": "",
+      "splits": {
+        "train": 20000,
+        "validation": 1000,
+        "test": 1000
+      },
+      "cache_hash_is_not_remote_revision": true,
+      "dataset_info_license_nonempty": false,
+      "dataset_info_license_prefix": ""
+    }
+  ],
+  "legacy_export_manifests": [
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/manifests/banking77-train.json",
+      "sha256": "829ca1f938da0ffb8a452677135f9e528c78d25fc1b9efb763bdf84685ac4f19",
+      "repo": "PolyAI/banking77",
+      "source": "banking77",
+      "config": null,
+      "split": "train",
+      "rows": 2000,
+      "revision": "auto",
+      "declared_license": "cc-by-4.0",
+      "source_revision_pinned": false
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/manifests/banking77-test.json",
+      "sha256": "01c6b9aa428c792ca408363ae68f57e1bba86bdad1d1d2fc408887677e089567",
+      "repo": "PolyAI/banking77",
+      "source": "banking77",
+      "config": null,
+      "split": "test",
+      "rows": 2000,
+      "revision": "auto",
+      "declared_license": "cc-by-4.0",
+      "source_revision_pinned": false
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/manifests/clinc150-train.json",
+      "sha256": "b2440e8dfb3eefaee4c46a07edf1b9144dfacb5a712f3188c866939c841988e7",
+      "repo": "clinc/clinc_oos",
+      "source": "clinc150",
+      "config": "plus",
+      "split": "train",
+      "rows": 2000,
+      "revision": "auto",
+      "declared_license": "cc-by-3.0",
+      "source_revision_pinned": false
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/manifests/clinc150-validation.json",
+      "sha256": "1ec80b84bf6064ea9801016c76a7ee7e805c84e30295c7e00c01bf4276807058",
+      "repo": "clinc/clinc_oos",
+      "source": "clinc150",
+      "config": "plus",
+      "split": "validation",
+      "rows": 500,
+      "revision": "155b9c710419136e17307b80d0a13e68cd46b4ec",
+      "declared_license": "cc-by-3.0",
+      "source_revision_pinned": true
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/manifests/clinc150-test.json",
+      "sha256": "76551a08246797a2a783d5388fc6dc4ada965329558b5e7f0f85333de62bdf55",
+      "repo": "clinc/clinc_oos",
+      "source": "clinc150",
+      "config": "plus",
+      "split": "test",
+      "rows": 2000,
+      "revision": "auto",
+      "declared_license": "cc-by-3.0",
+      "source_revision_pinned": false
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/manifests/massive-train.json",
+      "sha256": "4a02041eb96ac9ff1c0502d7b13011eebb50af87d972a9a4044f129d38ef829a",
+      "repo": "AmazonScience/massive",
+      "source": "massive",
+      "config": "en-US",
+      "split": "train",
+      "rows": 2000,
+      "revision": "auto",
+      "declared_license": "cc-by-4.0",
+      "source_revision_pinned": false
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/manifests/massive-validation.json",
+      "sha256": "dec7020d3b3710d1ec497b3b852a6663d75a7949d8b0b0f3f203b1ea8e6de0f8",
+      "repo": "AmazonScience/massive",
+      "source": "massive",
+      "config": "en-US",
+      "split": "validation",
+      "rows": 500,
+      "revision": "ff6bd8e4b27c3543e4f8fe2108f32bb95a6f8740",
+      "declared_license": "cc-by-4.0",
+      "source_revision_pinned": true
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/manifests/massive-test.json",
+      "sha256": "6314904f0c3e93fd5afb2791a57147a1b895dabbe0d290d5c1a0292065283c42",
+      "repo": "AmazonScience/massive",
+      "source": "massive",
+      "config": "en-US",
+      "split": "test",
+      "rows": 2000,
+      "revision": "auto",
+      "declared_license": "cc-by-4.0",
+      "source_revision_pinned": false
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/manifests/goemotions-train.json",
+      "sha256": "cd53aa895eefc5c1925bf5324fb971bcb0e557db9faf6c53768fb9e8028aa968",
+      "repo": "google-research-datasets/go_emotions",
+      "source": "goemotions",
+      "config": "simplified",
+      "split": "train",
+      "rows": 2000,
+      "revision": "add492243ff905527e67aeb8b80c082af02207c3",
+      "declared_license": "apache-2.0",
+      "source_revision_pinned": true
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/manifests/goemotions-validation.json",
+      "sha256": "c3785ad25606882ae8302b404f30a44e1a64a4b82ff468003eb9932fda176cb8",
+      "repo": "google-research-datasets/go_emotions",
+      "source": "goemotions",
+      "config": "simplified",
+      "split": "validation",
+      "rows": 500,
+      "revision": "add492243ff905527e67aeb8b80c082af02207c3",
+      "declared_license": "apache-2.0",
+      "source_revision_pinned": true
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/manifests/goemotions-test.json",
+      "sha256": "5502c40ecc74a09a9e68d7d7a7214aa42e53e25ac95ac93c96fbda7ca4f7c6c0",
+      "repo": "google-research-datasets/go_emotions",
+      "source": "goemotions",
+      "config": "simplified",
+      "split": "test",
+      "rows": 1000,
+      "revision": "add492243ff905527e67aeb8b80c082af02207c3",
+      "declared_license": "apache-2.0",
+      "source_revision_pinned": true
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/manifests/scifact-train.json",
+      "sha256": "d30c768f722ffec2b2f6298e7282c231d49c7c3782b31007484a3e038762c8e6",
+      "repo": "BeIR/scifact",
+      "source": "scifact",
+      "config": "retrieval-choice",
+      "split": "train",
+      "rows": 176,
+      "revision": "b3b5335604bf5ee3c4447671af975ea25143d4f5",
+      "declared_license": "cc-by-sa-4.0",
+      "source_revision_pinned": true
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/manifests/scifact-test.json",
+      "sha256": "43860bda698a20d39f5e8415f3d060b6cd032a3b781fa05bc97eef13728fda9a",
+      "repo": "BeIR/scifact",
+      "source": "scifact",
+      "config": "retrieval-choice",
+      "split": "test",
+      "rows": 172,
+      "revision": "b3b5335604bf5ee3c4447671af975ea25143d4f5",
+      "declared_license": "cc-by-sa-4.0",
+      "source_revision_pinned": true
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/manifests/fiqa-train.json",
+      "sha256": "26b9f409ae283583f84025ba60434f495e97f0197a07b9cd347fec539426b995",
+      "repo": "BeIR/fiqa",
+      "source": "fiqa",
+      "config": "retrieval-choice",
+      "split": "train",
+      "rows": 337,
+      "revision": "979c07a7cb5ccc6ca009792241fa1250b98055dd",
+      "declared_license": "cc-by-sa-4.0",
+      "source_revision_pinned": true
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/manifests/fiqa-test.json",
+      "sha256": "b7ee884a7e91754c6f4ae13f6873ba6afc65ec031b0a895cf10466d97bd3187c",
+      "repo": "BeIR/fiqa",
+      "source": "fiqa",
+      "config": "retrieval-choice",
+      "split": "test",
+      "rows": 417,
+      "revision": "979c07a7cb5ccc6ca009792241fa1250b98055dd",
+      "declared_license": "cc-by-sa-4.0",
+      "source_revision_pinned": true
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/manifests/squad_repeated-512-validation.json",
+      "sha256": "622ddeaa442ad66a72208b8f141b4ee167e156671425cd93aab3b3337d66a489",
+      "repo": null,
+      "source": "rajpurkar/squad_v2",
+      "config": null,
+      "split": "validation",
+      "rows": null,
+      "revision": "3ffb306f725f7d2ce8394bc1873b24868140c412",
+      "declared_license": "cc-by-sa-4.0",
+      "source_revision_pinned": true,
+      "articles": 35,
+      "questions": 954,
+      "bucket_tokens": 512,
+      "construction": "repeated question chunks over same article, not a natural independent long-context suite"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/manifests/squad_repeated-1024-validation.json",
+      "sha256": "8a35e91f8ab2b3beff2412f895c79f1d59ea9146124981c672c143b72bbafcbf",
+      "repo": null,
+      "source": "rajpurkar/squad_v2",
+      "config": null,
+      "split": "validation",
+      "rows": null,
+      "revision": "3ffb306f725f7d2ce8394bc1873b24868140c412",
+      "declared_license": "cc-by-sa-4.0",
+      "source_revision_pinned": true,
+      "articles": 35,
+      "questions": 2061,
+      "bucket_tokens": 1024,
+      "construction": "repeated question chunks over same article, not a natural independent long-context suite"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/manifests/squad_repeated-2048-validation.json",
+      "sha256": "c96fe3d97ca27719ec47dbbd29a5c2d640470bffa271252e225a857c281e2b06",
+      "repo": null,
+      "source": "rajpurkar/squad_v2",
+      "config": null,
+      "split": "validation",
+      "rows": null,
+      "revision": "3ffb306f725f7d2ce8394bc1873b24868140c412",
+      "declared_license": "cc-by-sa-4.0",
+      "source_revision_pinned": true,
+      "articles": 35,
+      "questions": 3925,
+      "bucket_tokens": 2048,
+      "construction": "repeated question chunks over same article, not a natural independent long-context suite"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/manifests/squad_repeated-1024-train.json",
+      "sha256": "1145d02d906a0557d19f4e3e2b1556dc97244c64c114ae647f099cecadd47395",
+      "repo": null,
+      "source": "rajpurkar/squad_v2",
+      "config": null,
+      "split": "train",
+      "rows": null,
+      "revision": "3ffb306f725f7d2ce8394bc1873b24868140c412",
+      "declared_license": "cc-by-sa-4.0",
+      "source_revision_pinned": true,
+      "articles": 200,
+      "questions": 10201,
+      "bucket_tokens": 1024,
+      "construction": "repeated question chunks over same article, not a natural independent long-context suite"
+    }
+  ],
+  "legacy_d1_manifest": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/d1/manifest.json",
+    "sha256": "6d0dd8cc3d9b0bece86cd5610817502d0d0ef97335274e8d253abbd1383b5a0f",
+    "provenance": {
+      "banking77": {
+        "train": 9547,
+        "validation": 456,
+        "test": 3080,
+        "source": "PolyAI task-specific-datasets CSVs (official)",
+        "note": "validation carved stratified from official train; test untouched"
+      },
+      "clinc150": {
+        "train": 15250,
+        "validation": 3100,
+        "test": 5500
+      },
+      "massive": {
+        "train": 11514,
+        "validation": 2033,
+        "test": 2974
+      },
+      "goemotions": {
+        "train": 40000,
+        "validation": 5426,
+        "test": 5427
+      },
+      "curriculum": {
+        "train": 8000,
+        "validation": 1000,
+        "test": 1000
+      }
+    },
+    "status": "Exposed prior research; original source test labels are not future untouched final."
+  },
+  "legacy_generic_pool": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/d6/generic",
+    "listed_files": [
+      "train.jsonl",
+      "dev.jsonl",
+      "eval.jsonl"
+    ],
+    "final_rows_opened": false,
+    "generator_path": "/home/fazinahamed/Documents/vey/research/d6/generic_corpus.py",
+    "generator_sections_inspected": "1–115 and 175–222",
+    "provenance": "MEASURED source: deterministic procedural raw-consequence lexicographic decision problems, 8 training domains and 4 shared dev/eval holdout domains; not natural human decisions.",
+    "requested_generator_sizes_not_row_verified": {
+      "train": 12000,
+      "dev": 1500,
+      "eval": 1500
+    },
+    "status": "Known already exposed prior generic pool; never relabel as fresh sealed final.",
+    "group_risk": "INFERENCE: common variable scales/composition template; dev and eval share holdout domains. Domain separation does not remove template/operator exposure."
+  },
+  "revision_caveats": [
+    "Historical export revision=auto cannot be upgraded to a current source pin by assumption.",
+    "Cached builder directory fingerprint is not automatically a Hugging Face remote commit.",
+    "Current datasets-server info is a separately hashed metadata snapshot and does not accept a pinned revision here; pinned Hub README/dataset_infos cross-check count when available.",
+    "No duplicate count, contamination absence or untouched-final status was measured in this audit."
+  ],
+  "recommendation": {
+    "evidence_class": "HYPOTHESIS",
+    "neutral_suite_design": "Stratify independently sourced natural text, human rubric scores, multilingual/intent legacy comparability and separately reported synthetic exact controls. LocalLLaMA typed workflows are one competitor-trained stratum, not the suite definition. No final rows/splits/statistics are selected here.",
+    "best_metadata_feasible_new_strata": [
+      "QASPER natural paper/evidence long-context, conditional on token eligibility and overlap audit.",
+      "HelpSteer2 human multi-rubric ordinal scores, conditional on upstream prompt/privacy review and prompt-group holdout.",
+      "ABCD human simulated workflow/policy action, conditional on explicit data grant and workflow/group split metadata."
+    ],
+    "legacy_only": [
+      "Banking77",
+      "CLINC OOS",
+      "MASSIVE en-US/previously benchmarked pools",
+      "BoolQ and AG News (Laya training mixture)",
+      "LocalLLaMA typed test leaderboard",
+      "cached tasksource procedural configs",
+      "ToolACE/xLAM/FreshStack older local pools",
+      "SQuAD repeated chunk pools and D6 generic"
+    ],
+    "shipping_training_exclusions": [
+      "AG News (original non-commercial terms)",
+      "DAIR Emotion (educational/research only)",
+      "SST/SST5/STSB/TweetEval (missing or unknown permissions in inspected source)",
+      "LongBench/SCROLLS aggregate (heterogeneous missing umbrella permission)",
+      "StrategyQA until dataset-specific permission is recovered"
+    ],
+    "not_yet_covered": "No inspected source by itself supplies fresh arbitrary-criterion polarity/composition/alias transfer, independent 51-language Boolean/Score labels, guaranteed natural >=8192/16384-token examples, or real production multi-step action-outcome labels. These are design/preregistration gaps, not findings that semantic capability is absent."
+  },
+  "remaining_license_and_metadata_questions": [
+    {
+      "source": "AG News",
+      "question": "Does the four-way derivative have commercial/modified-suite redistribution permission beyond original NC corpus terms?",
+      "default_until_resolved": "research-eval-only; keep raw news outside Git and no public data bundle."
+    },
+    {
+      "source": "DAIR Emotion",
+      "question": "Educational/research-only primary statement plus platform rights: what evaluation publication/redistribution is permitted?",
+      "default_until_resolved": "research-eval-only; no shipping training."
+    },
+    {
+      "source": "LocalLLaMA typed / ToolACE",
+      "question": "Identify exact state/teacher generation models/providers/revisions and any provider terms or third-party text rights.",
+      "default_until_resolved": "conditional/review; explicit Apache declaration retained."
+    },
+    {
+      "source": "HelpSteer2",
+      "question": "Document ShareGPT prompt rights/privacy, in-house generation-model identity if available, and annotation redistribution terms; determine source-conversation IDs for grouping.",
+      "default_until_resolved": "conditional/review."
+    },
+    {
+      "source": "ABCD",
+      "question": "Does MIT license explicitly cover dialogue/KB/guideline data? Obtain authoritative individual dev/test counts without exposing final rows.",
+      "default_until_resolved": "conditional/review; dev/test individual counts unknown, not guessed."
+    },
+    {
+      "source": "BoolQ / FreshStack",
+      "question": "Resolve share-alike obligations for derived data and commercial model artifacts, Wikipedia/Stack Overflow attribution, and FreshStack companion-document license.",
+      "default_until_resolved": "conditional/review."
+    },
+    {
+      "source": "StrategyQA",
+      "question": "Find stable original data-specific grant and split metadata after AllenAI page redirect; code MIT and paper CC-BY are insufficient.",
+      "default_until_resolved": "research-eval-only; no shipping training."
+    },
+    {
+      "source": "All model/source pairings",
+      "question": "Record actual training source/revision memberships in each deployed model; unknown does not mean absent. Use held-out source/domain/workflow groups and provenance strata before claiming transfer.",
+      "default_until_resolved": "Overlap unknown where not explicitly published."
+    }
+  ],
+  "parent_preregistration_required_before_final_access": [
+    "Exact source pins, independent grouped split/holdout exclusions and old-exposure ledger.",
+    "Subset counts/eligibility/tokenizer limits, locale list (51 vs52), strata and sampling seeds fixed before any final rows or scores.",
+    "Dedup at normalized-text/entity/document/prompt/workflow/original-utterance levels including translation groups and all derived synthetic variants; final labels restricted to independent custodian.",
+    "Typed mapping/ordinal rubric/Boolean criteria and legitimate adjudication fixed before models; do not use missing labels, synthetic padding or teacher means as exact factual outcomes.",
+    "License/provenance acceptance and redistribution/training eligibility recorded per source, without claiming legal immunity or unseen pretrained corpora."
+  ],
+  "unavailable_metadata_attempts": {
+    "datasets_server_errors": {
+      "PolyAI/banking77": "HTTP Error 500: Internal Server Error",
+      "AmazonScience/massive": "HTTP Error 500: Internal Server Error",
+      "tau/scrolls": "HTTP Error 500: Internal Server Error"
+    },
+    "wrong_or_unavailable_mirror_queries": {
+      "bdsaglam/multi_news": "HTTP Error 401: Unauthorized",
+      "Salesforce/abcd": "HTTP Error 401: Unauthorized",
+      "google-research-datasets/Disfl-QA": "HTTP Error 401: Unauthorized",
+      "Salesforce/multi_woz_v22": "HTTP Error 401: Unauthorized",
+      "doc2dial/doc2dial": "HTTP Error 401: Unauthorized"
+    },
+    "notes": "Failed guessed mirrors were not used as canonical sources; official GitHub source replaced ABCD mirror. No accounts or auth attempted."
+  }
+}

@@ -3204,6 +3204,65 @@ Artifacts and complete hashes are in
 matrices, training histories/checkpoints, decisions, swaps, intervals and
 verification stay in the amended data root. No frozen Vey-2 runtime changed.
 
+### CBF-7 preregistration: relation-pretrained pair interfaces (before outcomes)
+
+CBF-6 selected A from development because its two correct axes (2/32) matched
+B while C resolved zero; final A earned10/128 axes and3/128 signed atoms with
+113 UNKNOWN. That failure justifies one controlled stronger-interface screen.
+
+Smallest three-label NLI cross-encoder is pinned:
+`cross-encoder/nli-deberta-v3-xsmall` revision
+`a150876415327c80daeff35ca6f68f5ed8cf5c24`, model.safetensors SHA256
+`4e4fc4977f8d29d2a164255c8f69b9d6c158deeb309bb5e70445b94666ccd9e9`,
+70,831,107 floating metadata parameters,384-wide/12-layer,512-token context,
+SNLI+MNLI tuned, declared Apache-2.0 weights with class order
+contradiction/entailment/neutral verified against config. Optional
+`cross-encoder/nli-deberta-v3-small` revision
+`fa2804872c3b4bd748f38c0185cc85775361e735`
+(`ebc79588dd73ccfb6a3f6078519cfbf512c5305384c5ea1845bc71cd32216e86`,
+141,897,219 floating elements) triggers only when no small arm passes.
+
+**License class:** the NLI checkpoints are `conditional/review`: SNLI is
+CC-BY-SA4.0 and MNLI mixes share-alike/US public-domain sources, so an
+Apache-2.0 weight tag alone is not shipping clearance. A research pass does
+not clear shipping release. Moritz xsmall is excluded as a binary
+entailment classifier; ModernBERT/mmBERT/mDeBERTa NLI variants are declared
+NC-derived fine-tunes (research-eval-only, never shipping training), and a
+`2048` ModernBERT NLI config or `128` mmBERT training limit must never be
+silently substituted with stock8192.
+
+**Arms, all before final:** stock bare reuses the exact CBF6 A checkpoint
+as a baseline; new controls are stock generic-hypothesis CLS, NLI bare CLS,
+NLI generic CLS, NLI generic native frozen `ContextPooler`, and the native
+classifier with name-reordered labels (contradiction→lower, neutral→unrelated,
+entailment→higher). The mapping is a falsifiable empirical bridge for authored
+unconditional monotone one-field preferences, not a universal logical
+reduction. Learned heads keep one width→3 linear R head (no width tuning).
+All encoders, native poolers and native classifiers stay frozen/eval with
+before/after parameter hashes, native-forward versus pooler/classifier parity,
+and native SentencePiece token parity.
+
+Development data remain the old32 aliases and50 compositions plus held literal
+templates; CBF-6 final texts serve only as lexical-exclusion reference and
+never as development. A fresh128-atom/128-composition final (64 opposite-meaning
+pairs, exact-compiler decomposition verified) freezes before any scoring, with
+an independent blinded meaning audit. Literal training/validation/G0 cohorts,
+states, exact compiler and executor are byte-identical to CBF-6.
+
+Selection: first eligible all-gate pass in arm order among the small arms;
+otherwise highest development joint atom, then alias decisions, then lower
+parameter count. CBF6 stock bare cannot promote, but a generic-hypothesis stock
+pass is a materially new interface result and may. Selection persists before
+any final text is encoded; final opens exactly once.
+
+Same G0–G7 gates and64 reversal-pair bootstrap apply. Replication for a
+learned head retrains seeds11/13; a native frozen classifier has no training
+seeds, so promotion requires two independently authored blinded confirmation
+pools — inference repeats are not replication. NC-derived variants never enter
+shipping training; B-STEF stays blocked. Candidate roster, provenance and
+license register are in `research/endgame/relation_encoder_candidates.json`;
+the frozen protocol is `research/cbf0/relation_pretrained_protocol.json`.
+
 ## Frontier topology and oracle closure on food progress (research)
 
 With the control's certificate radius of 0.0487 on 250 held-out decisions, the
