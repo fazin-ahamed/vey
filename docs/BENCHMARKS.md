@@ -2909,6 +2909,157 @@ not independent confirmation. Passing opens many-axis expansion before
 B-STEF; failing suggests an evidence-scoped axis or orientation follow-up,
 not that semantic information is absent from every encoder readout.
 
+### CBF-5 result: exact compiler passes; antipodal grounding does not
+
+**Verdict: `SEMANTIC_SCHEMA_GROUNDING_NOT_EARNED`.** No method passes
+the semantic task gates; ASG also fails its mechanism comparison. Ordinary
+signed-prototype retrieval is materially better in point estimates, but its
+best joint alias accuracy is only0.50 and its best alias decision accuracy
+is0.5859375. Neither retrieval nor ASG is promoted. No many-axis expansion,
+learned metric, stronger encoder run, or B-STEF was started.
+
+The corpus/compiler/prototype rules were committed at `cc0e8a0` before new
+corpus construction and encoder capture. Measurement was committed at
+`2f8b31a` before resolver scoring. The encoder is the same pinned FP32 stock
+DeBERTa-v3-xsmall used by CBF-4, not the trained Vey-2 checkpoint. Prototype
+and nuisance fitting use only48 atomic training questions; projection rank
+is5. No alias labels or evaluation outcomes enter inference or fitting.
+
+#### Alias atoms, decisions, composition, and causal response
+
+Alias diagnostics use32 unique corrected CBF-4 questions. Conditional sign
+is measured **only on correctly selected axes**, with its denominator shown.
+Joint accuracy requires both axis and sign. Alias decisions use512 paired
+rows on the16 original unseen-wording states. Composition decisions use800
+rows from50 fixed alias-containing questions on16 unseen-criterion states.
+
+| method | alias axis | sign given correct axis | joint alias atoms | alias decisions | alias-composition decisions | correct new causal winner |
+|---|---:|---:|---:|---:|---:|---:|
+| positive-first cosine |22/32 =0.6875 |15/22 =0.6818 |15/32 =0.46875 |0.56640625 |0.43000 |0.399491 |
+| ASG |5/32 =0.15625 |2/5 =0.4000 |2/32 =0.06250 |0.275390625 |0.21000 |0.174131 |
+| ASG + nuisance projection |3/32 =0.09375 |0/3 =0.0000 |0/32 =0.00000 |0.240234375 |0.23875 |0.203484 |
+| eight-signed cosine |23/32 =0.71875 |16/23 =0.6957 |16/32 =0.50000 |0.58593750 |0.46000 |0.443160 |
+| positive-first cosine + projection |24/32 =0.7500 |16/24 =0.6667 |16/32 =0.50000 |0.57812500 |0.53125 |0.513430 |
+| eight-signed cosine + projection |22/32 =0.6875 |14/22 =0.6364 |14/32 =0.43750 |0.537109375 |0.46250 |0.441116 |
+
+All methods fail G1 joint atoms, G2 alias decisions, G4 alias-composition
+decisions, and G5 causal correct-new response. Each requires at least0.80.
+All pass G3 exact literal compilation and G6 permutation invariance.
+
+The composition component diagnostics count100 **occurrences**, not100
+independent new semantic terms: the generator deliberately reuses old alias
+atoms under exact conjunction/weight frames.
+
+| method | component axis | sign given correct axis | joint components | exact compiled vectors |
+|---|---:|---:|---:|---:|
+| positive-first cosine |52/100 |38/52 =0.7308 |38/100 |5/50 |
+| ASG |12/100 |0/12 =0 |0/100 |0/50 |
+| ASG + projection |12/100 |0/12 =0 |0/100 |1/50 |
+| eight-signed cosine |56/100 |43/56 =0.7679 |43/100 |7/50 |
+| positive-first cosine + projection |64/100 |50/64 =0.78125 |50/100 |10/50 |
+| eight-signed cosine + projection |58/100 |44/58 =0.7586 |44/100 |7/50 |
+
+A correct aggregate vector does not imply correct component grounding:
+equal-weight terms can exchange axes and sum to the right vector. That
+explains projected ASG's one exact composition despite no correct components.
+For the supplied “least likely to fail / regular running bill small” question,
+the teacher vector is `[1,0,-1,0]`; both ASG variants instead compile
+`[0,0,0,-2]`. Both also produce that same vector for the opposite supplied
+question. The semantic failure is visible before candidate scoring.
+
+Causal evaluation selects the lexicographically first visible question per
+positive coefficient ray, without looking at predictions:56 representatives,
+98,560 eligible ordered swaps,73,416 teacher-changing swaps. The gate is
+`P(student_after == teacher_after | teacher_before != teacher_after)`;
+**student change is not an additional requirement**. Stronger changed-to-new
+rates are0.060069 /0.072627 for raw/projected ASG versus0.174131 /0.203484
+correct-new rates. All four ordinary controls also fail the0.80 correct-new
+gate. Swap rows are dependent, not73,416 independent experimental units.
+
+#### Paired uncertainty and the antipodal mechanism
+
+The frozen bootstrap uses10,000 seed0 draws over eight signed-direction
+clusters, keeping the four surface forms and paired states together.
+Bonferroni simultaneous intervals cover the20 planned contrasts/absolute
+accuracies. Reused CBF-4 aliases are a development screen, not fresh transfer
+confirmation.
+
+| method | alias decision delta vs CBF-4 best0.3203125 | nominal95% CI | simultaneous CI |
+|---|---:|---:|---:|
+| positive-first cosine |+0.246094 |[+0.029297,+0.466846] |[-0.078125,+0.580078] |
+| ASG |-0.044922 |[-0.103516,+0.015625] |[-0.130859,+0.042969] |
+| ASG + projection |-0.080078 |[-0.142578,-0.013672] |[-0.169922,+0.023438] |
+| eight-signed cosine |+0.265625 |[+0.039063,+0.496094] |[-0.069338,+0.599609] |
+| positive-first cosine + projection |+0.257813 |[+0.044922,+0.480469] |[-0.037109,+0.589849] |
+| eight-signed cosine + projection |+0.216797 |[-0.003906,+0.449219] |[-0.099609,+0.553718] |
+
+No method's simultaneous improvement lower bound exceeds zero, nor does
+its simultaneous absolute-accuracy lower bound exceed0.3203125. Nominal
+retrieval improvements do not satisfy the preregistered promotion rule.
+
+Raw ASG minus eight-signed retrieval: joint-atom delta−0.4375,
+simultaneous CI[-0.8125,-0.09375]; decision delta−0.310547,
+CI[-0.609375,-0.021484]. Projected ASG minus projected eight-signed
+retrieval: joint delta−0.4375, CI[-0.78125,-0.09375]; decision
+delta−0.296875, CI[-0.643557,+0.007813]. Neither ASG variant beats
+both ordinary controls in the same space. Projection is not an ASG gain.
+
+The motivating CBF-4 opposite-question result needs a representation-scope
+correction: its cosines were computed **after the learned four-coordinate
+map**, not on raw384-dimensional layer1 spans. CBF-5's training prototype
+pair cosines are **+0.957946 reliability, +0.980656 purchase expense,
++0.977509 operating expense, +0.961070 convenience**. These measured
+prototypes are near-parallel, not antipodal.
+
+By the frozen diagnostic thresholds (axis high0.80, conditional sign
+high0.90), every method has both low axis and low orientation accuracy.
+ASG's conditional samples of5 and3 are especially small. This rules out
+promotion of this frozen span/prototype-retrieval interface, not all possible
+readouts of the frozen encoder. An axis-only tiny metric is not justified by
+the low-axis/high-sign branch here; a stronger semantic criterion
+encoder/readout is a next candidate under a new protocol. Do not infer that
+semantic information is absent, or start B-STEF.
+
+#### Exact compiler and persisted proof
+
+All155 literal polarity/composition/held-combination criteria compile to
+the exact integer teacher vectors. All4,960 literal decision rows have
+top-set accuracy, concrete-winner accuracy, and pairwise agreement1.0
+under all six methods. Literal terms never invoke neural resolution; this
+is compiler correctness, not semantic progress.
+
+The candidate-state artifact is byte-identical to corrected CBF-4. Of84
+isolated atomic inputs,80 cached features are reused exactly; four new
+inputs require one encoder forward. Candidate neural forwards and
+full-composition forwards are both zero. Independent reconstruction from
+saved token offsets/masks/states reproduces all four new span features
+within2.015e-8 maximum coordinate error.
+
+Independent verification reconstructs training-only prototypes/projector,
+792 semantic component resolutions, all7,584 decision rows,91,008 reversed/
+shuffled permutation checks,73,416 teacher-changing swaps, and all20 paired
+intervals. Maximum cosine discrepancy is3.331e-16. UNKNOWN propagation,
+exact cancellation, unsupported syntax rejection, and synthetic antipodal
+resolution were also exercised before measurement.
+
+Evidence remains under
+`/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-grounding-v1`.
+Git records the protocol, code, hashes, counts, license class, and machine
+inventory in `research/cbf0/schema_grounding_result_manifest.json`;
+features, prototype arrays, parsed terms, compiled predictions, decision/
+swap rows, intervals, and independent verification stay in the data tree.
+No frozen Vey-2 runtime, examples, or tests changed.
+
+```sh
+python research/cbf0/schema_grounding_capture.py
+python research/cbf0/schema_grounding_run.py
+python research/cbf0/schema_grounding_verify.py
+```
+
+Capture/measurement refuse existing evidence. Run them in order only on
+a fresh protocol output root; verification consumes persisted evidence and
+refuses to overwrite its own proof.
+
 
 ## Frontier topology and oracle closure on food progress (research)
 

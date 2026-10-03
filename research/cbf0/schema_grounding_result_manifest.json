@@ -1,0 +1,954 @@
+{
+  "artifact_bytes": 69082686,
+  "artifact_count": 26,
+  "artifacts": [
+    {
+      "bytes": 1559,
+      "file": "verification.json",
+      "sha256": "18ed63687ef7d72e18c01a9b840b6e5ab620e51d2bbfb02154f5338595a31437"
+    },
+    {
+      "bytes": 54500,
+      "file": "results.json",
+      "sha256": "feef95a495ac2a62b6fb667c9496b56ce8915d1c7c2ae8d8dcd7ed67d17503f4"
+    },
+    {
+      "bytes": 12159,
+      "file": "causal_representatives.json",
+      "sha256": "32cd5ae6b6ad3264ccb56652d2d3ed44c44dc9292e5faf49e17231b1f2584d36"
+    },
+    {
+      "bytes": 57818124,
+      "file": "teacher_changing_swaps.jsonl",
+      "sha256": "12f6e4282eeac80f185a26dbb7a257cefd2548ec4a4084a137cb3bba6ad0a8e3"
+    },
+    {
+      "bytes": 9190187,
+      "file": "decisions.jsonl",
+      "sha256": "cf52f4eb5ed0c702a116952811f24055d429deb7451321fda1f1093177ad921c"
+    },
+    {
+      "bytes": 501296,
+      "file": "semantic_atoms.jsonl",
+      "sha256": "09951cd8e7b498a87a33df788697480f06f78f95c3fb2fda3760a494ba72d690"
+    },
+    {
+      "bytes": 720172,
+      "file": "compiled_queries.json",
+      "sha256": "b4a435908a31f9168f76d0519f78948b637cf59c9d0f2e352fb6358fe0ef7b93"
+    },
+    {
+      "bytes": 16927,
+      "file": "prototype_manifest.json",
+      "sha256": "64c6e6112a5dcc23b2487069d1ffbd6babfece1989d2d7091f7dcfa6b1814097"
+    },
+    {
+      "bytes": 127000,
+      "file": "prototypes.npz",
+      "sha256": "9aa98a5a8c34a8209e5d0fb60089649c8357f01952f1a6a5629ec2db2a71354e"
+    },
+    {
+      "bytes": 14440,
+      "file": "feature_manifest.json",
+      "sha256": "f148735108ce82663461f097bdd447084340b0fe2bb44147a7f8d3fcf06196db"
+    },
+    {
+      "bytes": 129152,
+      "file": "features.npy",
+      "sha256": "bd5e238426c63b1eaffc3962b5693ff7d0002e0202a76b32f9a066acde4502e7"
+    },
+    {
+      "bytes": 1890,
+      "file": "corpus_manifest.json",
+      "sha256": "5818f2ab122e587dde59c97d719c28778f1e79fdb5dc6c197c21d3e62dc054e0"
+    },
+    {
+      "bytes": 77651,
+      "file": "query_terms.json",
+      "sha256": "6d3759ffb009ab8039f1ac4504094b3ceca3e786d7fde7528d24f3084f6dcec5"
+    },
+    {
+      "bytes": 11717,
+      "file": "atom_inputs.json",
+      "sha256": "72a70706a9b2e7673f44de9b3c8a3bf66c417c66eb7ac03379f9e9090761e081"
+    },
+    {
+      "bytes": 77106,
+      "file": "states.json",
+      "sha256": "61c512fd526508bd82655edeface81d7ad975da16a009ba66232433b64971700"
+    },
+    {
+      "bytes": 13170,
+      "file": "prototype_queries.json",
+      "sha256": "0a168f33d006d67903cc2a8b038592a50de10347c748acad27fdd44583192f3a"
+    },
+    {
+      "bytes": 178045,
+      "file": "criteria.json",
+      "sha256": "9fe068e1dad7825cae3953807f5b8a56642ce63c501abfadabaf62c935c15039"
+    },
+    {
+      "bytes": 2260,
+      "file": "atoms/encoder_manifest.json",
+      "sha256": "aaa36fb64b4ca1f566caf2047f4c94982a8104ffabe33d506ec5b36e486b4af9"
+    },
+    {
+      "bytes": 6272,
+      "file": "atoms/layer1_span.npy",
+      "sha256": "95e1f884a5272ab06c6681a880e4ba0c218ba8d20147c4ed14957cecad2d9802"
+    },
+    {
+      "bytes": 6272,
+      "file": "atoms/layer1_mean.npy",
+      "sha256": "b7f0b18c7e56d5a3a8831be2cb51c8c19bfd601433eb03982fed7b1bdea8616d"
+    },
+    {
+      "bytes": 6272,
+      "file": "atoms/final_mean.npy",
+      "sha256": "6f5fce7f338c5ebc0e5b10eb427c0d1b4a25ab48e721bde0503f65fe6136cab9"
+    },
+    {
+      "bytes": 752,
+      "file": "atoms/texts.npy",
+      "sha256": "177c73e3449f6a9188e33e154ac34ad43d4bcfd68a9cf888d01d290b3fd1c435"
+    },
+    {
+      "bytes": 2057,
+      "file": "atoms/encoder_lineage.json",
+      "sha256": "2d2671f0bc6b2d4df30ff827e366fc88d9528eb1bc3f15659c8373afa11faeb0"
+    },
+    {
+      "bytes": 185,
+      "file": "atoms/corpus_manifest.json",
+      "sha256": "280470b565b58ed2928db16ecbbbdf3c5f416016d7402a24dcf3afbf6ec3fc98"
+    },
+    {
+      "bytes": 189,
+      "file": "atoms/criteria.json",
+      "sha256": "c0f16cfba988ff0f05cc9b4fb8ccef3ef9916559d7732c42147bb401592f2e27"
+    },
+    {
+      "bytes": 113332,
+      "file": "atoms/hidden/00000.npz",
+      "sha256": "451c1d9965b124fd681d7ea03ef423488d113cfeb8dc6965b0a5f3f1be8d2f51"
+    }
+  ],
+  "experiment": "CBF-5 Schema-Grounded Criterion Compiler / Antipodal Schema Grounding",
+  "frozen_Vey2_tag_target": "e6b046ffbd138cbdbfb2f89c6ae77525fe6b0b18",
+  "license_class": "shipping-train",
+  "measurement_implementation_commit": "2f8b31a",
+  "output_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-grounding-v1",
+  "preregistration_commit": "cc0e8a0",
+  "result": {
+    "ASG_mechanism_pass": {
+      "asg": false,
+      "asg_projected": false
+    },
+    "B_STEF_allowed": false,
+    "atom_diagnostics": {
+      "alias": {
+        "asg": {
+          "axis_accuracy": 0.15625,
+          "axis_correct": 5,
+          "conditional_sign_accuracy": 0.4,
+          "joint_accuracy": 0.0625,
+          "joint_correct": 2,
+          "n": 32,
+          "sign_given_axis_correct": 2,
+          "sign_given_axis_denominator": 5,
+          "unconditional_sign_accuracy": 0.59375
+        },
+        "asg_projected": {
+          "axis_accuracy": 0.09375,
+          "axis_correct": 3,
+          "conditional_sign_accuracy": 0.0,
+          "joint_accuracy": 0.0,
+          "joint_correct": 0,
+          "n": 32,
+          "sign_given_axis_correct": 0,
+          "sign_given_axis_denominator": 3,
+          "unconditional_sign_accuracy": 0.5625
+        },
+        "cosine_positive": {
+          "axis_accuracy": 0.6875,
+          "axis_correct": 22,
+          "conditional_sign_accuracy": 0.6818181818181818,
+          "joint_accuracy": 0.46875,
+          "joint_correct": 15,
+          "n": 32,
+          "sign_given_axis_correct": 15,
+          "sign_given_axis_denominator": 22,
+          "unconditional_sign_accuracy": 0.59375
+        },
+        "cosine_positive_projected": {
+          "axis_accuracy": 0.75,
+          "axis_correct": 24,
+          "conditional_sign_accuracy": 0.6666666666666666,
+          "joint_accuracy": 0.5,
+          "joint_correct": 16,
+          "n": 32,
+          "sign_given_axis_correct": 16,
+          "sign_given_axis_denominator": 24,
+          "unconditional_sign_accuracy": 0.59375
+        },
+        "cosine_signed": {
+          "axis_accuracy": 0.71875,
+          "axis_correct": 23,
+          "conditional_sign_accuracy": 0.6956521739130435,
+          "joint_accuracy": 0.5,
+          "joint_correct": 16,
+          "n": 32,
+          "sign_given_axis_correct": 16,
+          "sign_given_axis_denominator": 23,
+          "unconditional_sign_accuracy": 0.59375
+        },
+        "cosine_signed_projected": {
+          "axis_accuracy": 0.6875,
+          "axis_correct": 22,
+          "conditional_sign_accuracy": 0.6363636363636364,
+          "joint_accuracy": 0.4375,
+          "joint_correct": 14,
+          "n": 32,
+          "sign_given_axis_correct": 14,
+          "sign_given_axis_denominator": 22,
+          "unconditional_sign_accuracy": 0.5625
+        }
+      },
+      "alias_composition": {
+        "asg": {
+          "axis_accuracy": 0.12,
+          "axis_correct": 12,
+          "conditional_sign_accuracy": 0.0,
+          "joint_accuracy": 0.0,
+          "joint_correct": 0,
+          "n": 100,
+          "sign_given_axis_correct": 0,
+          "sign_given_axis_denominator": 12,
+          "unconditional_sign_accuracy": 0.56
+        },
+        "asg_projected": {
+          "axis_accuracy": 0.12,
+          "axis_correct": 12,
+          "conditional_sign_accuracy": 0.0,
+          "joint_accuracy": 0.0,
+          "joint_correct": 0,
+          "n": 100,
+          "sign_given_axis_correct": 0,
+          "sign_given_axis_denominator": 12,
+          "unconditional_sign_accuracy": 0.5
+        },
+        "cosine_positive": {
+          "axis_accuracy": 0.52,
+          "axis_correct": 52,
+          "conditional_sign_accuracy": 0.7307692307692307,
+          "joint_accuracy": 0.38,
+          "joint_correct": 38,
+          "n": 100,
+          "sign_given_axis_correct": 38,
+          "sign_given_axis_denominator": 52,
+          "unconditional_sign_accuracy": 0.56
+        },
+        "cosine_positive_projected": {
+          "axis_accuracy": 0.64,
+          "axis_correct": 64,
+          "conditional_sign_accuracy": 0.78125,
+          "joint_accuracy": 0.5,
+          "joint_correct": 50,
+          "n": 100,
+          "sign_given_axis_correct": 50,
+          "sign_given_axis_denominator": 64,
+          "unconditional_sign_accuracy": 0.62
+        },
+        "cosine_signed": {
+          "axis_accuracy": 0.56,
+          "axis_correct": 56,
+          "conditional_sign_accuracy": 0.7678571428571429,
+          "joint_accuracy": 0.43,
+          "joint_correct": 43,
+          "n": 100,
+          "sign_given_axis_correct": 43,
+          "sign_given_axis_denominator": 56,
+          "unconditional_sign_accuracy": 0.56
+        },
+        "cosine_signed_projected": {
+          "axis_accuracy": 0.58,
+          "axis_correct": 58,
+          "conditional_sign_accuracy": 0.7586206896551724,
+          "joint_accuracy": 0.44,
+          "joint_correct": 44,
+          "n": 100,
+          "sign_given_axis_correct": 44,
+          "sign_given_axis_denominator": 58,
+          "unconditional_sign_accuracy": 0.56
+        }
+      }
+    },
+    "causal": {
+      "eligible_pairs": 98560,
+      "representatives": 56,
+      "summary": {
+        "asg": {
+          "both_endpoints_rate": 0.02593440122044241,
+          "changed_to_new_rate": 0.060068649885583525,
+          "correct_new_rate": 0.17413097962297047,
+          "n": 73416,
+          "top_set_new_rate": 0.17449874686716793
+        },
+        "asg_projected": {
+          "both_endpoints_rate": 0.032499727579819115,
+          "changed_to_new_rate": 0.07262722022447422,
+          "correct_new_rate": 0.20348425411354473,
+          "n": 73416,
+          "top_set_new_rate": 0.20348425411354473
+        },
+        "cosine_positive": {
+          "both_endpoints_rate": 0.16841015582434346,
+          "changed_to_new_rate": 0.30031600740982894,
+          "correct_new_rate": 0.3994905742617413,
+          "n": 73416,
+          "top_set_new_rate": 0.40101612727470853
+        },
+        "cosine_positive_projected": {
+          "both_endpoints_rate": 0.2701318513675493,
+          "changed_to_new_rate": 0.42162471395881007,
+          "correct_new_rate": 0.5134303149177291,
+          "n": 73416,
+          "top_set_new_rate": 0.5143293015146562
+        },
+        "cosine_signed": {
+          "both_endpoints_rate": 0.19905742617413097,
+          "changed_to_new_rate": 0.345306200283317,
+          "correct_new_rate": 0.44315952925792745,
+          "n": 73416,
+          "top_set_new_rate": 0.44468508227089465
+        },
+        "cosine_signed_projected": {
+          "both_endpoints_rate": 0.19992917075296937,
+          "changed_to_new_rate": 0.34649122807017546,
+          "correct_new_rate": 0.44111637790127495,
+          "n": 73416,
+          "top_set_new_rate": 0.44264193091424214
+        }
+      },
+      "teacher_changing_pairs": 73416
+    },
+    "compiler_accuracy": {
+      "alias": {
+        "asg": {
+          "accuracy": 0.0625,
+          "correct": 2,
+          "n": 32
+        },
+        "asg_projected": {
+          "accuracy": 0.0,
+          "correct": 0,
+          "n": 32
+        },
+        "cosine_positive": {
+          "accuracy": 0.46875,
+          "correct": 15,
+          "n": 32
+        },
+        "cosine_positive_projected": {
+          "accuracy": 0.5,
+          "correct": 16,
+          "n": 32
+        },
+        "cosine_signed": {
+          "accuracy": 0.5,
+          "correct": 16,
+          "n": 32
+        },
+        "cosine_signed_projected": {
+          "accuracy": 0.4375,
+          "correct": 14,
+          "n": 32
+        }
+      },
+      "alias_composition": {
+        "asg": {
+          "accuracy": 0.0,
+          "correct": 0,
+          "n": 50
+        },
+        "asg_projected": {
+          "accuracy": 0.02,
+          "correct": 1,
+          "n": 50
+        },
+        "cosine_positive": {
+          "accuracy": 0.1,
+          "correct": 5,
+          "n": 50
+        },
+        "cosine_positive_projected": {
+          "accuracy": 0.2,
+          "correct": 10,
+          "n": 50
+        },
+        "cosine_signed": {
+          "accuracy": 0.14,
+          "correct": 7,
+          "n": 50
+        },
+        "cosine_signed_projected": {
+          "accuracy": 0.14,
+          "correct": 7,
+          "n": 50
+        }
+      },
+      "literal": {
+        "asg": {
+          "accuracy": 1.0,
+          "correct": 155,
+          "n": 155
+        },
+        "asg_projected": {
+          "accuracy": 1.0,
+          "correct": 155,
+          "n": 155
+        },
+        "cosine_positive": {
+          "accuracy": 1.0,
+          "correct": 155,
+          "n": 155
+        },
+        "cosine_positive_projected": {
+          "accuracy": 1.0,
+          "correct": 155,
+          "n": 155
+        },
+        "cosine_signed": {
+          "accuracy": 1.0,
+          "correct": 155,
+          "n": 155
+        },
+        "cosine_signed_projected": {
+          "accuracy": 1.0,
+          "correct": 155,
+          "n": 155
+        }
+      }
+    },
+    "diagnoses": {
+      "asg": "BOTH_LOW; tested frozen span/prototype retrieval insufficient, stronger encoder is a next candidate, not an information-absence proof",
+      "asg_projected": "BOTH_LOW; tested frozen span/prototype retrieval insufficient, stronger encoder is a next candidate, not an information-absence proof",
+      "cosine_positive": "BOTH_LOW; tested frozen span/prototype retrieval insufficient, stronger encoder is a next candidate, not an information-absence proof",
+      "cosine_positive_projected": "BOTH_LOW; tested frozen span/prototype retrieval insufficient, stronger encoder is a next candidate, not an information-absence proof",
+      "cosine_signed": "BOTH_LOW; tested frozen span/prototype retrieval insufficient, stronger encoder is a next candidate, not an information-absence proof",
+      "cosine_signed_projected": "BOTH_LOW; tested frozen span/prototype retrieval insufficient, stronger encoder is a next candidate, not an information-absence proof"
+    },
+    "gates": {
+      "asg": {
+        "G1_joint_atoms": false,
+        "G2_alias_decision": false,
+        "G3_exact_literal": true,
+        "G4_alias_composition": false,
+        "G5_correct_new": false,
+        "G6_permutation": true,
+        "task_pass": false
+      },
+      "asg_projected": {
+        "G1_joint_atoms": false,
+        "G2_alias_decision": false,
+        "G3_exact_literal": true,
+        "G4_alias_composition": false,
+        "G5_correct_new": false,
+        "G6_permutation": true,
+        "task_pass": false
+      },
+      "cosine_positive": {
+        "G1_joint_atoms": false,
+        "G2_alias_decision": false,
+        "G3_exact_literal": true,
+        "G4_alias_composition": false,
+        "G5_correct_new": false,
+        "G6_permutation": true,
+        "task_pass": false
+      },
+      "cosine_positive_projected": {
+        "G1_joint_atoms": false,
+        "G2_alias_decision": false,
+        "G3_exact_literal": true,
+        "G4_alias_composition": false,
+        "G5_correct_new": false,
+        "G6_permutation": true,
+        "task_pass": false
+      },
+      "cosine_signed": {
+        "G1_joint_atoms": false,
+        "G2_alias_decision": false,
+        "G3_exact_literal": true,
+        "G4_alias_composition": false,
+        "G5_correct_new": false,
+        "G6_permutation": true,
+        "task_pass": false
+      },
+      "cosine_signed_projected": {
+        "G1_joint_atoms": false,
+        "G2_alias_decision": false,
+        "G3_exact_literal": true,
+        "G4_alias_composition": false,
+        "G5_correct_new": false,
+        "G6_permutation": true,
+        "task_pass": false
+      }
+    },
+    "paired_intervals": {
+      "CBF4_baseline": 0.3203125,
+      "clusters": [
+        "16bc19b8aede0ffd5800ceb43b1578eb2b8de75eea5c994702cfd7906b134781",
+        "2ccdc07a586143f74febc2b6e6d86f06406021a379a2cb5757e2438e612bd656",
+        "39792b90acd139403054367acbc2cccaa698bdddef61d4f60adefb51c113da7f",
+        "4a09c971672901816cf9043fd2d02e6bf4657585be4be39027eabad7e7e11752",
+        "586a5e59180efbba2749a03c2ef44db6ff02a99d2f443e0f254b06b9afcee98c",
+        "bfb17fb70d402484fad3e569809f652a4375d518c2543f151eb2d003c0060ce5",
+        "c4b6eb04efb3f42ec2e9d8f1c791e2af10bfb9916c70dc12dfd08762d17cfa37",
+        "e966ff37f3c065cf7d6d6d7044dbd4948c005e94143a6b826db39331da55246f"
+      ],
+      "family_size": 20,
+      "mechanism": {
+        "asg": {
+          "cosine_positive": {
+            "decisions": {
+              "CI95": [
+                -0.48442382812499996,
+                -0.107421875
+              ],
+              "point": -0.291015625,
+              "simultaneous_CI": [
+                -0.5800830078125,
+                -0.016599121093747726
+              ]
+            },
+            "joint_atoms": {
+              "CI95": [
+                -0.65625,
+                -0.1875
+              ],
+              "point": -0.40625,
+              "simultaneous_CI": [
+                -0.78125,
+                -0.09375
+              ]
+            }
+          },
+          "cosine_signed": {
+            "decisions": {
+              "CI95": [
+                -0.509765625,
+                -0.115234375
+              ],
+              "point": -0.310546875,
+              "simultaneous_CI": [
+                -0.609375,
+                -0.021484375
+              ]
+            },
+            "joint_atoms": {
+              "CI95": [
+                -0.6875,
+                -0.21796875000001137
+              ],
+              "point": -0.4375,
+              "simultaneous_CI": [
+                -0.8125,
+                -0.09375
+              ]
+            }
+          }
+        },
+        "asg_projected": {
+          "cosine_positive_projected": {
+            "decisions": {
+              "CI95": [
+                -0.568408203125,
+                -0.12890625
+              ],
+              "point": -0.337890625,
+              "simultaneous_CI": [
+                -0.6943432617187499,
+                -0.05272949218749545
+              ]
+            },
+            "joint_atoms": {
+              "CI95": [
+                -0.75,
+                -0.25
+              ],
+              "point": -0.5,
+              "simultaneous_CI": [
+                -0.875,
+                -0.15625
+              ]
+            }
+          },
+          "cosine_signed_projected": {
+            "decisions": {
+              "CI95": [
+                -0.53515625,
+                -0.078125
+              ],
+              "point": -0.296875,
+              "simultaneous_CI": [
+                -0.64355712890625,
+                0.0078125
+              ]
+            },
+            "joint_atoms": {
+              "CI95": [
+                -0.6875,
+                -0.1875
+              ],
+              "point": -0.4375,
+              "simultaneous_CI": [
+                -0.78125,
+                -0.09375
+              ]
+            }
+          }
+        }
+      },
+      "n_clusters": 8,
+      "repetitions": 10000,
+      "versus_CBF4": {
+        "asg": {
+          "absolute": {
+            "CI95": [
+              0.203125,
+              0.337890625
+            ],
+            "point": 0.275390625,
+            "simultaneous_CI": [
+              0.16503662109375,
+              0.369140625
+            ]
+          },
+          "delta": {
+            "CI95": [
+              -0.103515625,
+              0.015625
+            ],
+            "point": -0.044921875,
+            "simultaneous_CI": [
+              -0.130859375,
+              0.04296875
+            ]
+          }
+        },
+        "asg_projected": {
+          "absolute": {
+            "CI95": [
+              0.169921875,
+              0.306640625
+            ],
+            "point": 0.240234375,
+            "simultaneous_CI": [
+              0.126953125,
+              0.3388696289062523
+            ]
+          },
+          "delta": {
+            "CI95": [
+              -0.142578125,
+              -0.013671875
+            ],
+            "point": -0.080078125,
+            "simultaneous_CI": [
+              -0.169921875,
+              0.0234375
+            ]
+          }
+        },
+        "cosine_positive": {
+          "absolute": {
+            "CI95": [
+              0.34370117187500004,
+              0.78515625
+            ],
+            "point": 0.56640625,
+            "simultaneous_CI": [
+              0.232412109375,
+              0.8925830078125045
+            ]
+          },
+          "delta": {
+            "CI95": [
+              0.029296875,
+              0.4668457031249993
+            ],
+            "point": 0.24609375,
+            "simultaneous_CI": [
+              -0.078125,
+              0.580078125
+            ]
+          }
+        },
+        "cosine_positive_projected": {
+          "absolute": {
+            "CI95": [
+              0.37109375,
+              0.794921875
+            ],
+            "point": 0.578125,
+            "simultaneous_CI": [
+              0.2851513671875,
+              0.90234375
+            ]
+          },
+          "delta": {
+            "CI95": [
+              0.044921875,
+              0.48046875
+            ],
+            "point": 0.2578125,
+            "simultaneous_CI": [
+              -0.037109375,
+              0.5898486328125045
+            ]
+          }
+        },
+        "cosine_signed": {
+          "absolute": {
+            "CI95": [
+              0.35546875,
+              0.80859375
+            ],
+            "point": 0.5859375,
+            "simultaneous_CI": [
+              0.2480419921875,
+              0.9150415039062523
+            ]
+          },
+          "delta": {
+            "CI95": [
+              0.0390625,
+              0.49609375
+            ],
+            "point": 0.265625,
+            "simultaneous_CI": [
+              -0.06933837890625,
+              0.599609375
+            ]
+          }
+        },
+        "cosine_signed_projected": {
+          "absolute": {
+            "CI95": [
+              0.322265625,
+              0.75390625
+            ],
+            "point": 0.537109375,
+            "simultaneous_CI": [
+              0.22558349609375,
+              0.8564477539062523
+            ]
+          },
+          "delta": {
+            "CI95": [
+              -0.00390625,
+              0.44921875
+            ],
+            "point": 0.216796875,
+            "simultaneous_CI": [
+              -0.099609375,
+              0.5537182617187568
+            ]
+          }
+        }
+      }
+    },
+    "summary": {
+      "alias": {
+        "asg": {
+          "coverage": 1.0,
+          "exact_winner": 0.275390625,
+          "n": 512,
+          "pairwise": 0.471098400297619,
+          "top1": 0.275390625
+        },
+        "asg_projected": {
+          "coverage": 1.0,
+          "exact_winner": 0.240234375,
+          "n": 512,
+          "pairwise": 0.4490304129464286,
+          "top1": 0.240234375
+        },
+        "cosine_positive": {
+          "coverage": 1.0,
+          "exact_winner": 0.56640625,
+          "n": 512,
+          "pairwise": 0.6530482700892857,
+          "top1": 0.56640625
+        },
+        "cosine_positive_projected": {
+          "coverage": 1.0,
+          "exact_winner": 0.578125,
+          "n": 512,
+          "pairwise": 0.6441871279761904,
+          "top1": 0.578125
+        },
+        "cosine_signed": {
+          "coverage": 1.0,
+          "exact_winner": 0.5859375,
+          "n": 512,
+          "pairwise": 0.6635556175595237,
+          "top1": 0.5859375
+        },
+        "cosine_signed_projected": {
+          "coverage": 1.0,
+          "exact_winner": 0.537109375,
+          "n": 512,
+          "pairwise": 0.6209379650297618,
+          "top1": 0.537109375
+        }
+      },
+      "alias_composition": {
+        "asg": {
+          "coverage": 1.0,
+          "exact_winner": 0.21,
+          "n": 800,
+          "pairwise": 0.47444345238095237,
+          "top1": 0.21
+        },
+        "asg_projected": {
+          "coverage": 1.0,
+          "exact_winner": 0.23875,
+          "n": 800,
+          "pairwise": 0.48150595238095234,
+          "top1": 0.23875
+        },
+        "cosine_positive": {
+          "coverage": 1.0,
+          "exact_winner": 0.43,
+          "n": 800,
+          "pairwise": 0.5557842261904762,
+          "top1": 0.43
+        },
+        "cosine_positive_projected": {
+          "coverage": 1.0,
+          "exact_winner": 0.53125,
+          "n": 800,
+          "pairwise": 0.643985119047619,
+          "top1": 0.53125
+        },
+        "cosine_signed": {
+          "coverage": 1.0,
+          "exact_winner": 0.46,
+          "n": 800,
+          "pairwise": 0.6057589285714284,
+          "top1": 0.46
+        },
+        "cosine_signed_projected": {
+          "coverage": 1.0,
+          "exact_winner": 0.4625,
+          "n": 800,
+          "pairwise": 0.5890014880952381,
+          "top1": 0.4625
+        }
+      },
+      "literal": {
+        "asg": {
+          "coverage": 1.0,
+          "exact_winner": 1.0,
+          "n": 4960,
+          "pairwise": 1.0,
+          "top1": 1.0
+        },
+        "asg_projected": {
+          "coverage": 1.0,
+          "exact_winner": 1.0,
+          "n": 4960,
+          "pairwise": 1.0,
+          "top1": 1.0
+        },
+        "cosine_positive": {
+          "coverage": 1.0,
+          "exact_winner": 1.0,
+          "n": 4960,
+          "pairwise": 1.0,
+          "top1": 1.0
+        },
+        "cosine_positive_projected": {
+          "coverage": 1.0,
+          "exact_winner": 1.0,
+          "n": 4960,
+          "pairwise": 1.0,
+          "top1": 1.0
+        },
+        "cosine_signed": {
+          "coverage": 1.0,
+          "exact_winner": 1.0,
+          "n": 4960,
+          "pairwise": 1.0,
+          "top1": 1.0
+        },
+        "cosine_signed_projected": {
+          "coverage": 1.0,
+          "exact_winner": 1.0,
+          "n": 4960,
+          "pairwise": 1.0,
+          "top1": 1.0
+        }
+      }
+    },
+    "verdict": "SEMANTIC_SCHEMA_GROUNDING_NOT_EARNED"
+  },
+  "scope": "Reused four-axis alias development screen, not independent replication or production runtime",
+  "source": "Project-authored controlled criteria and unchanged CBF-4 exact-state corpus",
+  "source_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/exact-state-v1/grammar-corrected",
+  "source_sha256": {
+    "research/cbf0/audit.py": "9fe9df9222da8db2aa135c55ba048add91b7315c5e5b40dcc8414e2c91566408",
+    "research/cbf0/build.py": "c5e95f3feea8b062483e977ee0667c3b5f9b341f7914f6ec4b48c4989bc7cd29",
+    "research/cbf0/ceiling.py": "5fa7de5f69858c242b78ff638022d974d83c7191accfc3d2e4c66aa82681e763",
+    "research/cbf0/exact_state_build.py": "2a2fb6c2c734d8d62341374fe21bedbbf092963066d408c51bc7f8c3729376d6",
+    "research/cbf0/exact_state_encode.py": "270555c7b939c7f9b5e30fd42dcb043632a2c145c90d99079d5a6a638d0977bc",
+    "research/cbf0/exact_state_protocol.json": "edee0cf86d14af80729f65cfdfbf62f57cff165480bb053373725f2541c7ccd4",
+    "research/cbf0/exact_state_result_manifest.json": "7eca466459d902ed913a516c793ef79606009e97a72bb74714544a683eefce4a",
+    "research/cbf0/exact_state_run.py": "6d550c426358be8f65c749eae50ba409ca61b7dffc628831005ad21a392bec4a",
+    "research/cbf0/run.py": "ceb7e42adb8e54afcd8b73116ae713f432f1f84e32744ee19e75e29b24d46047",
+    "research/cbf0/schema_grounding_build.py": "f08917414775ca19e874d6f4153c81f057281af2acf5f3dbdbc2dd3a8776c4ae",
+    "research/cbf0/schema_grounding_capture.py": "871186a2a454ca3c7c84b5c4039e8ddd8b3d34e96ae72278327e1de9a958c529",
+    "research/cbf0/schema_grounding_compiler.py": "d984d8537a97dccf1a160a51ecf027c83af4cfecc942b14cb90b72c2456701c1",
+    "research/cbf0/schema_grounding_protocol.json": "0cf395cf07254b5d65798ca094ba6a34867e5ee84de4d5557ff7252de21692fa",
+    "research/cbf0/schema_grounding_resolver.py": "a2fb4c9cec8635f7a26a535afb12f50607b98699b9e1c242bb7d81d6d5f6876c",
+    "research/cbf0/schema_grounding_run.py": "83cd8bc01258ff9bc029afb959774794240a1fea5ef82656fe1f356ce27c1b94",
+    "research/cbf0/schema_grounding_verify.py": "b65e17c1a6779bd7c43d0d361e9ebea90a4e5e8fb641148626b934a9e2bd8861"
+  },
+  "verification": {
+    "all_checks_pass": true,
+    "criteria": 237,
+    "decision_rows_reconstructed": 7584,
+    "feature_checks": {
+      "candidate_forwards": 0,
+      "full_composition_forwards": 0,
+      "maximum_pooling_error": 2.014688288420885e-08,
+      "new_encoder_forwards": 1,
+      "new_features_from_raw_tokens": 4,
+      "new_token_masks_verified": 4,
+      "reused_feature_rows_exact": 80
+    },
+    "literal_coefficient_exact": 155,
+    "maximum_cosine_error": 3.3306690738754696e-16,
+    "paired_interval_family_reconstructed": 20,
+    "permutation_comparisons": 91008,
+    "projector_error": 8.326672684688674e-17,
+    "prototype_error": 5.551115123125783e-17,
+    "prototype_training_queries": 48,
+    "semantic_atoms_reconstructed": 792,
+    "source_lineage": {
+      "inventory_sha256": "7eca466459d902ed913a516c793ef79606009e97a72bb74714544a683eefce4a",
+      "verified_files": {
+        "grammar-corrected/criteria.json": "f49ea2fb527ab9a16329ae481499681a6a329226d68e1f470206bda8b7e19e36",
+        "grammar-corrected/encoder_manifest.json": "106e852d1dd39e1496f368c2d34a2bfde5a3997810b031785f0fc0039b2f4305",
+        "grammar-corrected/layer1_span.npy": "29bee6299645bc28a2581ea407143f7500c00c14e39fd93521b8e4cc0d1a6eca",
+        "grammar-corrected/score-corrected/decisions.jsonl": "c89671297aa6f6249cdd987ea9870046d5072ea2fd77909355a2072e741c92b4",
+        "grammar-corrected/score-corrected/results.json": "a105be3034ed71d5122193685a446ec10a92d826e582553fdc3a56c1a9d23646",
+        "grammar-corrected/states.json": "61c512fd526508bd82655edeface81d7ad975da16a009ba66232433b64971700",
+        "grammar-corrected/texts.npy": "ef9647f32bbdc68b44a8d323a69a4a63baa86b9c871757d0b012e20402a9cfce"
+      }
+    },
+    "source_states_byte_identical": true,
+    "teacher_changing_swaps_reconstructed": 73416
+  }
+}
