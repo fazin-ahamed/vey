@@ -1,5 +1,4 @@
-"""CBF7 pre-outcome byte replay and real literal-pair execution proof; no quality screen."""
-import copy
+"""CBF7 real literal-pair execution proof; no development/final quality screen."""
 import datetime
 import json
 import subprocess
@@ -12,7 +11,6 @@ from torch import nn
 
 from audit import put
 from build import canonical
-from relation_pretrained_corpus import build_final
 from relation_pretrained_encoder import load_model, tokenizer_parity, full_forward_parity, native_class_indices, SCHEMA
 from relation_pretrained_run import PROTOCOL, cache_features, native_matrices, gpu_serialization, tensor_hash, sha, pairs_for, resource_snapshot
 
@@ -26,7 +24,10 @@ def main():
     git = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=Path(__file__).parents[2], text=True).strip()
     if (root / 'results.json').exists() or (root / 'selection.json').exists():
         raise RuntimeError('Preflight cannot amend an experiment after quality selection')
-    proof = dict(scope='Byte regeneration and literal-only execution; no development/final quality scoring',
+    stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%f')
+    artifacts = root / 'literal-preflight-attempts' / stamp
+    artifacts.mkdir(parents=True)
+    proof = dict(scope='Literal-only execution; no development/final quality scoring', artifact_root=str(artifacts),
                  git_revision=git, protocol_sha256=sha(PROTOCOL), started_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
                  source_sha256={name: sha(Path(__file__).with_name(name)) for name in
                                 ('relation_pretrained_preflight.py', 'relation_pretrained_corpus.py',
@@ -34,39 +35,9 @@ def main():
                  seed=7, threads=4, interop_threads=1, resource_before=resource_snapshot(), models={})
     try:
         manifest = json.loads((root / 'corpus_manifest.json').read_text())
-        prior_audit = json.loads((root / 'final_corpus_audit.json').read_text())
-        for name in ('corpus_manifest.json', 'final_corpus_audit.json'):
-            original = root / ('original_pre_execution_' + name)
-            if not original.exists():
-                put(root, original.name, (root / name).read_bytes())
-        atoms, comps, audit = build_final()
-        assert canonical(atoms) + b'\n' == (root / 'final_atoms.json').read_bytes()
-        assert canonical(comps) + b'\n' == (root / 'final_compositions.json').read_bytes()
-        for key, value in audit.items():
-            if key != 'provenance':
-                assert prior_audit[key] == value, key
-        prior_provenance = copy.deepcopy(prior_audit['provenance'])
-        prior_provenance['protocol_sha256'] = sha(PROTOCOL)
-        assert prior_provenance == audit['provenance']
-        prior_audit['provenance'] = audit['provenance']
-        replay = dict(generator_committed_before_replay=True, replay_git_revision=git,
-                      first_preparation_generator_uncommitted=True, first_preparation_git_not_fabricated=True,
-                      atoms_byte_identical=True, compositions_byte_identical=True,
-                      original_manifest_sha256=sha(root / 'original_pre_execution_corpus_manifest.json'),
-                      original_audit_sha256=sha(root / 'original_pre_execution_final_corpus_audit.json'),
-                      protocol_sha256=sha(PROTOCOL), final_atoms_sha256=sha(root / 'final_atoms.json'),
-                      final_compositions_sha256=sha(root / 'final_compositions.json'))
-        put(root, 'preparation_replay.json', canonical(replay) + b'\n')
-        prior_audit['preparation_replay'] = replay
-        put(root, 'final_corpus_audit.json', canonical(prior_audit) + b'\n')
-        manifest['pre_execution_protocol_sha256'] = manifest['protocol_sha256']
-        manifest['protocol_sha256'] = sha(PROTOCOL)
-        manifest['preparation_replay'] = replay
-        manifest['files']['final_corpus_audit.json'] = sha(root / 'final_corpus_audit.json')
-        manifest['files']['preparation_replay.json'] = sha(root / 'preparation_replay.json')
-        put(root, 'corpus_manifest.json', canonical(manifest) + b'\n')
-        proof['preparation_replay'] = replay
-        put(root, 'preflight_environment.json', canonical(proof) + b'\n')
+        assert manifest['protocol_sha256'] == sha(PROTOCOL)
+        proof['preparation_replay'] = json.loads((root / 'preparation_replay.json').read_text())
+        put(artifacts, 'environment.json', canonical(proof) + b'\n')
         training = json.loads((root / 'training_atoms.json').read_text())[:2]
         texts = [case['text'] for case in training]
         pairs, labels = pairs_for(training)
@@ -74,10 +45,10 @@ def main():
             with gpu_serialization():
                 tokenizer, model, lineage = load_model(key)
                 before = tensor_hash(model.named_parameters())
-                put(root, f'preflight_lineage_{key}.json', canonical(lineage) + b'\n')
+                put(artifacts, f'preflight_lineage_{key}.json', canonical(lineage) + b'\n')
                 parity = tokenizer_parity(texts, tokenizer, 'higher', key)
-                cls, pooled, inputs = cache_features(root, key + '_literal_preflight', texts, tokenizer, model, 'higher')
-                cached_cls, cached_pooled, _ = cache_features(root, key + '_literal_preflight', texts, tokenizer, model, 'higher')
+                cls, pooled, inputs = cache_features(artifacts, key + '_literal_preflight', texts, tokenizer, model, 'higher')
+                cached_cls, cached_pooled, _ = cache_features(artifacts, key + '_literal_preflight', texts, tokenizer, model, 'higher')
                 assert np.array_equal(cls, cached_cls)
                 if pooled is not None:
                     assert np.array_equal(pooled, cached_pooled)
@@ -92,7 +63,7 @@ def main():
                 details = dict(floating_parameters=lineage['floating_parameters'], width=cls.shape[1],
                                pairs=len(pairs), cache_reload_identical=True, native_tokenizer_parity=parity,
                                head_gradient_L1=gradient, pretrained_gradients=0,
-                               input_evidence_sha256=sha(root / f'inputs_{key}_literal_preflight_higher.json'))
+                               input_evidence_sha256=sha(artifacts / f'inputs_{key}_literal_preflight_higher.json'))
                 if key == 'nli_xsmall':
                     details['native_forward_parity'] = full_forward_parity(pairs, tokenizer, model, 'higher')
                     mapping = native_class_indices(model)
@@ -115,12 +86,12 @@ def main():
         proof['all_checks_pass'] = True
         proof['resource_after'] = resource_snapshot()
         proof['completed_utc'] = datetime.datetime.now(datetime.timezone.utc).isoformat()
-        put(root, 'preflight_proof.json', canonical(proof) + b'\n')
+        put(artifacts, 'preflight_proof.json', canonical(proof) + b'\n')
         print(json.dumps(proof, indent=2))
     except BaseException as exc:
         proof.update(all_checks_pass=False, error=repr(exc), traceback=traceback.format_exc())
         stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%f')
-        put(root, f'preflight_failure_{stamp}.json', canonical(proof) + b'\n')
+        put(artifacts, f'preflight_failure_{stamp}.json', canonical(proof) + b'\n')
         raise
 
 

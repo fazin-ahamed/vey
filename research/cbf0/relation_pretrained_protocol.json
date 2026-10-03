@@ -1,7 +1,8 @@
 {
   "experiment": "CBF-7 Relation-pretrained criterion interface",
   "source_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-relation-v1/pretraining-amended",
-  "output_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/relation-pretrained-v1",
+  "output_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/relation-pretrained-v1/preexecution-amended",
+  "prepared_corpus_source_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/relation-pretrained-v1",
   "basis": "CBF6 development A/B resolve only2/32 correct axes and C resolves0/32. Sign2/2 is not orientation robustness; C conditional sign is undefined. The literal-only stock MLM pair interface and declared one-layer adaptation did not earn transfer. Final CBF6 outputs do not select prompts, candidates or hyperparameters here.",
   "hypothesis": "A task-pretrained NLI pair encoder supplies semantic relations absent from the tested operational stock interface; generic hypothesis syntax and native pooler may matter separately from encoder weights.",
   "primary_metric": "Fresh final joint signed-atom accuracy, with all G0-G7 required before replication; no competitor superiority claim.",

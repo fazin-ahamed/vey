@@ -3285,6 +3285,15 @@ Model residency uses the shared `/tmp/vey-gpu.lock`; mock-wiring smoke fixtures
 are removed in favor of an actual frozen-pair preflight and saved-artifact
 reconstruction. These are lineage/correctness changes, not a research result.
 
+The first parent preflight failed at the immutable evidence writer before any
+model load: an in-place audit-metadata amendment was correctly rejected.
+That failure and original corpus remain intact. Preparation now regenerates
+byte-identical final rows into `relation-pretrained-v1/preexecution-amended`,
+copies the original blinded labels, and writes corrected lineage once. The
+literal execution probe uses distinct attempt directories; no evidence writer
+is bypassed to overwrite an earlier attempt.
+
+
 
 ## Frontier topology and oracle closure on food progress (research)
 

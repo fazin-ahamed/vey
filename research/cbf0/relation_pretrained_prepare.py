@@ -1,6 +1,7 @@
 """Freeze new CBF7 cohorts without encoding or exposing final to selection."""
 import hashlib
 import json
+import subprocess
 from collections import Counter
 from pathlib import Path
 
@@ -52,11 +53,45 @@ def prepare():
     groups=[{c['text'] for c in group} for group in (train,validation,g0,atoms)]
     assert not any(groups[i]&groups[j] for i in range(4) for j in range(i+1,4))
     audit['parent_exact_grammar_checks']=grammar;audit['parent_each_atom_composition_uses']=dict(uses)
-    for name,values in (('final_atoms.json',atoms),('final_compositions.json',compositions),('final_corpus_audit.json',audit)):put(root,name,canonical(values)+b'\n')
+    prepared=Path(cfg['prepared_corpus_source_root'])
+    original_manifest=json.loads((prepared/'corpus_manifest.json').read_text())
+    assert not (prepared/'selection.json').exists() and not (prepared/'results.json').exists()
+    for name,expected in original_manifest['files'].items():assert sha(prepared/name)==expected,name
+    assert canonical(atoms)+b'\n'==(prepared/'final_atoms.json').read_bytes()
+    assert canonical(compositions)+b'\n'==(prepared/'final_compositions.json').read_bytes()
+    original_audit=json.loads((prepared/'final_corpus_audit.json').read_text())
+    for key,value in audit.items():
+        if key not in ('provenance','parent_exact_grammar_checks','parent_each_atom_composition_uses'):
+            assert original_audit[key]==value,key
+    original_provenance=dict(original_audit['provenance'])
+    original_provenance.update(output_root=str(root),protocol_sha256=sha(PROTOCOL))
+    assert original_provenance==audit['provenance']
+    for name in ('corpus_manifest.json','final_corpus_audit.json'):
+        put(root,'original_pre_execution_'+name,(prepared/name).read_bytes())
+    blind_files=('blind_meaning_predictions.json','blind_meaning_questions.json','blind_meaning_key.json')
+    for name in blind_files:put(root,name,(prepared/name).read_bytes())
+    audit['blind_meaning_audit']=original_audit['blind_meaning_audit']
+    replay=dict(first_preparation_generator_uncommitted=True,first_preparation_git_not_fabricated=True,
+                generator_committed_before_replay=True,
+                replay_git_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=Path(__file__).parents[2],text=True).strip(),
+                prepared_source_root=str(prepared),atoms_byte_identical=True,compositions_byte_identical=True,
+                original_manifest_sha256=sha(prepared/'corpus_manifest.json'),original_audit_sha256=sha(prepared/'final_corpus_audit.json'),
+                protocol_sha256=sha(PROTOCOL),final_atoms_sha256=sha(prepared/'final_atoms.json'),final_compositions_sha256=sha(prepared/'final_compositions.json'),
+                reason='Immutable evidence writer rejected in-place metadata amendment before any model load; original failure and files retained.')
+    audit['preparation_replay']=replay
+    for name,values in (('final_atoms.json',atoms),('final_compositions.json',compositions),('final_corpus_audit.json',audit),('preparation_replay.json',replay)):put(root,name,canonical(values)+b'\n')
+    meaning=json.loads((prepared/'meaning_audit.json').read_text())
+    assert meaning['all_meanings_accepted'] and meaning['correct']==meaning['n']==128 and meaning['ambiguous']==0
+    assert meaning['final_atoms_sha256']==sha(root/'final_atoms.json') and meaning['final_compositions_sha256']==sha(root/'final_compositions.json')
+    assert meaning['blind_audit_sha256']==sha(prepared/'final_corpus_audit.json')
+    meaning['blind_audit_sha256']=sha(root/'final_corpus_audit.json')
+    meaning['blind_predictions_sha256']=sha(root/'blind_meaning_predictions.json')
+    put(root,'meaning_audit.json',canonical(meaning)+b'\n')
     manifest=dict(experiment='CBF-7',protocol_sha256=sha(PROTOCOL),source_inventory_sha256=sha(SOURCE_INVENTORY),source_measurement_git_revision=inventory['measurement_git_revision'],
                   source_verified_files={name:sha(source/name) for name in COHORTS+BASELINE},data_license_class='shipping-train: authored criteria only',pretrained_model_license_class='conditional/review, not shipping clearance',
                   counts={name:len(json.loads((root/name).read_text())) for name in COHORTS},final_atoms=128,final_compositions=128,final_closed_until_selection=True,
-                  files={name:sha(root/name) for name in COHORTS+('final_atoms.json','final_compositions.json','final_corpus_audit.json')})
+                  preparation_replay=replay,meaning_audit=dict(accepted=True,before_outcomes=True,n=128,correct=128,blind_predictions_sha256=sha(root/'blind_meaning_predictions.json')),
+                  files={name:sha(root/name) for name in COHORTS+blind_files+('final_atoms.json','final_compositions.json','final_corpus_audit.json','meaning_audit.json','preparation_replay.json')})
     put(root,'corpus_manifest.json',canonical(manifest)+b'\n');print(json.dumps(manifest,indent=2));return manifest
 
 

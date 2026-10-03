@@ -186,7 +186,8 @@ def corpus_checks(root, cfg):
     key = load(root / 'blind_meaning_key.json')
     questions = load(root / 'blind_meaning_questions.json')
     require(len(predictions) == len(questions) == len(key) == 128, 'blind counts')
-    require(meaning['blind_audit_sha256'] == sha(root / 'blind_meaning_predictions.json'), 'blind predictions hash')
+    require(meaning['blind_audit_sha256'] == sha(root / 'final_corpus_audit.json'), 'blind audit hash')
+    require(meaning['blind_predictions_sha256'] == sha(root / 'blind_meaning_predictions.json'), 'blind predictions hash')
     require(meaning['final_atoms_sha256'] == sha(root / 'final_atoms.json') and
             meaning['final_compositions_sha256'] == sha(root / 'final_compositions.json'), 'blind corpus hashes')
     qmap = {q['review_id']: q for q in questions}
