@@ -43,6 +43,18 @@
     0,
     1
   ],
+  "runtime_smokes": {
+    "pretraining_gradient_smoke.json": {
+      "passed": true,
+      "quality_outcomes": false,
+      "sha256": "ed1c75bdab63be01e0243cb6fcae4fc2203ab36dd76ce7daa773c3191309c519"
+    },
+    "pretraining_tokenizer_smoke.json": {
+      "passed": true,
+      "quality_outcomes": false,
+      "sha256": "2971f28b7a30be6ce42d3c8c8ad1ca8eadd89705a9e88c59a265dfbca70a5d17"
+    }
+  },
   "schema": [
     "reliability",
     "purchase expense",

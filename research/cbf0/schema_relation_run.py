@@ -166,7 +166,7 @@ def smoke():
 
 
 def main():
-    torch.set_num_threads(4); torch.manual_seed(7)
+    torch.set_num_threads(4); torch.set_num_interop_threads(1); torch.manual_seed(7)
     cfg=json.loads(PROTOCOL.read_text()); root=Path(cfg['output_root']); corpus=load(root,'corpus_manifest.json')
     assert corpus['protocol_sha256']==sha(PROTOCOL)
     for name,h in corpus['files'].items(): assert sha(root/name)==h,name
@@ -181,7 +181,9 @@ def main():
                      python=platform.python_version(),torch=torch.__version__,numpy=np.__version__,platform=platform.platform(),
                      cuda=torch.version.cuda,device=torch.cuda.get_device_name(0),threads=torch.get_num_threads(),
                      resource_before=resource_snapshot(),protocol_sha256=sha(PROTOCOL),corpus_sha256=sha(root/'corpus_manifest.json'),
-                     seed=7,paid_resources=False,meaning_audit_sha256=sha(audit_path))
+                     seed=7,paid_resources=False,meaning_audit_sha256=sha(audit_path),HF_HOME=os.environ.get('HF_HOME'),
+                     HF_HUB_OFFLINE=os.environ.get('HF_HUB_OFFLINE'),interop_threads=torch.get_num_interop_threads(),
+                     pretraining_gradient_smoke_sha256=sha(root/'pretraining_gradient_smoke.json'),pretraining_tokenizer_smoke_sha256=sha(root/'pretraining_tokenizer_smoke.json'))
     put(root,'environment.json',canonical(environment)+b'\n')
     tokenizer,model,lineage=load_encoder(); put(root,'encoder_lineage.json',canonical(lineage)+b'\n')
     frozen_encoder_before=tensor_hash(model.named_parameters())
