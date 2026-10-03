@@ -3403,6 +3403,32 @@ general solution and opens criterion-conditioned Ephemeral Atoms, not another
 arbitrary head-width tweak. A pass requires seeds11/13 and fresh-family/OOD
 utility before B-STEF. This screen does not complete the endgame mandate.
 
+### Neutral endgame suite: source-first prospective freeze
+
+**HYPOTHESIS, no rows or quality outcomes acquired:** the original neutral
+draft required tens of thousands of new human-authored sessions/documents,
+millions of candidate reviews and51 native-review teams. No such workforce or
+budget is authorized. That unexecuted draft is preserved under
+`decisionmix/protocol-drafts/neutral-human-only-v0.json`; it is not a scientific
+or access hard block.
+
+The revised protocol pins public source candidates and uses workflow-sealed
+public tests with explicit exposure disclosures, plus bounded synthetic
+objective controls reported separately. Public familiarity is not universal
+freshness; source labels do not establish capabilities outside their task.
+Fractional HelpSteer2 means support mean/ranking errors, not invented annotator
+distributions or categorical calibration gold. All21 critical dimensions,
+51-language scope, K1000, natural8192-token evidence, shared exact workflow
+code and strongest appropriate competitor routes remain required.
+
+Source grouping, allocation seed/caps and input-only dedup are fixed before
+acquisition; realized hashes/counts, legal grants and full endpoint registry
+must freeze before study-specific model choices. DEV-only precision screening
+precedes final: insufficient independent families or multiplicity resolution
+remains inconclusive, never a zero-variance equivalence shortcut. Missing
+Jev competitive-research authorization remains explicit and cannot end other
+reachable work. Protocol: `research/endgame/neutral_benchmark_protocol.json`.
+
 
 
 
