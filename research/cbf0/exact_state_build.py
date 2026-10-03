@@ -124,7 +124,13 @@ def criteria():
             for t in range(4):
                 add('polarity', w, f'atomic_test/{t}', atomic(axis, sign, weight, t, True))
                 alias = ALIASES[axis][t][0 if sign > 0 else 1]
-                add('alias', w, f'alias/{t}', f'Choose the option with the {alias}.')
+                if (axis, t) == (0, 0):
+                    question = f'Choose the option that is {alias}.'
+                elif (axis, t) in ((0, 1), (3, 2)):
+                    question = f'Choose the {alias}.'
+                else:
+                    question = f'Choose the option with the {alias}.'
+                add('alias', w, f'alias/{t}', question)
     for pair, magnitudes, signs in itertools.product(TRAIN_PAIRS, ((1, 1), (2, 1)), itertools.product((-1, 1), repeat=2)):
         w = [0] * 4
         for i, m, s in zip(pair, magnitudes, signs): w[i] = m * s

@@ -1,4 +1,5 @@
 """CBF-4 train-only criterion fits and exact-state decision/causal gates."""
+import argparse
 import hashlib
 import itertools
 import json
@@ -57,10 +58,10 @@ def lexical(text):
 
 def score(direction, texts):
     if direction is None: return None
-    phi = np.array([parse(t) for t in texts], dtype=np.float64) / 100
-    # Fixed per-candidate operation order, independent of K and candidate order.
-    return ((direction[0] * phi[:, 0] + direction[1] * phi[:, 1]) +
-            direction[2] * phi[:, 2]) + direction[3] * phi[:, 3]
+    phi = np.array([parse(t) for t in texts], dtype=np.float64)
+    # Sum in exact percent units before normalization: integer directions retain ties.
+    return (((direction[0] * phi[:, 0] + direction[1] * phi[:, 1]) +
+             direction[2] * phi[:, 2]) + direction[3] * phi[:, 3]) / 100
 
 
 def winner(scores, facts):
@@ -245,9 +246,18 @@ def swaps(root, cc, ss, cached):
 
 
 def main():
-    protocol = json.loads(PROTOCOL.read_text()); root = Path(protocol['output_root'])
+    p = argparse.ArgumentParser(); p.add_argument('--replay', action='store_true'); p.add_argument('--root', type=Path); args = p.parse_args()
+    protocol = json.loads(PROTOCOL.read_text()); evidence = args.root or Path(protocol['output_root'])
+    root = evidence / 'score-corrected' if args.replay else evidence
     if (root / 'results.json').exists(): raise RuntimeError('Refusing to overwrite a measured experiment')
-    cc, ss = read_corpus(root); vectors, fits = fit_maps(root, cc, protocol)
+    cc, ss = read_corpus(evidence)
+    if args.replay:
+        with np.load(evidence / 'criterion_vectors.npz', allow_pickle=False) as data:
+            assert data['ids'].tolist() == [c['id'] for c in cc]
+            vectors = {arm: data[arm].copy() for arm in ALL_ARMS}
+        fits = json.loads((evidence / 'fit.json').read_text()); root.mkdir()
+    else:
+        vectors, fits = fit_maps(root, cc, protocol)
     records, cached, permutations = evaluate(root, cc, ss, vectors)
     summaries = {s: aggregate([r for r in records if r['stratum'] == s]) for s in STRATA}
     per_K = {s: {str(k): aggregate([r for r in records if r['stratum'] == s and r['K'] == k]) for k in (2, 4, 8, 16)} for s in STRATA}
@@ -264,13 +274,15 @@ def main():
         gates[arm]['all'] = all(gates[arm].values())
     passed = [arm for arm in ARMS if gates[arm]['all']]
     result = dict(experiment='CBF-4', protocol_sha256=hashlib.sha256(PROTOCOL.read_bytes()).hexdigest(),
-                  corpus=json.loads((root / 'corpus_manifest.json').read_text()),
-                  encoder=json.loads((root / 'encoder_manifest.json').read_text()),
+                  corpus=json.loads((evidence / 'corpus_manifest.json').read_text()),
+                  encoder=json.loads((evidence / 'encoder_manifest.json').read_text()),
+                  evidence_root=str(evidence), percent_sum_before_normalization=True,
+                  replay_without_refitting=args.replay,
                   fits=fits, decision_rows=len(records), summary=summaries, per_K=per_K, polarity_per_axis=per_axis,
                   alias_paired_intervals=intervals, reversal=reversal, causal=causal, permutation=permutations,
                   gates=gates, passing_learned_interfaces=passed,
                   verdict='REPLICATION_REQUIRED' if passed else 'CRITERION_MAPPING_NOT_EARNED',
-                  B_STEF_allowed=False, Vey2_frozen_unchanged=True)
+                  B_STEF_allowed=False)
     put(root, 'results.json', canonical(result) + b'\n')
     print(json.dumps({k: result[k] for k in ('summary', 'reversal', 'gates', 'passing_learned_interfaces', 'verdict')}, indent=2))
 

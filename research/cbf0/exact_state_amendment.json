@@ -1,0 +1,54 @@
+{
+  "experiment": "CBF-4 corpus correctness amendment",
+  "reason": "Three alias pairs incorrectly wrapped adjectival/complete noun fragments in option-with-the; fix only sentence grammar.",
+  "changes": [
+    {
+      "criterion_id": "5b5d9fd8a8ac4afff9c45e41a791742f0515244c939461346acb96573b26a17e",
+      "old": "Choose the option with the most likely to fail.",
+      "new": "Choose the option that is most likely to fail."
+    },
+    {
+      "criterion_id": "91fc2a4e7e9807e6b9663cde21d56d1c6dc91f37ba1e1c135fb3ef8db8715d0c",
+      "old": "Choose the option with the least dependable option.",
+      "new": "Choose the least dependable option."
+    },
+    {
+      "criterion_id": "a998f094d04e827803da4718eb8bdcd9f2555e55eb47c36415363fdb7d468d07",
+      "old": "Choose the option with the least likely to fail.",
+      "new": "Choose the option that is least likely to fail."
+    },
+    {
+      "criterion_id": "06e4893b304c3b7aa4ae09ca73eb69bb9daae8049c2ae381e4707a0ba5572dfa",
+      "old": "Choose the option with the most dependable option.",
+      "new": "Choose the most dependable option."
+    },
+    {
+      "criterion_id": "3e79e15c8f0402f7c18220df456e069a808b502395965a116fc2af1f9f20bac9",
+      "old": "Choose the option with the hardest option to use day to day.",
+      "new": "Choose the hardest option to use day to day."
+    },
+    {
+      "criterion_id": "9d59ffe5cfc2a31e2d29fead1b2fd9e6f20fdb16af0cd422e0d7edb90778c19a",
+      "old": "Choose the option with the easiest option to use day to day.",
+      "new": "Choose the easiest option to use day to day."
+    }
+  ],
+  "unchanged": [
+    "training queries/features/maps/ridge choices",
+    "criterion weights/directions/supports",
+    "candidate states/exact parser",
+    "all literal test questions",
+    "interface definitions including semantic span selector",
+    "G1-G5 thresholds/bootstrap/selection"
+  ],
+  "new_encoder_texts": 6,
+  "refits": 0,
+  "output_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/exact-state-v1/grammar-corrected",
+  "original_evidence_preserved": true,
+  "maximum_possible_alias_top1_from_these_six_repairs": {
+    "final_mean": 0.455078125,
+    "layer1_mean": 0.501953125,
+    "layer1_span": 0.501953125
+  },
+  "gate_verdict_cannot_become_passing": true
+}
