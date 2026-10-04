@@ -4297,6 +4297,183 @@ The exact compiler, integer facts and closed cohort recipe are unchanged.
 This replay is a literal regression and closed diagnostic, never a fresh
 transfer evaluation or a source of checkpoint/threshold selection.
 
+### Natural Questions native input-length census (completed)
+
+MEASURED: all seven revision-pinned official validation Parquet objects,
+1,337,126,358 compressed bytes and 7,830 rows, passed byte custody before
+and after input-only projection. Decode only ID, document title, original
+URL and native document tokens; join non-HTML tokens with one ASCII space.
+Question text, candidates, HTML and annotation values were not decoded.
+Both pinned tokenizers ran without padding, truncation or special tokens.
+
+| Tokenizer | Rows >=8,192 | Source components >=8,192 | Rows >=16,384 | Source components >=16,384 |
+|---|---:|---:|---:|---:|
+| Laya English | 2,810 | 2,288 | 1,052 | 815 |
+| Laya multilingual | 3,045 | 2,483 | 1,242 | 956 |
+
+There are 6,930 title/URL/exact-text overlap components and 7,378 distinct
+substantive-text hashes. English median/max content tokens are 5,740/85,897;
+multilingual median/max are 6,219.5/93,286. These count document content
+only, not future question/candidate/workflow framing.
+
+An independent seven-shard projection, token-count and graph/DFS replay
+passed 133,300,885 assertions, including complete row/group/threshold
+coverage and unchanged raw bytes. The producer groups with union-find;
+the verifier reconstructs graph connected components separately.
+Producer report SHA-256:
+`c5fa50cf576ce7c42699ed230be47a3e2daa1356cf4df274663006f31d922607`.
+Independent receipt:
+`094e2c117a4e35fc38e33d110bcd732c17555c6ec1a52aad00a9023da1325337`.
+`research/endgame/natural_questions_length_result_manifest.json` records
+source, tokenizer, code, parser-failure and custody lineage.
+
+Gate PASS for the frozen input-only census and no-gold decoder boundary.
+No model forwards, semantic outcomes, power calculation or quality test
+occurred. Source components are overlap controls, not proof of independent
+authors, users or templates. All official validation remains
+confirmation-only; prior training/selection exposure remains UNKNOWN.
+The conditional/review license scope permits this bounded local evaluation
+preparation, not shipping training or redistribution.
+
+INFERENCE: this source has substantial natural 8K/16K content under the
+pinned tokenizers. Native-task eligibility, gold mapping, cross-source
+overlap, evidence positions, DEV precision and actual long-context model
+behavior remain unmeasured. No neutral non-inferiority or capability
+credit is earned. Next: freeze native task/workflow/metric mappings and
+source-group separation before any model comparison.
+
+### ECA-2 child-local corrected experiment: final quality failure
+
+HYPOTHESIS: correcting parent-wide UNKNOWN leakage into independently
+supported children may recover the intended atomic Evidence Pages
+interface. Preregistration `f47434c`, atomic protocol SHA-256
+`21e295c362da058b4b5d2247b61caf247449e79132ed7520a6f637926816b0fb`,
+inherits the original five architectures, optimizer, 400 epochs, seed7,
+normalization, validation selection, calibration grid and gates.
+
+Data: cached prefinal encoder inputs/features remain byte-identical;
+child targets/masks were independently rebuilt from owned active-property
+evidence. All five heads were refitted. The final has 31,360 DecisionIRs
+over 320 disjoint worlds, newly authored property meanings/wordings across
+the fixed20 families and two opaque reviews of all420 new source items.
+Calibration and the pages-only eligible-arm receipt were sealed before
+final feature capture. Eligibility is not a quality pass or final winner
+selection. Final outcomes were scored once for the five fitted controls
+and three frozen ablations; no final fitting or threshold changes occurred.
+
+Primary metric: supported K4 atomic exact-maximal-set family macro.
+MEASURED final results:
+
+| Control | Atomic macro [world-cluster 95% CI] | Held4 macro | Composition | Ordinal MAE | Attribution | Supported coverage | Teacher-changing correct-new |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Pages | .085547 [.075212,.096362] | .132813 | .045313 | .361047 | .247754 | .280000 | .080327 |
+| Joint cross | .281641 [.265691,.297274] | .357422 | .178125 | .360000 | .883203 | .520938 | .248935 |
+| Cosine | .030078 [.021771,.039272] | .054688 | .012500 | .352883 | .292188 | .083438 | .027202 |
+| Lexical | .269531 [.249565,.289259] | .322266 | .364063 | .318965 | .383984 | 1.000000 | .283026 |
+| Query blind | .425000 [.405991,.443405] | .468750 | .425000 | .340777 | .250000 | 1.000000 | .346449 |
+
+Statistics: 10,000 paired world-cluster bootstrap draws, seed0,
+conditioned on the fixed authored family/property/wording inventory.
+These are not independent human authors, future fields or native task
+samples. Pages minus cross is `-.196094`, CI `[-.213915,-.178217]`;
+the one-sided95 lower bound is `-.210855`, failing the inherited internal
+.05 non-inferiority margin. This is not the endgame .01 comparison.
+There are 280 harmed worlds among292 discordant/320; CP upper95 is
+.904282.
+
+Gate FAIL: every fitted control fails overall semantic quality.
+Pages fails atomic/held-family/composition >=.80, ordinal MAE <=.10,
+orientation >=.90, attribution >=.85, UNKNOWN precision/recall >=.90,
+supported coverage >=.90 and causal correct-new >=.80. Its UNKNOWN
+precision/recall are .729863/.778125; orientation is .541309.
+Cross attribution alone passes its point screen; its ordinal and decision
+quality do not. Lexical/query-blind UNKNOWN precision is undefined
+(zero predicted UNKNOWN), not zero-error evidence.
+Permutation/rename/page/question reorder invariance is1 structurally.
+No promotion, B-STEF, certificate, speed or competitor credit is earned.
+
+Mechanism evidence: pages exceeds zero-question and zero-page ablations,
+each Bonferroni lower bound .074356 across the three declared benefit
+claims. It does not exceed lexical (lower bound -.208029), and causal
+quality fails. Nonzero input use does not establish adequate semantic
+decisions. Cross matching .883203 with ordinal MAE .360000 makes matching
+versus grade/orientation a diagnostic hypothesis, not a proven cause.
+
+Independent NumPy/typed replay passed 75,391,388 assertions and compared
+293,516,622 values, including all31,360 decisions per control, causal
+populations, exact child truth, 439,040 typed integer cases, 206,080
+identity cases and four large-integer/missing-child boundaries. Numerical
+reproduction of the superseded ECA-1 does not repair its confounded targets.
+Do not interpret its old final versus this new final as an isolated
+target-fix effect: both the targets and final property/wording inventory
+changed.
+
+Final evaluation SHA-256:
+`5af3ef025e98243885c68ed145b2b190a1e0fcbeb48b53c9112485d4fd6a2e35`.
+Independent final replay:
+`c056e26eb68c33e5e2cc94f55114a0c499df7813bf694ef00fad6b0f938cb618`.
+Sealed selection:
+`3555e4cbd83b1aa4c9b27beeb602b1633c3c804c00dacf08bc8e91529ac57b7c`.
+The immutable final report leaves its separately owned live-runtime and
+closed-literal prerequisites unfilled; their subsequent receipts must be
+reported separately, not retroactively inserted into that report.
+
+INFERENCE: these tested corrected frozen final-mean/readout interfaces
+remain inadequate. This does not prove semantic information is absent
+from every encoder state or retire all evidence-caching architectures.
+Unknown: whether conditional readout, relation/grade recovery or an
+explicit caller-supplied rubric resolves the remaining interface.
+
+Next branch: corrected DEV-only truth/component substitutions, one finite
+FP64 grade least-squares ceiling and the previously declared conditional
+768->128->1 heads. Corrected DEV pages/cross atomic macro are
+.058594/.313477, sufficient to activate the original failure branch
+without choosing an architecture from final outcomes.
+`ephemeral_pages_atomic_audit_protocol.json` prospectively pins this
+child-local execution; SHA-256
+`1d41ea1c2afb81b82472500859119fa5b48bb37065076a6b15afa96e72e2f1fa`.
+No new final features, labels or outcomes enter these diagnostics or
+their fitting/selection. Old DEV success can justify a fresh experiment,
+but cannot earn promotion.
+
+#### Separately completed exact regression and retained execution failures
+
+MEASURED: corrected-context closed CBF8 replay preserves all4,960 literal
+integer decisions exactly in each of its two historical cohorts.
+Independent replay passed 2,004,676 assertions and compared443,070 values;
+rank64 NumPy/reader maximum absolute error was `7.62939e-6`.
+It reconstructs 7,584 development decisions/73,416 teacher-changing swaps
+and 13,152 closed-final decisions/150,188 swaps. Literal maximal-set and
+concrete accuracy are1 with zero original-teacher differences.
+
+Closed semantic results remain negative: development alias/composition
+exact-set accuracy .056641/.008750, causal correct-new .007274;
+historical closed-final alias/composition .228760/.142822, causal
+correct-new .125782. Correct-new conditions on teacher change without
+additionally requiring student change. These cohorts were already closed
+and are diagnostic only; they are not fresh ECA-2 transfer evidence.
+The real encoder processed four field pages in one forward and164 distinct
+query spans in six forwards; candidate integers bypassed the encoder.
+
+Closed result SHA-256:
+`a85f4e575880d636f4a3cbb0e9a321bfcf2018608b36c0e82e9c8de82d231ae2`.
+Independent replay:
+`4eb334350e43a2f11107af36ff08765c462b38d209c7630ff9df6f4495b40fae`.
+`ephemeral_pages_atomic_result_manifest.json` pins the complete final,
+supplemental live/closed proofs, immutable original gate fields and failures.
+The exact and live-runtime prerequisites now pass separately; overall
+semantic quality remains FAIL.
+
+An outer launch `flock` initially blocked the encoder's own exclusive
+lock, timing out with an empty output directory. Removing only the
+redundant launcher lock completed the unchanged replay; the encoder still
+serializes CUDA use. Retain the failed root and timeout receipt.
+The independent checker also initially assumed that the validator returned
+the entire raw receipt and that the atomic amendment directly contained
+its inherited encoder specification. Both incorrect checker assumptions
+were repaired against the existing contracts, preserving source snapshots
+and failed receipts; no model result, gate, threshold or corpus changed.
+
 
 
 

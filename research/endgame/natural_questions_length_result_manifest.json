@@ -1,0 +1,222 @@
+{
+  "B_STEF_allowed": false,
+  "artifacts": {
+    "custody": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/natural-questions-length-url-v2/shard_custody.jsonl",
+      "sha256": "fc7d8f6e762267e7b0cd8f006c6cf7eb9249e8a684fb6ffdd16aa05808432f11"
+    },
+    "document_groups": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/natural-questions-length-url-v2/document_groups.jsonl",
+      "sha256": "c19aa3369a7133e95f79631fe4e46213379cef8c9593594be22ccbf4fd2fbc54"
+    },
+    "document_lengths": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/natural-questions-length-url-v2/document_token_counts.jsonl",
+      "sha256": "e17347ee3f8a242b969be688bff22aa15bc11bdeb1496bc8f41e00fb5cd3da93"
+    }
+  },
+  "corrected_protocol": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/natural_questions_length_url_protocol.json",
+    "sha256": "3fcd63cdfa1ef1abdcb9c32a0989ec1398b9b35f4c813528026a4fb19a4a2a34"
+  },
+  "endgame_complete": false,
+  "independent_receipt": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/natural-questions-length-url-v2/independent_verification.json",
+    "sha256": "094e2c117a4e35fc38e33d110bcd732c17555c6ec1a52aad00a9023da1325337"
+  },
+  "independent_verifier": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/natural_questions_length_verify.py",
+    "sha256": "3d6e4459e516af49f7f70ffa39829d2f21494fed349734adcc461dcd5414b5e1"
+  },
+  "lengths": {
+    "english": {
+      "components": 6930,
+      "components_with_any_qualifying_row_by_threshold": {
+        "1024": 6581,
+        "16384": 815,
+        "512": 6854,
+        "8192": 2288
+      },
+      "maximum": 85897,
+      "median": 5740.0,
+      "minimum": 180,
+      "rows": 7830,
+      "rows_by_threshold": {
+        "1024": 7470,
+        "16384": 1052,
+        "512": 7754,
+        "8192": 2810
+      }
+    },
+    "multilingual": {
+      "components": 6930,
+      "components_with_any_qualifying_row_by_threshold": {
+        "1024": 6610,
+        "16384": 956,
+        "512": 6862,
+        "8192": 2483
+      },
+      "maximum": 93286,
+      "median": 6219.5,
+      "minimum": 170,
+      "rows": 7830,
+      "rows_by_threshold": {
+        "1024": 7501,
+        "16384": 1242,
+        "512": 7762,
+        "8192": 3045
+      }
+    }
+  },
+  "license_class": "conditional/review",
+  "long_context_model_capability_earned": false,
+  "model_forwards": 0,
+  "neutral_quality_credit": false,
+  "original_failure": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/long-source-metadata-v1/nq_native_url_failure_v1.json",
+    "sha256": "b07640aa1121f64616e7d6437bf96b5076ae98c2cd882cd622b6e3b8fdb68cfc"
+  },
+  "original_protocol": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/natural_questions_length_protocol.json",
+    "sha256": "fcdc406bb5e8d16dbabda4b5206bf950bbc83d5c6b2f79a73ff57cff7b2d1bf0"
+  },
+  "parser_boundary_smoke": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/long-source-metadata-v1/nq_projection_smoke_url_v2.json",
+    "sha256": "0750cba548e14a546b55034ed82be06de04dc077f46fcaa850ce70368c52a6a6"
+  },
+  "prior_training_or_selection_exposure": "UNKNOWN",
+  "producer": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/natural_questions_length_census.py",
+    "sha256": "bf4a8d03e22fdf91c65b63a24525d57c7feb6f35eb57d9574a910ce742ec7f99"
+  },
+  "producer_report": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/natural-questions-length-url-v2/report.json",
+    "sha256": "c5fa50cf576ce7c42699ed230be47a3e2daa1356cf4df274663006f31d922607"
+  },
+  "rights_exposure_authority": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/long_source_metadata_review_manifest.json",
+    "sha256": "382238f19a8b318922b418a48e48128544e86f306dc9c1b004b37ebc8ad5b9f3"
+  },
+  "schema": "vey.neutral.nq.input-length-custody.v1",
+  "scope": "Authorized bounded anonymous local input-only evaluation preparation, not shipping training or redistribution. Native gold annotations stay byte-preserved in raw shards; no questions or annotation values decoded. Source component counts are overlap-control counts, not evidence of author/user/template independence, power or semantic long-context capability. Framing, evidence positions, native-gold mapping, cross-source overlap and DEV precision remain unmeasured.",
+  "source_allocation": "All official validation stays confirmation-only; no reassignment.",
+  "source_revision": "e8103d566bef4154c2c12b17c6095ec5275840cc",
+  "source_shards": [
+    {
+      "bytes": 185560593,
+      "decoded_columns": [
+        "id",
+        "document.title",
+        "document.url",
+        "document.tokens"
+      ],
+      "local_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/datasets--google-research-datasets--natural_questions/snapshots/e8103d566bef4154c2c12b17c6095ec5275840cc/dev/validation-00000-of-00007.parquet",
+      "path": "dev/validation-00000-of-00007.parquet",
+      "rows": 1119,
+      "schema": "id: string\ndocument: struct<title: string, url: string, html: string, tokens: struct<token: list<item: string>, is_html:  (... 78 chars omitted)\n  child 0, title: string\n  child 1, url: string\n  child 2, html: string\n  child 3, tokens: struct<token: list<item: string>, is_html: list<item: bool>, start_byte: list<item: int64>, end_byte (... 20 chars omitted)\n      child 0, token: list<item: string>\n          child 0, item: string\n      child 1, is_html: list<item: bool>\n          child 0, item: bool\n      child 2, start_byte: list<item: int64>\n          child 0, item: int64\n      child 3, end_byte: list<item: int64>\n          child 0, item: int64\nquestion: struct<text: string, tokens: list<item: string>>\n  child 0, text: string\n  child 1, tokens: list<item: string>\n      child 0, item: string\nlong_answer_candidates: struct<start_token: list<item: int64>, end_token: list<item: int64>, start_byte: list<item: int64>,  (... 57 chars omitted)\n  child 0, start_token: list<item: int64>\n      child 0, item: int64\n  child 1, end_token: list<item: int64>\n      child 0, item: int64\n  child 2, start_byte: list<item: int64>\n      child 0, item: int64\n  child 3, end_byte: list<item: int64>\n      child 0, item: int64\n  child 4, top_level: list<item: bool>\n      child 0, item: bool\nannotations: struct<id: list<item: string>, long_answer: list<item: struct<start_token: int64, end_token: int64,  (... 278 chars omitted)\n  child 0, id: list<item: string>\n      child 0, item: string\n  child 1, long_answer: list<item: struct<start_token: int64, end_token: int64, start_byte: int64, end_byte: int64, candidat (... 16 chars omitted)\n      child 0, item: struct<start_token: int64, end_token: int64, start_byte: int64, end_byte: int64, candidate_index: in (... 4 chars omitted)\n          child 0, start_token: int64\n          child 1, end_token: int64\n          child 2, start_byte: int64\n          child 3, end_byte: int64\n          child 4, candidate_index: int64\n  child 2, short_answers: list<item: struct<start_token: list<item: int64>, end_token: list<item: int64>, start_byte: list<ite (... 66 chars omitted)\n      child 0, item: struct<start_token: list<item: int64>, end_token: list<item: int64>, start_byte: list<item: int64>,  (... 54 chars omitted)\n          child 0, start_token: list<item: int64>\n              child 0, item: int64\n          child 1, end_token: list<item: int64>\n              child 0, item: int64\n          child 2, start_byte: list<item: int64>\n              child 0, item: int64\n          child 3, end_byte: list<item: int64>\n              child 0, item: int64\n          child 4, text: list<item: string>\n              child 0, item: string\n  child 3, yes_no_answer: list<item: int64>\n      child 0, item: int64\n-- schema metadata --\nhuggingface: '{\"info\": {\"features\": {\"id\": {\"dtype\": \"string\", \"_type\": \"' + 1619",
+      "sha256": "348fb27f787e68e1c6389d0fdc3453a41fc66321ec30a2f3c451f1ef82d07c20"
+    },
+    {
+      "bytes": 197099510,
+      "decoded_columns": [
+        "id",
+        "document.title",
+        "document.url",
+        "document.tokens"
+      ],
+      "local_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/datasets--google-research-datasets--natural_questions/snapshots/e8103d566bef4154c2c12b17c6095ec5275840cc/dev/validation-00001-of-00007.parquet",
+      "path": "dev/validation-00001-of-00007.parquet",
+      "rows": 1119,
+      "schema": "id: string\ndocument: struct<title: string, url: string, html: string, tokens: struct<token: list<item: string>, is_html:  (... 78 chars omitted)\n  child 0, title: string\n  child 1, url: string\n  child 2, html: string\n  child 3, tokens: struct<token: list<item: string>, is_html: list<item: bool>, start_byte: list<item: int64>, end_byte (... 20 chars omitted)\n      child 0, token: list<item: string>\n          child 0, item: string\n      child 1, is_html: list<item: bool>\n          child 0, item: bool\n      child 2, start_byte: list<item: int64>\n          child 0, item: int64\n      child 3, end_byte: list<item: int64>\n          child 0, item: int64\nquestion: struct<text: string, tokens: list<item: string>>\n  child 0, text: string\n  child 1, tokens: list<item: string>\n      child 0, item: string\nlong_answer_candidates: struct<start_token: list<item: int64>, end_token: list<item: int64>, start_byte: list<item: int64>,  (... 57 chars omitted)\n  child 0, start_token: list<item: int64>\n      child 0, item: int64\n  child 1, end_token: list<item: int64>\n      child 0, item: int64\n  child 2, start_byte: list<item: int64>\n      child 0, item: int64\n  child 3, end_byte: list<item: int64>\n      child 0, item: int64\n  child 4, top_level: list<item: bool>\n      child 0, item: bool\nannotations: struct<id: list<item: string>, long_answer: list<item: struct<start_token: int64, end_token: int64,  (... 278 chars omitted)\n  child 0, id: list<item: string>\n      child 0, item: string\n  child 1, long_answer: list<item: struct<start_token: int64, end_token: int64, start_byte: int64, end_byte: int64, candidat (... 16 chars omitted)\n      child 0, item: struct<start_token: int64, end_token: int64, start_byte: int64, end_byte: int64, candidate_index: in (... 4 chars omitted)\n          child 0, start_token: int64\n          child 1, end_token: int64\n          child 2, start_byte: int64\n          child 3, end_byte: int64\n          child 4, candidate_index: int64\n  child 2, short_answers: list<item: struct<start_token: list<item: int64>, end_token: list<item: int64>, start_byte: list<ite (... 66 chars omitted)\n      child 0, item: struct<start_token: list<item: int64>, end_token: list<item: int64>, start_byte: list<item: int64>,  (... 54 chars omitted)\n          child 0, start_token: list<item: int64>\n              child 0, item: int64\n          child 1, end_token: list<item: int64>\n              child 0, item: int64\n          child 2, start_byte: list<item: int64>\n              child 0, item: int64\n          child 3, end_byte: list<item: int64>\n              child 0, item: int64\n          child 4, text: list<item: string>\n              child 0, item: string\n  child 3, yes_no_answer: list<item: int64>\n      child 0, item: int64\n-- schema metadata --\nhuggingface: '{\"info\": {\"features\": {\"id\": {\"dtype\": \"string\", \"_type\": \"' + 1619",
+      "sha256": "5be65bc20b859c5ca6041043507fbc8f34224192a70e5e767dcb2876f04468a4"
+    },
+    {
+      "bytes": 190921063,
+      "decoded_columns": [
+        "id",
+        "document.title",
+        "document.url",
+        "document.tokens"
+      ],
+      "local_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/datasets--google-research-datasets--natural_questions/snapshots/e8103d566bef4154c2c12b17c6095ec5275840cc/dev/validation-00002-of-00007.parquet",
+      "path": "dev/validation-00002-of-00007.parquet",
+      "rows": 1119,
+      "schema": "id: string\ndocument: struct<title: string, url: string, html: string, tokens: struct<token: list<item: string>, is_html:  (... 78 chars omitted)\n  child 0, title: string\n  child 1, url: string\n  child 2, html: string\n  child 3, tokens: struct<token: list<item: string>, is_html: list<item: bool>, start_byte: list<item: int64>, end_byte (... 20 chars omitted)\n      child 0, token: list<item: string>\n          child 0, item: string\n      child 1, is_html: list<item: bool>\n          child 0, item: bool\n      child 2, start_byte: list<item: int64>\n          child 0, item: int64\n      child 3, end_byte: list<item: int64>\n          child 0, item: int64\nquestion: struct<text: string, tokens: list<item: string>>\n  child 0, text: string\n  child 1, tokens: list<item: string>\n      child 0, item: string\nlong_answer_candidates: struct<start_token: list<item: int64>, end_token: list<item: int64>, start_byte: list<item: int64>,  (... 57 chars omitted)\n  child 0, start_token: list<item: int64>\n      child 0, item: int64\n  child 1, end_token: list<item: int64>\n      child 0, item: int64\n  child 2, start_byte: list<item: int64>\n      child 0, item: int64\n  child 3, end_byte: list<item: int64>\n      child 0, item: int64\n  child 4, top_level: list<item: bool>\n      child 0, item: bool\nannotations: struct<id: list<item: string>, long_answer: list<item: struct<start_token: int64, end_token: int64,  (... 278 chars omitted)\n  child 0, id: list<item: string>\n      child 0, item: string\n  child 1, long_answer: list<item: struct<start_token: int64, end_token: int64, start_byte: int64, end_byte: int64, candidat (... 16 chars omitted)\n      child 0, item: struct<start_token: int64, end_token: int64, start_byte: int64, end_byte: int64, candidate_index: in (... 4 chars omitted)\n          child 0, start_token: int64\n          child 1, end_token: int64\n          child 2, start_byte: int64\n          child 3, end_byte: int64\n          child 4, candidate_index: int64\n  child 2, short_answers: list<item: struct<start_token: list<item: int64>, end_token: list<item: int64>, start_byte: list<ite (... 66 chars omitted)\n      child 0, item: struct<start_token: list<item: int64>, end_token: list<item: int64>, start_byte: list<item: int64>,  (... 54 chars omitted)\n          child 0, start_token: list<item: int64>\n              child 0, item: int64\n          child 1, end_token: list<item: int64>\n              child 0, item: int64\n          child 2, start_byte: list<item: int64>\n              child 0, item: int64\n          child 3, end_byte: list<item: int64>\n              child 0, item: int64\n          child 4, text: list<item: string>\n              child 0, item: string\n  child 3, yes_no_answer: list<item: int64>\n      child 0, item: int64\n-- schema metadata --\nhuggingface: '{\"info\": {\"features\": {\"id\": {\"dtype\": \"string\", \"_type\": \"' + 1619",
+      "sha256": "d639409b817ceceacf3b2538fed27065ff296793c158707e9e07f3ab2f737a9d"
+    },
+    {
+      "bytes": 191104999,
+      "decoded_columns": [
+        "id",
+        "document.title",
+        "document.url",
+        "document.tokens"
+      ],
+      "local_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/datasets--google-research-datasets--natural_questions/snapshots/e8103d566bef4154c2c12b17c6095ec5275840cc/dev/validation-00003-of-00007.parquet",
+      "path": "dev/validation-00003-of-00007.parquet",
+      "rows": 1119,
+      "schema": "id: string\ndocument: struct<title: string, url: string, html: string, tokens: struct<token: list<item: string>, is_html:  (... 78 chars omitted)\n  child 0, title: string\n  child 1, url: string\n  child 2, html: string\n  child 3, tokens: struct<token: list<item: string>, is_html: list<item: bool>, start_byte: list<item: int64>, end_byte (... 20 chars omitted)\n      child 0, token: list<item: string>\n          child 0, item: string\n      child 1, is_html: list<item: bool>\n          child 0, item: bool\n      child 2, start_byte: list<item: int64>\n          child 0, item: int64\n      child 3, end_byte: list<item: int64>\n          child 0, item: int64\nquestion: struct<text: string, tokens: list<item: string>>\n  child 0, text: string\n  child 1, tokens: list<item: string>\n      child 0, item: string\nlong_answer_candidates: struct<start_token: list<item: int64>, end_token: list<item: int64>, start_byte: list<item: int64>,  (... 57 chars omitted)\n  child 0, start_token: list<item: int64>\n      child 0, item: int64\n  child 1, end_token: list<item: int64>\n      child 0, item: int64\n  child 2, start_byte: list<item: int64>\n      child 0, item: int64\n  child 3, end_byte: list<item: int64>\n      child 0, item: int64\n  child 4, top_level: list<item: bool>\n      child 0, item: bool\nannotations: struct<id: list<item: string>, long_answer: list<item: struct<start_token: int64, end_token: int64,  (... 278 chars omitted)\n  child 0, id: list<item: string>\n      child 0, item: string\n  child 1, long_answer: list<item: struct<start_token: int64, end_token: int64, start_byte: int64, end_byte: int64, candidat (... 16 chars omitted)\n      child 0, item: struct<start_token: int64, end_token: int64, start_byte: int64, end_byte: int64, candidate_index: in (... 4 chars omitted)\n          child 0, start_token: int64\n          child 1, end_token: int64\n          child 2, start_byte: int64\n          child 3, end_byte: int64\n          child 4, candidate_index: int64\n  child 2, short_answers: list<item: struct<start_token: list<item: int64>, end_token: list<item: int64>, start_byte: list<ite (... 66 chars omitted)\n      child 0, item: struct<start_token: list<item: int64>, end_token: list<item: int64>, start_byte: list<item: int64>,  (... 54 chars omitted)\n          child 0, start_token: list<item: int64>\n              child 0, item: int64\n          child 1, end_token: list<item: int64>\n              child 0, item: int64\n          child 2, start_byte: list<item: int64>\n              child 0, item: int64\n          child 3, end_byte: list<item: int64>\n              child 0, item: int64\n          child 4, text: list<item: string>\n              child 0, item: string\n  child 3, yes_no_answer: list<item: int64>\n      child 0, item: int64\n-- schema metadata --\nhuggingface: '{\"info\": {\"features\": {\"id\": {\"dtype\": \"string\", \"_type\": \"' + 1619",
+      "sha256": "4d1df3bea63e9bb567bdf3b87e8955b947f8c6f998bded0840c01bb9a13968bc"
+    },
+    {
+      "bytes": 192525840,
+      "decoded_columns": [
+        "id",
+        "document.title",
+        "document.url",
+        "document.tokens"
+      ],
+      "local_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/datasets--google-research-datasets--natural_questions/snapshots/e8103d566bef4154c2c12b17c6095ec5275840cc/dev/validation-00004-of-00007.parquet",
+      "path": "dev/validation-00004-of-00007.parquet",
+      "rows": 1118,
+      "schema": "id: string\ndocument: struct<title: string, url: string, html: string, tokens: struct<token: list<item: string>, is_html:  (... 78 chars omitted)\n  child 0, title: string\n  child 1, url: string\n  child 2, html: string\n  child 3, tokens: struct<token: list<item: string>, is_html: list<item: bool>, start_byte: list<item: int64>, end_byte (... 20 chars omitted)\n      child 0, token: list<item: string>\n          child 0, item: string\n      child 1, is_html: list<item: bool>\n          child 0, item: bool\n      child 2, start_byte: list<item: int64>\n          child 0, item: int64\n      child 3, end_byte: list<item: int64>\n          child 0, item: int64\nquestion: struct<text: string, tokens: list<item: string>>\n  child 0, text: string\n  child 1, tokens: list<item: string>\n      child 0, item: string\nlong_answer_candidates: struct<start_token: list<item: int64>, end_token: list<item: int64>, start_byte: list<item: int64>,  (... 57 chars omitted)\n  child 0, start_token: list<item: int64>\n      child 0, item: int64\n  child 1, end_token: list<item: int64>\n      child 0, item: int64\n  child 2, start_byte: list<item: int64>\n      child 0, item: int64\n  child 3, end_byte: list<item: int64>\n      child 0, item: int64\n  child 4, top_level: list<item: bool>\n      child 0, item: bool\nannotations: struct<id: list<item: string>, long_answer: list<item: struct<start_token: int64, end_token: int64,  (... 278 chars omitted)\n  child 0, id: list<item: string>\n      child 0, item: string\n  child 1, long_answer: list<item: struct<start_token: int64, end_token: int64, start_byte: int64, end_byte: int64, candidat (... 16 chars omitted)\n      child 0, item: struct<start_token: int64, end_token: int64, start_byte: int64, end_byte: int64, candidate_index: in (... 4 chars omitted)\n          child 0, start_token: int64\n          child 1, end_token: int64\n          child 2, start_byte: int64\n          child 3, end_byte: int64\n          child 4, candidate_index: int64\n  child 2, short_answers: list<item: struct<start_token: list<item: int64>, end_token: list<item: int64>, start_byte: list<ite (... 66 chars omitted)\n      child 0, item: struct<start_token: list<item: int64>, end_token: list<item: int64>, start_byte: list<item: int64>,  (... 54 chars omitted)\n          child 0, start_token: list<item: int64>\n              child 0, item: int64\n          child 1, end_token: list<item: int64>\n              child 0, item: int64\n          child 2, start_byte: list<item: int64>\n              child 0, item: int64\n          child 3, end_byte: list<item: int64>\n              child 0, item: int64\n          child 4, text: list<item: string>\n              child 0, item: string\n  child 3, yes_no_answer: list<item: int64>\n      child 0, item: int64\n-- schema metadata --\nhuggingface: '{\"info\": {\"features\": {\"id\": {\"dtype\": \"string\", \"_type\": \"' + 1619",
+      "sha256": "40781760176ff93afc84fb5dba1239f46a082aa2edc0e7dd4fad1a34f38435e0"
+    },
+    {
+      "bytes": 190204549,
+      "decoded_columns": [
+        "id",
+        "document.title",
+        "document.url",
+        "document.tokens"
+      ],
+      "local_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/datasets--google-research-datasets--natural_questions/snapshots/e8103d566bef4154c2c12b17c6095ec5275840cc/dev/validation-00005-of-00007.parquet",
+      "path": "dev/validation-00005-of-00007.parquet",
+      "rows": 1118,
+      "schema": "id: string\ndocument: struct<title: string, url: string, html: string, tokens: struct<token: list<item: string>, is_html:  (... 78 chars omitted)\n  child 0, title: string\n  child 1, url: string\n  child 2, html: string\n  child 3, tokens: struct<token: list<item: string>, is_html: list<item: bool>, start_byte: list<item: int64>, end_byte (... 20 chars omitted)\n      child 0, token: list<item: string>\n          child 0, item: string\n      child 1, is_html: list<item: bool>\n          child 0, item: bool\n      child 2, start_byte: list<item: int64>\n          child 0, item: int64\n      child 3, end_byte: list<item: int64>\n          child 0, item: int64\nquestion: struct<text: string, tokens: list<item: string>>\n  child 0, text: string\n  child 1, tokens: list<item: string>\n      child 0, item: string\nlong_answer_candidates: struct<start_token: list<item: int64>, end_token: list<item: int64>, start_byte: list<item: int64>,  (... 57 chars omitted)\n  child 0, start_token: list<item: int64>\n      child 0, item: int64\n  child 1, end_token: list<item: int64>\n      child 0, item: int64\n  child 2, start_byte: list<item: int64>\n      child 0, item: int64\n  child 3, end_byte: list<item: int64>\n      child 0, item: int64\n  child 4, top_level: list<item: bool>\n      child 0, item: bool\nannotations: struct<id: list<item: string>, long_answer: list<item: struct<start_token: int64, end_token: int64,  (... 278 chars omitted)\n  child 0, id: list<item: string>\n      child 0, item: string\n  child 1, long_answer: list<item: struct<start_token: int64, end_token: int64, start_byte: int64, end_byte: int64, candidat (... 16 chars omitted)\n      child 0, item: struct<start_token: int64, end_token: int64, start_byte: int64, end_byte: int64, candidate_index: in (... 4 chars omitted)\n          child 0, start_token: int64\n          child 1, end_token: int64\n          child 2, start_byte: int64\n          child 3, end_byte: int64\n          child 4, candidate_index: int64\n  child 2, short_answers: list<item: struct<start_token: list<item: int64>, end_token: list<item: int64>, start_byte: list<ite (... 66 chars omitted)\n      child 0, item: struct<start_token: list<item: int64>, end_token: list<item: int64>, start_byte: list<item: int64>,  (... 54 chars omitted)\n          child 0, start_token: list<item: int64>\n              child 0, item: int64\n          child 1, end_token: list<item: int64>\n              child 0, item: int64\n          child 2, start_byte: list<item: int64>\n              child 0, item: int64\n          child 3, end_byte: list<item: int64>\n              child 0, item: int64\n          child 4, text: list<item: string>\n              child 0, item: string\n  child 3, yes_no_answer: list<item: int64>\n      child 0, item: int64\n-- schema metadata --\nhuggingface: '{\"info\": {\"features\": {\"id\": {\"dtype\": \"string\", \"_type\": \"' + 1619",
+      "sha256": "3988c0d16f6b014348be130ef20ce324cf2b9bbafbddee96ad78a37e52e8903f"
+    },
+    {
+      "bytes": 189709804,
+      "decoded_columns": [
+        "id",
+        "document.title",
+        "document.url",
+        "document.tokens"
+      ],
+      "local_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/datasets--google-research-datasets--natural_questions/snapshots/e8103d566bef4154c2c12b17c6095ec5275840cc/dev/validation-00006-of-00007.parquet",
+      "path": "dev/validation-00006-of-00007.parquet",
+      "rows": 1118,
+      "schema": "id: string\ndocument: struct<title: string, url: string, html: string, tokens: struct<token: list<item: string>, is_html:  (... 78 chars omitted)\n  child 0, title: string\n  child 1, url: string\n  child 2, html: string\n  child 3, tokens: struct<token: list<item: string>, is_html: list<item: bool>, start_byte: list<item: int64>, end_byte (... 20 chars omitted)\n      child 0, token: list<item: string>\n          child 0, item: string\n      child 1, is_html: list<item: bool>\n          child 0, item: bool\n      child 2, start_byte: list<item: int64>\n          child 0, item: int64\n      child 3, end_byte: list<item: int64>\n          child 0, item: int64\nquestion: struct<text: string, tokens: list<item: string>>\n  child 0, text: string\n  child 1, tokens: list<item: string>\n      child 0, item: string\nlong_answer_candidates: struct<start_token: list<item: int64>, end_token: list<item: int64>, start_byte: list<item: int64>,  (... 57 chars omitted)\n  child 0, start_token: list<item: int64>\n      child 0, item: int64\n  child 1, end_token: list<item: int64>\n      child 0, item: int64\n  child 2, start_byte: list<item: int64>\n      child 0, item: int64\n  child 3, end_byte: list<item: int64>\n      child 0, item: int64\n  child 4, top_level: list<item: bool>\n      child 0, item: bool\nannotations: struct<id: list<item: string>, long_answer: list<item: struct<start_token: int64, end_token: int64,  (... 278 chars omitted)\n  child 0, id: list<item: string>\n      child 0, item: string\n  child 1, long_answer: list<item: struct<start_token: int64, end_token: int64, start_byte: int64, end_byte: int64, candidat (... 16 chars omitted)\n      child 0, item: struct<start_token: int64, end_token: int64, start_byte: int64, end_byte: int64, candidate_index: in (... 4 chars omitted)\n          child 0, start_token: int64\n          child 1, end_token: int64\n          child 2, start_byte: int64\n          child 3, end_byte: int64\n          child 4, candidate_index: int64\n  child 2, short_answers: list<item: struct<start_token: list<item: int64>, end_token: list<item: int64>, start_byte: list<ite (... 66 chars omitted)\n      child 0, item: struct<start_token: list<item: int64>, end_token: list<item: int64>, start_byte: list<item: int64>,  (... 54 chars omitted)\n          child 0, start_token: list<item: int64>\n              child 0, item: int64\n          child 1, end_token: list<item: int64>\n              child 0, item: int64\n          child 2, start_byte: list<item: int64>\n              child 0, item: int64\n          child 3, end_byte: list<item: int64>\n              child 0, item: int64\n          child 4, text: list<item: string>\n              child 0, item: string\n  child 3, yes_no_answer: list<item: int64>\n      child 0, item: int64\n-- schema metadata --\nhuggingface: '{\"info\": {\"features\": {\"id\": {\"dtype\": \"string\", \"_type\": \"' + 1619",
+      "sha256": "b3153de2b44df02e0f0a5eac8d82499ef175f99026e8e4dc30e55f4e3b22e725"
+    }
+  ],
+  "statistical_independence_earned": false,
+  "status": "MEASURED_input_census_independently_reconstructed",
+  "tokenizers": {
+    "english": {
+      "bundle_revision": "55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851",
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/blobs/2f4d8583e507b7466d2490e2d6c045647a822698",
+      "repository": "convaiinnovations/laya",
+      "sha256": "6c8aaa9a542084f2457eab775d4eeb51f92a70c0fd9de28d5edb0ddec3c08d30",
+      "subfolder": null
+    },
+    "multilingual": {
+      "bundle_revision": "55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851",
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/blobs/8f/8fdbdb0307b65058d3b81a88cba0082cd1bbe8e85d34295d2271d6fa85a31c7a",
+      "repository": "convaiinnovations/laya",
+      "sha256": "609d8f4c067cd3950f88594c5a802616cea245823836ef5848ee4fc40aab5b6f",
+      "subfolder": "multilingual"
+    }
+  },
+  "unique_substantive_text_hashes": 7378
+}

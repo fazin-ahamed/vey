@@ -1,0 +1,157 @@
+{
+  "B_STEF_allowed": false,
+  "activation_measured_development": {
+    "atomic_choice_macro": {
+      "cross": 0.3134765625,
+      "lexical": 0.6376953125,
+      "pages": 0.05859375,
+      "query_blind": 0.31640625
+    },
+    "interpretation": "Both corrected pages and cross fail already opened development quality. Activate the same predeclared truth/component/finite-linear/conditional-readout audits; no new architecture chosen from final outcomes.",
+    "report": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/evaluation/development/evaluation.json",
+      "sha256": "73c640d696f87476475336614470035e8cb0cfb14d59cd105d3b2073f0ae2123"
+    }
+  },
+  "active_protocol": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_atomic_protocol.json",
+    "sha256": "21e295c362da058b4b5d2247b61caf247449e79132ed7520a6f637926816b0fb"
+  },
+  "arithmetic": "Scores use the same FP32 masked attention arithmetic as the frozen readers; typed parent composition uses exact Fraction weights and persisted scalar values, unchanged required-child/candidate UNKNOWN propagation and stable ordinal ties. Retain baseline outputs verbatim and assert identity reconstruction before substitutions; report both exact maximal-set and concrete chosen-in-gold accuracy. No tolerance may turn an approximate tie into exact gold equality.",
+  "artifacts": [
+    "component oracle outputs and per-decision rows",
+    "independent truth/grade-control receipt",
+    "linear grade ceiling coefficients/rank/residuals/predictions",
+    "conditional-control checkpoint, every objective component and selected epoch",
+    "calibration and paired development statistics",
+    "source/code/protocol/environment hashes and unchanged baseline checkpoint hashes"
+  ],
+  "competitor_or_neutral_credit": false,
+  "completed_corrected_gate_measurement": {
+    "final_evaluation": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/evaluation/final/evaluation.json",
+      "sha256": "5af3ef025e98243885c68ed145b2b190a1e0fcbeb48b53c9112485d4fd6a2e35"
+    },
+    "independent_final_replay": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/evaluation/final/independent_verification.json",
+      "sha256": "c056e26eb68c33e5e2cc94f55114a0c499df7813bf694ef00fad6b0f938cb618"
+    },
+    "role": "Custody proves prerequisite all-five measurement finished. Neither final IR/features/labels nor outcomes enter any audit fitting, calibration, prompt/hyperparameter/architecture/checkpoint selection.",
+    "selection_receipt": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/selection_calibration_receipt.json",
+      "sha256": "3555e4cbd83b1aa4c9b27beeb602b1633c3c804c00dacf08bc8e91529ac57b7c"
+    }
+  },
+  "controls": {
+    "conditional_control": "One separate frozen cached q/page conditional reader: concatenate the existing train-normalized384 question and384 page vectors, then independent canonical768->128->1 GELU relevance, directed-grade and direction heads, plus the unchanged three-parameter knownness expression. Directed grade goes directly into weighted score as in CrossReader. No extra encoder calls, pretrained classifier, hidden width search, final data, registry expansion or changes to baseline heads. This is a diagnostic function-class control, not promotion or an amended ECA-1 eligible arm.",
+    "factorial": "Independently recheck per-page grade/orientation/ownership and exact teacher maximal sets, contradictions and missingness from authored private targets. Independent opaque review6300 items remains provenance, not native task evidence. Evaluate all16 combinations of learned/oracle relevance, raw extent, question orientation and candidate knownness for pages. For cross evaluate all8 combinations of relevance, directly predicted directed extent and knownness; its direction head is diagnostic only and must not receive causal credit for scores. Oracle grades/fields/knownness are privileged diagnostic labels, never deployable model inputs. Missing relevant page uses uniform attention over existing pages when relevance alone is substituted; oracle knownness still forces appropriate UNKNOWN.",
+    "grade_ceiling": "Fit one bias-free FP64 least-squares page-feature-to-raw-grade regression on unique supervised train page texts only, with exact target conflict checks. Use numpy.linalg.lstsq(rcond=None); report rank, conditioning, training MSE, held validation/development MAE and source-grouped feature counts. This is a finite pinned linear-function-class diagnostic, not a best ranking/general encoder bound. Persist fitted matrix, normalization, raw predictions and independent normal-equation/second-solver residual checks. Do not feed typed exact facts into this regression."
+  },
+  "data": {
+    "capture_manifests": {
+      "calibration": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/features/calibration_manifest.json",
+        "sha256": "b383d8cbac991ef77eb2925129fdf9bd6f15bb5469f3f2440d83c374ba1e20e2"
+      },
+      "development": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/features/development_manifest.json",
+        "sha256": "79afa10a043a50e5605d25c19bc4144cf1a5a08b9cc9b4d61f2a9634760eedba"
+      },
+      "train": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/features/train_manifest.json",
+        "sha256": "cc84e1ba2d5028d9e7de8389d26ef9c9bdc8295b175b1ae62b7259ac92bc7ff8"
+      },
+      "validation": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/features/validation_manifest.json",
+        "sha256": "ca32ebfaaeed898fdfb7c62cf23fb6a11262bef8d5d7bffe6e9f2327de3ec79a"
+      }
+    },
+    "child_truth": "Reconstruct active-property owned-child targets and masks independently before optimization; reject parent-wide knownness and retain all optimizer/normalizer membership hashes. Original authored source and cached prefinal q/page/cross tensors are unchanged.",
+    "phases": [
+      "train",
+      "validation",
+      "calibration",
+      "development"
+    ],
+    "source_catalogue_scope": "Inherited original authored prefinal inventory; no current ECA-2 final source/IR/features parsed or used."
+  },
+  "endgame_complete": false,
+  "failure_branches": {
+    "conditional_and_cross_inadequate": "Retire only these demonstrated inadequate frozen final-mean/readout interfaces, not semantic information in all encoder states. Use component oracle/linear ceilings to preregister one targeted representation change on fresh material: minimal final-layer task adaptation if semantic match/polarity is limiting, or explicit caller-supplied ordinal rubric grounding if grade identifiability is limiting. Do not repeat global numeric reconstruction, arbitrarily widen heads, or select on closed ECA final.",
+    "conditional_control_passes_parent_development_screens": "Test a prospectively frozen unchanged recipe on fresh independently audited fields/phrases/worlds and an untouched final before any promotion; old development success earns no capability credit.",
+    "knownness_only_limiting": "Preregister presence/contradiction supervision with fresh final; never lower closed final trust thresholds or weaken missing-candidate UNKNOWN policy.",
+    "privileged_truth_fails": "Correct truth/construction before further learned interpretation; preserve old evidence and never force audit acceptance."
+  },
+  "fresh_final_use": false,
+  "gates": "No promotion gate or final re-entry is allowed. Parent development screens identify a justified subsequent fresh-material experiment only.",
+  "hypothesis": "ECA-1 failure may arise from relevance, polarity, grade or knownness interfaces rather than absence of semantic information. Privileged component substitutions and one supervised conditional readout can distinguish tested readout restrictions from an unresolved frozen representation interface.",
+  "hypothesis_class": "HYPOTHESIS",
+  "implementation": {
+    "ephemeral_pages_capture.py": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_capture.py",
+      "sha256": "3749020ae76f5b45939f9672468f6228cc6ac7643397eda57fe5954bdc986be6"
+    },
+    "ephemeral_pages_components.py": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_components.py",
+      "sha256": "8093580eaf67cb980fd60f65d54dbce1fcedd0eb2c45b954bcd176091b2b9fed"
+    },
+    "ephemeral_pages_conditional.py": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_conditional.py",
+      "sha256": "fd04eeafe443ce3a7f55d3e85ce31e2f68e2abeed03b122df6706b413efa6810"
+    },
+    "ephemeral_pages_evaluate.py": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_evaluate.py",
+      "sha256": "5d55d0066035c19b899b5b89479d30cdf58b2e5d65f76a596187ecf5723f5d4b"
+    },
+    "ephemeral_pages_features.py": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_features.py",
+      "sha256": "0b11703840366161f16a8755f15657612ffdf9d58c5101dcab2f0cf0b3ee31f3"
+    },
+    "ephemeral_pages_model.py": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_model.py",
+      "sha256": "faabad5a6d024ca28faa16b70f66057aa2fd469268cbe13c3386a6ac2c087c14"
+    },
+    "ephemeral_pages_train.py": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_train.py",
+      "sha256": "3fd63dee39e6a265e6bb087d7d209ea687f5da83154b47daad8e46343795130a"
+    },
+    "ephemeral_pages_verify.py": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_verify.py",
+      "sha256": "79632aaed00f974b74a1614bfd352b35494672ee99ecaac2c560eabc175e3ad6"
+    }
+  },
+  "launch_custody": "Commit this supplement before optimizer/grade fitting; immutable per-job launch receipts pin code/protocol/source/capture/IR/index/normalizer/model/environment/seed/optimizer/validation rows before first step. Existing atomic script guards and baseline postchecks apply.",
+  "original_predeclared_audit": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_audit_protocol.json",
+    "sha256": "7ff11075c9e8298100a29756354951017a71c85dff34193b63a811d7ac61c567"
+  },
+  "primary_metric": "Opened-development exact atomic maximal-set family macro; concrete chosen-in-gold separate. Readout/grade diagnostics are exploratory, not eligibility or promotion.",
+  "promotion": false,
+  "recipe": "Seed7; identical400-epoch AdamW lr0.01 wd0.0001; one full-batch step per epoch by exact component-specific global-denominator accumulation. Same component losses, common q/page normalizer from fitting rows, no new tuning. Earliest minimum held-world validation objective; frozen grid knownness/sigma calibration on original corrected calibration split. Keep all training histories and optimizer/validation row hashes. Save smoke artifacts separately before real fitting.",
+  "resource_budget": "One GPU job at a time, four Torch threads and one BLAS thread, mmap caches, bounded chunks32, nice10/ionice2-7 and inherited RAM/swap guards. Zero encoder calls, no downloads/paid compute; finite400epochs conditional fit,2epochs/64record separate smoke. Component diagnostics CPU only.",
+  "schema": "vey.eca2.child-local-interface-audit.v1",
+  "sealed_baseline_checkpoints": {
+    "cosine": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/cosine.pt",
+      "sha256": "644da2ca5c337c2f622fdb1564f684d6828711df9c3bf219f5828412595242c0"
+    },
+    "cross": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/cross.pt",
+      "sha256": "1ba9d51f7e919a747474f39280c361fa36d1082e02e3c27916f67f68e1f1175a"
+    },
+    "lexical": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/lexical.pkl",
+      "sha256": "63a8e27430a2e9ac1d1c4d600e44d1b8b56f9e0e2027cf77d4987c0b80dbcce4"
+    },
+    "pages": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/pages.pt",
+      "sha256": "052fcf1657bcdfb21ac1d78914b8452002446df768bbc9d670ca7946756bbdcf"
+    },
+    "query_blind": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/query_blind.pt",
+      "sha256": "d10164a779cefdddf439a235d995f0db1cfab0f39c4d128883a3ad2c15ec013e"
+    }
+  },
+  "secondary_metrics": "Component factorial, per-family and held-development-family results, ordinal MAE, relevance/orientation/knownness/causal response, finite linear rank/conditioning/stationarity and independent second solver.",
+  "statistics": "Opened development only: exact same world-cluster bootstrap10000 seed0 and fixed family macro; descriptive paired differences/CIs conditioned on fixed authored inventory. No final/competitor inference, neutral task claim, independent experiment counting by derived swaps, p-values for exploratory oracle factorial, or post-hoc promotion gates."
+}
