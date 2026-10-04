@@ -3861,6 +3861,62 @@ its head or recipe. No stronger encoder, arbitrary width search, neutral
 capability, probability certificate, product promotion or B-STEF is authorized.
 Any successful diagnostic requires fresh audited confirmation before promotion.
 
+### ECA-1 final measurement and atomic-target invalidation
+
+**MEASURED, retained under confounded supervision:** the sealed final was opened
+once after corrected calibration. Independent reconstruction reproduced all
+31360 DecisionIR outcomes, eight control/intervention outputs, calibration,
+10000 world-cluster bootstrap draws and exact composition; no model forwards
+were needed for verification. Evaluation SHA-256:
+`c48acad896340915b7e906c9db70f22200f61dc186e2b27f37807863cc765d6d`.
+The receipt's `verified_persisted_reconstruction` status establishes numerical
+reproduction, not independent validity of the training target function.
+
+| Control | Final exact-set atomic macro accuracy | 95% world-cluster CI |
+|---|---:|---:|
+| Pages | 0.216797 | [0.201917, 0.232235] |
+| Cross | 0.258984 | [0.243164, 0.274788] |
+| Cosine | 0.249609 | [0.232052, 0.267587] |
+| Lexical | 0.396094 | [0.371704, 0.420311] |
+| Query-blind | 0.357813 | [0.336741, 0.378281] |
+
+Pages held-four-family accuracy0.228516, composition0.173438,
+attribution0.286230, orientation0.606250, UNKNOWN recall0.472000,
+precision0.761905 and grade-swap correct-new0.151823 do not pass.
+Internal cross NI also fails: one-sided95% lower difference−0.060276
+against the fixed−0.05 margin. The joint learned-benefit gate fails.
+Exact literals and identity/order invariance remain intact. No promotion,
+replication credit, certificate or endgame capability credit is earned.
+
+**MEASURED correctness defect:** the component truth audit found that the
+projector copied whole-parent `metadata.known` into every child record.
+Erasing or contradicting one required property therefore labels a separately
+supported sibling UNKNOWN and masks its grade/orientation supervision. The
+other parent requirement is not present in the atomic reader's question.
+Independent owned-page truth reconstruction found2560 affected training,
+1280 validation,2560 calibration and2560 development child records. The audit
+opened no final records and made zero encoder/model calls. Audit SHA-256:
+`3f6137500b2be51260195de0c9a76ed17086d09e2d9ac23d88a1e3c79278cff4`.
+
+These results cannot retire the intended child-local interface or establish
+its semantic ceiling. The component verifier's original parent-wide label
+reconstruction and OLS selector inherit the same defect. Further conditional
+readout fitting is held; its reduced smoke and gradient checks are not quality
+evidence. Original checkpoints, projections, scores and receipts remain
+unchanged and auditable.
+
+**Prospective correction:** `ephemeral_pages_atomic_protocol.json` freezes
+ECA-2 before any corrected fitting. A child's knownness and supervision masks
+depend only on its own required property; whole-parent UNKNOWN remains the
+exact conjunction of required child truth. All five controls refit under the
+unchanged encoder, architecture, recipe, checkpoint/calibration rules and
+gates. Prefinal IR/input strings and cached encoder outputs are retained.
+The ECA-1 final is closed for selection. New independently meaning-audited
+properties, phrases and worlds form a separate320-world final, sealed before
+corrected evaluation. This remains an authored English mechanism assay,
+not a neutral benchmark or completion of the many-axis endgame requirements.
+
+
 
 
 

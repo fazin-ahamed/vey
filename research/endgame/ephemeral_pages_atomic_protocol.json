@@ -1,0 +1,34 @@
+{
+  "experiment": "ECA-2 child-local supervision correctness replication",
+  "status": "prospective; no corrected model fitted",
+  "evidence_class": "HYPOTHESIS",
+  "parent_protocol_path": "research/endgame/ephemeral_pages_protocol.json",
+  "parent_protocol_sha256": "4c0c1efe8ad8ffdde79004536a44fc6d034b7701cdedde8e2034dc3f4e52b489",
+  "target_audit": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/atomic_target_audit.json",
+    "sha256": "3f6137500b2be51260195de0c9a76ed17086d09e2d9ac23d88a1e3c79278cff4",
+    "finding": "Parent-wide UNKNOWN leaks into child knownness and grade/orientation masks despite uniquely supported child evidence: train2560, validation1280, calibration2560, development2560 records. Independently deriving child truth from owned relevant pages proves a target-function defect, not a representation limitation. No final records were read by the target audit."
+  },
+  "change": "For each term/candidate, known_target is true iff exactly one owned active-property semantic page has a defined authored grade. Child grade/direction/orientation supervision is masked only by that child truth and target definition. Missing/conflicting sibling requirements do not relabel the child. Parent metadata.known, gold and scores remain whole-program truth. UNKNOWN from any required child still propagates exactly at aggregation.",
+  "identity_guard": "Project each composed child both within its parent and as an independently authored one-term DecisionIR over identical evidence. Model-visible question and ordered page texts, child knownness, relevance, grade, orientation, directed grade and masks must agree. Parent knownness must equal conjunction of its required child truth per candidate. Missing active pages and conflicting active pages remain child UNKNOWN; supported siblings remain known.",
+  "retention": "Preserve every ECA-1 checkpoint, corpus, feature/target artifact, receipt and raw result. Original results remain measured under confounded supervision, cannot retire the intended atomic interface or earn promotion. Historical independently reconstructed receipts establish numerical reproduction, not semantic target validity. Do not modify either frozen ECA-1 protocol or product e6b046ffbd138cbdbfb2f89c6ae77525fe6b0b18.",
+  "output_root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2",
+  "prefinal_data": "Borrow hash-identical grade-corrected ECA-1 train/validation/calibration/development DecisionIRs, authored source and accepted meaning reviews. Rebuild child targets from frozen ownership/property/grade provenance; preserve exact model-input strings and cached encoder outputs. Do not reuse fitted heads or calibration: all five controls refit because optimizer labels/masks changed.",
+  "recipe": "Exactly inherit ECA-1 encoder, five architectures, initialization seed7, 400epochs, AdamW0.01, weight decay0.0001, rank64, loss weights, train-only normalization, K4main/missing/contradiction optimizer membership, earliest validation checkpoint, calibration grids, world bootstrap, quality/causal/mechanism/exact gates and cross NI margin. No prompt, pooling, width, optimizer, epoch, checkpoint or trust-policy search. Report changed target counts on optimizer-selected records and unchanged q/page/cross/page_mask bytes before first optimization.",
+  "new_final": {
+    "worlds": 320,
+    "world_seed": 271828,
+    "grade_and_exact_generator_seed": 1729,
+    "world_ids": "Hash namespace eca2-child-local:271828; disjoint from every ECA-1 world and row",
+    "families": "Same20 protocol families, four fields per world, balanced64 exposures per family. Same last4 out-of-training family stratum; family identities are a closed inventory, not newly sampled human tasks.",
+    "fields": "One newly authored property per family with meaning distinct from every earlier A/B/C property. Final partition field_code C is structural only; new property IDs/titles/descriptions/rubrics/wordings are disjoint. Do not reuse ECA-1 final field meanings under synonyms.",
+    "wordings": "Five ordered extent rubrics, three independently worded pages per grade and three questions per orientation per property. Final-only source, no numeric/literal grade tokens. Freeze hashes before encoder/model execution. Independent opaque meaning review of every new unique page/question; reject or ambiguity blocks capture.",
+    "review": "Author and reviewers never receive model outputs, weights or old final performance. Neutral property definitions/rubrics for page review, neutral descriptions for question review; targets/family/split private. Preserve raw reviews and disagreements; corrections require explicit prospective lineage, never silent acceptance.",
+    "queries_and_variants": "Reuse ECA-1 eleven query types, corrected teacher-changing grade intervention algorithm, required-child erasures/contradictions, permutation/rename/page/question reorder and K2/8/16/32/64 probes; unchanged98 IR rows per world. Exact lane remains code-only.",
+    "custody": "New final source/IRs may be built and audited before fit, but no final neural capture, feature inspection or scoring until immutable corrected checkpoint/calibration/selection receipt sealed. All five controls measured once on this pool; only pages is eligible and no final outcome selects another arm. Old ECA-1 final stays closed for all correction selection and fitting."
+  },
+  "audit_branch": "Hold the ECA-1 conditional-reader and OLS fitting planned under the confounded targets. After corrected all-five development/final measurement, apply unchanged parent failure decision tree. Any additional conditional audit uses corrected child-local truth, its own preregistered source/environment/data launch receipt and development only; never the new final for fitting or selection.",
+  "scope": "Authored English mechanism correctness assay only. No many-axis endgame completion, native Boolean/intent/compliance, multilingual, neutral benchmark, certificate, speed, shipping clearance or competitor superiority credit.",
+  "B_STEF_allowed": false,
+  "endgame_complete": false
+}
