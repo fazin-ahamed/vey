@@ -47,6 +47,10 @@
     "factorial": "Independently recheck per-page grade/orientation/ownership and exact teacher maximal sets, contradictions and missingness from authored private targets. Independent opaque review6300 items remains provenance, not native task evidence. Evaluate all16 combinations of learned/oracle relevance, raw extent, question orientation and candidate knownness for pages. For cross evaluate all8 combinations of relevance, directly predicted directed extent and knownness; its direction head is diagnostic only and must not receive causal credit for scores. Oracle grades/fields/knownness are privileged diagnostic labels, never deployable model inputs. Missing relevant page uses uniform attention over existing pages when relevance alone is substituted; oracle knownness still forces appropriate UNKNOWN.",
     "grade_ceiling": "Fit one bias-free FP64 least-squares page-feature-to-raw-grade regression on unique supervised train page texts only, with exact target conflict checks. Use numpy.linalg.lstsq(rcond=None); report rank, conditioning, training MSE, held validation/development MAE and source-grouped feature counts. This is a finite pinned linear-function-class diagnostic, not a best ranking/general encoder bound. Persist fitted matrix, normalization, raw predictions and independent normal-equation/second-solver residual checks. Do not feed typed exact facts into this regression."
   },
+  "correctness_amendment": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_atomic_audit_amendment.json",
+    "sha256": "e10ad1fb8f752d48d4f2070ffa8af73cbcd5bc01285bfdfefef4c27f2ca7e1a2"
+  },
   "data": {
     "capture_manifests": {
       "calibration": {
@@ -93,7 +97,7 @@
     },
     "ephemeral_pages_components.py": {
       "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_components.py",
-      "sha256": "8093580eaf67cb980fd60f65d54dbce1fcedd0eb2c45b954bcd176091b2b9fed"
+      "sha256": "c54cd718ab17f8d0510988b6bea18de943433d5e94b56e762d844dbb0e1df160"
     },
     "ephemeral_pages_conditional.py": {
       "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_conditional.py",

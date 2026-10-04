@@ -11,7 +11,11 @@ import os
 for _variable in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS",
                   "NUMEXPR_NUM_THREADS", "BLIS_NUM_THREADS"):
     os.environ[_variable] = "1"
-os.environ["CUDA_VISIBLE_DEVICES"] = ""
+# The CPU-only device mask belongs to this module's own CLI run. Masking the
+# device at import time also hid a live GPU from every other module that
+# imports the truth/component helpers, so scope it to direct execution.
+if __name__ == "__main__":
+    os.environ["CUDA_VISIBLE_DEVICES"] = ""
 os.environ["HF_HUB_OFFLINE"] = "1"
 os.environ["TRANSFORMERS_OFFLINE"] = "1"
 

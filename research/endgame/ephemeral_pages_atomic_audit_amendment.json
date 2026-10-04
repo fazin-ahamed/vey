@@ -1,0 +1,42 @@
+{
+  "class": "MEASURED_correctness_fix",
+  "corrected_pin": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_components.py",
+    "sha256": "c54cd718ab17f8d0510988b6bea18de943433d5e94b56e762d844dbb0e1df160"
+  },
+  "correctness_argument": "Changes no arithmetic, target, mask, split, metric, gate, threshold, protocol or data. The mask is a process configuration, not a scientific constant. No evaluation outcome was observed before the fix and none influenced it.",
+  "defect": "Module-level CUDA_VISIBLE_DEVICES=\"\" executed on import. ephemeral_pages_conditional.leaf_truth_guard imports this module for truth helpers, so importing it hid a live GPU from the entire conditional process and every CUDA conditional fit aborted with \"CUDA requested but unavailable\" before any optimizer step. Two independent smoke attempts failed identically; no model, target, metric or gate was involved.",
+  "field": "implementation.ephemeral_pages_components.py",
+  "fix": "Scope the CPU-only device mask to direct execution (__name__ == \"__main__\"). The component CLI still runs CPU-only; library importers keep whatever device the caller configured.",
+  "previous_pin": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_components.py",
+    "sha256": "8093580eaf67cb980fd60f65d54dbce1fcedd0eb2c45b954bcd176091b2b9fed"
+  },
+  "replication_requirement": "Both component parts rerun in a new exclusive root under the corrected code, and all previously read component/linear numbers are compared against the rerun before use.",
+  "retained_evidence": {
+    "failed_smoke_root": "ephemeral-pages-atomic-v2/runs/interface-audit-v1/conditional/smoke",
+    "pre_fix_source_snapshots": [
+      {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/pre-cuda-scope-fix.ephemeral_pages_components.py",
+        "sha256": "8093580eaf67cb980fd60f65d54dbce1fcedd0eb2c45b954bcd176091b2b9fed"
+      },
+      {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/pre-cuda-scope-fix.ephemeral_pages_conditional.py",
+        "sha256": "fd04eeafe443ce3a7f55d3e85ce31e2f68e2abeed03b122df6706b413efa6810"
+      }
+    ],
+    "prior_component_audit_protocol_binding": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_audit_protocol.json",
+      "sha256": "7ff11075c9e8298100a29756354951017a71c85dff34193b63a811d7ac61c567"
+    },
+    "prior_component_audit_run": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/components/result.json",
+      "sha256": "9ffb4603247a53f537ae73cf5fc265cd7ac9a621ad631ad0393c58098c48c2b4"
+    }
+  },
+  "schema": "vey.eca2.audit-correctness-amendment.v1",
+  "target": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_atomic_audit_protocol.json",
+    "sha256": "1d41ea1c2afb81b82472500859119fa5b48bb37065076a6b15afa96e72e2f1fa"
+  }
+}
