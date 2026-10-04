@@ -1,0 +1,142 @@
+{
+  "claim_boundaries": {
+    "evidence_position_behavior_measured": false,
+    "final_quality_access": false,
+    "long_context_capability_earned": false,
+    "model_forwards": 0,
+    "natural_text_only": true,
+    "neutral_comparison_earned": false,
+    "padding_or_unrelated_concatenation": false,
+    "questions_or_answer_values_read": false,
+    "source_database_changed": false,
+    "source_split_changed": false,
+    "statistical_author_template_independence_proven": false
+  },
+  "evidence_class": "MEASURED input-only source census; INFERENCE on precision limits",
+  "implementation": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_paper_length_census.py",
+    "sha256": "4f3320b414375448a5271a29248571d707c63de4470f5581f7e86712ce713bfe"
+  },
+  "measured_counts": {
+    "english": {
+      "all": {
+        "ge16384": 17,
+        "ge8192": 143,
+        "maximum": 35932,
+        "median": 5009,
+        "minimum": 188,
+        "papers": 1585
+      },
+      "calibration": {
+        "ge16384": 5,
+        "ge8192": 20,
+        "maximum": 28142,
+        "median": 4861.0,
+        "minimum": 1175,
+        "papers": 318
+      },
+      "confirmation": {
+        "ge16384": 2,
+        "ge8192": 32,
+        "maximum": 31648,
+        "median": 4716.0,
+        "minimum": 926,
+        "papers": 416
+      },
+      "dev": {
+        "ge16384": 2,
+        "ge8192": 30,
+        "maximum": 20034,
+        "median": 5226,
+        "minimum": 951,
+        "papers": 319
+      },
+      "train": {
+        "ge16384": 8,
+        "ge8192": 61,
+        "maximum": 35932,
+        "median": 5252.5,
+        "minimum": 188,
+        "papers": 532
+      }
+    },
+    "multilingual": {
+      "all": {
+        "ge16384": 17,
+        "ge8192": 138,
+        "maximum": 36539,
+        "median": 4931,
+        "minimum": 186,
+        "papers": 1585
+      },
+      "calibration": {
+        "ge16384": 5,
+        "ge8192": 19,
+        "maximum": 28007,
+        "median": 4763.5,
+        "minimum": 1161,
+        "papers": 318
+      },
+      "confirmation": {
+        "ge16384": 2,
+        "ge8192": 29,
+        "maximum": 30876,
+        "median": 4632.5,
+        "minimum": 891,
+        "papers": 416
+      },
+      "dev": {
+        "ge16384": 2,
+        "ge8192": 30,
+        "maximum": 20282,
+        "median": 5125,
+        "minimum": 943,
+        "papers": 319
+      },
+      "train": {
+        "ge16384": 8,
+        "ge8192": 60,
+        "maximum": 36539,
+        "median": 5189.5,
+        "minimum": 186,
+        "papers": 532
+      }
+    }
+  },
+  "next_branch": "Retain QASPER as small descriptive natural evidence, preregister metadata/license/grouping audit for another lawful natural long-context source. Freeze native source-to-DecisionIR endpoints and the complete metric family before scoring; do not pad QASPER or relax8192/NI gates.",
+  "paper_count_ledger": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-paper-length-v1/paper_token_counts.jsonl",
+    "sha256": "26fd5fb9496b79ea60ca97dc4fe203d8461bda647a96e3b1af4741883b155bb6"
+  },
+  "precision_inference": {
+    "accuracy_NI_margin": 0.01,
+    "conclusion": "Only29/32 confirmation papers meet8192; zero harmful discordance alone cannot clear the existing1-point margin even without multiplicity adjustment. This is source/precision insufficiency, not a semantic or architecture failure. Exact identical-output proofs and nondegenerate paired-effect evidence remain governed by the frozen protocol, not asserted here.",
+    "confirmation_ge8192": {
+      "english": {
+        "hypothetical_zero_harm_CP_upper": 0.10888116067935294,
+        "n_max_papers": 32
+      },
+      "multilingual": {
+        "hypothetical_zero_harm_CP_upper": 0.11944486906950269,
+        "n_max_papers": 29
+      }
+    },
+    "multiplicity_assumed_for_optimistic_bound": 1,
+    "nominal_two_sided_confidence": 0.95,
+    "scope": "Hypothetical zero-harmful-discordance exact upper bound; not observed predictions or quality. Every eligible paper assumed usable for the endpoint, so native Boolean/label/evidence filtering could only reduce this count."
+  },
+  "preregistration": {
+    "commit": "cf3099c",
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_paper_length_protocol.json",
+    "sha256": "88b8cf0b5a4da420694c3cae14def682080db937946dfdf0db56b4685b8f01bd"
+  },
+  "report": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-paper-length-v1/report.json",
+    "sha256": "8d384df6c15bdeebf1b345160537289e300c1cd39ea1a98d44e1474746266db3"
+  },
+  "schema": "vey.neutral.qasper.input-length-result-manifest.v1",
+  "source_census_gate": "PASS:1585 papers and original split/database identities preserved, strict input-only column reads, no questions/answers/model framework/forwards.",
+  "source_revision": "fdc9d8214fbab5dd782958601db4d678e6934a54",
+  "tokenizer_bundle_revision": "55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851",
+  "tokenizers_version": "0.23.2"
+}

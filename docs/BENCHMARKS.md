@@ -4155,6 +4155,48 @@ superiority or capability-promotion gate is earned.
 Next: freeze neutral workflows, metric family and pinned-tokenizer length
 census before quality selection.
 
+### QASPER substantive input-length census
+
+Hypothesis: the verified natural papers may supply an 8,192/16,384-token
+stratum under the pinned current Laya tokenizers. Preregistration `cf3099c`;
+tokenizer bundle `55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851`,
+native tokenizers 0.23.2. English and typed-decisions share tokenizer bytes.
+
+Controls: project only title, abstract and full-text sections from the existing
+read-only model-state column; reuse the existing deterministic document
+serializer. Disable padding, truncation and special-token insertion. A SQLite
+authorizer permits only paper input/identity and existing split/component
+columns. No question, answer, evidence target, worker ID, Torch import or
+model forward occurs. Counts exclude question/option overhead and figure
+captions outside this declared projection.
+
+MEASURED: all 1,585 papers/components retain their original source database and
+split identities. The census gate passes. Source-native wording/order is
+unchanged; there is no padding, repetition or unrelated concatenation.
+
+| Tokenizer | All papers >=8,192 | Confirmation >=8,192 | All >=16,384 | Confirmation >=16,384 | Median all |
+|---|---:|---:|---:|---:|---:|
+| English | 143 | 32 | 17 | 2 | 5,009 |
+| Multilingual | 138 | 29 | 17 | 2 | 4,931 |
+
+Report SHA-256:
+`8d384df6c15bdeebf1b345160537289e300c1cd39ea1a98d44e1474746266db3`.
+Private per-paper IDs, split/component IDs, text/state hashes and exact counts
+are pinned by `research/endgame/neutral_paper_length_result_manifest.json`.
+The full database hash is verified before and after projection.
+
+INFERENCE: under hypothetical zero harmful paired discordances, even an
+unadjusted two-sided 95% exact upper bound is .108881 for 32 papers or .119445
+for 29, above the frozen .01 accuracy margin. These are precision scenarios,
+not observed errors or predictions. Native label/evidence eligibility can
+only reduce these input counts. Neither long-context capability nor a neutral
+non-inferiority gate is earned. Quality, evidence-position reliability and
+author/template independence remain unknown.
+
+Next branch: retain QASPER for descriptive natural evidence and audit another
+lawful natural long-context source before acquisition. Do not pad the papers,
+lower 8,192, substitute synthetic evidence or relax statistical gates.
+
 
 
 
