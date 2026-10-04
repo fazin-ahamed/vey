@@ -3451,6 +3451,25 @@ parent `b5a0d68` had copied an incorrect preparation string; `59daa6e` restored
 both guards to the authoritative protocol's `maintaining it`, not a new
 definition.
 
+**MEASURED amended blind audit and tokenizer correction:** the new opaque
+reviews accepted all352 meanings with no vector discrepancy. One reviewer
+transcribed an opaque ID incorrectly; the original output remains intact
+beside the reviewer's complete ID-corrected artifact. No semantic judgment
+changed.
+
+The first real CUDA preflight then failed before any encoder forward or head
+training: Transformers5.17's `DebertaV2Tokenizer` lacks the legacy special-token
+builder methods used by the parity checker. Inspection of the actual pinned
+tokenizer established `[CLS]:0 A:0 [SEP]:0 B:1 [SEP]:1`; native SentencePiece
+special IDs are1/2. Independent rendering of that template passed actual
+generic/defined pair-ID, segment-ID and attention-mask checks. The failed
+root and proof remain retained. A new tokenizer-amended root freezes corrected
+code; blind judgments may be reused only against byte-identical packets.
+No corpus wording, neural input, learning recipe, gate or selection rule
+changes. This tokenizer check is not a capability result or a completed
+forward-and-gradient preflight.
+
+
 ### Neutral endgame suite: source-first prospective freeze
 
 **HYPOTHESIS, no rows or quality outcomes acquired:** the original neutral

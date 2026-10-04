@@ -246,18 +246,20 @@ def _native_sentencepiece_parity(rows, tokenizer, fmt, cfg):
     spec = cfg['model']
     spm_path = Path(hf_hub_download(spec['repo'], 'spm.model', revision=spec['revision']))
     native = sentencepiece.SentencePieceProcessor(model_file=str(spm_path))
+    cls_id, sep_id = native.piece_to_id('[CLS]'), native.piece_to_id('[SEP]')
+    assert (cls_id, sep_id) == (tokenizer.cls_token_id, tokenizer.sep_token_id) == (1, 2)
     max_error = 0
     delimiter_records = []
     for row in rows:
         first = native.encode(row['criterion'], out_type=int)
         second = native.encode(row['text_pair'], out_type=int)
-        expected = tokenizer.build_inputs_with_special_tokens(first, second)
+        expected = [cls_id] + first + [sep_id] + second + [sep_id]
         encoded = tokenizer(row['criterion'], text_pair=row['text_pair'], add_special_tokens=True,
                             padding=False, truncation=False, return_attention_mask=True,
                             return_token_type_ids=True)
         assert encoded['input_ids'] == expected, f'Native SentencePiece pair-ID mismatch: {row["criterion"]!r}/{row["field"]}'
         assert encoded['attention_mask'] == [1] * len(expected)
-        type_ids = tokenizer.create_token_type_ids_from_sequences(first, second)
+        type_ids = [0] * (len(first) + 2) + [1] * (len(second) + 1)
         assert encoded['token_type_ids'] == type_ids, 'Native SentencePiece segment-delimiter/type-ID mismatch'
         max_error = max(max_error, abs(len(expected) - len(encoded['input_ids'])))
         delimiter_records.append(dict(
@@ -271,7 +273,7 @@ def _native_sentencepiece_parity(rows, tokenizer, fmt, cfg):
         spm_model_path=str(spm_path), spm_sha256=sha(spm_path),
         pair_id_rows_sha256=sha_bytes(canonical(delimiter_records)),
         pair_ids=delimiter_records,
-        delimiter_comparator='Pinned SentencePiece ids passed through tokenizer.build_inputs_with_special_tokens and tokenizer.create_token_type_ids_from_sequences.',
+        delimiter_comparator='Pinned native SentencePiece IDs plus independently rendered DeBERTa pair template: [CLS]:0 A:0 [SEP]:0 B:1 [SEP]:1.',
         checked_rows=len(delimiter_records), maximum_length_delta=max_error,
     )
 
@@ -440,9 +442,11 @@ def _preflight(root, cfg, meaning_sha, tokenizer, model, lineage, model_hash, te
     target = torch.tensor([literal['sign'] + 1], dtype=torch.long)
     logits = head(torch.tensor(features['generic'], dtype=torch.float32))
     loss = torch.nn.functional.cross_entropy(logits, target)
+    assert torch.isfinite(loss).item()
     loss.backward()
     gradient_l1 = float(sum(parameter.grad.abs().sum().item() for parameter in head.parameters()))
-    assert gradient_l1 > 0 and all(parameter.grad is None for parameter in model.parameters())
+    assert gradient_l1 > 0 and all(torch.isfinite(parameter.grad).all().item() for parameter in head.parameters())
+    assert all(parameter.grad is None for parameter in model.parameters())
     before_after_hash = tensor_hash(model.named_parameters())
     assert before_after_hash == model_hash
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')

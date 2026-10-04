@@ -337,13 +337,16 @@ def verify_sentencepiece_parity(root, evidence, package, format_name, suffix=Non
     parity = load(path)
     tokenizer = package['fast']
     native = sentencepiece.SentencePieceProcessor(model_file=str(package['spm_path']))
+    cls_id, sep_id = native.piece_to_id('[CLS]'), native.piece_to_id('[SEP]')
+    require((cls_id, sep_id) == (tokenizer.cls_token_id, tokenizer.sep_token_id) == (1, 2),
+            'native DeBERTa special-token IDs')
     delimiter_records = []
     maximum_delta = 0
     for row in evidence['pairs']:
         first = native.encode(row['criterion'], out_type=int)
         second = native.encode(row['text_pair'], out_type=int)
-        expected = tokenizer.build_inputs_with_special_tokens(first, second)
-        type_ids = tokenizer.create_token_type_ids_from_sequences(first, second)
+        expected = [cls_id] + first + [sep_id] + second + [sep_id]
+        type_ids = [0] * (len(first) + 2) + [1] * (len(second) + 1)
         encoded = tokenizer(row['criterion'], text_pair=row['text_pair'], add_special_tokens=True,
                             padding=False, truncation=False, return_attention_mask=True,
                             return_token_type_ids=True)
@@ -969,6 +972,9 @@ def validate_corpus(root, cfg, manifest, meaning):
             require(raw == rendered and type(raw['axis']) is int and type(raw['sign']) is int,
                     'atomic semantic judgment remains untouched')
         else:
+            require(raw['kind'] == 'composition' and len(raw['weights']) == 4 and
+                    all(type(weight) is int for weight in raw['weights']),
+                    'strict raw composition weight types')
             terms = parse_criterion(review_texts[raw['review_id']])
             require(len(terms) == len(raw['components']) == 2, 'exact audit clause count')
             weights = [0] * 4

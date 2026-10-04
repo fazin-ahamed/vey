@@ -4,7 +4,8 @@
   "basis_development_only": "CBF7 stock generic-hypothesis CLS resolves2/32 signed atoms; NLI generic CLS resolves20/32 with20/20 conditional signs and G0=.96875. NLI native resolves20/32 but G0=.5 because unrelated literal fields fail; larger NLI arms do not improve joint development grounding. This motivates a targeted field-domain support control, not another capacity/readout tweak. CBF7 final never selects these arms, descriptions, data, thresholds or recipe.",
   "hypothesis": "Frozen relation-pretrained features can generalize criterion aliases when field definitions and training-only semantic paraphrases supply domain grounding. A two-by-two intervention separates schema-side support from training-side support.",
   "source_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/relation-pretrained-v1/preexecution-amended",
-  "output_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-support-v1/preexecution-amended",
+  "output_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-support-v1/preflight-tokenizer-amended",
+  "preflight_amendment": "The first real CUDA preflight in preexecution-amended failed before forward/head outcomes because Transformers5.17 DebertaV2Tokenizer has removed build_inputs_with_special_tokens/create_token_type_ids_from_sequences. Preserve that root and its352 accepted blind judgments. Render expected native SentencePiece pairs independently with the observed pinned DeBERTa template [CLS]:0 A:0 [SEP]:0 B:1 [SEP]:1. All corpus bytes, model inputs, heads, recipes, gates and selection rules are unchanged; reuse blinded judgments only if complete packet bytes are identical.",
   "schema": ["reliability", "purchase expense", "operating expense", "convenience"],
   "field_definitions": {
     "reliability": "The proportion of matched-use trials in which the item performs its intended task without a failure. A higher value means fewer failed trials at equal exposure.",
