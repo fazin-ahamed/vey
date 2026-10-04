@@ -1,0 +1,86 @@
+{
+  "artifacts_to_persist": [
+    "Pinned script, protocol commit, source/artifact receipts, full predictions, actual loaded parameter counts, dtype/device, source-to-runtime tokenizer hashes and failure traceback if any."
+  ],
+  "bundle_revision": "55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851",
+  "controls": [
+    "Explicit CPU and eager backend; one route loaded at a time.",
+    "Use isolated copied metadata/tokenizers so vendor compatibility rewrites cannot alter source cache bytes.",
+    "Verify pinned original payload digests before loading; weights reference unchanged verified shared cache files.",
+    "Offline guards; no credentials, remote model requests, GPU execution, fitting or calibration."
+  ],
+  "correction": {
+    "capture_fix": "Persist each actual prediction before compatibility assertions. Original failing prediction was not persisted; original traceback/receipt remain retained.",
+    "cause": "Pinned agent.py rounds each served choice/score probability to four decimals; the smoke used an unsupported1e-5 tolerance.",
+    "checkpoint_inputs_questions_or_calibration_changed": false,
+    "corrected_bound": "Absolute served probability-sum deviation <= K*0.00005 +1e-6 for floating-point normalization. Derived from serialization precision, not fitted to outputs.",
+    "evaluation_quality_outcomes_used": false,
+    "observed": "English load and system_one completed; the smoke normalization assertion failed.",
+    "original_failed_receipt": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya_cpu_compatibility_smoke_v1.json",
+      "sha256": "1721ae06e6bde4d5183641c73e947c7ae2ecc8f2fd9e89f5eab0d4edb74b9f38"
+    },
+    "original_preregistration_commit": "421f44d",
+    "original_protocol": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/competitors/laya_cpu_compatibility_protocol.json",
+      "sha256": "1332fb88c476cb33d193bc57ae20c1b91867c8d7f5587c38e33aded691ebcbf8"
+    },
+    "original_script": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya_cpu_compatibility_smoke_v1.py",
+      "sha256": "b02aa5d9ffa74226913e8af961fc79d28248fba16f80ee295aaea5af41c4c81e"
+    },
+    "source_evidence": "Pinned agent.py lines1357/1376: round(float(v),4)."
+  },
+  "data": "One explicitly synthetic non-sensitive customer-service smoke state; identical mixed typed questions for every route. Fixture bytes are pinned by script hash and persisted in receipt. No dataset/final pool opened.",
+  "environment": {
+    "executable": "/home/fazinahamed/Documents/vey/venvs/vey/bin/python",
+    "packages": {
+      "huggingface_hub": "1.32.0",
+      "numpy": "2.4.6",
+      "safetensors": "0.8.0",
+      "torch": "2.5.1+cu121",
+      "transformers": "5.17.0"
+    },
+    "python": "3.11.16 (main, Aug 14 2026, 15:35:36) [Clang 22.1.3 ]"
+  },
+  "failure_branches": [
+    "Persist full traceback and completed-route outputs.",
+    "Diagnose dependency/API incompatibility; use a separately pinned environment if required, without upgrading the active training environment.",
+    "Missing/corrupt artifact remains fail-closed; never silently substitute another checkpoint or tokenizer."
+  ],
+  "hypothesis": "Pinned current Laya source and all three reviewed checkpoint routes can load offline on the existing local CPU runtime and return valid Choice/Noul/Score payloads.",
+  "inventory_receipt": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya_runtime_inventory_v1.json",
+    "sha256": "639de7150c1fec59c7bd00972d903c75a262cf4db4b8ec7153613c2656cfd4e1"
+  },
+  "primary_metric": "All three routes load and complete the same mixed typed request; outputs finite/bounded, with Choice/Score distributions normalized within the source-derived four-decimal serialization bound.",
+  "promotion_gates": {
+    "integration_compatibility": "All three reviewed routes load and return valid typed predictions.",
+    "semantic_or_neutral_promotion": false
+  },
+  "resource_budget": {
+    "CUDA_visible_devices": "",
+    "cpu_threads": 1,
+    "interop_threads": 1,
+    "ionice_class": 2,
+    "ionice_level": 7,
+    "minimum_available_RAM_before_each_load_bytes": 10737418240,
+    "nice": 10,
+    "paid_resources": false,
+    "wall_timeout_seconds": 300
+  },
+  "schema": "vey.laya.cpu-compatibility-protocol.v2",
+  "scope": "Integration compatibility only; no benchmark quality, calibration, latency or footprint conclusion.",
+  "script": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya_cpu_compatibility_smoke_v2.py",
+    "sha256": "265ba7e1f53970d101a113945495cbec3b7a9da51ca81875b5ea3c25675b8f12"
+  },
+  "secondary_metrics": [
+    "Actual live parameter count after successful loading, distinguished from stored scalar counts.",
+    "Record actual dtype, CPU device and any vendor tokenizer compatibility rewrite."
+  ],
+  "seed": "No sampling, optimization or quality selection.",
+  "source_revision": "859b8ee595cc04f84dd2af476d6d1d90ec1fea46",
+  "splits_and_grouping": "Not a generalization experiment; no train/dev/cal/final allocation or statistical independence claim.",
+  "statistical_test": "Not applicable to compatibility smoke; no inferential quality test."
+}
