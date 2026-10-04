@@ -1,0 +1,118 @@
+{
+  "artifacts_to_persist": [
+    "Committed protocol/implementation/helper/tokenizer/source hashes",
+    "Private complete per-paper count ledger",
+    "Metadata-only source/split/tokenizer summary and claim boundaries"
+  ],
+  "authority": {
+    "immutable_reference": "vey-2-final/e6b046ffbd138cbdbfb2f89c6ae77525fe6b0b18; unchanged",
+    "neutral_benchmark_protocol": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_benchmark_protocol.json",
+      "sha256": "9e3bfbdd9371d6202c8bf6d6ec5fc224eababb402d409f206abd0215fcf3f0c5"
+    },
+    "verified_source_custody": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_source_custody_result_manifest.json",
+      "sha256": "885f9665ccc41ad800a1971c1b5f48ce1d71cf2e51bf21cff26a2b58cb0c6113"
+    }
+  },
+  "controls": [
+    "No Torch/model import or forward.",
+    "Verify source DB SHA256 before and after a read-only query.",
+    "Verify exact tokenizer/helper/protocol/source-proof identities.",
+    "Three source-native text fields only; strict SQL read-column whitelist.",
+    "No source split migration, threshold tuning, padding, duplication or scope substitution."
+  ],
+  "counting": "Pinned tokenizers0.23.2 native Tokenizer.encode(add_special_tokens=False), with truncation/padding explicitly disabled. Counts measure substantive document text alone, not question/option/framework overhead or a working deployment window. English tokenizer also matches the typed-decisions tokenizer bytes.",
+  "database": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/attempts/20261004T074414.392704Z-593810-cb44d7ae/private.sqlite3",
+    "sha256": "8f4a194262a40662633951dbc6d9ef105412c487b329c169427388748fc6b09e"
+  },
+  "environment": {
+    "python": "3.11.16 (main, Aug 14 2026, 15:35:36) [Clang 22.1.3 ]",
+    "python_executable": "/home/fazinahamed/Documents/vey/venvs/vey/bin/python",
+    "tokenizers": "0.23.2"
+  },
+  "evidence_class": "HYPOTHESIS",
+  "expected_papers_by_split": {
+    "calibration": 318,
+    "confirmation": 416,
+    "dev": 319,
+    "train": 532
+  },
+  "failure_branches": [
+    "Missing or altered source/tokenizer/helper pins: fail closed and preserve incomplete artifacts.",
+    "Insufficient natural8192/16384 input counts: retain all results and preregister another lawful natural source; do not replace it with padded or synthetic documents.",
+    "Enough long documents: still require source-native workflow/metric freeze, label/evidence validity, DEV-only precision/power and evidence-position checks before any quality final."
+  ],
+  "helper_sources": [
+    {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_paper_acquire.py",
+      "sha256": "a955953c9ec7b4850e483769969182a55098dc317e6feb573d907b9c8e504a17"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_acquire.py",
+      "sha256": "dd7114aee5b3bf941a9470ad8058f105d436f0844b97e15d9694581c58f6a5ca"
+    }
+  ],
+  "hypothesis": "Verified natural QASPER substantive input documents may provide an8192-token/16384-token source stratum under the pinned current competitor tokenizers; counts are unknown before execution.",
+  "implementation": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_paper_length_census.py",
+    "sha256": "4f3320b414375448a5271a29248571d707c63de4470f5581f7e86712ce713bfe"
+  },
+  "input_projection": "Read only papers.paper_id, source_partition, group_id, model_state_json and source_groups.group_id, component_id, final_split. SQLite authorizer rejects every other payload column. No questions, answers, annotation values, worker IDs, or evidence targets accessed.",
+  "primary_metric": "Per-tokenizer and per-split paper/component counts with substantive length>=8192.",
+  "promotion_gates": {
+    "long_context_capability": false,
+    "neutral_superiority": false,
+    "source_census": "All1585 projected papers present and original split counts/database bytes unchanged, with no forbidden payload reads or model execution."
+  },
+  "resource_budget": {
+    "BLAS_threads": 1,
+    "CPU_threads": 1,
+    "GPU_jobs": 0,
+    "SQLite_cache_MiB": 16,
+    "SQLite_mode": "read-only/query-only",
+    "ionice_class": 2,
+    "ionice_level": 7,
+    "nice": 10,
+    "paid_resources": false,
+    "tokenizer_parallelism": false,
+    "wall_timeout_seconds": 300
+  },
+  "schema": "vey.neutral.qasper.input-length-protocol.v1",
+  "scope": "Input-only source-length census, not capability, quality, evidence-position, runtime-performance or inferential sample-independence evidence.",
+  "secondary_metrics": [
+    ">=512,>=1024,>=16384 counts; minimum/median/maximum input lengths.",
+    "Complete per-paper source IDs, text/state hashes, token counts and realized split membership."
+  ],
+  "seed": "No random selection; every verified paper projected in deterministic split/group/paper order.",
+  "serialization": "Reuse existing _document_text on the title/abstract/full_text-only model-state projection. Join original title, abstract, section names and paragraphs with newline. Preserve source wording/order; no NFKC serving normalization, padding, concatenation, clipping or model summary. Figure captions are outside this declared model-state projection and excluded.",
+  "source_verification": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/attempts/20261004T074414.392704Z-593810-cb44d7ae/verification/20261004T095212.711566Z-662025-fd3aaf90/report.json",
+    "sha256": "7a1120b239e222ada0e6db33ec0f5e28633ed68267dccea95c92b9dff3ea3abc"
+  },
+  "splits_and_grouping": "Preserve all existing1585 papers/components and train/dev/calibration/confirmation assignments. Threshold eligibility is an input-defined diagnostic stratum, never a model-outcome exclusion. Report every split and all papers, per-paper IDs/hashes/counts privately; no answer labels opened or final scored.",
+  "statistical_test": "Deterministic census; no population-quality test. Connected components do not establish author/template/statistical independence.",
+  "thresholds": [
+    512,
+    1024,
+    8192,
+    16384
+  ],
+  "tokenizers": {
+    "english": {
+      "bundle_revision": "55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851",
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/blobs/2f4d8583e507b7466d2490e2d6c045647a822698",
+      "repository": "convaiinnovations/laya",
+      "sha256": "6c8aaa9a542084f2457eab775d4eeb51f92a70c0fd9de28d5edb0ddec3c08d30",
+      "subfolder": null
+    },
+    "multilingual": {
+      "bundle_revision": "55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851",
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/blobs/8f/8fdbdb0307b65058d3b81a88cba0082cd1bbe8e85d34295d2271d6fa85a31c7a",
+      "repository": "convaiinnovations/laya",
+      "sha256": "609d8f4c067cd3950f88594c5a802616cea245823836ef5848ee4fc40aab5b6f",
+      "subfolder": "multilingual"
+    }
+  }
+}
