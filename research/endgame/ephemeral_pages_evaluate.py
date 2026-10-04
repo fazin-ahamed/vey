@@ -27,7 +27,7 @@ CONTROLS = ("pages", "cross", "cosine", "lexical", "query_blind")
 INTERVENTIONS = ("zero_question", "zero_pages", "uniform_attention")
 UNKNOWN = "__unknown__"
 PROTOCOL = Path(__file__).with_name("ephemeral_pages_protocol.json")
-DEFAULT_RUN = Path("/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/runs/seed7")
+DEFAULT_RUN = Path("/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/runs/seed7-grade-corrected")
 SIGMAS = (.025, .05, .075, .1, .15, .2, .3, .4)
 LEVELS = np.arange(5, dtype=np.float64) / 4
 BOOTSTRAPS = 10000
@@ -756,7 +756,9 @@ def seal_selection(run_root: Path, calibration: dict, development: dict) -> Path
                          "eligible_arms": ["pages"], "final_outcomes_used": False,
                          "checkpoint_files": checkpoint_files(run_root),
                          "selection_file": selection_file, "calibration_file": calibration_file,
-                         "development_evaluation": development["manifest"]})
+                         "development_evaluation": development["manifest"],
+                         "corpus_build_manifest": artifact(capture.CORPUS / "build_manifest_v1.json"),
+                         "amendment_file": artifact(PROTOCOL.with_name("ephemeral_pages_grade_amendment.json"))})
     return receipt
 
 

@@ -427,14 +427,6 @@ def intervene_features(
     return q, pages, page_mask, raw_q, raw_pages, uniform_attention
 
 
-def _masked_mean(values: torch.Tensor, mask: torch.Tensor, zero_from: torch.Tensor) -> torch.Tensor:
-    use = mask.to(torch.bool) & torch.isfinite(values)
-    count = use.sum()
-    if not bool(count):
-        return zero_from.sum() * 0.0
-    return values.masked_select(use).mean()
-
-
 def eca_loss(output: ReaderOutput, targets: dict[str, torch.Tensor], *,
              directed_grade: bool = False) -> dict[str, torch.Tensor]:
     """Equal-weight relevance CE, normalized grade MSE, orientation MSE and known BCE.

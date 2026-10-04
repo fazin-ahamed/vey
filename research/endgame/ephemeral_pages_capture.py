@@ -20,7 +20,7 @@ from ephemeral_pages_features import (
 )
 
 CORPUS = Path("/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/corpus")
-CACHE = Path("/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/features")
+CACHE = Path("/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/features-grade-corrected")
 
 
 def rows_for(split: str):

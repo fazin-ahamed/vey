@@ -3818,6 +3818,21 @@ Existing encoder vectors are reused exactly. This repair cannot rescue the
 already-failed non-grade development gates; no optimizer, checkpoint,
 architecture, gate or final-driven selection changes are authorized.
 
+The corrected prefinal assembly retained all non-grade rows and all34560
+optimizer/validation-objective record tensors exactly. All5376 prefinal grade
+variants now change the teacher maximal set. Existing encoder inputs were not
+recomputed: only21 previously uncaptured question/page pairs were encoded
+(train1, validation17, calibration1, development2), one forward per phase.
+Four actual selected-checkpoint forward/backward smokes remained finite after
+removing the obsolete masking helper. The old unamended receipt was rejected
+before final data access.
+
+A separate prospective four-definition adapter replays existing CBF8 exact
+states and closed aliases/compositions. It is diagnostic only, not a new
+field-free registry or selection input. Its literal preflight reproduced9920
+original exact-state rows with zero neural resolver/encoder calls. Learned
+closed replay remains pending corrected calibration at this checkpoint.
+
 
 
 

@@ -87,7 +87,7 @@ CAPTURE_PHASES = {"train", "validation", "calibration", "development", "final"}
 
 def validate_final_receipt(path: str | Path, protocol_path: str | Path = PROTOCOL_PATH) -> dict[str, Any]:
     """Verify the immutable selection/calibration artifacts before final IR loading."""
-    _, protocol_hash = _protocol(protocol_path)
+    cfg, protocol_hash = _protocol(protocol_path)
     receipt_path = Path(path).resolve()
     receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
     if receipt.get("schema") != "vey.eca.selection-calibration.v1":
@@ -121,6 +121,15 @@ def validate_final_receipt(path: str | Path, protocol_path: str | Path = PROTOCO
     }
     selection = checked_artifact(receipt.get("selection_file"), "selection_file")
     calibration = checked_artifact(receipt.get("calibration_file"), "calibration_file")
+    build = checked_artifact(receipt.get("corpus_build_manifest"), "corpus_build_manifest")
+    amendment = checked_artifact(receipt.get("amendment_file"), "amendment_file")
+    expected_build = Path(cfg["output_root"]) / "corpus" / "build_manifest_v1.json"
+    expected_amendment = Path(protocol_path).with_name("ephemeral_pages_grade_amendment.json")
+    if Path(build["path"]) != expected_build.resolve() or Path(amendment["path"]) != expected_amendment.resolve():
+        raise RuntimeError("final receipt is not bound to the active amended corpus")
+    built = json.loads(expected_build.read_text(encoding="utf-8"))
+    if built["grade_intervention_amendment"]["sha256"] != amendment["sha256"]:
+        raise RuntimeError("final corpus and grade amendment differ")
     return {
         "receipt_path": str(receipt_path),
         "receipt_sha256": sha256_file(receipt_path),
@@ -130,6 +139,8 @@ def validate_final_receipt(path: str | Path, protocol_path: str | Path = PROTOCO
         "checkpoint_files": verified_checkpoints,
         "selection_file": selection,
         "calibration_file": calibration,
+        "corpus_build_manifest": build,
+        "amendment_file": amendment,
     }
 
 
