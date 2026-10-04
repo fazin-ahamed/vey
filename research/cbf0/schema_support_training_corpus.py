@@ -85,8 +85,8 @@ TRAINING_PAIRS = (
     ),
     (
         (
-            ('buy-tr-01', 'Prefer {direction} money paid once at the ownership handoff.', 'more', 'less',
-             'money paid once at ownership handoff', 'currency per initial transfer',
+            ('buy-tr-01', 'Prefer {direction} money paid in the initial ownership handoff.', 'more', 'less',
+             'money paid in initial ownership handoff', 'currency per initial transfer',
              'Only the single initial ownership transfer is included; later use payments are excluded.',
              'The one-time transfer payment is acquisition money; a larger amount means greater purchase expense.'),
             ('buy-tr-02', 'Choose a {direction} total on the initial sales invoice.', 'greater', 'smaller',
