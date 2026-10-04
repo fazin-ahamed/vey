@@ -824,7 +824,8 @@ def _replace_row(row: DecisionIR, *, candidates: Sequence[Candidate] | None = No
     question_text = row.question if question is None else question
     new_gold = tuple(row.gold if gold is None else gold)
     new_blocks = tuple(row.state_blocks if blocks is None else blocks)
-    rid = _stable_id("eca", new_metadata.get("world_id"), new_metadata.get("query_id"), variant, question_text, *(c.id for c in candidate_seq if c.id != UNKNOWN_ID))
+    id_distinction = new_metadata.get("id_distinction", "")
+    rid = _stable_id("eca", new_metadata.get("world_id"), new_metadata.get("query_id"), variant, id_distinction, question_text, *(c.id for c in candidate_seq if c.id != UNKNOWN_ID))
     return DecisionIR(
         id=rid, source=row.source, split=row.split, task=row.task,
         state_blocks=new_blocks, question=question_text, candidates=candidate_seq,
@@ -897,6 +898,7 @@ def _grade_change_variant(row: DecisionIR, term_index: int, prop_by_id: Mapping[
         "intervened_page_block_id": block_id,
         "old_grade": old_grade,
         "new_grade": new_grade,
+        "id_distinction": f"grade:{field_key}",
     })
 
 
@@ -912,10 +914,11 @@ def _erase_variant(row: DecisionIR, field_key: str) -> DecisionIR:
         fields.pop(block_id, None)
     metadata = dict(row.metadata)
     metadata.update({"page_owners": owners, "page_grades": grades, "page_fields": fields})
-    intermediate = _replace_row(row, blocks=blocks, metadata=metadata, row_variant="erase_source")
+    intermediate = _replace_row(row, blocks=blocks, metadata=metadata, row_variant="erase_source",
+                               evidence=tuple(item for item in row.evidence if item.block_id not in erased))
     return _recalculate(intermediate, variant="relevant_page_erasure", extra_metadata={
         "intervention_type": "relevant_page_erasure", "intervened_field_key": field_key,
-        "erased_page_count": len(erased),
+        "erased_page_count": len(erased), "id_distinction": f"erase:{field_key}",
     })
 
 
@@ -950,6 +953,7 @@ def _contradiction_variant(row: DecisionIR, field_key: str, split: str, prop_by_
         "contradictory_page_block_id": block_id,
         "original_grade": old_grade,
         "contradictory_grade": new_grade,
+        "id_distinction": f"contra:{field_key}",
     })
 
 
@@ -1000,7 +1004,11 @@ def _question_reorder(row: DecisionIR) -> DecisionIR:
     question = "; also ".join(item["question"] for item in reordered)
     metadata = dict(row.metadata)
     metadata["question_order_reversed"] = True
-    return _recalculate(row, variant="question_reorder", question=question, terms=reordered, extra_metadata={"question_order_reversed": True})
+    reordered_terms = tuple(
+        Term(item["field_key"], item["question"], int(item["orientation"]), float(item["weight"]))
+        for item in reordered
+    )
+    return _recalculate(row, variant="question_reorder", question=question, terms=reordered_terms, extra_metadata={"question_order_reversed": True})
 
 
 def _candidate_count_probe(row: DecisionIR, world: World, candidate_count: int, prop_by_id: Mapping[str, Mapping[str, Any]]) -> DecisionIR:
@@ -1016,7 +1024,8 @@ def _candidate_count_probe(row: DecisionIR, world: World, candidate_count: int, 
             metadata[key] = {block_id: value for block_id, value in metadata[key].items() if block_id in block_ids}
         for key in ("known", "teacher_scores", "stable_ordinals", "exact_facts"):
             metadata[key] = {cid: value for cid, value in metadata[key].items() if cid in keep_ids or cid == UNKNOWN_ID}
-        subrow = _replace_row(row, candidates=chosen + [next(c for c in row.candidates if c.id == UNKNOWN_ID)], blocks=blocks, metadata=metadata, row_variant="k2_source")
+        subrow = _replace_row(row, candidates=chosen + [next(c for c in row.candidates if c.id == UNKNOWN_ID)], blocks=blocks, metadata=metadata, gold=(UNKNOWN_ID,), row_variant="k2_source",
+                             evidence=tuple(item for item in row.evidence if item.block_id in block_ids))
         return _recalculate(subrow, variant="probe_k2", extra_metadata={"probe_k": 2, "candidate_count": 2, "source_candidate_ids": sorted(keep_ids)})
     candidates = list(base_candidates)
     blocks = list(row.state_blocks)
@@ -1052,7 +1061,8 @@ def _candidate_count_probe(row: DecisionIR, world: World, candidate_count: int, 
         "page_owners": owners, "page_grades": grades, "page_fields": fields,
         "exact_facts": exact_facts, "stable_ordinals": stable_ordinals,
     })
-    expanded = _replace_row(row, candidates=candidates + [next(c for c in row.candidates if c.id == UNKNOWN_ID)], blocks=blocks, metadata=metadata, row_variant="candidate_count_source")
+    expanded = _replace_row(row, candidates=candidates + [next(c for c in row.candidates if c.id == UNKNOWN_ID)], blocks=blocks, metadata=metadata, row_variant="candidate_count_source",
+                            evidence=tuple(Evidence(block_id) for block_id in fields if fields[block_id] in {term["field_key"] for term in row.metadata["terms"]}))
     return _recalculate(expanded, variant=f"probe_k{candidate_count}", extra_metadata={"probe_k": candidate_count, "candidate_count": candidate_count, "source_candidate_ids": [c.id for c in candidates[:4]]})
 
 
@@ -1226,7 +1236,7 @@ def _stream_build(root: Path, source: Mapping[str, Any], inventory: Mapping[str,
     if any(path.exists() or path.is_symlink() for path in (ledger_path, worlds_path, manifest_path)):
         raise FileExistsError("a corpus ledger or manifest already exists; refusing to overwrite")
 
-    source_props, _ = _property_maps(source)
+    source_props, properties_by_family = _property_maps(source)
     worlds = _world_plan(source)
     writers: dict[str, Any] = {}
     split_hashes: dict[str, Any] = {split: hashlib.sha256() for split in SPLITS}
