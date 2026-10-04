@@ -3430,6 +3430,27 @@ files/1178 rows. Failure and source-hashed passing proof are retained under
 `schema-support-preparation-attempts`; no fresh final was generated or model
 loaded in either source-only attempt.
 
+**MEASURED pre-execution audit, original root retained:** preparation at
+`59daa6e` passed64 semantic training/32 diagnostic atoms and128 fresh
+atoms/128 compositions, then two opaque automated reviewers judged352 phrases.
+They accepted350 and flagged both directions of one training shutdown pair:
+an internal shutdown need not stop the intended task. A raw composition
+judgment also invented factor2 for two unweighted clauses, despite correct
+semantic components. The actual execution guard refused the ambiguous audit
+before model load. No encoder/head outcomes were obtained.
+
+The training pair now explicitly states shutdown before assigned-task
+completion. A prospective amended root preserves all original files and
+judgments. Exact audit arithmetic now follows the frozen syntax parser plus
+independently judged axis/sign; raw rater vectors and discrepancies remain
+recorded. Its actual352-row smoke retained both semantic blockers and rendered
+the unweighted vector `[0,0,1,-1]`, without deriving weights from sealed gold.
+Gates, model, recipe and final wording are unchanged; new blind review is
+required before execution. Original definition-guard failure is also retained:
+parent `b5a0d68` had copied an incorrect preparation string; `59daa6e` restored
+both guards to the authoritative protocol's `maintaining it`, not a new
+definition.
+
 ### Neutral endgame suite: source-first prospective freeze
 
 **HYPOTHESIS, no rows or quality outcomes acquired:** the original neutral

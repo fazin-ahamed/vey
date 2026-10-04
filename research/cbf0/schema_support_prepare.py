@@ -496,6 +496,7 @@ def prepare(protocol_path=PROTOCOL):
         preparation_source_sha256={name: sha(HERE / name) for name in (
             'schema_support_prepare.py', 'schema_support_encoder.py', 'schema_support_run.py',
             'schema_support_training_corpus.py', 'schema_support_final_corpus.py',
+            'schema_support_meaning.py',
             'schema_support_protocol.json', 'schema_grounding_compiler.py', 'schema_relation_evaluate.py',
             'relation_pretrained_run.py', 'relation_pretrained_encoder.py', 'audit.py', 'build.py')},
         source_verified_files=source_hashes,

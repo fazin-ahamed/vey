@@ -4,7 +4,7 @@
   "basis_development_only": "CBF7 stock generic-hypothesis CLS resolves2/32 signed atoms; NLI generic CLS resolves20/32 with20/20 conditional signs and G0=.96875. NLI native resolves20/32 but G0=.5 because unrelated literal fields fail; larger NLI arms do not improve joint development grounding. This motivates a targeted field-domain support control, not another capacity/readout tweak. CBF7 final never selects these arms, descriptions, data, thresholds or recipe.",
   "hypothesis": "Frozen relation-pretrained features can generalize criterion aliases when field definitions and training-only semantic paraphrases supply domain grounding. A two-by-two intervention separates schema-side support from training-side support.",
   "source_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/relation-pretrained-v1/preexecution-amended",
-  "output_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-support-v1",
+  "output_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-support-v1/preexecution-amended",
   "schema": ["reliability", "purchase expense", "operating expense", "convenience"],
   "field_definitions": {
     "reliability": "The proportion of matched-use trials in which the item performs its intended task without a failure. A higher value means fewer failed trials at equal exposure.",
@@ -25,6 +25,7 @@
     "state_and_literals": "Byte-identical64 exact candidate states (32 test) and155 literal cases; unchanged compiler, integer-percent facts, executor and tie convention.",
     "license": "Only newly authored shipping-train criteria train heads; no NC/missing-license dataset training. Pretrained checkpoint remains conditional/review. No ANLI or other annotator rationale enters model-visible state."
   },
+  "blind_audit_ownership": "Independent opaque judges resolve atomic and per-term semantic axis/sign only. Raw reported vectors are preserved as diagnostics. Frozen syntactic parse_criterion factors, combined with those independent semantic judgments, render canonical weights before sealed-key comparison; exact arithmetic is never inferred from gold or delegated to semantic raters. All ambiguous/rejected meanings block execution. Pre-execution amendment follows two genuinely ambiguous shutdown atoms and one raw-rater arithmetic typo, with no encoder/head outcomes.",
   "training": {"seed": 7, "head": "One linear384-to3 R head with bias", "epochs": 400, "optimizer": "AdamW", "lr": 0.01, "weight_decay": 0.0001, "class_weights": [4.0, 0.6666666666666666, 4.0], "batch": "Full training set:128 pairs for literal-only,384 for literal-plus64 semantic atoms", "normalizer": "Train-only mean/std in original cohort order; floor0.01; separate per arm", "checkpoint": "Minimum unweighted32-literal validation CE, earlier exact tie, unchanged across arms. No semantic-validation/development/G0/final checkpoint selection.", "encoder": "All parameters frozen/eval. Full parameter hashes before capture and after head training; no adaptation or new width/loss family."},
   "arms": [
     {"id": "literal_generic", "data": "literal32", "format": "generic", "eligible": false, "head": "Reuse exact CBF7 nli_xsmall_higher_cls features/checkpoint/normalizer; already-failed baseline only, no retraining"},

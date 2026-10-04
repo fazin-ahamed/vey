@@ -59,6 +59,7 @@ def _protocol(path=PROTOCOL):
 PREPARATION_SOURCES = {
     'schema_support_prepare.py', 'schema_support_encoder.py', 'schema_support_run.py',
     'schema_support_training_corpus.py', 'schema_support_final_corpus.py',
+    'schema_support_meaning.py',
     'schema_support_protocol.json', 'schema_grounding_compiler.py', 'schema_relation_evaluate.py',
     'relation_pretrained_run.py', 'relation_pretrained_encoder.py', 'audit.py', 'build.py',
 }
@@ -137,6 +138,13 @@ def require_meaning_audit(root, manifest):
     assert audit['final_atoms_sha256'] == files['final_atoms.json']
     assert audit['final_compositions_sha256'] == files['final_compositions.json']
     assert audit['blind_predictions_sha256'] == sha(predictions_path)
+    assert audit['assembler_sha256'] == manifest['preparation_source_sha256']['schema_support_meaning.py']
+    sources = audit['raw_judgment_sources']
+    assert len(sources) == 2 and sum(source['rows'] for source in sources) == expected_count
+    for source in sources:
+        path = Path(source['path']).resolve()
+        path.relative_to(root.resolve())
+        assert sha(path) == source['sha256']
     return audit, sha(audit_path)
 
 

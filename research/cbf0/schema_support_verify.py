@@ -911,6 +911,9 @@ def validate_corpus(root, cfg, manifest, meaning):
             meaning.get('blind_predictions_sha256') == sha(predictions_path),
             'independent final meaning audit and blind-prediction hashes')
     predictions = load(predictions_path)
+    require(isinstance(predictions, dict) and
+            set(predictions) == {'schema_version', 'packet_sha256', 'judgments'},
+            'strict blind-prediction top-level schema')
     judgments = predictions.get('judgments', []) if isinstance(predictions, dict) else []
     judgment_by_id = {row.get('review_id'): row for row in judgments}
     require(predictions.get('schema_version') == 'cbf8-blind-meaning-review-v1' and
@@ -925,6 +928,7 @@ def validate_corpus(root, cfg, manifest, meaning):
         require(judgment.get('decision') == 'accept', 'blind review has ambiguous/rejected phrase')
         if 'axis' in expected:
             require(set(judgment) == common | {'axis', 'sign'} and judgment.get('kind') == 'atomic' and
+                    type(judgment.get('axis')) is int and type(judgment.get('sign')) is int and
                     judgment.get('axis') == expected['axis'] and judgment.get('sign') == expected['sign'],
                     'blind atomic meaning matches sealed key')
         else:
@@ -933,8 +937,51 @@ def validate_corpus(root, cfg, manifest, meaning):
             require(set(judgment) == common | {'components', 'weights'} and
                     judgment.get('kind') == 'composition' and
                     judgment.get('components') == expected_components and
+                    all(type(term['axis']) is int and type(term['sign']) is int
+                        for term in judgment['components']) and
+                    all(type(weight) is int for weight in judgment['weights']) and
                     judgment.get('weights') == expected['weights'],
                     'blind composition meaning/components/weights match sealed key')
+    require(meaning['assembler_sha256'] == manifest['preparation_source_sha256']['schema_support_meaning.py'],
+            'exact audit assembler source hash')
+    raw_sources = meaning['raw_judgment_sources']
+    require(len(raw_sources) == 2 and sum(source['rows'] for source in raw_sources) == 352,
+            'complete two-slice raw independent judgments')
+    raw_rows = []
+    for source_record in raw_sources:
+        raw_path = Path(source_record['path']).resolve()
+        raw_path.relative_to(root.resolve())
+        require(sha(raw_path) == source_record['sha256'], 'raw independent judgment bytes')
+        raw = load(raw_path)
+        require(set(raw) == {'schema_version', 'packet_sha256', 'judgments'} and
+                raw['schema_version'] == predictions['schema_version'] and
+                raw['packet_sha256'] == predictions['packet_sha256'] and
+                len(raw['judgments']) == source_record['rows'], 'raw judgment packet binding')
+        raw_rows.extend(raw['judgments'])
+    require(len({row['review_id'] for row in raw_rows}) == 352 and
+            {row['review_id'] for row in raw_rows} == set(judgment_by_id), 'raw judgment exact ID coverage')
+    review_texts = {row['review_id']: row['text'] for row in load(packet_path)['questions']}
+    vector_differences = []
+    for raw in raw_rows:
+        rendered = judgment_by_id[raw['review_id']]
+        require(raw['decision'] == 'accept', 'raw ambiguous/rejected judgment cannot be accepted')
+        if raw['kind'] == 'atomic':
+            require(raw == rendered and type(raw['axis']) is int and type(raw['sign']) is int,
+                    'atomic semantic judgment remains untouched')
+        else:
+            terms = parse_criterion(review_texts[raw['review_id']])
+            require(len(terms) == len(raw['components']) == 2, 'exact audit clause count')
+            weights = [0] * 4
+            for term, component in zip(terms, raw['components']):
+                require(type(component['axis']) is int and type(component['sign']) is int and
+                        term['literal_axis'] is None and type(term['factor']) is int,
+                        'strict raw semantic types and exact factors')
+                weights[component['axis']] += term['factor'] * component['sign']
+            require(rendered == dict(raw, weights=weights), 'canonical weights derived without sealed gold')
+            if raw['weights'] != weights:
+                vector_differences.append(dict(review_id=raw['review_id'], raw_weights=raw['weights'],
+                                              exact_weights=weights))
+    require(meaning['raw_vector_differences'] == vector_differences, 'raw arithmetic differences disclosed')
     proof = dict(copied_cbf7_cohorts=7, semantic_training_atoms=64, semantic_validation_atoms=32,
                  final_atoms=128, final_compositions=128, training_reversal_pairs=len(train_pairs),
                  semantic_validation_reversal_pairs=len(validation_pairs), final_reversal_pairs=len(final_pairs),
@@ -992,6 +1039,7 @@ def verify_manifest(root, cfg):
     expected_sources = (
         'schema_support_prepare.py', 'schema_support_encoder.py', 'schema_support_run.py',
         'schema_support_training_corpus.py', 'schema_support_final_corpus.py',
+        'schema_support_meaning.py',
         'schema_support_protocol.json', 'schema_grounding_compiler.py', 'schema_relation_evaluate.py',
         'relation_pretrained_run.py', 'relation_pretrained_encoder.py', 'audit.py', 'build.py')
     require(set(preparation_sources) == set(expected_sources), 'preparation source inventory')
