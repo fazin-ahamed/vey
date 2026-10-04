@@ -3694,6 +3694,9 @@ meaning review must accept every unique page/question before encoder capture.
 Missing and contradictory evidence, polarity, composition, candidate counts,
 page changes/erasures, zeroed state/question features and uniform attention are
 paired interventions, not extra independent observations.
+World-cluster intervals condition on these fixed authored rubrics/wordings and
+random grade assignments; they do not bound new authors, templates or future
+families. This prospective clarification changes no assay count, recipe or gate.
 
 Promotion requires all frozen quality, UNKNOWN, exact/invariance and causal gates,
 an internal cross-control NI bound at a5-point margin, and corrected evidence
