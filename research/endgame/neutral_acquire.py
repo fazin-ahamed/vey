@@ -1202,7 +1202,8 @@ def _initialize_database(path: Path) -> sqlite3.Connection:
 
 
 def _maybe_guard_sqlite_size(connection: sqlite3.Connection) -> None:
-    page_count, page_size = connection.execute("PRAGMA page_count").fetchone()
+    page_count = connection.execute("PRAGMA page_count").fetchone()[0]
+    page_size = connection.execute("PRAGMA page_size").fetchone()[0]
     if page_count * page_size > MAX_SQLITE_BYTES:
         raise AcquisitionError("private grouping work database exceeded its explicit storage cap")
 

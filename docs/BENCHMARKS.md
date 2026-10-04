@@ -3495,6 +3495,20 @@ Public card examples were encountered as documentation, not used for
 training or choices; all source exposure remains disclosed. Source:
 https://huggingface.co/datasets/AmazonScience/massive/blob/ff6bd8e4b27c3543e4f8fe2108f32bb95a6f8740/README.md
 
+**MEASURED source-custody failure, before model execution:** the first
+Banking77/MASSIVE acquisition froze all eight raw-file hashes and every
+archive-member hash, then failed while parsing MASSIVE. The SQLite storage
+guard unpacked the one-value `PRAGMA page_count` result into two variables.
+The correction reads `page_count` and `page_size` separately. The original
+root, input snapshots, raw files and failure record remain intact; the
+amended run uses a new root and byte-verified immutable raw-file reuse.
+Source scope, grouping, allocation and all quality gates are unchanged.
+The acquired MASSIVE1.1 archive SHA-256 is
+`4cba5faa11c71437928e17cb1b9b3d8b8e727e7ea363a3a9a8045e19c0491577`.
+No source grouping, multilingual quality or competitor parity is established
+by this failed attempt.
+
+
 
 
 

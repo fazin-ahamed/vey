@@ -1,8 +1,14 @@
 {
   "schema": "vey.neutral.source-acquisition.v1",
-  "evidence_class": "MEASURED metadata and prospective acquisition plan; no rows or model outcomes acquired",
+  "evidence_class": "MEASURED raw source custody; prospective input-only parsing/grouping; no model outcomes acquired",
   "parent_protocol_git": "5b3fe4c",
-  "output_root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2",
+  "output_root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/sqlite-guard-amended",
+  "preexecution_amendment": {
+    "reason": "The original parser failed because PRAGMA page_count returns one scalar. Correct only the storage guard; source scope, grouping, allocation and labels are unchanged.",
+    "preserved_root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2",
+    "preserved_source_manifest_sha256": "901510e658f439927387c3bd26608740fa7dee5781ac92fa5213e287089b816b",
+    "raw_reuse": "Verify all eight prior artifact bytes and provenance records against the preserved source manifest, then hard-link immutable raw files and provenance into the amended root before parsing. No redownload, label selection, or overwrite."
+  },
   "sources": [
     {
       "id": "PolyAI/banking77",
