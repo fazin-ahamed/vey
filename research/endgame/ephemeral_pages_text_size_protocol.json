@@ -1,0 +1,57 @@
+{
+  "amendment": null,
+  "artifacts": "All rejected source/preparation/key/packet/rawjudgments; exact installation SHA map; fresh preparation/reviews/receipt/final build; unchanged prefinal proofs.",
+  "controls_splits_grouping_statistics_gates": "All419othertexts and all other bytes, sourceIDs/labels/questions/rubrics, prefinal inputs, modelrecipe, final320worldgrouping and statistics/gates unchanged. No model outcomes inspected.",
+  "data": {
+    "changes": [
+      {
+        "grade": 1,
+        "json_pointer": "/properties/0/page_wordings/3/text",
+        "new_text": "Enlarged headings have distinguishable letter outlines, but ordinary-sized body text and fine print both have merged letter edges.",
+        "old_text": "Large headings have distinguishable outlines, but smaller lettering runs together.",
+        "review_id": "r_4efca0d06d76647682698107e23b",
+        "source_id": "w_79b707b4b0e3b343cae4172b"
+      }
+    ],
+    "packet": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/audit/eca2_opaque_review_packet.json",
+      "sha256": "f292120cea54378eaf193e4bbc6964c5cfbc3a51498944a36ae0fbdfefe27d34"
+    },
+    "raw_reviews": [
+      {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/audit/eca2_explicit_reviewer1_raw.json",
+        "sha256": "85deed9bd1218136bea3eb7aeb9a4aafd0380eebc799d9b2e8ae2f929c8c38ac"
+      },
+      {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/audit/eca2_explicit_reviewer2_raw.json",
+        "sha256": "0db4036f7ca8df8226c742a244889d1c924be043ad82b6e7fe9086da16118ee3"
+      }
+    ],
+    "rejected_receipt": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/audit/eca2_independent_audit_receipt.json",
+      "sha256": "eab58d301971983b5ed14540cfc96c75df3481d106d5cd5e8268d2c422e36528"
+    },
+    "source": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/source/eca2_final_source.json",
+      "sha256": "0b687edbff46295cdf612e016c004a61ea146add9150ab1b2f64d7349ef175c2"
+    },
+    "unchanged_items": 419
+  },
+  "failure_branch": "Keep any new rejected source and raw judgments. Do not infer neural failure or tune architecture from source audits. Any remaining insufficient condition is a source correctness defect; no implicit-prefix interpretations may be used.",
+  "hypothesis": "Named enlarged, ordinary-body and fine-print extents remove one evidenced text-size ambiguity; preserve both differing actual reviewer judgments.",
+  "parent_atomic_protocol_sha256": "21e295c362da058b4b5d2247b61caf247449e79132ed7520a6f637926816b0fb",
+  "parent_protocol": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_explicit_predicates_protocol.json",
+    "sha256": "f10f328567de7fb5b9cbd75fd0d99a57401c908e9f56d3b9c0e19ac29da073d8"
+  },
+  "primary_metric": "Two complete independent opaque reviews, each accepting all420items with zeroambiguities/rejections.",
+  "promotion_gate": "Accepted actual840judgments and fail-closed builder required before any optimizer.",
+  "proposal": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/source/eca2_text_size_proposal.json",
+    "sha256": "b9e45b89a2ec380e3c5831744c6a7f454077c381dfbf9bda165824554e92074c"
+  },
+  "resource_budget": "Zero neural forwards or fits; bounded parsing and two independent opaque420item audits.",
+  "schema": "vey.eca2.text-size-correctness-protocol.v1",
+  "secondary_metrics": "Exact source-byte preservation outside the3text substitutions; absent final artifacts and zero neural calls.",
+  "statistical_test": "Not applicable to source validity; original frozen paired-world bootstrap applies to model outcomes."
+}

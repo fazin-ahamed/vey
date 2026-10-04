@@ -4024,6 +4024,17 @@ The other 417 texts, all source IDs, labels, questions, model controls and
 statistical gates remain unchanged. Both complete reviews must be repeated;
 all three rejected source stages and actual judgments remain retained.
 
+MEASURED fourth source review: one reviewer accepts all 420 items; the other
+accepts 419 and marks one printing page ambiguous. “Smaller lettering” does
+not distinguish ordinary body text from fine print. Neither judgment is
+overridden. Rejected receipt SHA-256:
+`eab58d301971983b5ed14540cfc96c75df3481d106d5cd5e8268d2c422e36528`.
+The prospective `ephemeral_pages_text_size_protocol.json` substitutes named
+text-size categories in that sentence only, preserving all other 419 texts
+and the frozen experiment. Proposed source SHA-256:
+`b9e45b89a2ec380e3c5831744c6a7f454077c381dfbf9bda165824554e92074c`.
+Complete independent source review remains required before optimization.
+
 
 
 
