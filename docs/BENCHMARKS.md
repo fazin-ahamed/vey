@@ -4197,6 +4197,61 @@ Next branch: retain QASPER for descriptive natural evidence and audit another
 lawful natural long-context source before acquisition. Do not pad the papers,
 lower 8,192, substitute synthetic evidence or relax statistical gates.
 
+### Natural long-source rights, exposure audit and input-only preregistration
+
+HYPOTHESIS: native Natural Questions full documents may provide more
+8,192/16,384-token confirmation inputs than QASPER. Input counts, label/evidence
+eligibility and effective independent units remain unknown.
+Preregistration: `research/endgame/natural_questions_length_protocol.json`;
+implementation: `natural_questions_length_census.py`.
+
+MEASURED: the rendered [official Google download page](https://ai.google.com/research/NaturalQuestions/download)
+expressly releases Natural Questions under [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
+Pinned HF revision `e8103d566bef4154c2c12b17c6095ec5275840cc` lists seven
+validation shards totaling exactly 1,337,126,358 compressed bytes and reports
+7,830 validation rows. Row counts and source payload integrity are not yet
+independently reconstructed. Review authorizes bounded anonymous local
+evaluation preparation, not shipping training, weights, redistribution or
+blanket clearance of unrelated upstream material. Preserve original page
+title/URL, publisher/Wikipedia attribution, license links and modifications.
+
+Controls: decode only ID and document title/URL/native tokens. Exclude HTML,
+questions, answer candidates and annotations. Retain native visible token
+strings/order with one-space joining; no padding, clipping, generated summaries,
+title duplication or unrelated concatenation. Both pinned Laya tokenizers run
+without truncation, padding or special tokens. All official validation stays
+confirmation-only; prior Vey/Laya/backbone exposure remains UNKNOWN.
+Title/URL/text-identity components are overlap controls, not independent
+annotator/user/template sampling units. No model runs or quality final occurs.
+
+MEASURED guard smoke: real synthetic Parquet files cover both native token
+layouts; document text survives projection while HTML/question/gold sentinels
+are excluded. Eight illegal projection requests fail before decoding; unequal
+token-list lengths fail. No released dataset record or model is used in this
+smoke. Receipt SHA-256:
+`cbadf1225f4ac694622bc3854e3275763b9b917fe701015c6ac2ff39357987ca`.
+This earns decoder-boundary evidence, not source-census/capability credit.
+
+Two metadata scouts exceeded their read scopes. The NQ scout opened an
+illustrative documentation example; its values are excluded from gold.
+The LongBench-v2 scout opened forbidden `data.json`, exposing identified row
+`66fcffd9bb02136c067c94c5` and reporting a partial second row. Exact remaining
+exposure is unresolved; the claim that 502 rows are unopened is rejected.
+Existing tool text and correction reports are retained outside Git.
+Do not call this source fresh or use its 503 publisher items as independent
+units. The exact pinned `data.json` is 465,490,535 bytes; HF `usedStorage`
+647,930,799 is aggregate storage. Apache-2.0 packaging and MIT code do not
+establish every underlying document grant. LongBench-v2 remains on hold.
+
+`research/endgame/long_source_metadata_review_manifest.json` pins primary
+metadata, the official rendered grant, correction reports and the exposure
+archive. Next: execute the frozen bounded NQ acquisition/census, preserve
+failures and verify every source object. Native gold mapping, cross-source
+grouping, workflow/metric freeze, DEV precision and evidence-position tests
+remain mandatory before model comparison. No statistical quality test or
+neutral non-inferiority/superiority gate is earned.
+
+
 
 
 

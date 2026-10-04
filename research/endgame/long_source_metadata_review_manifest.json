@@ -1,0 +1,107 @@
+{
+  "evidence_class": "MEASURED",
+  "longbench_v2": {
+    "audit_process_violation": {
+      "failed_unbounded_archive_read_retained": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/long-source-metadata-v1/longbench_archive_read_rejection.txt",
+        "sha256": "c86ae90c4a08148978c6f1823c5f396a18e26b9181927b7d315bfec47bb3a8f1"
+      },
+      "forbidden_url_called": "https://huggingface.co/datasets/zai-org/LongBench-v2/resolve/main/data.json",
+      "freshness_policy": "Treat known row and unresolved exposed component/source neighborhood as opened. No new LongBench final allocation or acquisition authorized by this review.",
+      "known_exposed_row_id": "66fcffd9bb02136c067c94c5",
+      "reported_additional_exposure": "Scout correction reports a partial second row and a50MB body cut, but exact remaining membership/extent is not independently established. The assertion502unopened is rejected.",
+      "retained_existing_tool_text": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/long-source-metadata-v1/longbench_unrequested_payload_read.archived-tool-text.txt",
+        "sha256": "a67e1fd326d7f7eebb2a79ee96461c3909f16e6f8232ee1a385c59a346c44ccd"
+      },
+      "retained_tool_text_bytes": 503460,
+      "retention_scope": "Existing bounded archived tool text, not a complete raw dataset or independently verified50MB HTTP payload. No HTTP re-fetch or semantic/gold parsing for archival."
+    },
+    "correction": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/long-source-metadata-v1/LongBenchV2RightsAudit.correction.txt",
+      "sha256": "b529c268a731f86d1f88b5488b65da5656b135ec6a26dff2001a7b9b47635bc5"
+    },
+    "exact_data_json_metadata": {
+      "lfs": {
+        "oid": "15d61c22d92c96900b3c4948b6aeea218d3214b676a65df48e7b8555604c7fe2",
+        "pointerSize": 134,
+        "size": 465490535
+      },
+      "oid": "6cdc8c85cf593dcdc2311cdc0fd59ac34817fd7e",
+      "path": "data.json",
+      "size": 465490535,
+      "type": "file",
+      "xetHash": "18115438a05ec1f482ada423aa724ccd7388621b146cb88846f68fc1c4cede24"
+    },
+    "license_class": "conditional/review",
+    "next": "Hold this candidate until per-source rights, exposure/component quarantine, grouping and source-first allocation are resolved; do not use metadata-only503 or packaged Apache to green a final benchmark cell.",
+    "primary_metadata": {
+      "file_tree": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/long-source-metadata-v1/longbench_tree.json",
+        "sha256": "ae8425b30628324dbdf50679a3ec141cc0125b7ab96c7ff0373375e24f1414a1"
+      },
+      "hub_info": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/long-source-metadata-v1/longbench_hub_info.json",
+        "sha256": "188ee42d342f2391abe0d318ef7c8a62e7e8aeafe34a0c7f24072f732dc321fe"
+      }
+    },
+    "repository": "zai-org/LongBench-v2",
+    "retractions": [
+      "Unique row IDs are not independent sampling units.",
+      "Token census is not the sole prerequisite: upstream grants, partition/allocation, author/reviewer/document grouping and prior exposure remain unresolved.",
+      "Hub usedStorage647930799 is aggregate storage, not the465490535-byte data.json.",
+      "Inspected revision is a current pin, not proof that no other revision exists.",
+      "502unopened is unsupported after a partial second-row exposure and incomplete response."
+    ],
+    "revision": "2b48e494f2c7a2f0af81aae178e05c7e1dde0fe9",
+    "rights_hold": "Apache-2.0 packaged declaration does not establish grants for every underlying copyrighted document/source. MIT code license is separate.",
+    "source_counts": "503 items and natural-document/task strata are publisher claims, not independently reconstructed sampling units. Words8k–2M are not pinned tokenizer counts."
+  },
+  "natural_questions": {
+    "allocation": "All official validation remains confirmation-only for this study. No labels are used for fitting/selection/calibration; any future development uses separately preregistered official training data and source-component overlap resolution.",
+    "audit_process_violation": "Scout opened toy_example.md despite metadata-only/no-example-record scope. It is an illustrative documentation record; do not use it as gold or assert released benchmark membership/exclusion without proof. No released NQ payload was opened in this audit.",
+    "code_revision": "fb26a3073b1fe636c97302890a27b491d6530130",
+    "correction": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/long-source-metadata-v1/NaturalQuestionsLongAudit.correction.txt",
+      "sha256": "3b3455d146a1b065b5f710619cd4d2c1c7104cb2a9788e5f1ecd8c11efdd76aa"
+    },
+    "native_semantics": "Preserve all source annotation payloads, including NULL/NONE/unanswerable and multiplicity. No toy labels or generic Boolean interpretation from missing/short-answer fields. Native evaluator/YES-NO mapping must be independently verified before DecisionIR conversion.",
+    "next": "Preregister bounded validation input-only source custody/token census; native workflows, field-level gold validation, grouping and DEV precision remain later gates.",
+    "primary_metadata": {
+      "hub_info": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/long-source-metadata-v1/nq_hub_info.json",
+        "sha256": "d9d7be0a084a825ba3e0da2b4677e7c7a1879c969ffb3283566b4c7a84f87bd0"
+      },
+      "official_rendered_download_page": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/long-source-metadata-v1/nq_official_download_page.browser-rendered.txt",
+        "sha256": "8b1f09992c7e488143675a50b8b2fbe4f5cab30b918d644ea263c4269bd67135"
+      },
+      "validation_file_tree": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/long-source-metadata-v1/nq_validation_tree.json",
+        "sha256": "12043e9fd33fe125efe5ead59574ab3e6fc0d900ef3c1191eb004b38a88f5a7f"
+      }
+    },
+    "prior_exposure": "UNKNOWN: inventory absence cannot establish Vey, Laya, backbone/pretraining or legacy-study nonexposure.",
+    "repository": "google-research-datasets/natural_questions",
+    "revision": "e8103d566bef4154c2c12b17c6095ec5275840cc",
+    "rights": {
+      "attribution": "Natural Questions, Google Research/Kwiatkowski et al.2019, and the underlying Wikipedia contributors. Preserve original page title/URL/raw bytes plus source/license links and declared projection modifications.",
+      "dataset_specific_primary_grant": "Official Google download page expressly releases Natural Questions under Creative Commons Share-Alike3.0 and links https://creativecommons.org/licenses/by-sa/3.0/.",
+      "deed_verified_url": "https://creativecommons.org/licenses/by-sa/3.0/deed.en",
+      "license_class": "conditional/review",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "primary_url": "https://ai.google.com/research/NaturalQuestions/download",
+      "reviewed_use": "Bounded anonymous local acquisition and input-only evaluation preparation; no model training, shipping weights or redistribution.",
+      "sharealike": "Do not redistribute transformed source content under incompatible terms; later distribution/trained-artifact obligations require their own review.",
+      "upstream_per_page_grants": "Not independently audited; the publisher dataset-specific grant is not a universal warranty or blanket clearance for unrelated upstream content. No image/linked-asset download."
+    },
+    "validation_metadata": {
+      "exact_compressed_bytes": 1337126358,
+      "labels_per_row_publisher_claim": 5,
+      "rows_publisher_claim": 7830,
+      "shards": 7
+    }
+  },
+  "schema": "vey.neutral.long-source-metadata-review.v1",
+  "scope": "Primary public metadata and rights/exposure audit only. No capability, custody of complete candidate data, statistical independence, universal freshness or shipping-training clearance earned."
+}

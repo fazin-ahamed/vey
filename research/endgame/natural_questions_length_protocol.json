@@ -1,0 +1,239 @@
+{
+  "allowed_columns": [
+    "id",
+    "document.title",
+    "document.url",
+    "document.tokens"
+  ],
+  "artifacts_to_persist": [
+    "Frozen source/code/protocol/helper/rights/metadata/tokenizer/environment/git pins.",
+    "All verified raw source shards in the data-root cache, including original annotation payloads without semantic decoding.",
+    "Private per-document input-length/source-identity/component ledgers, per-shard custody/schema and metadata-only result report.",
+    "Failed attempts and protocol amendments retained with clear lineage."
+  ],
+  "authority": {
+    "immutable_reference": "vey-2-final/e6b046ffbd138cbdbfb2f89c6ae77525fe6b0b18; unchanged",
+    "neutral_benchmark_protocol": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_benchmark_protocol.json",
+      "sha256": "9e3bfbdd9371d6202c8bf6d6ec5fc224eababb402d409f206abd0215fcf3f0c5"
+    },
+    "verified_source_custody": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_source_custody_result_manifest.json",
+      "sha256": "885f9665ccc41ad800a1971c1b5f48ce1d71cf2e51bf21cff26a2b58cb0c6113"
+    }
+  },
+  "cache_root": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub",
+  "controls": [
+    "No Torch/model import/forward; no weights, source loader code execution, paid requests, auth token discovery or implicit credential use.",
+    "Anonymous official HF endpoint with token=False and Xet disabled; pinned exact revisions, file sizes and raw SHA256 independently checked before decoding and after read.",
+    "Parquet projection guard rejects any columns other than the exact ID/document-input whitelist; one-row batches, no source questions/annotations printed or decoded.",
+    "Private source/cache/census under the data root; metadata-only stdout/repo. Existing source-native labels remain untouched in immutable raw blobs.",
+    "Committed code/protocol/helper and primary rights/metadata/tokenizer fingerprints before source download.",
+    "Retain incomplete/failed attempts without overwriting; no count-based endpoint/gate changes."
+  ],
+  "data_root": "/home/fazinahamed/Documents/vey-data/decisionmix",
+  "environment": {
+    "huggingface_hub": "1.32.0",
+    "pyarrow": "25.0.1",
+    "python": "3.11.16 (main, Aug 14 2026, 15:35:36) [Clang 22.1.3 ]",
+    "python_executable": "/home/fazinahamed/Documents/vey/venvs/vey/bin/python",
+    "tokenizers": "0.23.2"
+  },
+  "evidence_class": "HYPOTHESIS",
+  "failure_branches": [
+    "Source/metadata/tokenizer/helper drift, parser/identity error, wrong counts, forbidden projection or resource-floor violation: fail closed, retain incomplete artifacts; any semantic-independent correctness amendment is preregistered with originals retained.",
+    "Insufficient long natural source/group counts: keep result and audit another lawful natural source; no synthetic padding, final-derived tuning or relaxed margins.",
+    "Potentially adequate input counts: native annotation/evidence workflow validation, grouping/cross-source overlap, task/metric registry, DEV-only power and evidence-position design remain mandatory before any final model result."
+  ],
+  "grouping": "Connected components join native NFC/underscore-whitespace-normalized casefolded article titles, URL article titles (wiki path or title query, original URL preserved), and exact substantive-text SHA256 identities. Deterministic representative is lexicographically smallest row ID; report any-qualifying-row components and all rows. This is source overlap control, not proof of author/template/user statistical independence. Cross-source and future training overlaps require separate union before evaluation.",
+  "helper_sources": [
+    {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_paper_length_census.py",
+      "sha256": "4f3320b414375448a5271a29248571d707c63de4470f5581f7e86712ce713bfe"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_paper_acquire.py",
+      "sha256": "a955953c9ec7b4850e483769969182a55098dc317e6feb573d907b9c8e504a17"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_acquire.py",
+      "sha256": "dd7114aee5b3bf941a9470ad8058f105d436f0844b97e15d9694581c58f6a5ca"
+    }
+  ],
+  "hypothesis": "The full native Natural Questions validation documents may supply a larger natural8192/16384-token source stratum than QASPER; input counts/group counts are unknown before execution.",
+  "implementation": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/natural_questions_length_census.py",
+    "sha256": "3b47acc28ada99ef298097769c6e12d7d1c953cc54893ae68f036187cc3a76e9"
+  },
+  "input_projection": "Decode only these nested Parquet columns; exclude document.html, question, long_answer_candidates and annotations. Join source-native token strings whose native is_html flag is false with one ASCII space, retaining original wording/order; no HTML decoding, title duplication, padding, truncation, unrelated concatenation or generated summaries. Counts exclude question/options/framework/special-token overhead.",
+  "native_token_layouts": "Permit documented logical tokens as a struct of equal-length lists or a list of structs with exactly token/is_html/start_byte/end_byte. Validate native field types, lengths, offsets and ordering; malformed source records fail without selective exclusion.",
+  "primary_metric": "Per-tokenizer counts of natural substantive source rows/components with>=8192tokens.",
+  "promotion_gates": {
+    "census": "Every7830 source row present,7 exact pinned source objects checked before/after, only committed input columns decoded, zero model forwards and original allocation retained.",
+    "long_context_capability": false,
+    "neutral_noninferiority_or_superiority": false
+  },
+  "resource_budget": {
+    "Arrow_CPU_and_IO_threads": 1,
+    "BLAS_threads": 1,
+    "CPU_threads": 1,
+    "GPU_jobs": 0,
+    "Xet_enabled": false,
+    "ionice_class": 2,
+    "ionice_level": 7,
+    "maximum_RSS_bytes": 2147483648,
+    "maximum_address_space_bytes": 6442450944,
+    "minimum_available_RAM_bytes": 4294967296,
+    "minimum_free_disk_bytes": 8589934592,
+    "nice": 10,
+    "one_shard_download_at_a_time": true,
+    "paid_resources": false,
+    "raw_source_download_bytes": 1337126358,
+    "tokenizer_parallelism": false,
+    "wall_timeout_seconds": 3600
+  },
+  "schema": "vey.neutral.nq.input-length-protocol.v1",
+  "secondary_metrics": [
+    "Counts>=512/1024/16384, full min/median/max, exact source-shard row counts/byte identities.",
+    "Private per-row IDs/original title+URL/text SHA256/token counts and component membership."
+  ],
+  "seed": "No sampling or random split: all7 pinned validation shards in file-tree order, all7830 source rows.",
+  "source": {
+    "authorized_scope": "Bounded local evaluation preparation under the recorded CC BY-SA3.0 dataset-specific grant; no training/shipping/redistribution.",
+    "configuration": "dev",
+    "expected_rows": 7830,
+    "files": [
+      {
+        "lfs": {
+          "oid": "348fb27f787e68e1c6389d0fdc3453a41fc66321ec30a2f3c451f1ef82d07c20",
+          "pointerSize": 134,
+          "size": 185560593
+        },
+        "oid": "e3eaa402c4d5c8378fa595065327b988758ba42d",
+        "path": "dev/validation-00000-of-00007.parquet",
+        "size": 185560593,
+        "type": "file",
+        "xetHash": "221095518f3cdca0e71d04d1034844cdb76b2c6efb00da174c586640149577ed"
+      },
+      {
+        "lfs": {
+          "oid": "5be65bc20b859c5ca6041043507fbc8f34224192a70e5e767dcb2876f04468a4",
+          "pointerSize": 134,
+          "size": 197099510
+        },
+        "oid": "772b8987a175e02532d8e8824bef1671bdc26db0",
+        "path": "dev/validation-00001-of-00007.parquet",
+        "size": 197099510,
+        "type": "file",
+        "xetHash": "0a08e1ea87c0a784608f8c2419ed08f60dcd637ba00cde65194011daae968f12"
+      },
+      {
+        "lfs": {
+          "oid": "d639409b817ceceacf3b2538fed27065ff296793c158707e9e07f3ab2f737a9d",
+          "pointerSize": 134,
+          "size": 190921063
+        },
+        "oid": "246126012d91c1f1676d3b0c0c165a08b193eae5",
+        "path": "dev/validation-00002-of-00007.parquet",
+        "size": 190921063,
+        "type": "file",
+        "xetHash": "dbdd946fc3cd748671f628d3dd954e51f27b99a3a7e14377046af5fb71c82d55"
+      },
+      {
+        "lfs": {
+          "oid": "4d1df3bea63e9bb567bdf3b87e8955b947f8c6f998bded0840c01bb9a13968bc",
+          "pointerSize": 134,
+          "size": 191104999
+        },
+        "oid": "8e0740ebbd7d2828861f9c1ac2cb08fb6499b82c",
+        "path": "dev/validation-00003-of-00007.parquet",
+        "size": 191104999,
+        "type": "file",
+        "xetHash": "0b85d9b2f2efd376d25baf6abfa48018f2345cb5930fbe3a939d22dd0429a105"
+      },
+      {
+        "lfs": {
+          "oid": "40781760176ff93afc84fb5dba1239f46a082aa2edc0e7dd4fad1a34f38435e0",
+          "pointerSize": 134,
+          "size": 192525840
+        },
+        "oid": "6f6d4e11ab9feccb6ed669838ae87c5692798349",
+        "path": "dev/validation-00004-of-00007.parquet",
+        "size": 192525840,
+        "type": "file",
+        "xetHash": "d75a41adb531236e47f2c8572b8b0d406c9afa8f81a0551b9ed47a15f63a016b"
+      },
+      {
+        "lfs": {
+          "oid": "3988c0d16f6b014348be130ef20ce324cf2b9bbafbddee96ad78a37e52e8903f",
+          "pointerSize": 134,
+          "size": 190204549
+        },
+        "oid": "eaf5dd47d8a2947a271a104cf7a27bdf2a1ddb26",
+        "path": "dev/validation-00005-of-00007.parquet",
+        "size": 190204549,
+        "type": "file",
+        "xetHash": "b344108b616d9c93f76409127b44678793935dd621fef9ee108b97acc52872f5"
+      },
+      {
+        "lfs": {
+          "oid": "b3153de2b44df02e0f0a5eac8d82499ef175f99026e8e4dc30e55f4e3b22e725",
+          "pointerSize": 134,
+          "size": 189709804
+        },
+        "oid": "c330ebeebb291e4cf2ab013c86d4b3dea9a5ff9d",
+        "path": "dev/validation-00006-of-00007.parquet",
+        "size": 189709804,
+        "type": "file",
+        "xetHash": "456ee44b59ed7d98f928c12d9e27d59478990ded6ad9db86df4ba0e0742a2df8"
+      }
+    ],
+    "license_class": "conditional/review",
+    "official_partition": "validation",
+    "repository": "google-research-datasets/natural_questions",
+    "revision": "e8103d566bef4154c2c12b17c6095ec5275840cc",
+    "total_bytes": 1337126358
+  },
+  "source_metadata": {
+    "file_tree": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/long-source-metadata-v1/nq_validation_tree.json",
+      "sha256": "12043e9fd33fe125efe5ead59574ab3e6fc0d900ef3c1191eb004b38a88f5a7f"
+    },
+    "hub_info": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/long-source-metadata-v1/nq_hub_info.json",
+      "sha256": "d9d7be0a084a825ba3e0da2b4677e7c7a1879c969ffb3283566b4c7a84f87bd0"
+    },
+    "primary_grant": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/long-source-metadata-v1/nq_official_download_page.browser-rendered.txt",
+      "sha256": "8b1f09992c7e488143675a50b8b2fbe4f5cab30b918d644ea263c4269bd67135"
+    },
+    "rights_and_exposure_review": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/long_source_metadata_review_manifest.json",
+      "sha256": "382238f19a8b318922b418a48e48128544e86f306dc9c1b004b37ebc8ad5b9f3"
+    }
+  },
+  "splits": "All official validation stays confirmation-only under the neutral allocation policy; this study does not train, select, fit thresholds or calibrate on any of these records. The input-only census is not final model scoring. No train/dev/cal carve from this source. Prior Vey/Laya/backbone exposure remains UNKNOWN.",
+  "statistical_test": "Deterministic source census only; no model-quality test, paired delta, probability calibration or certification evidence. Input eligibility and source components do not establish effective inferential sample size.",
+  "thresholds": [
+    512,
+    1024,
+    8192,
+    16384
+  ],
+  "tokenizers": {
+    "english": {
+      "bundle_revision": "55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851",
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/blobs/2f4d8583e507b7466d2490e2d6c045647a822698",
+      "repository": "convaiinnovations/laya",
+      "sha256": "6c8aaa9a542084f2457eab775d4eeb51f92a70c0fd9de28d5edb0ddec3c08d30",
+      "subfolder": null
+    },
+    "multilingual": {
+      "bundle_revision": "55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851",
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/blobs/8f/8fdbdb0307b65058d3b81a88cba0082cd1bbe8e85d34295d2271d6fa85a31c7a",
+      "repository": "convaiinnovations/laya",
+      "sha256": "609d8f4c067cd3950f88594c5a802616cea245823836ef5848ee4fc40aab5b6f",
+      "subfolder": "multilingual"
+    }
+  }
+}
