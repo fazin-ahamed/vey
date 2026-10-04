@@ -74,10 +74,11 @@ def identity_keys(document, text_hash):
         raise ValueError('Native document URL is outside the Wikipedia source contract')
     if url.username is not None or url.password is not None:
         raise ValueError('Native document URL contains credentials')
+    path = '/' + url.path.lstrip('/')
     title = None
-    if url.path.startswith('/wiki/'):
-        title = urllib.parse.unquote(url.path[len('/wiki/'):])
-    elif url.path == '/w/index.php':
+    if path.startswith('/wiki/'):
+        title = urllib.parse.unquote(path[len('/wiki/'):])
+    elif path == '/w/index.php':
         titles = urllib.parse.parse_qs(url.query).get('title', [])
         if len(titles) == 1:
             title = titles[0]

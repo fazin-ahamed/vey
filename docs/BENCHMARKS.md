@@ -4251,6 +4251,20 @@ grouping, workflow/metric freeze, DEV precision and evidence-position tests
 remain mandatory before model comparison. No statistical quality test or
 neutral non-inferiority/superiority gate is earned.
 
+The first NQ attempt (`23ea2ee`) verified the first shard's 185,560,593 bytes
+but failed before a complete census: native Wikipedia URLs use
+`//w/index.php`, while the identity parser dispatched only `/w/index.php`.
+A URL-only projection confirmed this shape without questions, annotations
+or document text. Preserve the incomplete attempt and original code/protocol.
+`natural_questions_length_url_protocol.json` preregisters collapsing duplicate
+leading slashes for route dispatch only; original URL, text, labels, all rows,
+allocation, tokenizers and gates remain unchanged. The corrected attempt uses
+a new output root. Both decoder-boundary layouts and single/double-slash route
+equivalence pass; receipt SHA-256:
+`0750cba548e14a546b55034ed82be06de04dc077f46fcaa850ce70368c52a6a6`.
+This is an input-parser correctness amendment, not outcome-driven selection.
+
+
 
 
 
