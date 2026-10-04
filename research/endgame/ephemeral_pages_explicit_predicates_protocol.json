@@ -1,0 +1,90 @@
+{
+  "amendment": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/source/eca2_explicit_predicates_amendment.json",
+    "sha256": "43ca56e46edfe01a34726946cab87a537e06be37d032928c0861cae19f01cdab"
+  },
+  "artifacts": "All rejected source/preparation/key/packet/rawjudgments; exact installation SHA map; fresh preparation/reviews/receipt/final build; unchanged prefinal proofs.",
+  "controls_splits_grouping_statistics_gates": "All ECA-2 model controls, seed, training inputs, labels, 320-world seed271828 grouping, metrics, bootstrap units and gates remain frozen. No quality outputs inspected. All source properties, IDs, grade positions, questions, rubrics and other417texts byte-identical.",
+  "data": {
+    "changes": [
+      {
+        "grade": 2,
+        "json_pointer": "/properties/4/page_wordings/8/text",
+        "new_text": "Reminder messages accompany the scheduled review and every formal status report, but neither informal updates nor intervals between communication opportunities.",
+        "old_text": "Reminder messages reach the formal reporting occasions while stopping short of informal conversations.",
+        "ordered_extent_rubric": [
+          "the requester sends no reminder after the initial request",
+          "reminders occur only at the scheduled review",
+          "reminders occur at the review and formal status reports, but not informal updates",
+          "reminders occur at all updates, but not between communication opportunities",
+          "reminders continue between updates as well as at every communication opportunity"
+        ],
+        "reason": "Assert every included and excluded rubric component; later stages do not imply earlier stages.",
+        "review_id": "r_0e23117fbe9a6197697bcce7743b",
+        "source_id": "w_6b229618a22a25cbe618d860"
+      },
+      {
+        "grade": 2,
+        "json_pointer": "/properties/8/page_wordings/7/text",
+        "new_text": "Readers can consult the summary beside the title; the filing body and all annexes remain unavailable to the public.",
+        "old_text": "Readers can consult the summary beside the title, but not the filing body.",
+        "ordered_extent_rubric": [
+          "no part of the filing is publicly available",
+          "only the filing title is publicly available",
+          "the title and summary are public, but the body and annexes are not",
+          "the title, summary and main body are public, but annexes are not",
+          "every named part of the filing is publicly available"
+        ],
+        "reason": "Assert every included and excluded rubric component; later stages do not imply earlier stages.",
+        "review_id": "r_6a8cf744cca73b1b687847a4009a",
+        "source_id": "w_99a86cb5b0a0c7345a26bb2a"
+      },
+      {
+        "grade": 3,
+        "json_pointer": "/properties/8/page_wordings/10/text",
+        "new_text": "Public readers can inspect the title, summary and full main text; none of the annexed material is publicly accessible.",
+        "old_text": "Public readers can inspect the full main text, without its annexed material.",
+        "ordered_extent_rubric": [
+          "no part of the filing is publicly available",
+          "only the filing title is publicly available",
+          "the title and summary are public, but the body and annexes are not",
+          "the title, summary and main body are public, but annexes are not",
+          "every named part of the filing is publicly available"
+        ],
+        "reason": "Assert every included and excluded rubric component; later stages do not imply earlier stages.",
+        "review_id": "r_c1fa986b915b1958c7bd82786746",
+        "source_id": "w_36b44237af836089bd437bf5"
+      }
+    ],
+    "packet": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/audit/eca2_opaque_review_packet.json",
+      "sha256": "c61c3dd191b974f95401db4c9fe35325db21ba2219b62446cc77b28966c0fe77"
+    },
+    "rejected_receipt": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/audit/eca2_independent_audit_receipt.json",
+      "sha256": "03de2831e3e599ec2599c8d9a7b527f87a4f4d53311a72985e31e4215884f432"
+    },
+    "source": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/source/eca2_final_source.json",
+      "sha256": "cdc9a6352cbc76f96d15e71b791df259d9a99a360df6e2890625f6dac82ca612"
+    },
+    "unchanged_items": 417
+  },
+  "failure_branch": "Keep any new rejected source and raw judgments. Do not infer neural failure or tune architecture from source audits. Any remaining insufficient condition is a source correctness defect; no implicit-prefix interpretations may be used.",
+  "hypothesis": "Explicit included/excluded predicates remove the three evidenced source ambiguities without changing tasks or labels. Implicit-prefix authoring is retired after three source-audit failures.",
+  "parent_atomic_protocol_sha256": "21e295c362da058b4b5d2247b61caf247449e79132ed7520a6f637926816b0fb",
+  "parent_protocol": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_rubric_entailment_protocol.json",
+    "sha256": "b9a7632a66e56c8fd76111ed0767c4f45e8f4b64980acdfdc8cf68fa68bd11ab"
+  },
+  "primary_metric": "Two complete independent opaque reviews, each accepting all420items with zeroambiguities/rejections.",
+  "promotion_gate": "Accepted actual840judgments and fail-closed builder required before any optimizer.",
+  "proposal": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/source/eca2_explicit_predicates_proposal.json",
+    "sha256": "0b687edbff46295cdf612e016c004a61ea146add9150ab1b2f64d7349ef175c2"
+  },
+  "resource_budget": "Zero neural forwards or fits; bounded parsing and two independent opaque420item audits.",
+  "schema": "vey.eca2.explicit-predicates-protocol.v1",
+  "secondary_metrics": "Exact source-byte preservation outside the3text substitutions; absent final artifacts and zero neural calls.",
+  "statistical_test": "Not applicable to source validity; original frozen paired-world bootstrap applies to model outcomes."
+}

@@ -4006,6 +4006,24 @@ clarifications and preserves the other 406 texts, all targets and every
 model/split/statistical rule. Every rejected source, preparation and raw
 judgment remains retained; two complete fresh opaque reviews remain required.
 
+MEASURED third source review: independent reviewers accept 417/420 and
+418/420 items, leaving three ambiguous pages. The actual rejected receipt
+SHA-256 is
+`03de2831e3e599ec2599c8d9a7b527f87a4f4d53311a72985e31e4215884f432`.
+The builder again exits 2. Formal-report reminders do not establish
+scheduled-review reminders; public summaries do not exclude annex access;
+public main text does not establish title and summary access.
+
+INFERENCE: implicit-prefix source authoring is insufficient. That assumption
+is retired, not interpreted as a neural-interface failure. The prospective
+`ephemeral_pages_explicit_predicates_protocol.json` pins three text-only
+corrections stating every included and excluded rubric component. Proposed
+source SHA-256:
+`0b687edbff46295cdf612e016c004a61ea146add9150ab1b2f64d7349ef175c2`.
+The other 417 texts, all source IDs, labels, questions, model controls and
+statistical gates remain unchanged. Both complete reviews must be repeated;
+all three rejected source stages and actual judgments remain retained.
+
 
 
 
