@@ -4474,6 +4474,25 @@ its inherited encoder specification. Both incorrect checker assumptions
 were repaired against the existing contracts, preserving source snapshots
 and failed receipts; no model result, gate, threshold or corpus changed.
 
+Natural Questions custody/exposure closure: the corrected rights and
+exposure audit (`long_source_metadata_review_manifest.json`, code revision
+`fb26a307b1fe636c97302890a27b491d6530130`, correction receipt
+`3b3455d146a1b065b5f710619cd4d2c1c7104cb2a9788e5f1ecd8c11efdd76aa`)
+is persisted, together with the input-only census above. Dataset-specific
+publisher grant is CC BY-SA 3.0 with attribution to Google Research,
+Kwiatkowski et al. 2019 and the underlying Wikipedia contributors.
+Per-page upstream grants are not independently audited; share-alike
+obligations on transformed content and trained artifacts remain open.
+License class stays conditional/review and limits use to bounded anonymous
+local acquisition and input-only evaluation preparation.
+An earlier scout violated its metadata-only scope by opening an
+illustrative documentation record; no released benchmark row was opened
+in that audit, and prior exposure remains UNKNOWN rather than "none".
+Native annotation payloads, including NULL/NONE/unanswerable and
+multiplicity, must be preserved verbatim and independently verified
+before any DecisionIR conversion. Toy labels and generic Boolean
+interpretations are forbidden.
+
 
 
 
