@@ -22,8 +22,9 @@ import torch.nn.functional as F
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from ephemeral_pages_capture import (ATOMIC_ROOT, DEFAULT_EXPERIMENT, Experiment, load_phase,
-                                     resolve_experiment, rows_for)
-from ephemeral_pages_features import (GPU_LOCK, _apply_process_priority, _parse_meminfo, _resource_guard)
+                                     phase_experiment, resolve_experiment, rows_for)
+from ephemeral_pages_features import (GPU_LOCK, sha256_file, _apply_process_priority,
+                                     _parse_meminfo, _resource_guard)
 from ephemeral_pages_model import (PageReader, CosineReader, CrossReader,
     QueryBlindReader, LexicalReader, ReaderOutput, eca_loss, intervene_features)
 
@@ -75,12 +76,13 @@ def _resources(device):
             fcntl.flock(lock.fileno(), fcntl.LOCK_UN)
 
 
+
 def optimizer_indices(arrays, split, experiment=DEFAULT_EXPERIMENT):
     """Select via same-split original IR, never via diagnostic record duplication."""
     if split not in {"train", "validation"}:
         raise ValueError("optimizer selection only permits train/validation")
     allowed = set()
-    for row in rows_for(split, experiment):
+    for row in rows_for(split, phase_experiment(experiment, split)):
         if row["split"] != split:
             raise ValueError("IR split mismatch")
         meta = row["metadata"]
