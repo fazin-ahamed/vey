@@ -37,6 +37,8 @@ import numpy as np
 HERE = Path(__file__).resolve().parent
 PROTOCOL_PATH = HERE / "ephemeral_pages_protocol.json"
 PROTOCOL_SHA256 = "4c0c1efe8ad8ffdde79004536a44fc6d034b7701cdedde8e2034dc3f4e52b489"
+ATOMIC_PROTOCOL_PATH = HERE / "ephemeral_pages_atomic_protocol.json"
+ATOMIC_PROTOCOL_SHA256 = "21e295c362da058b4b5d2247b61caf247449e79132ed7520a6f637926816b0fb"
 CANONICAL_ROOT = Path("/home/fazinahamed/Documents/vey")
 CANONICAL_FILE_HASHES = {
     "vey_u/ir.py": "0184e25e05c17638117e776fc660fd6e4896c3590da0fcf94fc753509869ea2d",
@@ -70,9 +72,18 @@ def _canonical_json(value: Any) -> bytes:
 def _protocol(path: str | Path = PROTOCOL_PATH) -> tuple[dict[str, Any], str]:
     raw = Path(path).read_bytes()
     digest = sha256_bytes(raw)
-    if digest != PROTOCOL_SHA256:
+    if digest == ATOMIC_PROTOCOL_SHA256:
+        amendment = json.loads(raw)
+        parent, parent_hash = _protocol(PROTOCOL_PATH)
+        if amendment["parent_protocol_sha256"] != parent_hash:
+            raise RuntimeError("atomic correction parent protocol changed")
+        cfg = {**parent, "experiment": amendment["experiment"],
+               "output_root": amendment["output_root"],
+               "atomic_target_contract": amendment}
+    elif digest == PROTOCOL_SHA256:
+        cfg = json.loads(raw)
+    else:
         raise RuntimeError(f"ECA protocol hash changed: {digest}")
-    cfg = json.loads(raw)
     enc = cfg["encoder"]
     if (enc["repo"] != "cross-encoder/nli-deberta-v3-xsmall" or
             enc["revision"] != "a150876415327c80daeff35ca6f68f5ed8cf5c24" or
@@ -430,6 +441,8 @@ def rows_to_examples(rows: Iterable[Mapping[str, Any] | Any]) -> list[dict[str, 
     targets/structural associations only. Exact blocks and unowned blocks are
     excluded before any feature extraction. Metadata and identifiers are never
     placed in a token string.
+    Child supervision is local to the active property. Parent knownness is
+    preserved for exact aggregation, never copied into supported sibling labels.
     """
     output: list[dict[str, Any]] = []
     for row in rows:
@@ -523,8 +536,10 @@ def rows_to_examples(rows: Iterable[Mapping[str, Any] | Any]) -> list[dict[str, 
                 known_value = known_map[candidate_id]
                 if not isinstance(known_value, bool):
                     raise ValueError(f"known[{candidate_id!r}] must be boolean")
-                candidate_known = known_value
                 grade_targets = [page["grade_target"] for page in pages]
+                candidate_known = count == 1 and any(
+                    flag and value is not None for flag, value in zip(rel, grade_targets)
+                )
                 grade_mask = [bool(flag and candidate_known and value is not None)
                               for flag, value in zip(rel, grade_targets)]
                 orientation_targets = [orientation_value if flag and candidate_known else None for flag in rel]
