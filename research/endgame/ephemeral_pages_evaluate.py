@@ -16,13 +16,18 @@ import os
 from pathlib import Path
 import sys
 from typing import Any
+import importlib.metadata
+import platform
+import subprocess
 
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import ephemeral_pages_capture as capture
 from ephemeral_pages_capture import DEFAULT_EXPERIMENT, resolve_experiment
-from ephemeral_pages_features import sha256_file, validate_final_receipt
+from ephemeral_pages_features import (sha256_file, validate_final_receipt,
+                                     validate_checkpoint_custody, atomic_corpus_bindings,
+                                     ATOMIC_PROTOCOL_SHA256)
 
 CONTROLS = ("pages", "cross", "cosine", "lexical", "query_blind")
 INTERVENTIONS = ("zero_question", "zero_pages", "uniform_attention")
@@ -71,6 +76,24 @@ def artifact(path: Path) -> dict:
 def checkpoint_files(run_root: Path) -> dict:
     return {control: artifact(run_root / ("lexical.pkl" if control == "lexical" else f"{control}.pt"))
             for control in CONTROLS}
+
+def seal_environment(experiment) -> dict:
+    cfg, _ = experiment.protocol()
+    return {"platform": platform.platform(), "python": platform.python_version(),
+            "packages": {name: importlib.metadata.version(name) for name in
+                         ("numpy", "scipy", "torch", "transformers", "tokenizers",
+                          "safetensors", "scikit-learn", "sentencepiece")},
+            "git_commit": subprocess.check_output(
+                ["git", "-C", str(Path(__file__).resolve().parents[2]), "rev-parse", "HEAD"],
+                text=True).strip(),
+            "encoder_identity": cfg["encoder"],
+            "feature_manifests": {phase: artifact(experiment.cache_root / f"{phase}_manifest.json")
+                                  for phase in ("train", "validation", "calibration", "development")},
+            "encoder_tokenizer_cache_identity": {
+                phase: json.loads((experiment.cache_root / f"{phase}_manifest.json").read_text(
+                    encoding="utf-8"))["lineage"]
+                for phase in ("train", "validation", "calibration", "development")}}
+
 
 
 def load_ir(phase: str, receipt: Path | None = None,
@@ -645,6 +668,11 @@ def evaluate_phase(phase: str, run_root: Path, calibrations: dict | None, device
     from ephemeral_pages_train import load_control, predict_control
     cfg = protocol(experiment)
     _, protocol_hash = experiment.protocol()
+    custody = validate_checkpoint_custody(run_root, experiment.context())
+    if protocol_hash == ATOMIC_PROTOCOL_SHA256 and phase != "final":
+        launch = json.loads(Path(custody["launch_receipt"]["path"]).read_text(encoding="utf-8"))
+        if launch.get("corpus_bindings") != atomic_corpus_bindings(experiment.corpus_root, protocol_hash):
+            raise RuntimeError("evaluation corpus differs from sealed training launch")
     if phase == "final":
         if receipt is None:
             raise RuntimeError("final evaluation requires sealed calibration")
@@ -736,8 +764,27 @@ def evaluate_phase(phase: str, run_root: Path, calibrations: dict | None, device
 
 
 def seal_selection(run_root: Path, calibration: dict, development: dict,
-                   experiment=DEFAULT_EXPERIMENT) -> Path:
+                   experiment=DEFAULT_EXPERIMENT, prefit_report: Path | None = None) -> Path:
     _, protocol_hash = experiment.protocol()
+    checkpoint_custody = validate_checkpoint_custody(run_root, experiment.context())
+    environment = seal_environment(experiment)
+    extra = {}
+    if protocol_hash == ATOMIC_PROTOCOL_SHA256:
+        if prefit_report is None:
+            raise RuntimeError("atomic selection requires explicit verified prefit capture report")
+        extra = atomic_corpus_bindings(experiment.corpus_root, protocol_hash)
+        built = json.loads(Path(extra["corpus_build_manifest"]["path"]).read_text(encoding="utf-8"))
+        extra.update(
+            atomic_protocol=artifact(experiment.protocol_path),
+            prefit_capture_report=artifact(prefit_report),
+            checkpoint_custody=checkpoint_custody,
+            seal_environment=environment,
+            final_identity={key: built[key] for key in
+                            ("decision_ids_sha256", "world_ledger_sha256", "split_jsonl_sha256",
+                             "world_namespace", "row_count", "world_count")})
+    else:
+        extra = {"corpus_build_manifest": artifact(experiment.corpus_root / "build_manifest_v1.json"),
+                 "amendment_file": artifact(experiment.protocol_path.with_name("ephemeral_pages_grade_amendment.json"))}
     calibration_path = run_root / "calibration.json"
     calibration_file = write_json(calibration_path, {
         "schema": "vey.eca.calibration.v1", "protocol_sha256": protocol_hash,
@@ -764,8 +811,8 @@ def seal_selection(run_root: Path, calibration: dict, development: dict,
                          "checkpoint_files": checkpoint_files(run_root),
                          "selection_file": selection_file, "calibration_file": calibration_file,
                          "development_evaluation": development["manifest"],
-                         "corpus_build_manifest": artifact(experiment.corpus_root / "build_manifest_v1.json"),
-                         "amendment_file": artifact(experiment.protocol_path.with_name("ephemeral_pages_grade_amendment.json"))})
+                         **extra})
+    validate_final_receipt(receipt, experiment.protocol_path)
     return receipt
 
 
@@ -777,6 +824,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--receipt", type=Path)
     parser.add_argument("--atomic", action="store_true")
     parser.add_argument("--features-root", type=Path)
+    parser.add_argument("--prefit-report", type=Path)
     args = parser.parse_args(argv)
     experiment = resolve_experiment(args.atomic, args.features_root)
     _, protocol_hash = experiment.protocol()
@@ -805,7 +853,7 @@ def main(argv: list[str] | None = None) -> int:
         development, _ = evaluate_phase("development", run_root, calibration, args.device, None, experiment)
         if checkpoint_files(run_root) != checkpoints:
             raise RuntimeError("checkpoint files changed during train-free evaluation")
-        receipt = seal_selection(run_root, calibration, development, experiment)
+        receipt = seal_selection(run_root, calibration, development, experiment, args.prefit_report)
     return 0
 
 

@@ -96,6 +96,122 @@ CONTROL_IDS = {"pages", "cross", "cosine", "lexical", "query_blind"}
 CAPTURE_PHASES = {"train", "validation", "calibration", "development", "final"}
 
 
+def validate_checkpoint_custody(run_root: Path, context: Mapping[str, Any]) -> dict[str, Any]:
+    """Bind every fitted control, including lexical, to its recorded launch."""
+    root = Path(run_root).resolve()
+    launch_path = root / "launch_receipt.json"
+    launch = json.loads(launch_path.read_text(encoding="utf-8"))
+    if (launch.get("protocol_sha256") != context["protocol_sha256"] or
+            launch.get("experiment_context") != context or launch.get("smoke") is not False):
+        raise RuntimeError("checkpoint launch has wrong protocol/context or is smoke")
+    histories = {}
+    for control in sorted(CONTROL_IDS):
+        checkpoint = root / ("lexical.pkl" if control == "lexical" else f"{control}.pt")
+        history_path = root / f"{control}_history.json"
+        history = json.loads(history_path.read_text(encoding="utf-8"))
+        if (history.get("control") != control or history.get("smoke") is not False or
+                history.get("protocol_sha256") != context["protocol_sha256"] or
+                history.get("experiment_context") != context or
+                history.get("checkpoint_sha256") != sha256_file(checkpoint) or
+                history.get("launch_receipt_sha256") != sha256_file(launch_path)):
+            raise RuntimeError(f"{control} checkpoint origin differs from fitted history")
+        histories[control] = {"path": str(history_path), "sha256": sha256_file(history_path)}
+    return {"launch_receipt": {"path": str(launch_path), "sha256": sha256_file(launch_path)},
+            "checkpoint_histories": histories}
+
+
+def atomic_custody_artifacts(root: Path) -> dict[str, dict[str, str]]:
+    paths = {
+        "corpus_build_manifest": "corpus/eca2_final_build_manifest.json",
+        "prefinal_provenance_manifest": "corpus/eca2_prefinal_provenance_manifest.json",
+        "final_source": "source/eca2_final_source.json",
+        "final_prepare_manifest": "source/eca2_final_prepare_manifest.json",
+        "final_review_packet": "audit/eca2_opaque_review_packet.json",
+        "final_audit_receipt": "audit/eca2_independent_audit_receipt.json",
+    }
+    return {key: {"path": str((root / relative).resolve()),
+                  "sha256": sha256_file(root / relative)} for key, relative in paths.items()}
+
+def atomic_corpus_bindings(corpus_root: Path, protocol_sha256: str) -> dict[str, Any]:
+    """Check static custody without parsing final IR or invoking an encoder."""
+    cfg, digest = _protocol(ATOMIC_PROTOCOL_PATH)
+    root = Path(cfg["output_root"]).resolve()
+    if protocol_sha256 != digest or Path(corpus_root).resolve() != root / "corpus":
+        raise RuntimeError("atomic corpus protocol/root mismatch")
+    custody = atomic_custody_artifacts(root)
+    built = json.loads(Path(custody["corpus_build_manifest"]["path"]).read_text(encoding="utf-8"))
+    if (built.get("schema") != "vey.eca2.final-build-manifest.v1" or
+            built.get("protocol_sha256") != digest or built.get("atomic_supervision") != "child-local-v1"):
+        raise RuntimeError("atomic final builder protocol/schema mismatch")
+    prepared = json.loads(Path(custody["final_prepare_manifest"]["path"]).read_text(encoding="utf-8"))
+    if prepared.get("protocol_sha256") != digest or prepared.get("root") != str(root):
+        raise RuntimeError("atomic preparation protocol/root mismatch")
+    for label in ("builder", "helper_builder"):
+        entry = built[label]
+        if (prepared.get(label) != entry or not Path(entry["path"]).is_absolute() or
+                sha256_file(entry["path"]) != entry["sha256"]):
+            raise RuntimeError("atomic final builder code changed")
+    for relative, entry in prepared.get("files", {}).items():
+        target = (root / relative).resolve()
+        if not target.is_relative_to(root) or sha256_file(target) != entry["sha256"]:
+            raise RuntimeError("atomic prepared source/key/inventory changed")
+    for label, relative, field in (
+            ("final_source", "source/eca2_final_source.json", "source_sha256"),
+            ("final_review_packet", "audit/eca2_opaque_review_packet.json", "opaque_packet_sha256")):
+        if (built.get(field) != custody[label]["sha256"] or
+                prepared.get("files", {}).get(relative, {}).get("sha256") != custody[label]["sha256"]):
+            raise RuntimeError("atomic final source/review changed")
+    if built.get("prepare_manifest", {}).get("sha256") != custody["final_prepare_manifest"]["sha256"]:
+        raise RuntimeError("atomic final preparation changed")
+    audit = json.loads(Path(custody["final_audit_receipt"]["path"]).read_text(encoding="utf-8"))
+    if (audit.get("eca2_lineage") != built.get("receipt", {}).get("eca2_lineage") or
+            audit.get("eca2_lineage", {}).get("prepare_manifest_sha256") != custody["final_prepare_manifest"]["sha256"]):
+        raise RuntimeError("atomic final audit lineage changed")
+    if built.get("receipt", {}).get("receipt_sha256") != custody["final_audit_receipt"]["sha256"]:
+        raise RuntimeError("atomic audit receipt bytes changed")
+    raw_relative = audit.get("raw_reviews_file")
+    if not isinstance(raw_relative, str) or Path(raw_relative).is_absolute():
+        raise RuntimeError("atomic raw review origin missing")
+    raw_path = (root / raw_relative).resolve()
+    if (raw_path.parent != root / "audit" or
+            sha256_file(raw_path) != audit.get("raw_reviews_sha256") or
+            audit.get("raw_reviews_sha256") != built["receipt"].get("raw_reviews_sha256")):
+        raise RuntimeError("atomic raw review changed or wrong origin")
+    for key in ("independent_of_authorship", "opaque_packet_only", "no_model_outputs_or_weights", "no_old_final_performance"):
+        if audit.get("independence", {}).get(key) is not True:
+            raise RuntimeError("atomic final audit lacks independent review")
+    outputs = built.get("outputs", {})
+    if set(outputs) != {"corpus/final.jsonl", "corpus/decision_ledger.jsonl", "corpus/world_ledger.jsonl"}:
+        raise RuntimeError("atomic final output inventory mismatch")
+    for relative, entry in outputs.items():
+        if sha256_file(root / relative) != entry["sha256"]:
+            raise RuntimeError("atomic final output changed")
+    identity = {key: built[key] for key in
+                ("decision_ids_sha256", "world_ledger_sha256", "split_jsonl_sha256",
+                 "world_namespace", "row_count", "world_count")}
+    if (identity["split_jsonl_sha256"] != {"final": outputs["corpus/final.jsonl"]["sha256"]} or
+            identity["decision_ids_sha256"] != outputs["corpus/decision_ledger.jsonl"]["sha256"] or
+            identity["world_ledger_sha256"] != outputs["corpus/world_ledger.jsonl"]["sha256"] or
+            identity["row_count"] != 31360 or identity["world_count"] != 320 or
+            built.get("old_world_id_overlap") != 0 or built.get("old_row_id_overlap") != 0):
+        raise RuntimeError("atomic final identity/count/disjointness mismatch")
+    provenance = json.loads(Path(custody["prefinal_provenance_manifest"]["path"]).read_text(encoding="utf-8"))
+    if (provenance.get("schema") != "vey.eca2.prefinal-provenance.v1" or
+            provenance.get("protocol_sha256") != digest):
+        raise RuntimeError("atomic prefinal provenance protocol/schema mismatch")
+    parent = provenance["parent_build_manifest"]
+    if (not Path(parent["path"]).is_absolute() or
+            sha256_file(parent["path"]) != parent["sha256"]):
+        raise RuntimeError("atomic parent build changed")
+    for phase in ("train", "validation", "calibration", "development"):
+        item = provenance["files"][phase]
+        if (item["path"] != str(root / "corpus" / f"{phase}.jsonl") or
+                sha256_file(item["path"]) != item["sha256"]):
+            raise RuntimeError("atomic prefinal corpus changed or wrong origin")
+    return {**custody, "final_identity": identity}
+
+
+
 def validate_final_receipt(path: str | Path, protocol_path: str | Path = PROTOCOL_PATH) -> dict[str, Any]:
     """Verify the immutable selection/calibration artifacts before final IR loading."""
     cfg, protocol_hash = _protocol(protocol_path)
@@ -132,15 +248,71 @@ def validate_final_receipt(path: str | Path, protocol_path: str | Path = PROTOCO
     }
     selection = checked_artifact(receipt.get("selection_file"), "selection_file")
     calibration = checked_artifact(receipt.get("calibration_file"), "calibration_file")
-    build = checked_artifact(receipt.get("corpus_build_manifest"), "corpus_build_manifest")
-    amendment = checked_artifact(receipt.get("amendment_file"), "amendment_file")
-    expected_build = Path(cfg["output_root"]) / "corpus" / "build_manifest_v1.json"
-    expected_amendment = Path(protocol_path).with_name("ephemeral_pages_grade_amendment.json")
-    if Path(build["path"]) != expected_build.resolve() or Path(amendment["path"]) != expected_amendment.resolve():
-        raise RuntimeError("final receipt is not bound to the active amended corpus")
-    built = json.loads(expected_build.read_text(encoding="utf-8"))
-    if built["grade_intervention_amendment"]["sha256"] != amendment["sha256"]:
-        raise RuntimeError("final corpus and grade amendment differ")
+    if protocol_hash == ATOMIC_PROTOCOL_SHA256:
+        root = Path(cfg["output_root"]).resolve()
+        context = receipt.get("experiment_context")
+        if (not isinstance(context, Mapping) or context.get("protocol_sha256") != protocol_hash or
+                context.get("protocol_path") != str(Path(protocol_path).resolve()) or
+                context.get("corpus_root") != str(root / "corpus")):
+            raise RuntimeError("atomic receipt has wrong experiment context")
+        bindings = atomic_corpus_bindings(root / "corpus", protocol_hash)
+        custody = {key: value for key, value in bindings.items() if key != "final_identity"}
+        for label, expected in custody.items():
+            if checked_artifact(receipt.get(label), label) != expected:
+                raise RuntimeError(f"atomic receipt {label} has wrong origin")
+        build = custody["corpus_build_manifest"]
+        if receipt.get("final_identity") != bindings["final_identity"]:
+            raise RuntimeError("receipt does not seal exact new-final bytes and IDs")
+        prefit = checked_artifact(receipt.get("prefit_capture_report"), "prefit_capture_report")
+        report = json.loads(Path(prefit["path"]).read_text(encoding="utf-8"))
+        if (report.get("verified") is not True or report.get("protocol_sha256") != protocol_hash or
+                report.get("experiment_context") != context):
+            raise RuntimeError("prefit capture report is not verified for this experiment")
+        origin = validate_checkpoint_custody(Path(verified_checkpoints["lexical"]["path"]).parent, context)
+        if receipt.get("checkpoint_custody") != origin:
+            raise RuntimeError("sealed checkpoint history/launch changed")
+        launch = json.loads(Path(origin["launch_receipt"]["path"]).read_text(encoding="utf-8"))
+        if launch.get("corpus_bindings") != bindings:
+            raise RuntimeError("training launch did not seal the active atomic corpus")
+        environment = receipt.get("seal_environment", {})
+        if (not all(environment.get(key) for key in ("platform", "python", "packages", "git_commit")) or
+                environment.get("encoder_identity") != cfg["encoder"]):
+            raise RuntimeError("atomic seal lacks platform/package/git/encoder identity")
+        for phase in ("train", "validation", "calibration", "development"):
+            entry = checked_artifact(environment.get("feature_manifests", {}).get(phase), phase + "_features")
+            if entry["path"] != str(Path(context["cache_root"]) / f"{phase}_manifest.json"):
+                raise RuntimeError("seal feature manifest has wrong cache origin")
+            manifest = json.loads(Path(entry["path"]).read_text(encoding="utf-8"))
+            if (manifest.get("protocol_sha256") != protocol_hash or
+                    manifest.get("experiment_context") != context or
+                    environment.get("encoder_tokenizer_cache_identity", {}).get(phase) != manifest["lineage"]):
+                raise RuntimeError("sealed encoder/tokenizer cache identity changed")
+        amendment = checked_artifact(receipt.get("atomic_protocol"), "atomic_protocol")
+        if amendment != {"path": str(Path(protocol_path).resolve()), "sha256": protocol_hash}:
+            raise RuntimeError("atomic protocol origin mismatch")
+        for control, entry in verified_checkpoints.items():
+            expected_name = "lexical.pkl" if control == "lexical" else f"{control}.pt"
+            if Path(entry["path"]) != Path(verified_checkpoints["lexical"]["path"]).parent / expected_name:
+                raise RuntimeError("atomic checkpoint controls have mixed run origins")
+    else:
+        build = checked_artifact(receipt.get("corpus_build_manifest"), "corpus_build_manifest")
+        amendment = checked_artifact(receipt.get("amendment_file"), "amendment_file")
+        expected_build = Path(cfg["output_root"]) / "corpus" / "build_manifest_v1.json"
+        expected_amendment = Path(protocol_path).with_name("ephemeral_pages_grade_amendment.json")
+        if Path(build["path"]) != expected_build.resolve() or Path(amendment["path"]) != expected_amendment.resolve():
+            raise RuntimeError("final receipt is not bound to the active amended corpus")
+        built = json.loads(expected_build.read_text(encoding="utf-8"))
+        if built["grade_intervention_amendment"]["sha256"] != amendment["sha256"]:
+            raise RuntimeError("final corpus and grade amendment differ")
+    for entry, label in ((selection, "selection"), (calibration, "calibration")):
+        content = json.loads(Path(entry["path"]).read_text(encoding="utf-8"))
+        if content.get("protocol_sha256") != protocol_hash or content.get("final_outcomes_used") is not False:
+            raise RuntimeError(f"sealed {label} has wrong protocol or used final outcomes")
+        if protocol_hash == ATOMIC_PROTOCOL_SHA256 and content.get("experiment_context") != context:
+            raise RuntimeError(f"sealed {label} context mismatch")
+    calibrated = json.loads(Path(calibration["path"]).read_text(encoding="utf-8"))
+    if set(calibrated.get("controls", {})) != CONTROL_IDS or calibrated.get("checkpoint_files") != verified_checkpoints:
+        raise RuntimeError("sealed calibration does not bind all five exact checkpoints")
     return {
         "receipt_path": str(receipt_path),
         "receipt_sha256": sha256_file(receipt_path),

@@ -54,20 +54,6 @@ def resolve_experiment(atomic=False, features_root=None):
     return replace(experiment, cache_root=Path(features_root)) if features_root is not None else experiment
 
 
-BORROWED_CORPUS = Path("/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/corpus")
-
-
-def phase_experiment(experiment: Experiment, phase: str) -> Experiment:
-    """Resolve the corpus root that actually holds this phase.
-
-    ECA-2 borrows hash-identical prefinal IR from ECA-1 and owns only the
-    reviewed fresh final, so prefinal reads follow the repack lineage's
-    borrowed corpus rather than the empty atomic corpus directory.
-    """
-    if phase != "final" and not (experiment.corpus_root / f"{phase}.jsonl").exists() \
-            and (BORROWED_CORPUS / f"{phase}.jsonl").exists():
-        return replace(experiment, corpus_root=BORROWED_CORPUS)
-    return experiment
 
 def rows_for(split: str, experiment=DEFAULT_EXPERIMENT):
     path = experiment.corpus_root / f"{split}.jsonl"
@@ -80,7 +66,6 @@ def rows_for(split: str, experiment=DEFAULT_EXPERIMENT):
 
 def load_phase(phase: str, experiment=DEFAULT_EXPERIMENT) -> dict:
     """Load and hash-check a captured phase without constructing an encoder."""
-    experiment = phase_experiment(experiment, phase)
     if phase not in CAPTURE_PHASES:
         raise ValueError(f"invalid phase: {phase}")
     _, protocol_hash = experiment.protocol()
@@ -128,8 +113,7 @@ def persist_phase(corpus, phase: str, receipt: Path | None, experiment=DEFAULT_E
     manifest = {
         "phase": phase, "protocol_sha256": protocol_hash, "record_count": len(corpus.records),
         "files": files,
-        "corpus_sha256": corpus.lineage.get("repacked_from_corpus_sha256",
-                                           sha256_file(experiment.corpus_root / f"{phase}.jsonl")),
+        "corpus_sha256": sha256_file(experiment.corpus_root / f"{phase}.jsonl"),
         "lineage": corpus.lineage, "counters": corpus.counters,
         "token_receipts": corpus.token_receipts,
         "experiment_context": experiment.context(),

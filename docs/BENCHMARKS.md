@@ -3920,6 +3920,46 @@ properties, phrases and worlds form a separate320-world final, sealed before
 corrected evaluation. This remains an authored English mechanism assay,
 not a neutral benchmark or completion of the many-axis endgame requirements.
 
+### ECA-2 target-only custody repair
+
+MEASURED: the first corrected repack used legacy cache lineage, unnecessarily
+re-encoded existing cross-pair extensions, and recorded total known labels
+instead of changed labels. Its prematurely launched full fit was terminated
+before custody validation. The feature directory and partial run remain under
+`features.superseded-reencoded-repack` and
+`runs/seed7.superseded-unverified-custody`; the retention receipt has SHA-256
+`717ca6bcce4d3a15bb2470ef339293cfda02b2bef3c8050205bb07afe417b4be`.
+These artifacts earn no corrected quality evidence.
+
+The replacement reuses the exact grade-corrected packed query, page, cross-pair,
+page-mask, raw-grade and relevance files. Only child-local knownness,
+grade/orientation masks, directed grades and orientation targets change.
+Each of these five targets changes in 2,560 training, 1,280 validation,
+2,560 calibration and 2,560 development records. Encoder forwards are zero.
+Byte-identical prefinal IR copies have explicit parent-build provenance;
+missing files never silently redirect to an old corpus.
+
+MEASURED: a current-source projection scenario checked 264,320 child records
+over 43,904 prefinal IRs. Each child agrees with its independent single-term
+projection; parent knownness equals the conjunction of required children.
+The proof retains its predecessor and has SHA-256
+`bef8f43ece58d8b387d645fde8cb21b72ddd0d2c046623dd8b690e1070255432`.
+The independent prefit verifier additionally reconstructed owned-page truth,
+checked packed target layouts/padding, inherited token caches and retained
+cross extensions, and compared frozen input bytes. It passed 9,874,072
+assertions and 26,360,471 compared values. Its receipt has SHA-256
+`cfaa475dd6c65d4a572387e9a8555806a848ae857e14c2babf1e4d70ac68459b`.
+The initial verification failure from a mismatched projection-receipt field
+remains retained separately.
+
+Inference: these checks establish corrected supervision and artifact custody,
+not semantic transfer or a quality ceiling. Corrected fitting must also bind
+the independently reviewed fresh final pool, all capture hashes, environment,
+encoder/tokenizer identity and source revision before optimization. Final
+neural access still requires all five fitted controls and an immutable
+selection/calibration receipt. Corrected quality results remain unmeasured.
+
+
 
 
 

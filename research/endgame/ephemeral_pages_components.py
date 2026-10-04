@@ -106,8 +106,17 @@ def stable_id(prefix, *parts, length):
 
 def source_catalogue(experiment=capture.DEFAULT_EXPERIMENT):
     root = Path(experiment.corpus_root).parent
+    borrowed_provenance = None
+    if experiment.protocol()[1] != PARENT_PROTOCOL_SHA256:
+        import ephemeral_pages_verify as verify
+        audit = verify.Audit()
+        original_root, _ = verify.prefinal_provenance(audit, experiment)
+        borrowed_provenance = evaluate.artifact(root / "corpus/eca2_prefinal_provenance_manifest.json")
+        root = original_root
     preparation = read_json(root / "source/prepare_manifest_v1.json")
     provenance = {}
+    if borrowed_provenance is not None:
+        provenance["prefinal_borrow"] = borrowed_provenance
     for relative, entry in preparation["files"].items():
         path = root / relative
         require(sha256_file(path) == entry["sha256"], "authored truth-control hash changed: " + relative)
@@ -169,7 +178,6 @@ def load_phase(phase, experiment=capture.DEFAULT_EXPERIMENT):
 def verify_truth(phase, data, ir, catalogue, initial_swap):
     pages, questions, _, _ = catalogue
     counts = Counter()
-    provenance_excluded = []
     truth_hash = hashlib.sha256()
     for row in ir.values():
         meta = row["metadata"]
@@ -207,19 +215,12 @@ def verify_truth(phase, data, ir, catalogue, initial_swap):
             require(questions.get((phase, term["question"])) ==
                     (term["field_key"], term["orientation"]), "authored criterion orientation mismatch")
             counts["question_orientation_checks"] += 1
-        present = set(meta["page_fields"].values())
-        authored_families = {catalogue[2][term["field_key"]]["family"]
-                             for term in meta["terms"] if term["field_key"] in present}
-        if not authored_families:
-            authored_families = {catalogue[2][field]["family"] for field in present}
-        if meta["family"] != sorted(authored_families):
-            # The family-provenance rule is pre-existing and out of scope here; it
-            # never fired in ECA-1. Record the exclusion rather than silently
-            # passing: these rows still face every custody assertion below.
-            counts["provenance_rule_scope_exclusions"] += 1
-            provenance_excluded.append({"row_id": row["id"], "variant": meta["variant"],
-                                        "recorded_family": meta["family"],
-                                        "derived_families": sorted(authored_families)})
+        require(all(term["field_key"] in catalogue[2] for term in meta["terms"]),
+                "required question property absent from authored source")
+        authored_families = {catalogue[2][term["field_key"]]["family"] for term in meta["terms"]}
+        require(meta["family"] == sorted(authored_families),
+                "required-source question family provenance mismatch")
+        counts["required_source_family_checks"] += 1
         for cid in candidates:
             total, good = evaluate.Fraction(0), True
             for term in meta["terms"]:
@@ -313,12 +314,8 @@ def verify_truth(phase, data, ir, catalogue, initial_swap):
             "exact_truth_execution_sha256": truth_hash.hexdigest(), "independent_authored_recheck": True,
             "supervision": "child_local",
             "provenance_rule_scope": {
-                "rule": "authored metric-family provenance",
-                "excluded_rows": len(provenance_excluded),
-                "excluded_row_ids": sorted(entry["row_id"] for entry in provenance_excluded),
-                "excluded_detail": provenance_excluded,
-                "note": ("family provenance never fired in ECA-1 and is out of scope for this "
-                         "correction; every custody assertion still ran on these rows")},
+                "rule": "all required question properties, independent of evidence availability",
+                "excluded_rows": 0, "excluded_row_ids": [], "excluded_detail": []},
             "parent_known_equals_child_conjunction": True,
             "supported_sibling_in_unknown_parent": counts["supported_sibling_in_unknown_parent"],
             "unsupported_sibling_in_known_parent": counts["unsupported_sibling_in_known_parent"],
@@ -801,7 +798,7 @@ def main(argv=None):
     calibration_path = args.run_root / "calibration.json"
     calibration = read_json(calibration_path)
     checkpoints = {control: evaluate.artifact(args.run_root / (control + ".pt")) for control in ("pages", "cross")}
-    require(calibration["protocol_sha256"] == PARENT_PROTOCOL_SHA256, "baseline calibration protocol changed")
+    require(calibration["protocol_sha256"] == protocol_hash, "baseline calibration protocol changed")
     for control, entry in checkpoints.items():
         require(calibration["checkpoint_files"][control] == entry, "baseline calibration/checkpoint mismatch")
     args.output_root.mkdir(parents=True, exist_ok=False)

@@ -11,10 +11,14 @@ import argparse
 from contextlib import contextmanager
 import fcntl
 import hashlib
+from importlib import metadata
 import json
 from pathlib import Path
+import platform
 import random
 import sys
+import subprocess
+import time
 
 import numpy as np
 import torch
@@ -22,8 +26,9 @@ import torch.nn.functional as F
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from ephemeral_pages_capture import (ATOMIC_ROOT, DEFAULT_EXPERIMENT, Experiment, load_phase,
-                                     phase_experiment, resolve_experiment, rows_for)
-from ephemeral_pages_features import (GPU_LOCK, sha256_file, _apply_process_priority,
+                                     resolve_experiment, rows_for)
+from ephemeral_pages_features import (ATOMIC_PROTOCOL_SHA256, GPU_LOCK, atomic_corpus_bindings,
+                                     validate_checkpoint_custody, _apply_process_priority,
                                      _parse_meminfo, _resource_guard)
 from ephemeral_pages_model import (PageReader, CosineReader, CrossReader,
     QueryBlindReader, LexicalReader, ReaderOutput, eca_loss, intervene_features)
@@ -44,6 +49,74 @@ def _hash_file(path):
             digest.update(block)
     return digest.hexdigest()
 
+
+def _runtime_environment(device):
+    repo = Path(__file__).resolve().parents[2]
+    runtime = {
+        "started_unix_ns": time.time_ns(),
+        "python": sys.version,
+        "executable": sys.executable,
+        "platform": platform.platform(),
+        "architecture": platform.machine(),
+        "git_commit": subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=repo, text=True).strip(),
+        "packages": {name: metadata.version(name) for name in
+                     ("numpy", "torch", "transformers", "tokenizers",
+                      "safetensors", "scikit-learn")},
+        "device": str(device),
+        "torch_cuda_version": torch.version.cuda,
+        "torch_threads": torch.get_num_threads(),
+        "torch_interop_threads": torch.get_num_interop_threads(),
+        "environment": {name: os.environ.get(name) for name in
+                        ("HF_HOME", "OMP_NUM_THREADS", "MKL_NUM_THREADS",
+                         "OPENBLAS_NUM_THREADS", "CUBLAS_WORKSPACE_CONFIG")},
+    }
+    if str(device).startswith("cuda"):
+        properties = torch.cuda.get_device_properties(device)
+        runtime["gpu"] = {
+            "name": properties.name,
+            "total_memory_bytes": properties.total_memory,
+            "compute_capability": [properties.major, properties.minor],
+        }
+    return runtime
+
+
+
+def _atomic_launch_custody(experiment, prefit_report):
+    _, protocol_hash = experiment.protocol()
+    if protocol_hash != ATOMIC_PROTOCOL_SHA256:
+        return {}
+    if prefit_report is None:
+        raise ValueError("atomic fitting requires an independently verified prefit report")
+    path = Path(prefit_report).resolve()
+    report = json.loads(path.read_text(encoding="utf-8"))
+    if (report.get("verified") is not True or report.get("status") != "verified_atomic_prefit" or
+            report.get("protocol_sha256") != protocol_hash or
+            report.get("experiment_context") != experiment.context() or
+            report.get("final_opened") is not False or report.get("optimizer_opened") is not False):
+        raise ValueError("prefit report does not authorize this atomic experiment")
+    hashes = report.get("artifact_hashes", {})
+    verifier = Path(__file__).with_name("ephemeral_pages_verify.py").resolve()
+    if report.get("verifier_sha256") != _hash_file(verifier):
+        raise ValueError("prefit verifier changed after verification")
+    for phase in ("train", "validation", "calibration", "development"):
+        manifest = (experiment.cache_root / f"{phase}_manifest.json").resolve()
+        if str(manifest) not in hashes:
+            raise ValueError("prefit report omitted a required capture")
+    for artifact, expected in hashes.items():
+        if artifact.startswith("git:"):
+            source_bytes = subprocess.check_output(
+                ["git", "cat-file", "blob", artifact[4:]],
+                cwd=Path(__file__).resolve().parents[2])
+            actual = hashlib.sha256(source_bytes).hexdigest()
+        else:
+            actual = _hash_file(artifact)
+        if actual != expected:
+            raise ValueError(f"prefit artifact changed: {artifact}")
+    return {
+        "prefit_capture_report": {"path": str(path), "sha256": _hash_file(path)},
+        "corpus_bindings": atomic_corpus_bindings(experiment.corpus_root, protocol_hash),
+    }
 
 def _seed():
     random.seed(7)
@@ -82,7 +155,7 @@ def optimizer_indices(arrays, split, experiment=DEFAULT_EXPERIMENT):
     if split not in {"train", "validation"}:
         raise ValueError("optimizer selection only permits train/validation")
     allowed = set()
-    for row in rows_for(split, phase_experiment(experiment, split)):
+    for row in rows_for(split, experiment):
         if row["split"] != split:
             raise ValueError("IR split mismatch")
         meta = row["metadata"]
@@ -220,12 +293,17 @@ def _parameter_hash(model):
 
 def load_control(control, run_root, device="cpu", experiment=DEFAULT_EXPERIMENT):
     root = Path(run_root)
+    _, protocol_hash = experiment.protocol()
+    if protocol_hash == ATOMIC_PROTOCOL_SHA256:
+        validate_checkpoint_custody(root, experiment.context())
     if control == "lexical":
         return LexicalReader.load(str(root / "lexical.pkl")), None
     if control not in FACTORIES:
         raise ValueError(f"unknown control {control!r}")
-    _, protocol_hash = experiment.protocol()
     checkpoint = torch.load(root / f"{control}.pt", map_location="cpu", weights_only=False)
+    if (protocol_hash == ATOMIC_PROTOCOL_SHA256 and
+            checkpoint.get("experiment_context") != experiment.context()):
+        raise ValueError("atomic checkpoint omitted its experiment context")
     if checkpoint["protocol_sha256"] != protocol_hash:
         raise ValueError("checkpoint protocol mismatch")
     if checkpoint.get("experiment_context") is not None and \
@@ -261,12 +339,13 @@ def predict_control(control, model, normalizer, arrays, indices=None,
 
 def train_controls(run_root=RUN_ROOT, device="cuda", controls=CONTROLS,
                    chunk_size=32, smoke=False, smoke_epochs=2, smoke_records=64,
-                   experiment=DEFAULT_EXPERIMENT):
+                   experiment=DEFAULT_EXPERIMENT, prefit_report=None):
     if not isinstance(experiment, Experiment):
         raise TypeError("explicit experiment custody required")
     _, protocol_hash = experiment.protocol()
     if any(control not in CONTROLS for control in controls):
         raise ValueError("unknown control")
+    custody = _atomic_launch_custody(experiment, prefit_report)
     root = Path(run_root)
     if smoke:
         root = root / "smoke"
@@ -297,8 +376,8 @@ def train_controls(run_root=RUN_ROOT, device="cuda", controls=CONTROLS,
             "selected_indices": {"train": train_ix.tolist(), "validation": val_ix.tolist()},
             "selected_row_ids": {"train": sorted({train["records"][int(i)]["row_id"] for i in train_ix}),
                                  "validation": sorted({validation["records"][int(i)]["row_id"] for i in val_ix})},
-            "source_sha256": {Path(__file__).name: _hash_file(__file__),
-                              "ephemeral_pages_model.py": _hash_file(Path(__file__).with_name("ephemeral_pages_model.py"))},
+            "source_sha256": {path.name: _hash_file(path)
+                              for path in Path(__file__).parent.glob("ephemeral_pages*.py")},
             "resources": priority,
         }
         launch_receipt = {
@@ -312,6 +391,13 @@ def train_controls(run_root=RUN_ROOT, device="cuda", controls=CONTROLS,
                 "validation": _hash_file(experiment.cache_root / "validation_manifest.json"),
             },
             "selected_targets": list(TARGETS),
+            "runtime": _runtime_environment(device),
+            **custody,
+            "encoder_identity": {
+                key: train["lineage"][key] for key in
+                ("encoder_repo", "encoder_revision", "encoder_weight_sha256",
+                 "encoder_parameters_sha256_before", "encoder_parameters_sha256_after",
+                 "tokenizer_sha256", "pooling", "serialization", "token_limit", "truncation")},
         }
         with (root / "launch_receipt.json").open("x", encoding="utf-8") as stream:
             json.dump(launch_receipt, stream, sort_keys=True, indent=2, allow_nan=False)
@@ -389,6 +475,7 @@ def main():
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--controls", nargs="+", choices=CONTROLS, default=list(CONTROLS))
     parser.add_argument("--chunk-size", type=int, default=32)
+    parser.add_argument("--prefit-report", type=Path)
     parser.add_argument("--smoke", action="store_true", help="Reduced diagnostic only; writes run-root/smoke, never actual artifacts")
     parser.add_argument("--smoke-epochs", type=int, default=2)
     parser.add_argument("--smoke-records", type=int, default=64)
@@ -399,7 +486,8 @@ def main():
     root = train_controls(run_root=args.run_root or (RUN_ROOT if not args.atomic
         else ATOMIC_ROOT / "runs" / "seed7"),
         device=args.device, controls=args.controls, chunk_size=args.chunk_size, smoke=args.smoke,
-        smoke_epochs=args.smoke_epochs, smoke_records=args.smoke_records, experiment=experiment)
+        smoke_epochs=args.smoke_epochs, smoke_records=args.smoke_records, experiment=experiment,
+        prefit_report=args.prefit_report)
     print(json.dumps({"run_root": str(root), "smoke": args.smoke, "controls": args.controls,
                       "experiment_context": experiment.context()}, sort_keys=True))
     return 0

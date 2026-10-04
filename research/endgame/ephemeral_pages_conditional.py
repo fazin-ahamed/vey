@@ -161,6 +161,15 @@ def leaf_truth_guard(data, phase, experiment=capture.DEFAULT_EXPERIMENT):
     """
     import ephemeral_pages_components as components
     from ephemeral_pages_features import _parse_meminfo
+    if phase not in ALLOWED_PHASES:
+        raise ValueError("conditional fitting guard cannot open final")
+    if experiment.protocol()[1] != PARENT_PROTOCOL_SHA256:
+        import ephemeral_pages_verify as verify
+        audit = verify.Audit()
+        cfg, protocol_hash = experiment.protocol()
+        verify.prefinal_provenance(audit, experiment)
+        verify.capture_manifest(audit, experiment.cache_root, experiment.corpus_root,
+                                phase, cfg, None, protocol_hash)
     ir = {}
     for row in capture.rows_for(phase, experiment):
         if row["split"] != phase or row["id"] in ir:

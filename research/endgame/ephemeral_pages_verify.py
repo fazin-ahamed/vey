@@ -336,12 +336,14 @@ def atomic_correction(audit: Audit, manifest: dict, features_root: Path, corpus_
     audit.equal(repair["original_corpus_sha256"], original["corpus_sha256"], "original corpus hash")
     audit.equal(original["corpus_sha256"], audit.hash(corpus_root / f"{phase}.jsonl"),
                 "child-local corpus is not byte-identical to the borrowed parent IR")
-    for key in ("protocol_sha256", "canonical_root", "canonical_files_sha256", "encoder_repo",
+    audit.equal(lineage["protocol_sha256"], protocol_hash, "new atomic lineage protocol")
+    audit.hash(contract, protocol_hash)
+    for key in ("canonical_root", "canonical_files_sha256", "encoder_repo",
                 "encoder_revision", "encoder_weight_sha256", "tokenizer_sha256", "serialization",
                 "pooling", "token_limit", "truncation", "encoder_parameters_sha256_before",
                 "encoder_parameters_sha256_after", "native_pooler_unused", "classifier_unused"):
         audit.equal(lineage[key], original["lineage"][key], "atomic lineage preserves frozen identity." + key)
-    audit.source(HERE / "ephemeral_pages_features.py", lineage["feature_code_sha256"])
+    audit.hash(HERE / "ephemeral_pages_features.py", lineage["feature_code_sha256"])
     audit.source(HERE / "ephemeral_pages_model.py", lineage["reader_code_sha256"])
     audit.equal(repair["feature_implementation_sha256"], lineage["feature_code_sha256"],
                 "correction declares the applied target implementation")
@@ -356,6 +358,16 @@ def atomic_correction(audit: Audit, manifest: dict, features_root: Path, corpus_
     packed = {key: np.load(audit.artifact(manifest["files"][key], features_root), mmap_mode="r", allow_pickle=False)
               for key in ("known_target", "relevance_target", "grade_target", "directed_grade_target",
                           "grade_mask", "orientation_target", "orientation_mask")}
+    for key, array in packed.items():
+        prior_array = np.load(audit.artifact(original["files"][key], original_path.parent),
+                              mmap_mode="r", allow_pickle=False)
+        audit.equal([str(array.dtype), list(array.shape)],
+                    [str(prior_array.dtype), list(prior_array.shape)], "target layout preserved." + key)
+        if array.ndim == 2:
+            mask = np.load(audit.artifact(manifest["files"]["page_mask"], features_root),
+                           mmap_mode="r", allow_pickle=False)
+            audit.require(np.array_equal(array[~mask].view(np.uint8),
+                                         prior_array[~mask].view(np.uint8)), "target padding preserved." + key)
     child_records = 0
     changed = Counter()
     for index, record in enumerate(json_rows(records_path)):
@@ -382,15 +394,17 @@ def atomic_correction(audit: Audit, manifest: dict, features_root: Path, corpus_
         child_records += 1
     audit.equal(child_records, len(original_records), "child-local record count")
     kept = child_records - changed["known_target"]
+    expected_changes = {"train": 2560, "validation": 1280, "calibration": 2560, "development": 2560}
+    for key in ("known_target", "grade_mask", "orientation_mask", "orientation_target", "directed_grade_target"):
+        audit.equal(changed[key], expected_changes[phase], "frozen actual changed targets." + key)
     for key, expected in (("child_local_records", child_records),
-                          ("changed_known_target_records", changed["known_target"]),
-                          ("changed_grade_mask_records", changed["grade_mask"]),
-                          ("changed_orientation_mask_records", changed["orientation_mask"])):
+                          *((f"changed_{key}_records", changed[key]) for key in
+                            ("known_target", "grade_mask", "orientation_mask", "orientation_target", "directed_grade_target"))):
         audit.equal(repair[key], expected, "child-local correction." + key)
     audit.equal(repair["parent_conjunction_verified"], True, "child-local correction conjunction receipt")
     audit.equal(ledger["parent_known_equals_child_conjunction"], True, "independent parent conjunction")
     audit.equal(ledger["child_records"], child_records, "independent child record count")
-    for key in ("q", "pages", "cross", "page_mask"):
+    for key in ("q", "pages", "cross", "page_mask", "grade_target", "relevance_target"):
         before = np.load(audit.artifact(original["files"][key], original_path.parent),
                          mmap_mode="r", allow_pickle=False)
         after = np.load(audit.artifact(manifest["files"][key], features_root),
@@ -399,11 +413,16 @@ def atomic_correction(audit: Audit, manifest: dict, features_root: Path, corpus_
                     "child-local packed input layout changed: " + key)
         audit.require(np.array_equal(before.view(np.uint8), after.view(np.uint8)),
                       "child-local correction changed model inputs: " + key)
+        audit.equal(manifest["files"][key]["sha256"], original["files"][key]["sha256"],
+                    "retained file bytes changed: " + key)
         audit.counts[phase + "_byte_identical_packed_" + key] = int(before.shape[0])
     proof_entry = repair["projection_verification"]
     proof_path = Path(proof_entry["path"])
     if not proof_path.is_absolute():
         proof_path = (Path(cfg["output_root"]) / proof_path).resolve()
+    audit.hash(proof_path, proof_entry["sha256"])
+    audit.source(HERE / "ephemeral_pages_atomic_repack.py",
+                 repair["implementation"]["sha256"])
     proof = audit.load(proof_path)
     audit.equal(proof["protocol_sha256"], ATOMIC_PROTOCOL_SHA256, "projection proof protocol")
     audit.equal(proof["feature_implementation_sha256"], lineage["feature_code_sha256"],
@@ -412,9 +431,11 @@ def atomic_correction(audit: Audit, manifest: dict, features_root: Path, corpus_
         audit.equal(proof[key], False if key != "encoder_forwards" else 0, "projection proof." + key)
     audit.equal(proof["status"], "child_local_projection_and_parent_conjunction_verified",
                 "projection proof status")
-    audit.equal(proof["verified_child_records"],
-                sum(counts["child_records"] for counts in proof["phase_counts"].values()),
-                "projection proof is not internally consistent")
+    audit.equal(set(proof["phase_counts"]),
+                {"train", "validation", "calibration", "development"},
+                "projection proof phase population")
+    audit.equal(sum(counts["child_records"] for counts in proof["phase_counts"].values()),
+                264320, "projection proof frozen child population")
     recorded = proof["phase_counts"].get(phase)
     audit.require(recorded is not None, "projection proof omits this phase")
     for key in ("IR_rows", "child_records", "missing_children", "conflicting_children",
@@ -496,6 +517,45 @@ def capture_manifest(audit: Audit, features_root: Path, corpus_root: Path, phase
     else:
         audit.equal(manifest["selection_calibration_receipt"], None, "prefinal capture.receipt")
     supervised = atomic_correction(audit, manifest, features_root, corpus_root, cfg, protocol_hash)
+    if protocol_hash == ATOMIC_PROTOCOL_SHA256 and phase == "final":
+        audit.require(supervised is None and LEGACY_SUPERVISION_KEY not in lineage,
+                      "new final cannot borrow prefinal repairs")
+        final_ir = {}
+        for row in json_rows(corpus_root / "final.jsonl"):
+            audit.require(row["id"] not in final_ir and row["split"] == "final", "final IR identity")
+            verify_teacher(audit, row, amended=True)
+            final_ir[row["id"]] = row
+        targets = {key: np.load(audit.artifact(manifest["files"][key], features_root),
+                                mmap_mode="r", allow_pickle=False)
+                   for key in ("known_target", "relevance_target", "grade_target", "directed_grade_target",
+                               "grade_mask", "orientation_target", "orientation_mask")}
+        seen = set()
+        for index, record in enumerate(json_rows(audit.artifact(manifest["files"]["records"], features_root))):
+            identity = (record["row_id"], record["term_index"], record["candidate_id"])
+            audit.require(identity not in seen, "duplicate final child record")
+            seen.add(identity)
+            row = final_ir[record["row_id"]]
+            audit.equal(record, expected_record(row, record["term_index"], record["candidate_id"], "child_local"),
+                        "new final independent child targets")
+            for key, array in targets.items():
+                expected = np.asarray(record[key], dtype=array.dtype)
+                actual = array[index, :len(record["pages"])] if array.ndim == 2 else array[index:index + 1]
+                audit.equal(actual.tobytes(), expected.tobytes(), "final packed child target." + key)
+        audit.equal(len(seen), target_ledger(audit, final_ir, phase)["child_records"], "final child inventory")
+        audit.equal(len(seen), manifest["record_count"], "final captured child population")
+    cache_lineage = lineage
+    cache_root = features_root
+    if supervised is not None:
+        parent_path = audit.artifact(lineage["atomic_correction"]["original_capture_manifest"], features_root)
+        parent = audit.load(parent_path)
+        cache_root = parent_path.parent
+        parent_root = parent_path.parent.parent
+        audit.equal(manifest["token_receipts"], parent["token_receipts"], "atomic inherits exact token receipts")
+        correction_capture(audit, parent, parent_path.parent, parent_root / "corpus",
+                           {**cfg, "output_root": str(parent_root)})
+        cache_lineage = parent["lineage"]
+        audit.equal(counters["total_encoder_forward_calls_this_capture"], 0, "atomic zero encoder calls")
+        audit.equal(counters["total_encoded_examples_this_capture"], 0, "atomic zero encoded examples")
     corrected_cross_inputs = (correction_capture(audit, manifest, features_root, corpus_root, cfg)
                               if LEGACY_SUPERVISION_KEY in lineage else None)
     audit.require(not (supervised and corrected_cross_inputs),
@@ -503,21 +563,24 @@ def capture_manifest(audit: Audit, features_root: Path, corpus_root: Path, phase
     for modality in ("page", "query", "cross"):
         counter = counters[modality]
         audit.equal(manifest["token_receipts"][modality], counter["files"], "capture.token_receipts." + modality)
-        paths = {key: audit.artifact(entry, features_root) for key, entry in counter["files"].items()}
+        paths = {key: audit.artifact(entry, cache_root) for key, entry in counter["files"].items()}
         cache_path = paths["features"].with_name(f"{modality}_{counter['cache_key']}.json")
         cache = audit.load(cache_path)
         audit.equal(cache["cache_key"], counter["cache_key"], "cache.key")
         audit.equal(cache["modality"], modality, "cache.modality")
-        audit.equal(cache["lineage"], {key: value for key, value in lineage.items()
+        audit.equal(cache["lineage"], {key: value for key, value in cache_lineage.items()
                                      if key not in {"encoder_parameters_sha256_after", "encoder_parameters_unchanged",
                                                     "capture_phase", "selection_calibration_receipt",
-                                                    LEGACY_SUPERVISION_KEY, ATOMIC_SUPERVISION_KEY}}, "cache.lineage")
+                                                    LEGACY_SUPERVISION_KEY}}, "cache.lineage")
         n = counter["unique_inputs"]
         audit.equal(n, len(cache["item_hashes"]), "cache.unique_inputs")
         audit.require(len(set(cache["item_hashes"])) == n, "cache repeats an input")
         arrays = {key: np.load(target, mmap_mode="r", allow_pickle=False) for key, target in paths.items()}
         audit.require(arrays["input_ids"].shape == arrays["attention_mask"].shape == (n, 128), "token cache dimensions")
         audit.require(arrays["features"].shape == (n, 384), "feature cache dimensions")
+        for key, dtype in (("input_ids", "int32"), ("attention_mask", "uint8"), ("features", "float32")):
+            audit.equal(str(arrays[key].dtype), dtype, "token cache dtype." + key)
+        audit.require(np.isfinite(arrays["features"]).all(), "nonfinite token-cache features")
         token_digest = hashlib.sha256()
         for start in range(0, n, 32):
             ids, mask = arrays["input_ids"][start:start + 32], arrays["attention_mask"][start:start + 32]
@@ -1203,10 +1266,16 @@ def verify_run(audit: Audit, phase: str, run_root: Path, receipt_path: Path | No
     if phase == "development" and receipt_path is not None:
         raise RuntimeError("development does not consume an explicit final receipt")
     receipt_path = receipt_path or run_root / "selection_calibration_receipt.json"
+    if atomic and phase == "final":
+        from ephemeral_pages_features import validate_final_receipt
+        validate_final_receipt(receipt_path, experiment.protocol_path)
     receipt, calibrations = checked_receipt(audit, receipt_path, run_root, protocol_hash)
     corpus_root = corpus_root or experiment.corpus_root
     audit.require(corpus_root.resolve().is_relative_to(root.resolve()), "corpus root is outside frozen data root")
     if phase == "final":
+        audit.require(not allow_incomplete_grade_diagnostic, "incomplete diagnostics cannot authorize final")
+        audit.require(corpus_root.resolve() == experiment.corpus_root.resolve(), "final corpus must be current")
+    if phase == "final" and not atomic:
         audit.require(not allow_incomplete_grade_diagnostic, "incomplete grade diagnostics cannot authorize final")
         audit.require(corpus_root.resolve() == (root / "corpus").resolve(), "archival corpus cannot authorize current final")
         for key in ("corpus_build_manifest", "amendment_file"):
@@ -1226,21 +1295,43 @@ def verify_run(audit: Audit, phase: str, run_root: Path, receipt_path: Path | No
     audit.require(features_root.resolve().is_relative_to(root.resolve()), "features root is outside frozen data root")
     for relative, expected in cfg["canonical_dependency"]["files_sha256"].items():
         audit.hash(Path(cfg["canonical_dependency"]["root"]) / relative, expected)
-    build = audit.load(corpus_root / "build_manifest_v1.json")
+    source_root = root
+    if atomic:
+        source_root, build = prefinal_provenance(audit, experiment)
+    else:
+        build = audit.load(corpus_root / "build_manifest_v1.json")
     audit.equal(build["protocol_sha256"], PARENT_PROTOCOL_SHA256, "builder.protocol")
     audit.source(HERE / "ephemeral_pages_build.py", build["builder_sha256"])
     amended = "grade_intervention_amendment" in build
     if amended:
-        amendment_path = audit.artifact(build["grade_intervention_amendment"], corpus_root)
+        amendment_path = audit.artifact(build["grade_intervention_amendment"], source_root / "corpus")
         amendment = audit.load(amendment_path)
         audit.equal(amendment.get("parent_protocol_sha256"), PROTOCOL_SHA256, "grade amendment parent protocol")
     for relative, key in (("source/eca_authored_source_v1.json", "source_sha256"),
                           ("source/eca_source_inventory_v1.json", "source_inventory_sha256"),
                           ("audit/opaque_review_packet_v1.json", "opaque_packet_sha256"),
                           ("audit/sealed_target_key_v1.json", "sealed_key_sha256")):
-        audit.hash(root / relative, build[key])
-    audit.hash(root / "audit" / "accepted_receipt_v1.json", build["receipt"]["receipt_sha256"])
-    audit.hash(root / "audit" / "raw_reviews_merged_v1.jsonl", build["receipt"]["raw_reviews_sha256"])
+        audit.hash(source_root / relative, build[key])
+    audit.hash(source_root / "audit" / "accepted_receipt_v1.json", build["receipt"]["receipt_sha256"])
+    audit.hash(source_root / "audit" / "raw_reviews_merged_v1.jsonl", build["receipt"]["raw_reviews_sha256"])
+    if atomic and phase == "final":
+        final_build_path = audit.artifact(receipt["corpus_build_manifest"], receipt_path.parent)
+        audit.require(final_build_path == (corpus_root / "eca2_final_build_manifest.json").resolve(),
+                      "atomic final pins another builder manifest")
+        final_build = audit.load(final_build_path)
+        audit.equal(final_build["protocol_sha256"], protocol_hash, "atomic final build protocol")
+        audit.source(HERE / "ephemeral_pages_atomic_final.py", final_build["builder"]["sha256"])
+        for relative, key in (("source/eca2_final_source.json", "source_sha256"),
+                              ("source/eca2_final_inventory.json", "source_inventory_sha256"),
+                              ("audit/eca2_opaque_review_packet.json", "opaque_packet_sha256"),
+                              ("audit/eca2_sealed_target_key.json", "sealed_key_sha256")):
+            audit.hash(root / relative, final_build[key])
+        audit.artifact(final_build["prepare_manifest"], root)
+        audit.hash(root / "audit/eca2_independent_audit_receipt.json", final_build["receipt"]["receipt_sha256"])
+        audit.hash(root / final_build["receipt"]["raw_reviews_file"], final_build["receipt"]["raw_reviews_sha256"])
+        for relative, entry in final_build["outputs"].items():
+            audit.hash(root / relative, entry["sha256"])
+        build = final_build
     captures = {split: capture_manifest(audit, features_root, corpus_root, split, cfg,
                                          receipt_path if split == "final" else None, protocol_hash)
                 for split in dict.fromkeys(("train", "validation", "calibration", phase))}
@@ -1257,8 +1348,9 @@ def verify_run(audit: Audit, phase: str, run_root: Path, receipt_path: Path | No
         for filename, expected in history["source_sha256"].items():
             audit.source(HERE / filename, expected)
         for split in ("train", "validation"):
-            training_lineage = {key: value for key, value in manifests[split]["lineage"].items()
-                                if key not in {LEGACY_SUPERVISION_KEY, ATOMIC_SUPERVISION_KEY}}
+            training_lineage = manifests[split]["lineage"] if atomic else {
+                key: value for key, value in manifests[split]["lineage"].items()
+                if key not in {LEGACY_SUPERVISION_KEY, ATOMIC_SUPERVISION_KEY}}
             audit.equal(history[split + "_feature_lineage"], training_lineage, name + ".training_lineage")
             records_path = audit.artifact(manifests[split]["files"]["records"], features_root)
             selected = set(history["selected_indices"][split])
@@ -1329,6 +1421,10 @@ def verify_run(audit: Audit, phase: str, run_root: Path, receipt_path: Path | No
         verify_teacher(audit, row, amended)
         ir[row["id"]] = row
     audit.equal(len(ir), build["row_counts_by_split"][phase], "corpus.phase_row_count")
+    if atomic and phase == "final":
+        supervised["final"] = {**target_ledger(audit, ir, phase),
+                               "supervision": "child_local", "capture": "genuine_new_final",
+                               "invalid_atomic_supervision": False}
     grade_diagnostics(audit, ir, phase, amended)
     worlds = sorted({row["metadata"]["world_id"] for row in ir.values()})
     audit.equal(len(worlds), cfg["corpus"]["worlds"][phase], "frozen world count")
@@ -1412,8 +1508,72 @@ def supervision_report(atomic: bool, supervised: dict, phase: str) -> dict:
             "parent_protocol_sha256": PARENT_PROTOCOL_SHA256, "audited_phase": phase}
 
 
+def prefinal_provenance(audit: Audit, experiment: capture.Experiment) -> tuple[Path, dict]:
+    cfg, protocol_hash = experiment.protocol()
+    path = experiment.corpus_root / "eca2_prefinal_provenance_manifest.json"
+    provenance = audit.load(path)
+    audit.equal(provenance["schema"], "vey.eca2.prefinal-provenance.v1", "prefinal provenance schema")
+    audit.equal(provenance["protocol_sha256"], protocol_hash, "prefinal provenance protocol")
+    audit.artifact(provenance["parent_protocol"], path.parent)
+    audit.equal(provenance["parent_protocol"]["sha256"], PARENT_PROTOCOL_SHA256, "borrowed parent protocol")
+    original_root = Path(provenance["original_root"]).resolve()
+    build_path = audit.artifact(provenance["parent_build_manifest"], path.parent)
+    audit.require(build_path == original_root / "corpus/build_manifest_v1.json", "borrowed build location")
+    build = audit.load(build_path)
+    audit.equal(build["protocol_sha256"], PARENT_PROTOCOL_SHA256, "borrowed build protocol")
+    audit.source(HERE / "ephemeral_pages_build.py", build["builder_sha256"])
+    for relative, key in (("source/eca_authored_source_v1.json", "source_sha256"),
+                          ("source/eca_source_inventory_v1.json", "source_inventory_sha256"),
+                          ("audit/opaque_review_packet_v1.json", "opaque_packet_sha256"),
+                          ("audit/sealed_target_key_v1.json", "sealed_key_sha256")):
+        audit.hash(original_root / relative, build[key])
+    audit.hash(original_root / "audit/accepted_receipt_v1.json", build["receipt"]["receipt_sha256"])
+    audit.hash(original_root / "audit/raw_reviews_merged_v1.jsonl", build["receipt"]["raw_reviews_sha256"])
+    for phase in ("train", "validation", "calibration", "development"):
+        entry = provenance["files"][phase]
+        child = audit.artifact(entry, path.parent)
+        audit.require(child == (experiment.corpus_root / f"{phase}.jsonl").resolve(), "borrowed phase location")
+        source = Path(entry["original_path"]).resolve()
+        audit.require(source == original_root / "corpus" / f"{phase}.jsonl", "original phase location")
+        audit.hash(source, entry["original_sha256"])
+        audit.equal(entry["sha256"], entry["original_sha256"], "borrowed IR byte identity")
+        audit.equal(entry["sha256"], build["split_jsonl_sha256"][phase], "borrowed build phase hash")
+    return original_root, build
+
+
+def verify_prefit(audit: Audit, experiment: capture.Experiment,
+                  features_root: Path | None = None, corpus_root: Path | None = None) -> dict:
+    cfg, protocol_hash = experiment.protocol()
+    audit.equal(protocol_hash, ATOMIC_PROTOCOL_SHA256, "prefit requires atomic protocol")
+    audit.hash(experiment.protocol_path, protocol_hash)
+    for relative, expected in cfg["canonical_dependency"]["files_sha256"].items():
+        audit.hash(Path(cfg["canonical_dependency"]["root"]) / relative, expected)
+    features_root = features_root or experiment.cache_root
+    corpus_root = corpus_root or experiment.corpus_root
+    root = Path(cfg["output_root"]).resolve()
+    audit.require(features_root.resolve().is_relative_to(root)
+                  and corpus_root.resolve() == experiment.corpus_root.resolve(), "prefit paths escape atomic custody")
+    prefinal_provenance(audit, experiment)
+    supervised = {}
+    projection_proofs = {}
+    for phase in ("train", "validation", "calibration", "development"):
+        manifest, correction, _ = capture_manifest(
+            audit, features_root, corpus_root, phase, cfg, None, protocol_hash)
+        audit.require(correction is not None, "prefit phase lacks target-only correction")
+        supervised[phase] = correction
+        projection_proofs[phase] = manifest["lineage"]["atomic_correction"]["projection_verification"]
+        audit.equal(manifest["record_count"], correction["child_local_records"], "prefit record population")
+    return {"verified": True, "status": "verified_atomic_prefit", "child_local_custody": supervised,
+            "protocol_sha256": protocol_hash, "experiment_context": experiment.context(),
+            "projection_proofs": projection_proofs,
+            "final_opened": False, "optimizer_opened": False, "calibration_opened": False,
+            "encoder_forwards": 0, "model_forwards": 0, "promotion": False}
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--prefit", action="store_true",
+                        help="verify all four atomic prefinal captures without fitted artifacts")
     parser.add_argument("--phase", choices=("development", "final"), default="development")
     parser.add_argument("--atomic", action="store_true",
                         help="verify the ECA-2 child-local experiment under the atomic protocol and data root")
@@ -1425,12 +1585,15 @@ def main(argv: list[str] | None = None) -> int:
                         help="verify retained reconstruction only; never authorize final or causal adequacy")
     parser.add_argument("--output", type=Path, help="exclusive verification receipt path outside Git")
     args = parser.parse_args(argv)
+    if args.prefit and (not args.atomic or args.phase == "final" or args.receipt is not None):
+        parser.error("--prefit requires --atomic and cannot consume final or a selection receipt")
     if args.phase == "final" and args.receipt is None:
         parser.error("final requires --receipt before any final IR/features")
     experiment = capture.resolve_experiment(args.atomic, args.features_root)
     run_root = (args.run_root or (DEFAULT_ATOMIC_RUN if args.atomic else DEFAULT_RUN)).resolve()
     cfg, protocol_hash = experiment.protocol()
-    output_path = args.output or run_root / "evaluation" / args.phase / "independent_verification.json"
+    output_path = args.output or run_root / ("prefit_verification.json" if args.prefit else
+                                           f"evaluation/{args.phase}/independent_verification.json")
     if (not output_path.resolve().is_relative_to(run_root)
             or not output_path.resolve().is_relative_to(Path(cfg["output_root"])) or output_path.exists()):
         parser.error("output must be a new path within the outside-Git data/run root")
@@ -1441,12 +1604,15 @@ def main(argv: list[str] | None = None) -> int:
               "status": "failed", "promotion": False, "encoder_forwards": 0, "model_forwards": 0}
     failure = None
     try:
-        report.update(verify_run(audit, args.phase, run_root, args.receipt,
-                                args.features_root, args.corpus_root,
-                                args.allow_incomplete_grade_diagnostic, experiment))
-        complete = "reconstruction_verified_incomplete_causal_diagnostic" if not report["causal_diagnostic_complete"] \
-            else (ATOMIC_STATUS if args.atomic else LEGACY_STATUS)
-        report["status"] = complete
+        if args.prefit:
+            report.update(verify_prefit(audit, experiment, args.features_root, args.corpus_root))
+        else:
+            report.update(verify_run(audit, args.phase, run_root, args.receipt,
+                                    args.features_root, args.corpus_root,
+                                    args.allow_incomplete_grade_diagnostic, experiment))
+            complete = "reconstruction_verified_incomplete_causal_diagnostic" if not report["causal_diagnostic_complete"] \
+                else (ATOMIC_STATUS if args.atomic else LEGACY_STATUS)
+            report["status"] = complete
     except Exception as error:
         failure = error
         report["error"] = {"type": type(error).__name__, "message": str(error)}

@@ -1,166 +1,151 @@
 #!/usr/bin/env python3
-"""ECA-2 prefinal target repack: reuse retained ECA-1 encoder caches, reproject child-local supervision.
-
-Zero encoder forwards unless an unaudited input appears; original ECA-1 artifacts stay untouched.
-"""
+"""Reproject ECA-2 child targets without encoding or changing any input bytes."""
 from __future__ import annotations
 import argparse
 import copy
+from collections import Counter
 import json
 from pathlib import Path
+import shutil
 import sys
-
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import ephemeral_pages_capture as capture
-from ephemeral_pages_features import (FeatureCorpus, FeatureEncoder, BATCH_SIZE,
-    _canonical_json, _text_hash, rows_to_examples, sha256_bytes, sha256_file)
+from ephemeral_pages_features import rows_to_examples, sha256_file
 
-ORIGINAL_ROOT = Path("/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1")
-ORIGINAL_FEATURES = ORIGINAL_ROOT / "features-grade-corrected"
-PROJECTION_PROOF = Path("/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/projection_verification.json")
+ORIGINAL_ROOT = Path('/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1')
+PHASES = ('train', 'validation', 'calibration', 'development')
+CHANGED_TARGETS = ('known_target', 'grade_mask', 'orientation_mask',
+                   'orientation_target', 'directed_grade_target')
 
 
 def artifact(path):
-    return {"path": str(Path(path).resolve()), "sha256": sha256_file(path)}
+    return {'path': str(Path(path).resolve()), 'sha256': sha256_file(path)}
 
 
 def write_json(path, value):
-    with path.open("x", encoding="utf-8") as stream:
-        json.dump(value, stream, sort_keys=True, allow_nan=False)
-        stream.write("\n")
+    with path.open('x', encoding='utf-8') as stream:
+        json.dump(value, stream, sort_keys=True, ensure_ascii=False, allow_nan=False)
+        stream.write('\n')
+    path.chmod(0o600)
 
 
-def raw_cache(manifest, modality):
-    receipt = manifest["counters"][modality]
-    entries = manifest["token_receipts"][modality]
-    metadata = Path(entries["features"]["path"]).parent / f"{modality}_{receipt['cache_key']}.json"
-    value = json.loads(metadata.read_text())
-    for entry in entries.values():
-        if sha256_file(entry["path"]) != entry["sha256"]:
-            raise RuntimeError(f"original feature cache changed: {entry['path']}")
-    features = np.load(entries["features"]["path"], mmap_mode="r", allow_pickle=False)
-    return features, {key: i for i, key in enumerate(value["item_hashes"])}
-
-
-def repack(phase, device):
-    if phase not in ("train", "validation", "calibration", "development"):
-        raise ValueError("prefinal phases only; final uses the sealed capture driver")
-    experiment = capture.resolve_experiment(atomic=True)
-    old_path = ORIGINAL_FEATURES / f"{phase}_manifest.json"
-    old = json.loads(old_path.read_text())
-    old_corpus = Path(old["lineage"]["corpus_path"]) if "corpus_path" in old.get("lineage", {}) else ORIGINAL_ROOT / "corpus"
-    if sha256_file(old_corpus / f"{phase}.jsonl") != old["corpus_sha256"]:
-        raise RuntimeError("original corpus no longer matches retained capture")
-    changed_known = changed_grade = changed_orientation = changed_directed = 0
-    with (old_corpus / f"{phase}.jsonl").open() as stream:
-        records = rows_to_examples((json.loads(line) for line in stream if line.strip()))
-    if not records:
-        raise RuntimeError("empty phase")
-    q, qi = raw_cache(old, "query")
-    pages, pi = raw_cache(old, "page")
-    cross, old_pairs = raw_cache(old, "cross")
-    pairs, missing = {}, {}
-    for record in records:
-        qh = _text_hash(record["question"])
-        if qh not in qi:
-            raise RuntimeError("reprojected corpus introduced an unaudited question")
-        for page in record["pages"]:
-            ph = _text_hash(page["text"])
-            if ph not in pi:
-                raise RuntimeError("reprojected corpus introduced an unaudited page")
-            key = (qh, ph)
-            digest = sha256_bytes(_canonical_json(list(key)))
-            if digest in old_pairs:
-                pairs[key] = old_pairs[digest]
-            else:
-                missing[key] = (record["question"], page["text"])
-    target_cache = experiment.cache_root
-    target_cache.mkdir(parents=True, exist_ok=True)
-    token_receipts = copy.deepcopy(old["token_receipts"])
-    counters = copy.deepcopy(old["counters"])
-    calls = 0
-    extension = None
-    if missing:
-        items = sorted(missing.items())
-        extension_meta = target_cache / f"{phase}_cross_extension.json"
-        if extension_meta.exists():
-            prior = json.loads(extension_meta.read_text())
-            prior_pairs = [(record[0], record[1]) for record in prior["pairs"]]
-            if prior_pairs != [key for key, _ in items]:
-                raise RuntimeError("existing cross extension does not match missing pairs")
-            extra = np.load(token_receipts["cross_extension"]["features"]["path"], mmap_mode="r", allow_pickle=False)
-            for offset, (key, _) in enumerate(items):
-                pairs[key] = len(cross) + offset
-            cross = np.concatenate((cross, extra))
+def repack(phase, proof_path):
+    exp = capture.ATOMIC_EXPERIMENT
+    cfg, protocol_hash = exp.protocol()
+    proof_path = Path(proof_path).resolve()
+    proof = json.loads(proof_path.read_text())
+    feature_hash = sha256_file(Path(__file__).with_name('ephemeral_pages_features.py'))
+    if (proof['feature_implementation_sha256'] != feature_hash or
+            proof.get('status') != 'child_local_projection_and_parent_conjunction_verified' or
+            proof.get('model_training') is not False or proof.get('final_opened') is not False):
+        raise RuntimeError('projection proof does not describe the current child-local implementation')
+    source_root = ORIGINAL_ROOT / 'features-grade-corrected'
+    parent_path = source_root / f'{phase}_manifest.json'
+    parent = json.loads(parent_path.read_text())
+    source_ir = ORIGINAL_ROOT / 'corpus' / f'{phase}.jsonl'
+    if sha256_file(source_ir) != parent['corpus_sha256']:
+        raise RuntimeError('retained parent IR changed')
+    if (exp.cache_root / f'{phase}_manifest.json').exists():
+        raise FileExistsError('refusing to replace completed correction')
+    exp.cache_root.mkdir(parents=True, exist_ok=True, mode=0o700)
+    exp.corpus_root.mkdir(parents=True, exist_ok=True, mode=0o700)
+    target_ir = exp.corpus_root / source_ir.name
+    if target_ir.exists():
+        if sha256_file(target_ir) != parent['corpus_sha256']:
+            raise RuntimeError('borrowed IR copy changed')
+    else:
+        with target_ir.open('xb') as dst, source_ir.open('rb') as src:
+            shutil.copyfileobj(src, dst)
+        target_ir.chmod(0o600)
+    with source_ir.open() as stream:
+        rows = [json.loads(line) for line in stream if line.strip()]
+    records = rows_to_examples(rows)
+    source_records = source_root / parent['files']['records']['path']
+    if sha256_file(source_records) != parent['files']['records']['sha256']:
+        raise RuntimeError('parent record projection changed')
+    with source_records.open() as stream:
+        previous = [json.loads(line) for line in stream if line.strip()]
+    if len(previous) != len(records):
+        raise RuntimeError('child correction changed record population')
+    changes = Counter()
+    for old, new in zip(previous, records):
+        if {k:v for k,v in old.items() if k not in CHANGED_TARGETS} != {k:v for k,v in new.items() if k not in CHANGED_TARGETS}:
+            raise RuntimeError('correction changed model-visible inputs or unaffected labels')
+        for key in CHANGED_TARGETS:
+            changes[key] += old[key] != new[key]
+    grouped = {}
+    for rec in records:
+        grouped.setdefault((rec['row_id'], rec['candidate_id']), []).append(rec['known_target'])
+    for row in rows:
+        for cid, known in row['metadata']['known'].items():
+            if cid != '__unknown__' and all(grouped[(row['id'], cid)]) != known:
+                raise RuntimeError('child conjunction disagrees with parent UNKNOWN')
+    files = {}
+    for key, entry in parent['files'].items():
+        old_path = source_root / entry['path']
+        if sha256_file(old_path) != entry['sha256']:
+            raise RuntimeError('parent packed artifact changed: '+key)
+        if key == 'records':
+            path = exp.cache_root / f'{phase}_records.jsonl'
+            with path.open('x', encoding='utf-8') as stream:
+                for rec in records:
+                    stream.write(json.dumps(rec, sort_keys=True, ensure_ascii=False, allow_nan=False)+'\n')
+            path.chmod(0o600)
+            files[key] = artifact(path)
+        elif key in CHANGED_TARGETS:
+            old_array = np.load(old_path, mmap_mode='r', allow_pickle=False)
+            changed = np.array(old_array, copy=True)
+            for i, rec in enumerate(records):
+                if changed.ndim == 1:
+                    changed[i] = rec[key]
+                else:
+                    changed[i, :len(rec['pages'])] = np.asarray(rec[key], dtype=changed.dtype)
+            path = exp.cache_root / f'{phase}_{key}.npy'
+            with path.open('xb') as stream:
+                np.save(stream, changed, allow_pickle=False)
+            path.chmod(0o600)
+            files[key] = artifact(path)
         else:
-            vectors, ids_rows, mask_rows = [], [], []
-            with FeatureEncoder(device=device) as encoder:
-                identity = ("encoder_repo", "encoder_revision", "encoder_weight_sha256", "tokenizer_sha256")
-                if any(encoder.lineage[key] != old["lineage"][key] for key in identity):
-                    raise RuntimeError("missing-pair encoder does not match original identity")
-                before = encoder.parameter_hash()
-                for start in range(0, len(items), BATCH_SIZE):
-                    chunk = items[start:start + BATCH_SIZE]
-                    ids, masks = encoder.tokenize([pair[0] for _, pair in chunk], [pair[1] for _, pair in chunk])
-                    vectors.append(encoder.encode_batch(ids, masks, "cross"))
-                    ids_rows.append(ids)
-                    mask_rows.append(masks)
-                    calls += 1
-                if encoder.parameter_hash() != before:
-                    raise RuntimeError("frozen encoder changed during pair extension")
-                extension = {"encoder_lineage": encoder.lineage, "encoder_parameters_sha256_after": before}
-            extra = np.concatenate(vectors)
-            for offset, (key, _) in enumerate(items):
-                pairs[key] = len(cross) + offset
-            for name, value in (("features", extra), ("input_ids", np.concatenate(ids_rows)), ("attention_mask", np.concatenate(mask_rows))):
-                path = target_cache / f"{phase}_cross_extension_{name}.npy"
-                with path.open("xb") as stream:
-                    np.save(stream, value, allow_pickle=False)
-                token_receipts.setdefault("cross_extension", {})[name] = artifact(path)
-            extension["pairs"] = [[key[0], key[1], *text_pair] for key, text_pair in items]
-            extension["files"] = token_receipts["cross_extension"]
-            write_json(extension_meta, extension)
-            cross = np.concatenate((cross, extra))
-    for modality in ("query", "page", "cross"):
-        counters[modality]["forward_calls_this_capture"] = calls if modality == "cross" else 0
-        counters[modality]["encoded_examples_this_capture"] = len(missing) if modality == "cross" else 0
-        counters[modality]["cache_misses"] = len(missing) if modality == "cross" else 0
-        counters[modality]["cache_hits"] = len(pairs) - len(missing) if modality == "cross" else len(qi if modality == "query" else pi)
-    counters["total_encoder_forward_calls_this_capture"] = calls
-    counters["total_encoded_examples_this_capture"] = len(missing)
-    lineage = copy.deepcopy(old["lineage"])
-    lineage["repacked_from_corpus_sha256"] = old["corpus_sha256"]
-    proof = json.loads(PROJECTION_PROOF.read_text())
-    lineage["atomic_correction"] = {
-        "correction_protocol": artifact(capture.ATOMIC_EXPERIMENT.protocol_path),
-        "original_capture_manifest": artifact(old_path),
-        "original_corpus_sha256": old["corpus_sha256"],
-        "feature_implementation_sha256": proof["feature_implementation_sha256"],
-        "child_local_records": len(records),
-        "changed_known_target_records": sum(1 for r in records if bool(r["known_target"])),
-        "existing_inputs_reencoded": 0,
-        "parent_conjunction_verified": True,
-        "projection_verification": artifact(PROJECTION_PROOF),
-    }
-    corpus = FeatureCorpus(records, q, pages, cross, qi, pi, pairs, target_cache,
-                           lineage, counters, token_receipts)
-    from dataclasses import replace
-    prefinal = replace(experiment, corpus_root=old_corpus)
-    path = capture.persist_phase(corpus, phase, None, experiment=prefinal)
-    print(json.dumps({"phase": phase, "manifest": artifact(path),
-                      "missing_cross_pairs": len(missing), "encoder_forwards": calls,
-                      "records": len(records)}, sort_keys=True))
+            files[key] = artifact(old_path)
+    lineage = copy.deepcopy(parent['lineage'])
+    lineage.pop('grade_correction', None)
+    lineage.update(protocol_sha256=protocol_hash, capture_phase=phase, atomic_supervision='child-local-v1',
+                   feature_code_sha256=feature_hash)
+    lineage['atomic_correction'] = {
+        'correction_protocol':artifact(exp.protocol_path), 'original_capture_manifest':artifact(parent_path),
+        'original_corpus_sha256':parent['corpus_sha256'], 'feature_implementation_sha256':lineage['feature_code_sha256'],
+        'child_local_records':len(records), 'changed_known_target_records':changes['known_target'],
+        'changed_grade_mask_records':changes['grade_mask'], 'changed_orientation_mask_records':changes['orientation_mask'],
+        'changed_directed_grade_target_records':changes['directed_grade_target'],
+        'changed_orientation_target_records':changes['orientation_target'],
+        'existing_inputs_reencoded':0, 'parent_conjunction_verified':True,
+        'projection_verification':artifact(proof_path), 'implementation':artifact(Path(__file__))}
+    counters = copy.deepcopy(parent['counters'])
+    for modality in ('query','page','cross'):
+        counters[modality].update(forward_calls_this_capture=0, encoded_examples_this_capture=0,
+                                  cache_misses=0, cache_hits=counters[modality]['unique_inputs'])
+    counters.update(total_encoder_forward_calls_this_capture=0,total_encoded_examples_this_capture=0)
+    manifest={'phase':phase,'protocol_sha256':protocol_hash,'record_count':len(records),
+              'corpus_sha256':sha256_file(target_ir),'files':files,'lineage':lineage,
+              'counters':counters,'token_receipts':copy.deepcopy(parent['token_receipts']),
+              'experiment_context':exp.context(),'selection_calibration_receipt':None}
+    path=exp.cache_root/f'{phase}_manifest.json'
+    write_json(path,manifest)
+    print(json.dumps({'phase':phase,'records':len(records),'changed_records':dict(changes),
+                      'encoder_forwards':0,'byte_identical_inputs':['q','pages','cross','page_mask'],
+                      'manifest':artifact(path)},sort_keys=True))
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--phase", required=True, choices=("train", "validation", "calibration", "development"))
-    parser.add_argument("--device", default="cuda")
-    args = parser.parse_args()
-    repack(args.phase, args.device)
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--phase',choices=PHASES,required=True)
+    parser.add_argument('--projection-proof', type=Path,
+                        default=capture.ATOMIC_ROOT / 'projection_verification.custody-v2.json')
+    args=parser.parse_args()
+    repack(args.phase, args.projection_proof)
 
 
-if __name__ == "__main__":
+if __name__=='__main__':
     main()
