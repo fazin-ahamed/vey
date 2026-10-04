@@ -1,0 +1,41 @@
+{
+  "schema": "vey.neutral.source-acquisition.v1",
+  "evidence_class": "MEASURED metadata and prospective acquisition plan; no rows or model outcomes acquired",
+  "parent_protocol_git": "5b3fe4c",
+  "output_root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2",
+  "sources": [
+    {
+      "id": "PolyAI/banking77",
+      "hf_loader_revision": "90d4e2ee5521c04fc1488f065b8b083658768c57",
+      "raw_repository": "PolyAI-LDN/task-specific-datasets",
+      "raw_revision": "57ec275d8078af65b7731c2a98be812d844a6d6b",
+      "train_url": "https://raw.githubusercontent.com/PolyAI-LDN/task-specific-datasets/57ec275d8078af65b7731c2a98be812d844a6d6b/banking_data/train.csv",
+      "test_url": "https://raw.githubusercontent.com/PolyAI-LDN/task-specific-datasets/57ec275d8078af65b7731c2a98be812d844a6d6b/banking_data/test.csv",
+      "license_url": "https://raw.githubusercontent.com/PolyAI-LDN/task-specific-datasets/57ec275d8078af65b7731c2a98be812d844a6d6b/LICENSE",
+      "license_sha256_inventory": "7e7170e3cebf88a9f60c7b8421418323c09304da1af4d5e90f4da1dc1c8a2661",
+      "attribution_url": "https://raw.githubusercontent.com/PolyAI-LDN/task-specific-datasets/57ec275d8078af65b7731c2a98be812d844a6d6b/README.md",
+      "license_class": "shipping-train: CC-BY-4.0 dataset-specific grant, attribution and modification notices retained",
+      "use": "Local acquisition/grouped source manifest only now. No raw data Git redistribution; no model training or evaluation in this acquisition step.",
+      "exposure": "Legacy Vey/Laya intent source; not fresh semantic transfer.",
+      "reason_raw_pin": "Pinned HF loader still references mutable GitHub master data URLs. Raw data commit is separately pinned; actual payload hashes persist before parsing."
+    },
+    {
+      "id": "AmazonScience/massive",
+      "hf_loader_revision": "ff6bd8e4b27c3543e4f8fe2108f32bb95a6f8740",
+      "raw_release": "1.1",
+      "archive_url": "https://amazon-massive-nlu-dataset.s3.amazonaws.com/amazon-massive-dataset-1.1.tar.gz",
+      "license_url": "https://huggingface.co/datasets/AmazonScience/massive/raw/ff6bd8e4b27c3543e4f8fe2108f32bb95a6f8740/LICENSE",
+      "notice_url": "https://raw.githubusercontent.com/alexa/massive/f966f21846043aabef9b0f974fa7970027f43738/NOTICE.md",
+      "license_class": "shipping-train: Amazon dataset-specific CC-BY-4.0 grant; attribution and modification notices retained",
+      "fixed_locales": ["af-ZA", "am-ET", "ar-SA", "az-AZ", "bn-BD", "ca-ES", "cy-GB", "da-DK", "de-DE", "el-GR", "en-US", "es-ES", "fa-IR", "fi-FI", "fr-FR", "he-IL", "hi-IN", "hu-HU", "hy-AM", "id-ID", "is-IS", "it-IT", "ja-JP", "jv-ID", "ka-GE", "km-KH", "kn-IN", "ko-KR", "lv-LV", "ml-IN", "mn-MN", "ms-MY", "my-MM", "nb-NO", "nl-NL", "pl-PL", "pt-PT", "ro-RO", "ru-RU", "sl-SL", "sq-AL", "sv-SE", "sw-KE", "ta-IN", "te-IN", "th-TH", "tl-PH", "tr-TR", "ur-PK", "vi-VN", "zh-CN"],
+      "excluded_locale": "zh-TW; locale variant not counted as an additional language; ca-ES requires release1.1",
+      "group": "All selected locales of the same original utterance ID are one group; verify IDs/partitions agree. Locale and human judgment descendants never add independent n.",
+      "use": "Local acquisition/grouped source manifest only now. Preserve all source annotations and individual judgments outside Git; report availability/count/rating scales without exposing final rows to selectors. No training or quality evaluation now.",
+      "exposure": "Vey English and Laya multilingual benchmarking are legacy-exposed; newly acquired locales are not presumed absent from any pretraining.",
+      "byte_pin": "Versioned S3 filename is not cryptographic immutability. Actual raw archive hash and member hashes frozen at acquisition before parsing/selection; no claim of a prior checksum."
+    }
+  ],
+  "blocked_for_this_acquisition": "All other candidate sources require separate recorded source-specific review/selection before rows; this does not remove any required endgame endpoint.",
+  "no_model_choice_or_final_metric_results": true,
+  "paid_or_authenticated_calls": false
+}
