@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "evidence_class": "HYPOTHESIS: prospective source custody; no split rows or model outcomes acquired",
+  "authority": "neutral_benchmark_protocol.json; the same input-only connected-component grouping and deterministic allocation rules apply",
+  "root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper",
+  "source": {
+    "id": "allenai/qasper",
+    "hf_revision": "fdc9d8214fbab5dd782958601db4d678e6934a54",
+    "loader_url": "https://huggingface.co/datasets/allenai/qasper/raw/fdc9d8214fbab5dd782958601db4d678e6934a54/qasper.py",
+    "card_url": "https://huggingface.co/datasets/allenai/qasper/raw/fdc9d8214fbab5dd782958601db4d678e6934a54/README.md",
+    "loader_version": "0.3.0",
+    "archives": [
+      {"url": "https://qasper-dataset.s3.us-west-2.amazonaws.com/qasper-train-dev-v0.3.tgz", "members": {"qasper-train-v0.3.json": "train", "qasper-dev-v0.3.json": "validation"}},
+      {"url": "https://qasper-dataset.s3.us-west-2.amazonaws.com/qasper-test-and-evaluator-v0.3.tgz", "members": {"qasper-test-v0.3.json": "test"}}
+    ],
+    "byte_pin": "Versioned object names are not cryptographic immutability. Persist actual archive and selected-member SHA-256 before parsing or allocation. Never execute bundled evaluation code or extract archive paths.",
+    "license_class": "shipping-train: source-specific CC-BY-4.0 declaration in the pinned dataset card and loader",
+    "rights_scope": "Local source custody under the dataset grant, preserving source/paper attribution and modification notices. No raw paper redistribution; underlying full-paper republication rights remain subject to review.",
+    "source_statement_counts_not_realized": {"train_papers": 888, "validation_papers": 281, "test_papers": 416, "questions_total": 5049},
+    "grouping": "One paper and all its questions, answer annotations, evidence, figures/captions and versions stay together. Join canonical arXiv version IDs, normalized complete titles, exact full-document hashes and verified full-document near duplicates. Rater IDs are provenance, not independent sample units or model inputs. Never merge unrelated papers solely because they share a generic question or an annotator.",
+    "annotation_custody": "Preserve nullable/raw yes_no, unanswerable, extractive_spans, free_form_answer and all individual annotations. Do not coerce null or an absent/non-Boolean answer to False; unanswerable is not a negative Boolean answer. Preserve evidence and highlighted_evidence separately as gold provenance, never insert them into the model state.",
+    "exposure": "Public QASPER/LongBench/SCROLLS replication risk; no claim of universally fresh confirmation. Pinned card contains schema placeholders, not a selected study example. Exact model training membership is unknown.",
+    "use_now": "Acquire/hash/schema-census/group and seal source partitions only. Parent output is counts, schemas, hashes and exposure metadata; no confirmation text, questions, labels or quality scores.",
+    "length_gate": "No8192/16K coverage claim or token eligibility count in this custody step. Pin reference and evaluated-route tokenizer bytes plus substantive-text serialization before a subsequent automated length census, and perform that census before model selection. No padding or repeated text. Missing length/independent-unit coverage opens another source branch, not a terminal block."
+  },
+  "resource_limits": {"cpu_threads_max": 4, "blas_threads": 1, "nice": 10, "ionice_class": 2, "ionice_priority": 7, "compressed_bytes_per_archive_max": 536870912, "selected_uncompressed_bytes_total_max": 2147483648, "minimum_available_ram_gib": 8, "minimum_free_disk_gib": 20, "gpu_use": false},
+  "failure_policy": "Retain timestamped attempts; correct source/parser implementation errors prospectively without overwriting frozen artifacts or selecting on labels. No HTTP credentials, paid services, shipping training, evaluation or raw redistribution in this step."
+}
