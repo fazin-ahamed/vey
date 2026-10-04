@@ -368,9 +368,20 @@ def _download_file(
     max_bytes: int,
     *,
     deadline_seconds: int = NETWORK_OBJECT_DEADLINE_SECONDS,
+    reuse_record: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     _validate_url(url)
     shared.make_private_directory(destination.parent)
+    if reuse_record is not None:
+        source_path = Path(str(reuse_record["relative_path"]))
+        if source_path.is_symlink() or not source_path.is_file():
+            raise AcquisitionError("pinned reusable raw artifact is not a regular file")
+        digest, size = shared.hash_file(source_path)
+        if (digest, size) != (reuse_record["sha256"], reuse_record["bytes"]) or size > max_bytes:
+            raise AcquisitionError("pinned reusable raw artifact failed byte verification")
+        os.link(source_path, destination)
+        shared.fsync_directory(destination.parent)
+        return {**reuse_record, "relative_path": str(destination), "reused_from": str(source_path)}
     request = urllib.request.Request(
         url,
         headers={"User-Agent": "vey-neutral-paper-acquire/1", "Accept-Encoding": "identity"},
@@ -427,6 +438,37 @@ def _download_file(
         "bytes": size,
         "relative_path": str(destination),
     }
+
+
+def _raw_reuse_records(plan: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+    reuse = plan.get("raw_reuse")
+    if reuse is None:
+        return {}
+    prior = Path(str(reuse["attempt"]))
+    if prior.is_symlink() or not prior.is_dir() or not prior.resolve().is_relative_to(Path(plan["root"]).resolve() / "attempts"):
+        raise AcquisitionError("raw reuse must reference an owned preserved paper attempt")
+    raw_manifest_path = prior / "raw_source_manifest.json"
+    data = raw_manifest_path.read_bytes()
+    if shared.sha256_bytes(data) != reuse["preparse_manifest_sha256"]:
+        raise AcquisitionError("preserved pre-parse custody manifest failed its committed hash")
+    manifest = _strict_json_bytes(data, str(raw_manifest_path))
+    if not manifest["all_archive_and_selected_member_hashes_frozen_before_parsing"]:
+        raise AcquisitionError("raw reuse requires complete pre-parse custody")
+    source = plan["source"]
+    expected = {source["loader_url"], source["card_url"], *(item["url"] for item in source["archives"])}
+    records = [manifest["source_metadata"]["loader"], manifest["source_metadata"]["dataset_card"], *manifest["archive_artifacts"]]
+    result = {}
+    for record in records:
+        url = record["requested_url"]
+        _validate_url(url)
+        _validate_url(record["final_url"])
+        path = Path(record["relative_path"])
+        if url not in expected or url in result or not path.resolve().is_relative_to(prior.resolve()) or path.is_symlink():
+            raise AcquisitionError("preserved raw artifact provenance differs from the frozen source pins")
+        result[url] = {**record, "reused_from_preparse_sha256": reuse["preparse_manifest_sha256"]}
+    if set(result) != expected:
+        raise AcquisitionError("preserved raw custody does not cover every requested source object")
+    return result
 
 
 def _check_pinned_metadata(source: Mapping[str, Any], loader: bytes, card: bytes) -> dict[str, Any]:
@@ -780,7 +822,6 @@ def _initialize_database(path: Path) -> sqlite3.Connection:
           gram TEXT PRIMARY KEY,
           document_frequency INTEGER NOT NULL
         ) WITHOUT ROWID;
-        CREATE INDEX gram_frequency_order ON gram_frequency(document_frequency,gram);
         CREATE TABLE prefixes(
           doc_id INTEGER NOT NULL,
           gram TEXT NOT NULL,
@@ -1428,12 +1469,13 @@ def _write_metadata_artifacts(
     attempt: Path,
     source: Mapping[str, Any],
     max_metadata_bytes: int,
+    reuse_records: Mapping[str, Mapping[str, Any]],
 ) -> tuple[dict[str, Any], bytes, bytes]:
     metadata_dir = attempt / "raw" / "source_metadata"
     loader_path = metadata_dir / "qasper.py"
     card_path = metadata_dir / "README.md"
-    loader_record = _download_file(str(source["loader_url"]), loader_path, max_metadata_bytes, deadline_seconds=300)
-    card_record = _download_file(str(source["card_url"]), card_path, max_metadata_bytes, deadline_seconds=300)
+    loader_record = _download_file(str(source["loader_url"]), loader_path, max_metadata_bytes, deadline_seconds=300, reuse_record=reuse_records.get(str(source["loader_url"])))
+    card_record = _download_file(str(source["card_url"]), card_path, max_metadata_bytes, deadline_seconds=300, reuse_record=reuse_records.get(str(source["card_url"])))
     loader = loader_path.read_bytes()
     card = card_path.read_bytes()
     metadata_claims = _check_pinned_metadata(source, loader, card)
@@ -1581,12 +1623,14 @@ def _acquire() -> dict[str, Any]:
         os.umask(0o077)
         resource_info = _apply_resource_guards(root, plan)
         completed["resource_guards"] = resource_info
+        reuse_records = _raw_reuse_records(plan)
 
         phase = "source_metadata"
         metadata_info, loader_bytes, card_bytes = _write_metadata_artifacts(
             attempt,
             source,
             int(plan["resource_limits"].get("metadata_bytes_max", MAX_METADATA_BYTES)),
+            reuse_records,
         )
         completed["source_metadata"] = metadata_info
 
@@ -1602,7 +1646,7 @@ def _acquire() -> dict[str, Any]:
             if not archive_name or "/" in archive_name or "\\" in archive_name:
                 raise AcquisitionError("pinned archive URL has an unsafe filename")
             archive_path = attempt / "raw" / "archives" / archive_name
-            record = _download_file(archive_url, archive_path, max_archive_bytes)
+            record = _download_file(archive_url, archive_path, max_archive_bytes, reuse_record=reuse_records.get(archive_url))
             expected_members = {str(name): str(partition) for name, partition in archive_spec["members"].items()}
             scan_members, scan_record = _scan_tar_archive(archive_path, expected_members, max_archive_bytes)
             if scan_record["archive_sha256"] != record["sha256"] or scan_record["compressed_bytes"] != record["bytes"]:

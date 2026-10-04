@@ -3,6 +3,8 @@
   "evidence_class": "HYPOTHESIS: prospective source custody; no split rows or model outcomes acquired",
   "authority": "neutral_benchmark_protocol.json; the same input-only connected-component grouping and deterministic allocation rules apply",
   "root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper",
+  "preexecution_amendment": "Preserve both failed timestamped attempts. The first stopped on anonymous metadata transport; the second acquired and parsed all pinned sources but found a duplicate gram-frequency index declaration before grouping/allocation completed. The shared exact prefix builder is the sole index owner. Reuse only byte-verified raw objects from the committed pre-parse custody receipt; partitions, paper grouping, annotations, allocation, rights and gates are unchanged.",
+  "raw_reuse": {"attempt": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/attempts/20261004T073820.781460Z-591540-6f09fcb3", "preparse_manifest_sha256": "10600183edb1c7fb8d7513001affec9801433675d40d08e6a011061925dd05ed"},
   "source": {
     "id": "allenai/qasper",
     "hf_revision": "fdc9d8214fbab5dd782958601db4d678e6934a54",

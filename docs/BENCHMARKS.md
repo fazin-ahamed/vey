@@ -3528,15 +3528,15 @@ No source grouping, multilingual quality or competitor parity is established
 by this failed attempt.
 
 **MEASURED completed acquisition, independent verification pending:** the
-amended pipeline acquired and grouped855,654 rows:13,083 Banking77 rows and
-842,571 MASSIVE rows across exactly51 locales. Each locale contains
-11,514 train,2,033 validation and2,974 test rows. All51 locale descendants
+amended pipeline acquired and grouped 855,654 rows: 13,083 Banking77 rows and
+842,571 MASSIVE rows across exactly 51 locales. Each locale contains
+11,514 train, 2,033 validation and 2,974 test rows. All 51 locale descendants
 remain joined by original utterance ID. No model or quality evaluation ran.
 
 The reporting smoke caught a unit-label defect: `independent_group_count`
 counted constituent source-lineage groups, while caps apply to connected
 components. Corrected reporting on the actual retained groups preserved every
-membership hash, split and row count. The29,604 source groups form22,169
+membership hash, split and row count. The 29,604 source groups form 22,169
 components. Source-specific connected-component counts:
 
 | source | train | dev | calibration | confirmation | unused |
@@ -3549,14 +3549,24 @@ Neither lineage-member counts nor locale descendants increase the allocation
 unit count; unresolved author/template lineage still prevents a claim of
 statistical independence. The actual English MASSIVE rows contain no
 `judgments` field or individual rating records. Non-English judgment
-availability is retained as source metadata, not fabricated51-language
+availability is retained as source metadata, not fabricated 51-language
 Boolean/Score gold or probability-calibration evidence.
 
-QASPER custody code separately retains paper descendants, nullable annotations
-and input-only paper grouping. Its parser and pre-parse hash-sealing corrections
-were made before acquisition; no token-length eligibility, Boolean quality or
-long-context capability has been measured. Actual source execution and
-independent reconstruction remain required.
+**MEASURED QASPER acquisition attempts:** the first stopped on anonymous
+metadata transport. The second acquired and SHA-sealed both archives and all
+three selected members before parsing 888 train, 281 validation and 416 test
+papers; their question counts are 2593, 1005 and 1451. It then stopped before
+completed grouping/allocation because the QASPER schema and shared prefix
+builder both declared the same gram-frequency index.
+
+The shared builder is now the sole index owner. A prospective amendment pins
+the failed attempt's pre-parse receipt and permits only byte-verified reuse;
+the actual four-object hardlink smoke preserved 14,716,506 bytes and every
+SHA without a network call. The failed databases and manifests remain intact.
+Grouping/allocation and independent reconstruction still require successful
+execution. Nullable annotations and gold evidence remain separate from model
+state. No Boolean quality, natural-token eligibility or long-context capability
+has been measured.
 
 
 
