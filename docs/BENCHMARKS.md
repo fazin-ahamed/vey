@@ -3431,8 +3431,8 @@ The revised protocol pins public source candidates and uses workflow-sealed
 public tests with explicit exposure disclosures, plus bounded synthetic
 objective controls reported separately. Public familiarity is not universal
 freshness; source labels do not establish capabilities outside their task.
-Fractional HelpSteer2 means support mean/ranking errors, not invented annotator
-distributions or categorical calibration gold. All21 critical dimensions,
+Main HelpSteer2 aggregates do not identify annotator distributions; the pinned
+release separately supplies filtered individual ratings. All21 dimensions,
 51-language scope, K1000, natural8192-token evidence, shared exact workflow
 code and strongest appropriate competitor routes remain required.
 
@@ -3443,6 +3443,24 @@ precedes final: insufficient independent families or multiplicity resolution
 remains inconclusive, never a zero-variance equivalence shortcut. Missing
 Jev competitive-research authorization remains explicit and cannot end other
 reachable work. Protocol: `research/endgame/neutral_benchmark_protocol.json`.
+
+**MEASURED metadata correction, before split rows or model outcomes:** the
+pinned HelpSteer2 card's Disagreements section and Hub file listing establish
+retained individual0–4 arrays after outlier filtering, contrary to the earlier
+means-only inference. They permit a filtered-rater probability target, not
+unfiltered population calibration; actual coverage/joins and prompt rights
+remain unresolved. Its preference resource also releases unprocessed signed
+human preference strengths. Human justifications remain label provenance,
+never model-visible evidence. Source:
+https://huggingface.co/datasets/nvidia/HelpSteer2/blob/990b2711a36180dd19d9c94b8627844866f8982a/README.md
+
+The MASSIVE card documents individual grammar0–4/spelling0–2 judgments,
+while intent/slot judgment categories are not ordinal scales. Per-locale
+coverage and English-seed availability remain to be censused. This offers a
+translation-quality Score source, not general arbitrary-criterion gold.
+Public card examples were encountered as documentation, not used for
+training or choices; all source exposure remains disclosed. Source:
+https://huggingface.co/datasets/AmazonScience/massive/blob/ff6bd8e4b27c3543e4f8fe2108f32bb95a6f8740/README.md
 
 
 

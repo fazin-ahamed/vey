@@ -457,7 +457,7 @@
       "shipping_training_allowed_now": false,
       "provenance": {
         "evidence_class": "MEASURED",
-        "source_statement": "21362 prompt-response rows; mostly ShareGPT user prompts plus about 5% Scale human prompts; two responses per prompt from a mix of ten early in-house LLMs. Scale human annotators rate helpfulness/correctness/coherence/complexity/verbosity on 0–4 Likert scale; released scores are means after outlier filtering."
+        "source_statement": "21362 prompt-response rows; mostly ShareGPT user prompts plus about 5% Scale human prompts; two responses per prompt from ten early in-house LLMs. Scale annotators rate five attributes0-4. Pinned card describes main scores as nearest-integer means of three most-agreeing ratings after filtering. Its separate disagreements/disagreements.jsonl.gz releases retained individual per-attribute rating arrays; not all unfiltered ratings or a population posterior. Preference release separately includes unprocessed signed preference strengths."
       },
       "split_sizes": {
         "train_responses": 20324,
@@ -474,7 +474,7 @@
         "risks": [
           "Prompt and both sibling responses are one group; multi-turn shared prefixes and source conversation IDs also grouped.",
           "Disagreements/preference releases reuse original rows; never concatenate as independent examples.",
-          "Means can be fractional; do not force integer-level labels without preregistered transformation.",
+          "Do not infer individual rating frequencies from main aggregate scores. The separately released retained-rater arrays support an explicitly filtered human target only; actual values/coverage and joins require a pre-selection census.",
           "Attribute labels are correlated; helpfulness ordering does not establish desired ordering of verbosity/complexity for every user."
         ],
         "deduplication_performed": false
@@ -491,7 +491,9 @@
       "notes": [
         "Clean explicit licensed semantic ordinal candidate unlike SST5/STSB mirrors with missing license; conditional category preserves upstream review.",
         "Five fixed rubrics are not arbitrary unseen criteria or novel composition proof.",
-        "Existing public validation is not a private sealed final merely because this audit did not read it."
+        "Existing public validation is not a private sealed final merely because this audit did not read it.",
+        "Pre-row metadata correction: pinned README Disagreements section and Hub sibling listing contradict the subsequent means-only assumption; individual retained-rater arrays exist. No array rows acquired or coverage claimed.",
+        "Stable per-rating worker IDs are not documented for disagreement arrays. Human preference justifications are label provenance, never model-visible evidence."
       ],
       "primary_sources": [
         {
