@@ -3885,8 +3885,12 @@ attribution0.286230, orientation0.606250, UNKNOWN recall0.472000,
 precision0.761905 and grade-swap correct-new0.151823 do not pass.
 Internal cross NI also fails: one-sided95% lower difference−0.060276
 against the fixed−0.05 margin. The joint learned-benefit gate fails.
-Exact literals and identity/order invariance remain intact. No promotion,
-replication credit, certificate or endgame capability credit is earned.
+Supported coverage0.63125; K-probe choice accuracy remains
+2:0.434375,4:0.236648,8:0.271875,16:0.256250,32:0.256250,64:0.256250.
+Typed exact replay verified439040 integer cases and206080 identity-invariant
+cases; the evaluator literal gate itself remains a parent-owned closed
+regression, not an earned endgame result. No promotion, replication credit,
+certificate or endgame capability credit is earned.
 
 **MEASURED correctness defect:** the component truth audit found that the
 projector copied whole-parent `metadata.known` into every child record.
