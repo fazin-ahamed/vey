@@ -1,0 +1,85 @@
+{
+  "acceptance": "Retain rejected source/preparation/key/packet/all raw reviews. Prepare clarified source prospectively; require two independent opaque full420item reviews with no ambiguity/rejection before final build or corrected model optimization.",
+  "artifacts": "Retained rejected pool, old/new source and text hashes, amendment, new preparation, raw420item verdicts perreviewer, merged840review receipt, final build hash, unchanged prefinal captures.",
+  "atomic_protocol_sha256": "21e295c362da058b4b5d2247b61caf247449e79132ed7520a6f637926816b0fb",
+  "changes": [
+    {
+      "json_pointer": "/properties/0/page_wordings/13/text",
+      "new_text_sha256": "787ebc6aeaa426375f0789ae966bbc60134485b93217ee23f2399e5da2a03d1a",
+      "old_text_sha256": "c5ca3147b1aeb48e5f1db83365fbd1b6af6063f0ca3bfcad085c789dfaa72948",
+      "original_review_id": "r_2e4575e5e5d583be7a9e1fdb270d"
+    },
+    {
+      "json_pointer": "/properties/14/page_wordings/11/text",
+      "new_text_sha256": "7e1cb2bf3830be9e76c5a2d3c95307fe045bf58160dabb79a1d9244d70c5c351",
+      "old_text_sha256": "a9e359bc91cc625ade0aae0dbb5d3563d9f21035477c5d6e8fed57457b2ce859",
+      "original_review_id": "r_ff0a9f475c94e39bb421d27c055d"
+    },
+    {
+      "json_pointer": "/properties/13/questions/5/text",
+      "new_text_sha256": "b9cf4ceb12e163564bb34672a68ac3607c810634a803a748d6b4ea9e4f33a6d4",
+      "old_text_sha256": "148d235431f08d9a56c34c9260066591068f9f5e12c76738cc42cb4ab97dde94",
+      "original_review_id": "r_35e4ad4d3d500fffeb1efc9f2d66"
+    },
+    {
+      "json_pointer": "/properties/2/questions/1/text",
+      "new_text_sha256": "4acc513f20093908a16ff2ccab18c5f087a1801d53721674e0a1705ee1118759",
+      "old_text_sha256": "e55581bdd4633e1370cc3643f0584e0f3e59ed58435e5de3b4284a82af89b3ba",
+      "original_review_id": "r_1be4760ba09bd0c3850c18594745"
+    },
+    {
+      "json_pointer": "/properties/2/questions/4/text",
+      "new_text_sha256": "16f11630d65e094dc4174a0bc8c4c2ce1143e89358685b3278df300a8fdd4e12",
+      "old_text_sha256": "5ba0b21fe4fdfdf99324d6a93c9c8c30124fa4c55170cb62c066e4a18fa4f0c5",
+      "original_review_id": "r_3d4f307112e3e6fdc0482648fb51"
+    },
+    {
+      "json_pointer": "/properties/4/page_wordings/13/text",
+      "new_text_sha256": "22677bc553acd169e67074311e78a933da6858719d5bf982addf469fa169e825",
+      "old_text_sha256": "b23382b3dab9dfd70c5865a0c81bf69a9c4ca822a68a8d0addbbcad721fe77b0",
+      "original_review_id": "r_41fe33a0623cc02fc821f098e391"
+    },
+    {
+      "json_pointer": "/properties/1/page_wordings/12/text",
+      "new_text_sha256": "a6ac6bbc2aaa104b1d4f2c7e4bddb60cca9c6b7cc5020696bdd283ebbde6326e",
+      "old_text_sha256": "505331b64753bdcfaa9f460f0b5177b7ee18574908f2da2cdadebac107fc9445",
+      "original_review_id": "r_9d15f9bd7fcc4c570393387900e1"
+    },
+    {
+      "json_pointer": "/properties/1/page_wordings/7/text",
+      "new_text_sha256": "2c4ceba197febfe4ffbce38bb9dd059b5cb680480582bf80812d0c8be855360e",
+      "old_text_sha256": "c2359053aaa603238dbfda06b42afb44b2d8387d7c4ebdd55afba8cfa272f3fb",
+      "original_review_id": "r_947f219fd18601a679e77e9c04f2"
+    }
+  ],
+  "controls_and_splits": "All ECA-2 five controls, prefinal IR/input/target artifacts, hyperparameters, statistical tests, gates, source IDs/rubrics/grade positions and new-final world schedule unchanged.",
+  "data": {
+    "clarification_amendment": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/source/eca2_source_clarification_amendment.json",
+      "sha256": "3abff15ee05cf99a612d1d01a95b59b5be3795f529fd6fd02b1aac2175ff0e25"
+    },
+    "original_packet": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/audit/eca2_opaque_review_packet.json",
+      "sha256": "ab875b7e5c5343bcb1b5d9d175ad7c3050a5f79a7413dc9181986e7b5f6deb53"
+    },
+    "original_source": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/source/eca2_final_source.json",
+      "sha256": "0e0a9622c25e8955aa2359a6edf28567c114751eb9916bc5f47808731ae00a92"
+    },
+    "proposed_source": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/source/eca2_final_source_clarified_proposal.json",
+      "sha256": "0e986104f659a833a510863492aa367375d0e2850181f22f27af3440fb8b1d15"
+    },
+    "rejected_audit": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/audit/eca2_independent_audit_receipt.json",
+      "sha256": "22a696fe7a92d097d457b096a87b127d97a226f6e2d58076e84343aea7518d51"
+    }
+  },
+  "failure_branch": "Remaining ambiguities forbid final build and model optimization; retain real review failures and clarify only demonstrated meaning defects before another independent review.",
+  "hypothesis": "Eight opaque-review ambiguities can be clarified without changing intended rubric positions, criterion orientation, source inventory, or model methods.",
+  "outcome_use": "No corrected quality metrics, old-final outcomes or model predictions used to select these clarifications.",
+  "resources": "Zero encoder/model forwards, no paid API, bounded source parsing and opaque linguistic review only.",
+  "schema": "vey.eca2.source-clarification-protocol.v1",
+  "verified_exact_text_changes": 8,
+  "verified_unchanged_other_items": 412
+}

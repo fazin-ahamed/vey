@@ -36,6 +36,7 @@ sys.path.insert(0, str(HERE))
 import ephemeral_pages_capture as capture
 import ephemeral_pages_evaluate as evaluate
 import ephemeral_pages_train as train
+import ephemeral_pages_build as build
 from ephemeral_pages_features import (
     _apply_process_priority, _parse_meminfo, _resource_guard, sha256_file,
 )
@@ -176,7 +177,28 @@ def load_phase(phase, experiment=capture.DEFAULT_EXPERIMENT):
 
 
 def verify_truth(phase, data, ir, catalogue, initial_swap):
-    pages, questions, _, _ = catalogue
+    pages, questions, properties, _ = catalogue
+    world_properties = defaultdict(set)
+    for row in ir.values():
+        meta = row["metadata"]
+        if meta["query_kind"] == "atomic" and meta["variant"] == "base":
+            require(len(meta["terms"]) == 1, "base atomic query is not a single authored property")
+            field = meta["terms"][0]["field_key"]
+            require(field in properties, "base atomic property absent from authored source")
+            world_properties[meta["world_id"]].add(field)
+    worlds = {}
+    field_code = "B" if phase == "development" else "A"
+    for world_id, fields in world_properties.items():
+        selected = tuple(sorted((properties[field] for field in fields),
+                                key=lambda prop: build.FAMILIES.index(prop["family"])))
+        require(len(selected) == 4 and len({prop["family"] for prop in selected}) == 4
+                and all(prop["field_code"] == field_code for prop in selected),
+                "base atomic world source inventory mismatch")
+        worlds[world_id] = build.World(world_id, phase, 0, 0,
+                                      tuple(prop["family"] for prop in selected), selected, {})
+    by_family = defaultdict(list)
+    for prop in properties.values():
+        by_family[prop["family"]].append(prop)
     counts = Counter()
     truth_hash = hashlib.sha256()
     for row in ir.values():
@@ -215,10 +237,36 @@ def verify_truth(phase, data, ir, catalogue, initial_swap):
             require(questions.get((phase, term["question"])) ==
                     (term["field_key"], term["orientation"]), "authored criterion orientation mismatch")
             counts["question_orientation_checks"] += 1
-        require(all(term["field_key"] in catalogue[2] for term in meta["terms"]),
+        require(all(term["field_key"] in properties for term in meta["terms"]),
                 "required question property absent from authored source")
-        authored_families = {catalogue[2][term["field_key"]]["family"] for term in meta["terms"]}
-        require(meta["family"] == sorted(authored_families),
+        authored_families = {properties[term["field_key"]]["family"] for term in meta["terms"]}
+        require(meta["world_id"] in worlds, "query has no base atomic world source inventory")
+        world = worlds[meta["world_id"]]
+        if meta["query_kind"] == "absent":
+            specs, absent_provenance = build._query_specs(world, properties, by_family)
+            absent = next(spec for spec in specs if spec.query_kind == "absent")
+            require(meta["query_id"] == absent.query_key
+                    and meta["terms"] == build._term_metadata(absent.terms)
+                    and row["question"] == absent.question,
+                    "absent query differs from frozen generator form")
+            require(authored_families == {absent_provenance["absent_family"]}
+                    and absent_provenance["absent_property_id"] not in world_properties[meta["world_id"]]
+                    and not any(field == absent_provenance["absent_property_id"]
+                                for field in meta["page_fields"].values()),
+                    "absent query source property has owned world evidence")
+            require(row["gold"] == [UNKNOWN]
+                    and all(meta["known"][cid] is False
+                            and meta["teacher_scores"][cid] is None for cid in candidates),
+                    "absent query parent/child truth is not UNKNOWN")
+            expected_families = sorted(world.families)
+            counts["generator_absent_source_family_checks"] += 1
+        else:
+            require(all(term["field_key"] in world_properties[meta["world_id"]]
+                        for term in meta["terms"]),
+                    "ordinary required property absent from world source inventory")
+            expected_families = sorted(authored_families)
+            counts["authored_required_source_family_checks"] += 1
+        require(meta["family"] == expected_families,
                 "required-source question family provenance mismatch")
         counts["required_source_family_checks"] += 1
         for cid in candidates:
@@ -294,7 +342,8 @@ def verify_truth(phase, data, ir, catalogue, initial_swap):
         require(record["question"] == (row["question"] if len(meta["terms"]) == 1 else term["question"])
                 and record["split"] == phase and record["world_id"] == meta["world_id"]
                 and record["teacher_score"] == meta["teacher_scores"][cid], "captured record provenance mismatch")
-        child_knownness[(row["id"], ti, cid)] = known
+        parent_key = (row["id"], cid)
+        child_knownness[parent_key] = child_knownness.get(parent_key, True) and known
         counts["child_local_records"] += 1
         if known and not meta["known"][cid]:
             counts["supported_sibling_in_unknown_parent"] += 1
@@ -303,8 +352,7 @@ def verify_truth(phase, data, ir, catalogue, initial_swap):
     conjunction_holds = True
     for row in ir.values():
         for cid in [c["id"] for c in row["candidates"] if c["id"] != UNKNOWN]:
-            conjunction = all(known for (rid, _, cid2), known in child_knownness.items()
-                              if rid == row["id"] and cid2 == cid)
+            conjunction = child_knownness[(row["id"], cid)]
             conjunction_holds = conjunction_holds and conjunction is bool(row["metadata"]["known"][cid])
     require(conjunction_holds, "parent knownness is not the conjunction of required child truth")
     data["_leaf_truth_verified"] = True
@@ -314,7 +362,7 @@ def verify_truth(phase, data, ir, catalogue, initial_swap):
             "exact_truth_execution_sha256": truth_hash.hexdigest(), "independent_authored_recheck": True,
             "supervision": "child_local",
             "provenance_rule_scope": {
-                "rule": "all required question properties, independent of evidence availability",
+                "rule": "all authored required properties independent of evidence availability; frozen absent-query form and source-world family fallback",
                 "excluded_rows": 0, "excluded_row_ids": [], "excluded_detail": []},
             "parent_known_equals_child_conjunction": True,
             "supported_sibling_in_unknown_parent": counts["supported_sibling_in_unknown_parent"],
@@ -646,7 +694,7 @@ def run_linear(directory, run_root, catalogue, normalizer, chunk_size, initial_s
     directory.mkdir()
     train_data, train_ir, train_evidence = load_phase("train", experiment)
     train_truth = verify_truth("train", train_data, train_ir, catalogue, initial_swap)
-    selected = train.optimizer_indices(train_data, "train")
+    selected = train.optimizer_indices(train_data, "train", experiment)
     computed = train.fit_normalizer(train_data, selected, chunk_size)
     if normalizer is None:
         checkpoint = torch.load(run_root / "pages.pt", map_location="cpu", weights_only=False)

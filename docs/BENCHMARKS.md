@@ -3959,6 +3959,36 @@ encoder/tokenizer identity and source revision before optimization. Final
 neural access still requires all five fitted controls and an immutable
 selection/calibration receipt. Corrected quality results remain unmeasured.
 
+MEASURED source gate: the two actual opaque reviews cover all 420 new-final
+items. The first accepts all; the second accepts 412 and preserves eight
+ambiguities about crispness, a lifting boundary, compensation-component count,
+receipt-relative currency, reminder frequency and actual price revisions.
+The merged 840 judgments produce a rejected receipt, SHA-256
+`22a696fe7a92d097d457b096a87b127d97a226f6e2d58076e84343aea7518d51`.
+The final builder rejects it with exit code 2 before creating any final IR,
+decision/world ledger or build manifest. Corrected optimization remains closed.
+
+`ephemeral_pages_source_clarification_protocol.json` preregisters eight
+text-only clarifications before installation or new review. The proposed
+source SHA-256 is
+`0e986104f659a833a510863492aa367375d0e2850181f22f27af3440fb8b1d15`;
+the outside-Git amendment SHA-256 is
+`3abff15ee05cf99a612d1d01a95b59b5be3795f529fd6fd02b1aac2175ff0e25`.
+Exact byte substitution preserves every other source byte, all 412 other
+texts, property/source IDs, rubrics, grade positions and orientations.
+The rejected source and all judgments remain retained. Two new independent
+opaque reviews must accept the complete clarified packet before building the
+fresh final pool; no semantic-quality outcome selected these edits.
+
+MEASURED component-verifier correction: archived `a275466` rejects a valid
+authored-but-locally-absent query because its family metadata intentionally
+uses the source-world families. The corrected rule follows the frozen
+generator, while ordinary queries still use every required authored property
+even when evidence is erased. Before-failure/after-pass replay covers all
+43,904 prefinal IRs and 264,320 children, including 2,240 absent-query rows,
+with zero family-provenance exclusions and zero neural calls. Receipt SHA-256:
+`d4c85e4bb44be97f54fd81f418c8dcc9d28327ffd9579432ef4abdee146a477e`.
+
 
 
 
