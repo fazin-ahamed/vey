@@ -3989,6 +3989,23 @@ even when evidence is erased. Before-failure/after-pass replay covers all
 with zero family-provenance exclusions and zero neural calls. Receipt SHA-256:
 `d4c85e4bb44be97f54fd81f418c8dcc9d28327ffd9579432ef4abdee146a477e`.
 
+MEASURED second source review: fresh independent reviewers accept 416/420
+and 411/420 items, leaving an eleven-item ambiguity union. The rejected
+receipt SHA-256 is
+`efb6a8c8db714aa8a07a1edff6db06489361255e04f2837d35c2b24f0a09f2b2`.
+The exercised builder again exits 2 without authorizing the final pool.
+These are source-validity failures, not neural-quality measurements.
+
+After two related failures, targeted rubric-condition audits distinguish
+actual events from possible events, denomination from funding, precise
+boundary/role definitions from relative descriptions, and unprompted
+collection from automatic execution. They identify three additional texts
+with the same missing-condition problem. The prospective
+`ephemeral_pages_rubric_entailment_protocol.json` pins fourteen text-only
+clarifications and preserves the other 406 texts, all targets and every
+model/split/statistical rule. Every rejected source, preparation and raw
+judgment remains retained; two complete fresh opaque reviews remain required.
+
 
 
 

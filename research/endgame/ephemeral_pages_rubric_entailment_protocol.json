@@ -1,0 +1,135 @@
+{
+  "amendment": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/source/eca2_source_entailment_amendment.json",
+    "sha256": "01d1d6b699eb5901f0cc7c5f8eca0d759ae1b5d0e91355b8130cdeb176f288e7"
+  },
+  "artifacts": "Stage2archivedsource/prep/key/packet/rawreviews/rejectedreceipt,amendment/proposalhashes,newpreparation,newraw840judgments,receipt/finalbuildhashes.",
+  "changed_items": 14,
+  "changes": [
+    {
+      "json_pointer": "/properties/2/page_wordings/2/text",
+      "new_text_sha256": "ae3298148b1085a204ef57143eea3eb0c690f1658b9f9eda78b17192bf5ee054",
+      "old_text_sha256": "6e6fd2b325eedeb98ab0757898569fc9b1d5625e1c8d980ca3a5573b5dd2fa31",
+      "review_id": "r_7ae641dd28cba31c886e68b347b1"
+    },
+    {
+      "json_pointer": "/properties/1/page_wordings/2/text",
+      "new_text_sha256": "40c3bc406ad728b218faac92a9e9b379602a98f76645f4637d38050f35a7be0d",
+      "old_text_sha256": "89bd2b2c0942beb1abe6edb216c23312a840ad85d12d7252244cbffc4834e197",
+      "review_id": "r_9763c09ea6a06a6dff0e1293bc34"
+    },
+    {
+      "json_pointer": "/properties/1/page_wordings/0/text",
+      "new_text_sha256": "87fd7e1ffda95cfd2554050eaa56d4a325f842345fc7240a95525c96289ca17f",
+      "old_text_sha256": "2feae8b5229d355922e823e11de6a87a0fe8d26650c8e45012850473ed15d374",
+      "review_id": "r_9d7131fa99584ee7bd892170d3aa"
+    },
+    {
+      "json_pointer": "/properties/1/page_wordings/1/text",
+      "new_text_sha256": "608f127f400f9af19415380b39eb8d31cf26a158d5eeec8430c7ce69bd32d6c3",
+      "old_text_sha256": "c5ad5e9d74d611c4cfdbba353fa89572c8d9cecfdb7216bdbec1f93f7facb056",
+      "review_id": "r_ecdaef64863f8743c5d46ccf0e87"
+    },
+    {
+      "json_pointer": "/properties/1/page_wordings/5/text",
+      "new_text_sha256": "ba0975b5e2753d4e817ae194f2612ef650865ba1abe42d865cb94ada1c9d08db",
+      "old_text_sha256": "39a4e9ccd14c38da5fcb2a3b4d87487d32d05e8ca76fb16dade307b45b769aee",
+      "review_id": "r_c0734f5fb9cc509b819c45763fea"
+    },
+    {
+      "json_pointer": "/properties/18/page_wordings/5/text",
+      "new_text_sha256": "4356ae34a7f4304e4d9c46031fc5e24531676eacffda2a54add432b7b735c750",
+      "old_text_sha256": "e18a022957cf139b62b89d2501ae0b18b9c2d42089978ff8482a02e827a2f3fd",
+      "review_id": "r_1b1840cdb74178317cf52af3db92"
+    },
+    {
+      "json_pointer": "/properties/18/page_wordings/10/text",
+      "new_text_sha256": "b479dd6124c8e7f2e1adbe551f3a1b4f42dd89c4540c4c3fd2f2650bd988c9ba",
+      "old_text_sha256": "e7457d59ad5a605e906be44680b878600597142a8b71d5c20e0ac72749234d88",
+      "review_id": "r_c5d4a52a44f723b2c890c6101e20"
+    },
+    {
+      "json_pointer": "/properties/18/page_wordings/14/text",
+      "new_text_sha256": "eabe70a2dcd2ac89af35aa3fd074d18ba4c2894479b8a05459c15629aafc6d02",
+      "old_text_sha256": "b2a703ad8ff43f3b0f958ff71c8ada864f95569509180a0fbab69565034eaa10",
+      "review_id": "r_f48090c13c0e1d31840c746414c3"
+    },
+    {
+      "json_pointer": "/properties/14/page_wordings/10/text",
+      "new_text_sha256": "943a8f4e685243ca84081474f7b2ae6cd3d67435e7f4028956cf87c1362c99a8",
+      "old_text_sha256": "029ef9c156facad2c35be7e13826b533696a68c290a4d5afd502d9873360b981",
+      "review_id": "r_5c8b1b9281ce58b56a7340f2478c"
+    },
+    {
+      "json_pointer": "/properties/12/page_wordings/4/text",
+      "new_text_sha256": "5f41b7a15242f167638339bd0f0c1e14d130b28c3daeece9db562df48b57c7b6",
+      "old_text_sha256": "5936b310081f35317d23ad2d5a82a8a64d6113ba392b977c5a8eb5f368d9dc8d",
+      "review_id": "r_90f6e19086068757f205d2f881ee"
+    },
+    {
+      "json_pointer": "/properties/4/page_wordings/12/text",
+      "new_text_sha256": "8e9eadba4b485b80d08bc591ff84e37cf3cae6d20ce4f26b0d4c930849cea10b",
+      "old_text_sha256": "bda706676a4c05da10ae7c12cb6392317b62f4237a3003f2971139011db88eae",
+      "review_id": "r_c555ef31c6ad9f516fa0cb9fbd2a"
+    },
+    {
+      "json_pointer": "/properties/2/page_wordings/11/text",
+      "new_text_sha256": "e7e1b8c89793f41778ac09c4ed02dd29d1e30134452755891c0a57f98f569254",
+      "old_text_sha256": "16138e60ca3fdf96f119d33ed4af7b5cee42d21c3e045ff624ea2ce899b98ca2",
+      "review_id": "r_58ae52d5203aa9866a13e7565bf4"
+    },
+    {
+      "json_pointer": "/properties/18/page_wordings/2/text",
+      "new_text_sha256": "550e95384ff691dcb23e3446b616ca6c4db75da49a6c6b22da12071e7fe53fe8",
+      "old_text_sha256": "40ab2fc9f9d7c9dd2403cc50a028896255f2e7e1abd8be9bc2172db9776d91ca",
+      "review_id": "r_40046faa74de29d60a6c703b7d49"
+    },
+    {
+      "json_pointer": "/properties/18/page_wordings/6/text",
+      "new_text_sha256": "3fd537f258af4547e63eb6ebf9fa6ff23072dbcea576cb54723fe2a1134afb0c",
+      "old_text_sha256": "f9a5fe71f56f3c07fab377733930004128626404dae07a516f20e29c7cd28e65",
+      "review_id": "r_8ff503923e257b3ce1b9e7f6e6b3"
+    }
+  ],
+  "controls_splits_statistics_and_gates": "All other406texts/sourcebytes, all properties/IDs/rubrics/gradepositions/orientations,320worldschedule,prefinalIR/captures,models/recipe/gates unchanged.",
+  "data": {
+    "parent_packet": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/audit/eca2_opaque_review_packet.json",
+      "sha256": "8199bf915477477b604e8a6201c464955c980f19abd9530a73cf6ce4af223783"
+    },
+    "parent_source": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/source/eca2_final_source.json",
+      "sha256": "0e986104f659a833a510863492aa367375d0e2850181f22f27af3440fb8b1d15"
+    },
+    "patches": [
+      {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/source/eca2_price_currency_clarification_patch.json",
+        "sha256": "9d95ca7263b3aa888e11217c5ac03f154914e6e1a4cf06ffd50b4018e8fb9d45"
+      },
+      {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/source/eca2_boundary_privacy_clarification_patch.json",
+        "sha256": "0d2daeec4938f427dcef2c249ca5e7def1b61616de705fa66920bba96f643caf"
+      }
+    ],
+    "proposal": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/source/eca2_final_source_entailment_proposal.json",
+      "sha256": "cdc9a6352cbc76f96d15e71b791df259d9a99a360df6e2890625f6dac82ca612"
+    },
+    "rejected_review_receipt": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/audit/eca2_independent_audit_receipt.json",
+      "sha256": "efb6a8c8db714aa8a07a1edff6db06489361255e04f2837d35c2b24f0a09f2b2"
+    }
+  },
+  "failure_branch": "Retainallrawjudgments; remainclosedonanyambiguity. Diagnose exactlogicalinsufficiency withoutmodeloutcomes, changeonlyevidencedsourceerrors andrequirefreshindependentreviews.",
+  "hypothesis": "Two complete independent reviews and targeted necessary-condition audits identify actual-vs-possible, reference-frame, missing-prompt and missing-boundary defects. Require explicit entailment of both lower and upper rubric conditions.",
+  "parent_atomic_protocol_sha256": "21e295c362da058b4b5d2247b61caf247449e79132ed7520a6f637926816b0fb",
+  "parent_clarification_protocol": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_source_clarification_protocol.json",
+    "sha256": "8f198025d9baf7378c2782162ce0cda50e0b4cb3f22a006d8328801497c53f04"
+  },
+  "primary_gate": "Two independent opaque reviewers eachcoverall420items andacceptallwithzeroambiguous/rejected; no model-quality credit fromsourceaudit.",
+  "resources": "ZeroNNforwards/fits/scoring; boundedsourceparsing andindependentlanguageaudit.",
+  "schema": "vey.eca2.rubric-entailment-protocol.v1",
+  "statistical_test": "Not applicable to semantic source-validity audit; ECA-2 frozenpairedworld-bootstrapmethods unchanged.",
+  "unchanged_items": 406
+}
