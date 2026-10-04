@@ -3697,6 +3697,16 @@ paired interventions, not extra independent observations.
 World-cluster intervals condition on these fixed authored rubrics/wordings and
 random grade assignments; they do not bound new authors, templates or future
 families. This prospective clarification changes no assay count, recipe or gate.
+Prospective implementation freeze precedes review: `785c25b` commits the
+rank64 reader/controls, hashed frozen-encoder feature capture with the
+`vey.eca.selection-calibration.v1` final-opening receipt, and the authored
+builder. `--export-authorship-seed`/`--prepare-source` wrote60 properties,
+300 rubrics,4500 page wordings and1800 questions with zero cross-split text,
+template or normalized-text overlap. The SHA-bound opaque packet (6300 items,
+zero grade/family/split/orientation/target leakage) and separately sealed
+target key exist under the private root; no encoder forward, head training,
+calibration or model outcome has occurred. The independent two-reviewer
+meaning audit has not yet been performed.
 
 Promotion requires all frozen quality, UNKNOWN, exact/invariance and causal gates,
 an internal cross-control NI bound at a5-point margin, and corrected evidence
