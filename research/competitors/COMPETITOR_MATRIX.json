@@ -9,6 +9,14 @@
     "permission_risk": "Section2.3(b) restricts competing-product development. Ordinary key possession is not evidence of permission for this project. Do not accept terms or send requests without established authorization.",
     "secrets_read_or_published": false
   },
+  "Laya_runtime_artifact_custody": {
+    "evidence_class": "MEASURED",
+    "manifest": "research/competitors/laya_runtime_custody_manifest.json",
+    "manifest_sha256": "0a3c55bd4fb5e48fab660dfeafb25dd036d2ae96113b07eda85f9e358d7e560d",
+    "routing_and_artifact_identity_verified": true,
+    "model_forwards": 0,
+    "neutral_comparison_earned": false
+  },
   "critical_cells": [
     {
       "CI95": null,

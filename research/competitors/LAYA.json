@@ -2,6 +2,14 @@
   "competitor": "Laya",
   "retrieved_at_UTC": "2026-10-03T17:49:43.768812Z",
   "pinned_source_revision": "859b8ee595cc04f84dd2af476d6d1d90ec1fea46",
+  "local_runtime_artifact_custody": {
+    "evidence_class": "MEASURED",
+    "manifest": "research/competitors/laya_runtime_custody_manifest.json",
+    "manifest_sha256": "0a3c55bd4fb5e48fab660dfeafb25dd036d2ae96113b07eda85f9e358d7e560d",
+    "scope": "Three actual routing decisions, fifteen pinned upstream artifact identities and three readable safetensors headers; zero model execution.",
+    "inference_quality_performance_and_residency_unmeasured": true,
+    "neutral_comparison_earned": false
+  },
   "sources": [
     {
       "url": "https://api.github.com/repos/NandhaKishorM/laya/git/trees/859b8ee595cc04f84dd2af476d6d1d90ec1fea46?recursive=1",

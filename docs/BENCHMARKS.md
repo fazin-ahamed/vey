@@ -4093,6 +4093,36 @@ pointers resolve the retained originals. Two copied secondary count phrases
 are corrected to one and seven substitutions. Primary metrics, gates, model
 inputs, labels and code are unchanged; no model outcome selected this update.
 
+### Pinned Laya runtime/artifact custody, without model execution
+
+MEASURED: the isolated current-source checkout imports Laya 0.3.25 at
+`859b8ee595cc04f84dd2af476d6d1d90ec1fea46`. Three real route calls choose
+English, typed-decisions and multilingual under their explicit recommended
+selectors. The training environment and frozen Vey product are not changed.
+
+All fifteen required files match upstream Git/LFS content identities from
+bundle revision `55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851`; all three
+safetensors headers parse. English/typed/multilingual model-file sizes are
+842,609,210 / 842,609,220 / 643,835,514 bytes. These are payload sizes,
+not RAM/VRAM measurements. Stored scalar counts include buffers and are not
+live parameter counts.
+
+The first inventory run failed on valid shared Xet cache storage. Its
+implementation is retained. Corrected code verifies pinned upstream identities
+instead of assuming repository-local blobs or SHA-256 cache filenames.
+An intentionally wrong upstream Git-blob identity is rejected before model
+execution, with no successful inventory receipt written. Its input and
+rejection receipt are retained and pinned by the custody manifest.
+The exercised receipt SHA-256 is
+`639de7150c1fec59c7bd00972d903c75a262cf4db4b8ec7153613c2656cfd4e1`;
+`research/competitors/laya_runtime_custody_manifest.json` pins every artifact
+and correction. This is a custody probe, not a quality experiment:
+zero model loads/forwards, no Torch import, no final benchmark access.
+Quality, calibration, inference compatibility, performance and residency remain
+unmeasured. No statistical test, promotion gate or neutral superiority claim
+applies. Next: serialized offline prediction compatibility, then the frozen
+neutral workflows and metric family before any quality comparison.
+
 
 
 

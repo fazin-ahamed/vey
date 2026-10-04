@@ -1,0 +1,119 @@
+{
+  "bundle_revision": "55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851",
+  "claim_boundaries": {
+    "critical_matrix_cells_greened": 0,
+    "final_benchmark_access": false,
+    "inference_compatibility_measured": false,
+    "latency_throughput_or_residency_measured": false,
+    "live_parameter_count_measured": false,
+    "model_forwards": 0,
+    "neutral_comparison_earned": false,
+    "quality_or_calibration_measured": false,
+    "resident_models": 0,
+    "torch_imported": false
+  },
+  "environment": {
+    "executable": "/home/fazinahamed/Documents/vey/venvs/vey/bin/python",
+    "packages": {
+      "huggingface_hub": "1.32.0",
+      "numpy": "2.4.6",
+      "safetensors": "0.8.0",
+      "torch": "2.5.1+cu121",
+      "transformers": "5.17.0"
+    },
+    "python": "3.11.16 (main, Aug 14 2026, 15:35:36) [Clang 22.1.3 ]"
+  },
+  "intentional_identity_mismatch_probe": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya_inventory_identity_rejection_v1.json",
+    "sha256": "aa45ac5fc718ad6a89b71a319ddde003fed70977b7c01866f07e3baa3a92ccb3",
+    "upstream_git_blob_mismatch_rejected": true,
+    "successful_inventory_receipt_not_written": true,
+    "model_execution": false
+  },
+  "evidence_class": "MEASURED",
+  "implementation_correction": {
+    "cause": "Hub1.32 shared blobs live below hub/blobs; Xet filenames are Xet identities rather than raw-content SHA256.",
+    "fix": "Allow repository and shared cache blobs, then verify all15 artifacts against pinned upstream Git-blob SHA1 or LFS SHA256 identities.",
+    "model_outcomes_used": false,
+    "observed_failure": "ValueError: artifact escapes its cache repository: .../model.safetensors",
+    "original_implementation": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya_runtime_inventory.repository-local-assumption.py",
+      "sha256": "16c18a6104c0e3e02d9bd3804cd1b6c8e5c228dc31964c5afa334132963cb1d5"
+    }
+  },
+  "inventory_implementation": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/competitors/laya_runtime_inventory.py",
+    "sha256": "635e89b33b16fc341e59bb1be02db464c4d6e1742c98d62cf02dc822d3417313"
+  },
+  "inventory_receipt": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya_runtime_inventory_v1.json",
+    "sha256": "639de7150c1fec59c7bd00972d903c75a262cf4db4b8ec7153613c2656cfd4e1"
+  },
+  "next_prerequisites": [
+    "Serialized offline model-load and typed-prediction compatibility smoke using current source and pinned local artifacts.",
+    "Freeze neutral DecisionIR/workflow definitions, complete metric family and tokenizer-aware length census before quality selection."
+  ],
+  "package_version": "0.3.25",
+  "routes": {
+    "english": {
+      "model_bytes": 842609210,
+      "model_sha256": "891102d372688fc2a094dac56a384bc537b87c63f21f9f3dac0be2b7cbc8d86c",
+      "repository": "convaiinnovations/laya",
+      "stored_scalar_count_including_buffers": 421293830,
+      "stored_scalar_count_is_live_parameter_count": false,
+      "stored_tensor_count": 206,
+      "subfolder": null,
+      "verified_files": 5
+    },
+    "multilingual": {
+      "model_bytes": 643835514,
+      "model_sha256": "9d628fd971b700382ac6f65920a86f149777b2e748e0c955fb3b19695aa8f204",
+      "repository": "convaiinnovations/laya",
+      "stored_scalar_count_including_buffers": 321908998,
+      "stored_scalar_count_is_live_parameter_count": false,
+      "stored_tensor_count": 170,
+      "subfolder": "multilingual",
+      "verified_files": 5
+    },
+    "typed-decisions": {
+      "model_bytes": 842609220,
+      "model_sha256": "4fa56de72383a9d3efa9cfa78955733c81b9fc8067a587ca4beb82c78107a24e",
+      "repository": "convaiinnovations/laya",
+      "stored_scalar_count_including_buffers": 421293830,
+      "stored_scalar_count_is_live_parameter_count": false,
+      "stored_tensor_count": 206,
+      "subfolder": "typed-decisions",
+      "verified_files": 5
+    }
+  },
+  "routing": {
+    "english": {
+      "detection": null,
+      "model": "english",
+      "reason": "explicit lang='en'",
+      "repo": "convaiinnovations/laya",
+      "workflow": null
+    },
+    "multilingual": {
+      "detection": null,
+      "model": "multilingual",
+      "reason": "explicit lang='hi'",
+      "repo": "convaiinnovations/laya/multilingual",
+      "workflow": null
+    },
+    "typed-decisions": {
+      "detection": null,
+      "model": "typed-decisions",
+      "reason": "explicit task='typed_decisions'",
+      "repo": "convaiinnovations/laya/typed-decisions",
+      "workflow": null
+    }
+  },
+  "schema": "vey.laya.runtime-artifact-custody-manifest.v1",
+  "source_revision": "859b8ee595cc04f84dd2af476d6d1d90ec1fea46",
+  "status": "routing_and_artifact_custody_verified_without_model_execution",
+  "upstream_file_identities": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya_upstream_file_identities_v1.json",
+    "sha256": "fdc34b8511cc2a9b934a4956bfd3723249c95ccaeaebb07e5c95d157d7e5c71f"
+  }
+}

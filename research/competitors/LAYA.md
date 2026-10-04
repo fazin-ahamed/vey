@@ -102,6 +102,31 @@ A newer [external NVIDIA capacity study][capacity] exists, pinned to older Laya 
 - **ONNX / quantization:** ONNXAgent exposes batch/scan/schema operations; export supports CPU dynamic INT8 with per-tensor default. Documentation reports eager agreement only ~67% English / ~83% multilingual per-tensor, versus ~32% / ~40% per-channel; calibration-sensitive deployment cannot assume parity. Claimed CPU acceleration is not measured here. CUDA lacks the relevant INT8 MatMul kernel and may fall back per node.
 - **Optimized native paths:** eager/compile/TileLang/ONNX selection, compile warmup/cache controls, and external AOTInductor packaging. AOTI's reported 2.27–3.60ms forwards on seven multilingual rows exclude tokenization and compilation, so they are not interchangeable with end-to-end SDK timings. CPU TileLang lowering is an explicit scalar FP32 kernel specialization, not a full-model CPU speedup claim.
 
+## Local routing and artifact custody
+
+MEASURED: the isolated checkout at `859b8ee595cc04f84dd2af476d6d1d90ec1fea46`
+imports as 0.3.25 without replacing the installed training package. Actual
+`Router.route` calls select English for `lang="en"`, typed-decisions for
+`task="typed_decisions"` and multilingual for `lang="hi"`. No model loads,
+Torch imports or model forwards occur.
+
+All fifteen required checkpoint/config/tokenizer files match the pinned public
+bundle revision `55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851` by upstream Git-blob
+SHA-1 or LFS SHA-256. Safetensors headers are readable. English and typed model
+files contain 842,609,210 and 842,609,220 bytes; multilingual contains
+643,835,514 bytes. Stored scalar counts include buffers and are not live
+parameter counts or resident-memory measurements.
+
+The first inventory implementation wrongly assumed repository-local blob
+storage and raw SHA-256 cache filenames. Current Hub shared Xet storage violates
+both assumptions. The failed source is retained; corrected verification uses
+upstream content identities, not Xet filenames.
+[The custody manifest](laya_runtime_custody_manifest.json) pins the exercised
+code, upstream identities, complete receipt and retained failure.
+
+Inference compatibility, quality, calibration, latency, memory residency and
+neutral comparisons remain unmeasured. No critical comparison cell is green.
+
 ## Remaining evidence gaps and fair comparison configuration
 
 Use the **typed specialist for typed workflows**, routed English/multilingual for language-aware generic decisions, and the supported wider-head/shortlist path for high K. Calibrate on disjoint labels with the actual deployed backend. Pin versions and report each operating point separately.
