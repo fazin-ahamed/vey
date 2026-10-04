@@ -33,7 +33,7 @@ INTERVENTIONS = ("zero_question", "zero_pages", "uniform_attention")
 ROBUST = {"candidate_permutation_1", "candidate_permutation_2", "candidate_rename", "page_reorder", "question_reorder"}
 MISSING = {"base", "relevant_page_erasure", "relevant_page_contradiction"}
 SIGMAS = (.025, .05, .075, .1, .15, .2, .3, .4)
-HISTORICAL_SOURCE_REVISIONS = ("98672ea", "6b85ae5")
+HISTORICAL_SOURCE_REVISIONS = ("98672ea", "6b85ae5", "2818b8b")
 
 
 def digest(path: Path) -> str:
@@ -526,7 +526,7 @@ def reconstruct(row: dict, children: dict, threshold: float) -> dict:
         chosen, maxima = UNKNOWN, [UNKNOWN]
     else:
         best = max(scores.values())
-        maxima = [cid for cid in ids if abs(scores[cid] - best) <= 1e-12]
+        maxima = [cid for cid in ids if scores[cid] == best]
         chosen = min(maxima, key=lambda cid: (meta["stable_ordinals"][cid], cid))
     remap = meta.get("identity_map", {})
     gold = row["gold"]

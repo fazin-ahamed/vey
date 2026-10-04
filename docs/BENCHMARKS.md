@@ -3833,6 +3833,22 @@ field-free registry or selection input. Its literal preflight reproduced9920
 original exact-state rows with zero neural resolver/encoder calls. Learned
 closed replay remains pending corrected calibration at this checkpoint.
 
+**MEASURED — corrected prefinal execution.** Independent reconstruction passed
+all raw control/intervention predictions, calibration, typed composition,
+clustered statistics and fitting-tensor byte checks. Corrected development
+primary metrics are unchanged; pages/cross grade-swap correct-new rates are
+0.114583/0.318359. The corrected immutable receipt SHA-256 is
+`14933f3283b75ecea66d6048606162b35782477c225777fc4c80e8a0689df7cc`.
+The real calibrated cache path and the closed replay both ran. Closed literals
+remain100%; closed-final alias/composition concrete accuracies0.201904/0.117188
+show severe semantic regression, not field-free success. No product cutover is
+earned.
+
+The winner comparator now uses exact score equality, not a1e-12 near-tie
+tolerance. This changed zero of121338 opened non-UNKNOWN baseline choices;
+near-zero unequal-score and genuine stable-tie boundary smokes passed before
+any ECA final opening. Original code/artifacts remain hash-addressable.
+
 ### ECA-1 frozen-interface audit (prospective)
 
 `ephemeral_pages_audit_protocol.json` activates the predeclared both-fail branch.

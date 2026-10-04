@@ -1,0 +1,163 @@
+{
+  "B_STEF_allowed": false,
+  "actual_cached_runtime": {
+    "bytes": 7573,
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/runs/seed7-grade-corrected/runtime.json",
+    "sha256": "7b82aafe210d110fc5aa9b9ed56791ad51f268c6a45db096395fb89a446367a4"
+  },
+  "all_checkpoints": {
+    "cosine": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/runs/seed7-grade-corrected/cosine.pt",
+      "sha256": "ca27ab705aff3450cab96f1ee4e0daaa8f45b169a946f76f48866932298e22f9"
+    },
+    "cross": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/runs/seed7-grade-corrected/cross.pt",
+      "sha256": "10b9c406a7b8b1e2f4677700b231cd8dad59185d1f7fa133f305011487b65fbf"
+    },
+    "lexical": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/runs/seed7-grade-corrected/lexical.pkl",
+      "sha256": "4c868710a0dd99830fb36787a437d750e9541ca443d0eaeb0361e58432f1e0cb"
+    },
+    "pages": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/runs/seed7-grade-corrected/pages.pt",
+      "sha256": "fad0e3b9f9eebffede7efa7eab8340ab34a8c543559a163c4b17907740303e04"
+    },
+    "query_blind": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/runs/seed7-grade-corrected/query_blind.pt",
+      "sha256": "ab1d1b3476f0aaa2df3d73d6a662d61c9c28785c583cf2cf9b807294626d9d17"
+    }
+  },
+  "audit_protocol": {
+    "bytes": 6429,
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_audit_protocol.json",
+    "sha256": "7ff11075c9e8298100a29756354951017a71c85dff34193b63a811d7ac61c567"
+  },
+  "calibration": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/runs/seed7-grade-corrected/calibration.json",
+    "sha256": "ea21ee41ad2262e2071bae1803b22c2a23e7bc9b33d51b00730315156c23ac1e"
+  },
+  "captures": {
+    "calibration": {
+      "bytes": 12819,
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/features-grade-corrected/calibration_manifest.json",
+      "sha256": "5c92ff23a08245ad855217470616263cda47bcd81a68cf6dd8ae57d2eebe6cdc"
+    },
+    "development": {
+      "bytes": 12819,
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/features-grade-corrected/development_manifest.json",
+      "sha256": "91d6626dfa2cea3328d9dd3a4ab91ad81a8b3a79aa0c8d316a0d3d137dea481b"
+    },
+    "train": {
+      "bytes": 12771,
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/features-grade-corrected/train_manifest.json",
+      "sha256": "c5fcba48a76f516e9023b5db1ef838d3a55354b11600ca374208ed4107e0d23a"
+    },
+    "validation": {
+      "bytes": 12812,
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/features-grade-corrected/validation_manifest.json",
+      "sha256": "5d54cc312dc77e3546a0f50ef6332b57e739ef0cdf5f91c12c6be5b39e86202a"
+    }
+  },
+  "closed_four_axis_diagnostic": {
+    "bytes": 10637,
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/runs/seed7-grade-corrected/closed/result.json",
+    "sha256": "b580dabf52ebd06c68e8bd2f6bbd61db7b4f51d6565f7662e3dfec12c7e5a756"
+  },
+  "corpus_build_manifest": {
+    "bytes": 5721,
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/corpus/build_manifest_v1.json",
+    "sha256": "24a1cada76a6b3c650f31424eecf274d12ddff619c99dd97bb8a09da45ed3468"
+  },
+  "endgame_complete": false,
+  "environment_recorded_now_not_claimed_as_pretraining": {
+    "packages": {
+      "huggingface-hub": "1.32.0",
+      "numpy": "2.4.6",
+      "scikit-learn": "1.9.1",
+      "scipy": "1.17.1",
+      "torch": "2.5.1+cu121",
+      "transformers": "5.17.0"
+    },
+    "python": "3.11.16 (main, Aug 14 2026, 15:35:36) [Clang 22.1.3 ]"
+  },
+  "grade_amendment": {
+    "bytes": 3114,
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_grade_amendment.json",
+    "sha256": "c945e03406e1cab2889625c3d53b2fd97f110b115427da934239271ebb243d6c"
+  },
+  "independent_development_verification": {
+    "bytes": 224114,
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/runs/seed7-grade-corrected/verification_development.byte-checked.json",
+    "sha256": "8ee342160b029b1394507ab16b72a1fa90d599b5daa159192317b99923ac97f9"
+  },
+  "invariants": {
+    "existing_inputs_reencoded": 0,
+    "final_outcomes_used_for_selection": false,
+    "fitted_checkpoints_unchanged": true,
+    "fitting_record_tensors_unchanged": 34560,
+    "new_cross_pairs": {
+      "calibration": 1,
+      "development": 2,
+      "train": 1,
+      "validation": 17
+    },
+    "optimizer_reruns": 0,
+    "original_evidence_retained": true
+  },
+  "next_predeclared_branch": "both-fail component/grade/conditional interface audit on opened development only",
+  "original_incomplete_verification": {
+    "bytes": 209267,
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/runs/seed7/verification_original.cache-lineage-corrected.json",
+    "sha256": "7a00fb27955a14d00b29eb26546777adeb26f09d0a88c6f1b5312ca4e691f2b2"
+  },
+  "parent_protocol": {
+    "bytes": 18299,
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_protocol.json",
+    "sha256": "4c0c1efe8ad8ffdde79004536a44fc6d034b7701cdedde8e2034dc3f4e52b489"
+  },
+  "preserved_originals": {
+    "bytes": 1840,
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/runs/seed7-grade-corrected/preservation.json",
+    "sha256": "d2f74ea3453239898a651e989b54449cafc125f719b6f5f157d43fc14e82e605"
+  },
+  "promotion": false,
+  "schema": "vey.eca.prefinal-seal-manifest.v1",
+  "selected_control": "pages",
+  "selection": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/runs/seed7-grade-corrected/selection.json",
+    "sha256": "f07e0667405c55c3164ca2279a4b39fe3c115bafb4ebed4837abdc8d3a389c25"
+  },
+  "selection_calibration_receipt": {
+    "bytes": 2459,
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/runs/seed7-grade-corrected/selection_calibration_receipt.json",
+    "sha256": "14933f3283b75ecea66d6048606162b35782477c225777fc4c80e8a0689df7cc"
+  },
+  "status": "corrected-development-independently-reconstructed; final-unopened",
+  "training_histories": {
+    "cosine": {
+      "bytes": 905545,
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/runs/seed7-grade-corrected/cosine_history.json",
+      "sha256": "7feb947410877c24746b6a3a52546f1432895552afaad37e4c4d732441d1ba4d"
+    },
+    "cross": {
+      "bytes": 906953,
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/runs/seed7-grade-corrected/cross_history.json",
+      "sha256": "736621b88ba966dffb8e4f19bc0e14c7af430e49fe874029b8f77447adef3423"
+    },
+    "lexical": {
+      "bytes": 713333,
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/runs/seed7-grade-corrected/lexical_history.json",
+      "sha256": "e3ed1014768ac260018037c726f8a4fd6edf92ac0391f1467cef067c24948498"
+    },
+    "pages": {
+      "bytes": 906679,
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/runs/seed7-grade-corrected/pages_history.json",
+      "sha256": "b62c5bc2649b2c7bcc47daa850ee56412a96f158672e8709051e2fb5a713f8a1"
+    },
+    "query_blind": {
+      "bytes": 904844,
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/runs/seed7-grade-corrected/query_blind_history.json",
+      "sha256": "28ecd66c2f378774edaf2feb5826f7c1372fa10dff04f4500042bca00eb04563"
+    }
+  }
+}

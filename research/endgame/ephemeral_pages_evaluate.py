@@ -189,7 +189,7 @@ def stable_pick(scores: dict[str, float], ordinals: dict) -> tuple[str, list[str
     if set(scores) - set(ordinals):
         raise RuntimeError("missing stable identity ordinal")
     best = max(scores.values())
-    maxima = [cid for cid, score in scores.items() if math.isclose(score, best, rel_tol=0, abs_tol=1e-12)]
+    maxima = [cid for cid, score in scores.items() if score == best]
     return min(maxima, key=lambda cid: (int(ordinals[cid]), cid)), maxima
 
 
