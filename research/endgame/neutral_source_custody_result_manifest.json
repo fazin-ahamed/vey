@@ -310,8 +310,39 @@
     "shipping_training_authorized_by_this_record": false,
     "statistical_independence_established": false
   },
-  "evidence_class": "MEASURED producer custody and real-byte replay; not independent validation or model evidence",
+  "evidence_class": "MEASURED producer custody and independent QASPER reconstruction; Banking77/MASSIVE reconstruction remains pending; no model evidence",
   "qasper": {
+    "independent_verification": {
+      "status": "verified",
+      "report_path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/attempts/20261004T074414.392704Z-593810-cb44d7ae/verification/20261004T095212.711566Z-662025-fd3aaf90/report.json",
+      "report_sha256": "7a1120b239e222ada0e6db33ec0f5e28633ed68267dccea95c92b9dff3ea3abc",
+      "verifier_path": "research/endgame/neutral_paper_verify.py",
+      "verifier_sha256": "c927e3d6983cabfedb510fd6e15d3d393bae7aa7a62fc8d107957216a4d009d6",
+      "checks_passed": 16,
+      "checks_total": 16,
+      "source_papers": 1585,
+      "source_questions": 5049,
+      "source_answer_annotations": 7993,
+      "connected_components": 1585,
+      "complete_prefix_candidates_verified": 122984,
+      "accepted_edges": 0,
+      "raw_and_native_payloads_reconstructed": true,
+      "nullable_and_missing_fields_preserved": true,
+      "complete_grouping_and_allocation_reconstructed": true,
+      "readonly_database_unchanged": true,
+      "preserved_failures": [
+        {
+          "report_path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/attempts/20261004T074414.392704Z-593810-cb44d7ae/verification/20261004T085852.002493Z-636981-02b922ed/report.json",
+          "report_sha256": "6233ebf613355fae5fc1555dbb3b1cb0b83b52ff147f1a6dfc365b626064a7b3",
+          "cause": "Verifier tested the loader branding caption as a raw-rights invariant; replaced with nonexecuting AST release/license/URL checks."
+        },
+        {
+          "report_path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/attempts/20261004T074414.392704Z-593810-cb44d7ae/verification/20261004T091431.506335Z-645811-ed2ab20c/report.json",
+          "report_sha256": "3f121c6810b27e34bd2a357cb22037b9d5934ffd8c7562c25484c55564d5097d",
+          "cause": "Verifier compared default-zero scratch gram counts before its independent prefix index was built; corrected dependency order."
+        }
+      ]
+    },
     "allocation_counts_and_hashes": {
       "allocation_uses": "source partition, source annotation-presence schema, and input-only group/rank hashes; no answer values, question text, worker IDs, or model outputs",
       "caps_independent_groups_per_source": {
@@ -539,10 +570,10 @@
   },
   "record_kind": "neutral-source-custody-observations",
   "required_next_steps": [
-    "Independent reconstruction of all bytes, descendants, grouping completeness and deterministic allocation",
+    "Independent Banking77/MASSIVE reconstruction of all bytes, descendants, grouping completeness and deterministic allocation",
     "Freeze source-to-DecisionIR workflows and neutral family M before outcomes",
     "Pin reference/evaluated tokenizers before natural-length census and model selection"
   ],
   "schema_version": 1,
-  "status": "acquired_and_sealed_independent_reconstruction_pending"
+  "status": "qasper_independently_verified_banking77_massive_pending"
 }

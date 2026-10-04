@@ -3577,19 +3577,38 @@ The shared builder is now the sole index owner. A prospective amendment pins
 the failed attempt's pre-parse receipt and permits only byte-verified reuse;
 the actual four-object hardlink smoke preserved 14,716,506 bytes and every
 SHA without a network call. The failed databases and manifests remain intact.
-Grouping/allocation and independent reconstruction still require successful
-execution. Nullable annotations and gold evidence remain separate from model
-state. No Boolean quality, natural-token eligibility or long-context capability
-has been measured.
+At this acquisition stage, completed grouping/allocation and independent
+reconstruction had not yet been established. Nullable annotations and gold
+evidence remained separate from model state; primitive quality and natural
+token eligibility were unmeasured.
 
 **MEASURED QASPER custody completed:** the corrected replay sealed 1585 papers,
 5049 questions and 7993 individual answer-annotation records. Input-only
 grouping found 1585 components and no accepted cross-paper edges. Allocation
 contains 532 train, 319 development, 318 calibration and 416 confirmation
 components, with no unused papers. Full-set integer Jaccard rejected all
-122,984 prefix candidates. These are producer measurements, pending
-independent reconstruction; no statistical independence, natural 8192/16K
-eligibility, primitive quality or competitor result follows from them.
+122,984 prefix candidates. The acquisition report alone did not establish
+independence, natural 8192/16K eligibility, primitive quality or competitor
+non-inferiority.
+
+**MEASURED independent QASPER custody: PASS, 16/16 checks.**
+`neutral_paper_verify.py` independently reconstructed every native paper,
+question and annotation payload, field presence/type census, document identity,
+complete integer-Jaccard prefix join, component closure, allocation reasons,
+caps and descendant/membership hashes. It verified both archives, all three
+selected members, four raw hardlinks and historical snapshots without running
+the source loader or acquisition pipeline. The private database stayed
+byte-identical. The proof SHA is
+`7a1120b239e222ada0e6db33ec0f5e28633ed68267dccea95c92b9dff3ea3abc`;
+its exact path and exercised verifier hash are in
+`research/endgame/neutral_source_custody_result_manifest.json`.
+
+Two failed verifier receipts remain preserved: a branding-text check mistaken
+for a license invariant, and a scratch gram-count comparison before index
+construction. Both were verifier defects, not source repairs. Counts and
+allocations above were independently recovered; no model-visible gold,
+Boolean/Score quality, statistical independence, natural-token eligibility or
+shipping/underlying-paper republication authorization follows from custody.
 
 
 
