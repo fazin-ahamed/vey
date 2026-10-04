@@ -110,9 +110,10 @@ def persist_phase(corpus, phase: str, receipt: Path | None, experiment=DEFAULT_E
             target = Path(value.filename)
             files[name] = {"path": str(target.relative_to(experiment.cache_root)), "sha256": sha256_file(target)}
     manifest = {
-        "phase": phase, "protocol_sha256": protocol_hash,
-        "corpus_sha256": sha256_file(experiment.corpus_root / f"{phase}.jsonl"),
-        "record_count": len(corpus.records), "files": files,
+        "phase": phase, "protocol_sha256": protocol_hash, "record_count": len(corpus.records),
+        "files": files,
+        "corpus_sha256": corpus.lineage.get("repacked_from_corpus_sha256",
+                                           sha256_file(experiment.corpus_root / f"{phase}.jsonl")),
         "lineage": corpus.lineage, "counters": corpus.counters,
         "token_receipts": corpus.token_receipts,
         "experiment_context": experiment.context(),
