@@ -3708,6 +3708,42 @@ target key exist under the private root; no encoder forward, head training,
 calibration or model outcome has occurred. The independent two-reviewer
 meaning audit has not yet been performed.
 
+**MEASURED Banking77+MASSIVE custody reconstruction PASS:** after two
+verifier-only join corrections (`c230d95` — `raw_rows.final_split`/
+`component_id` were never populated, so both the split row-count and the
+source-row comparisons must join through `source_groups`), the independent
+CPU CLI passed all15 checks over the full frozen custody tree:
+29,604 source-lineage groups (13,083 Banking77 rows; 16,521 MASSIVE ids),
+855,654 raw rows across the exact51 frozen locales, 22,169 connected
+components under the proved-complete exact/char5gram-Jaccard graph, and the
+seeded train/dev/calibration/confirmation/unused allocation replaying the
+historical report exactly. Verification receipt
+`e16563bb35658b9d94a054ec6cb987754c800d85d2fe8b29f0824caff378d3a7`. No model
+output, gold mapping, Boolean/Score quality, statistical independence or
+shipping clearance is earned by custody; native MASSIVE judgment metadata
+stays byte-checked and unmapped.
+
+**MEASURED ECA-1 corpus built after accepted independent review:** two gateway
+reviewers (earlier attempts died on provider usage limits and never opened the
+packet) each judged all6300 opaque items; agreement6300/6300 with zero
+ambiguous/reject, residual judgment notes retained. The accepted receipt binds
+source`1fb1f660`, packet`adddbb2e`, and both raw review files. The builder
+then streamed75,264 canonical DecisionIR rows over768 worlds:
+train12,544/validation6,272/calibration12,544/development12,544/final31,360.
+Structure verified against the frozen protocol: field codes A(train/val/cal),
+B(development), C(final) only; final covers all20 families x64 property
+exposures with the last4 families held to final only; K probes2/8/16/32/64;
+two candidate permutations, rename, page-reorder, two-term question-reorder,
+and erase/contradiction/grade-change paired interventions per main query;
+22,272 rows are authored UNKNOWN gold (missing/contradiction); generated page/
+question hash overlap across splits is zero; exact fact blocks never enter
+semantic pages. Construction fixes (`4e755d1`) were outcome-blind: eager-IR
+validation on intermediate rows (k=2 gold/evidence, erasure evidence), a
+dict-vs-Term type error in question reorder, and missing per-intervention id
+distinctions; each fix re-prepared byte-identical source/packet (packet SHA
+unchanged), so the completed reviews stayed bound. No encoder forward, head
+training, calibration or model outcome has occurred yet.
+
 Promotion requires all frozen quality, UNKNOWN, exact/invariance and causal gates,
 an internal cross-control NI bound at a5-point margin, and corrected evidence
 of benefit over lexical/zeroing controls. This is a mechanism screen, not the
