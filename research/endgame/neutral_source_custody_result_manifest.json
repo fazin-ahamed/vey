@@ -296,6 +296,28 @@
         "size_bytes": 34420,
         "source_id": "AmazonScience/massive"
       }
+    },
+    "independent_verification": {
+      "status": "verified",
+      "report_path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/sqlite-guard-amended/verification/neutral_acquisition_verification_20261004T130004.107551Z.json",
+      "report_sha256": "e16563bb35658b9d94a054ec6cb987754c800d85d2fe8b29f0824caff378d3a7",
+      "verification_timestamp_utc": "2026-10-04T12:59:59.187629+00:00",
+      "verifier_path": "research/endgame/neutral_acquisition_verify.py",
+      "verifier_sha256": "d224e9a7435348f0c00a1220897698b691ca0ca850fd59663076b1157de43f40",
+      "current_verifier_matches_exercised_bytes": true,
+      "checks_passed": 14,
+      "checks_total": 14,
+      "source_custody_fully_verified": true,
+      "raw_payload_records_reconstructed": 855654,
+      "source_lineage_groups": 29604,
+      "connected_components": 22169,
+      "exact_normalized_input_edges": 37095,
+      "verified_near_duplicate_edges": 1298,
+      "prefix_candidates_checked": 716877,
+      "complete_prefix_pair_bound": 5788262,
+      "no_cross_split_component_leakage": true,
+      "native_massive_judgments_retained_unmapped": true,
+      "record_reconciliation": "Pins an already completed independent reconstruction; no acquisition, verification rerun, model execution or quality evaluation performed by this update."
     }
   },
   "claims": {
@@ -303,14 +325,14 @@
     "capabilities_earned": [],
     "competitor_noninferiority_established": false,
     "confirmation_opened_to_model_selectors": false,
-    "independently_reconstructed": false,
+    "independently_reconstructed": true,
     "model_or_gpu_evaluation": false,
     "natural_8192_or_16K_eligibility_measured": false,
     "raw_source_data_in_git": false,
     "shipping_training_authorized_by_this_record": false,
     "statistical_independence_established": false
   },
-  "evidence_class": "MEASURED producer custody and independent QASPER reconstruction; Banking77/MASSIVE reconstruction remains pending; no model evidence",
+  "evidence_class": "MEASURED producer custody and independent Banking77/MASSIVE/QASPER reconstruction; no model evidence",
   "qasper": {
     "independent_verification": {
       "status": "verified",
@@ -570,10 +592,9 @@
   },
   "record_kind": "neutral-source-custody-observations",
   "required_next_steps": [
-    "Independent Banking77/MASSIVE reconstruction of all bytes, descendants, grouping completeness and deterministic allocation",
     "Freeze source-to-DecisionIR workflows and neutral family M before outcomes",
     "Pin reference/evaluated tokenizers before natural-length census and model selection"
   ],
   "schema_version": 1,
-  "status": "qasper_independently_verified_banking77_massive_pending"
+  "status": "all_acquired_sources_independently_verified"
 }

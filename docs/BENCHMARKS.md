@@ -3608,7 +3608,7 @@ The acquired MASSIVE1.1 archive SHA-256 is
 No source grouping, multilingual quality or competitor parity is established
 by this failed attempt.
 
-**MEASURED completed acquisition, independent verification pending:** the
+**MEASURED completed acquisition and independent reconstruction:** the
 amended pipeline acquired and grouped 855,654 rows: 13,083 Banking77 rows and
 842,571 MASSIVE rows across exactly 51 locales. Each locale contains
 11,514 train, 2,033 validation and 2,974 test rows. All 51 locale descendants
@@ -3632,6 +3632,20 @@ statistical independence. The actual English MASSIVE rows contain no
 `judgments` field or individual rating records. Non-English judgment
 availability is retained as source metadata, not fabricated 51-language
 Boolean/Score gold or probability-calibration evidence.
+
+The retained independent verifier completed on 2026-10-04 with all 14 checks
+passing. Its report SHA-256 is
+`e16563bb35658b9d94a054ec6cb987754c800d85d2fe8b29f0824caff378d3a7`;
+exercised and current verifier bytes both hash to
+`d224e9a7435348f0c00a1220897698b691ca0ca850fd59663076b1157de43f40`.
+It reconstructs raw/native payload identity, all 38,393 grouping edges,
+complete prefix-search coverage, connected-component allocation and absence
+of cross-split component leakage. This record corrects the stale pending
+status by pinning the existing proof; no acquisition or verifier rerun was
+needed. No model quality, general Boolean/Score target mapping, natural
+long-context eligibility, statistical independence or competitor parity
+follows from source custody. Source-to-DecisionIR/workflow and metric-family
+freezes, plus tokenizer pinning, remain required before neutral evaluation.
 
 **MEASURED QASPER acquisition attempts:** the first stopped on anonymous
 metadata transport. The second acquired and SHA-sealed both archives and all
