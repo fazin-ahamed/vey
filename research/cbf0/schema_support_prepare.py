@@ -451,6 +451,8 @@ def prepare(protocol_path=PROTOCOL):
             'For an atomic criterion, identify exactly one canonical field and sign: +1 means more of that field is preferred; -1 means less is preferred.',
             'For a two-term composition, report each term left-to-right with its canonical field axis and sign, then report the exact four-field integer weight vector in axis_order.',
             'The four-vector is the signed weighted sum of the two terms, with zero for unmentioned fields.',
+            'Exact syntax, not semantic inference, owns numeric factors. Under the frozen criterion grammar, an unweighted A; also B join defines coefficient one for each term. Quantities inside either preference are context, not extra weights. Explicit weight-one/weight-two joins use their stated coefficients.',
+            'Classify the whole question: every two-term join is a composition, even if either term alone is a clear atomic preference. Judge each term axis/sign independently; flag genuine meaning ambiguity rather than guessing. Numeric-factor uncertainty under the stated exact grammar is not semantic ambiguity.',
         ],
         axis_order=list(cfg['schema']), field_definitions=cfg['field_definitions'],
         response_schema=dict(

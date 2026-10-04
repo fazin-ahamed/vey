@@ -3469,6 +3469,20 @@ No corpus wording, neural input, learning recipe, gate or selection rule
 changes. This tokenizer check is not a capability result or a completed
 forward-and-gradient preflight.
 
+**MEASURED tokenizer-amended audit failure, still before model outcomes:** the
+resumed blind half flagged 17 compositions solely because its packet omitted
+the frozen unit-coefficient convention for `A; also B`. Its reviewer confirmed
+both terms' meanings were clear. Three accepted rows were also transcribed as
+atomic despite containing two terms; the assembler stopped on its kind/factor
+assertion. These raw artifacts and the failed command remain preserved.
+
+A prospective packet correction states the existing exact grammar and requires
+whole-question kind checks. It does not change criterion text, semantic labels,
+compiler arithmetic, model inputs, learning recipe or any gate. All genuine
+meaning ambiguity still blocks execution. The new root requires fresh complete
+opaque review; no parent-forced acceptance or old-ID remapping is allowed.
+
+
 
 ### Neutral endgame suite: source-first prospective freeze
 
@@ -3567,6 +3581,16 @@ Grouping/allocation and independent reconstruction still require successful
 execution. Nullable annotations and gold evidence remain separate from model
 state. No Boolean quality, natural-token eligibility or long-context capability
 has been measured.
+
+**MEASURED QASPER custody completed:** the corrected replay sealed 1585 papers,
+5049 questions and 7993 individual answer-annotation records. Input-only
+grouping found 1585 components and no accepted cross-paper edges. Allocation
+contains 532 train, 319 development, 318 calibration and 416 confirmation
+components, with no unused papers. Full-set integer Jaccard rejected all
+122,984 prefix candidates. These are producer measurements, pending
+independent reconstruction; no statistical independence, natural 8192/16K
+eligibility, primitive quality or competitor result follows from them.
+
 
 
 
