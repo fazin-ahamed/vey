@@ -4264,6 +4264,39 @@ equivalence pass; receipt SHA-256:
 `0750cba548e14a546b55034ed82be06de04dc077f46fcaa850ce70368c52a6a6`.
 This is an input-parser correctness amendment, not outcome-driven selection.
 
+### ECA-2 corrected-context runtime and closed literal replay custody
+
+MEASURED: the live cached driver initially failed with `NameError: records`.
+`load_phase` returns a dictionary; the corrected driver indexes its `records`
+member and passes the atomic protocol into `CachedRuntime`. Original code,
+failure receipt and corrected live receipt remain outside Git. No fitted
+parameter, input, target, threshold or decoder changed.
+
+The corrected CUDA invocation exercised two distinct questions, a repeated
+question, one changed page and actual joint-cross encoding. Initial state
+encoding used 16 pages in one forward; a repeated question added zero page
+or query forwards; the changed page added one encoded page and no new query.
+Packed/live score maximum errors were at most `5.90086e-6`. The first
+decision was correct, but the second question and page-change decisions
+were wrong. This proves cache execution/parity, not semantic quality,
+certification or end-to-end performance.
+
+Live receipt SHA-256:
+`e919c7169c80065c998bc89bf89d136de1776c2cda548a661e031673aee9a739`.
+Original failure:
+`68fd66f0c7b5f8a109ce57822ecfe73718653eafd73b690789df6bad38076b2d`.
+
+Before replaying the unchanged, already closed CBF8 literal/alias cohorts,
+`ephemeral_pages_atomic_closed_protocol.json` pins the corrected pages
+checkpoint, sealed selection, calibration and explicit atomic context.
+Its SHA-256 is
+`5c70f25c7c5592b5582aa8c6d9528a223a1c96a8003a3b7993a2a6334790fde3`.
+The adapter now propagates that context through receipt validation,
+checkpoint loading and encoding; historical ECA-1 replay remains explicit.
+The exact compiler, integer facts and closed cohort recipe are unchanged.
+This replay is a literal regression and closed diagnostic, never a fresh
+transfer evaluation or a source of checkpoint/threshold selection.
+
 
 
 

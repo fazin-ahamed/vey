@@ -10,6 +10,7 @@ from pathlib import Path
 
 from ephemeral_pages_features import (FeatureEncoder, FeatureNormalizer, sha256_file,
                                       validate_final_receipt)
+from ephemeral_pages_capture import DEFAULT_EXPERIMENT, resolve_experiment
 
 HERE = Path(__file__).resolve().parent
 PROTOCOL = HERE / 'ephemeral_pages_closed_protocol.json'
@@ -33,22 +34,23 @@ def jsonl(path):
         return [json.loads(line) for line in stream]
 
 
-def run(receipt_path, calibration_path, output, device='cuda'):
+def run(receipt_path, calibration_path, output, device='cuda',
+        experiment=DEFAULT_EXPERIMENT, protocol_path=PROTOCOL):
     import numpy as np
     import torch
     from ephemeral_pages_train import load_control
 
-    cfg = load(PROTOCOL)
+    cfg = load(protocol_path)
     repo = HERE.parents[1]
     for path, expected in cfg['source_hashes'].items():
         if sha256_file(path) != expected:
             raise RuntimeError(f'preregistered source changed: {path}')
-    for path in (PROTOCOL, Path(__file__).resolve()):
+    for path in (protocol_path, Path(__file__).resolve()):
         relative = str(path.relative_to(repo))
         committed = subprocess.check_output(['git', 'show', f'HEAD:{relative}'], cwd=repo)
         if committed != path.read_bytes():
             raise RuntimeError('commit diagnostic specification and adapter before replay')
-    receipt = validate_final_receipt(receipt_path)
+    receipt = validate_final_receipt(receipt_path, experiment.protocol_path)
     if Path(calibration_path).resolve() != Path(receipt['calibration_file']['path']).resolve():
         raise RuntimeError('explicit calibration must be the sealed receipt artifact')
     calibration = load(calibration_path)
@@ -60,7 +62,7 @@ def run(receipt_path, calibration_path, output, device='cuda'):
     checkpoint = Path(receipt['checkpoint_files']['pages']['path'])
     if checkpoint.name != 'pages.pt':
         raise RuntimeError('expected unchanged pages checkpoint')
-    reader, stats = load_control('pages', checkpoint.parent, device)
+    reader, stats = load_control('pages', checkpoint.parent, device, experiment=experiment)
     normalizer = FeatureNormalizer(stats['pages']['mean'], stats['pages']['std'])
     root = Path(cfg['source_root'])
     states = load(root / 'states.json')
@@ -79,7 +81,7 @@ def run(receipt_path, calibration_path, output, device='cuda'):
     output.mkdir(parents=True, exist_ok=False)
     features = {}
     token_receipts = {}
-    with FeatureEncoder(device=device) as encoder:
+    with FeatureEncoder(device=device, protocol_path=experiment.protocol_path) as encoder:
         for modality, strings in [('page', pages), ('query', texts)]:
             ids, mask = encoder.tokenize(strings)
             chunks = [encoder.encode_batch(ids[i:i+32], mask[i:i+32], modality)
@@ -183,9 +185,10 @@ def run(receipt_path, calibration_path, output, device='cuda'):
                                     for s in ('alias','alias_composition','literal')
                                     for rr in [[r for r in decisions if r['stratum']==s]]},
                          'causal_n': len(swaps), 'causal_correct_new': sum(r['correct_new'] for r in swaps)/len(swaps)}
-    result = {'schema': 'vey.eca.closed-diagnostic.v1', 'protocol_sha256': sha256_file(PROTOCOL),
+    result = {'schema': 'vey.eca.closed-diagnostic.v1', 'protocol_sha256': sha256_file(protocol_path),
               'adapter_sha256': sha256_file(__file__),
               'git_revision': subprocess.check_output(['git','rev-parse','HEAD'], cwd=repo, text=True).strip(),
+              'experiment_context': experiment.context(),
               'receipt': receipt, 'threshold': threshold, 'encoder_lineage': lineage, 'counters': counters,
               'reports': reports, 'source_hashes': cfg['source_hashes'],
               'claim': cfg['claim'], 'artifacts': {str(p.relative_to(output)): sha256_file(p)
@@ -200,8 +203,11 @@ def main():
     parser.add_argument('--calibration', required=True, type=Path)
     parser.add_argument('--output', required=True, type=Path)
     parser.add_argument('--device', default='cuda')
+    parser.add_argument('--atomic', action='store_true')
     args = parser.parse_args()
-    print(json.dumps(run(args.receipt, args.calibration, args.output, args.device), sort_keys=True))
+    protocol_path = HERE / 'ephemeral_pages_atomic_closed_protocol.json' if args.atomic else PROTOCOL
+    print(json.dumps(run(args.receipt, args.calibration, args.output, args.device,
+                         resolve_experiment(args.atomic), protocol_path), sort_keys=True))
 
 
 if __name__ == '__main__':

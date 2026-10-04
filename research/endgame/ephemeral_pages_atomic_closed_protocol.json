@@ -1,0 +1,85 @@
+{
+  "authority": {
+    "active_atomic_protocol": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_atomic_protocol.json",
+      "sha256": "21e295c362da058b4b5d2247b61caf247449e79132ed7520a6f637926816b0fb"
+    },
+    "active_context": {
+      "cache_root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/features",
+      "corpus_root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/corpus",
+      "protocol_path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_atomic_protocol.json",
+      "protocol_sha256": "21e295c362da058b4b5d2247b61caf247449e79132ed7520a6f637926816b0fb"
+    },
+    "corrected_calibration": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/calibration.json",
+      "sha256": "d2e435e4b3ca2ded2b18a815744e77f10769b90b71155f92098932a92b82cc7e"
+    },
+    "corrected_pages_checkpoint": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/pages.pt",
+      "sha256": "052fcf1657bcdfb21ac1d78914b8452002446df768bbc9d670ca7946756bbdcf"
+    },
+    "sealed_corrected_selection": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/selection_calibration_receipt.json",
+      "sha256": "3555e4cbd83b1aa4c9b27beeb602b1633c3c804c00dacf08bc8e91529ac57b7c"
+    },
+    "unchanged_closed_recipe": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_closed_protocol.json",
+      "sha256": "ec5864b944fcb8174cd53926f28139eba75aa9af122b3e7e83fb329327b2fa1f"
+    }
+  },
+  "claim": "Closed diagnostic only, fixed four-field adapter. Not field-free mechanism, fresh transfer credit, neutral evidence, model selection, threshold fitting, product integration, promotion, B-STEF or endgame completion.",
+  "cohorts": {
+    "closed_final": {
+      "atoms": "final_atoms.json",
+      "compositions": "final_compositions.json",
+      "selected_output": "final"
+    },
+    "development": {
+      "atoms": "development_atoms.json",
+      "compositions": "development_compositions.json",
+      "selected_output": "development_semantic_defined"
+    }
+  },
+  "correctness_lineage": "The existing adapter defaulted receipt validation, checkpoint loading and FeatureEncoder to ECA-1. Explicit --atomic passes the already established Experiment context consistently, with no input, model, calibration, compiler, dataset, decoder, gate or exact arithmetic change. Historical ECA-1 context remains explicit/reproducible.",
+  "experiment": "ECA-2 diagnostic-only closed CBF8 four-field replay",
+  "implementation": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_closed.py",
+    "sha256": "e40e3d511aee1cc4aea318e22c2561da5443c7db79255a7c13581c4141866c1e"
+  },
+  "prospective": "Commit this explicit corrected-context replay contract and adapter before new closed CBF8 replay model outputs. These are already closed diagnostic source cohorts, never fresh ECA-2 final selection.",
+  "protocol_mutation": false,
+  "recipe": {
+    "causal": "Replay exactly original selected persisted teacher-changing pairs. correct_new = concrete after winner in original after gold maximal set, without requiring student_changed. Old top_set_new is matched definition for diagnostic comparison.",
+    "composition": "Existing exact compiler resolves literal syntax, integer weights and operators. Any nonliteral unknown makes entire query UNKNOWN. Sum integer coefficients times original integer facts before division; no division needed for maximal sets.",
+    "decode": "Full four-page output knownness probability >= unchanged calibrated pages threshold; require finite score/relevance/direction. Exact maximum learned relevance must have one field; exact ties UNKNOWN. Sign of that field direction; zero UNKNOWN. Neural grades only enter unchanged full-output knownness, never candidate arithmetic.",
+    "encoder": "Unchanged ECA frozen pinned FP32 final-mean FeatureEncoder, page and query separately. No fitting.",
+    "execution": "Both new files must byte-match HEAD before execution. CLI requires explicit --calibration matching the hash-validated sealed --receipt artifact; no threshold/receipt is pinned before parent correction and sealing. No ECA final IR/features are read. Output exclusive directory outside Git; persist all full relations, compiler IR, decisions/provenance, original rows, causal rows, actual counters and feature/token/artifact hashes.",
+    "literal": "Every literal compiled coefficient equals old gold; every held state teacher integer scores/gold set equal persisted originals and predicted set equals original selected set. Fail closed on mismatch.",
+    "pages": "Exactly four CBF8 field_definitions values in frozen schema order; field names bind output indices only. No names, numeric states, IDs, gold, provenance or family labels enter encoder.",
+    "query": "Original parse_criterion semantic span bytes, not rewritten contexts. Unique strings encoded once.",
+    "reader": "Unchanged trained pages checkpoint and checkpoint-contained train-only normalizer from validated sealed receipt.",
+    "ties": "All exact maximal original candidate ordinals; concrete winner smallest source ordinal. Preserve old concrete winner separately; old lexicographic tie choice is not silently reused."
+  },
+  "selection": false,
+  "source_hashes": {
+    "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-support-v1/preflight-meaning-grammar-amended/development_atoms.json": "ee874582bb478ed59dcb1b156696c1c4bfc85037ead7157d1028c287119c227a",
+    "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-support-v1/preflight-meaning-grammar-amended/development_compositions.json": "f1b31913ccfcddbf0f09789a97a9fdf3ecc9f3613f12f247d36e49de46c43aaf",
+    "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-support-v1/preflight-meaning-grammar-amended/development_semantic_defined/compiled_queries.json": "28d59037dfb15fc97185a5ca71746f25fa31210601c108b99f956d34f2f5b8d8",
+    "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-support-v1/preflight-meaning-grammar-amended/development_semantic_defined/decisions.jsonl": "4d811da9622661d192c6b4138328030508fef78e124960778e5e7808ab001877",
+    "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-support-v1/preflight-meaning-grammar-amended/development_semantic_defined/teacher_changing_swaps.jsonl": "a2a6472eb3ea508fe455070b606004697b095aad7e25cdb39967461572eedcd2",
+    "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-support-v1/preflight-meaning-grammar-amended/final/compiled_queries.json": "d8cf518485439e6a9f333088aa349f94b3f56182eba5a5e06c8850b15eb65d5a",
+    "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-support-v1/preflight-meaning-grammar-amended/final/decisions.jsonl": "ba3d1b5659abb3e55cdaaa6b3444a3356cba2d4d25b8e249a1b26f898dce92fb",
+    "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-support-v1/preflight-meaning-grammar-amended/final/teacher_changing_swaps.jsonl": "9828b117cc0680967a3297174affed43648c994d444f18ff345f5bddc6481795",
+    "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-support-v1/preflight-meaning-grammar-amended/final_atoms.json": "435b782e6ca60a8487c3202e4a424022a4e62fe47a45ab1f1178b2f2440768ad",
+    "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-support-v1/preflight-meaning-grammar-amended/final_compositions.json": "5b78f6787901b90eb1c25eaeee26cf3a29cf0191d3514e6b9c2f584521a4789b",
+    "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-support-v1/preflight-meaning-grammar-amended/literal_cases.json": "d5d9ca925e9026c07d97c9ba9b1c2147ab73ee5c39e591c40f42ee35915fcd47",
+    "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-support-v1/preflight-meaning-grammar-amended/selection.json": "9446d721f367ae94371f796e953c23d0be0760b98729706a5d7cea7ea7114238",
+    "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-support-v1/preflight-meaning-grammar-amended/states.json": "61c512fd526508bd82655edeface81d7ad975da16a009ba66232433b64971700",
+    "/home/fazinahamed/Documents/vey-public/research/cbf0/exact_state_build.py": "2a2fb6c2c734d8d62341374fe21bedbbf092963066d408c51bc7f8c3729376d6",
+    "/home/fazinahamed/Documents/vey-public/research/cbf0/schema_grounding_compiler.py": "d984d8537a97dccf1a160a51ecf027c83af4cfecc942b14cb90b72c2456701c1",
+    "/home/fazinahamed/Documents/vey-public/research/cbf0/schema_support_protocol.json": "8fd2ddfbf8d22e29526d9c78c57ee3fea46b75b4193908edd6ef3c3b3fefdb51"
+  },
+  "source_root": "/home/fazinahamed/Documents/vey-data/decisionmix/d3/cbf/schema-support-v1/preflight-meaning-grammar-amended",
+  "threshold_fitting": false,
+  "training": false
+}

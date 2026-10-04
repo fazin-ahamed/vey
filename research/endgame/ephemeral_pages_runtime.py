@@ -59,11 +59,11 @@ def run(run_root: Path, threshold: float, output: Path, device: str = "cuda",
         raise RuntimeError("development world lacks paired questions/page intervention")
     first, second = bases[:2]
     candidates = [c["id"] for c in first["candidates"] if c["id"] != "__unknown__"]
-    lookup = {(r["row_id"], r["candidate_id"], r["term_index"]): i for i, r in enumerate(records)}
+    lookup = {(r["row_id"], r["candidate_id"], r["term_index"]): i for i, r in enumerate(arrays["records"])}
     reader, stats = load_control("pages", run_root, device, experiment=experiment)
     normalizer = FeatureNormalizer(stats["pages"]["mean"], stats["pages"]["std"], mode="pages")
     events = []
-    with CachedRuntime(normalizer, device=device) as runtime:
+    with CachedRuntime(normalizer, device=device, protocol_path=experiment.protocol_path) as runtime:
         state = runtime.encode_state(first["state_blocks"], first["metadata"]["page_owners"])
         cold_state = dict(runtime.counters)
         for label, row in (("first_question", first), ("different_question", second), ("repeated_question", first)):
