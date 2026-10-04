@@ -226,9 +226,13 @@ def correction_capture(audit: Audit, manifest: dict, features_root: Path, corpus
                       and (arrays["attention_mask"].sum(axis=1) > 0).all(), "invalid cross extension arrays")
         identity = extension["encoder_lineage"]
         for key in ("protocol_sha256", "canonical_root", "canonical_files_sha256", "encoder_repo", "encoder_revision",
-                    "encoder_weight_sha256", "tokenizer_sha256", "feature_code_sha256", "reader_code_sha256",
+                    "encoder_weight_sha256", "tokenizer_sha256",
                     "serialization", "pooling", "token_limit", "truncation", "encoder_parameters_sha256_before"):
             audit.equal(identity[key], original["lineage"][key], "cross extension frozen identity." + key)
+        # Receipt-only feature code and the unused loss helper changed; encoder
+        # weights, tokenizer, pooling and parameter bytes still must be identical.
+        audit.source(HERE / "ephemeral_pages_features.py", identity["feature_code_sha256"])
+        audit.source(HERE / "ephemeral_pages_model.py", identity["reader_code_sha256"])
         audit.equal(identity["encoder_parameters_sha256_before"], extension["encoder_parameters_sha256_after"], "cross extension parameters frozen")
         audit.require([pair[:2] for pair in pairs] == sorted(pair[:2] for pair in pairs), "cross extension pair order")
         for index, (qh, ph, question, page) in enumerate(pairs):

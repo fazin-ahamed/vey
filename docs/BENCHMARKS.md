@@ -3833,6 +3833,19 @@ field-free registry or selection input. Its literal preflight reproduced9920
 original exact-state rows with zero neural resolver/encoder calls. Learned
 closed replay remains pending corrected calibration at this checkpoint.
 
+### ECA-1 frozen-interface audit (prospective)
+
+`ephemeral_pages_audit_protocol.json` activates the predeclared both-fail branch.
+It separates learned relevance, ordinal extent, orientation and knownness with
+privileged component controls; measures a finite FP64 linear grade ceiling; and
+tests one canonical128-hidden conditional readout over cached question/page
+features. Training/validation/calibration rules remain fixed. Only opened
+development is scored; ECA final is excluded from this audit and cannot select
+its head or recipe. No stronger encoder, arbitrary width search, neutral
+capability, probability certificate, product promotion or B-STEF is authorized.
+Any successful diagnostic requires fresh audited confirmation before promotion.
+
+
 
 
 
