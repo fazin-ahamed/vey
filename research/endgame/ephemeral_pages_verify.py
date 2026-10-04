@@ -1,8 +1,17 @@
 #!/usr/bin/env python3
-"""Independently reconstruct sealed ECA-1 predictions without loading a model.
+"""Independently reconstruct sealed ECA-1/ECA-2 predictions without a model.
 
-Only persisted scalar/page predictions are consumed. No evaluator, reader,
-feature-capture, or training module is imported. Verification is not promotion.
+Only persisted scalar/page predictions are consumed. No reader, trainer or
+feature-capture entry point runs; the capture driver is imported for its frozen
+Experiment contract and protocol-pinned hashes only, and this module re-derives
+every decision, target and metric itself. Verification is not promotion.
+
+Target reconstruction is child-local: a term/candidate is supervised only by
+the graded active-property pages that candidate owns, never by parent-wide
+``metadata.known``. The ECA-1 parent-wide capture is still reproduced bit for
+bit when it is the object under audit, but it is reported as numerically
+faithful, semantically invalid supervision and earns no interface, ceiling or
+promotion reading.
 """
 from __future__ import annotations
 
@@ -25,8 +34,12 @@ import numpy as np
 from scipy.stats import beta
 
 HERE = Path(__file__).resolve().parent
+import ephemeral_pages_capture as capture
+from ephemeral_pages_features import ATOMIC_PROTOCOL_SHA256
+
 PROTOCOL_SHA256 = "4c0c1efe8ad8ffdde79004536a44fc6d034b7701cdedde8e2034dc3f4e52b489"
 DEFAULT_RUN = Path("/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/runs/seed7-grade-corrected")
+DEFAULT_ATOMIC_RUN = Path("/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7")
 UNKNOWN = "__unknown__"
 CONTROLS = ("pages", "cross", "cosine", "lexical", "query_blind")
 INTERVENTIONS = ("zero_question", "zero_pages", "uniform_attention")
@@ -34,6 +47,13 @@ ROBUST = {"candidate_permutation_1", "candidate_permutation_2", "candidate_renam
 MISSING = {"base", "relevant_page_erasure", "relevant_page_contradiction"}
 SIGMAS = (.025, .05, .075, .1, .15, .2, .3, .4)
 HISTORICAL_SOURCE_REVISIONS = ("98672ea", "6b85ae5", "2818b8b")
+PARENT_PROTOCOL_SHA256 = PROTOCOL_SHA256
+LEGACY_SUPERVISION_KEY = "grade_correction"
+ATOMIC_SUPERVISION_KEY = "atomic_supervision"
+LEGACY_STATUS = "verified_legacy_parent_wide_supervision_numerics_only"
+ATOMIC_STATUS = "verified_child_local_supervision"
+RECORD_INPUT_KEYS = ("row_id", "world_id", "split", "term_index", "candidate_id", "question",
+                     "term_weight", "pages", "teacher_score")
 
 
 def digest(path: Path) -> str:
@@ -125,11 +145,11 @@ class Audit:
             raise RuntimeError(f"reconstruction differs: {label}")
 
 
-def checked_receipt(audit: Audit, path: Path, run_root: Path) -> tuple[dict, dict]:
+def checked_receipt(audit: Audit, path: Path, run_root: Path, protocol_hash: str) -> tuple[dict, dict]:
     """Finish this gate before touching any final corpus/capture/prediction file."""
     receipt = audit.load(path)
     audit.require(receipt.get("schema") == "vey.eca.selection-calibration.v1", "wrong final receipt schema")
-    audit.require(receipt.get("protocol_sha256") == PROTOCOL_SHA256, "wrong final receipt protocol")
+    audit.require(receipt.get("protocol_sha256") == protocol_hash, "wrong final receipt protocol")
     for key, value in (("eligible_arm", "pages"), ("eligible_arms", ["pages"]), ("final_outcomes_used", False)):
         audit.equal(receipt.get(key), value, "receipt." + key)
     audit.require(set(receipt["checkpoint_files"]) == set(CONTROLS), "receipt omits a fixed control")
@@ -146,7 +166,7 @@ def checked_receipt(audit: Audit, path: Path, run_root: Path) -> tuple[dict, dic
     for label, obj, schema in (("selection", selection, "vey.eca.selection.v1"),
                                ("calibration", calibration, "vey.eca.calibration.v1")):
         audit.equal(obj.get("schema"), schema, label + ".schema")
-        audit.equal(obj.get("protocol_sha256"), PROTOCOL_SHA256, label + ".protocol")
+        audit.equal(obj.get("protocol_sha256"), protocol_hash, label + ".protocol")
         audit.equal(obj.get("final_outcomes_used"), False, label + ".no_final_selection")
     audit.equal(selection.get("eligible_arm"), "pages", "selection.eligible_arm")
     audit.equal(selection.get("eligible_arms"), ["pages"], "selection.eligible_arms")
@@ -286,15 +306,177 @@ def correction_capture(audit: Audit, manifest: dict, features_root: Path, corpus
     return len(required_pairs)
 
 
-def capture_manifest(audit: Audit, features_root: Path, corpus_root: Path, phase: str, cfg: dict, receipt: Path | None) -> dict:
+def atomic_correction(audit: Audit, manifest: dict, features_root: Path, corpus_root: Path,
+                      cfg: dict, protocol_hash: str) -> dict | None:
+    """Independently re-derive child-local targets, custody and byte preservation.
+
+    Returns the independently derived target-change ledger, or None when the
+    capture is not child-local. Every counter is recomputed from the parent
+    records and DecisionIR; nothing declared by the capture is trusted.
+    """
+    phase, lineage = manifest["phase"], manifest["lineage"]
+    repair = lineage.get("atomic_correction")
+    if repair is None:
+        return None
+    audit.require(phase != "final", "final cannot use the prefinal child-local correction")
+    audit.equal(lineage.get(ATOMIC_SUPERVISION_KEY), "child-local-v1", "atomic_supervision")
+    audit.equal(protocol_hash, ATOMIC_PROTOCOL_SHA256, "atomic protocol identity")
+    contract = audit.artifact(repair["correction_protocol"], features_root)
+    audit.require(contract == (HERE / "ephemeral_pages_atomic_protocol.json").resolve(),
+                  "correction pins another correction protocol")
+    audit.equal(repair["existing_inputs_reencoded"], 0, "child-local correction reencoded inputs")
+    audit.require("optimizer_reruns" not in repair,
+                  "child-local correction changed optimizer labels; refits are separate runs")
+    original_path = audit.artifact(repair["original_capture_manifest"], features_root)
+    audit.require(original_path != features_root.resolve() / f"{phase}_manifest.json",
+                  "child-local correction must reference the parent capture")
+    original = audit.load(original_path)
+    audit.equal(original["phase"], phase, "original capture phase")
+    audit.equal(original["protocol_sha256"], PARENT_PROTOCOL_SHA256, "original capture protocol")
+    audit.equal(repair["original_corpus_sha256"], original["corpus_sha256"], "original corpus hash")
+    audit.equal(original["corpus_sha256"], audit.hash(corpus_root / f"{phase}.jsonl"),
+                "child-local corpus is not byte-identical to the borrowed parent IR")
+    for key in ("protocol_sha256", "canonical_root", "canonical_files_sha256", "encoder_repo",
+                "encoder_revision", "encoder_weight_sha256", "tokenizer_sha256", "serialization",
+                "pooling", "token_limit", "truncation", "encoder_parameters_sha256_before",
+                "encoder_parameters_sha256_after", "native_pooler_unused", "classifier_unused"):
+        audit.equal(lineage[key], original["lineage"][key], "atomic lineage preserves frozen identity." + key)
+    audit.source(HERE / "ephemeral_pages_features.py", lineage["feature_code_sha256"])
+    audit.source(HERE / "ephemeral_pages_model.py", lineage["reader_code_sha256"])
+    audit.equal(repair["feature_implementation_sha256"], lineage["feature_code_sha256"],
+                "correction declares the applied target implementation")
+    ir = {}
+    for row in json_rows(corpus_root / f"{phase}.jsonl"):
+        audit.require(row["id"] not in ir and row["split"] == phase, "duplicate/wrong-split DecisionIR")
+        verify_teacher(audit, row, amended=False)
+        ir[row["id"]] = row
+    ledger = target_ledger(audit, ir, phase)
+    original_records = list(json_rows(audit.artifact(original["files"]["records"], original_path.parent)))
+    records_path = audit.artifact(manifest["files"]["records"], features_root)
+    packed = {key: np.load(audit.artifact(manifest["files"][key], features_root), mmap_mode="r", allow_pickle=False)
+              for key in ("known_target", "relevance_target", "grade_target", "directed_grade_target",
+                          "grade_mask", "orientation_target", "orientation_mask")}
+    child_records = 0
+    changed = Counter()
+    for index, record in enumerate(json_rows(records_path)):
+        prior = original_records[index]
+        audit.require(prior["row_id"] == record["row_id"] and prior["term_index"] == record["term_index"]
+                      and prior["candidate_id"] == record["candidate_id"],
+                      "child-local record order or identity changed")
+        audit.equal({key: record[key] for key in RECORD_INPUT_KEYS},
+                    {key: prior[key] for key in RECORD_INPUT_KEYS},
+                    "child-local record inputs are not byte-identical")
+        row = ir[record["row_id"]]
+        audit.equal(record, expected_record(row, record["term_index"], record["candidate_id"], "child_local"),
+                    "child-local record projection")
+        width = len(record["pages"])
+        for key, array in packed.items():
+            boolean = key in {"grade_mask", "orientation_mask"}
+            column = np.asarray(record[key], dtype=np.bool_ if boolean else array.dtype)
+            observed = array[index, :width] if array.ndim == 2 else array[index:index + 1]
+            audit.equal(observed.tobytes(), column.tobytes(),
+                        "child-local packed target differs from reconstructed child truth: " + key)
+        for key in ("relevance_target", "grade_target", "directed_grade_target", "grade_mask",
+                    "orientation_target", "orientation_mask", "known_target"):
+            changed[key] += prior[key] != record[key]
+        child_records += 1
+    audit.equal(child_records, len(original_records), "child-local record count")
+    kept = child_records - changed["known_target"]
+    for key, expected in (("child_local_records", child_records),
+                          ("changed_known_target_records", changed["known_target"]),
+                          ("changed_grade_mask_records", changed["grade_mask"]),
+                          ("changed_orientation_mask_records", changed["orientation_mask"])):
+        audit.equal(repair[key], expected, "child-local correction." + key)
+    audit.equal(repair["parent_conjunction_verified"], True, "child-local correction conjunction receipt")
+    audit.equal(ledger["parent_known_equals_child_conjunction"], True, "independent parent conjunction")
+    audit.equal(ledger["child_records"], child_records, "independent child record count")
+    for key in ("q", "pages", "cross", "page_mask"):
+        before = np.load(audit.artifact(original["files"][key], original_path.parent),
+                         mmap_mode="r", allow_pickle=False)
+        after = np.load(audit.artifact(manifest["files"][key], features_root),
+                        mmap_mode="r", allow_pickle=False)
+        audit.equal([str(before.dtype), list(before.shape)], [str(after.dtype), list(after.shape)],
+                    "child-local packed input layout changed: " + key)
+        audit.require(np.array_equal(before.view(np.uint8), after.view(np.uint8)),
+                      "child-local correction changed model inputs: " + key)
+        audit.counts[phase + "_byte_identical_packed_" + key] = int(before.shape[0])
+    proof_entry = repair["projection_verification"]
+    proof_path = Path(proof_entry["path"])
+    if not proof_path.is_absolute():
+        proof_path = (Path(cfg["output_root"]) / proof_path).resolve()
+    proof = audit.load(proof_path)
+    audit.equal(proof["protocol_sha256"], ATOMIC_PROTOCOL_SHA256, "projection proof protocol")
+    audit.equal(proof["feature_implementation_sha256"], lineage["feature_code_sha256"],
+                "projection proof implementation")
+    for key in ("final_opened", "model_training", "encoder_forwards"):
+        audit.equal(proof[key], False if key != "encoder_forwards" else 0, "projection proof." + key)
+    audit.equal(proof["status"], "child_local_projection_and_parent_conjunction_verified",
+                "projection proof status")
+    audit.equal(proof["verified_child_records"],
+                sum(counts["child_records"] for counts in proof["phase_counts"].values()),
+                "projection proof is not internally consistent")
+    recorded = proof["phase_counts"].get(phase)
+    audit.require(recorded is not None, "projection proof omits this phase")
+    for key in ("IR_rows", "child_records", "missing_children", "conflicting_children",
+                "supported_siblings_in_unknown_parent"):
+        audit.equal(recorded[key], ledger[key], "projection proof " + phase + "." + key)
+    audit.counts[phase + "_child_local_records"] = child_records
+    audit.counts[phase + "_changed_known_target_records"] = changed["known_target"]
+    return {"phase": phase, "child_local_records": child_records,
+            "changed_known_target_records": changed["known_target"],
+            "changed_grade_mask_records": changed["grade_mask"],
+            "changed_orientation_mask_records": changed["orientation_mask"],
+            "unchanged_known_records": kept,
+            "parent_known_equals_child_conjunction": ledger["parent_known_equals_child_conjunction"],
+            "unsupported_sibling_in_known_parent": ledger["unsupported_sibling_in_known_parent"],
+            "missing_children": ledger["missing_children"],
+            "conflicting_children": ledger["conflicting_children"],
+            "supported_sibling_in_unknown_parent": ledger["supported_siblings_in_unknown_parent"],
+            "supervision": "child_local", "invalid_atomic_supervision": False,
+            "interpretation": "eligible for interface, ceiling and promotion reading"}
+
+
+def target_ledger(audit: Audit, ir: dict, phase: str) -> dict:
+    """Count child truth from owned pages and check the parent conjunction."""
+    totals = Counter()
+    conjunction_holds, sibling_leaks = True, 0
+    for row in ir.values():
+        meta, ids = row["metadata"], candidates(row)
+        parent = {cid: bool(meta["known"][cid]) for cid in ids}
+        conjunction_holds = conjunction_holds and parent_knownness(row) == parent
+        for index in range(len(meta["terms"])):
+            for cid in ids:
+                child, _ = child_knownness(row, index, cid)
+                totals["child_records"] += 1
+                if not child:
+                    owned_active = [bid for bid, owner in meta["page_owners"].items()
+                                    if owner == cid and meta["page_fields"].get(bid)
+                                    == meta["terms"][index]["field_key"]]
+                    totals["missing_children"] += not owned_active
+                    totals["conflicting_children"] += len(owned_active) > 1
+                if child and not parent[cid]:
+                    totals["supported_siblings_in_unknown_parent"] += 1
+                if not child and parent[cid]:
+                    sibling_leaks += 1
+    audit.require(conjunction_holds, "parent knownness is not the conjunction of required child truth")
+    return {"phase": phase, "IR_rows": len(ir), "child_records": totals["child_records"],
+            "missing_children": totals["missing_children"],
+            "conflicting_children": totals["conflicting_children"],
+            "supported_siblings_in_unknown_parent": totals["supported_siblings_in_unknown_parent"],
+            "parent_known_equals_child_conjunction": conjunction_holds,
+            "unsupported_sibling_in_known_parent": sibling_leaks}
+
+
+def capture_manifest(audit: Audit, features_root: Path, corpus_root: Path, phase: str, cfg: dict,
+                     receipt: Path | None, protocol_hash: str) -> dict:
     manifest = audit.load(features_root / f"{phase}_manifest.json")
     audit.equal(manifest["phase"], phase, "capture.phase")
-    audit.equal(manifest["protocol_sha256"], PROTOCOL_SHA256, "capture.protocol")
+    audit.equal(manifest["protocol_sha256"], protocol_hash, "capture.protocol")
     audit.hash(corpus_root / f"{phase}.jsonl", manifest["corpus_sha256"])
     for entry in manifest["files"].values():
         audit.artifact(entry, features_root)
     lineage = manifest["lineage"]
-    for key, expected in (("protocol_sha256", PROTOCOL_SHA256), ("capture_phase", phase),
+    for key, expected in (("protocol_sha256", protocol_hash), ("capture_phase", phase),
                           ("canonical_root", cfg["canonical_dependency"]["root"]),
                           ("canonical_files_sha256", cfg["canonical_dependency"]["files_sha256"]),
                           ("encoder_repo", cfg["encoder"]["repo"]), ("encoder_revision", cfg["encoder"]["revision"]),
@@ -313,8 +495,11 @@ def capture_manifest(audit: Audit, features_root: Path, corpus_root: Path, phase
         audit.equal(counters["selection_calibration_receipt_sha256"], audit.hash(receipt), "capture.receipt_hash")
     else:
         audit.equal(manifest["selection_calibration_receipt"], None, "prefinal capture.receipt")
+    supervised = atomic_correction(audit, manifest, features_root, corpus_root, cfg, protocol_hash)
     corrected_cross_inputs = (correction_capture(audit, manifest, features_root, corpus_root, cfg)
-                              if "grade_correction" in lineage else None)
+                              if LEGACY_SUPERVISION_KEY in lineage else None)
+    audit.require(not (supervised and corrected_cross_inputs),
+                  "capture declares both legacy grade repair and child-local supervision")
     for modality in ("page", "query", "cross"):
         counter = counters[modality]
         audit.equal(manifest["token_receipts"][modality], counter["files"], "capture.token_receipts." + modality)
@@ -325,7 +510,8 @@ def capture_manifest(audit: Audit, features_root: Path, corpus_root: Path, phase
         audit.equal(cache["modality"], modality, "cache.modality")
         audit.equal(cache["lineage"], {key: value for key, value in lineage.items()
                                      if key not in {"encoder_parameters_sha256_after", "encoder_parameters_unchanged",
-                                                    "capture_phase", "selection_calibration_receipt", "grade_correction"}}, "cache.lineage")
+                                                    "capture_phase", "selection_calibration_receipt",
+                                                    LEGACY_SUPERVISION_KEY, ATOMIC_SUPERVISION_KEY}}, "cache.lineage")
         n = counter["unique_inputs"]
         audit.equal(n, len(cache["item_hashes"]), "cache.unique_inputs")
         audit.require(len(set(cache["item_hashes"])) == n, "cache repeats an input")
@@ -349,7 +535,8 @@ def capture_manifest(audit: Audit, features_root: Path, corpus_root: Path, phase
         audit.equal(counter["original_forward_calls"], (n + 31) // 32, "capture.original_forwards")
     audit.equal(counters["total_encoder_forward_calls_this_capture"], sum(counters[k]["forward_calls_this_capture"] for k in ("page", "query", "cross")), "capture.total_forwards")
     audit.equal(counters["total_encoded_examples_this_capture"], sum(counters[k]["encoded_examples_this_capture"] for k in ("page", "query", "cross")), "capture.total_examples")
-    return manifest
+    return manifest, supervised, corrected_cross_inputs
+
 
 
 def factor(value: Any) -> Fraction:
@@ -362,7 +549,16 @@ def candidates(row: dict) -> list[str]:
     return [candidate["id"] for candidate in row["candidates"] if candidate["id"] != UNKNOWN]
 
 
-def expected_record(row: dict, term_index: int, cid: str) -> dict:
+def expected_record(row: dict, term_index: int, cid: str, supervision: str) -> dict:
+    """Project one term/candidate record straight from the parsed DecisionIR.
+
+    ``supervision`` selects which knownness gate labels this child:
+    ``"child_local"`` uses only the candidate's own graded active-property page,
+    which is the ECA-2 contract; ``"parent_wide"`` additionally requires every
+    sibling requirement of the parent program to hold, which is what the frozen
+    ECA-1 capture contains. Parent truth is separately checked as the conjunction
+    of child truth, so the two modes can be compared rather than conflated.
+    """
     meta, term = row["metadata"], row["metadata"]["terms"][term_index]
     pages = []
     for block in row["state_blocks"]:
@@ -373,7 +569,9 @@ def expected_record(row: dict, term_index: int, cid: str) -> dict:
                           "grade_target": None if grade is None else grade / 4})
     pages.sort(key=lambda page: page["block_id"])
     relevant = [page["field_key"] == term["field_key"] for page in pages]
-    count, known = sum(relevant), meta["known"][cid]
+    count = sum(relevant)
+    child, _ = child_knownness(row, term_index, cid)
+    known = child if supervision == "child_local" else bool(meta["known"][cid])
     orientation = term["orientation"]
     values = [page["grade_target"] for page in pages]
     grade_mask = [rel and known and value is not None for rel, value in zip(relevant, values)]
@@ -391,13 +589,45 @@ def expected_record(row: dict, term_index: int, cid: str) -> dict:
             "known_target": known, "teacher_score": meta["teacher_scores"].get(cid)}
 
 
-def verify_teacher(audit: Audit, row: dict) -> None:
+def child_knownness(row: dict, term_index: int, cid: str) -> tuple[bool, bool]:
+    """Derive child truth plus whether parent truth equals the child conjunction."""
+    meta, term = row["metadata"], row["metadata"]["terms"][term_index]
+    owned = [bid for bid, owner in meta["page_owners"].items()
+             if owner == cid and not exact_block(row, bid)]
+    active = [bid for bid in owned if meta["page_fields"].get(bid) == term["field_key"]]
+    graded = [bid for bid in active if type(meta["page_grades"].get(bid)) is int]
+    return len(active) == 1 and len(graded) == 1, bool(meta["known"][cid])
+
+
+def exact_block(row: dict, block_id: str) -> bool:
+    for block in row["state_blocks"]:
+        if block["id"] == block_id:
+            return bool(block["exact"])
+    raise RuntimeError(f"authored page provenance names an absent block: {row['id']}/{block_id}")
+
+
+def parent_knownness(row: dict) -> dict[str, bool]:
+    """Parent truth must equal the conjunction of every required child truth."""
+    meta, ids = row["metadata"], candidates(row)
+    result = {}
+    for cid in ids:
+        conjunction = True
+        for index in range(len(meta["terms"])):
+            child, _ = child_knownness(row, index, cid)
+            conjunction = conjunction and child
+        result[cid] = conjunction
+    return result
+
+
+def verify_teacher(audit: Audit, row: dict, amended: bool) -> None:
     meta, scores = row["metadata"], {}
     blocks = {block["id"]: block for block in row["state_blocks"]}
     audit.require(len(blocks) == len(row["state_blocks"]), "duplicate evidence block identity")
     audit.require(set(meta["page_owners"]) <= set(blocks), "authored page provenance refers to an absent block")
     audit.require(all(not blocks[bid]["exact"] and owner in candidates(row)
                       for bid, owner in meta["page_owners"].items()), "exact/unowned material became semantic evidence")
+    audit.equal(parent_knownness(row), {cid: meta["known"][cid] for cid in candidates(row)},
+                "teacher.parent_known_equals_child_conjunction")
     for cid in candidates(row):
         total = Fraction(0)
         known = True
@@ -717,17 +947,19 @@ def decision_events(audit: Audit, events: WorldEvents, rows: list[dict], ir: dic
     return pairs
 
 
-def reconstruct_calibration(audit: Audit, path: Path, ir: dict) -> dict:
+def reconstruct_calibration(audit: Audit, path: Path, ir: dict, supervision: str) -> dict:
     probabilities, labels, ordinal_scores, truths = defaultdict(list), {}, [], []
     for raw in json_rows(path):
         row, prediction = ir[raw["row_id"]], raw["prediction"]
-        expected = expected_record(row, raw["term_index"], raw["candidate_id"])
+        expected = expected_record(row, raw["term_index"], raw["candidate_id"], supervision)
         audit.equal({key: raw[key] for key in expected}, expected, "calibration.raw_record")
         probability = sigmoid(prediction["known_logits"])
         audit.equal(probability, prediction["known_probability"], "calibration.known_probability")
         key = raw["row_id"], raw["candidate_id"]
         probabilities[key].append((raw["term_index"], probability))
-        labels[key] = row["metadata"]["known"][raw["candidate_id"]]
+        # Candidate-level calibration stays whole-program truth: parent knownness
+        # is the conjunction of this candidate's required child truth.
+        labels[key] = parent_knownness(row)[raw["candidate_id"]]
         target = [value for value, use in zip(raw["directed_grade_target"], raw["grade_mask"]) if use]
         if len(target) == 1 and prediction["score"] is not None:
             ordinal_scores.append(prediction["score"])
@@ -756,7 +988,8 @@ def reconstruct_calibration(audit: Audit, path: Path, ir: dict) -> dict:
 
 
 def rebuild_control(audit: Audit, name: str, entries: dict, ir: dict, records_path: Path, calibration: dict,
-                    worlds: list[str], weights: np.ndarray, cfg: dict, base: Path) -> tuple[WorldEvents, list[dict]]:
+                    worlds: list[str], weights: np.ndarray, cfg: dict, base: Path,
+                    supervision: str) -> tuple[WorldEvents, list[dict]]:
     paths = {key: audit.artifact(entry, base) for key, entry in entries.items()}
     events = WorldEvents(worlds)
     groups = defaultdict(dict)
@@ -767,7 +1000,8 @@ def rebuild_control(audit: Audit, name: str, entries: dict, ir: dict, records_pa
         audit.equal(raw["record_index"], count - 1, name + ".record_index")
         audit.equal({key: value for key, value in raw.items() if key not in raw_fields}, captured, name + ".capture_record")
         row = ir[raw["row_id"]]
-        audit.equal(captured, expected_record(row, raw["term_index"], raw["candidate_id"]), name + ".independent_IR_projection")
+        audit.equal(captured, expected_record(row, raw["term_index"], raw["candidate_id"], supervision),
+                    name + ".independent_IR_projection")
         audit.equal(raw["variant"], row["metadata"]["variant"], name + ".variant")
         audit.equal(raw["certificate"], "unavailable", name + ".certificate")
         prediction = raw["prediction"]
@@ -948,14 +1182,20 @@ def gate_screens(summary: dict, cfg: dict) -> dict:
 
 def verify_run(audit: Audit, phase: str, run_root: Path, receipt_path: Path | None,
                features_root: Path | None = None, corpus_root: Path | None = None,
-               allow_incomplete_grade_diagnostic: bool = False) -> dict:
-    cfg = audit.load(HERE / "ephemeral_pages_protocol.json")
-    audit.hash(HERE / "ephemeral_pages_protocol.json", PROTOCOL_SHA256)
+               allow_incomplete_grade_diagnostic: bool = False,
+               experiment: capture.Experiment = capture.DEFAULT_EXPERIMENT) -> dict:
+    cfg, protocol_hash = experiment.protocol()
+    audit.hash(experiment.protocol_path, protocol_hash)
+    atomic = protocol_hash == ATOMIC_PROTOCOL_SHA256
+    # ECA-1 artefacts reproduce their own parent-wide masks exactly; ECA-2
+    # artefacts must match the independent child-local projection instead.
+    supervision = "child_local" if atomic else "parent_wide"
     audit.equal(cfg["immutable_reference"], "e6b046ffbd138cbdbfb2f89c6ae77525fe6b0b18", "frozen product reference")
     product = subprocess.run(["git", "diff", "--quiet", cfg["immutable_reference"], "--", "src", "tests", "examples"],
                              cwd=HERE.parents[1], capture_output=True, check=False)
     audit.require(product.returncode == 0, "frozen product source/tests/examples differ from immutable reference")
     root = Path(cfg["output_root"])
+    audit.equal(root.resolve(), Path(experiment.corpus_root).parent.resolve(), "experiment root/protocol mismatch")
     audit.require(run_root.resolve().is_relative_to(root.resolve()), "run root must remain outside Git in frozen data root")
     # This is the only route to final artifacts, and the gate is deliberately first.
     if phase == "final" and receipt_path is None:
@@ -963,8 +1203,8 @@ def verify_run(audit: Audit, phase: str, run_root: Path, receipt_path: Path | No
     if phase == "development" and receipt_path is not None:
         raise RuntimeError("development does not consume an explicit final receipt")
     receipt_path = receipt_path or run_root / "selection_calibration_receipt.json"
-    receipt, calibrations = checked_receipt(audit, receipt_path, run_root)
-    corpus_root = corpus_root or root / "corpus"
+    receipt, calibrations = checked_receipt(audit, receipt_path, run_root, protocol_hash)
+    corpus_root = corpus_root or experiment.corpus_root
     audit.require(corpus_root.resolve().is_relative_to(root.resolve()), "corpus root is outside frozen data root")
     if phase == "final":
         audit.require(not allow_incomplete_grade_diagnostic, "incomplete grade diagnostics cannot authorize final")
@@ -977,22 +1217,17 @@ def verify_run(audit: Audit, phase: str, run_root: Path, receipt_path: Path | No
         audit.require(amendment_path == (HERE / "ephemeral_pages_grade_amendment.json").resolve(), "receipt pins another amendment")
         audit.equal(audit.load(build_path)["grade_intervention_amendment"], receipt["amendment_file"], "sealed corpus amendment")
         amendment = audit.load(amendment_path)
-        audit.require(amendment.get("parent_protocol_sha256") == PROTOCOL_SHA256,
-                      "grade amendment does not identify the frozen protocol")
+        audit.require(amendment.get("parent_protocol_sha256") == PARENT_PROTOCOL_SHA256,
+                      "grade amendment does not identify the frozen parent protocol")
     evaluation_path = run_root / "evaluation" / phase / "evaluation.json"
     evaluation = audit.load(evaluation_path)
     if features_root is None:
-        if "grade_correction" in evaluation["capture_lineage"]:
-            features_root = root / "features-grade-corrected"
-        else:
-            page_path = Path(evaluation["capture_token_receipts"]["page"]["features"]["path"])
-            features_root = page_path.parent.parent
+        features_root = experiment.cache_root
     audit.require(features_root.resolve().is_relative_to(root.resolve()), "features root is outside frozen data root")
     for relative, expected in cfg["canonical_dependency"]["files_sha256"].items():
         audit.hash(Path(cfg["canonical_dependency"]["root"]) / relative, expected)
     build = audit.load(corpus_root / "build_manifest_v1.json")
-    audit.equal(build["protocol_sha256"], PROTOCOL_SHA256, "builder.protocol")
-    audit.equal(build["canonical_dependency_sha256"], cfg["canonical_dependency"]["files_sha256"], "builder.canonical_dependency")
+    audit.equal(build["protocol_sha256"], PARENT_PROTOCOL_SHA256, "builder.protocol")
     audit.source(HERE / "ephemeral_pages_build.py", build["builder_sha256"])
     amended = "grade_intervention_amendment" in build
     if amended:
@@ -1006,18 +1241,24 @@ def verify_run(audit: Audit, phase: str, run_root: Path, receipt_path: Path | No
         audit.hash(root / relative, build[key])
     audit.hash(root / "audit" / "accepted_receipt_v1.json", build["receipt"]["receipt_sha256"])
     audit.hash(root / "audit" / "raw_reviews_merged_v1.jsonl", build["receipt"]["raw_reviews_sha256"])
-    manifests = {split: capture_manifest(audit, features_root, corpus_root, split, cfg, receipt_path if split == "final" else None)
-                 for split in dict.fromkeys(("train", "validation", "calibration", phase))}
+    captures = {split: capture_manifest(audit, features_root, corpus_root, split, cfg,
+                                         receipt_path if split == "final" else None, protocol_hash)
+                for split in dict.fromkeys(("train", "validation", "calibration", phase))}
+    manifests = {split: entry[0] for split, entry in captures.items()}
+    supervised = {split: captures[split][1] for split in captures if captures[split][1] is not None}
+    audit.require(bool(supervised) == atomic,
+                  "child-local supervision lineage and atomic protocol disagree")
     for name in CONTROLS:
         history = audit.load(run_root / f"{name}_history.json")
-        audit.equal(history["protocol_sha256"], PROTOCOL_SHA256, name + ".history.protocol")
+        audit.equal(history["protocol_sha256"], protocol_hash, name + ".history.protocol")
         for key, expected in (("control", name), ("seed", 7), ("smoke", False), ("epochs", 400), ("encoder_forwards", 0)):
             audit.equal(history.get(key), expected, name + ".history." + key)
         audit.equal(history["checkpoint_sha256"], receipt["checkpoint_files"][name]["sha256"], name + ".frozen_checkpoint")
         for filename, expected in history["source_sha256"].items():
             audit.source(HERE / filename, expected)
         for split in ("train", "validation"):
-            training_lineage = {key: value for key, value in manifests[split]["lineage"].items() if key != "grade_correction"}
+            training_lineage = {key: value for key, value in manifests[split]["lineage"].items()
+                                if key not in {LEGACY_SUPERVISION_KEY, ATOMIC_SUPERVISION_KEY}}
             audit.equal(history[split + "_feature_lineage"], training_lineage, name + ".training_lineage")
             records_path = audit.artifact(manifests[split]["files"]["records"], features_root)
             selected = set(history["selected_indices"][split])
@@ -1036,7 +1277,11 @@ def verify_run(audit: Audit, phase: str, run_root: Path, receipt_path: Path | No
                     audit.require(record["split"] == split and eligible, "optimizer/validation selected a held or diagnostic row")
             audit.equal(history["selected_indices"][split], selected_indices, name + ".frozen_optimizer_population")
             audit.equal(history["selected_row_ids"][split], sorted(selected_rows), name + ".selected_row_ids")
-            if features_root.resolve() != (root / "features").resolve() and name == "pages":
+            if atomic:
+                if name == "pages":
+                    audit.equal(supervised[split]["changed_known_target_records"] > 0, True,
+                                "child-local correction changed no optimizer labels on " + split)
+            elif features_root.resolve() != (root / "features").resolve() and name == "pages":
                 original_root = root / "features"
                 original = audit.load(original_root / f"{split}_manifest.json")
                 for key in ("q", "pages", "cross", "page_mask", "relevance_target", "grade_target",
@@ -1065,11 +1310,11 @@ def verify_run(audit: Audit, phase: str, run_root: Path, receipt_path: Path | No
     audit.equal(calibration_eval["checkpoint_files"], receipt["checkpoint_files"], "calibration_evaluation.checkpoints")
     for name in CONTROLS:
         raw_path = audit.artifact(calibration_eval["artifacts"][name]["term_candidate"], run_root)
-        rebuilt = reconstruct_calibration(audit, raw_path, calibration_ir)
+        rebuilt = reconstruct_calibration(audit, raw_path, calibration_ir, supervision)
         audit.equal(rebuilt, calibrations[name], name + ".independent_calibration")
     del calibration_ir
     audit.equal(evaluation["phase"], phase, "evaluation.phase")
-    audit.equal(evaluation["protocol_sha256"], PROTOCOL_SHA256, "evaluation.protocol")
+    audit.equal(evaluation["protocol_sha256"], protocol_hash, "evaluation.protocol")
     audit.equal(evaluation["checkpoint_files"], receipt["checkpoint_files"], "evaluation.frozen_checkpoints")
     audit.source(HERE / "ephemeral_pages_evaluate.py", evaluation["implementation_sha256"])
     for key, expected in (("evaluation_encoder_forwards", 0), ("final_outcomes_used_for_selection", False),
@@ -1081,7 +1326,7 @@ def verify_run(audit: Audit, phase: str, run_root: Path, receipt_path: Path | No
     ir = {}
     for row in json_rows(corpus_root / f"{phase}.jsonl"):
         audit.require(row["id"] not in ir and row["split"] == phase, "duplicate/wrong-split DecisionIR")
-        verify_teacher(audit, row)
+        verify_teacher(audit, row, amended)
         ir[row["id"]] = row
     audit.equal(len(ir), build["row_counts_by_split"][phase], "corpus.phase_row_count")
     grade_diagnostics(audit, ir, phase, amended)
@@ -1111,7 +1356,8 @@ def verify_run(audit: Audit, phase: str, run_root: Path, receipt_path: Path | No
     records_path = audit.artifact(manifests[phase]["files"]["records"], features_root)
     for name in (*CONTROLS, *INTERVENTIONS):
         settings = calibrations["pages" if name in INTERVENTIONS else name]
-        ledger, rows = rebuild_control(audit, name, evaluation["artifacts"][name], ir, records_path, settings, worlds, weights, cfg, evaluation_path.parent)
+        ledger, rows = rebuild_control(audit, name, evaluation["artifacts"][name], ir, records_path,
+                                       settings, worlds, weights, cfg, evaluation_path.parent, supervision)
         audit.equal(audit.counts[name + "_term_candidate_rows"], manifests[phase]["record_count"], name + ".capture_record_count")
         audit.require(set(ledger.totals["atomic_choice_macro"]) == set(expected_families), name + ": primary family omission")
         summary = ledger.summary(weights)
@@ -1142,15 +1388,36 @@ def verify_run(audit: Audit, phase: str, run_root: Path, receipt_path: Path | No
             "independent_metrics": summaries, "independent_comparisons": comparisons, "typed_exact_replay": exact,
             "teacher_changing_populations": populations, "causal_diagnostic_complete": not incomplete,
             "artifact_roots": {"corpus": str(corpus_root.resolve()), "features": str(features_root.resolve())},
+            "experiment_context": experiment.context(),
+            "supervision_verification": supervision_report(atomic, supervised, phase),
             "no_final_selection": True, "encoder_forwards": 0, "model_forwards": 0,
             "unresolved_prerequisites": ["parent-owned closed exact-literal regression", "parent-owned actual cached runtime verification"],
             "evaluator_exact_literals_gate_pass": None, "certificate": "unavailable", "promotion": False}
 
 
+def supervision_report(atomic: bool, supervised: dict, phase: str) -> dict:
+    """State plainly which supervision contract these numbers were produced under."""
+    if atomic:
+        return {"supervision": "child_local", "protocol_scope": "ECA-2",
+                "invalid_atomic_supervision": False,
+                "child_local_custody": supervised,
+                "interpretation": ("child-local targets, caches, calibration and predictions are independently "
+                                   "reconstructed; interface, ceiling and promotion reading is in scope")}
+    return {"supervision": "legacy_parent_wide", "protocol_scope": "ECA-1",
+            "invalid_atomic_supervision": True,
+            "defect": "parent metadata.known labels a supported child UNKNOWN whenever a sibling requirement is missing",
+            "numerical_reproduction": "exact: persisted predictions, decisions, ledgers and calibration rebuilt unchanged",
+            "interpretation": ("numerical reproduction only; interface, ceiling and promotion readings are withheld "
+                               "because supervision, not representation, was invalid"),
+            "parent_protocol_sha256": PARENT_PROTOCOL_SHA256, "audited_phase": phase}
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--phase", choices=("development", "final"), default="development")
-    parser.add_argument("--run-root", type=Path, default=DEFAULT_RUN)
+    parser.add_argument("--atomic", action="store_true",
+                        help="verify the ECA-2 child-local experiment under the atomic protocol and data root")
+    parser.add_argument("--run-root", type=Path)
     parser.add_argument("--receipt", type=Path)
     parser.add_argument("--features-root", type=Path, help="explicit capture root for retained archival evidence")
     parser.add_argument("--corpus-root", type=Path, help="explicit DecisionIR root for retained archival evidence")
@@ -1160,20 +1427,26 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     if args.phase == "final" and args.receipt is None:
         parser.error("final requires --receipt before any final IR/features")
-    output_path = args.output or args.run_root / "evaluation" / args.phase / "independent_verification.json"
-    if (not output_path.resolve().is_relative_to(args.run_root.resolve())
-            or not output_path.resolve().is_relative_to(DEFAULT_RUN.parents[1]) or output_path.exists()):
+    experiment = capture.resolve_experiment(args.atomic, args.features_root)
+    run_root = (args.run_root or (DEFAULT_ATOMIC_RUN if args.atomic else DEFAULT_RUN)).resolve()
+    cfg, protocol_hash = experiment.protocol()
+    output_path = args.output or run_root / "evaluation" / args.phase / "independent_verification.json"
+    if (not output_path.resolve().is_relative_to(run_root)
+            or not output_path.resolve().is_relative_to(Path(cfg["output_root"])) or output_path.exists()):
         parser.error("output must be a new path within the outside-Git data/run root")
     audit = Audit()
     report = {"schema": "vey.eca.independent-verification.v1", "phase": args.phase,
-              "protocol_sha256": PROTOCOL_SHA256, "verifier_sha256": audit.hash(Path(__file__)),
+              "protocol_sha256": protocol_hash, "experiment_context": experiment.context(),
+              "verifier_sha256": audit.hash(Path(__file__)),
               "status": "failed", "promotion": False, "encoder_forwards": 0, "model_forwards": 0}
     failure = None
     try:
-        report.update(verify_run(audit, args.phase, args.run_root, args.receipt,
-                                args.features_root, args.corpus_root, args.allow_incomplete_grade_diagnostic))
-        report["status"] = ("verified_persisted_reconstruction" if report["causal_diagnostic_complete"] else
-                            "reconstruction_verified_incomplete_causal_diagnostic")
+        report.update(verify_run(audit, args.phase, run_root, args.receipt,
+                                args.features_root, args.corpus_root,
+                                args.allow_incomplete_grade_diagnostic, experiment))
+        complete = "reconstruction_verified_incomplete_causal_diagnostic" if not report["causal_diagnostic_complete"] \
+            else (ATOMIC_STATUS if args.atomic else LEGACY_STATUS)
+        report["status"] = complete
     except Exception as error:
         failure = error
         report["error"] = {"type": type(error).__name__, "message": str(error)}
