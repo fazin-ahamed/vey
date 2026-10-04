@@ -3774,15 +3774,24 @@ question, and packed/live score parity. It earns no capability, latency,
 calibration or certification claim. The full frozen 400-epoch run has not yet
 started at this implementation checkpoint.
 
+The evaluation implementation uses exact equality of predicted and gold
+maximal-winner sets for the frozen primary metric. Concrete winner-in-gold
+accuracy is reported separately, including for causal correct-new outcomes;
+it does not replace the stricter primary. A synthetic boundary smoke exercised
+this distinction, required-child UNKNOWN, integer exact arithmetic, and the
+sparse-discordance NI guard. Eight identical worlds correctly remained
+inconclusive under that guard. No final examples were opened.
+
 Promotion requires all frozen quality, UNKNOWN, exact/invariance and causal gates,
 an internal cross-control NI bound at a5-point margin, and corrected evidence
 of benefit over lexical/zeroing controls. This is a mechanism screen, not the
 endgame1-point competitor NI test. Passing requires seeds11/13 and fresh neutral
 transfer before primitive/product promotion; failure routes to a conditional
 interface audit or one preregistered final-layer adaptation, never final tuning.
-The checkpoint remains conditional/review. Canonical Vey-U IR dependency hashes
-and JSON serialization were exercised; corpus, quality, cache savings,
-calibration, certification and competitor superiority remain unmeasured.
+The checkpoint remains conditional/review. Canonical Vey-U IR dependency hashes,
+JSON serialization, audited corpus construction and actual cache counters were
+exercised. Quality, useful calibration, certification, end-to-end performance
+and competitor superiority remain unmeasured at this implementation checkpoint.
 
 
 
