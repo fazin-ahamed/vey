@@ -3403,6 +3403,21 @@ general solution and opens criterion-conditioned Ephemeral Atoms, not another
 arbitrary head-width tweak. A pass requires seeds11/13 and fresh-family/OOD
 utility before B-STEF. This screen does not complete the endgame mandate.
 
+**Pre-outcome corpus correctness check:** the authored training generator is
+preserved at `ed6431d`. Parent review replaced ambiguous delivery-fee and
+energy-unit-tariff proxies with complete initial-ownership and total
+continued-use payments, and made mechanism faults explicitly task-stopping.
+The first pure build then rejected `once` as a reserved exact-weighting token;
+the failure is retained under `schema-support-preparation-attempts`.
+Commit `65db021` changes that atom's wording without changing its meaning or
+the compiler. The corrected builder produced64 training atoms/32 reversal
+pairs and32 diagnostic atoms/16 pairs, with disjoint quantity/templates and
+byte-identical literal source cohorts. Training bytes hash
+`e58ca21f82c805b103741077ebc96a7227e16a3d6f724ab1abd851e1190d28b1`;
+diagnostic validation
+`77510b5a16001dbb4faf03755efa13c7a7b551eb5ef5d741ef8b7a69f617b69e`.
+No CBF8 model output or final quality result was obtained.
+
 ### Neutral endgame suite: source-first prospective freeze
 
 **HYPOTHESIS, no rows or quality outcomes acquired:** the original neutral
