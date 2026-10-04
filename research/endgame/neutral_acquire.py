@@ -976,20 +976,9 @@ def _normalize_member_name(name: str) -> str:
 def _selected_member(
     canonical_name: str,
     locale_set: set[str],
-) -> tuple[str, str] | None:
+) -> str | None:
     path = PurePosixPath(canonical_name)
-    if len(path.parts) < 2 or path.parts[-2] not in locale_set:
-        return None
-    split_names = {
-        "train.jsonl": "train",
-        "dev.jsonl": "validation",
-        "validation.jsonl": "validation",
-        "test.jsonl": "test",
-    }
-    partition = split_names.get(path.name)
-    if partition is None:
-        return None
-    return path.parts[-2], partition
+    return path.stem if path.suffix == ".jsonl" and path.stem in locale_set else None
 
 
 @dataclass(frozen=True)
@@ -999,7 +988,6 @@ class TarMember:
     sha256: str | None
     member_type: str
     selected_locale: str | None
-    selected_partition: str | None
     executable: bool
 
 
@@ -1022,6 +1010,7 @@ def _scan_massive_archive(
     locale_set = set(locale_order)
     member_map: dict[str, TarMember] = {}
     selected: dict[str, TarMember] = {}
+    selected_locales: set[str] = set()
     total_unpacked = 0
     member_count = 0
     index_temp = scratch_dir / "massive_tar_members.jsonl.gz"
@@ -1038,7 +1027,7 @@ def _scan_massive_archive(
                 selected_key = _selected_member(canonical_name, locale_set)
                 executable = bool(member.mode & 0o111)
                 if member.isdir():
-                    info = TarMember(canonical_name, 0, None, "directory", None, None, executable)
+                    info = TarMember(canonical_name, 0, None, "directory", None, executable)
                 elif member.isfile():
                     if member.size < 0 or member.size > MAX_TAR_MEMBER_BYTES:
                         raise AcquisitionError("MASSIVE archive member exceeds its uncompressed size cap")
@@ -1062,20 +1051,19 @@ def _scan_massive_archive(
                         digest_member.update(block)
                     if actual_size != member.size:
                         raise AcquisitionError("MASSIVE archive member byte count is inconsistent")
-                    locale = selected_key[0] if selected_key else None
-                    partition = selected_key[1] if selected_key else None
+                    locale = selected_key
                     info = TarMember(
                         canonical_name,
                         actual_size,
                         digest_member.hexdigest(),
                         "regular_file",
                         locale,
-                        partition,
                         executable,
                     )
                     if selected_key:
-                        if canonical_name in selected:
-                            raise AcquisitionError("MASSIVE contains duplicate locale/partition JSONL sources")
+                        if selected_key in selected_locales:
+                            raise AcquisitionError("MASSIVE contains duplicate locale JSONL sources")
+                        selected_locales.add(selected_key)
                         selected[canonical_name] = info
                 else:
                     raise AcquisitionError("MASSIVE archive contains a symlink, device, or nonregular member")
@@ -1087,7 +1075,6 @@ def _scan_massive_archive(
                         "sha256": info.sha256,
                         "member_type": info.member_type,
                         "selected_locale": info.selected_locale,
-                        "selected_partition": info.selected_partition,
                         "executable": info.executable,
                     }) + "\n").encode("utf-8")
                 )
@@ -1096,10 +1083,9 @@ def _scan_massive_archive(
         raw_out.flush()
         os.fsync(raw_out.fileno())
         raw_out.close()
-    expected_selected = {(locale, partition) for locale in locale_order for partition in PARTITIONS}
-    found_selected = {(item.selected_locale, item.selected_partition) for item in selected.values()}
-    if found_selected != expected_selected or len(selected) != len(expected_selected):
-        raise AcquisitionError("MASSIVE archive does not contain exactly one JSONL file for each frozen locale/partition")
+    found_selected = {item.selected_locale for item in selected.values()}
+    if found_selected != locale_set or len(selected) != len(locale_order):
+        raise AcquisitionError("MASSIVE archive does not contain exactly one JSONL file for each frozen locale")
     return selected, index_temp, {
         "member_count": member_count,
         "regular_file_count": sum(item.member_type == "regular_file" for item in member_map.values()),
@@ -1107,7 +1093,7 @@ def _scan_massive_archive(
         "unpacked_regular_bytes": total_unpacked,
         "selected_jsonl_member_count": len(selected),
         "selected_locale_count": len(locale_order),
-        "selected_partitions": list(PARTITIONS),
+        "partition_routing": "Native JSON row partition; no split-specific archive files.",
         "remote_code_executed": False,
     }
 
@@ -1225,11 +1211,10 @@ def _insert_massive_record(
     connection: sqlite3.Connection,
     record: Mapping[str, Any],
     locale: str,
-    expected_partition: str,
     path: str,
     line_number: int,
     stats: MassiveMetadataStats,
-) -> None:
+) -> str:
     required = ("id", "locale", "partition", "intent", "scenario", "utt")
     if any(field not in record for field in required):
         raise AcquisitionError("MASSIVE row lacks a required source ID, locale, partition, label, or utterance field")
@@ -1239,8 +1224,6 @@ def _insert_massive_record(
     if record["locale"] != locale:
         raise AcquisitionError("MASSIVE row locale disagrees with its archive member path")
     partition = _canonical_partition(record["partition"])
-    if partition != expected_partition:
-        raise AcquisitionError("MASSIVE source partition disagrees with its official archive file")
     if not isinstance(record["utt"], str):
         raise AcquisitionError("MASSIVE utterance input is not text")
     if len(record["utt"]) > MAX_INPUT_CHARS:
@@ -1285,19 +1268,20 @@ def _insert_massive_record(
     except sqlite3.IntegrityError as exc:
         raise AcquisitionError("MASSIVE contains a duplicate original-ID/locale row") from exc
     stats.add(locale, partition, record)
+    return partition
 
 
 def _parse_massive_member(
     stream: BinaryIO,
     expected: TarMember,
     locale: str,
-    partition: str,
     connection: sqlite3.Connection,
     stats: MassiveMetadataStats,
-) -> int:
+) -> dict[str, int]:
     digest = hashlib.sha256()
     bytes_read = 0
     line_number = 0
+    counts = {partition: 0 for partition in PARTITIONS}
     while True:
         line = stream.readline(MAX_JSONL_LINE_BYTES + 1)
         if not line:
@@ -1312,13 +1296,14 @@ def _parse_massive_member(
             raise AcquisitionError("MASSIVE JSONL contains an empty source row")
         line_number += 1
         record = _strict_json_line(line)
-        _insert_massive_record(connection, record, locale, partition, expected.name, line_number, stats)
+        partition = _insert_massive_record(connection, record, locale, expected.name, line_number, stats)
+        counts[partition] += 1
         if line_number % 10000 == 0:
             connection.commit()
             _maybe_guard_sqlite_size(connection)
     if bytes_read != expected.size_bytes or digest.hexdigest() != expected.sha256:
         raise AcquisitionError("MASSIVE JSONL member changed between hash inspection and parsing")
-    return line_number
+    return counts
 
 
 def _parse_massive_archive(
@@ -1350,11 +1335,10 @@ def _parse_massive_archive(
                 source,
                 expected,
                 expected.selected_locale or "",
-                expected.selected_partition or "",
                 connection,
                 stats,
             )
-            observed_rows[expected.selected_locale or ""][expected.selected_partition or ""] = count
+            observed_rows[expected.selected_locale or ""] = count
             seen.add(canonical_name)
     if seen != set(selected):
         raise AcquisitionError("one or more pre-hashed MASSIVE JSONL members were not parsed")
