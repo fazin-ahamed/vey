@@ -37,7 +37,7 @@ BASELINE_FILES = {
 }
 EXPECTED_DEFINITIONS = {
     'reliability': 'The proportion of matched-use trials in which the item performs its intended task without a failure. A higher value means fewer failed trials at equal exposure.',
-    'purchase expense': 'The money paid to acquire the item at the initial transaction, excluding later payments for using or maintaining the item. A higher value means a larger initial payment.',
+    'purchase expense': 'The money paid to acquire the item at the initial transaction, excluding later payments for using or maintaining it. A higher value means a larger initial payment.',
     'operating expense': 'The money paid after acquisition to keep using or maintaining the item over the same use period, excluding the initial transaction. A higher value means larger ongoing payments.',
     'convenience': 'Ease of preparing and using the item for the same intended task. A higher value means less user effort, fewer required actions, or less setup burden. Monetary payments are separate attributes.',
 }
