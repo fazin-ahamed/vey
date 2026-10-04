@@ -4035,6 +4035,20 @@ and the frozen experiment. Proposed source SHA-256:
 `b9e45b89a2ec380e3c5831744c6a7f454077c381dfbf9bda165824554e92074c`.
 Complete independent source review remains required before optimization.
 
+MEASURED fifth source review: one reviewer accepts 420/420; the other accepts
+417/420 and identifies three unstated between-opportunity reminder conditions.
+Rejected receipt SHA-256:
+`68c3d76d8ec9e74e476bf45dae626ace6db6e5b22e484567e6363f9613d598df`.
+The builder remains closed. A finite predicate-frame audit now checks all
+fifteen reminder wordings against scheduled review, formal report, informal
+update and between-opportunity events. Seven sentences need explicit scope;
+the private audit frame is not model-visible.
+`ephemeral_pages_reminder_scope_protocol.json` preregisters those substitutions,
+preserving all other 413 texts and every target/model/statistical rule.
+Proposed source SHA-256:
+`715f51b55fc07b61bb7a291ccaf8f8e0ebe78592d967a359638628944b9b720f`.
+This is source-predicate completeness, not a neural architecture experiment.
+
 
 
 
