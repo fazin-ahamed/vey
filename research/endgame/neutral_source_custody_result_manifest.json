@@ -1,0 +1,548 @@
+{
+  "banking77_and_massive": {
+    "banking77": {
+      "hf_loader_revision": "90d4e2ee5521c04fc1488f065b8b083658768c57",
+      "license_class_as_recorded": "shipping-train: CC-BY-4.0 dataset-specific grant, attribution and modification notices retained",
+      "official_counts": {
+        "test": 3080,
+        "train": 10003
+      },
+      "raw_revision": "57ec275d8078af65b7731c2a98be812d844a6d6b"
+    },
+    "corrected_counts": {
+      "allocation_unit": "Connected component; source lineage members and locale descendants do not add allocation units or establish statistical independence.",
+      "component_count": 22169,
+      "global_component_counts_by_final_split": {
+        "calibration": 2048,
+        "confirmation": 4934,
+        "dev": 2048,
+        "train": 7748,
+        "unused": 5391
+      },
+      "group_split_hashes": {
+        "AmazonScience/massive": {
+          "calibration": {
+            "connected_component_count": 1024,
+            "ordered_component_ids_sha256": "fc4b1069d58591cf1f52036c1ad140d5925e4c79cb2f619cc02826fc4a040f05",
+            "ordered_group_ids_sha256": "146d5d351697aede85d863d98dad6d8ce8c6a3b577e8845b16f7eda1584ce901",
+            "source_lineage_group_count": 1255
+          },
+          "confirmation": {
+            "connected_component_count": 1856,
+            "ordered_component_ids_sha256": "bb7c24b1a2b6c7cf25d827df4d533f950820b6e3e02e7f8a9d9d126158637bf7",
+            "ordered_group_ids_sha256": "b892906a7bf20dc318e837fe3257c345670f5a3ead963c0353e3e6523382833a",
+            "source_lineage_group_count": 8393
+          },
+          "dev": {
+            "connected_component_count": 1024,
+            "ordered_component_ids_sha256": "bc87662fe48e00d2817da82f251f16219240c2c08f87b67a3cba7678593a841e",
+            "ordered_group_ids_sha256": "3369eea29e0d2df983c82763b58e519199e4c421b8c0c3150e85ea8dad3ffb67",
+            "source_lineage_group_count": 1252
+          },
+          "train": {
+            "connected_component_count": 3652,
+            "ordered_component_ids_sha256": "2fad55c85d7c08898e3666393e9b8f6d26149613b6171b7c226219276b44d520",
+            "ordered_group_ids_sha256": "ba2686bf4ea89a22f64b02da55ce57a05907373669637263a2c1abe1f2c6b9c4",
+            "source_lineage_group_count": 3971
+          },
+          "unused": {
+            "connected_component_count": 1572,
+            "ordered_component_ids_sha256": "c4f0abd50b1966ea744a0e3ce27eab474bb1c726c3a1085999dbc67049b8c315",
+            "ordered_group_ids_sha256": "742c921768e4f81d76be3816a526d9e7731e87c38f0280f3cc4d0319a4518b2c",
+            "source_lineage_group_count": 1650
+          }
+        },
+        "PolyAI/banking77": {
+          "calibration": {
+            "connected_component_count": 1024,
+            "ordered_component_ids_sha256": "e630ffd855ecac40db6f4478dfc96df9a0b01d115013cc40d3a9bc7988cd83ad",
+            "ordered_group_ids_sha256": "a4aab7d04aec002b4e2ae68271374cf6306f88bc04c66d7fa3da2b1bc00291ac",
+            "source_lineage_group_count": 1032
+          },
+          "confirmation": {
+            "connected_component_count": 3078,
+            "ordered_component_ids_sha256": "d1153cf4ce25abca1315a0c47e16397a000e4ba7ed39763b13624a2eb3b28223",
+            "ordered_group_ids_sha256": "4bc5bcf54ab93c30abc176d0253e4d42cfb9dbb31ff46dfcce9f7b9232d3ca2c",
+            "source_lineage_group_count": 3097
+          },
+          "dev": {
+            "connected_component_count": 1024,
+            "ordered_component_ids_sha256": "edc46f81131dfd86abb26695cb159ff0f7eb9839e2e28f8468956b75f2ae9757",
+            "ordered_group_ids_sha256": "e38e238afb731bc2ce77f365567b08c1d548f490140b58a6dbee53288378916d",
+            "source_lineage_group_count": 1027
+          },
+          "train": {
+            "connected_component_count": 4096,
+            "ordered_component_ids_sha256": "188a44994a54ff64fd0ff22d5603a2b608309f7787aeb36bb98c0378940fa076",
+            "ordered_group_ids_sha256": "20e49baecaee20a33375b090b1d11ef9bc34ca18d1630469a243accda74af6d7",
+            "source_lineage_group_count": 4105
+          },
+          "unused": {
+            "connected_component_count": 3819,
+            "ordered_component_ids_sha256": "432cf8a9d22dc76fa2990b38ae2ef7178c6c16344eba34f2d3f53ccc9a456b20",
+            "ordered_group_ids_sha256": "43e82bbb5d1aaad242d11d067fa8067b58f8c8a8354dff2e207a4d46316beb98",
+            "source_lineage_group_count": 3822
+          }
+        }
+      },
+      "source_group_count": 29604,
+      "source_row_counts_by_final_split": {
+        "AmazonScience/massive": {
+          "calibration": 64005,
+          "confirmation": 428043,
+          "dev": 63852,
+          "train": 202521,
+          "unused": 84150
+        },
+        "PolyAI/banking77": {
+          "calibration": 1032,
+          "confirmation": 3097,
+          "dev": 1027,
+          "train": 4105,
+          "unused": 3822
+        }
+      }
+    },
+    "count_unit_correction_sha256": "07f2c092980c2108ba80357f74c7afdf346bd5def5b05c4ba76712fbe405e33b",
+    "historical_edges": {
+      "all_verified_edges": 38393,
+      "exact_normalized_input_edges": 37095,
+      "verified_near_duplicate_edges": 1298
+    },
+    "historical_reporting_defect": "independent_group_count was a constituent source-lineage-group count, not a connected-component allocation count; original records remain preserved",
+    "historical_source_snapshot_hashes": {
+      "research/competitors/COMPETITOR_MATRIX.json": {
+        "path": "metadata/pinned_inputs/research/competitors/COMPETITOR_MATRIX.json",
+        "sha256": "8aaf11950bf692cfaabc73f6a7e8bca7aef7d61f0a45e8d6b8801652f411e0db",
+        "size_bytes": 15644
+      },
+      "research/competitors/JEV.json": {
+        "path": "metadata/pinned_inputs/research/competitors/JEV.json",
+        "sha256": "8785779e7430305319e3be4d5ecc3224c77ab6a29c52dd4d24bbff2c8cc43889",
+        "size_bytes": 22474
+      },
+      "research/competitors/LAYA.json": {
+        "path": "metadata/pinned_inputs/research/competitors/LAYA.json",
+        "sha256": "63e080043735bc026eff118a60f5fdb2263e0d349321a30406b3500f12f66496",
+        "size_bytes": 41622
+      },
+      "research/endgame/neutral_acquire.py": {
+        "path": "metadata/pinned_inputs/research/endgame/neutral_acquire.py",
+        "sha256": "4c9f7fb0f4308e533f2786d7abe3dcc394752d1d1f35feeffca81da3146c21a8",
+        "size_bytes": 118663
+      },
+      "research/endgame/neutral_acquisition_sources.json": {
+        "path": "metadata/pinned_inputs/research/endgame/neutral_acquisition_sources.json",
+        "sha256": "3cdb55b1219e18cdd293cae882982e0eb5a8a5e05339c3e0467038b99d3d4914",
+        "size_bytes": 4814
+      },
+      "research/endgame/neutral_benchmark_protocol.json": {
+        "path": "metadata/pinned_inputs/research/endgame/neutral_benchmark_protocol.json",
+        "sha256": "9e3bfbdd9371d6202c8bf6d6ec5fc224eababb402d409f206abd0215fcf3f0c5",
+        "size_bytes": 28743
+      },
+      "research/endgame/neutral_source_inventory.json": {
+        "path": "metadata/pinned_inputs/research/endgame/neutral_source_inventory.json",
+        "sha256": "79775dd7b4219956a7a5170e8461a2944bf7f035d4ae6f69b5abe133a5e3dcd5",
+        "size_bytes": 95195
+      },
+      "research/endgame/protocol.json": {
+        "path": "metadata/pinned_inputs/research/endgame/protocol.json",
+        "sha256": "c843c8c6a216a0743d50fa16d2190f5671956b80b542df43b777975ce3057a73",
+        "size_bytes": 8967
+      }
+    },
+    "manifest_sha256": "05c7365315ea62b2d84a0b5793ab4b55cc9be419827cfbe3d95d57242bf48c17",
+    "massive": {
+      "english_individual_judgment_records": 0,
+      "fixed_locales": [
+        "af-ZA",
+        "am-ET",
+        "ar-SA",
+        "az-AZ",
+        "bn-BD",
+        "ca-ES",
+        "cy-GB",
+        "da-DK",
+        "de-DE",
+        "el-GR",
+        "en-US",
+        "es-ES",
+        "fa-IR",
+        "fi-FI",
+        "fr-FR",
+        "he-IL",
+        "hi-IN",
+        "hu-HU",
+        "hy-AM",
+        "id-ID",
+        "is-IS",
+        "it-IT",
+        "ja-JP",
+        "jv-ID",
+        "ka-GE",
+        "km-KH",
+        "kn-IN",
+        "ko-KR",
+        "lv-LV",
+        "ml-IN",
+        "mn-MN",
+        "ms-MY",
+        "my-MM",
+        "nb-NO",
+        "nl-NL",
+        "pl-PL",
+        "pt-PT",
+        "ro-RO",
+        "ru-RU",
+        "sl-SL",
+        "sq-AL",
+        "sv-SE",
+        "sw-KE",
+        "ta-IN",
+        "te-IN",
+        "th-TH",
+        "tl-PH",
+        "tr-TR",
+        "ur-PK",
+        "vi-VN",
+        "zh-CN"
+      ],
+      "hf_loader_revision": "ff6bd8e4b27c3543e4f8fe2108f32bb95a6f8740",
+      "license_class_as_recorded": "shipping-train: Amazon dataset-specific CC-BY-4.0 grant; attribution and modification notices retained",
+      "locale_count": 51,
+      "official_counts_per_locale": {
+        "test": 2974,
+        "train": 11514,
+        "validation": 2033
+      },
+      "original_utterance_id_groups": 16521,
+      "raw_release": "1.1"
+    },
+    "output_artifact_hashes": {
+      "metadata/source_files.json": "1c58add56da1c585690d918ab9e2fcc80761bebf192994a35f28fe93f4d8aa32",
+      "private/acquisition_report.json": "3db9681dc5a6f8b02c273e96ce618fd7ced5a7e8ca2eb9e67ca196ccfb355cfc",
+      "private/group_edges.jsonl.gz": "5599303c39dfe02d83fcf532605403f065d46accc68c31ff2322ad6ea2d62287",
+      "private/groups.jsonl.gz": "b8710b8bb828aa9cdaf02fa194ce998e59ad25728859f298cda025b4385ed7ee",
+      "private/massive_tar_members.jsonl.gz": "5a932acf65b361695fc5a39adb1023ddc8e47a76f38f3361223277c46fc3972a",
+      "private/near_duplicate_search_exclusions.jsonl.gz": "265a20c058fba575353d191fe9aa5878089c4891af817786008e64de78015fd4",
+      "private/source_rows.jsonl.gz": "ada7993cd2e12eacdf4c3ead16f6f95d32968272c55cb7afd17a9f833794190f",
+      "private/unused_groups.jsonl.gz": "c1150f47a707a5fcc87629a794afee215970cf469c38beb407e49be85888a307"
+    },
+    "raw_source_manifest_sha256": "1c58add56da1c585690d918ab9e2fcc80761bebf192994a35f28fe93f4d8aa32",
+    "root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/sqlite-guard-amended",
+    "source_artifact_hashes": {
+      "banking77_license": {
+        "actual_sha256": "7e7170e3cebf88a9f60c7b8421418323c09304da1af4d5e90f4da1dc1c8a2661",
+        "etag_is_checksum": false,
+        "expected_sha256": "7e7170e3cebf88a9f60c7b8421418323c09304da1af4d5e90f4da1dc1c8a2661",
+        "path": "raw/banking77/LICENSE",
+        "size_bytes": 18650,
+        "source_id": "PolyAI/banking77"
+      },
+      "banking77_readme": {
+        "actual_sha256": "7b9ce9069931cc2de89dce8c7ffb53d07806cf413601ccf133b9af5227b3a373",
+        "etag_is_checksum": false,
+        "expected_sha256": "7b9ce9069931cc2de89dce8c7ffb53d07806cf413601ccf133b9af5227b3a373",
+        "path": "raw/banking77/README.md",
+        "size_bytes": 4735,
+        "source_id": "PolyAI/banking77"
+      },
+      "banking77_test_csv": {
+        "actual_sha256": "d12d6e3bc4c3103966ae786dc435913c0c563dfa328f5a3646d0e62cfeeb474d",
+        "etag_is_checksum": false,
+        "expected_sha256": null,
+        "path": "raw/banking77/test.csv",
+        "size_bytes": 239961,
+        "source_id": "PolyAI/banking77"
+      },
+      "banking77_train_csv": {
+        "actual_sha256": "b06e26ac675513959a63135f11b94ea7786ed02da65db93a5650d8838cbc664b",
+        "etag_is_checksum": false,
+        "expected_sha256": null,
+        "path": "raw/banking77/train.csv",
+        "size_bytes": 839073,
+        "source_id": "PolyAI/banking77"
+      },
+      "massive_archive_1_1": {
+        "actual_sha256": "4cba5faa11c71437928e17cb1b9b3d8b8e727e7ea363a3a9a8045e19c0491577",
+        "etag_is_checksum": false,
+        "expected_sha256": null,
+        "path": "raw/massive/amazon-massive-dataset-1.1.tar.gz",
+        "size_bytes": 40251390,
+        "source_id": "AmazonScience/massive"
+      },
+      "massive_license": {
+        "actual_sha256": "c2e6ea015269147de02117ebdd91f30ef09831251f5345fa8365273b1db1d435",
+        "etag_is_checksum": false,
+        "expected_sha256": null,
+        "path": "raw/massive/LICENSE",
+        "size_bytes": 18704,
+        "source_id": "AmazonScience/massive"
+      },
+      "massive_notice": {
+        "actual_sha256": "db1466b051afd1d9ad34b7bd6346a1857f568a0c5f6534168813b4ad3c26013e",
+        "etag_is_checksum": false,
+        "expected_sha256": "db1466b051afd1d9ad34b7bd6346a1857f568a0c5f6534168813b4ad3c26013e",
+        "path": "raw/massive/NOTICE.md",
+        "size_bytes": 500,
+        "source_id": "AmazonScience/massive"
+      },
+      "massive_readme": {
+        "actual_sha256": "9a74b2298db2cb509eb39725612ef5d5b9eb99d59ef7c960ab01f58526051e3d",
+        "etag_is_checksum": false,
+        "expected_sha256": "9a74b2298db2cb509eb39725612ef5d5b9eb99d59ef7c960ab01f58526051e3d",
+        "path": "raw/massive/README.md",
+        "size_bytes": 34420,
+        "source_id": "AmazonScience/massive"
+      }
+    }
+  },
+  "claims": {
+    "Boolean_or_Score_quality_measured": false,
+    "capabilities_earned": [],
+    "competitor_noninferiority_established": false,
+    "confirmation_opened_to_model_selectors": false,
+    "independently_reconstructed": false,
+    "model_or_gpu_evaluation": false,
+    "natural_8192_or_16K_eligibility_measured": false,
+    "raw_source_data_in_git": false,
+    "shipping_training_authorized_by_this_record": false,
+    "statistical_independence_established": false
+  },
+  "evidence_class": "MEASURED producer custody and real-byte replay; not independent validation or model evidence",
+  "qasper": {
+    "allocation_counts_and_hashes": {
+      "allocation_uses": "source partition, source annotation-presence schema, and input-only group/rank hashes; no answer values, question text, worker IDs, or model outputs",
+      "caps_independent_groups_per_source": {
+        "calibration": 1024,
+        "confirmation": 8192,
+        "dev": 1024,
+        "train": 4096
+      },
+      "component_assignment_rows_sha256": "79329043e90746c3b7bee14b2d04a035d311cf89df7eba7c81931492471e5a62",
+      "counts_by_final_split": {
+        "calibration": {
+          "answer_annotation_records": 1407,
+          "connected_components": 318,
+          "papers": 318,
+          "questions": 1005,
+          "source_groups": 318
+        },
+        "confirmation": {
+          "answer_annotation_records": 3554,
+          "connected_components": 416,
+          "papers": 416,
+          "questions": 1451,
+          "source_groups": 416
+        },
+        "dev": {
+          "answer_annotation_records": 1396,
+          "connected_components": 319,
+          "papers": 319,
+          "questions": 1013,
+          "source_groups": 319
+        },
+        "train": {
+          "answer_annotation_records": 1636,
+          "connected_components": 532,
+          "papers": 532,
+          "questions": 1580,
+          "source_groups": 532
+        },
+        "unused": {
+          "answer_annotation_records": 0,
+          "connected_components": 0,
+          "papers": 0,
+          "questions": 0,
+          "source_groups": 0
+        }
+      },
+      "group_assignment_rows_sha256": "60c74f5772868c87814882a50ceec3a00b87544cb8570d0d55506e59fc7fd28e",
+      "group_split_hashes": {
+        "calibration": {
+          "ordered_group_ids_sha256": "402e1768b43490a83701cd6b67b9b63779953b24f4549ae1e5d70e4bd11668bb",
+          "source_group_count": 318
+        },
+        "confirmation": {
+          "ordered_group_ids_sha256": "e57a191e6b7b71836b1348609d1cedbe2d623cc4acac005e0f97a0e84c782c20",
+          "source_group_count": 416
+        },
+        "dev": {
+          "ordered_group_ids_sha256": "ed0e922b5a8bc64544d80c43928a07845b4898ddbdf467dd9ef20f2e718acf2c",
+          "source_group_count": 319
+        },
+        "train": {
+          "ordered_group_ids_sha256": "5231e111b521d20e45706f7439bdd69c2f6eec1829ed7e7fdd41a96848a0b928",
+          "source_group_count": 532
+        },
+        "unused": {
+          "ordered_group_ids_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "source_group_count": 0
+        }
+      },
+      "has_labeled_test_partition": true,
+      "official_partition_precedence": "labeled official test -> confirmation; otherwise labeled official validation -> confirmation; with labeled test, validation alternates dev/calibration; train-only labeled components use rank mod 10; unlabeled or overflow components remain unused",
+      "purpose": "neutral-acquisition",
+      "seed": "vey-neutral-v2:2026-10-04:1729",
+      "unused_component_count": 0
+    },
+    "archives": [
+      {
+        "bytes": 10835856,
+        "requested_url": "https://qasper-dataset.s3.us-west-2.amazonaws.com/qasper-train-dev-v0.3.tgz",
+        "sha256": "a28fdf966db827bcee3d873107d6b6669864fb7ca8fbf73a192f5e39191bdb5a"
+      },
+      {
+        "bytes": 3865061,
+        "requested_url": "https://qasper-dataset.s3.us-west-2.amazonaws.com/qasper-test-and-evaluator-v0.3.tgz",
+        "sha256": "72a52a41193e2838b8074f80ac074b94f956b84886c36a61c58a7df4171bdd72"
+      }
+    ],
+    "attempt": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/attempts/20261004T074414.392704Z-593810-cb44d7ae",
+    "failures_preserved": [
+      "anonymous metadata transport",
+      "duplicate gram-frequency index ownership before grouping completed"
+    ],
+    "grouping_counts_and_hashes": {
+      "components_sha256": "402256506269aeca912bad15f026a76e13206a7fecca661bc1d6adec15fc5313",
+      "connected_component_count": 1585,
+      "edge_count": 0,
+      "edge_reason_counts": {},
+      "edges_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "source_group_count": 1585,
+      "source_groups_sha256": "e6692f37deaa006aaebaa795b9f2291e9b2d4b027d8bab689fc4bfd30cc60a90"
+    },
+    "manifest_sha256": "de5bc1986d7aa0d89833ddab45c48e4a44f440f80a376acf744a874df5ff5c72",
+    "members": [
+      {
+        "actual_bytes": 31969387,
+        "member_name": "qasper-train-v0.3.json",
+        "sha256": "9458bfe76074a8fa8d1685af02bcc73537aa6d338ad20591dfaff1946bc88bf4"
+      },
+      {
+        "actual_bytes": 11398686,
+        "member_name": "qasper-dev-v0.3.json",
+        "sha256": "2ae7ee62a65b1c4225791c70de80c2aad4e8998cf1fd4f09a53103db4f21af93"
+      },
+      {
+        "actual_bytes": 18078957,
+        "member_name": "qasper-test-v0.3.json",
+        "sha256": "6e29ad410e6e39aa1936017fb965b30a20eb2e7751997f55b97c9d281aa884e5"
+      }
+    ],
+    "private_database_sha256": "8f4a194262a40662633951dbc6d9ef105412c487b329c169427388748fc6b09e",
+    "raw_reuse_preparse_origin_sha256": "10600183edb1c7fb8d7513001affec9801433675d40d08e6a011061925dd05ed",
+    "rights_and_exposure": {
+      "exposure": {
+        "model_training_membership": "unknown",
+        "public_replication_risk": "QASPER is public and overlaps LongBench/SCROLLS may exist; this is exposed replication evidence, not universally fresh confirmation",
+        "selection_process": "source partitions and deterministic group manifests are frozen before any model execution; public/pretraining exposure is not claimed absent",
+        "source_statement": "Public QASPER/LongBench/SCROLLS replication risk; no claim of universally fresh confirmation. Pinned card contains schema placeholders, not a selected study example. Exact model training membership is unknown."
+      },
+      "grant_as_recorded_in_source_plan": "shipping-train: source-specific CC-BY-4.0 declaration in the pinned dataset card and loader",
+      "model_state_excludes": [
+        "questions",
+        "answer annotations",
+        "unanswerable",
+        "extractive_spans",
+        "yes_no",
+        "free_form_answer",
+        "evidence",
+        "highlighted_evidence",
+        "figures_and_tables",
+        "worker identifiers"
+      ],
+      "model_visible_substantive_fields": [
+        "title",
+        "abstract",
+        "full_text"
+      ],
+      "permitted_scope_for_this_cli": "local source custody, paper/question/annotation schema census, input-only grouping, and partition metadata only",
+      "raw_paper_redistribution": "not performed or authorized by this workflow",
+      "source_grant_citations": [
+        {
+          "claim": "Pinned QASPER dataset card declares CC-BY-4.0",
+          "license_text_url": "https://creativecommons.org/licenses/by/4.0",
+          "sha256": "da348d3f8277f8a93ca397941f6a525433e282858b1c0562aed3f667d8e55b05",
+          "url": "https://huggingface.co/datasets/allenai/qasper/raw/fdc9d8214fbab5dd782958601db4d678e6934a54/README.md"
+        },
+        {
+          "citation": "Dasigi et al. (2021), A Dataset of Information-Seeking Questions and Answers Anchored in Research Papers",
+          "claim": "Pinned dataset loader declares CC BY 4.0 for the dataset and provides the QASPER paper citation",
+          "sha256": "381d623d4992118738c0a17b9c8219136f493eda381125716ab32b814d0b3c0a",
+          "url": "https://huggingface.co/datasets/allenai/qasper/raw/fdc9d8214fbab5dd782958601db4d678e6934a54/qasper.py"
+        }
+      ],
+      "underlying_full_paper_republication_rights": "remain subject to review; no independent legal conclusion is made",
+      "workflow_scope": "Acquire/hash/schema-census/group and seal source partitions only. Parent output is counts, schemas, hashes and exposure metadata; no confirmation text, questions, labels or quality scores."
+    },
+    "snapshot_git": "696be2f3116905517806d90ca8291098e58a0c3e",
+    "snapshot_hashes": {
+      "acquisition_script_sha256": "a955953c9ec7b4850e483769969182a55098dc317e6feb573d907b9c8e504a17",
+      "neutral_protocol_sha256": "9e3bfbdd9371d6202c8bf6d6ec5fc224eababb402d409f206abd0215fcf3f0c5",
+      "repository_commit": "696be2f3116905517806d90ca8291098e58a0c3e",
+      "shared_helper_sha256": "dd7114aee5b3bf941a9470ad8058f105d436f0844b97e15d9694581c58f6a5ca",
+      "snapshot_metadata": {
+        "files": {
+          "research/endgame/neutral_acquire.py": {
+            "bytes": 119084,
+            "sha256": "dd7114aee5b3bf941a9470ad8058f105d436f0844b97e15d9694581c58f6a5ca"
+          },
+          "research/endgame/neutral_benchmark_protocol.json": {
+            "bytes": 28743,
+            "sha256": "9e3bfbdd9371d6202c8bf6d6ec5fc224eababb402d409f206abd0215fcf3f0c5"
+          },
+          "research/endgame/neutral_paper_acquire.py": {
+            "bytes": 91245,
+            "sha256": "a955953c9ec7b4850e483769969182a55098dc317e6feb573d907b9c8e504a17"
+          },
+          "research/endgame/neutral_paper_acquisition_sources.json": {
+            "bytes": 4747,
+            "sha256": "b37d02448c7f9ff33d8ec8eb9c74effc6b2120063d4e851e18797bcea158e9db"
+          }
+        },
+        "frozen_at_utc": "2026-10-04T07:44:14+00:00",
+        "repository_commit": "696be2f3116905517806d90ca8291098e58a0c3e"
+      },
+      "source_plan_sha256": "b37d02448c7f9ff33d8ec8eb9c74effc6b2120063d4e851e18797bcea158e9db"
+    },
+    "source_partition_counts_and_hashes": {
+      "test": {
+        "annotation_descendant_sha256": "9d352cd8c17e702fa7a68939e0aa99bfc5e0a2dee182dd71d03276f54b63dadd",
+        "annotations_with_nonnull_source_outcome_fields": 3554,
+        "answer_annotation_records": 3554,
+        "paper_descendant_sha256": "59904de5df5f7b4a53249d72844ba59476e8d7d11246b185a82c9aa5a4cf8fd3",
+        "papers": 416,
+        "question_descendant_sha256": "91952e94af6a528b8cc9b8991cdbd3d1ab1f035d8d79204a8bab14491663c9e9",
+        "questions": 1451
+      },
+      "train": {
+        "annotation_descendant_sha256": "36e9e3481acf6f59d6bcdd373b915ab0877bb97ccf67731795e971774ef6d196",
+        "annotations_with_nonnull_source_outcome_fields": 2675,
+        "answer_annotation_records": 2675,
+        "paper_descendant_sha256": "83f62fd136c43c4234e14fcd2cb345a4c0e4567f9a46198df2df9c795f2461ff",
+        "papers": 888,
+        "question_descendant_sha256": "e9b8fab6bf6cf4c1487da102fc90b6cc211c940a96ae3e63f150ad9592bf2530",
+        "questions": 2593
+      },
+      "validation": {
+        "annotation_descendant_sha256": "1624a4083dd248995f8e14d58d081d209f5d8ebb47cf9b46c34bd060edcc2c5a",
+        "annotations_with_nonnull_source_outcome_fields": 1764,
+        "answer_annotation_records": 1764,
+        "paper_descendant_sha256": "8f09462d2bec4ce5f74707223dcf5f9b39f504fede4dc28378d8bcdbfb131756",
+        "papers": 281,
+        "question_descendant_sha256": "48a8bcb4beb7020c2157ef7368c93dd9f66f4e90fa78ebb164c3761dc39d5f1a",
+        "questions": 1005
+      }
+    }
+  },
+  "record_kind": "neutral-source-custody-observations",
+  "required_next_steps": [
+    "Independent reconstruction of all bytes, descendants, grouping completeness and deterministic allocation",
+    "Freeze source-to-DecisionIR workflows and neutral family M before outcomes",
+    "Pin reference/evaluated tokenizers before natural-length census and model selection"
+  ],
+  "schema_version": 1,
+  "status": "acquired_and_sealed_independent_reconstruction_pending"
+}
