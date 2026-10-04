@@ -2,13 +2,17 @@
   "amendment": null,
   "artifacts": "All rejected source/preparation/key/packet/rawjudgments; exact installation SHA map; fresh preparation/reviews/receipt/final build; unchanged prefinal proofs.",
   "controls_splits_grouping_statistics_gates": "All419othertexts and all other bytes, sourceIDs/labels/questions/rubrics, prefinal inputs, modelrecipe, final320worldgrouping and statistics/gates unchanged. No model outcomes inspected.",
+  "original_preregistration": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/preregistrations-full/ephemeral_pages_text_size_protocol.json",
+    "sha256": "73804c9a8858c11d90c10fbbd41182346872817058ba929625d66eee9fdf90ac"
+  },
   "data": {
     "changes": [
       {
         "grade": 1,
         "json_pointer": "/properties/0/page_wordings/3/text",
-        "new_text": "Enlarged headings have distinguishable letter outlines, but ordinary-sized body text and fine print both have merged letter edges.",
-        "old_text": "Large headings have distinguishable outlines, but smaller lettering runs together.",
+        "new_text_sha256": "f354e8bf03f82fe4076c2aff773daa178ddbe1f9301bd9afddbe3d3e69b19671",
+        "old_text_sha256": "2bab0bed4f0091cabfaa50a2f2603e702c77ab01a3cf10222b7e1261a3036dff",
         "review_id": "r_4efca0d06d76647682698107e23b",
         "source_id": "w_79b707b4b0e3b343cae4172b"
       }
@@ -41,7 +45,7 @@
   "hypothesis": "Named enlarged, ordinary-body and fine-print extents remove one evidenced text-size ambiguity; preserve both differing actual reviewer judgments.",
   "parent_atomic_protocol_sha256": "21e295c362da058b4b5d2247b61caf247449e79132ed7520a6f637926816b0fb",
   "parent_protocol": {
-    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_explicit_predicates_protocol.json",
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/preregistrations-full/ephemeral_pages_explicit_predicates_protocol.json",
     "sha256": "f10f328567de7fb5b9cbd75fd0d99a57401c908e9f56d3b9c0e19ac29da073d8"
   },
   "primary_metric": "Two complete independent opaque reviews, each accepting all420items with zeroambiguities/rejections.",
@@ -52,6 +56,6 @@
   },
   "resource_budget": "Zero neural forwards or fits; bounded parsing and two independent opaque420item audits.",
   "schema": "vey.eca2.text-size-correctness-protocol.v1",
-  "secondary_metrics": "Exact source-byte preservation outside the3text substitutions; absent final artifacts and zero neural calls.",
+  "secondary_metrics": "Exact source-byte preservation outside the one text substitution; absent final artifacts and zero neural calls.",
   "statistical_test": "Not applicable to source validity; original frozen paired-world bootstrap applies to model outcomes."
 }

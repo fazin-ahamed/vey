@@ -4049,6 +4049,36 @@ Proposed source SHA-256:
 `715f51b55fc07b61bb7a291ccaf8f8e0ebe78592d967a359638628944b9b720f`.
 This is source-predicate completeness, not a neural architecture experiment.
 
+MEASURED accepted source: both new independent reviewers accept all 420
+items. The 840 actual judgments bind accepted receipt SHA-256
+`92697d72fc6edd33be9d6b5f5beb8cd46a382abba9c9d3a4a9018e75df04f700`.
+The exercised builder produces 320 fresh worlds and 31,360 final IRs:
+final-build manifest SHA-256
+`afb863875223e4f9abcbe6a5d8599d24369a1d59dacc6b72e2be9181219389e5`;
+final IR SHA-256
+`7e2b2c1ae4fb90be10f06ae983ce15fda8920e6077d7c8d35ed38993a78e6b25`.
+Old world IDs, row IDs and normalized source-inventory text have zero overlap.
+All five rejected source stages and raw judgments remain retained.
+
+MEASURED prelaunch smoke: pages, cross, cosine and query-blind controls
+have finite losses, finite nonzero gradients and an actual AdamW update on
+72 records including eight corrected labels. Whole-batch versus 17-record
+chunks agree within the frozen tolerance; maximum gradient difference is
+`8.940696716308594e-08`. Gradient receipt SHA-256:
+`4dd3eed28893565790bf93682a52b4cad4a0030d79410cd42a6e077b9331cd11`.
+The real two-epoch CLI smoke then completes all five controls, including
+lexical, under the atomic context. Smoke artifacts are retained separately.
+Final neural capture/scoring remains sealed; corrected quality is unmeasured.
+
+`ephemeral_pages_atomic_custody_manifest.json` pins the source, preservation
+proof, accepted reviews, final build, independent prefit proof and actual
+gradient/five-control smoke artifacts. Current correction manifests now
+store text/rubric hashes instead of source payloads. Originally registered
+bytes are retained unchanged outside Git and in historical commits; custody
+pointers resolve the retained originals. Two copied secondary count phrases
+are corrected to one and seven substitutions. Primary metrics, gates, model
+inputs, labels and code are unchanged; no model outcome selected this update.
+
 
 
 

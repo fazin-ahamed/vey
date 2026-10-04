@@ -5,20 +5,18 @@
   },
   "artifacts": "All rejected source/preparation/key/packet/rawjudgments; exact installation SHA map; fresh preparation/reviews/receipt/final build; unchanged prefinal proofs.",
   "controls_splits_grouping_statistics_gates": "All ECA-2 model controls, seed, training inputs, labels, 320-world seed271828 grouping, metrics, bootstrap units and gates remain frozen. No quality outputs inspected. All source properties, IDs, grade positions, questions, rubrics and other417texts byte-identical.",
+  "original_preregistration": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/preregistrations-full/ephemeral_pages_explicit_predicates_protocol.json",
+    "sha256": "f10f328567de7fb5b9cbd75fd0d99a57401c908e9f56d3b9c0e19ac29da073d8"
+  },
   "data": {
     "changes": [
       {
         "grade": 2,
         "json_pointer": "/properties/4/page_wordings/8/text",
-        "new_text": "Reminder messages accompany the scheduled review and every formal status report, but neither informal updates nor intervals between communication opportunities.",
-        "old_text": "Reminder messages reach the formal reporting occasions while stopping short of informal conversations.",
-        "ordered_extent_rubric": [
-          "the requester sends no reminder after the initial request",
-          "reminders occur only at the scheduled review",
-          "reminders occur at the review and formal status reports, but not informal updates",
-          "reminders occur at all updates, but not between communication opportunities",
-          "reminders continue between updates as well as at every communication opportunity"
-        ],
+        "new_text_sha256": "52ca72b043d40204d5f7d6ecf86bdd4148eaae4d70a0cc5f681e1a0a7e61a916",
+        "old_text_sha256": "f4dd6ab7b11397b7d6e028c3373f0523ebeec1ee25caa3098b4003904d144b30",
+        "ordered_extent_rubric_sha256": "317b06990b3b2e08ff9d7c16e6d8fe44b3a6cd2ae84a8a9ce52be075bdb8563d",
         "reason": "Assert every included and excluded rubric component; later stages do not imply earlier stages.",
         "review_id": "r_0e23117fbe9a6197697bcce7743b",
         "source_id": "w_6b229618a22a25cbe618d860"
@@ -26,15 +24,9 @@
       {
         "grade": 2,
         "json_pointer": "/properties/8/page_wordings/7/text",
-        "new_text": "Readers can consult the summary beside the title; the filing body and all annexes remain unavailable to the public.",
-        "old_text": "Readers can consult the summary beside the title, but not the filing body.",
-        "ordered_extent_rubric": [
-          "no part of the filing is publicly available",
-          "only the filing title is publicly available",
-          "the title and summary are public, but the body and annexes are not",
-          "the title, summary and main body are public, but annexes are not",
-          "every named part of the filing is publicly available"
-        ],
+        "new_text_sha256": "57018636d4c1f1113b21b721863866592c2ef7b755da83417b68c048641cffa2",
+        "old_text_sha256": "4c707c4d37cf99559349c269a5c5712f6dc37975bf170c3c0ef2e441124fa7fe",
+        "ordered_extent_rubric_sha256": "50ebb938115834c4e8346ec23f49528e2579837684ee28970426092c5cfb3adb",
         "reason": "Assert every included and excluded rubric component; later stages do not imply earlier stages.",
         "review_id": "r_6a8cf744cca73b1b687847a4009a",
         "source_id": "w_99a86cb5b0a0c7345a26bb2a"
@@ -42,15 +34,9 @@
       {
         "grade": 3,
         "json_pointer": "/properties/8/page_wordings/10/text",
-        "new_text": "Public readers can inspect the title, summary and full main text; none of the annexed material is publicly accessible.",
-        "old_text": "Public readers can inspect the full main text, without its annexed material.",
-        "ordered_extent_rubric": [
-          "no part of the filing is publicly available",
-          "only the filing title is publicly available",
-          "the title and summary are public, but the body and annexes are not",
-          "the title, summary and main body are public, but annexes are not",
-          "every named part of the filing is publicly available"
-        ],
+        "new_text_sha256": "ac9988522e47b6312d87f1f6c0426d3f37dbf0eeb63196a1a4a954acdd542914",
+        "old_text_sha256": "06140a2f6b29b8caf8cb1d1f0077cd6c39fe6c8eb84f388100f4df9bd008d985",
+        "ordered_extent_rubric_sha256": "50ebb938115834c4e8346ec23f49528e2579837684ee28970426092c5cfb3adb",
         "reason": "Assert every included and excluded rubric component; later stages do not imply earlier stages.",
         "review_id": "r_c1fa986b915b1958c7bd82786746",
         "source_id": "w_36b44237af836089bd437bf5"

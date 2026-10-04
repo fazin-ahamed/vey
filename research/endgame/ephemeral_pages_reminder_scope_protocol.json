@@ -2,62 +2,66 @@
   "amendment": null,
   "artifacts": "All rejected source/preparation/key/packet/rawjudgments; exact installation SHA map; fresh preparation/reviews/receipt/final build; unchanged prefinal proofs.",
   "controls_splits_grouping_statistics_gates": "All413othertexts and other sourcebytes, properties/IDs/grades/orientations/rubrics, prefinal inputs, modelrecipe, final320worldgrouping and statistics/gates unchanged. No model outcomes inspected. Private audit frame never enters model inputs.",
+  "original_preregistration": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/preregistrations-full/ephemeral_pages_reminder_scope_protocol.json",
+    "sha256": "6cfce9ca5f33cdd78fa95a8058596899b7e6fe698a5e4097dcdd6327962551a5"
+  },
   "data": {
     "changes": [
       {
         "basis": "Complete finite event scope, including scheduled review separately from formal reports, and between-opportunity reminders separately from updates.",
         "grade": 0,
         "json_pointer": "/properties/4/page_wordings/2/text",
-        "new_text": "After the initial request, the requester sends no reminder at scheduled reviews, formal status reports, informal updates or between any communication opportunities.",
-        "old_text": "The requester leaves the request alone throughout the subsequent communication opportunities.",
+        "new_text_sha256": "b5f6264c3b027a4cb82e3d22364db7e8535a05459c150a4b7831188b461f77cd",
+        "old_text_sha256": "7db1c6f080013af9981f6258733fa3ee2af4cfb07bfe2a36aa47918652ce14f3",
         "source_id": "w_f18cfb338fcf575313df8441"
       },
       {
         "basis": "Complete finite event scope, including scheduled review separately from formal reports, and between-opportunity reminders separately from updates.",
         "grade": 2,
         "json_pointer": "/properties/4/page_wordings/6/text",
-        "new_text": "The requester repeats reminders at the scheduled review and formal status reports only; neither informal updates nor the intervals between communication opportunities contain reminders.",
-        "old_text": "The requester repeats the reminder in formal status reports as well as the review, but not in informal updates.",
+        "new_text_sha256": "cfbcd3d7338c9c614cd6504a65ac862b6fcf3e0465cb370698083e2e1539b758",
+        "old_text_sha256": "b765854577d59d0d95ec8d70dcc76815a4f274dbc8f6b57b110b91c40a2b5269",
         "source_id": "w_0c88ccb381eb4863a4729e80"
       },
       {
         "basis": "Complete finite event scope, including scheduled review separately from formal reports, and between-opportunity reminders separately from updates.",
         "grade": 2,
         "json_pointer": "/properties/4/page_wordings/7/text",
-        "new_text": "Planned reviews and official reports carry reminders; casual updates and all periods between these communication opportunities do not.",
-        "old_text": "Planned reviews and official reports carry reminders; casual updates do not.",
+        "new_text_sha256": "d212d355ff9d9b8e3520f927a997b09fc16e5202c23b81b69008ab31e4aad855",
+        "old_text_sha256": "b33d23b777896795753777ebf18c9edae1764ad7e3ce619571ae53e752b272b5",
         "source_id": "w_3240989454b6e14d6507c116"
       },
       {
         "basis": "Complete finite event scope, including scheduled review separately from formal reports, and between-opportunity reminders separately from updates.",
         "grade": 3,
         "json_pointer": "/properties/4/page_wordings/9/text",
-        "new_text": "The requester repeats reminders at the scheduled review, formal status reports and informal updates, but sends no reminder between those opportunities.",
-        "old_text": "The requester repeats the reminder in both formal and informal updates but sends nothing between them.",
+        "new_text_sha256": "ca0f30d83774a72b190f7da0cc9abe4f569abd33bab489fb6fd86c919210ac0b",
+        "old_text_sha256": "b1456f36a629ccc6618f9d0e5ec682063afd8fae1bb04037f1da597d8179104d",
         "source_id": "w_a7b1909ccf9d12a9fc6f56f9"
       },
       {
         "basis": "Complete finite event scope, including scheduled review separately from formal reports, and between-opportunity reminders separately from updates.",
         "grade": 3,
         "json_pointer": "/properties/4/page_wordings/10/text",
-        "new_text": "Every scheduled review, formal status report and informal update includes a reminder, yet the requester sends none outside those communication opportunities.",
-        "old_text": "Every update includes a reminder, yet the requester does not prompt staff outside those exchanges.",
+        "new_text_sha256": "1ea6035611e32d5a7f802c1fb955ab94d028f091a3470e6785fce9e848aef098",
+        "old_text_sha256": "73dd746d9083f76695244be3b0d043d064b2018579e7ba414a781b2bed52226d",
         "source_id": "w_9da63b86b990be3af2be1312"
       },
       {
         "basis": "Complete finite event scope, including scheduled review separately from formal reports, and between-opportunity reminders separately from updates.",
         "grade": 3,
         "json_pointer": "/properties/4/page_wordings/11/text",
-        "new_text": "Reminders continue at every scheduled review, formal status report and informal update, with no reminder in the intervals between these contacts.",
-        "old_text": "Reminders continue through all reporting and informal updates, with quiet intervals between contacts.",
+        "new_text_sha256": "190b60e6c226b71c11223020ef221bcca5a17455139a7290dbf58a7913c5dfea",
+        "old_text_sha256": "2f7c5252eaf261eeb55e078a204e5761b423a585a8cda686573307d41ea0b371",
         "source_id": "w_380f72fe0ea9f2b83051a705"
       },
       {
         "basis": "Complete finite event scope, including scheduled review separately from formal reports, and between-opportunity reminders separately from updates.",
         "grade": 4,
         "json_pointer": "/properties/4/page_wordings/14/text",
-        "new_text": "Reminders occur during the scheduled review, every formal status report and every informal update, and also fill the gaps between these communication opportunities.",
-        "old_text": "The reminders fill the gaps between scheduled and informal exchanges as well as appearing in those exchanges.",
+        "new_text_sha256": "8f61b3f81bc45e3d8656b7981570151ef5eda978ef5902ced2f58991b2693cd9",
+        "old_text_sha256": "79f83a944e28b985327981674bf8cb3ab95083c84b4b3881ecb1dd21eaa901a4",
         "source_id": "w_775364ddca68072c7a2a3349"
       }
     ],
@@ -89,7 +93,7 @@
   "hypothesis": "Complete finite four-event source frames remove missing event-scope conditions across all15reminder wordings; no prefix or implicit-silence assumption remains.",
   "parent_atomic_protocol_sha256": "21e295c362da058b4b5d2247b61caf247449e79132ed7520a6f637926816b0fb",
   "parent_protocol": {
-    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_text_size_protocol.json",
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/preregistrations-full/ephemeral_pages_text_size_protocol.json",
     "sha256": "73804c9a8858c11d90c10fbbd41182346872817058ba929625d66eee9fdf90ac"
   },
   "primary_metric": "Two complete independent opaque reviews, each accepting all420items with zeroambiguities/rejections.",
@@ -100,7 +104,7 @@
   },
   "resource_budget": "Zero neural forwards or fits; bounded parsing and two independent opaque420item audits.",
   "schema": "vey.eca2.reminder-scope-protocol.v1",
-  "secondary_metrics": "Exact source-byte preservation outside the3text substitutions; absent final artifacts and zero neural calls.",
+  "secondary_metrics": "Exact source-byte preservation outside the seven text substitutions; absent final artifacts and zero neural calls.",
   "source_frame": {
     "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/source/eca2_reminder_scope_frame.json",
     "sha256": "9b8f626e77e699e8bd7b39e04a9fff146de25a389016916295e0bd933bb4874b"

@@ -1,0 +1,165 @@
+{
+  "accepted_review": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/audit/eca2_independent_audit_receipt.json",
+    "sha256": "92697d72fc6edd33be9d6b5f5beb8cd46a382abba9c9d3a4a9018e75df04f700"
+  },
+  "final_build_manifest": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/corpus/eca2_final_build_manifest.json",
+    "sha256": "afb863875223e4f9abcbe6a5d8599d24369a1d59dacc6b72e2be9181219389e5"
+  },
+  "final_ir_rows": 31360,
+  "final_neural_capture_or_scoring_performed": false,
+  "final_worlds": 320,
+  "five_control_smoke_launch": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/smoke/launch_receipt.json",
+    "sha256": "d3bcf35b174a873365e884017be5175d1f309432134a99bca29defc9a4a883b7"
+  },
+  "gradient_controls": [
+    "cosine",
+    "cross",
+    "pages",
+    "query_blind"
+  ],
+  "gradient_smoke": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/gradient_smoke.custody-v2.json",
+    "sha256": "4dd3eed28893565790bf93682a52b4cad4a0030d79410cd42a6e077b9331cd11"
+  },
+  "license_class": {
+    "authored_corpus": "shipping-train under parent source contract; final pool research-eval-only",
+    "pretrained_checkpoint": "conditional/review; no shipping clearance"
+  },
+  "max_chunk_gradient_error": 8.940696716308594e-08,
+  "metadata_storage_correction": {
+    "historical_commits_retained": true,
+    "model_outcomes_inspected": false,
+    "original_records_retained_unchanged": [
+      {
+        "current": {
+          "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_explicit_predicates_protocol.json",
+          "sha256": "c1fd23bf6f41fe542771b9c44be428c272115394dd7333f4995a39d336add794"
+        },
+        "original": {
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/preregistrations-full/ephemeral_pages_explicit_predicates_protocol.json",
+          "sha256": "f10f328567de7fb5b9cbd75fd0d99a57401c908e9f56d3b9c0e19ac29da073d8"
+        },
+        "primary_metrics_gates_recipe_and_data_identity_unchanged": true,
+        "text_hashes_verified": 3
+      },
+      {
+        "current": {
+          "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_text_size_protocol.json",
+          "sha256": "4809a6020857e5e9dcecdf9f1c81a98992a39a8b725b50f0c334125092cfb47f"
+        },
+        "original": {
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/preregistrations-full/ephemeral_pages_text_size_protocol.json",
+          "sha256": "73804c9a8858c11d90c10fbbd41182346872817058ba929625d66eee9fdf90ac"
+        },
+        "primary_metrics_gates_recipe_and_data_identity_unchanged": true,
+        "text_hashes_verified": 1
+      },
+      {
+        "current": {
+          "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_reminder_scope_protocol.json",
+          "sha256": "243db9bd2a61d87e74d680aae1e8cc90a7c1c764c87b8861f6791dad7deace6a"
+        },
+        "original": {
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/preregistrations-full/ephemeral_pages_reminder_scope_protocol.json",
+          "sha256": "6cfce9ca5f33cdd78fa95a8058596899b7e6fe698a5e4097dcdd6327962551a5"
+        },
+        "primary_metrics_gates_recipe_and_data_identity_unchanged": true,
+        "text_hashes_verified": 7
+      }
+    ],
+    "reason": "Keep corpus text outside current tracked manifests; use text/rubric hashes. Correct copied secondary substitution-count wording from3to1/7; no primary metric, gate, model/data identity or code change."
+  },
+  "old_row_id_overlap": 0,
+  "old_world_id_overlap": 0,
+  "prefit_independent_proof": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/prefit_verification.custody-v2.json",
+    "sha256": "cfaa475dd6c65d4a572387e9a8555806a848ae857e14c2babf1e4d70ac68459b"
+  },
+  "protocol": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_atomic_protocol.json",
+    "sha256": "21e295c362da058b4b5d2247b61caf247449e79132ed7520a6f637926816b0fb"
+  },
+  "reviewers": [
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/audit/eca2_reminder_scope_reviewer1_raw.json",
+      "sha256": "14217b65e1df7b5cfcbb57a7f002234c151eeeb2b60f16d258601714ddac0193"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/audit/eca2_reminder_scope_reviewer2_raw.json",
+      "sha256": "ec1e98633b79e89f5b7f7a56e5f8ed00f85c3675f251700a2b37217c56b316e6"
+    }
+  ],
+  "schema": "vey.eca2.prefit-custody-evidence.v1",
+  "scope": "Authored English research-only correctness assay. Final model outcomes unopened. No semantic-capability, shipping, probability, certificate, speed or endgame credit.",
+  "selected_changed_label_records": 8,
+  "selected_gradient_records": 72,
+  "smoke_controls": {
+    "cosine": {
+      "checkpoint": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/smoke/cosine.pt",
+        "sha256": "23778e9da2f6ea5613ae95edb20e8a49739feda857bd788cbf13ea7664b3c636"
+      },
+      "history": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/smoke/cosine_history.json",
+        "sha256": "9e190624844e87cf6887109cb9ca019068815ba528d94fa0865559f75e48159e"
+      }
+    },
+    "cross": {
+      "checkpoint": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/smoke/cross.pt",
+        "sha256": "b685135cba9a8b6c464ce86037a4e8106ddf6d054fa1b8eac7ac0e4c7a3a8043"
+      },
+      "history": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/smoke/cross_history.json",
+        "sha256": "a01f47c4c7c5b3a47d3888f446d64b6165c81059dec1597c5dd099ecbc89be29"
+      }
+    },
+    "lexical": {
+      "checkpoint": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/smoke/lexical.pkl",
+        "sha256": "5651ba4a918c1610ff16bf53600c4f2c6736c231b3877b6508bb12e76cc33adb"
+      },
+      "history": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/smoke/lexical_history.json",
+        "sha256": "3b26a993a794436fab2d56b9f83e9cc4b5182eb706057dd7325124a9c97e2d32"
+      }
+    },
+    "pages": {
+      "checkpoint": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/smoke/pages.pt",
+        "sha256": "875bac7e6d6e7a4032833b63394f2a106186170fd7a718d4f0a073c4d908452e"
+      },
+      "history": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/smoke/pages_history.json",
+        "sha256": "d8deef0386529d8050db156b1fc68937997c38fc7560dfef3e25b6c4bb9017ab"
+      }
+    },
+    "query_blind": {
+      "checkpoint": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/smoke/query_blind.pt",
+        "sha256": "0a536f06b675e97df170fb7b0ce8b2603a5fd4e475efc0c6eef99dda19ee3bbb"
+      },
+      "history": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/smoke/query_blind_history.json",
+        "sha256": "cc8016784b3ea91fba1897648bcf5351764a48f4b21b2dbcfb462af8558c4c35"
+      }
+    }
+  },
+  "source": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/source/eca2_final_source.json",
+    "sha256": "715f51b55fc07b61bb7a291ccaf8f8e0ebe78592d967a359638628944b9b720f"
+  },
+  "source_authorship": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/source/eca2_final_source_authorship_receipt.json",
+    "sha256": "2fb531778226b389efcfae55aa6f7fe2f75e1f5d30762d0cb3e9c3a840e20e66"
+  },
+  "source_inventory_overlap": 0,
+  "source_preservation": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/source_correction_preservation.json",
+    "sha256": "c252f24e80a0e51d1913f85d1302c68dfd41a1b06f6c4444be7f20d97fda6a81"
+  },
+  "status": "corrected_gradient_and_five_control_smoke_verified"
+}
