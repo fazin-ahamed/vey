@@ -480,23 +480,32 @@ def eca_loss(output: ReaderOutput, targets: dict[str, torch.Tensor], *,
     if grade_target.shape != output.raw_value.shape or grade_mask.shape != output.raw_value.shape:
         raise ValueError("grade targets/mask must have shape [N,P]")
     grade_valid = grade_mask & torch.isfinite(grade_target) & torch.isfinite(output.raw_value)
-    grade_loss = _masked_mean((output.raw_value - grade_target).square(), grade_valid, output.raw_value)
+    grade_loss = (
+        (output.raw_value[grade_valid] - grade_target[grade_valid]).square().mean()
+        if bool(grade_valid.any()) else output.raw_value.sum() * 0.0
+    )
 
     orientation_target = targets["orientation_target"].to(output.direction.dtype)
     orientation_mask = targets["orientation_mask"].to(torch.bool) & page_mask
     if orientation_target.shape != output.direction.shape or orientation_mask.shape != output.direction.shape:
         raise ValueError("orientation targets/mask must have shape [N,P]")
     orientation_valid = orientation_mask & torch.isfinite(orientation_target) & torch.isfinite(output.direction)
-    orientation_loss = _masked_mean((output.direction - orientation_target).square(),
-                                    orientation_valid, output.direction)
+    orientation_loss = (
+        (output.direction[orientation_valid] - orientation_target[orientation_valid]).square().mean()
+        if bool(orientation_valid.any()) else output.direction.sum() * 0.0
+    )
 
     known_valid = torch.isfinite(known_target) & ((torch.isfinite(output.known_logits)) |
                    ((~has_pages) & (known_target == 0)))
     if bool((known_valid & ((known_target < 0) | (known_target > 1))).any()):
         raise ValueError("known_target must be in [0,1]")
     if bool(known_valid.any()):
-        known_loss = F.binary_cross_entropy_with_logits(output.known_logits[known_valid],
-                                                       known_target[known_valid])
+        # Structural no-page UNKNOWN is already certain; BCE(-inf, 0) is NaN.
+        safe_known_logits = torch.where(has_pages, output.known_logits, torch.zeros_like(output.known_logits))
+        per_candidate = F.binary_cross_entropy_with_logits(
+            safe_known_logits, known_target, reduction="none",
+        )
+        known_loss = per_candidate.masked_fill(~has_pages, 0.0)[known_valid].mean()
     else:
         known_loss = output.score.nan_to_num().sum() * 0.0
 

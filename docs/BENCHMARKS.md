@@ -3704,9 +3704,9 @@ builder. `--export-authorship-seed`/`--prepare-source` wrote60 properties,
 300 rubrics,4500 page wordings and1800 questions with zero cross-split text,
 template or normalized-text overlap. The SHA-bound opaque packet (6300 items,
 zero grade/family/split/orientation/target leakage) and separately sealed
-target key exist under the private root; no encoder forward, head training,
-calibration or model outcome has occurred. The independent two-reviewer
-meaning audit has not yet been performed.
+target key exist under the private root. At this pre-review checkpoint, no
+encoder forward, head training, calibration or model outcome had occurred;
+the independent two-reviewer meaning audit was still pending.
 
 **MEASURED Banking77+MASSIVE custody reconstruction PASS:** after two
 verifier-only join corrections (`c230d95` — `raw_rows.final_split`/
@@ -3741,8 +3741,38 @@ semantic pages. Construction fixes (`4e755d1`) were outcome-blind: eager-IR
 validation on intermediate rows (k=2 gold/evidence, erasure evidence), a
 dict-vs-Term type error in question reorder, and missing per-intervention id
 distinctions; each fix re-prepared byte-identical source/packet (packet SHA
-unchanged), so the completed reviews stayed bound. No encoder forward, head
-training, calibration or model outcome has occurred yet.
+unchanged), so the completed reviews stayed bound. At this build checkpoint,
+no encoder forward, head training, calibration or model outcome had occurred.
+
+**Measured ECA-1 prelaunch checks:** feature capture exposed a candidate-renaming
+provenance error: page-owner values must be remapped, whereas candidate-indexed
+maps remap their keys. The old corpus was preserved and rebuilt before any
+encoder forward. Authored source, inventory, opaque packet and sealed-key
+SHA-256 values remained byte-identical. The feature module's stale protocol pin
+was synchronized to the committed optimizer-example clarification
+(`785c25b`); the protocol itself did not change.
+
+Training/validation/calibration/development capture persisted respectively
+75,520/37,760/75,520/75,520 term-candidate records. Actual unique question/page/
+cross-pair counts were 72/180/4,824; 72/180/4,461; 72/180/4,819; and
+96/240/6,393, with 160/149/160/211 encoder forward calls. Each phase retained
+input IDs/masks, mmap features, hashes, and identical before/after encoder
+parameter hashes. Final features remain receipt-locked.
+
+The masked-loss smoke reproduced finite forward losses but nonfinite gradients
+when undefined NaN targets were subtracted before masking. Selecting defined
+targets before arithmetic fixes the backward path without changing the
+objective. Structural no-page UNKNOWN now contributes exactly zero BCE rather
+than evaluating the undefined floating operation BCE(-infinity, 0). All four
+neural readers passed finite-loss, finite/nonzero-gradient and no-page checks;
+full-batch and uneven 17-record accumulation losses/gradients matched. The
+streaming normalizer matched the existing shared question/page policy. A
+two-epoch reduced run exercised all five controls in explicitly marked smoke
+artifacts, not experiment outcomes. A real cached-runtime smoke observed one
+state encoding, question-only new-query work, zero forwards for a repeated
+question, and packed/live score parity. It earns no capability, latency,
+calibration or certification claim. The full frozen 400-epoch run has not yet
+started at this implementation checkpoint.
 
 Promotion requires all frozen quality, UNKNOWN, exact/invariance and causal gates,
 an internal cross-control NI bound at a5-point margin, and corrected evidence

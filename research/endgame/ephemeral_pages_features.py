@@ -36,7 +36,7 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 PROTOCOL_PATH = HERE / "ephemeral_pages_protocol.json"
-PROTOCOL_SHA256 = "31a744afe264e5390ec44a08e1360a113436572d0e4a6346817bfac56f9471f6"
+PROTOCOL_SHA256 = "4c0c1efe8ad8ffdde79004536a44fc6d034b7701cdedde8e2034dc3f4e52b489"
 CANONICAL_ROOT = Path("/home/fazinahamed/Documents/vey")
 CANONICAL_FILE_HASHES = {
     "vey_u/ir.py": "0184e25e05c17638117e776fc660fd6e4896c3590da0fcf94fc753509869ea2d",

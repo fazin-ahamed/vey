@@ -979,7 +979,10 @@ def _rename_candidates(row: DecisionIR) -> DecisionIR:
     }
     candidates = tuple(Candidate(remap.get(candidate.id, candidate.id), candidate.description) for candidate in row.candidates)
     metadata = dict(row.metadata)
-    for key in ("page_owners", "known", "teacher_scores", "stable_ordinals", "exact_facts"):
+    metadata["page_owners"] = {
+        block_id: remap[owner] for block_id, owner in metadata["page_owners"].items()
+    }
+    for key in ("known", "teacher_scores", "stable_ordinals", "exact_facts"):
         metadata[key] = {remap.get(candidate_id, candidate_id): value for candidate_id, value in metadata[key].items()}
     metadata["identity_map"] = {new_id: old_id for old_id, new_id in remap.items()}
     metadata["candidate_order"] = [candidate.id for candidate in candidates]
