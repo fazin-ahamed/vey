@@ -10,6 +10,14 @@
     "inference_quality_performance_and_residency_unmeasured": true,
     "neutral_comparison_earned": false
   },
+  "local_CPU_typed_compatibility": {
+    "evidence_class": "MEASURED",
+    "manifest": "research/competitors/laya_cpu_compatibility_result_manifest.json",
+    "manifest_sha256": "7a199d4dce764e9203accdfb43d4851c82c2569e4d52f605ec8c3e96095f753a",
+    "CPU_eager_typed_compatibility_verified": true,
+    "quality_calibration_performance_and_residency_unmeasured": true,
+    "neutral_comparison_earned": false
+  },
   "sources": [
     {
       "url": "https://api.github.com/repos/NandhaKishorM/laya/git/trees/859b8ee595cc04f84dd2af476d6d1d90ec1fea46?recursive=1",

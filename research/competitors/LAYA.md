@@ -124,8 +124,21 @@ upstream content identities, not Xet filenames.
 [The custody manifest](laya_runtime_custody_manifest.json) pins the exercised
 code, upstream identities, complete receipt and retained failure.
 
-Inference compatibility, quality, calibration, latency, memory residency and
-neutral comparisons remain unmeasured. No critical comparison cell is green.
+The subsequent preregistered CPU smoke loads all three pinned routes and
+completes identical mixed Choice/Noul/Score requests with valid typed payloads.
+All run eager FP32 without AMP. Actual loaded parameter counts are 421,293,827
+for English and typed-decisions, and 321,908,995 for multilingual.
+Tokenizers are copied into isolated smoke directories; all three config hashes
+remain unchanged after the vendor compatibility helper.
+
+The first smoke used an unsupported `1e-5` probability-sum tolerance.
+Pinned source rounds each served probability to four decimals; the corrected
+bound is `K*0.00005 + 1e-6`, registered before corrected execution. The original
+failure is retained. [The CPU result manifest](laya_cpu_compatibility_result_manifest.json)
+pins both protocols, scripts, failure receipt and complete successful outputs.
+This verifies CPU integration only. GPU compatibility, quality, calibration,
+latency, memory residency and neutral comparisons remain unmeasured.
+No critical comparison cell is green.
 
 ## Remaining evidence gaps and fair comparison configuration
 

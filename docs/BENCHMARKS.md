@@ -4123,6 +4123,38 @@ unmeasured. No statistical test, promotion gate or neutral superiority claim
 applies. Next: serialized offline prediction compatibility, then the frozen
 neutral workflows and metric family before any quality comparison.
 
+### Current Laya offline CPU typed compatibility
+
+Hypothesis: all three pinned current routes load on the existing CPU runtime
+and return valid mixed Choice/Noul/Score payloads. Preregistration `421f44d`;
+source-derived serialization correction `4e4d724`. One synthetic state and
+identical questions across English, typed-decisions and multilingual; no
+quality/generalization sample, fitting or final-pool access.
+
+MEASURED result: all three complete offline CPU eager FP32 prediction without
+AMP. The compatibility gate passes. Actual loaded parameter counts are
+421,293,827 / 421,293,827 / 321,908,995, distinct from stored scalar counts.
+All three tokenizer config hashes remain unchanged in isolated smoke copies.
+Only one route is resident at a time; no GPU execution or training-environment
+upgrade occurs.
+
+The original smoke failed after English prediction because its unsupported
+`1e-5` sum tolerance ignored four-decimal served probability rounding.
+Original source and failure receipt are retained; the failed prediction itself
+was not persisted. Corrected capture precedes assertions, and the normalization
+bound `K*0.00005 + 1e-6` comes from pinned decoder source, not fitted outcomes.
+Checkpoint, input, questions, backend and calibration remain unchanged.
+
+Successful receipt SHA-256:
+`b339c32fd4f7b0caf4711aa5c6a202011b3e26dfde7a63fcd159a471b62416ac`.
+`research/competitors/laya_cpu_compatibility_result_manifest.json` pins complete
+predictions and both lineages. No statistical quality test applies.
+Unknown: GPU compatibility, quality, calibration, high-K, multilingual quality,
+long-context reliability and same-host performance/residency. No neutral
+superiority or capability-promotion gate is earned.
+Next: freeze neutral workflows, metric family and pinned-tokenizer length
+census before quality selection.
+
 
 
 
