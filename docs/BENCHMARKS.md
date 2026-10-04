@@ -3418,6 +3418,18 @@ diagnostic validation
 `77510b5a16001dbb4faf03755efa13c7a7b551eb5ef5d741ef8b7a69f617b69e`.
 No CBF8 model output or final quality result was obtained.
 
+**MEASURED source-custody correction, before corpus freeze/models:** the
+committed `bf4d050` source-only smoke rejected a nonexistent historical byte
+hash for CBF7's learned-head training metadata. CBF7 did independently
+reconstruct its selected epoch116, unweighted literal-validation CE and frozen
+parameter hash, while cryptographically checking the checkpoint, normalizer,
+features, inputs and lineage. CBF8 now separately labels its new metadata byte
+pin and checks those reconstructed fields; it does not rewrite CBF7 evidence.
+Corrected execution passed all6 baseline references and16 historical exclusion
+files/1178 rows. Failure and source-hashed passing proof are retained under
+`schema-support-preparation-attempts`; no fresh final was generated or model
+loaded in either source-only attempt.
+
 ### Neutral endgame suite: source-first prospective freeze
 
 **HYPOTHESIS, no rows or quality outcomes acquired:** the original neutral

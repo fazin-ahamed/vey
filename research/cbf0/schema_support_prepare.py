@@ -107,10 +107,15 @@ def _check_c7_source(cfg):
     refs = {}
     for role, name in BASELINE_FILES.items():
         path = source / name
-        expected = checked.get(str(path))
-        assert expected is not None, f'CBF7 independent verification omits baseline {name}'
+        if role == 'training':
+            expected = sha(path)
+            custody = 'CBF8 preparation-time metadata byte pin; CBF7 reconstructed head fields checked below'
+        else:
+            expected = checked.get(str(path))
+            assert expected is not None, f'CBF7 independent verification omits baseline {name}'
+            custody = 'CBF7 independent verification byte hash'
         assert sha(path) == expected, f'CBF7 baseline changed: {name}'
-        refs[role] = dict(file=name, source_path=str(path), sha256=expected)
+        refs[role] = dict(file=name, source_path=str(path), sha256=expected, custody_basis=custody)
     assert c7_results['baseline_byte_identical_reuse'] is True
     baseline_training = load(source / BASELINE_FILES['training'])
     assert baseline_training['arm_id'] == 'nli_xsmall_higher_cls'
@@ -120,6 +125,10 @@ def _check_c7_source(cfg):
     assert baseline_training['feature_sha256'] == refs['features']['sha256']
     assert baseline_training['evidence_sha256'] == refs['inputs']['sha256']
     assert baseline_training['normalizer']['arm_id'] == 'nli_xsmall_higher_cls'
+    verified_head = verification['stages']['nli_xsmall_higher_cls']['head']
+    assert baseline_training['selected_epoch'] == verified_head['selected_epoch']
+    assert abs(baseline_training['validation_CE'] - verified_head['unweighted_validation_CE']) <= 2e-5
+    assert baseline_training['frozen_encoder_before_sha256'] == verified_head['frozen_parameter_sha256']
     baseline_lineage = load(source / BASELINE_FILES['lineage'])
     c8_model = cfg['model']
     assert baseline_lineage['revision'] == c8_model['revision']
