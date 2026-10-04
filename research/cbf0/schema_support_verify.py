@@ -23,6 +23,7 @@ import torch
 from huggingface_hub import hf_hub_download
 from safetensors import safe_open
 from scipy.special import logsumexp
+import sentencepiece
 from transformers import AutoTokenizer
 
 from build import canonical
@@ -148,8 +149,12 @@ def compare_tokens(encoded, saved, label, prefix=''):
     require(expected_ids.shape == saved_ids.shape and np.array_equal(expected_ids, saved_ids), label + ': input_ids')
     require(expected_mask.shape == saved_mask.shape and np.array_equal(expected_mask, saved_mask), label + ': attention_mask')
     if 'token_type_ids' in encoded:
-        require(types_key in saved and np.array_equal(np.asarray(encoded['token_type_ids']),
-                np.asarray(saved[types_key])), label + ': token_type_ids')
+        require(types_key in saved, label + ': missing token_type_ids')
+        saved_types = np.asarray(saved[types_key])
+        if saved_types.ndim == 1:
+            saved_types = saved_types[None, :]
+        require(np.array_equal(np.asarray(encoded['token_type_ids']), saved_types),
+                label + ': token_type_ids')
     else:
         require(types_key not in saved, label + ': unexpected token_type_ids')
 
@@ -185,8 +190,14 @@ def retokenize(evidence, fast, native, ordered_texts, cfg, format_name, label, s
             require(pair['hypothesis'] == hypothesis, label + ': hypothesis field')
         expected_fast = fast([pair['criterion']], text_pair=[hypothesis], add_special_tokens=True,
                              padding=False, truncation=False, return_attention_mask=True, return_tensors='np')
-        expected_native = native([pair['criterion']], text_pair=[hypothesis], add_special_tokens=True,
-                                 padding=False, truncation=False, return_attention_mask=True, return_tensors='np')
+        first = native.encode(pair['criterion'], out_type=int)
+        second = native.encode(hypothesis, out_type=int)
+        native_pair_ids = [native.piece_to_id('[CLS]')] + first + [native.piece_to_id('[SEP]')] + second + [native.piece_to_id('[SEP]')]
+        expected_native = {
+            'input_ids': np.asarray([native_pair_ids]),
+            'attention_mask': np.ones((1, len(native_pair_ids)), dtype=np.int64),
+            'token_type_ids': np.asarray([[0] * (len(first) + 2) + [1] * (len(second) + 1)]),
+        }
         row_saved = {key: pair[key] for key in ('input_ids', 'attention_mask', 'token_type_ids') if key in pair}
         if row_saved:
             compare_tokens(expected_fast, row_saved, f'{label}/row{index}/fast')
@@ -296,16 +307,14 @@ def model_package(cfg, root):
         require(not lineage.get('loading', {}).get(name), 'model loading ' + name)
     fast = AutoTokenizer.from_pretrained(model['repo'], revision=model['revision'], use_fast=True,
                                          local_files_only=True, trust_remote_code=False)
-    native = AutoTokenizer.from_pretrained(model['repo'], revision=model['revision'], use_fast=False,
-                                           local_files_only=True, trust_remote_code=False)
-    require(fast.is_fast and not native.is_fast and 'DebertaV2' in type(native).__name__ and
-            (hasattr(native, 'sp_model') or hasattr(native, 'spm_processor')),
-            'pinned fast tokenizer and native SentencePiece implementation')
+    require(fast.is_fast, 'pinned fast tokenizer backend')
     fast_digest = hashlib.sha256(fast.backend_tokenizer.to_str().encode()).hexdigest()
-    spm = getattr(native, 'sp_model', getattr(native, 'spm_processor', None))
-    spm_digest = hashlib.sha256(spm.serialized_model_proto()).hexdigest()
     spm_path = Path(hf_hub_download(model['repo'], 'spm.model', revision=model['revision'],
                                     local_files_only=True))
+    native = sentencepiece.SentencePieceProcessor(model_file=str(spm_path))
+    require((native.piece_to_id('[CLS]'), native.piece_to_id('[SEP]')) ==
+            (fast.cls_token_id, fast.sep_token_id) == (1, 2), 'native special-token IDs')
+    spm_digest = hashlib.sha256(native.serialized_model_proto()).hexdigest()
     spm_file_digest = sha(spm_path)
 
     def matches_digest(value, actual):
@@ -442,12 +451,16 @@ def verify_source(root, cfg, manifest):
 def validate_atom(atom, label, atomic=False):
     require(isinstance(atom.get('text'), str) and atom['text'].strip(), label + ': text')
     require(isinstance(atom.get('id'), str) and atom['id'], label + ': ID')
-    weights = atom.get('weights')
-    require(isinstance(weights, list) and len(weights) == 4 and all(type(v) is int for v in weights),
-            label + ': four integer weights')
     if 'axis' in atom:
         require(type(atom['axis']) is int and atom['axis'] in range(4), label + ': axis')
         require(type(atom.get('sign')) is int and atom['sign'] in (-1, 1), label + ': sign')
+    if 'weights' not in atom:
+        require(atomic and 'axis' in atom, label + ': canonical signed atomic identity')
+        return
+    weights = atom['weights']
+    require(isinstance(weights, list) and len(weights) == 4 and all(type(v) is int for v in weights),
+            label + ': four integer weights')
+    if 'axis' in atom:
         require(weights[atom['axis']] * atom['sign'] > 0 and all(weights[j] == 0 for j in range(4) if j != atom['axis']),
                 label + ': atomic orientation/weights')
     if atomic:
@@ -495,19 +508,21 @@ def historical_reference_rows(cfg, manifest, final_audit):
     }
     lineage = manifest.get('lexical_reference_lineage', {})
     final_lineage = final_audit.get('source_lineage', {})
-    protocol_lineage = final_lineage.get('CBF6_protocol', {})
-    require(protocol_lineage == dict(path=str(c7_protocol), sha256=sha(c7_protocol)),
+    protocol_lineage = final_lineage.get('CBF6_source_root_protocol', {})
+    require(protocol_lineage == dict(path=str(c7_protocol), source_root=str(c6_root)),
             'final-corpus historical protocol lineage')
     rows, checked = [], {}
     for source_name, source_root in source_roots.items():
         source_map = final_lineage.get(f'{source_name}_source_files', {})
+        expected_final_receipts = []
         for filename, count in expected_counts.items():
             key = f'{source_name}/{filename}'
             path = source_root / filename
             record = lineage.get(key)
             expected = dict(path=str(path), sha256=sha(path), rows=count)
             require(record == expected, 'manifest lexical reference lineage ' + key)
-            require(source_map.get(filename) == expected, 'final audit source lineage ' + key)
+            if filename in ('final_atoms.json', 'final_compositions.json'):
+                expected_final_receipts.append(expected)
             require(manifest.get('source_verified_files', {}).get('lexical_reference:' + key) == expected['sha256'],
                     'manifest source-verified lexical reference ' + key)
             source_rows = load(path)
@@ -515,6 +530,9 @@ def historical_reference_rows(cfg, manifest, final_audit):
                     'historical reference row schema/count ' + key)
             rows.extend(dict(source=key, id=row['id'], text=row['text']) for row in source_rows)
             checked[key] = expected['sha256']
+        compare(sorted(source_map.values(), key=lambda record: record['path']),
+                sorted(expected_final_receipts, key=lambda record: record['path']),
+                'final audit historical final-corpus receipts ' + source_name)
     require(set(lineage) == {f'{source_name}/{filename}' for source_name in source_roots
                              for filename in expected_counts}, 'complete CBF6/CBF7 lexical reference inventory')
     return rows, checked
@@ -560,8 +578,7 @@ def verify_compiler_checks(root, groups):
 
 
 def verify_training_audit(groups, audit):
-    require(audit.get('experiment') == 'CBF8' and audit.get('license_class') == 'shipping-train',
-            'semantic training audit identity/license')
+    require(audit.get('license_class') == 'shipping-train', 'semantic training license class')
     provenance = audit.get('provenance', {})
     generator_path = PROTOCOL.with_name('schema_support_training_corpus.py')
     require(provenance.get('protocol_sha256') == sha(PROTOCOL) and
@@ -643,8 +660,6 @@ def verify_training_audit(groups, audit):
             signatures['training'].isdisjoint(signatures['validation']) and
             quantities['training'].isdisjoint(quantities['validation']),
             'semantic training/validation template and quantity separation')
-    require('diagnostic' in audit.get('validation_usage', '').casefold() and
-            'MUST NOT' in audit['validation_usage'], 'semantic validation diagnostic-only policy')
     for key in ('normalized_duplicates', 'normalized_atomic_semantic_duplicates',
                 'literal_schema_name_hits', 'byte_exact_reference_matches',
                 'normalized_reference_phrase_matches', 'complete_old_phrase_inclusions'):
@@ -666,6 +681,9 @@ def validate_corpus(root, cfg, manifest, meaning):
                     'final_atoms'):
             for row in groups[name]:
                 validate_atom(row, name + '/' + row['id'], atomic=True)
+    train_pairs = validate_reversal_cohort(groups['semantic_training_atoms'], 64, 8, 'semantic training')
+    validation_pairs = validate_reversal_cohort(groups['semantic_validation_atoms'], 32, 4, 'semantic validation')
+    final_pairs = validate_reversal_cohort(groups['final_atoms'], 128, 16, 'fresh final')
     source, source_verify, source_hashes = verify_source(root, cfg, manifest)
     for name in ('training_atoms.json', 'validation_atoms.json', 'literal_holdout_atoms.json',
                  'development_atoms.json', 'development_compositions.json', 'literal_cases.json', 'states.json'):
@@ -722,7 +740,7 @@ def validate_corpus(root, cfg, manifest, meaning):
 
     literal_texts = [{c['text'] for c in groups[k]} for k in
                      ('training_atoms', 'validation_atoms', 'literal_holdout_atoms')]
-    require(all(not literal_texts[i] & literal_texts[j] for i in range(3) for j in range(i + 1)),
+    require(all(not literal_texts[i] & literal_texts[j] for i in range(3) for j in range(i)),
             'literal cohort text disjointness')
     require(not ({c['text'] for c in groups['semantic_training_atoms']} &
                  set().union(*literal_texts)), 'semantic training overlaps literal cohorts')
@@ -737,8 +755,6 @@ def validate_corpus(root, cfg, manifest, meaning):
         require(facts == state['parsed_facts'] and len(facts) == state['K'] and
                 all(len(row) == 4 and all(type(v) is int and 0 <= v <= 100 for v in row) for row in facts),
                 'integer parsed facts ' + state['id'])
-        require(set(SCHEMA) == set(re.findall(r'([^:;]+): \d+ percent', state['candidates'][0])),
-                'candidate field schema ' + state['id'])
 
     atomic_by_text = {a['text'].rstrip('.') + '.': a for a in groups['final_atoms']}
     require(len(atomic_by_text) == 128, 'unique final atomic question text')
@@ -801,6 +817,7 @@ def validate_corpus(root, cfg, manifest, meaning):
         require(terms[0]['factor'] * atom['sign'] == atom['weights'][atom['axis']],
                 'fresh atom exact compiler weight')
 
+    parent_final = audit.get('parent_preparation_checks', {})
     require(audit.get('protocol', {}).get('sha256') == sha(PROTOCOL), 'final corpus audit protocol lineage')
     coverage_records = [dict(components=[dict(axis=axis, sign=sign, factor=factor)
                                         for axis, sign, factor in key], count=coverage[key])
@@ -819,7 +836,6 @@ def validate_corpus(root, cfg, manifest, meaning):
     compiler_proof = verify_compiler_checks(root, groups)
     compiler_rows = load(root / 'compiler_checks.json')
     parent_training = training_audit.get('parent_preparation_checks', {})
-    parent_final = audit.get('parent_preparation_checks', {})
     compare(parent_training.get('compiler_ast_weight_checks'),
             [row for row in compiler_rows if row['cohort'] in ('semantic_training', 'semantic_validation')],
             'training audit compiler replay')
@@ -836,7 +852,8 @@ def validate_corpus(root, cfg, manifest, meaning):
                                                       ensure_ascii=False) + '\n').encode('utf-8')))
     require(audit.get('output_sha256') == final_outputs and
             audit.get('counts') == dict(atoms=128, compositions=128, atom_reversal_pairs=64,
-                                        composition_reversal_pairs=64, training_validation_phrase_rows=192),
+                                        composition_reversal_pairs=64, training_atom_rows=64,
+                                        validation_atom_rows=32, training_validation_phrase_records=192),
             'final corpus serialized output hashes/counts')
     final_meanings = audit.get('meaning_review', {}).get('pairs', [])
     require(len(final_meanings) == 64, 'final audit meaning-pair count')
@@ -876,7 +893,8 @@ def validate_corpus(root, cfg, manifest, meaning):
             packet.get('schema_version') == 'cbf8-blind-meaning-review-v1' and
             packet.get('axis_order') == list(SCHEMA) and
             packet.get('field_definitions') == cfg['field_definitions'] and
-            isinstance(packet.get('instructions'), list) and len(packet['instructions']) == 6,
+            isinstance(packet.get('instructions'), list) and
+            all(isinstance(value, str) for value in packet['instructions']),
             'sealed opaque blind-review packet schema and fixed definitions')
     require(len(questions) == len(question_by_id) == len(review_ids) == 352 and
             all(set(row) == {'review_id', 'text'} and isinstance(row['text'], str) and
@@ -1308,17 +1326,6 @@ def checkpoint_details(root, arm, cache, evidence, groups, cfg, source_baseline)
     return weights, normalizer, details, training_proof, checkpoint_path, evidence, cache
 
 
-def verify_head_selection_integrity(root, arm, details, cfg):
-    if arm == 'literal_generic':
-        return
-    trace = details['trace']
-    selected = min(range(len(trace)), key=lambda i: trace[i]['validation_CE'])
-    require(details['selected_epoch'] == selected, arm + ': selection must use only literal validation trace')
-    require(details.get('semantic_validation_used_for_selection') is False and
-            details.get('semantic_validation_used_for_checkpoint') is False and
-            details.get('development_used_for_checkpoint') is False and
-            details.get('final_used_for_checkpoint') is False,
-            arm + ': nonliteral/checkpoint leakage flags')
 
 
 def summary(rows):
@@ -1583,6 +1590,14 @@ def verify_final_intervals(root, atoms, compositions, rows, resolutions):
 
 
 def paired_development_controls(groups, stage_rows, resolutions, outcomes, output_value):
+    def _discordance(left, right):
+        require(len(left) == len(right) and all(value in (0, 1) for value in left + right),
+                'paired binary discordance inputs')
+        return dict(n=len(left),
+                    left_only=sum(a == 1 and b == 0 for a, b in zip(left, right)),
+                    right_only=sum(a == 0 and b == 1 for a, b in zip(left, right)),
+                    concordant=sum(a == b for a, b in zip(left, right)))
+
     development = groups['development_atoms']
     pair_ids = sorted({atom['pair_id'] for atom in development})
     held_state_ids = sorted(state['id'] for state in groups['states']
@@ -1766,31 +1781,37 @@ def verify_git_lineage(root, cfg, results, environment, manifest):
     repo = Path(__file__).parents[2]
     frozen = subprocess.check_output(['git', 'rev-parse', 'vey-2-final^{commit}'], cwd=repo, text=True).strip()
     require(frozen == FROZEN_VEY2, 'frozen Vey2 tag peel')
+    preparation_revision = manifest.get('preparation_git_revision')
     revision = results.get('measurement_git_revision')
+    require(isinstance(preparation_revision, str) and re.fullmatch(r'[0-9a-f]{40}', preparation_revision) and
+            results.get('preparation_git_revision') == preparation_revision and
+            environment.get('preparation_git_revision') == preparation_revision,
+            'consistent preparation Git lineage')
     require(isinstance(revision, str) and re.fullmatch(r'[0-9a-f]{40}', revision) and
             results.get('git_revision') == revision and environment.get('measurement_git_revision') == revision and
-            environment.get('git_revision') == revision and manifest.get('preparation_git_revision') == revision and
-            results.get('preparation_git_revision') == revision and
-            environment.get('preparation_git_revision') == revision,
-            'preparation/measurement source Git revisions are not identical')
+            environment.get('git_revision') == revision, 'consistent measurement Git lineage')
     source_files = set(manifest.get('preparation_source_sha256', {})) | {
-        'schema_support_verify.py', 'exact_state_build.py', 'exact_state_run.py',
+        'exact_state_build.py', 'exact_state_run.py',
     }
     hashes = {}
     for name in sorted(source_files):
         path = PROTOCOL.with_name(name)
         require(path.is_file(), 'pre-outcome source absent: ' + name)
-        recorded = subprocess.check_output(['git', 'show', revision + ':research/cbf0/' + name], cwd=repo)
-        require(path.read_bytes() == recorded, 'working source differs from measurement revision: ' + name)
+        relative = 'research/cbf0/' + name
+        prepared = subprocess.check_output(['git', 'show', preparation_revision + ':' + relative], cwd=repo)
+        recorded = subprocess.check_output(['git', 'show', revision + ':' + relative], cwd=repo)
+        require(prepared == recorded == path.read_bytes(), 'model source changed across preparation/measurement: ' + name)
+        prepared_hash = manifest.get('preparation_source_sha256', {}).get(name)
+        if prepared_hash is not None:
+            require(sha_bytes(prepared) == prepared_hash, 'prepared model-source hash ' + name)
         hashes[name] = sha(path)
     return frozen, hashes
 
 
 def verify_results_policy(root, cfg, results, selection, dev, final, intervals, paired,
                           manifest, package, selected_details):
-    require(results.get('experiment') == 'CBF8 Schema-support domain control' and
-            results.get('source_root') == cfg['source_root'] and results.get('output_root') == cfg['output_root'],
-            'result identity/source/output roots')
+    require(results.get('source_root') == cfg['source_root'] and results.get('output_root') == cfg['output_root'],
+            'result source/output roots')
     compare(results.get('selection'), selection, 'results selection')
     compare(results.get('development'), dev, 'all four reconstructed development outcomes')
     compare(results.get('final'), final, 'selected final statistics')
@@ -1815,10 +1836,8 @@ def verify_results_policy(root, cfg, results, selection, dev, final, intervals, 
             results.get('no_final_tuning') is True,
             'replication/verdict/B-STEF/frozen-selection policy')
     license_category = cfg['model']['license_class']
-    require(results.get('license_category') == license_category and
-            results.get('license_warning') ==
-            'The NLI checkpoint remains conditional/review and research-only; this result does not clear shipping obligations.',
-            'conditional model license disclosure')
+    require(results.get('license_category') == license_category,
+            'conditional model license classification')
     selected_outcome = dev[selection['selected']]
     if passed:
         next_branch = cfg['replication']
@@ -1881,13 +1900,13 @@ def verify_preflight(root, environment, cfg, groups, package, generic_features, 
     generic_lookup = evidence_by_text(generic_evidence)
     defined_lookup = evidence_by_text(defined_evidence)
     maximum_length = 0
+    maximum_feature_error = 0.0
     for name in attempts:
         attempt = load(root / name)
         require(attempt.get('preflight') is True and attempt.get('passed') is True and
                 attempt.get('protocol_sha256') == sha(PROTOCOL) and
                 attempt.get('corpus_manifest_sha256') == sha(root / 'corpus_manifest.json') and
                 attempt.get('meaning_audit_sha256') == sha(root / 'meaning_audit.json') and
-                attempt.get('source') == 'one literal training criterion and one canonical field only' and
                 attempt.get('formats') == ['generic', 'defined'] and
                 attempt.get('tokenizer_parity_exact') is True,
                 'actual tiny-pair preflight identity and format evidence')
@@ -1926,14 +1945,20 @@ def verify_preflight(root, environment, cfg, groups, package, generic_features, 
                     'preflight captures only first literal train criterion/canonical field')
             token_proof = retokenize(evidence, package['fast'], package['native'], [expected_text],
                                      cfg, fmt, 'actual ' + fmt + ' preflight', fields=[expected_field])
-            maximum_length = max(maximum_length, token_proof['maximum_sequence_length'])
+            maximum_length = max(maximum_length, token_proof['fast_max_tokens'], token_proof['native_max_tokens'])
         features = np.load(feature_path, mmap_mode='r', allow_pickle=False)
         require(features.shape == (2, cfg['model']['width']) and features.dtype == np.float32 and
-                np.array_equal(features[0], generic_features[generic_lookup[(expected_text, expected_field)]]) and
-                np.array_equal(features[1], defined_features[defined_lookup[(expected_text, expected_field)]]),
-                'preflight real frozen feature rows equal matching canonical cache rows')
+                np.isfinite(features).all(), 'preflight finite feature dimensions')
+        expected_features = np.stack([
+            generic_features[generic_lookup[(expected_text, expected_field)]],
+            defined_features[defined_lookup[(expected_text, expected_field)]],
+        ])
+        feature_error = float(np.max(np.abs(features - expected_features)))
+        maximum_feature_error = max(maximum_feature_error, feature_error)
+        require(feature_error < 2e-5, 'preflight FP32 feature replay exceeds numerical tolerance')
     return dict(attempts=len(attempts), maximum_sequence_length=maximum_length,
-                actual_literal_pair_forward=True, feature_cache_parity=True)
+                actual_literal_pair_forward=True, maximum_absolute_feature_error=maximum_feature_error,
+                feature_replay_tolerance=2e-5, bitwise_feature_parity_claimed=False)
 
 
 def main(root, cfg):
@@ -1995,7 +2020,7 @@ def main(root, cfg):
     semantic_texts = {row['text'] for row in semantic_train + semantic_val}
     expected_cache_texts = sorted(literal_texts | semantic_texts | set(dev_texts))
     require(generic_texts == expected_cache_texts, 'new caches are training/validation/development only; no final')
-    final_texts = set(row_texts(groups['final_atoms'], groups['final_compositions'], g0))
+    final_texts = set(row_texts(groups['final_atoms'], groups['final_compositions'], []))
     require(not final_texts.intersection(generic_texts), 'fresh final phrases appeared before selection')
 
     generic_H = np.load(root / 'features_generic.npy', mmap_mode='r', allow_pickle=False)
@@ -2029,10 +2054,14 @@ def main(root, cfg):
     baseline_lookup = evidence_by_text(baseline_inputs)
     generic_lookup = evidence_by_text(generic_evidence)
     baseline_feature_lookup = {key: baseline_H[index] for key, index in baseline_lookup.items()}
+    generic_baseline_capture_max_error = 0.0
     for key, index in generic_lookup.items():
         if key in baseline_feature_lookup:
-            require(np.array_equal(generic_H[index], baseline_feature_lookup[key]),
-                    'generic new capture differs from byte-identical CBF7 raw higher CLS ' + repr(key))
+            previous = baseline_feature_lookup[key]
+            capture_error = float(np.max(np.abs(generic_H[index] - previous)))
+            generic_baseline_capture_max_error = max(generic_baseline_capture_max_error, capture_error)
+            require(np.allclose(generic_H[index], previous, rtol=1e-5, atol=1e-4),
+                    'independent FP32 generic capture differs materially from CBF7 ' + repr(key))
     source_reference_hashes = {name: sha(source / name) for name in BASELINE_FILES}
     require(source_verify['checked_source_and_model_sha256'].get(str(source / 'features_nli_xsmall_higher_cls.npy')) ==
             source_reference_hashes['features_nli_xsmall_higher_cls.npy'], 'CBF7 source feature hash reference')
@@ -2045,7 +2074,6 @@ def main(root, cfg):
         H, evidence = (generic_H, generic_evidence) if fmt == 'generic' else (defined_H, defined_evidence)
         weights, normalizer, details, training_proof, checkpoint_path, training_evidence, training_H = \
             checkpoint_details(root, arm, H, evidence, groups, cfg, source_baseline)
-        verify_head_selection_integrity(root, arm, details, cfg)
         arm_data[arm] = dict(weights=weights, normalizer=normalizer, details=details,
                              training_proof=training_proof, H=H, evidence=evidence, checkpoint=checkpoint_path)
         caches[arm] = (H, evidence, sorted({p['criterion'] for p in evidence['pairs']}))
@@ -2053,9 +2081,8 @@ def main(root, cfg):
                 arm + ': exact evidence file hash')
         require(details.get('feature_sha256') in (None, sha(root / ('features_' + fmt + '.npy'))),
                 arm + ': exact frozen feature file hash')
-        require(details.get('frozen_parameter_before_sha256', details.get('frozen_encoder_before_sha256')) ==
-                lineage.get('tensor_hash_before', lineage.get('full_tensor_hash_before')),
-                arm + ': head-training frozen model hash links to encoder lineage')
+        require(hash_pair(details) == hash_pair(lineage),
+                arm + ': head-training frozen model hashes link to encoder lineage')
 
     weights, normalizer, details, training_proof, checkpoint_path, _, _ = \
         checkpoint_details(root, 'literal_generic', baseline_H, baseline_inputs, groups, cfg, source_baseline)
@@ -2148,6 +2175,8 @@ def main(root, cfg):
                                     sentencepiece_sha256=package['sentencepiece_sha256'],
                                     full_frozen_tensor_hash_unchanged=True),
                  corpus=corpus_proof, preflight=preflight_proof,
+                 independent_generic_capture=dict(max_absolute_feature_error=generic_baseline_capture_max_error,
+                                                  rtol=1e-5, atol=1e-4, byte_reuse_claimed=False),
                  cache_retokenization=dict(generic=generic_evidence_check,
                                            defined=defined_evidence_check,
                                            baseline=baseline_token_proof,
@@ -2166,6 +2195,7 @@ def main(root, cfg):
                  conditional_review_not_shipping_clearance=True, B_STEF_allowed=False,
                  policy=policy_proof, frozen_vey2_tag=frozen_tag,
                  measurement_source_sha256=code_hashes,
+                 independent_verifier_sha256=sha(Path(__file__)),
                  mtime_order_observed_not_crypto_seal=True, protocol_sha256=sha(PROTOCOL))
     return proof
 

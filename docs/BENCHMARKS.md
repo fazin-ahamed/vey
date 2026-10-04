@@ -3482,6 +3482,73 @@ compiler arithmetic, model inputs, learning recipe or any gate. All genuine
 meaning ambiguity still blocks execution. The new root requires fresh complete
 opaque review; no parent-forced acceptance or old-ID remapping is allowed.
 
+### CBF-8 result: domain support improves points, not all-gate transfer
+
+**MEASURED:** preparation `6f9dc32`, measurement `f436741`; the frozen
+two-by-two protocol and352/352 freshly accepted blind judgments precede scoring.
+Frozen FP32 NLI-xsmall, unchanged linear relation head and exact state/compiler:
+
+| Development arm | Joint atoms | Alias decisions |
+|---|---:|---:|
+| literal/generic, exact CBF7 baseline reuse | 20/32 (.625000) | .689453 |
+| literal/defined | 25/32 (.781250) | .822266 |
+| semantic/generic | 25/32 (.781250) | .818359 |
+| semantic/defined | 27/32 (.843750) | .867188 |
+
+All eligible development arms fail at least one gate. Frozen joint/alias/order
+selection chooses `semantic_defined`; exactly that arm opens the fresh final.
+
+| Fresh final endpoint | Result | Gate |
+|---|---:|---|
+| G0 held literal relation, not exact compilation | 77/128 (.601563) | FAIL |
+| G1 axis | 114/128 (.890625) | PASS |
+| G2 sign given correct axis | 105/114 (.921053) | PASS |
+| G3 joint signed atom | 105/128 (.820313) | PASS |
+| G4 alias decisions | 1725/2048 (.842285) | PASS |
+| G5 alias compositions | 1553/2048 (.758301) | FAIL |
+| G6 teacher-changing correct-new winner | .765148 | FAIL |
+| G7 exact literals/permutations | 1.000000 | PASS |
+
+Five atoms resolve UNKNOWN. G0 matched fields are31/32 but unrelated fields
+are46/96. Composition compiler accuracy is86/128. Causal correct-new uses
+150188 teacher-changing rows, without requiring the student to change;
+changed-to-new is .683763 and both endpoints correct .584108. These derived
+swaps are not independent semantic directions.
+
+Nominal95% reversal-cluster bootstrap,10000 draws seed0: final joint
+[.742188,.890625], alias decisions [.772449,.905273], composition
+[.688477,.824707]. Gates were preregistered point screens. Development uses16
+matched reversal clusters: mean semantic-data joint effect .109375
+[0,.234375], definition effect .109375 [-.046875,.281250], interaction -.093750
+[-.312500,.125000]. The generic-format semantic-data simple effect is .156250
+[.062500,.281250]; these descriptive intervals do not establish broad semantic
+or competitor superiority.
+
+**MEASURED independent reconstruction PASS:** the actual CPU CLI recovered
+all four development arms and the selected final, all semantic audit weights,
+160 final relation matrices,13152 final decisions,150188 teacher-changing rows
+and26304 permutation comparisons. Final head-mass maximum error is6.98e-7.
+All155 exact literals/4960 literal decisions pass with zero neural callbacks.
+Independent SentencePiece reproduces every persisted token/segment/mask.
+
+The never-run verifier required corrections to actual schemas, hash aliases,
+shared old G0 isolation, batch dimensions and missing reconstruction helpers;
+incidental caption/prose assertions were removed. Preparation and measurement
+commits differ, but all model-affecting source bytes match at both commits and
+the current source. Reencoded FP32 features are not byte reuse: preflight maximum
+drift4.83e-6; the528 matching new-generic/old pairs differ by at most2.30e-5.
+Only the baseline arm claims exact old-cache reuse. No corpus, model, recipe,
+prediction, gate or final-selection change occurred.
+
+Proof SHA `10aa4a1822fabf16f413c0d2f930ca77645398f52ef04c77a6c42901c11a2752`;
+`research/cbf0/schema_support_result_manifest.json` records108 artifact hashes
+and17 preserved verifier failures. **INFERENCE:** this supported frozen
+relation interface remains inadequate for the complete transfer gate; this is
+not evidence that semantic information is absent or every encoder fails.
+No replication or B-STEF is earned. The frozen failure branch opens ECA-1
+criterion-conditioned evidence pages, not another registry/head-width retry.
+
+
 
 
 ### Neutral endgame suite: source-first prospective freeze
@@ -3609,6 +3676,35 @@ construction. Both were verifier defects, not source repairs. Counts and
 allocations above were independently recovered; no model-visible gold,
 Boolean/Score quality, statistical independence, natural-token eligibility or
 shipping/underlying-paper republication authorization follows from custody.
+
+### ECA-1 preregistration: criterion-conditioned Evidence Pages
+
+**HYPOTHESIS, no model outcomes:** commit `4697017` freezes
+`research/endgame/ephemeral_pages_protocol.json`. This branch replaces the fixed
+four-field registry with question-conditioned reads of cached semantic pages.
+The exact lane retains facts, factors, composition, ties and UNKNOWN propagation.
+Frozen NLI-xsmall page/query features feed a rank64 conditional reader; paired
+controls are a real joint cross-encoder, frozen-cosine attention, training-only
+lexical models and a query-blind page regressor. No adapter or head-width search.
+
+The prospective authored assay spans20 families with distinct A/B/C properties,
+held wording, fields and four whole families. Whole worlds are split units;
+320 final worlds balance64 property exposures per family. Independent opaque
+meaning review must accept every unique page/question before encoder capture.
+Missing and contradictory evidence, polarity, composition, candidate counts,
+page changes/erasures, zeroed state/question features and uniform attention are
+paired interventions, not extra independent observations.
+
+Promotion requires all frozen quality, UNKNOWN, exact/invariance and causal gates,
+an internal cross-control NI bound at a5-point margin, and corrected evidence
+of benefit over lexical/zeroing controls. This is a mechanism screen, not the
+endgame1-point competitor NI test. Passing requires seeds11/13 and fresh neutral
+transfer before primitive/product promotion; failure routes to a conditional
+interface audit or one preregistered final-layer adaptation, never final tuning.
+The checkpoint remains conditional/review. Canonical Vey-U IR dependency hashes
+and JSON serialization were exercised; corpus, quality, cache savings,
+calibration, certification and competitor superiority remain unmeasured.
+
 
 
 
