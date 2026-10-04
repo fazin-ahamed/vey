@@ -1047,7 +1047,7 @@ def verify_run(audit: Audit, phase: str, run_root: Path, receipt_path: Path | No
                                   "corrected packed feature/target layout changed: " + split + "." + key)
                     for start in range(0, len(selected_indices), 32):
                         chunk = selected_indices[start:start + 32]
-                        audit.require(np.array_equal(before[chunk], after[chunk]),
+                        audit.require(np.array_equal(before[chunk].view(np.uint8), after[chunk].view(np.uint8)),
                                       "grade correction changed fitted optimizer/validation bytes: " + split + "." + key)
                     audit.counts["unchanged_selected_feature_target_rows"] += len(selected_indices)
         if name == "lexical":
