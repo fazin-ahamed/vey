@@ -21,12 +21,12 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import ephemeral_pages_capture as capture
-from ephemeral_pages_features import PROTOCOL_SHA256, sha256_file, validate_final_receipt
+from ephemeral_pages_capture import DEFAULT_EXPERIMENT, resolve_experiment
+from ephemeral_pages_features import sha256_file, validate_final_receipt
 
 CONTROLS = ("pages", "cross", "cosine", "lexical", "query_blind")
 INTERVENTIONS = ("zero_question", "zero_pages", "uniform_attention")
 UNKNOWN = "__unknown__"
-PROTOCOL = Path(__file__).with_name("ephemeral_pages_protocol.json")
 DEFAULT_RUN = Path("/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/runs/seed7-grade-corrected")
 SIGMAS = (.025, .05, .075, .1, .15, .2, .3, .4)
 LEVELS = np.arange(5, dtype=np.float64) / 4
@@ -36,10 +36,9 @@ DIAGNOSTIC_VARIANTS = {"base", "relevant_page_erasure", "relevant_page_contradic
 ROBUST_VARIANTS = {"candidate_permutation_1", "candidate_permutation_2", "candidate_rename", "page_reorder", "question_reorder"}
 
 
-def protocol() -> dict:
-    if sha256_file(PROTOCOL) != PROTOCOL_SHA256:
-        raise RuntimeError("ECA protocol changed; no evaluation is authorized")
-    return json.loads(PROTOCOL.read_text(encoding="utf-8"))
+def protocol(experiment=DEFAULT_EXPERIMENT) -> dict:
+    cfg, _ = experiment.protocol()
+    return cfg
 
 
 def plain(value: Any) -> Any:
@@ -74,29 +73,31 @@ def checkpoint_files(run_root: Path) -> dict:
             for control in CONTROLS}
 
 
-def load_ir(phase: str, receipt: Path | None = None) -> dict[str, dict]:
+def load_ir(phase: str, receipt: Path | None = None,
+            experiment=DEFAULT_EXPERIMENT) -> dict[str, dict]:
     if phase == "final":
         if receipt is None:
             raise RuntimeError("final requires an immutable selection/calibration receipt")
-        validate_final_receipt(receipt)
+        validate_final_receipt(receipt, experiment.protocol_path)
     elif phase not in {"calibration", "development"}:
         raise ValueError("evaluation only opens calibration, development, or receipt-gated final")
     result = {}
-    for row in capture.rows_for(phase):
+    for row in capture.rows_for(phase, experiment):
         if row["id"] in result:
             raise RuntimeError("duplicate DecisionIR ID")
         result[row["id"]] = row
     return result
 
 
-def load_data(phase: str, receipt: Path | None = None) -> tuple[dict, dict]:
+def load_data(phase: str, receipt: Path | None = None,
+              experiment=DEFAULT_EXPERIMENT) -> tuple[dict, dict]:
     # Gate precedes even capture.load_phase's hash read of final.jsonl.
     if phase == "final":
         if receipt is None:
             raise RuntimeError("final is sealed without a receipt")
-        validate_final_receipt(receipt)
-    data = capture.load_phase(phase)
-    ir = load_ir(phase, receipt)
+        validate_final_receipt(receipt, experiment.protocol_path)
+    data = capture.load_phase(phase, experiment)
+    ir = load_ir(phase, receipt, experiment)
     if {record["row_id"] for record in data["records"]} != set(ir):
         raise RuntimeError("captured records and DecisionIR do not cover the same rows")
     return data, ir
@@ -640,19 +641,20 @@ def gate_report(summary: dict, cfg: dict) -> dict:
 
 
 def evaluate_phase(phase: str, run_root: Path, calibrations: dict | None, device: str,
-                   receipt: Path | None = None) -> tuple[dict, dict | None]:
+                   receipt: Path | None = None, experiment=DEFAULT_EXPERIMENT) -> tuple[dict, dict | None]:
     from ephemeral_pages_train import load_control, predict_control
-    cfg = protocol()
+    cfg = protocol(experiment)
+    _, protocol_hash = experiment.protocol()
     if phase == "final":
         if receipt is None:
             raise RuntimeError("final evaluation requires sealed calibration")
-        verified = validate_final_receipt(receipt)
+        verified = validate_final_receipt(receipt, experiment.protocol_path)
         sealed = json.loads(Path(verified["calibration_file"]["path"]).read_text(encoding="utf-8"))
         if calibrations != sealed.get("controls"):
             raise RuntimeError("final evaluation cannot override sealed calibration")
         if checkpoint_files(run_root) != verified["checkpoint_files"]:
             raise RuntimeError("final checkpoint files differ from selection receipt")
-    data, ir = load_data(phase, receipt)
+    data, ir = load_data(phase, receipt, experiment)
     expected_worlds = cfg["corpus"]["worlds"][phase]
     observed_worlds = {record["world_id"] for record in data["records"]}
     if len(observed_worlds) != expected_worlds:
@@ -675,7 +677,7 @@ def evaluate_phase(phase: str, run_root: Path, calibrations: dict | None, device
             raise RuntimeError("only calibration worlds may fit calibration")
         calibrations = {}
     for control in CONTROLS:
-        model, normalizer = load_control(control, run_root, device=device)
+        model, normalizer = load_control(control, run_root, device=device, experiment=experiment)
         modes = (None, *INTERVENTIONS) if control == "pages" and phase != "calibration" else (None,)
         for intervention in modes:
             name = intervention or control
@@ -711,7 +713,8 @@ def evaluate_phase(phase: str, run_root: Path, calibrations: dict | None, device
                                           "required_causal_quality_pass": causal_pass}
         screens["pages"]["internal_cross_NI_margin"] = paired["internal_cross_NI"]
     result = {"schema": "vey.eca.evaluation.v1", "phase": phase,
-              "protocol_sha256": PROTOCOL_SHA256, "checkpoint_files": checkpoint_files(run_root),
+              "protocol_sha256": protocol_hash, "experiment_context": experiment.context(),
+              "checkpoint_files": checkpoint_files(run_root),
               "bootstrap": bootstrap, "metrics": summaries, "artifacts": saved,
               "gate_screens": screens, "comparisons": paired,
               "capture_lineage": data["lineage"], "capture_counters": data["counters"],
@@ -732,16 +735,19 @@ def evaluate_phase(phase: str, run_root: Path, calibrations: dict | None, device
     return {"manifest": manifest, "results": result}, calibrations
 
 
-def seal_selection(run_root: Path, calibration: dict, development: dict) -> Path:
+def seal_selection(run_root: Path, calibration: dict, development: dict,
+                   experiment=DEFAULT_EXPERIMENT) -> Path:
+    _, protocol_hash = experiment.protocol()
     calibration_path = run_root / "calibration.json"
     calibration_file = write_json(calibration_path, {
-        "schema": "vey.eca.calibration.v1", "protocol_sha256": PROTOCOL_SHA256,
-        "controls": calibration, "final_outcomes_used": False,
+        "schema": "vey.eca.calibration.v1", "protocol_sha256": protocol_hash,
+        "experiment_context": experiment.context(), "controls": calibration, "final_outcomes_used": False,
         "calibration_evaluation": artifact(run_root / "evaluation" / "calibration" / "evaluation.json"),
         "checkpoint_files": checkpoint_files(run_root),
         "fit_split": "calibration", "certificate": "unavailable"})
     selection_file = write_json(run_root / "selection.json", {
-        "schema": "vey.eca.selection.v1", "protocol_sha256": PROTOCOL_SHA256,
+        "schema": "vey.eca.selection.v1", "protocol_sha256": protocol_hash,
+        "experiment_context": experiment.context(),
         "eligible_arm": "pages", "eligible_arms": ["pages"],
         "selection_rule": "Protocol fixes pages; development controls cannot select another architecture",
         "development_evaluation": development["manifest"], "final_outcomes_used": False,
@@ -752,49 +758,54 @@ def seal_selection(run_root: Path, calibration: dict, development: dict) -> Path
         "promotion": False, "B_STEF_allowed": False, "endgame_complete": False})
     receipt = run_root / "selection_calibration_receipt.json"
     write_json(receipt, {"schema": "vey.eca.selection-calibration.v1",
-                         "protocol_sha256": PROTOCOL_SHA256, "eligible_arm": "pages",
+                         "protocol_sha256": protocol_hash, "experiment_context": experiment.context(),
+                         "eligible_arm": "pages",
                          "eligible_arms": ["pages"], "final_outcomes_used": False,
                          "checkpoint_files": checkpoint_files(run_root),
                          "selection_file": selection_file, "calibration_file": calibration_file,
                          "development_evaluation": development["manifest"],
-                         "corpus_build_manifest": artifact(capture.CORPUS / "build_manifest_v1.json"),
-                         "amendment_file": artifact(PROTOCOL.with_name("ephemeral_pages_grade_amendment.json"))})
+                         "corpus_build_manifest": artifact(experiment.corpus_root / "build_manifest_v1.json"),
+                         "amendment_file": artifact(experiment.protocol_path.with_name("ephemeral_pages_grade_amendment.json"))})
     return receipt
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--phase", choices=("development", "final"), default="development")
-    parser.add_argument("--run-root", type=Path, default=DEFAULT_RUN)
+    parser.add_argument("--run-root", type=Path)
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--receipt", type=Path)
+    parser.add_argument("--atomic", action="store_true")
+    parser.add_argument("--features-root", type=Path)
     args = parser.parse_args(argv)
-    protocol()
+    experiment = resolve_experiment(args.atomic, args.features_root)
+    _, protocol_hash = experiment.protocol()
+    run_root = args.run_root or (DEFAULT_RUN if not args.atomic
+                                else capture.ATOMIC_ROOT / "runs" / "seed7")
     if args.phase == "final":
         if args.receipt is None:
             parser.error("final requires explicit --receipt; development is the default")
-        verified = validate_final_receipt(args.receipt)
-        if checkpoint_files(args.run_root) != verified["checkpoint_files"]:
+        verified = validate_final_receipt(args.receipt, experiment.protocol_path)
+        if checkpoint_files(run_root) != verified["checkpoint_files"]:
             raise RuntimeError("run checkpoints differ from sealed receipt")
         calibration_path = Path(verified["calibration_file"]["path"])
         sealed = json.loads(calibration_path.read_text(encoding="utf-8"))
-        if sealed.get("protocol_sha256") != PROTOCOL_SHA256 or sealed.get("final_outcomes_used") is not False:
+        if sealed.get("protocol_sha256") != protocol_hash or sealed.get("final_outcomes_used") is not False:
             raise RuntimeError("invalid sealed calibration")
         if set(sealed["controls"]) != set(CONTROLS):
             raise RuntimeError("sealed calibration omits a fixed control")
-        result, _ = evaluate_phase("final", args.run_root, sealed["controls"], args.device, args.receipt)
+        result, _ = evaluate_phase("final", run_root, sealed["controls"], args.device, args.receipt,
+                                   experiment)
         print(json.dumps({"phase": "final", "manifest": result["manifest"], "promotion": False}, sort_keys=True))
     else:
         if args.receipt is not None:
             parser.error("development does not consume a final receipt")
-        checkpoints = checkpoint_files(args.run_root)
-        _, calibration = evaluate_phase("calibration", args.run_root, None, args.device)
-        development, _ = evaluate_phase("development", args.run_root, calibration, args.device)
-        if checkpoint_files(args.run_root) != checkpoints:
+        checkpoints = checkpoint_files(run_root)
+        _, calibration = evaluate_phase("calibration", run_root, None, args.device, None, experiment)
+        development, _ = evaluate_phase("development", run_root, calibration, args.device, None, experiment)
+        if checkpoint_files(run_root) != checkpoints:
             raise RuntimeError("checkpoint files changed during train-free evaluation")
-        receipt = seal_selection(args.run_root, calibration, development)
-        print(json.dumps({"phase": "development", "manifest": development["manifest"],
-                          "receipt": artifact(receipt), "final_opened": False, "promotion": False}, sort_keys=True))
+        receipt = seal_selection(run_root, calibration, development, experiment)
     return 0
 
 

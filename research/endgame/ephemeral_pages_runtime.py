@@ -9,8 +9,9 @@ from pathlib import Path
 
 import numpy as np
 
-from ephemeral_pages_capture import CORPUS, load_phase, rows_for
-from ephemeral_pages_features import CachedRuntime, FeatureNormalizer, PROTOCOL_SHA256
+from ephemeral_pages_capture import (DEFAULT_EXPERIMENT, ATOMIC_ROOT, load_phase, resolve_experiment,
+                                     rows_for)
+from ephemeral_pages_features import CachedRuntime, FeatureNormalizer
 from ephemeral_pages_train import load_control, predict_control
 
 
@@ -35,15 +36,16 @@ def choice(row, scores, known_logits, threshold: float) -> dict:
             "fallback": winner == "__unknown__"}
 
 
-def run(run_root: Path, threshold: float, output: Path, device: str = "cuda") -> dict:
+def run(run_root: Path, threshold: float, output: Path, device: str = "cuda",
+        experiment=DEFAULT_EXPERIMENT) -> dict:
     if not 0.0 < threshold < 1.0:
         raise ValueError("threshold must be the frozen calibration value in (0,1)")
-    arrays = load_phase("development")
-    records = arrays["records"]
+    _, protocol_hash = experiment.protocol()
+    arrays = load_phase("development", experiment)
     bases = []
     changed = None
     world = None
-    for row in rows_for("development"):
+    for row in rows_for("development", experiment):
         md = row["metadata"]
         if world is None:
             world = md["world_id"]
@@ -58,7 +60,7 @@ def run(run_root: Path, threshold: float, output: Path, device: str = "cuda") ->
     first, second = bases[:2]
     candidates = [c["id"] for c in first["candidates"] if c["id"] != "__unknown__"]
     lookup = {(r["row_id"], r["candidate_id"], r["term_index"]): i for i, r in enumerate(records)}
-    reader, stats = load_control("pages", run_root, device)
+    reader, stats = load_control("pages", run_root, device, experiment=experiment)
     normalizer = FeatureNormalizer(stats["pages"]["mean"], stats["pages"]["std"], mode="pages")
     events = []
     with CachedRuntime(normalizer, device=device) as runtime:
@@ -91,7 +93,7 @@ def run(run_root: Path, threshold: float, output: Path, device: str = "cuda") ->
                            changed, result["output"].score.detach().cpu().numpy(),
                            result["output"].known_logits.detach().cpu().numpy(), threshold)})
         del reader
-        cross, cross_stats = load_control("cross", run_root, device)
+        cross, cross_stats = load_control("cross", run_root, device, experiment=experiment)
         runtime.normalizer = FeatureNormalizer(cross_stats["cross"]["mean"], cross_stats["cross"]["std"], mode="cross")
         for row in (first, second):
             before = dict(runtime.counters)
@@ -100,7 +102,8 @@ def run(run_root: Path, threshold: float, output: Path, device: str = "cuda") ->
             events.append({"event": "joint_cross_question", "row_id": row["id"],
                            "before": before, "after": dict(runtime.counters)})
         lineage = runtime.encoder.finalize_lineage()
-    report = {"protocol_sha256": PROTOCOL_SHA256, "phase": "development", "threshold": threshold,
+    report = {"protocol_sha256": protocol_hash, "experiment_context": experiment.context(),
+              "phase": "development", "threshold": threshold,
               "state_sha256": digest(first["state_blocks"]), "events": events, "encoder_lineage": lineage,
               "claim": "Observed encoder reuse and packed/live parity; no latency or capability promotion."}
     with output.open("x", encoding="utf-8") as stream:
@@ -111,12 +114,19 @@ def run(run_root: Path, threshold: float, output: Path, device: str = "cuda") ->
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--run-root", type=Path, required=True)
+    parser.add_argument("--run-root", type=Path)
     parser.add_argument("--threshold", type=float, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--device", default="cuda")
+    parser.add_argument("--atomic", action="store_true")
+    parser.add_argument("--features-root", type=Path)
     args = parser.parse_args()
-    report = run(args.run_root, args.threshold, args.output, args.device)
+    experiment = resolve_experiment(args.atomic, args.features_root)
+    if args.run_root is None:
+        if not args.atomic:
+            parser.error("--run-root is required outside the pinned atomic experiment")
+        args.run_root = ATOMIC_ROOT / "runs" / "seed7"
+    report = run(args.run_root, args.threshold, args.output, args.device, experiment)
     print(json.dumps({"status": "cached_runtime_verified", "events": report["events"]}, sort_keys=True))
     return 0
 

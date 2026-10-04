@@ -21,9 +21,9 @@ import torch
 import torch.nn.functional as F
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from ephemeral_pages_capture import load_phase, rows_for
-from ephemeral_pages_features import (GPU_LOCK, PROTOCOL_PATH, PROTOCOL_SHA256,
-    _apply_process_priority, _parse_meminfo, _resource_guard)
+from ephemeral_pages_capture import (ATOMIC_ROOT, DEFAULT_EXPERIMENT, Experiment, load_phase,
+                                     resolve_experiment, rows_for)
+from ephemeral_pages_features import (GPU_LOCK, _apply_process_priority, _parse_meminfo, _resource_guard)
 from ephemeral_pages_model import (PageReader, CosineReader, CrossReader,
     QueryBlindReader, LexicalReader, ReaderOutput, eca_loss, intervene_features)
 
@@ -75,12 +75,12 @@ def _resources(device):
             fcntl.flock(lock.fileno(), fcntl.LOCK_UN)
 
 
-def optimizer_indices(arrays, split):
+def optimizer_indices(arrays, split, experiment=DEFAULT_EXPERIMENT):
     """Select via same-split original IR, never via diagnostic record duplication."""
     if split not in {"train", "validation"}:
         raise ValueError("optimizer selection only permits train/validation")
     allowed = set()
-    for row in rows_for(split):
+    for row in rows_for(split, experiment):
         if row["split"] != split:
             raise ValueError("IR split mismatch")
         meta = row["metadata"]
@@ -216,15 +216,19 @@ def _parameter_hash(model):
     return digest.hexdigest()
 
 
-def load_control(control, run_root, device="cpu"):
+def load_control(control, run_root, device="cpu", experiment=DEFAULT_EXPERIMENT):
     root = Path(run_root)
     if control == "lexical":
         return LexicalReader.load(str(root / "lexical.pkl")), None
     if control not in FACTORIES:
         raise ValueError(f"unknown control {control!r}")
+    _, protocol_hash = experiment.protocol()
     checkpoint = torch.load(root / f"{control}.pt", map_location="cpu", weights_only=False)
-    if checkpoint["protocol_sha256"] != PROTOCOL_SHA256:
+    if checkpoint["protocol_sha256"] != protocol_hash:
         raise ValueError("checkpoint protocol mismatch")
+    if checkpoint.get("experiment_context") is not None and \
+            checkpoint["experiment_context"] != experiment.context():
+        raise ValueError("checkpoint experiment context mismatch")
     model = FACTORIES[control]()
     model.load_state_dict(checkpoint["state_dict"], strict=True)
     return model.to(device).eval(), checkpoint["normalizer"]
@@ -254,9 +258,11 @@ def predict_control(control, model, normalizer, arrays, indices=None,
 
 
 def train_controls(run_root=RUN_ROOT, device="cuda", controls=CONTROLS,
-                   chunk_size=32, smoke=False, smoke_epochs=2, smoke_records=64):
-    if _hash_file(PROTOCOL_PATH) != PROTOCOL_SHA256:
-        raise RuntimeError("frozen protocol changed")
+                   chunk_size=32, smoke=False, smoke_epochs=2, smoke_records=64,
+                   experiment=DEFAULT_EXPERIMENT):
+    if not isinstance(experiment, Experiment):
+        raise TypeError("explicit experiment custody required")
+    _, protocol_hash = experiment.protocol()
     if any(control not in CONTROLS for control in controls):
         raise ValueError("unknown control")
     root = Path(run_root)
@@ -266,10 +272,10 @@ def train_controls(run_root=RUN_ROOT, device="cuda", controls=CONTROLS,
     if any((root / ("lexical.pkl" if c == "lexical" else f"{c}.pt")).exists() or
            (root / f"{c}_history.json").exists() for c in controls):
         raise FileExistsError("refusing to replace experiment artifacts")
-    train = load_phase("train")
-    validation = load_phase("validation")
-    train_ix = optimizer_indices(train, "train")
-    val_ix = optimizer_indices(validation, "validation")
+    train = load_phase("train", experiment)
+    validation = load_phase("validation", experiment)
+    train_ix = optimizer_indices(train, "train", experiment)
+    val_ix = optimizer_indices(validation, "validation", experiment)
     if smoke:
         train_ix = train_ix[:smoke_records]
         val_ix = val_ix[:smoke_records]
@@ -279,9 +285,10 @@ def train_controls(run_root=RUN_ROOT, device="cuda", controls=CONTROLS,
     with _resources(device) as (baseline, priority):
         normalizer = fit_normalizer(train, train_ix, chunk_size)
         lineage = {
-            "protocol_sha256": PROTOCOL_SHA256, "smoke": smoke, "seed": 7,
+            "protocol_sha256": protocol_hash, "smoke": smoke, "seed": 7,
             "epochs": epochs, "chunk_size": chunk_size, "optimizer": "AdamW",
             "lr": .01, "weight_decay": .0001, "encoder_forwards": 0,
+            "experiment_context": experiment.context(),
             "train_feature_lineage": train["lineage"],
             "validation_feature_lineage": validation["lineage"],
             "capture_counters": {"train": train["counters"], "validation": validation["counters"]},
@@ -292,6 +299,22 @@ def train_controls(run_root=RUN_ROOT, device="cuda", controls=CONTROLS,
                               "ephemeral_pages_model.py": _hash_file(Path(__file__).with_name("ephemeral_pages_model.py"))},
             "resources": priority,
         }
+        launch_receipt = {
+            "schema": "vey.eca.training-launch.v1",
+            **{key: lineage[key] for key in ("protocol_sha256", "smoke", "seed", "epochs", "chunk_size",
+                                             "optimizer", "lr", "weight_decay", "encoder_forwards",
+                                             "experiment_context", "source_sha256", "resources",
+                                             "selected_row_ids")},
+            "feature_manifest_hashes": {
+                "train": _hash_file(experiment.cache_root / "train_manifest.json"),
+                "validation": _hash_file(experiment.cache_root / "validation_manifest.json"),
+            },
+            "selected_targets": list(TARGETS),
+        }
+        with (root / "launch_receipt.json").open("x", encoding="utf-8") as stream:
+            json.dump(launch_receipt, stream, sort_keys=True, indent=2, allow_nan=False)
+            stream.write("\n")
+        lineage["launch_receipt_sha256"] = _hash_file(root / "launch_receipt.json")
         for control in controls:
             _seed()
             history = {**lineage, "control": control, "history": []}
@@ -345,7 +368,8 @@ def train_controls(run_root=RUN_ROOT, device="cuda", controls=CONTROLS,
                         history["selected_parameter_sha256"] = _parameter_hash(model)
                         torch.save({"state_dict": {key: value.detach().cpu().clone() for key, value in model.state_dict().items()},
                                     "normalizer": normalizer, "epoch": epoch,
-                                    "protocol_sha256": PROTOCOL_SHA256, "smoke": smoke,
+                                    "protocol_sha256": protocol_hash,
+                                    "experiment_context": experiment.context(), "smoke": smoke,
                                     "control": control}, root / f"{control}.pt")
                 history["checkpoint_sha256"] = _hash_file(root / f"{control}.pt")
                 del optimizer, model
@@ -359,16 +383,23 @@ def train_controls(run_root=RUN_ROOT, device="cuda", controls=CONTROLS,
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--run-root", type=Path, default=RUN_ROOT)
+    parser.add_argument("--run-root", type=Path)
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--controls", nargs="+", choices=CONTROLS, default=list(CONTROLS))
     parser.add_argument("--chunk-size", type=int, default=32)
     parser.add_argument("--smoke", action="store_true", help="Reduced diagnostic only; writes run-root/smoke, never actual artifacts")
     parser.add_argument("--smoke-epochs", type=int, default=2)
     parser.add_argument("--smoke-records", type=int, default=64)
+    parser.add_argument("--atomic", action="store_true")
+    parser.add_argument("--features-root", type=Path)
     args = parser.parse_args()
-    root = train_controls(**vars(args))
-    print(json.dumps({"run_root": str(root), "smoke": args.smoke, "controls": args.controls}))
+    experiment = resolve_experiment(args.atomic, args.features_root)
+    root = train_controls(run_root=args.run_root or (RUN_ROOT if not args.atomic
+        else ATOMIC_ROOT / "runs" / "seed7"),
+        device=args.device, controls=args.controls, chunk_size=args.chunk_size, smoke=args.smoke,
+        smoke_epochs=args.smoke_epochs, smoke_records=args.smoke_records, experiment=experiment)
+    print(json.dumps({"run_root": str(root), "smoke": args.smoke, "controls": args.controls,
+                      "experiment_context": experiment.context()}, sort_keys=True))
     return 0
 
 
