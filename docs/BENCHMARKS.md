@@ -3793,6 +3793,31 @@ JSON serialization, audited corpus construction and actual cache counters were
 exercised. Quality, useful calibration, certification, end-to-end performance
 and competitor superiority remain unmeasured at this implementation checkpoint.
 
+**MEASURED — first prefinal execution, retained negative evidence.** All five
+controls completed the frozen recipe. Development primary exact-set accuracy:
+pages0.131836, cross0.334961, cosine0.117188, lexical0.633789 and
+query-blind0.332031. Pages ordinal MAE0.314524, attribution0.248779 and supported
+coverage0.471875 fail their gates. This is opened development, not fresh
+confirmation. The original selection/calibration receipt SHA-256 is
+`5d6b4718a75e111bf4e281a6bf488c245b16aff96133f27c4f5cca5eaded8f03`.
+
+The grade-change diagnostic is invalid: every prefinal replacement preserves
+the teacher maximal set (train1536, validation768, calibration1536,
+development1536 cases). Improving the worst candidate by one grade supplies
+zero teacher-changing cases. `ephemeral_pages_grade_amendment.json` prospectively
+repairs this construction before any final opening: enumerate exact
+teacher-changing single-page grade replacements, prefer disjoint winner sets,
+then select by a fixed content hash without using model outputs. Original
+corpus/captures/predictions/receipts stay retained; all non-grade rows and every
+fitted checkpoint must remain identical. A400-case prefinal construction smoke
+passed deterministic teacher changes and unchanged exact facts.
+
+The unchanged calibration rule includes all calibration variants, so corrected
+calibration is refit on calibration worlds only and resealed before final.
+Existing encoder vectors are reused exactly. This repair cannot rescue the
+already-failed non-grade development gates; no optimizer, checkpoint,
+architecture, gate or final-driven selection changes are authorized.
+
 
 
 

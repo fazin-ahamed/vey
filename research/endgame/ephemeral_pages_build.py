@@ -861,7 +861,6 @@ def _grade_change_variant(row: DecisionIR, term_index: int, prop_by_id: Mapping[
     terms = row.metadata["terms"]
     term = terms[term_index]
     field_key = term["field_key"]
-    orientation = int(term["orientation"])
     owners = dict(row.metadata["page_owners"])
     grades = dict(row.metadata["page_grades"])
     fields = dict(row.metadata["page_fields"])
@@ -869,20 +868,27 @@ def _grade_change_variant(row: DecisionIR, term_index: int, prop_by_id: Mapping[
         candidate.id: [block_id for block_id, owner in owners.items() if owner == candidate.id and fields[block_id] == field_key]
         for candidate in row.candidates if candidate.id != UNKNOWN_ID
     }
-    possible: list[tuple[float, str, str, int, int]] = []
+    term_objects = tuple(Term(item["field_key"], item["question"], int(item["orientation"]), float(item["weight"])) for item in terms)
+    old_gold = set(row.gold)
+    possible: list[tuple[bool, str, str, str, int, int]] = []
     for candidate_id, page_ids in page_by_candidate.items():
         if len(page_ids) != 1:
             continue
         block_id = page_ids[0]
         old_grade = grades[block_id]
-        new_grade = old_grade + (1 if orientation == 1 else -1)
-        if new_grade not in GRADE_ORDER:
-            continue
-        utility = old_grade / 4.0 if orientation == 1 else (4 - old_grade) / 4.0
-        possible.append((utility, candidate_id, block_id, old_grade, new_grade))
+        for new_grade in GRADE_ORDER:
+            if new_grade == old_grade:
+                continue
+            changed_grades = dict(grades)
+            changed_grades[block_id] = new_grade
+            _, _, new_gold, _, _ = _score_candidates(row.candidates, owners, changed_grades, fields, term_objects)
+            if set(new_gold) == old_gold:
+                continue
+            digest = _sha_bytes(_canonical_json([row.id, field_key, candidate_id, new_grade]))
+            possible.append((bool(old_gold.intersection(new_gold)), digest, candidate_id, block_id, old_grade, new_grade))
     if not possible:
-        raise ValueError(f"no relevant-page grade change possible for decision {row.id}")
-    _, candidate_id, block_id, old_grade, new_grade = min(possible, key=lambda item: (item[0], hashlib.sha256(item[1].encode()).hexdigest()))
+        raise ValueError(f"no teacher-changing relevant-page grade replacement for decision {row.id}")
+    _, _, candidate_id, block_id, old_grade, new_grade = min(possible, key=lambda item: item[:2])
     prop = prop_by_id[field_key]
     variant_idx = _pick_variant(row.id, field_key, candidate_id, new_grade, "intervention")
     replacement_text = _page_wording(prop, split, new_grade, variant_idx)
@@ -891,7 +897,7 @@ def _grade_change_variant(row: DecisionIR, term_index: int, prop_by_id: Mapping[
     metadata = dict(row.metadata)
     metadata.update({"page_owners": owners, "page_grades": grades, "page_fields": fields})
     intermediate = _replace_row(row, blocks=blocks, metadata=metadata, row_variant="grade_change_source")
-    return _recalculate(intermediate, variant="relevant_page_grade_change", extra_metadata={
+    result = _recalculate(intermediate, variant="relevant_page_grade_change", extra_metadata={
         "intervention_type": "relevant_page_grade_change",
         "intervened_field_key": field_key,
         "intervened_candidate_id": candidate_id,
@@ -900,6 +906,9 @@ def _grade_change_variant(row: DecisionIR, term_index: int, prop_by_id: Mapping[
         "new_grade": new_grade,
         "id_distinction": f"grade:{field_key}",
     })
+    if set(result.gold) == old_gold:
+        raise AssertionError("grade intervention must change the exact teacher maximal set")
+    return result
 
 
 def _erase_variant(row: DecisionIR, field_key: str) -> DecisionIR:
@@ -1351,6 +1360,10 @@ def _stream_build(root: Path, source: Mapping[str, Any], inventory: Mapping[str,
         "builder_bytes": code_size,
         "protocol_sha256": protocol_sha,
         "canonical_dependency_sha256": dependency_hashes,
+        "grade_intervention_amendment": {
+            "path": str(PROTOCOL_PATH.with_name("ephemeral_pages_grade_amendment.json")),
+            "sha256": _sha_file(PROTOCOL_PATH.with_name("ephemeral_pages_grade_amendment.json"))[0],
+        },
         "seed": SEED,
         "grade_order": {"integer_values": list(GRADE_ORDER), "normalized_values": [0.0, 0.25, 0.5, 0.75, 1.0]},
         "world_counts": dict(WORLD_COUNTS),
