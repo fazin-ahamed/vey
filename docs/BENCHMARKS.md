@@ -3527,6 +3527,38 @@ The acquired MASSIVE1.1 archive SHA-256 is
 No source grouping, multilingual quality or competitor parity is established
 by this failed attempt.
 
+**MEASURED completed acquisition, independent verification pending:** the
+amended pipeline acquired and grouped855,654 rows:13,083 Banking77 rows and
+842,571 MASSIVE rows across exactly51 locales. Each locale contains
+11,514 train,2,033 validation and2,974 test rows. All51 locale descendants
+remain joined by original utterance ID. No model or quality evaluation ran.
+
+The reporting smoke caught a unit-label defect: `independent_group_count`
+counted constituent source-lineage groups, while caps apply to connected
+components. Corrected reporting on the actual retained groups preserved every
+membership hash, split and row count. The29,604 source groups form22,169
+components. Source-specific connected-component counts:
+
+| source | train | dev | calibration | confirmation | unused |
+|---|---:|---:|---:|---:|---:|
+| Banking77 |4096|1024|1024|3078|3819|
+| MASSIVE |3652|1024|1024|1856|1572|
+
+Original manifests remain intact beside a derived count-unit correction.
+Neither lineage-member counts nor locale descendants increase the allocation
+unit count; unresolved author/template lineage still prevents a claim of
+statistical independence. The actual English MASSIVE rows contain no
+`judgments` field or individual rating records. Non-English judgment
+availability is retained as source metadata, not fabricated51-language
+Boolean/Score gold or probability-calibration evidence.
+
+QASPER custody code separately retains paper descendants, nullable annotations
+and input-only paper grouping. Its parser and pre-parse hash-sealing corrections
+were made before acquisition; no token-length eligibility, Boolean quality or
+long-context capability has been measured. Actual source execution and
+independent reconstruction remain required.
+
+
 
 
 

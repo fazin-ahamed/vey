@@ -1900,9 +1900,12 @@ def _stats_and_split_manifests(
         for split in (*SPLITS, "unused"):
             ordered = _ordered_group_ids(source_id, split, group_rows, components, assigned, component_id_by_group)
             membership[(source_id, split)] = ordered
+            ordered_components = list(dict.fromkeys(component_id_by_group[group_id] for group_id in ordered))
             source_obj[split] = {
-                "independent_group_count": len(ordered),
+                "source_lineage_group_count": len(ordered),
+                "connected_component_count": len(ordered_components),
                 "ordered_group_ids_sha256": canonical_sha256(ordered),
+                "ordered_component_ids_sha256": canonical_sha256(ordered_components),
             }
         split_hashes[source_id] = source_obj
     row_counts: dict[str, Any] = {}
@@ -1919,6 +1922,7 @@ def _stats_and_split_manifests(
         components_by_split[assigned.get(component_id, "unused")] += 1
     return {
         "group_split_hashes": split_hashes,
+        "allocation_unit": "Connected component; source lineage members and locale descendants do not add allocation units or establish statistical independence.",
         "source_row_counts_by_final_split": row_counts,
         "global_component_counts_by_final_split": components_by_split,
         "component_count": len(components),
@@ -2425,7 +2429,7 @@ def _acquire(args: argparse.Namespace) -> dict[str, Any]:
         "massive_locale_count": len(locales),
         "banking77_rows": banking_counts,
         "massive_rows_per_locale": massive_counts,
-        "independent_group_counts_by_source_split": count_summary["group_split_hashes"],
+        "group_counts_by_source_split": count_summary["group_split_hashes"],
         "verified_edge_counts": {
             "all": group_edge_count,
             "exact_input": exact_edge_count,
