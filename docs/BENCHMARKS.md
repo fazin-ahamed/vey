@@ -5552,6 +5552,54 @@ frozen reference are therefore Vey-not-applicable, by mechanism rather than by
 numerical shortfall. The competitor cells remain measurable and are reported
 separately.
 
+## Laya pinned English route on MASSIVE dev intent: K=60 truncates every option to 4 tokens
+
+MEASURED, pinned English bundle `55cf4c4eb`, weights loaded with zero missing
+and zero unexpected keys, identical rows to the Vey arm. Measured on a partial
+run of 31,228 rows before the completed run was verified:
+
+| Quantity | Value |
+|---|---|
+| rows scored so far | 31,228 |
+| micro accuracy | 0.116799 |
+| `en-US` accuracy | 0.4429 |
+| non-English mean over 50 locales | 0.1103 |
+| best locales | `en-US` 0.443, `fr-FR` 0.296, `pt-PT` 0.282 |
+| worst locales | `kn-IN` 0.016, `te-IN` 0.016, `he-IL` 0.021, `ur-PK` 0.021 |
+| temperature bucket applied | `choice:11+` (0.10058280825614929) |
+| option token spans | `(4,4,4,4,4,4,4,4)` on every row |
+| markers vs options | 60 vs 60 on every row |
+| sequence length | 259 to 512, hitting the `max_len` 512 cap |
+
+Mechanism, read from the persisted per-row fields: at K=60 the pinned config's
+`head_max_len` of 192 divides across 60 options, so `build_sequence` shrinks
+each option to a bare `[MASK]` plus 3 tokens. The route therefore ranks 60
+anonymous marker positions and reads only the utterance. This is the pinned
+route's own arithmetic, applied verbatim, not a configuration mistake; the
+English bundle is the registered route for English input, and no option band,
+prompt or head budget was chosen by this study.
+
+INFERENCE: at this cardinality the pinned English route's choice decision does
+not depend on the option text at all. That explains the shape of the result
+(strong `en-US`, non-English at or below the 1/60 chance rate of 0.016667) and
+it is a property of the route, not of MASSIVE. It also means this run cannot
+be read as a verdict on Laya's intent capability: the vendor's own roster lists
+embedding-shortlist and coarse-to-fine label decomposition as the remedies for
+exactly this cardinality regime. Those remedies are a different route
+configuration and are not measured here.
+
+The vendor's `MASSIVE51` macro claim of 0.4008 is advertised on the
+multilingual route, which this run does not exercise. Comparing 0.1168
+against 0.4008 would be a route mismatch and is refused. The multilingual route
+is preregistered separately at `ee2fa01` with identical rows and metrics.
+
+One measurement defect is retained rather than silently corrected: this run
+predates the span fix at `ddd8d3c`, so its `min_option_tokens` field reports a
+spurious 1 on every row. The unaffected `option_tokens_head` field above is
+what the mechanism claim rests on. The completed run's numbers are taken only
+after independent verification, and this partial figure is explicitly not a
+final number.
+
 
 
 
