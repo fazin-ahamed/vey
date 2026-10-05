@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Laya arm for the neutral development comparison.
 
-Loads the PINNED English bundle through the bundle's own runtime code
+Loads the selected PINNED English or multilingual bundle through its runtime code
 (rl_common.build_sequence / DecisionModel) and its own safetensors weights, at
 the revision recorded in the preregistration. No substitution: if this bundle
 cannot load, the run fails and the failure receipt is retained.
@@ -11,7 +11,7 @@ Both question types are produced by the same pinned runtime:
   score  -> level markers, distribution over the source rubric levels
 
 Usage:
-  python neutral_laya_arm.py --limit N --out FILE [--qtype choice|score]
+  python neutral_laya_arm.py --out FILE --qtype score --endpoint massive.grammar_score --route english
 """
 from __future__ import annotations
 
@@ -37,6 +37,8 @@ BUNDLE = Path(
 )
 BUNDLE_REVISION = "55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851"
 QTYPES = {"choice": 0, "score": 1, "noul": 2}
+SCORE_AMENDMENT_SHA256 = "247cf2e3f6c0c488803d91deffca3c842d8ffe7372d09f323e22036c98e6f67c"
+MULTILINGUAL_CHOICE_SHA256 = "73f823b543581ebd5ba4ff46dd38985df3e6fd9c5b40acde5c6fd736f3183b52"
 
 
 def load_runtime():
@@ -60,8 +62,9 @@ def build(laya, route: str, device: str):
     model = laya.build_model(cfg, encoder_dir=str(enc_dir))
     state = load_file(str(sub / "model.safetensors") if route != "english" else str(BUNDLE / "model.safetensors"))
     missing, unexpected = model.load_state_dict(state, strict=False)
-    if missing:
-        raise RuntimeError(f"pinned weights missing tensors: {sorted(missing)[:5]}")
+    if missing or unexpected:
+        raise RuntimeError(f"pinned weights differ: missing={sorted(missing)[:5]}, "
+                           f"unexpected={sorted(unexpected)[:5]}")
     tok_src = str(sub / "tokenizer") if route != "english" else str(BUNDLE / "tokenizer")
     from transformers import AutoTokenizer
 
@@ -108,7 +111,7 @@ def option_token_lengths(ids, markers, sep_id):
     return spans
 
 
-def run(laya, tok, model, cfg, rows, qtype_name, device, out, limit, endpoint):
+def run(laya, tok, model, cfg, rows, qtype_name, device, out, limit, endpoint, route):
     import numpy as np
     import torch
 
@@ -119,14 +122,20 @@ def run(laya, tok, model, cfg, rows, qtype_name, device, out, limit, endpoint):
     abs_err = 0.0
     temps = {}
     min_option_tokens = None
+    sub = BUNDLE if route == "english" else BUNDLE / route
+    with (sub / "model.safetensors").open("rb") as weights:
+        weights_sha256 = hashlib.file_digest(weights, "sha256").hexdigest()
     with out.open("x", encoding="utf-8") as stream:
         stream.write(json.dumps({
             "schema": "vey.neutral.laya-arm-run.v1",
             "arm": "laya",
-            "route": "english",
+            "route": route,
             "bundle_revision": BUNDLE_REVISION,
-            "weights_sha256": hashlib.sha256((BUNDLE / "model.safetensors").read_bytes()).hexdigest(),
+            "weights_sha256": weights_sha256,
             "comparison_protocol_sha256": R.COMPARISON_PROTOCOL_SHA256,
+            "score_amendment_sha256": SCORE_AMENDMENT_SHA256 if qtype_name == "score" else None,
+            "protocol_sha256": MULTILINGUAL_CHOICE_SHA256
+                if qtype_name == "choice" and route == "multilingual" else None,
             "endpoint": endpoint,
             "qtype": qtype_name,
             "limit": limit,
@@ -166,9 +175,10 @@ def run(laya, tok, model, cfg, rows, qtype_name, device, out, limit, endpoint):
             probs = torch.softmax((logits / temp).masked_fill(~valid, -1e4), -1).cpu().numpy()
             record = {
                 "id": row["id"], "group_id": row["group_id"], "locale": row["locale"],
-                "endpoint": row["endpoint"], "arm": "laya", "route": "english",
+                "endpoint": row["endpoint"], "arm": "laya", "route": route,
                 "question": row["question"], "state": row["state"],
                 "candidate_ids": row["candidate_ids"],
+                "candidates": row["candidates"],
                 "probs": [round(float(p), 8) for p in probs],
                 "temperature": temp, "temperature_key": key,
                 "markers": len(markers), "options": n_opt, "seq_len": len(ids),
@@ -218,15 +228,29 @@ def main(argv=None):
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--out", required=True)
     parser.add_argument("--device", default="cuda")
+    parser.add_argument("--route", choices=["english", "multilingual"], default="english")
     args = parser.parse_args(argv)
 
     R.protocol()
+    if args.qtype == "score":
+        amendment = HERE / "neutral_score_route_amendment_v2.json"
+        if hashlib.sha256(amendment.read_bytes()).hexdigest() != SCORE_AMENDMENT_SHA256:
+            raise RuntimeError("Score route amendment changed")
+        if args.endpoint not in R.SCORE_ENDPOINTS:
+            parser.error("--endpoint must name a registered Score endpoint")
+    else:
+        if args.endpoint != R.CHOICE_ENDPOINT:
+            parser.error("--endpoint must name the registered Choice endpoint")
+        if args.route == "multilingual":
+            protocol = HERE / "neutral_multilingual_route_protocol.json"
+            if hashlib.sha256(protocol.read_bytes()).hexdigest() != MULTILINGUAL_CHOICE_SHA256:
+                raise RuntimeError("Multilingual Choice protocol changed")
     import torch
 
     device = args.device if torch.cuda.is_available() else "cpu"
     laya = load_runtime()
-    tok, model, cfg, loadinfo = build(laya, "english", device)
-    print("loaded pinned english route", json.dumps(loadinfo), "device", device, flush=True)
+    tok, model, cfg, loadinfo = build(laya, args.route, device)
+    print("loaded pinned", args.route, "route", json.dumps(loadinfo), "device", device, flush=True)
 
     if args.qtype == "choice":
         rows = R.choice_rows()
@@ -235,7 +259,7 @@ def main(argv=None):
 
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
-    summary = run(laya, tok, model, cfg, rows, args.qtype, device, out, args.limit, args.endpoint)
+    summary = run(laya, tok, model, cfg, rows, args.qtype, device, out, args.limit, args.endpoint, args.route)
     print(json.dumps(summary, ensure_ascii=False))
     return 0
 

@@ -256,3 +256,27 @@ pins the successful receipt, original wheel failure, immutable prospective input
 release-source custody and route summaries. Historical 0.3.25 evidence above remains
 unchanged. GPU compatibility, neutral quality, calibration, latency, residency and
 Pareto comparison remain unmeasured; all 21 critical cells stay non-green.
+
+## Pinned raw-bundle neutral development measurements
+
+MEASURED on guarded MASSIVE dev records, using bundle
+`55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851` and its own `rl_common` runtime:
+
+| Endpoint | English | Multilingual | Rows per route |
+|---|---:|---:|---:|
+| K=60 intent Choice accuracy | 0.116739 | 0.178021 | 63,852 |
+| Choice ECE, predicted-label confidence | 0.709775 | 0.268751 | 63,852 |
+| Grammar normalized ordinal MAE | 0.713256 | 0.478175 | 62,594 |
+
+Independent replay receipts and limitations are recorded in
+[`docs/BENCHMARKS.md`](../../docs/BENCHMARKS.md) and
+[`COMPETITOR_MATRIX.json`](COMPETITOR_MATRIX.json). All 51 Choice locales have
+1,252 rows, so macro and micro accuracy coincide. The original ECE report was
+wrong and is explicitly superseded; model predictions are unchanged.
+Historical multilingual grammar was exploratory, not prospectively registered.
+
+This is not a current 0.3.27 served-runtime calibration comparison. The study
+applied the raw English `choice:11+` temperature, rather than the current served
+floor of `.5`. Rounded saved probabilities cannot recover the original logits
+for an exact served-temperature replay. No timing, residency, fresh transfer
+or Pareto claim follows; all 21 critical cells remain non-green.

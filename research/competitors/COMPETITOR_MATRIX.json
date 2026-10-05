@@ -64,12 +64,15 @@
       "paired_delta": -0.11194637599448788,
       "sample_count": 63852,
       "status": "MEASURED_DEVELOPMENT_PARTITION",
-      "green_reason": "Development partition on an exposed public benchmark. Sealed final data and direct Jev contrast remain required."
+      "green_reason": "Development partition on an exposed public benchmark. Sealed final data and direct Jev contrast remain required.",
+      "route": "english",
+      "metric": "top1_accuracy",
+      "vey_scope": "not_applicable; numerical fallback output retained"
     },
     {
       "CI95": null,
       "Jev": null,
-      "Laya": 0.47817462642645736,
+      "Laya": 0.7132564880172754,
       "Vey": null,
       "dimension": "Score/ordinal quality",
       "green": false,
@@ -77,7 +80,12 @@
       "paired_delta": null,
       "sample_count": 62594,
       "status": "MEASURED_DEVELOPMENT_PARTITION",
-      "green_reason": "Development partition on an exposed public benchmark. Sealed final data and direct Jev contrast remain required."
+      "green_reason": "Development partition on an exposed public benchmark. Sealed final data and direct Jev contrast remain required.",
+      "metric": "normalized_mean_abs_error",
+      "lower_is_better": true,
+      "route": "english",
+      "endpoint": "massive.grammar_score",
+      "vey_scope": "not_applicable on measured frozen decide() surface"
     },
     {
       "CI95": null,
@@ -94,14 +102,21 @@
     {
       "CI95": null,
       "Jev": null,
-      "Laya": null,
-      "Vey": null,
+      "Laya": 0.7097753505385915,
+      "Vey": 0.9952076677316294,
       "dimension": "probability calibration",
       "green": false,
       "hardware": null,
       "paired_delta": null,
-      "sample_count": null,
-      "status": "UNMEASURED_NEUTRAL_COMPARISON"
+      "sample_count": 63852,
+      "status": "MEASURED_DEVELOPMENT_PARTITION",
+      "metric": "ece15_predicted_label_confidence",
+      "lower_is_better": true,
+      "route": "english",
+      "endpoint": "massive.intent",
+      "vey_scope": "not_applicable; numerical fallback confidence retained",
+      "measurement_limit": "Historical raw-bundle temperatures, not current served calibration; no trust claim.",
+      "green_reason": "Development partition on an exposed public benchmark. Sealed final data and direct Jev contrast remain required."
     },
     {
       "CI95": null,
@@ -154,14 +169,20 @@
     {
       "CI95": null,
       "Jev": null,
-      "Laya": null,
-      "Vey": null,
+      "Laya": 0.1780210486750611,
+      "Vey": 0.004792332268370611,
       "dimension": "multilingual",
       "green": false,
       "hardware": null,
       "paired_delta": null,
-      "sample_count": null,
-      "status": "UNMEASURED_NEUTRAL_COMPARISON"
+      "sample_count": 63852,
+      "status": "MEASURED_DEVELOPMENT_PARTITION",
+      "metric": "macro_locale_top1_accuracy",
+      "route": "multilingual",
+      "endpoint": "massive.intent",
+      "vey_scope": "not_applicable; numerical fallback output retained",
+      "measurement_limit": "51 exposed locales with equal counts; not fresh multilingual transfer.",
+      "green_reason": "Development partition on an exposed public benchmark. Sealed final data and direct Jev contrast remain required."
     },
     {
       "CI95": null,
@@ -518,14 +539,15 @@
   ],
   "verified_development_measurements": {
     "choice_intent_dev": {
-      "receipt": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/verification_choice.json",
-      "receipt_sha256": "9370592f70cd42d90d6d677005377966f8963f7b7da6836c343f9c55be39c5df",
+      "receipt": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/verification_choice_routes_v5.json",
+      "receipt_sha256": "6cea9c1489568f641888caea05190953a15ce94cf262904ecd59d2ee1a06dbf6",
       "endpoint": "massive.intent",
       "rows": 63852,
       "vey": {
         "brier": 1.9904153354632588,
         "distribution_rows": 63852,
-        "ece15": 0.004792332268370607,
+        "ece15": 0.9952076677316294,
+        "macro_locale_accuracy": 0.004792332268370611,
         "nll": 27.49860408182699,
         "rows": 63852,
         "top1_accuracy": 0.004792332268370607
@@ -533,7 +555,8 @@
       "laya_english": {
         "brier": 1.527977217555933,
         "distribution_rows": 63852,
-        "ece15": 0.007877414990759928,
+        "ece15": 0.7097753505385915,
+        "macro_locale_accuracy": 0.11673870826285786,
         "nll": 17.05227670950004,
         "rows": 63852,
         "top1_accuracy": 0.11673870826285786
@@ -542,7 +565,8 @@
       "laya_multilingual": {
         "brier": 1.03461343737999,
         "distribution_rows": 63852,
-        "ece15": 0.047063666637693374,
+        "ece15": 0.26875108159008326,
+        "macro_locale_accuracy": 0.1780210486750611,
         "nll": 4.484827769640186,
         "rows": 63852,
         "top1_accuracy": 0.17802104867506108
@@ -563,10 +587,10 @@
     },
     "vendor_claim_context": {
       "claim": "Laya multilingual MASSIVE-51 macro accuracy 0.4008",
-      "rule": "A macro-over-locales vendor number is never compared against a micro-over-rows measurement, and never against another route.",
+      "rule": "Report macro-over-locales explicitly. Equal locale counts make macro equal to micro here, but different splits/configurations remain unresolved.",
       "status": "ADVERTISED, NOT OUR MEASUREMENT"
     },
-    "note": "Verified dev-partition Choice, route comparison and ordinal Score",
+    "note": "Independently reconstructed historical raw-bundle dev metrics; superseded receipts retained. No current served calibration, fresh transfer, final, Jev or Pareto claim.",
     "evidence_class": "MEASURED on the verified source-native dev projection. Legacy replication of an exposed public benchmark, not fresh transfer, and not a final or sealed-pool result.",
     "direct_Jev_status": "PROVISIONAL - DIRECT JEV EVALUATION UNAVAILABLE",
     "score_grammar_score_dev": {
@@ -581,7 +605,55 @@
         "spearman_rank_correlation": -0.034410920870633015,
         "three_or_more_raters_rows": 62338
       },
-      "vey": "Vey-not-applicable: frozen decide() has no rubric-relative score surface"
+      "vey": "Vey-not-applicable: frozen decide() has no rubric-relative score surface",
+      "superseded_by": "score_routes",
+      "limitation": "Historical v1 verifier trusted arm-derived errors and did not enforce complete unique membership; retained as superseded evidence."
+    },
+    "route_receipt": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/verification_choice_routes_v5.json",
+      "sha256": "6cea9c1489568f641888caea05190953a15ce94cf262904ecd59d2ee1a06dbf6"
+    },
+    "score_routes": {
+      "massive.grammar_score": {
+        "english": {
+          "receipt": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/verification_score_english_v2.json",
+          "receipt_sha256": "7da0ef32d823eb47b619b7f9ba5e416266e9a506370b0ee1435f1a9e2f9b3227",
+          "source_file_sha256": "9ac5014dc8647c0d25b50e18eb5bd260cc2dc644cf9349e42a6f615cd0a9aab3",
+          "ordinal": {
+            "mean_abs_error": 2.8530259520691015,
+            "mean_signed_error": -2.8515100929033714,
+            "normalized_mean_abs_error": 0.7132564880172754,
+            "normalized_ranked_probability_score": 0.5698545781096831,
+            "retained_rater_brier": 1.1108963821507924,
+            "retained_rater_nll": 3.83279934480709,
+            "rows": 62594,
+            "signed_error_slope_against_rater_mean": -0.9866464442215702,
+            "spearman_rank_correlation": 0.03280361274391149,
+            "three_or_more_raters_rows": 62338
+          },
+          "vey": "Vey-not-applicable: measured frozen decide() has no rubric-relative score surface",
+          "registration_limit": null
+        },
+        "multilingual": {
+          "receipt": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/verification_score_multilingual_v3.json",
+          "receipt_sha256": "58aca21f617bf80e7faab7ebaff8b10505cf45335c446baeac3086d5bc69ac3f",
+          "source_file_sha256": "7df1e9cff813d6122510daba6b08624754059e28d714a0ed04afdfb06ef6cc6c",
+          "ordinal": {
+            "mean_abs_error": 1.91269850570342,
+            "mean_signed_error": -1.899192547816298,
+            "normalized_mean_abs_error": 0.478174626425855,
+            "normalized_ranked_probability_score": 0.28167722300849535,
+            "retained_rater_brier": 0.5998014835617345,
+            "retained_rater_nll": 1.5650436208939869,
+            "rows": 62594,
+            "signed_error_slope_against_rater_mean": -1.0311105087313865,
+            "spearman_rank_correlation": -0.03441091300817668,
+            "three_or_more_raters_rows": 62338
+          },
+          "vey": "Vey-not-applicable: measured frozen decide() has no rubric-relative score surface",
+          "registration_limit": "The historical multilingual Score run cites a Choice-only follow-up protocol; its Score execution was not prospectively covered by that route protocol."
+        }
+      }
     }
   }
 }

@@ -47,7 +47,7 @@ def choice_stats(rows):
     n = len(rows)
     if n == 0:
         raise RuntimeError("no choice rows")
-    hits = sum(1 for r in rows if r.get("correct"))
+    hits = sum(r["answer"] == r["gold"] for r in rows)
     top1 = hits / n
     nll, brier, conf, ok = 0.0, 0.0, [], []
     for r in rows:
@@ -60,27 +60,37 @@ def choice_stats(rows):
             p = gold / total
             nll += -math.log(max(p, 1e-12))
             brier += sum((v / total - (1.0 if k == r["gold"] else 0.0)) ** 2 for k, v in probs.items())
-            conf.append(p)
-            ok.append(gold == r["answer"])
+            conf.append(max(v / total for v in probs.values()))
+            ok.append(r["gold"] == r["answer"])
         else:
             ids = r["candidate_ids"]
             k = len(probs)
             p = probs[ids.index(r["gold"])]
             nll += -math.log(max(p, 1e-12))
             brier += sum((v - (1.0 if ids[i] == r["gold"] else 0.0)) ** 2 for i, v in enumerate(probs[:k]))
-            conf.append(p)
+            conf.append(max(probs))
             ok.append(r["gold"] == r["answer"])
     m = len(conf)
     # 15-bin expected calibration error, last bin closed.
     edges = [i / 15 for i in range(16)]
     ece = 0.0
     for i in range(15):
-        sel = [j for j in range(m) if edges[i] < conf[j] <= edges[i + 1]]
+        sel = [j for j in range(m) if edges[i] <= conf[j] and
+               (conf[j] < edges[i + 1] or i == 14)]
         if sel:
             ece += len(sel) / m * abs(sum(conf[j] for j in sel) / len(sel) - sum(ok[j] for j in sel) / len(sel))
+    locales = defaultdict(list)
+    for r in rows:
+        locales[r["locale"]].append(r)
+    locale_accuracy = {
+        locale: {"rows": len(rs),
+                 "top1_accuracy": sum(r["answer"] == r["gold"] for r in rs) / len(rs)}
+        for locale, rs in sorted(locales.items())}
     return {
         "rows": n, "top1_accuracy": top1,
         "nll": nll / m if m else None, "brier": brier / m if m else None,
+        "per_locale": locale_accuracy,
+        "macro_locale_accuracy": sum(v["top1_accuracy"] for v in locale_accuracy.values()) / len(locales),
         "ece15": ece, "distribution_rows": m,
     }
 
@@ -96,19 +106,38 @@ def score_stats(rows):
     n = len(rows)
     if n == 0:
         raise RuntimeError("no score rows")
-    mae = sum(r["abs_error"] for r in rows) / n
-    nmae = sum(r["normalized_abs_error"] for r in rows) / n
-    signed = sum(r["expected_level"] - r["mean_level"] for r in rows) / n
-    # Rank correlation between predicted expected level and observed rater mean.
     xs = [r["expected_level"] for r in rows]
     ys = [r["mean_level"] for r in rows]
+    signed_errors = [x - y for x, y in zip(xs, ys)]
+    target_mean = sum(ys) / n
+    error_mean = sum(signed_errors) / n
+    target_variance = sum((y - target_mean) ** 2 for y in ys)
+    rps, nll, brier, eligible = 0.0, 0.0, 0.0, 0
+    for r in rows:
+        p, t = r["probs"], r["target_distribution"]
+        cp, ct = 0.0, 0.0
+        for predicted, target in zip(p[:-1], t[:-1]):
+            cp += predicted
+            ct += target
+            rps += (cp - ct) ** 2 / r["native_level_max"]
+        if r["observed_raters"] >= 3:
+            eligible += 1
+            nll += -sum(v * math.log(max(q, 1e-12)) for q, v in zip(p, t))
+            brier += sum((q - v) ** 2 for q, v in zip(p, t))
     return {
         "rows": n,
-        "mean_abs_error": mae,
-        "normalized_mean_abs_error": nmae,
-        "mean_signed_error": signed,
+        "mean_abs_error": sum(abs(e) for e in signed_errors) / n,
+        "normalized_mean_abs_error": sum(abs(e) / r["native_level_max"]
+                                         for e, r in zip(signed_errors, rows)) / n,
+        "mean_signed_error": error_mean,
+        "signed_error_slope_against_rater_mean": (
+            sum((y - target_mean) * (e - error_mean) for y, e in zip(ys, signed_errors)) /
+            target_variance if target_variance else None),
+        "normalized_ranked_probability_score": rps / n,
         "spearman_rank_correlation": _spearman(xs, ys),
-        "three_or_more_raters_rows": sum(1 for r in rows if r["observed_raters"] >= 3),
+        "three_or_more_raters_rows": eligible,
+        "retained_rater_nll": nll / eligible if eligible else None,
+        "retained_rater_brier": brier / eligible if eligible else None,
     }
 
 
@@ -175,7 +204,7 @@ def paired_delta(vey_rows, laya_rows, key="correct", resamples=10000, seed=0):
 
 
 def discordance(vey_rows, laya_rows):
-    """Exact harmful-event count: Vey correct while Laya wrong, per shared row."""
+    """Count both discordance directions on shared rows."""
     vey = {r["id"]: r for r in vey_rows}
     laya = {r["id"]: r for r in laya_rows}
     shared = sorted(set(vey) & set(laya))
@@ -234,6 +263,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--vey", help="Choice endpoint: Vey arm file")
     parser.add_argument("--laya", help="Choice endpoint: competitor arm file")
+    parser.add_argument("--laya-alt", help="Choice endpoint: second competitor route")
     parser.add_argument("--alt-name", default="laya_alt", help="Label for --laya-alt")
     parser.add_argument("--score", help="Ordinal endpoint: single competitor arm file")
     parser.add_argument("--score-endpoint", default=R.SCORE_ENDPOINTS[0])
@@ -254,8 +284,12 @@ def main(argv=None):
 
     def membership_of(rows, label):
         """Per-arm membership check. Returns the recomputed input digests."""
-        digests, bad = {}, []
+        digests, bad, seen = {}, [], set()
         for r in rows:
+            if r["id"] in seen:
+                bad.append(f"{label}: duplicate row {r['id']}")
+                continue
+            seen.add(r["id"])
             ref = projected.get(r["id"])
             if ref is None:
                 bad.append(f"{label}: row {r['id']} absent from projection")
@@ -263,7 +297,7 @@ def main(argv=None):
             # An ABSENT field is a verification failure in its own right. Reading
             # it with .get() yields None, which compares unequal and manufactures
             # a false "differs from projection" for every row of that arm.
-            required = ["gold", "group_id"] + (
+            required = ["gold", "group_id", "locale"] + (
                 ["question", "state", "candidate_ids"] if label != "vey" else [])
             missing = [f for f in required if f not in r]
             if missing:
@@ -281,11 +315,33 @@ def main(argv=None):
                 bad.append(f"vey: row {r['id']} input_sha256 differs from independent recompute")
             if label != "vey" and r.get("markers") != len(ref["candidate_ids"]):
                 bad.append(f"{label}: row {r['id']} markers != candidate count")
+            ids = ref["candidate_ids"]
+            probabilities = r.get("probs", r.get("probabilities"))
+            if isinstance(probabilities, dict) and set(probabilities) == set(ids):
+                values = [probabilities[cid] for cid in ids]
+            elif isinstance(probabilities, list) and len(probabilities) == len(ids):
+                values = probabilities
+            else:
+                bad.append(f"{label}: row {r['id']} distribution does not cover candidates")
+                continue
+            if (any(not isinstance(p, (int, float)) or isinstance(p, bool)
+                    or not math.isfinite(p) or not 0 <= p <= 1 for p in values)
+                    or abs(sum(values) - 1) > 1e-6):
+                bad.append(f"{label}: row {r['id']} invalid probability distribution")
+                continue
+            answer = r.get("answer")
+            if answer not in ids or values[ids.index(answer)] < max(values) - 2e-8:
+                bad.append(f"{label}: row {r['id']} answer is not a maximizing candidate")
+            if type(r.get("correct")) is not bool or r["correct"] != (answer == ref["gold"]):
+                bad.append(f"{label}: row {r['id']} correctness flag disagrees with native gold")
+        missing = set(projected) - seen
+        if missing:
+            bad.append(f"{label}: missing {len(missing)} projected rows")
         return digests, bad
 
-    vey_inputs, bad_vey = membership_of(vey_rows, "vey")
+    vey_inputs, bad_vey = membership_of(vey_rows, "vey") if args.vey else ({}, [])
     laya_inputs, bad_laya = membership_of(laya_rows, "laya")
-    alt_inputs, bad_alt = membership_of(alt_rows, "alt") if alt_rows else ({}, [])
+    alt_inputs, bad_alt = membership_of(alt_rows, "alt") if args.laya_alt else ({}, [])
     problems = bad_vey + bad_laya + bad_alt
 
     # Shared-exact-workflow control: the two arms' independently recomputed input
@@ -301,10 +357,16 @@ def main(argv=None):
 
 
     receipt = {
-        "schema": "vey.neutral.development-comparison-verification.v1",
+        "schema": "vey.neutral.development-comparison-verification.v2",
         "status": "PASS" if not problems else "FAIL",
         "endpoint": "massive.intent",
         "independent_of_arm_aggregation": True,
+        "metric_definitions": {
+            "ece15": "maximum predicted probability versus native-gold correctness",
+            "correctness": "answer equals native gold; persisted flags validated",
+            "membership": "complete unique native rows; probabilities and argmax validated",
+            "nll_probability_floor": 1e-12,
+        },
         "projection_root": str(HERE),
         "comparison_protocol_sha256": R.COMPARISON_PROTOCOL_SHA256,
         "arm_headers": {"vey": vey_header, "laya": laya_header, "alt": alt_header},
@@ -328,6 +390,12 @@ def main(argv=None):
         receipt["discordance"] = disc
         receipt["clopper_pearson_upper_vey_only"] = clopper_pearson_upper(
             disc["vey_only_correct"], disc["shared_rows"])
+        receipt["clopper_pearson_upper_laya_only"] = clopper_pearson_upper(
+            disc["laya_only_correct"], disc["shared_rows"])
+        receipt["discordance_bound_limit"] = (
+            "Row-binomial bounds assume independent rows, violated by 51 locale descendants "
+            "per base group. They are descriptive calculations, not valid clustered risk guarantees. "
+            "Laya-only-correct is the harmful direction for Vey.")
         receipt["non_inferiority_observed"] = delta["ci95_bootstrap"][0] > -0.01
     if alt_rows:
         alt_stats = choice_stats(alt_rows)
@@ -359,9 +427,10 @@ def main(argv=None):
         receipt["vendor_claim_context"] = {
             "claim": "Laya multilingual MASSIVE-51 macro accuracy 0.4008",
             "status": "ADVERTISED, NOT OUR MEASUREMENT",
-            "rule": "A macro-over-locales vendor number is never compared against a "
-                    "micro-over-rows measurement, and never against another route.",
+            "rule": "Report macro-over-locales explicitly. Equal locale counts make macro "
+                    "equal to micro here, but different splits/configurations remain unresolved.",
         }
+    receipt["status"] = "PASS" if not problems else "FAIL"
     text = json.dumps(receipt, ensure_ascii=False, indent=2, sort_keys=True)
     print(text)
     if args.out:
@@ -371,50 +440,118 @@ def main(argv=None):
 
 
 def verify_score(path: Path, endpoint: str, out):
-    """Ordinal endpoint. There is no legal Vey arm, so this is single-arm."""
+    """Reconstruct ordinal results from probabilities and guarded native targets."""
+    R.protocol()
     header, rows = load_arm(path)
     projected = {r["id"]: r for r in R.score_rows() if r["endpoint"] == endpoint}
-    problems = []
+    problems, reconstructed, digests, seen = [], [], {}, set()
+    route = header.get("route")
+    for field, want in (("schema", "vey.neutral.laya-arm-run.v1"),
+                        ("arm", "laya"), ("qtype", "score"), ("endpoint", endpoint),
+                        ("bundle_revision", "55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851")):
+        if header.get(field) != want:
+            problems.append(f"header {field} differs")
+    if route not in ("english", "multilingual"):
+        problems.append("unregistered route")
+    if route == "english" and header.get("comparison_protocol_sha256") != R.COMPARISON_PROTOCOL_SHA256:
+        problems.append("English comparison protocol digest differs")
+    amendment_sha = "247cf2e3f6c0c488803d91deffca3c842d8ffe7372d09f323e22036c98e6f67c"
+    historical_multilingual = (route == "multilingual" and
+                              "score_amendment_sha256" not in header)
+    if historical_multilingual:
+        if header.get("protocol_sha256") != "73f823b543581ebd5ba4ff46dd38985df3e6fd9c5b40acde5c6fd736f3183b52":
+            problems.append("historical multilingual protocol digest differs")
+    elif "score_amendment_sha256" in header:
+        if header["score_amendment_sha256"] != amendment_sha:
+            problems.append("Score amendment digest differs")
     for r in rows:
-        ref = projected.get(r["id"])
+        rid = r.get("id")
+        if rid in seen:
+            problems.append(f"duplicate row {rid}")
+            continue
+        seen.add(rid)
+        ref = projected.get(rid)
         if ref is None:
-            problems.append(f"score: row {r['id']} absent from projection")
+            problems.append(f"row {rid} absent from projection")
             continue
-        bad = False
-        # The score arm persists native_level_max, matching the projection field
-        # name. Checking "level_max" here reported 62594 false "missing" errors
-        # rather than performing a membership check.
-        for field, want in (("mean_level", ref["mean_level"]),
-                            ("native_level_max", ref["level_max"]),
-                            ("observed_raters", ref["observed_raters"])):
-            if field not in r:
-                problems.append(f"score: row {r['id']} missing {field}")
-                bad = True
-                break
-            if abs(r[field] - want) > 1e-9:
-                problems.append(f"score: row {r['id']} field {field} differs from projection")
-                bad = True
-                break
-        if bad:
+        required = ("group_id", "locale", "question", "state", "candidate_ids", "endpoint")
+        if any(r.get(f) != ref[f] for f in required):
+            problems.append(f"row {rid} serving input differs")
             continue
-        if r.get("target_counts") != ref["counts"]:
-            problems.append(f"score: row {r['id']} target_counts differ from projection")
-        if r.get("markers") != ref["level_max"] + 1:
-            problems.append(f"score: row {r['id']} markers != rubric level count")
+        if "candidates" in r and r["candidates"] != ref["candidates"]:
+            problems.append(f"row {rid} rubric descriptions differ")
+            continue
+        if r.get("route") != route or r.get("arm") != "laya":
+            problems.append(f"row {rid} arm differs")
+            continue
+        k = ref["level_max"] + 1
+        if (r.get("markers") != k or r.get("options") != k or
+                r.get("native_level_max") != ref["level_max"] or
+                r.get("observed_raters") != ref["observed_raters"] or
+                r.get("mean_level") != ref["mean_level"] or
+                r.get("target_counts") != ref["counts"] or
+                r.get("target_distribution") != ref["distribution"]):
+            problems.append(f"row {rid} native target or cardinality differs")
+            continue
+        p = r.get("probs")
+        # Eight-decimal serialization plus FP32 softmax accumulation.
+        if (not isinstance(p, list) or len(p) != k or
+                any(not isinstance(v, (int, float)) or not math.isfinite(v) or
+                    v < 0 or v > 1 for v in p) or abs(sum(p) - 1) > 1e-6):
+            problems.append(f"row {rid} invalid ordinal probabilities")
+            continue
+        if r.get("probs_full") != p:
+            problems.append(f"row {rid} probability copies differ")
+            continue
+        expected = sum(i * v for i, v in enumerate(p))
+        error = abs(expected - ref["mean_level"])
+        if any(not isinstance(r.get(f), (int, float)) or not math.isfinite(r[f]) or
+               abs(r[f] - want) > 1e-6 for f, want in (
+                   ("expected_level", expected), ("abs_error", error),
+                   ("normalized_abs_error", error / ref["level_max"]))):
+            problems.append(f"row {rid} derived metric differs")
+            continue
+        reconstructed.append({
+            "probs": p, "expected_level": expected, "mean_level": ref["mean_level"],
+            "native_level_max": ref["level_max"], "observed_raters": ref["observed_raters"],
+            "target_distribution": ref["distribution"], "locale": ref["locale"],
+        })
+        digests[rid] = hashlib.sha256(json.dumps(
+            {f: ref[f] for f in required}, sort_keys=True, ensure_ascii=False,
+            separators=(",", ":")).encode()).hexdigest()
+    missing = set(projected) - seen
+    if missing:
+        problems.append(f"{len(missing)} projected rows missing")
+    locales = defaultdict(list)
+    for r in reconstructed:
+        locales[r["locale"]].append(r)
     receipt = {
-        "schema": "vey.neutral.ordinal-score-verification.v1",
+        "schema": "vey.neutral.ordinal-score-verification.v2",
         "status": "PASS" if not problems else "FAIL",
         "endpoint": endpoint,
-        "vey_arm": "Vey-not-applicable: frozen decide() has no rubric-relative score surface",
+        "vey_arm": "Vey-not-applicable: measured frozen decide() has no rubric-relative score surface",
         "arm_header": header,
-        "projected_rows": len(projected),
-        "membership_problems": problems[:20],
-        "membership_problem_count": len(problems),
-        "ordinal": score_stats(rows),
+        "source_file": str(path),
+        "source_file_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        "comparison_protocol_sha256": R.COMPARISON_PROTOCOL_SHA256,
+        "independent_of_arm_aggregation": True,
+        "input_validation_limit": (
+            "Historical rows omit rubric description strings; only persisted serving fields "
+            "are checked. Guarded native rubric mappings are reconstructed, not encoded-byte proof."
+            if any("candidates" not in r for r in rows) else None),
+        "registration_limit": ("The historical multilingual Score run cites a Choice-only "
+                               "follow-up protocol; its Score execution was not prospectively "
+                               "covered by that route protocol." if historical_multilingual else None),
+        "projected_rows": len(projected), "verified_rows": len(reconstructed),
+        "input_digest_sha256": hashlib.sha256(json.dumps(
+            digests, sort_keys=True, separators=(",", ":")).encode()).hexdigest(),
+        "membership_problems": problems[:20], "membership_problem_count": len(problems),
+        "ordinal": score_stats(reconstructed) if reconstructed else None,
+        "per_locale": {locale: score_stats(rs) for locale, rs in sorted(locales.items())},
         "calibration_limit": "Retained per-rater targets are not population probabilities; "
                              "no population calibration claim is derived.",
     }
-    text = json.dumps(receipt, ensure_ascii=False, indent=2, sort_keys=True)
+    text = json.dumps(receipt, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False)
     print(text)
     if out:
         Path(out).parent.mkdir(parents=True, exist_ok=True)

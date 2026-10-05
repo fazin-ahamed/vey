@@ -5571,22 +5571,17 @@ run of 31,228 rows before the completed run was verified:
 | markers vs options | 60 vs 60 on every row |
 | sequence length | 259 to 512, hitting the `max_len` 512 cap |
 
-Mechanism, read from the persisted per-row fields: at K=60 the pinned config's
-`head_max_len` of 192 divides across 60 options, so `build_sequence` shrinks
-each option to a bare `[MASK]` plus 3 tokens. The route therefore ranks 60
-anonymous marker positions and reads only the utterance. This is the pinned
-route's own arithmetic, applied verbatim, not a configuration mistake; the
-English bundle is the registered route for English input, and no option band,
-prompt or head budget was chosen by this study.
+The measured head budget limits each option to `[MASK]` plus three content
+tokens. That restricts label visibility but does not remove all label text.
+Correction to the original anonymous-marker diagnosis: a current pinned-runtime
+input-only reconstruction finds 43 distinct token blocks across the 60 options
+of one dev row; reversing the catalogue changes the encoded sequence. This
+used zero model forwards and is not an option-order quality experiment.
+The earlier claim that decisions cannot depend on option text is withdrawn.
 
-INFERENCE: at this cardinality the pinned English route's choice decision does
-not depend on the option text at all. That explains the shape of the result
-(strong `en-US`, non-English at or below the 1/60 chance rate of 0.016667) and
-it is a property of the route, not of MASSIVE. It also means this run cannot
-be read as a verdict on Laya's intent capability: the vendor's own roster lists
-embedding-shortlist and coarse-to-fine label decomposition as the remedies for
-exactly this cardinality regime. Those remedies are a different route
-configuration and are not measured here.
+The partial locale pattern does not identify the truncation's causal effect.
+No controlled budget intervention was run. The vendor's embedding-shortlist
+and coarse-to-fine remedies remain different configurations, unmeasured here.
 
 The vendor's `MASSIVE51` macro claim of 0.4008 is advertised on the
 multilingual route, which this run does not exercise. Comparing 0.1168
@@ -5615,7 +5610,7 @@ utterance groups, K=60, identical inputs to both arms:
 | top-1 accuracy | 0.004792 | 0.116739 |
 | NLL | 27.4986 | 17.0523 |
 | Brier | 1.99042 | 1.52798 |
-| ECE (15-bin) | 0.004792 | 0.007877 |
+| ECE (15-bin, corrected predicted-label confidence) | 0.995208 | 0.709775 |
 
 Paired cluster bootstrap over base utterance groups, 10000 resamples, seed 0:
 delta = **-0.111946**, 95% CI **[-0.121046, -0.102832]**. The frozen Vey
@@ -5624,17 +5619,23 @@ reference is significantly WORSE, not merely non-inferior. The preregistered
 
 Exact discordance on shared rows: Vey correct / Laya wrong = 293, Laya correct /
 Vey wrong = 7,441, both correct 13, neither 56,105. McNemar n10/n01 = 293/7441.
-The Clopper-Pearson upper bound on the harmful-side proportion (Vey-only correct
-events) is 0.005054, which alone clears 0.01; the preregistered rule that zero
-discordance alone never establishes non-inferiority is not what decides this
-outcome. The loss is decided by the bootstrap interval and the discordance
-count, both of which are large and unambiguous.
+The historical Clopper-Pearson calculation bounds Vey-only-correct events at
+0.005054. That is the wrong discordance direction for a harmful Vey regression:
+Laya-only-correct events are the harmful direction when evaluating Vey against
+Laya. This historical bound supplies no Vey non-inferiority evidence. The paired
+accuracy interval above independently establishes the loss.
+Both row-binomial bounds also assume independent trials, which these 51 locale
+descendants per base group violate. They are descriptive calculations, not
+cluster-valid risk certificates. The corrected Laya-only event calculation
+is 0.118644, without an inferential guarantee for this clustered population.
+The reported bootstrap intervals are nominal descriptive 95% intervals, not
+the preregistered simultaneous Bonferroni family-wise gate.
 
 Verification controls, all computed from the artifacts rather than asserted:
 membership problems 0 of 63,852; shared-exact-workflow mismatched input digests
 0 of 63,852 with shared digest `57a1c14f84041e7466360028bd32cb492dff0f3454881aab76c57adc42ff8037`;
-every headline number recomputed by the independent verifier, matching the
-arms' own summaries exactly.
+accuracy, NLL, Brier and paired accuracy quantities reconstructed without
+changing any arm's predictions. Calibration corrections are disclosed below.
 
 Interpretation, stated conservatively. This is a legacy replication of a public
 benchmark with prior Vey and Laya exposure disclosed, not fresh transfer. It
@@ -5643,9 +5644,9 @@ English route on native multilingual intent by a wide, statistically resolved
 margin, for the mechanism recorded above: Vey's public `decide()` surface is an
 ordinal instruction executor with no fixed-label or rubric-relative mode, so
 both of its preregistered arms here answer by alphabetical fallback. Laya's
-0.116739 is itself depressed by the pinned K=60 option truncation recorded
-above, and is not a measure of Laya's capability ceiling; the vendor's
-multilingual route is still unmeasured.
+K=60 truncation restricts the pinned Laya route's input, but no intervention
+here isolates its effect on accuracy. This is not a capability ceiling; the
+multilingual route is measured separately below.
 
 What this does NOT establish: nothing about Laya's multilingual route, Jev, any
 non-English route selection, or any post-V2 architecture. It earns no promotion,
@@ -5676,9 +5677,9 @@ routes loaded with zero missing and zero unexpected weight keys. Identical
 | top-1 accuracy (micro over rows) | 0.116739 | 0.178021 |
 | NLL | 17.0523 | 4.48483 |
 | Brier | 1.52798 | 1.03461 |
-| ECE (15-bin) | 0.007877 | 0.047064 |
-| `en-US` accuracy | 0.4429 | 0.3049 |
-| non-English mean over 50 locales | 0.1103 | 0.1729 |
+| ECE (15-bin, corrected predicted-label confidence) | 0.709775 | 0.268751 |
+| `en-US` accuracy, complete run | 0.434505 | 0.314696 |
+| non-English mean over 50 locales, complete run | 0.110383 | 0.175288 |
 | option token spans | 4 per option | 4 per option |
 
 Paired cluster bootstrap over 1,252 base utterance groups, 10000 resamples,
@@ -5686,96 +5687,142 @@ seed 0: multilingual minus English = **+0.061282**, 95% CI
 **[+0.048957, +0.073341]**. Route selection is a large, resolved effect, not
 noise.
 
-Mechanism and reading. The routes are genuinely different models, not one
-model relabelled: `en-US` accuracy falls from 0.443 to 0.305 when switching to
-the multilingual encoder, while the non-English mean rises from 0.110 to 0.173
-and `ja-JP` (0.292) and `ru-RU` (0.281) approach `en-US`. Both routes carry the
-same 4-token-per-option truncation at K=60, so this difference is attributable
-to the encoder and its training, not to option visibility.
+The route difference is measured; its causal decomposition is unresolved.
+`en-US` accuracy falls from 0.434505 to 0.314696, while the non-English mean
+rises from 0.110383 to 0.175288. Earlier locale figures used partial runs.
+Both routes retain four tokens per option, but different
+tokenizers need not retain equivalent content in four tokens. These arms
+change encoder, tokenizer and weights together, so the difference cannot be
+attributed to encoder training alone.
 
-Calibration, stated carefully. The multilingual route is better on both proper
-scoring rules (NLL 4.48 vs 17.05, Brier 1.03 vs 1.53) and worse on ECE (0.047
-vs 0.008). The English route's near-zero ECE is not a calibration success: that
-route is uniformly near-chance, and a confidently wrong predictor can score
-well on ECE alone while failing every proper scoring rule. ECE alone does not
-license a calibration claim here; NLL and Brier do, and they favour the
-multilingual route decisively.
+Correction to the original calibration report: the verifier used gold-label
+probability rather than predicted-label confidence for ECE, and compared a
+probability with an answer string for Vey correctness. The earlier ECE values
+0.004792 / 0.007877 / 0.047064 are invalid. Reconstructing from unchanged
+predictions gives Vey 0.995208, English 0.709775 and multilingual 0.268751.
+Accuracy, NLL, Brier and both paired accuracy intervals are unchanged. The
+multilingual route has lower measured ECE, NLL and Brier on these rows.
+These likelihood metrics use persisted eight-decimal probabilities with a
+`1e-12` NLL floor. They are serialization-defined scores, not reconstruction
+of the unrounded logits' likelihood.
 
-Vendor claim: the advertised MASSIVE-51 macro accuracy of 0.4008 is on the
-multilingual route. Our measurement on that route is 0.178021 micro over locale
-rows. These are different statistics (macro over locales versus micro over
-rows) and are therefore not directly comparable; the claim is recorded as
-UNREPRODUCED-UNDER-AN-EQUIVALENT-DEFINITION rather than confirmed or refuted.
-Resolving it requires the vendor's macro definition, which is not published in
-the inspected sources. A macro number cannot be replaced by a micro number and
-vice versa.
+Vendor claim: the advertised multilingual MASSIVE-51 macro accuracy is 0.4008.
+An input/result census finds exactly 1,252 rows per locale in both runs.
+Consequently the measured macro-over-locales accuracy equals micro accuracy:
+English 0.116739; multilingual 0.178021. The earlier claim that these statistics
+were necessarily incomparable is withdrawn. The advertised number is not
+reproduced under this pinned revision and protocol. Different splits, rendering,
+route configuration or vendor aggregation remain unresolved; this does not
+refute the vendor's separate benchmark.
 
 What this does NOT establish: nothing about Laya's typed-decisions route, Jev,
 or any configuration using Laya's documented high-K remedies (embedding
 shortlist, coarse-to-fine decomposition), none of which were exercised here.
-Both routes remain far below the frozen Vey architectural cells, and no
-promotion, Pareto credit or B-STEF clearance follows.
+No same-task comparison with the frozen Vey architectural cells was made.
+No promotion, Pareto credit or B-STEF clearance follows.
 
 Next branch, per the registered order: the ordinal Score endpoint on
 `massive.grammar_score`, where the frozen Vey reference has no legal surface
 and Laya is therefore measured alone against the source-native rubric.
 
-## Ordinal Score on MASSIVE grammar rubric: the pinned multilingual route is anti-correlated
+## Ordinal Score on MASSIVE grammar rubric: exploratory multilingual result
 
-MEASURED, pinned multilingual bundle `55cf4c4eb`, 62,594 labeled dev rows
-(`massive.grammar_score`, 5-level native rubric, 62,338 rows with three or more
-observed raters), independently verified with 0 membership problems.
+MEASURED on 62,594 labeled dev rows with the pinned multilingual bundle
+`55cf4c4eb`; 62,338 have at least three observed raters. This historical run
+cited the Choice-only multilingual protocol, which did not prospectively cover
+Score execution. It is exploratory development evidence, not a preregistered
+Score route result. Amendment `33c880c` discloses that defect without rewriting
+the original protocol or predictions.
+
+The v2 verifier reconstructs expectations and errors from persisted eight-decimal
+probabilities and guarded native targets, verifies complete unique membership
+and persisted serving fields, and rejects nonfinite or unnormalized probabilities.
+Zero membership problems; 62,594 independently reconstructed rows.
 
 | Quantity | Value |
 |---|---:|
-| rows | 62,594 |
-| mean absolute error (levels 0-4) | 1.91270 |
-| normalized MAE | 0.47817 |
-| mean signed error | -1.89919 |
-| Spearman rank correlation vs rater mean | **-0.03441** |
+| mean absolute error (levels 0-4) | 1.912699 |
+| normalized MAE | 0.478175 |
+| mean signed error | -1.899193 |
+| signed-error slope against rater mean | -1.031111 |
+| Spearman rank correlation vs rater mean | -0.034411 |
+| normalized RPS | 0.281677 |
+| retained-rater NLL, at least three raters | 1.565044 |
+| retained-rater Brier, at least three raters | 0.599801 |
 
-The signed error and the rank correlation are the substantive results, not the
-MAE. A mean signed error of -1.90 on a 0-4 scale means the route predicts
-almost two full levels BELOW the observed rater mean on average, and a Spearman
-correlation of -0.034 means its expected level is very slightly
-anti-correlated with the truth: as the utterance gets better by the rubric,
-the route's expectation moves the wrong way. The MAE of 1.91 is large, but a
-constant offset alone would give a positive correlation; the near-zero
-negative correlation shows the route is not merely miscalibrated in level, it
-carries almost no usable ordinal signal on this rubric.
+The expected-level output has weak negative pooled rank association with the
+observed rater mean and a large downward bias on this measured task. These
+statistics do not identify a rubric-prior mechanism, prove all ordinal
+information absent, or establish which rubric formats were seen in training.
+Those earlier causal and training-exposure claims are withdrawn. A constant
+prediction has undefined Spearman; an additive offset of a nonconstant perfect
+prediction preserves its ordering. Neither observation establishes the model's
+failure cause here.
 
-Mechanism, from the persisted per-row fields. The predicted expected level is a
-smooth unimodal distribution centred near 2.0, so the output is not degenerate
-and is not a fixed constant. The target distribution is extremely skewed:
-29,843 of 36,663 sampled rows carry a rater mean of 4. The route's argmax level
-concentrates at level 0 (8,938 rows) and level 1 (11,935) while the target mass
-sits at level 4, so the reported expectation is a compromise between the rubric
-prior and the input rather than a reading of the utterance. The uniform spread
-of expected levels around a badly wrong centre is exactly the failure mode that
-a rank correlation detects and an MAE does not.
+Full target census: exactly 37,666 / 62,594 rows (60.1751%) have mean level four,
+with overall rater mean 3.749087. The earlier 29,843 / 36,663 count used a rounded
+partial histogram, not exact level-four membership; its claimed 89% was also
+arithmetically wrong. Full predicted argmax counts at levels 0/1/2/3/4 are
+15,407 / 20,518 / 109 / 19 / 26,541. These are descriptive output statistics,
+not evidence of a causal mechanism.
 
-Reading, stated conservatively. This is one rubric on one public dataset with
-prior exposure disclosed. It is not a general verdict on Laya's Score primitive:
-Laya's Score head was trained against its own rubric formats and this
-MASSIVE grammar judgment scale is not one of them, so the route is operating
-out of its training regime. What it does establish is that the competitor
-routes we can evaluate do not currently supply a calibrated ordinal primitive
-on this benchmark, which is the specific capability the endgame Score cell
-requires. The frozen Vey reference supplies none either, for the mechanism
-recorded earlier: `decide()` has no rubric-relative mode.
+Targets remain finite retained-rater distributions, not population
+probabilities. NLL, Brier and RPS are agreement scores against those targets;
+no population calibration claim follows. The measured frozen public `decide()`
+surface has no rubric-relative mode on this question. No proxy scorer was added.
 
-Calibration limit, per preregistration: the targets are retained per-rater
-arrays, not population probabilities. No population calibration claim is
-derived from these rows, and none is made.
+Earlier verifier failures remain in history: the wrong `level_max` field check
+manufactured 62,594 missing-field errors, then v1 trusted arm-derived error
+fields and did not enforce complete unique membership. Original receipts are
+retained; v2 supersedes their verification status. Tiny numerical differences
+from reconstruction reflect saved probability rounding, not changed predictions.
+The latest receipts are `verification_choice_routes_v5.json` and
+`verification_score_multilingual_v3.json` under the comparison data directory.
+Choice replay also checks complete unique membership, native gold, correctness
+flags, probability validity and argmax consistency. Throwaway CLI controls
+reject missing/duplicate rows, changed input or gold, false correctness flags,
+nonfinite or unnormalized probabilities and inconsistent winners.
 
-What this does NOT establish: nothing about Laya's typed-decisions Score route,
-Jev Score, or any ordinal task with a different rubric. No promotion, no Pareto
-credit, no B-STEF clearance.
+No result here establishes typed-decisions Score quality, Jev Score, another
+rubric, fresh transfer, promotion, Pareto superiority or B-STEF clearance.
 
-One verifier defect surfaced and is retained in history: the ordinal check
-compared `level_max` while the arm persists `native_level_max`, producing
-62,594 false "missing" errors and a spurious FAIL. The field name is corrected;
-the corrected run passes with zero problems and reproduces the arm's MAE exactly.
+## Registered English grammar Score: complete dev replay
+
+MEASURED on all 62,594 labeled grammar dev rows; receipt
+`verification_score_english_v2.json` independently reconstructs probabilities,
+native targets and errors with zero membership problems.
+
+| Metric | English | Historical exploratory multilingual |
+|---|---:|---:|
+| MAE, native levels 0-4 | 2.853026 | 1.912699 |
+| Normalized MAE | 0.713256 | 0.478175 |
+| Mean signed error | -2.851510 | -1.899193 |
+| Signed-error slope against rater mean | -0.986646 | -1.031111 |
+| Spearman rank correlation | 0.032804 | -0.034411 |
+| Normalized RPS | 0.569855 | 0.281677 |
+| Retained-rater NLL | 3.832799 | 1.565044 |
+| Retained-rater Brier | 1.110896 | 0.599801 |
+| Rows with at least three raters | 62,338 | 62,338 |
+
+Both routes replay the same guarded native inputs, digest
+`41487b5a717cec9b24c07c799b869c4a5d4da9dbe43c223e5ef828a62d625aa4`.
+English grammar was registered under the original comparison protocol.
+Multilingual grammar remains exploratory; the amendment cannot retrospectively
+change its status. Neither original grammar run persisted rubric description
+strings, so these receipts do not prove the exact encoded input bytes.
+
+The study uses historical raw-bundle temperatures, not current 0.3.27 served
+calibration. Its English Choice temperature was `.10058280825614929`, whereas
+the current served floor is `.5`. An exact replay at that floor cannot recover
+original logits from rounded saved probabilities.
+
+Matrix migration now accepts only corrected Choice receipt schema v2 and
+independently reconstructed Score schema v2. It rejects old schemas without
+writing the matrix, separates endpoint/route provenance, and clears a stale
+Score scalar if no verified English grammar receipt exists. Grammar receipt
+order does not change the English scalar. Actual matrix update retains all
+21 critical dimensions and zero green cells.
+
 
 
 

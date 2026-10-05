@@ -5,8 +5,8 @@ Reads the verified native dev projection ONLY through the committed guarded
 reader (neutral_native_compile.open_phase), joins the four streams by decision
 id, and yields frozen-workflow row records: one serving payload, one candidate
 universe in a fixed order, and one target. Both arms consume this identical
-stream, so candidate order, state text, question text and truncation cannot
-differ between arms by construction.
+stream with the same candidate order, state and question strings. Each model
+applies its own pinned tokenizer and truncation after assembly.
 """
 from __future__ import annotations
 
