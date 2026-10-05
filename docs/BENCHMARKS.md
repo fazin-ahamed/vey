@@ -4493,6 +4493,79 @@ multiplicity, must be preserved verbatim and independently verified
 before any DecisionIR conversion. Toy labels and generic Boolean
 interpretations are forbidden.
 
+### Corrected interface diagnostics: extent, orientation and knownness are all binding
+
+Preregistered in `ephemeral_pages_atomic_audit_protocol.json` (`5d5edb69…`)
+with the documented import-scope amendment
+`ephemeral_pages_atomic_audit_amendment.json` (`e10ad1fb…`). Data:
+corrected child-local train/validation/calibration/development only. Zero
+encoder forwards, zero reader forwards, no fitting in the factorial part.
+
+MEASURED truth recheck on development independently reproduced all75,520
+child-local records, 248,320 page ownership/grade checks, 15,616 question
+orientation checks, 12,544 exact-teacher rows, 8,704 missing required
+children, 1,536 contradictory children, and 2,560 supported siblings inside
+UNKNOWN parents with zero unsupported siblings in known parents. Parent
+knownness equals the conjunction of required child truth.
+
+MEASURED learned-baseline reconstruction is FP32 identity: atomic macro
+.058594, attribution .260498, orientation .711914, ordinal MAE .321672,
+supported coverage .225781, causal correct-new .059304.
+
+Privileged 16-cell pages substitution (atomic macro / attribution /
+coverage / correct-new):
+
+| Substituted components | Atomic macro | Attribution | Coverage | Correct-new |
+|---|---:|---:|---:|---:|
+| none (learned) | .058594 | .260498 | .225781 | .059304 |
+| knownness | .260742 | .260498 | 1.000000 | .269709 |
+| orientation | .114258 | .260498 | .225781 | .100675 |
+| raw extent | .104492 | .260498 | .258594 | .092152 |
+| orientation + knownness | .444336 | .260498 | 1.000000 | .414240 |
+| raw extent + knownness | .413086 | .260498 | 1.000000 | .388317 |
+| raw extent + orientation | .300781 | .260498 | .258594 | .242543 |
+| raw extent + orientation + knownness | 1.000000 | .260498 | 1.000000 | .824574 |
+| relevance | .000000 | 1.000000 | .000000 | .000000 |
+| relevance + knownness | .345703 | 1.000000 | 1.000000 | .357422 |
+| relevance + knownness + raw extent + orientation | 1.000000 | 1.000000 | 1.000000 | 1.000000 |
+
+MEASURED: attribution alone adds nothing (it is fixed at .260498 in every
+non-relevance cell) and is the only substitution that drives coverage to
+zero when relevance is supplied alone, because an oracle-relevant page that
+the learned knownness head rejects produces no supported candidate.
+Correcting orientation and knownness alone reaches .444336; adding oracle
+extent reaches exact1. Each single learned component is therefore
+individually limiting, and the exact compiler plus exact teacher can solve
+the task when all three semantic components are correct. This identifies
+three separable learned interfaces, not one broken interface.
+
+MEASURED finite linear ceiling: a bias-free FP64 least-squares map from the
+cached 384-d page feature to raw grade fits 180 unique supervised train page
+texts (14,848 supervised occurrences, 36 per grade, 15 per property) with
+rank180/384 design, retained condition221.81, train MSE 1.82e-29, 204
+unidentified coefficient directions, normal-equation gradient inf1.24e-13
+and an independent SciPy GELSS solver agreeing to 2.18e-14 relative. On
+opened development it reaches family-macro unique-text MAE .383230
+(occurrence MAE .361975) over 240 unique page texts, with unclipped
+predictions spanning [-1.095, 1.471] against a [0,1] target. It therefore
+does not recover grade from the cached page feature in this finite pinned
+function class. This bounds the tested linear map on this finite corpus; it
+is not a bound on all encoders or nonlinear readouts.
+
+INFERENCE: the trained pages reader fails because relevance, orientation,
+extent and knownness are all learned jointly from the same final-mean
+feature. Giving the reader an explicit per-property rubric anchor is the
+single targeted change the frozen decision tree authorizes next, and it
+targets extent identifiability rather than capacity.
+
+Execution defect: `ephemeral_pages_components.py` set
+`CUDA_VISIBLE_DEVICES=""` at module import, so importing its truth helpers
+from the conditional driver hid a live GPU from the whole process and both
+smoke attempts aborted with "CUDA requested but unavailable" before any
+optimizer step. The mask is now scoped to direct CLI execution; pre-fix
+source snapshots and the failed roots are retained outside Git, and the
+component parts rerun in a new exclusive root before any conditional fit.
+
 
 
 
