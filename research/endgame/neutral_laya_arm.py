@@ -89,18 +89,22 @@ def temperature_for(laya, cfg, qtype: int, n_options: int):
     raise RuntimeError(f"pinned config carries no temperature for {key}")
 
 
-def option_token_lengths(ids, markers):
-    """Per-option token span from the pinned output itself.
+def option_token_lengths(ids, markers, sep_id):
+    """Per-option token span measured from the pinned output itself.
 
     build_sequence emits each option as a contiguous [MASK] + text block, so the
-    gap to the next marker is that option's exact surviving length. No duplicate
-    of the bundle's truncation arithmetic is needed, and when the bundle shrinks
-    options evenly under its marker budget this reports the real damage.
+    span runs from one marker to the next. The LAST option runs to the closing
+    [SEP], not to markers[-1]+1; without that the final level always reports a
+    spurious length of 1 and understates real truncation.
     """
     spans = []
     for i, start in enumerate(markers):
-        end = markers[i + 1] if i + 1 < len(markers) else start + 1
-        spans.append(end - start)
+        if i + 1 < len(markers):
+            spans.append(markers[i + 1] - start)
+        else:
+            tail = ids[start + 1:]
+            stop = next((j for j, t in enumerate(tail) if t == sep_id), len(tail))
+            spans.append(max(1, stop))
     return spans
 
 
@@ -140,7 +144,7 @@ def run(laya, tok, model, cfg, rows, qtype_name, device, out, limit, endpoint):
             temp, key = temperature_for(laya, cfg, qtype, n_opt)
             temps[key] = temps.get(key, 0) + 1
             ids, markers = laya.build_sequence(tok, row["state"], q, cfg["max_len"], cfg["head_max_len"])
-            spans = option_token_lengths(ids, markers)
+            spans = option_token_lengths(ids, markers, tok.sep_token_id)
             min_option_tokens = min(spans) if min_option_tokens is None else min(min_option_tokens, min(spans))
             # Identical to the pinned API path: the bundle's own collate builds
             # the attention mask from tok.pad_token_id, not from a nonzero test,
