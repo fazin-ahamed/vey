@@ -1,0 +1,31 @@
+{
+  "evidence_class": "MEASURED",
+  "finding": "Screen C is identity-degenerate as specified and cannot pass; it would manufacture a negative mechanism result from a specification error.",
+  "found_by": "implementation review of ephemeral_pages_adaptation_screens.py before any screen executed",
+  "no_outcome_observed_before_discovery": true,
+  "schema": "vey.eca2.adaptation-screen-c-defect.v1",
+  "screens_verified_at_implementation_time": {
+    "loaded_encoder_parameters": 70682112,
+    "parameter_hash_matches_pin": true,
+    "pinned_parameter_hash": "6176abe0b5f5be31cb3201078e71af2a639a0cf32d808aa48f98b530780912a8",
+    "reproduced_page_only_ceiling": {
+      "development_family_macro_MAE": 0.3832298906765268,
+      "rank": 180,
+      "retained_condition": 221.8066,
+      "unique_texts": 240
+    },
+    "safetensors_ledger": {
+      "float32_scalars": 70831107,
+      "layer_11": {
+        "scalars": 1774464,
+        "tensors": 16
+      },
+      "layers_0_to_10": {
+        "scalars": 19519104,
+        "tensors": 176
+      },
+      "non_layer_11": 69056643,
+      "tensors": 203
+    }
+  }
+}

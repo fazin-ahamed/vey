@@ -4887,6 +4887,33 @@ conclude, so it must be decided prospectively and recorded as a documented
 amendment before execution, retaining this negative specification finding
 verbatim.
 
+Corrected prospectively by documented amendment, before any screen ran. The
+degenerate screen is retired and retained as a negative specification
+finding (`7e494efc3a09e…`). Screen C splits into two. C0 is the identity
+precondition only: adapter-at-init must reproduce frozen page features
+within 1e-5, and a deliberately perturbed adapter must demonstrably move the
+features so an adapter-path failure is distinguishable from FP32 drift. C0
+carries no quality claim and no threshold. C1 is the adapted ceiling: one
+bounded FP64 closed-form bias-free adaptation of layer 11 on the unique
+supervised train page texts only, under the same train-only normalizer
+policy and the same `lstsq` procedure, with no selection, no early stopping
+and no tuning, followed by the same development unique-text family-macro MAE
+against 0.3332298906765268. C1 runs after A and B and before the full
+development fit; its failure retires encoder adaptation and its pass permits
+the fit. Validation stays prohibited as a pass or fail basis.
+
+This costs one bounded closed-form solve on unique train page texts, which
+is the minimum spend that makes a ceiling screen a genuine test instead of
+an identity check. It opens no final pool, selects no model and uses no
+development or final outcome to choose the adaptation. The trainable
+surface, learning rates, optimizer, epochs, seed, chunks, normalizer, parent
+gate set, four mechanism claims, promotion rule and every pinned artifact are
+unchanged.
+
+Amendment `81a76d9eeed58745a0215106dfb7f6e1cf245607d10f4b9644d9a4b165304e2c`;
+corrected preregistration `2aa64bc77c236192681368a8c83751aeac185414d0cd0660578b2ada9cd7731c`.
+Screen order is now A, B, C0, C1, full development fit.
+
 
 
 

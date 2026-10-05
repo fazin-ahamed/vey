@@ -1,0 +1,37 @@
+{
+  "B_STEF_allowed": false,
+  "bounded_adaptation_for_C1": {
+    "bound": "require a finite solution; report train MSE, retained condition, unidentified directions, second-solver agreement",
+    "development_evaluation": "development unique-text family-macro MAE against 0.3332298906765268",
+    "fit": "single FP64 closed-form bias-free solve, no selection, no checkpoint, no tuning, same lstsq procedure and train-only normalizer policy as the retired ceiling",
+    "population": "unique supervised train page texts only; identical population to the retired page-only ceiling",
+    "selection": "no early stopping, no arm selection, no development outcome used to choose the adaptation",
+    "validation": "prohibited as a pass or fail basis, unchanged"
+  },
+  "correction": "Split screen C into C0 (identity precondition and adapter liveness, no quality claim, no threshold) and C1 (adapted ceiling on features from a bounded preregistered closed-form layer-11 adaptation fitted on unique supervised train page texts only, same FP64 lstsq procedure and same development unique-text family-macro MAE threshold 0.3332298906765268). C1 runs after A and B and after the bounded adaptation, before the full development fit. C1 fail retires encoder adaptation for this assay; C1 pass permits the full development fit.",
+  "defect": "Screen C was specified to encode features with the adapted final layer at adapter init identity 1.0 and to require an identity precondition that this reproduces frozen page features within 1e-5 absolute. At identity 1.0 that precondition holds by construction, so the screen necessarily reproduces the retired page-only development ceiling MAE 0.3832298906765268 and returns fail against threshold 0.3332298906765268. Screen C runs before any optimizer step, so no fitting could change it. As written it is a gate that cannot pass and would retire encoder adaptation without testing it.",
+  "endgame_complete": false,
+  "evidence_class": "MEASURED",
+  "evidence_for_defect": "The screens implementation independently reproduced rank 180, retained condition 221.8066 and development family-macro MAE 0.3832298906765268 over 240 unique texts from the retired page-only artifacts, confirming the identity path reproduces the failed ceiling exactly. No adaptation, development or final outcome was observed before the defect was found.",
+  "field": "mandatory_screens.C",
+  "forbidden_now": "Do not run screen C as originally specified and record its degenerate fail as a mechanism result. Do not move the C1 threshold. Do not tune the C1 fit population, normalizer or solver.",
+  "retained_negative_finding": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_adaptation_screen_c_defect.json",
+    "sha256": "7e494efc3a09e630c1f052b07e5ffa93dddb61edaf324f6b7e37bd9bf9eb57a5"
+  },
+  "schema": "vey.eca2.adaptation-screen-c-correctness-amendment.v1",
+  "target": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_adaptation_preregistration.json",
+    "sha256": "5bc31a5034ee737cf7af4c74df5adc9ff3b1a7957ce005ad0e810d1c87fcbecd"
+  },
+  "unchanged": [
+    "trainable surface and fractions",
+    "learning rates and ratio",
+    "optimizer, epochs, seed, chunks, normalizer",
+    "parent gate set",
+    "four mechanism claims",
+    "promotion rule",
+    "all pinned artifacts"
+  ],
+  "what_this_changes": "C1 costs one bounded closed-form adaptation on unique train page texts before the full fit. That is the minimum spend that makes a ceiling screen a genuine test instead of an identity check. It opens no final pool, selects no model and uses no development or final outcome to choose the adaptation."
+}
