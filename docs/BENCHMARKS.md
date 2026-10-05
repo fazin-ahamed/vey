@@ -4914,6 +4914,65 @@ Amendment `81a76d9eeed58745a0215106dfb7f6e1cf245607d10f4b9644d9a4b165304e2c`;
 corrected preregistration `2aa64bc77c236192681368a8c83751aeac185414d0cd0660578b2ada9cd7731c`.
 Screen order is now A, B, C0, C1, full development fit.
 
+### Final-layer adaptation screens A and B pass, C0 fails on a comparison basis
+
+MEASURED screen A, CUDA, 64 records and 2 epochs: verdict pass. Two
+optimizer steps, 4 encoder forward batches over 86 texts, 4 backward calls.
+All 28 trainable tensors are as preregistered: 16 layer-11 tensors
+(1,774,464 scalars), 6 adapters (1,769,472), and the 6-parameter-plus-
+weights reader (74,116). Encoder-side fraction 0.0501390790 against the
+0.055 bound; combined 0.0511340429 against 0.060. Both within bounds.
+Encoder and adapter learning rates 0.0001, reader 0.01, ratio 0.01.
+Final pool untouched. Receipt
+`0bd928a526a8186acaac775e2b6911ea09618666db0fbc70771a9602adc2991d`.
+
+MEASURED screen B, encoder immutability: verdict pass, zero encoder forwards
+and zero optimizer steps. Loaded encoder parameters 70,682,112 matching
+the pinned hash. Receipt
+`7816b5e75e386a428e540aa7e0adc8a57abefbc8d898aea469715dc0a143b4aa`.
+
+MEASURED screen C0, identity precondition: verdict FAIL against the 1e-5
+tolerance. Adapter-at-init reproduces the comparison basis to 1.29342e-05
+on 240 development texts and 1.28746e-05 on 180 train texts. The adapter
+liveness control passes at 0.0728226 movement and restore returns to
+exactly 0.0. Validation was never opened, no MAE or quality claim was
+made, and zero optimizer steps ran. Receipt
+`7ef3bbccd8d232b8785bd2c517e45f20e91b02ed192dadcc30c146ec076f6dd6`.
+
+Four candidate causes were tested and ruled out with measurements, not
+inference. FP32 nondeterminism: recomputing the same pinned forward twice
+at two seeds gives maximum absolute difference 0.0. Pooling variant:
+canonical `EncoderPool` against a manual masked mean gives 0.0. Adapter
+arithmetic at init 1.0: adapted output against the canonical pool gives 0.0
+with byte-identical layer-11 weights. Tokenization: the capture manifest
+records token limit 128, truncation false, batch 32 and the same canonical
+pooling contract the screens use.
+
+MEASURED actual cause: the two sides of the comparison aggregate different
+populations. The prefinal cache stores per-record padded page features of
+shape [75520, 5, 384], while the screen builds a per-unique-text table and
+compares those rows. Both computations are correct; the residual is the
+difference between a per-record padded array and a deduplicated text table.
+
+INFERENCE: C0 as specified is a gate no correct implementation can pass,
+the same class of specification defect as the retired screen C. It is not
+a mechanism result about encoder adaptation, and it is not evidence that
+adaptation fails. Three corrections are available (compare against a
+same-path recompute; aggregate the recompute back to per-record shape under
+a pinned rule; or restate C0 as liveness and restore only and delegate
+identity to the screen B byte equality that already passed). Each changes
+what the screen establishes, so the choice must be recorded as a
+prospective amendment before rerunning. The tolerance must not be loosened
+after observing 1.29342e-05.
+
+Diagnosis `7b26188516f87a1d23b98e272828ee482429cbc816aa5393d037bc31abe10be8`.
+Screen B was first blocked by a namespace defect of its own: it compared a
+base-namespace digest against a wrapper-namespace digest, which differ by
+construction. Hashing both sides in one namespace makes all three digests
+equal with 198 shared names and 0 differing, and the guard is unchanged in
+strength. Retained receipts and every launch failure are preserved outside
+Git; no failed artifact was deleted or cited as a result.
+
 
 
 
