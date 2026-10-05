@@ -89,7 +89,7 @@ ENCODER_ABLATIONS = ("adapter_blind", "layer11_frozen")
 ABLATIONS = ENCODER_ABLATIONS + INTERVENTION_ABLATIONS
 ALLOWED_PHASES = ("train", "validation", "calibration", "development")
 SCREEN_RECEIPTS = ("screen_a_smoke_receipt.json", "screen_b_immutability_receipt.json",
-                   "screen_c_linear_ceiling_receipt.json")
+                   "screen_c0_identity_receipt.json", "screen_c1_adapted_ceiling_receipt.json")
 EVALUATION_PHASES = ("calibration", "development")
 
 SCOPE = {
