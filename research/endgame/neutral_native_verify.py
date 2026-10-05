@@ -284,20 +284,31 @@ def verify(phase, compiler_path):
     sys.path.insert(0, str(HERE))
     compiler = importlib.import_module("neutral_native_compile")
     denials = selector_denials(compiler, cfg, compiler_path)
-    for name in STREAMS:
-        require(list(compiler.open_phase(phase, name)) == list(rows(directory / (name + ".jsonl.gz"))), "Verified selector stream differs")
-    selector_closure = {"sealed_phase_denials": denials, "verified_stream_openings": sorted(STREAMS)}
+    pre_receipt = _denies_open_phase(compiler, phase)
     receipt = {"schema": "vey.neutral.native-projection-verification.v1", "status": "PASS", "phase": phase,
         "protocol_sha256": PROTOCOL_SHA256, "projection_manifest": {"path": str(manifest_path), "sha256": digest(manifest_path)},
         "verifier": {"path": str(Path(__file__).resolve()), "sha256": digest(Path(__file__))},
         "independent_catalogue_counts": {source: len(items) for source, items in catalogues.items()},
         "independent_rubric_levels": {name: maximum + 1 for name, maximum in RATINGS},
         "source_rows": len(seen), "decision_rows": decisions, "coverage": {key: dict(value) for key, value in sorted(coverage.items())},
-        "access_control": selector_closure, "source_payloads_of_sealed_phases_read": False,
+        "access_control": {"sealed_phase_denials": denials, "verified_stream_openings": sorted(STREAMS),
+                           "unverified_phase_denied": pre_receipt},
+        "source_payloads_of_sealed_phases_read": False,
         "model_executed": False, "quality_credit": False, "promotion": False, "endgame_complete": False}
     with (directory / "verification_receipt.json").open("x", encoding="utf-8") as stream:
         stream.write(canonical(receipt) + "\n")
+    for name in STREAMS:
+        require(list(compiler.open_phase(phase, name)) == list(rows(directory / (name + ".jsonl.gz"))), "Verified selector stream differs")
     return receipt
+
+
+def _denies_open_phase(compiler, phase):
+    """An unverified phase must stay shut even though its files already exist."""
+    try:
+        compiler.open_phase(phase)
+    except FileNotFoundError as error:
+        return error.__class__.__name__
+    raise RuntimeError("Selector opened a phase without an independent verification receipt")
 
 
 def main(argv=None):
