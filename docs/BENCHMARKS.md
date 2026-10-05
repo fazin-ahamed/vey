@@ -4803,6 +4803,57 @@ Rubric grounding is retired for this assay. That branch must not repeat
 global numeric reconstruction or widen heads, and it inherits the same
 closed ECA-2 final.
 
+### Preregistration: minimal final-layer encoder task adaptation
+
+HYPOTHESIS: extent identifiability fails because the frozen final-layer
+masked-mean feature cannot represent it, not because the readout is too
+narrow. The authorized branch unfreezes exactly one transformer layer
+plus a per-element diagonal adapter on that layer, keeping layers 1
+through 11 and the embedding bit-identical and keeping the frozen rank-64
+reader equations byte-identical.
+
+Trainable surface, from safetensors header metadata only: `deberta.encoder.layer.11`
+is 1,774,464 FP32 scalars; layers 1 through 11 total 19,519,104. A
+per-element diagonal adapter on that layer's six rank>=2 weight matrices
+adds 1,769,472 scalars initialized to 1.0. Encoder-side trainable is
+3,543,936, which is 5.0139% of the loaded encoder against a declared 5.5%
+bound; combined with the 74,116-parameter reader it is 5.1134% against a
+6.0% bound. Both fractions are recorded at launch, not asserted.
+
+Learning rates are frozen now: encoder side 0.0001, reader 0.01, ratio
+0.01, with ratio search forbidden. AdamW, weight decay 0.0001, seed7, 400
+epochs, one full-batch step per epoch, chunk 32, train-only normalizer,
+earliest minimum held-world validation objective, calibration on the
+corrected calibration worlds only, evaluation on development only.
+
+Three mandatory fail-closed screens run in order. Screen A is a smoke fit
+of at most 64 records and 2 epochs requiring finite loss, finite gradients
+on every trainable parameter and a non-NaN gradient norm, with smoke
+checkpoints permanently ineligible. Screen B hashes every encoder
+parameter outside layer 11 before and after training and fails closed on
+any change. Screen C is CPU-only and must run before any full GPU fit: the
+same finite bias-free FP64 least-squares procedure on adapted final-layer
+features over unique supervised train page texts, with an identity
+precondition that adapter-at-init reproduces frozen page features within
+1e-5, and the same development unique-text family-macro MAE threshold
+0.3332298906765268. Validation is prohibited as a pass or fail basis.
+
+Gates are the unchanged parent set plus four predeclared mechanism claims
+(adapted minus frozen baseline, adapter_blind, zero_pages and lexical) at
+one-sided Bonferroni familywise 0.05. A development pass earns no
+promotion; replication on seeds 7, 11 and 13 plus a separate final protocol
+is required first.
+
+Failure branches: if screen C fails before fitting, encoder adaptation is
+retired for this assay and both remaining authorized branches are
+exhausted, which is a hard-block candidate for this assay only and not for
+Vey overall. If development fails, the negative is recorded and capacity is
+not widened. All 48 pinned SHA-256 values in the preregistration were
+verified against disk before commit.
+
+`research/endgame/ephemeral_pages_adaptation_preregistration.json`,
+SHA-256 `5bc31a5034ee737cf7af4c74df5adc9ff3b1a7957ce005ad0e810d1c87fcbecd`.
+
 
 
 
