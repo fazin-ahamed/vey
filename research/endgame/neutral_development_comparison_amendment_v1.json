@@ -1,0 +1,32 @@
+{
+  "schema": "vey.neutral.development-comparison-protocol-amendment.v1",
+  "amends": "research/endgame/neutral_development_comparison_protocol.json",
+  "amended_commit": "3a45bff",
+  "reason": "Two population statements in the preregistration were asserted before measurement and are contradicted by the input-only census of the verified dev projection. They were corrected before any model executed, so no outcome was selected, tuned or excluded on the basis of the change. The original file at 3a45bff remains in history as written.",
+  "defects": [
+    {
+      "claim": "Every dev utterance group has exactly two intent decisions, one per polar axis.",
+      "measured": "Each of the 1,252 dev utterance groups has exactly one massive.intent decision. 63,852 total decision rows over 1,252 groups is the per-locale descent of 51 locales onto 1,252 base groups, not a two-row polar duplication.",
+      "evidence": "neutral_comparison_rows.rows() join over the verified dev provenance: massive.intent decision count 63,852 and distinct group_id count 1,252."
+    },
+    {
+      "claim": "Rows whose gold is the pole label rather than the intent label are excluded from the Choice endpoint by the frozen rule above.",
+      "measured": "Zero dev rows carry a pole gold. All 63,852 rows have target_available true with a non-pole label_id, so the exclusion filter removed nothing.",
+      "evidence": "Census keyed on (label_id in POLE_LABELS, target_available): a single bucket {(False, True): 63852}. Distinct intent labels observed in dev: 57 of the 60-item MASSIVE catalogue."
+    }
+  ],
+  "corrections": {
+    "endpoints.choice": "MASSIVE binary intent Choice: 63,852 dev decisions, 1,252 independent base utterance groups, 51 locale descendants per base group, K=60 candidate universe per row, 57 distinct intent golds observed in dev. The 63,852 rows are locale descendants and MUST NOT be treated as independent n.",
+    "excluded_endpoints_and_why.massive.intent_nontarget": "The polar-axis exclusion is removed: no dev row carries a pole gold, so the rule is vacuous. Kept as a zero-row, zero-effect guard and renamed to record that fact rather than implying an exclusion happened."
+  },
+  "unchanged": [
+    "frozen primary endpoint choice_accuracy and its 0.01 non-inferiority margin",
+    "endpoints_and_margins for choice_calibration and ordinal_score",
+    "group resampling at base utterance group level, which was already correct and is the reason these two errors change no statistic",
+    "banking77.intent exclusion and the Vey empty-program scope limit",
+    "resource budget, gates, controls and failure branches"
+  ],
+  "consequence": "None for any planned statistic: the primary endpoint, margins, and the group-level resampling unit were all specified correctly in the original protocol, and the census confirms the realized group count of 1,252 exceeds the 1024 dev cap because locale descendants of a retained base group are kept together by design. The corrections only remove two descriptive claims about row multiplicity that no computation depended on.",
+  "evidence_class": "MEASURED input-only census over the verified dev projection; no model executed, no sealed phase opened",
+  "next_branch": "Execute the preregistered comparison under frozen controls."
+}
