@@ -1,0 +1,78 @@
+{
+  "schema": "vey.native-field.protocol.v1",
+  "experiment": "NATIVE-1 English native state-field supervision",
+  "basis": "CBF-6/7 and corrected ECA-2/adaptation failed their authored criterion/evidence assays. Direct native NLI heads were already tested in CBF-7. The guarded human-annotated native train/dev exports are complete, but no fit on that projection was found. This study tests state perception under real intent and retained-rater supervision, not another literal-registry or authored-alias rerun.",
+  "hypothesis": "A shared pretrained state encoder, supervised on lawful native intent and retained-rater targets, yields useful cached categorical/ordinal fields beyond state-blind priors. Compare a frozen encoder readout with full encoder fine-tuning before selecting a more elaborate architecture.",
+  "frozen_product_commit": "e6b046ffbd138cbdbfb2f89c6ae77525fe6b0b18",
+  "native_root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/native-train-dev-v1",
+  "output_root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1",
+  "native_compiler_protocol_sha256": "f1da1e227e6195c2230f4f1a10c016e0c683a036a192030704ed9c67da259642",
+  "data": {
+    "reader": "neutral_native_compile.open_phase only; phases train and dev, never calibration/confirmation/final/unused",
+    "selection": "Every Banking77 row and exactly MASSIVE en-US, determined from provenance before target values. Preserve source-native targets, candidate catalogues and natural prevalence. No class rebalance, synthetic labels, rationale inputs or new source allocation.",
+    "train_permission": "This separate protocol explicitly authorizes native train payloads/targets for fitting; the earlier DEV-only competitor comparison did not authorize training.",
+    "sources": {"PolyAI/banking77": "CC-BY-4.0 shipping-train", "AmazonScience/massive": "CC-BY-4.0 shipping-train"},
+    "known_intent_counts": {"banking_train": 4105, "banking_dev": 1027, "massive_en_train": 3971, "massive_en_dev": 1252},
+    "inner_split": "Whole original train components: int(SHA256('native-field-v1|7|'+component_id),16) mod100; 0..69 fit,70..84 checkpoint-selection,85..99 temperature-calibration. Components never split across tasks or duplicate lineages. Original dev remains development assessment, not a sealed final.",
+    "ordinal_eligibility": "All source-retained distributions with >=1 observed rater. RPS screens and NLL/Brier use >=3; all>=1 RPS is separately descriptive and nMAE uses all>=1. Census first. A rubric needs >=250 fit and >=100 dev records to earn this English assessment; otherwise retain counts and mark it data-insufficient, never fabricate a trained head or grade gate. An eligible rubric with zero >=3-rater dev rows has an insufficient distributional screen.",
+    "memory": "Stream all four guarded native files once per phase. Filter provenance to selected English IDs before retaining serving/target/decision objects. Do not use the all-record in-memory comparison join for train. Persist selected DecisionIR IDs, component IDs, inputs, targets and original export hashes outside Git."
+  },
+  "model": {
+    "repo": "microsoft/deberta-v3-xsmall",
+    "revision": "eb2d654bf0a5b628c8be6c4be7d29118fbef95b8",
+    "weights_sha256": "964ceb3612da6cfdb45997d380fdb95f92c7499ffcabb50cbeea55e04756cafd",
+    "source": "Existing pinned stock checkpoint; no NLI-derived conditional/review checkpoint substitution or competitor weights.",
+    "inputs": "Canonical serving state text only. Endpoint/candidate catalogue chooses the declared native field in code. Questions/candidate descriptions are persisted but not encoded by this pooled field model. This is typed native state perception, not free-form question or alias interpretation.",
+    "pooling": "Existing EncoderPool/masked_mean behavior, then one Linear384->256/GELU/Linear256->C head per eligible endpoint, matching train/vey_u_school.py PooledClassifier pattern. One state encoder call yields all endpoint logits.",
+    "fields": ["banking77.intent", "massive.intent", "massive.grammar_score", "massive.spelling_score"],
+    "cache": "Eval-mode encoded state and full endpoint logits/probabilities cached by exact serving state bytes and model identity. Choice gathers native catalogue coordinates; ordinal expectation/CDF and canonical intent membership Boolean are exact code over learned masses. No numeric-fact arithmetic in the network.",
+    "semantic_scope": "Canonical endpoint/catalogue IDs only; no candidate alias recognition, free-form criteria, many-axis promotion, generic Boolean truth, OOD detector or SSC claim. Unsupported/untrained endpoints fail explicitly."
+  },
+  "arms": ["fit_phase_state_blind_empirical_prior", "frozen_pooled_heads", "full_encoder_pooled_heads"],
+  "training": {
+    "seed": 7,
+    "fresh_encoder_per_arm": true,
+    "epochs": 10,
+    "batch_states": 4,
+    "effective_batch_states": 32,
+    "max_tokens": 512,
+    "dtype": "float32",
+    "optimizer": "AdamW; head lr0.001, full encoder lr0.00002, weight_decay0.01; no schedule or hyperparameter sweep",
+    "loss": "Categorical CE and soft-target ordinal CE. Sum valid per-decision losses and divide by valid decisions in each effective batch; each eligible source decision has weight1, no class weights. Group co-occurring endpoints by source row_key, encode the shared state once. Missing ratings contribute no ordinal loss.",
+    "frozen_features": "Frozen arm caches detached eval-mode pooled state embeddings and fits heads only. Full arm encodes with gradients; never cache/detach trainable activations.",
+    "checkpoint": "Highest macro source intent accuracy on inner selection components; tie lower mean per-endpoint unweighted NLL then earlier epoch. Restore selected state_dict strictly and verify its fingerprint before calibration/dev. Include epoch0 in selection.",
+    "calibration": "Fit one temperature per eligible endpoint on disjoint inner calibration components only, bounded0.5..10, deterministic101-point log grid, lower NLL then temperature closest1. Raw and calibrated predictions retained. No dev temperature fit.",
+    "smoke": "Before full training, actual tiny forward/backward/optimizer step: finite loss; nonzero named active encoder gradient and parameter delta for full arm; unchanged encoder hash for frozen arm; active head gradients; strict save/restore fingerprint; cached and uncached eval agreement. Smoke state discarded and fresh seeded arms instantiated."
+  },
+  "controls": {
+    "state_blind": "Fit-only empirical target mass per endpoint, with zero probabilities scored at1e-12; no dev label prior.",
+    "state_mask": "On dev replace every state with the same public empty-evidence string; preserve heads/catalogues. Compare actual target performance to real-state performance.",
+    "state_swap": "Within each endpoint, cyclically map lexicographically sorted dev decision IDs to the next different component with a different native intent label or ordinal mean; persist donor IDs. Predict donor state against original targets; also assess correct-new on donor targets. Report teacher-changing denominators. No invented counterfactual gold. If no valid donor exists, persist donor-unavailable IDs/counts, supply no swapped semantic credit, and report insufficient intervention data.",
+    "candidate_order": "Reverse candidate IDs and map masses by ID; winner/ties must remain semantic-ID consistent. This is exact coordinate-order invariance, not candidate alias semantics.",
+    "repeated_state": "Actual cached path returns Choice, expected ordinal level/CDF and canonical intent-membership Boolean without another state-encoder call. Counter and numeric equality measured, no latency inference."
+  },
+  "statistics": {
+    "unit": "Input-only connected component, preserving all selected descendants/tasks",
+    "resamples": 10000,
+    "seed": 0,
+    "estimand": "Row-weighted paired endpoint metric difference using ratio bootstrap over component sums/counts",
+    "intervals": "Nominal descriptive95%; not the endgame simultaneous non-inferiority gate",
+    "choice": "Accuracy, per-class counts, NLL,Brier,ECE15, raw/calibrated; no gold-probability ECE",
+    "ordinal": "MAE/nMAE,bias,slope,Spearman on all observed>=1; normalized RPS screens and retained-rater NLL/Brier on>=3, all>=1 RPS separately descriptive; finite retained-rater agreement, never population calibration"
+  },
+  "screen_gates": {
+    "intent_accuracy_each_source": 0.80,
+    "intent_vs_prior_lower_nominal_bound": 0.10,
+    "intent_real_minus_masked_accuracy_lower_nominal_bound": 0.10,
+    "intent_swapped_correct_new_each_source": 0.80,
+    "ordinal_prior_minus_model_normalized_RPS_lower_nominal_bound": 0.005,
+    "ordinal_model_minus_prior_nMAE_upper_nominal_bound": 0.01,
+    "exact_cache_and_coordinate_invariance": true,
+    "scope": "Development mechanism screens only. Rubrics earn credit independently; passing intent does not rescue failing/missing ordinal fields. No competitor victory or many-axis promotion."
+  },
+  "selection": "All three controls completed; choose smallest declared learned arm passing each field's screens, otherwise no earned field. Do not read or manufacture a final. No failed rubric/arm is hidden.",
+  "next_branch": "Passing native perception proceeds to separately preregistered pooled/cross/dual/Evidence Pages and variable-query/many-axis transfer comparisons; these remain required, not waived. If full native fit fails, audit representation/task/loss/optimization and strongest source-native cross teacher before larger capacity. Do not return to retired authored registry/NLI-head sweeps.",
+  "resources": {"paid": false, "gpu": "Serialized RTX3060 12GB under /tmp/vey-gpu.lock", "threads": 2, "dataloader_workers": 0, "nice": 10, "one_model_resident": true, "pause_available_RAM_GiB_below": 4, "pause_swap_growth_MiB_above": 256, "pause_GPU_free_MiB_below": 2048, "user_workloads": "Never kill user processes. No throughput/latency claim from shared-host quality execution."},
+  "custody": "Commit protocol and implementation before materialization/model work. Record source/export/model/tokenizer/config hashes, eligibility/inner membership, histories, gradients, encoder hashes, selected restore, temperatures, every prediction/control, independent reconstruction and failure branch. Raw data/checkpoints stay outside Git.",
+  "prohibited": ["modify frozen Vey product", "sealed phase access", "train/dev component overlap", "dev checkpoint/calibration fitting", "test-time target inputs", "rationale model inputs", "prior-only semantic credit", "conditional/NC checkpoint shipping", "Jev calls", "B-STEF promotion", "claim universal fields from native fixed ontologies"]
+}
