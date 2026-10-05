@@ -6009,6 +6009,18 @@ backpropagation through the exact first effective block and longest FIT input.
 Training recomputation is not included in inference counters or performance
 claims. No completion or quality credit from the interrupted fit.
 
+The corrected CUDA execution checks pass for all three arms. Stock-model
+ordinary versus checkpointed logits/gradients match on the bounded parity
+probe (maximum gradient difference zero), including post-backward RNG state.
+Each arm completes the exact first 32-decision effective block and backpropagates
+the input-only longest FIT state (77 joint candidates, padded length 130).
+The separate stochastic CPU regression and existing invariants pass 73 tests.
+[`native_arch_activation_manifest.json`](../research/endgame/native_arch_activation_manifest.json)
+binds the actual proof and retained OOM artifacts. Own allocation high-water
+counters are diagnostic shared-host values, not deployment memory or a
+controlled performance comparison. Full quality measurement restarts fresh.
+
+
 
 
 

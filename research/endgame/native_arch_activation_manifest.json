@@ -1,0 +1,233 @@
+{
+  "schema": "vey.native-arch.activation-execution.v1",
+  "status": "PASS_EXECUTION_CHECKS_NOT_QUALITY",
+  "source_commit": "98537e7",
+  "data_root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1",
+  "proof": {
+    "cross": {
+      "status": "PASS_NUMERICAL_EXECUTION_NOT_QUALITY",
+      "stock_gradient_parity": {
+        "all_named_gradients_close": true,
+        "dropout_rng_after_identical": true,
+        "max_abs_gradient_difference": 0.0,
+        "runs": [
+          {
+            "checkpointing": false,
+            "gradient_tensor_count": 202,
+            "loss": 4.312670707702637
+          },
+          {
+            "checkpointing": true,
+            "gradient_tensor_count": 202,
+            "loss": 4.312670707702637
+          }
+        ]
+      },
+      "first_block_peak_allocated_bytes": 1652417536,
+      "input_only_fit_census": {
+        "largest_attention_proxy": {
+          "attention_size_proxy": 1301300,
+          "candidate_count": 77,
+          "endpoint": "banking77.intent",
+          "padded_joint_tokens": 130,
+          "state_id": "banking77:train:00007311"
+        },
+        "longest_joint_input": {
+          "attention_size_proxy": 1301300,
+          "candidate_count": 77,
+          "endpoint": "banking77.intent",
+          "padded_joint_tokens": 130,
+          "state_id": "banking77:train:00007311"
+        }
+      },
+      "long_input_backprop": [
+        {
+          "fit": {
+            "effective_batches": [
+              {
+                "microbatch_states": 4,
+                "normalized_loss": 4.347602844238281,
+                "states": 1,
+                "valid_decisions": 1
+              }
+            ],
+            "mean_decision_loss": 4.347602844238281,
+            "optimizer_updates": 1,
+            "states": 1,
+            "valid_decisions": 1
+          },
+          "peak_allocated_bytes": 2432586752,
+          "state_id": "banking77:train:00007311"
+        }
+      ]
+    },
+    "dual": {
+      "status": "PASS_NUMERICAL_EXECUTION_NOT_QUALITY",
+      "stock_gradient_parity": {
+        "all_named_gradients_close": true,
+        "dropout_rng_after_identical": true,
+        "max_abs_gradient_difference": 0.0,
+        "runs": [
+          {
+            "checkpointing": false,
+            "gradient_tensor_count": 201,
+            "loss": 4.287209987640381
+          },
+          {
+            "checkpointing": true,
+            "gradient_tensor_count": 201,
+            "loss": 4.287209987640381
+          }
+        ]
+      },
+      "first_block_peak_allocated_bytes": 1493190656,
+      "input_only_fit_census": {
+        "largest_attention_proxy": {
+          "attention_size_proxy": 1301300,
+          "candidate_count": 77,
+          "endpoint": "banking77.intent",
+          "padded_joint_tokens": 130,
+          "state_id": "banking77:train:00007311"
+        },
+        "longest_joint_input": {
+          "attention_size_proxy": 1301300,
+          "candidate_count": 77,
+          "endpoint": "banking77.intent",
+          "padded_joint_tokens": 130,
+          "state_id": "banking77:train:00007311"
+        }
+      },
+      "long_input_backprop": [
+        {
+          "fit": {
+            "effective_batches": [
+              {
+                "microbatch_states": 4,
+                "normalized_loss": 4.268098831176758,
+                "states": 1,
+                "valid_decisions": 1
+              }
+            ],
+            "mean_decision_loss": 4.268098831176758,
+            "optimizer_updates": 1,
+            "states": 1,
+            "valid_decisions": 1
+          },
+          "peak_allocated_bytes": 1488837632,
+          "state_id": "banking77:train:00007311"
+        }
+      ]
+    },
+    "pages": {
+      "status": "PASS_NUMERICAL_EXECUTION_NOT_QUALITY",
+      "stock_gradient_parity": {
+        "all_named_gradients_close": true,
+        "dropout_rng_after_identical": true,
+        "max_abs_gradient_difference": 0.0,
+        "runs": [
+          {
+            "checkpointing": false,
+            "gradient_tensor_count": 206,
+            "loss": 4.345717430114746
+          },
+          {
+            "checkpointing": true,
+            "gradient_tensor_count": 206,
+            "loss": 4.345717430114746
+          }
+        ]
+      },
+      "first_block_peak_allocated_bytes": 1499494400,
+      "input_only_fit_census": {
+        "largest_attention_proxy": {
+          "attention_size_proxy": 1301300,
+          "candidate_count": 77,
+          "endpoint": "banking77.intent",
+          "padded_joint_tokens": 130,
+          "state_id": "banking77:train:00007311"
+        },
+        "longest_joint_input": {
+          "attention_size_proxy": 1301300,
+          "candidate_count": 77,
+          "endpoint": "banking77.intent",
+          "padded_joint_tokens": 130,
+          "state_id": "banking77:train:00007311"
+        }
+      },
+      "long_input_backprop": [
+        {
+          "fit": {
+            "effective_batches": [
+              {
+                "microbatch_states": 4,
+                "normalized_loss": 4.222837448120117,
+                "states": 1,
+                "valid_decisions": 1
+              }
+            ],
+            "mean_decision_loss": 4.222837448120117,
+            "optimizer_updates": 1,
+            "states": 1,
+            "valid_decisions": 1
+          },
+          "peak_allocated_bytes": 1495141376,
+          "state_id": "banking77:train:00007311"
+        }
+      ]
+    }
+  },
+  "regression_tests": {
+    "passed": 73,
+    "scope": "CPU stochastic cross gradient/RNG parity and existing native resource/verification/readout invariants"
+  },
+  "artifacts": {
+    "native_arch_activation_smoke_v1.py": {
+      "sha256": "296de58f4de02628fde89e438eb12890cda3ea84289111125f221f948e4a5a20",
+      "bytes": 9315
+    },
+    "native_arch_fit_oom_v1.json": {
+      "sha256": "8b9f399d9b4ec7f7edaee9862c1afe5edaae05ee97403e33397b23106ff99810",
+      "bytes": 1713
+    },
+    "activation-checkpoint-smoke-v1/cross/verification.json": {
+      "sha256": "f18950e5a95969be9856cfd2c1abee847a4e5e2ad10ab9305e986131991025ce",
+      "bytes": 170402
+    },
+    "activation-checkpoint-smoke-v1/dual/verification.json": {
+      "sha256": "3eb39d56b6fc8dee5552186b8b7e68954b2c7dabaae1c06a9c946e005f4820e6",
+      "bytes": 169364
+    },
+    "activation-checkpoint-smoke-v1/pages/verification.json": {
+      "sha256": "deab5727dad113cb721201904085df3680a3f45e46fef7d0ea9805ed7db1ee92",
+      "bytes": 168345
+    },
+    "cross-fit-oom-v1/metadata.json": {
+      "sha256": "db264277227ea0d727bda71e5749f35722c9bafb04f818d411f281a644167234",
+      "bytes": 19177
+    },
+    "cross-fit-oom-v1/history.json": {
+      "sha256": "e0047426a1ededd4432dd3a294ef8bff8dc99ce897d5640ea3edbde819f607bb",
+      "bytes": 907
+    },
+    "cross-fit-oom-v1/liveness.json": {
+      "sha256": "5070774f1af783832c0fd0a3652c452e3c08b670e41e6ed130098a4f50c79a20",
+      "bytes": 166912
+    },
+    "cross-fit-oom-v1/selection.jsonl": {
+      "sha256": "75845ffc5b04c26ab4fafac4e06715579d23e2664d97872f3896a6df55cee68b",
+      "bytes": 6384544
+    },
+    "cross-fit-oom-v1/selected.safetensors": {
+      "sha256": "b71a40bb88929a21d04c87e5185bdbbfe2979b40e88b3efc2fb0001ad4ab759d",
+      "bytes": 282953132
+    }
+  },
+  "failures_retained": true,
+  "quality_credit": false,
+  "latency_credit": false,
+  "memory_scope": "Own allocated CUDA high-water counters in bounded shared-host smoke; not deployment memory, controlled baseline ratio or full-fit peak.",
+  "fresh_seed_restart_required": true,
+  "sealed_access": false,
+  "B_STEF_allowed": false,
+  "endgame_complete": false
+}
