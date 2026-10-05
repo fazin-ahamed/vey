@@ -1,0 +1,185 @@
+{
+  "schema": "vey.native-arch.modal-transport.v1",
+  "status": "PROSPECTIVE_FROZEN_INPUTS_AND_CODE",
+  "volume": "vey-native-arch-modal-v1",
+  "data_mount": "/home/fazinahamed/Documents/vey-data/decisionmix",
+  "source_files": [
+    {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_arch_modal.py",
+      "bytes": 9928,
+      "sha256": "a4712f7a5f611e9b7ee87046748bfd07ed832786ec6371457635f414b09f97c5"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_arch_model.py",
+      "bytes": 22718,
+      "sha256": "cad85c30842ef96f97f909cbd574cbe8ec213d18ae303723c3e3ee5b9d571e23"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_arch_train.py",
+      "bytes": 40201,
+      "sha256": "8d6e7df0d8734e168adf9b4fcf72fa648ed5d2c96221ef18684cee0acb4b2c38"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_arch_protocol.json",
+      "bytes": 11909,
+      "sha256": "a0c0a8445227daa429b95949b823e39d78bfae84ad8120a16d90b0ae3c95bec0"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_field_data.py",
+      "bytes": 13140,
+      "sha256": "be38622f11d4ee59e3d6cc929e68e4fe808742af10ef006667f92ed2ce3dd906"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_field_model.py",
+      "bytes": 17965,
+      "sha256": "1fe718658cbc544f2531c06b342059c471d110c1ce301245155c27442b7f4b77"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_field_train.py",
+      "bytes": 43339,
+      "sha256": "820a59f12f13b41a1dd2416d8e47b3e3cdf88b8c5339110f9b6801be8ed36035"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_field_protocol.json",
+      "bytes": 10753,
+      "sha256": "f0f21d4695be2f930f2f0993be415dd8fee6e05ee1a888fe756cac0f7f94dfa3"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_native_compile.py",
+      "bytes": 17195,
+      "sha256": "392006362b9d6aaea879c92ddc4e053b2fb04355c30844526a4607008292e441"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_native_compiler_protocol.json",
+      "bytes": 11692,
+      "sha256": "f1da1e227e6195c2230f4f1a10c016e0c683a036a192030704ed9c67da259642"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey/vey_u/__init__.py",
+      "bytes": 74,
+      "sha256": "f396a8842e671617a7926a0005c8a975b5f9dfb4acc17f8242072f4456df1063"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey/vey_u/semantic/__init__.py",
+      "bytes": 62,
+      "sha256": "2aa007a0018798677aca5fdae6dc32bac51dafdfbf918ee29c427d0ed4a0a427"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey/vey_u/semantic/models.py",
+      "bytes": 3628,
+      "sha256": "421f8d20aab9f1b545d18ad74eee6cf02c00fd13f0a7feac841e848f366dbc94"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey/vey_u/evidence/__init__.py",
+      "bytes": 53,
+      "sha256": "08a8b4a0fde4addf355626c04f539261b3a1f42c289d40e4f5352ffab3b0990f"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey/vey_u/evidence/pages.py",
+      "bytes": 5289,
+      "sha256": "1287a2c3b62ec3d8cbf969da8f7707f6827d02512633d85d5af531e271140b96"
+    }
+  ],
+  "input_files": [
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/dataset_manifest.json",
+      "bytes": 7864,
+      "sha256": "67624183cb02d184383c36e0183c64a6aed91caa9f8031d5edd079545281337d"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/fit.jsonl",
+      "bytes": 43083258,
+      "sha256": "0a88e85a0cd762460cfb843257cec04e0f42ceaad04d481c970f926ff2c305c0"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/selection.jsonl",
+      "bytes": 9183596,
+      "sha256": "98a34d86040c22b7c67673d79dc06acd818bf3fb11e6c3c6258aabdcb60272b4"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/calibration.jsonl",
+      "bytes": 8786371,
+      "sha256": "3943eb1888a8088561a0bde1076d57e905d6778529b0df22e90546954ba3bea2"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/dev.jsonl",
+      "bytes": 16764916,
+      "sha256": "36d1fe0590e32bf9cf5769d2f84ce0b5e726ca96d7b1c10304ddfdf53d9577d8"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/native-train-dev-v1/train/manifest.json",
+      "bytes": 25368,
+      "sha256": "a540c6a4bed1e0f7115a74b98f929ab75d5a7ccc39cdf13045117a21d4a3b0c7"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/native-train-dev-v1/train/verification_receipt.json",
+      "bytes": 21606,
+      "sha256": "9f4d23282dbead555eb071967183656aeb35e31d3c387e99c2d06b5882699130"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/native-train-dev-v1/dev/manifest.json",
+      "bytes": 25260,
+      "sha256": "292e7fe389916bc8484aab128efae4d46b25e91f2fadafc60e99570e3bf982da"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/native-train-dev-v1/dev/verification_receipt.json",
+      "bytes": 21499,
+      "sha256": "7efc5ced7fd9ea74a33efad0d73794a5e040b429a5b07c352fa6ec666043dbed"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--microsoft--deberta-v3-xsmall/snapshots/eb2d654bf0a5b628c8be6c4be7d29118fbef95b8/config.json",
+      "bytes": 578,
+      "sha256": "dec93c511390776d961b33e560ccbb8505f8bb11e04fc0428eac55f562231c04"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--microsoft--deberta-v3-xsmall/snapshots/eb2d654bf0a5b628c8be6c4be7d29118fbef95b8/model.safetensors",
+      "bytes": 241408554,
+      "sha256": "964ceb3612da6cfdb45997d380fdb95f92c7499ffcabb50cbeea55e04756cafd"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--microsoft--deberta-v3-xsmall/snapshots/eb2d654bf0a5b628c8be6c4be7d29118fbef95b8/spm.model",
+      "bytes": 2464616,
+      "sha256": "c679fbf93643d19aab7ee10c0b99e460bdbc02fedf34b92b05af343b4af586fd"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--microsoft--deberta-v3-xsmall/snapshots/eb2d654bf0a5b628c8be6c4be7d29118fbef95b8/tokenizer_config.json",
+      "bytes": 52,
+      "sha256": "3f3978e0c036f2c2588cac34a6047cbb0af0b0dc1814254e291028529805496d"
+    }
+  ],
+  "input_scope": "Only existing NATIVE-1 fit/selection/inner-calibration/dev derived from authorized native train/dev; original selected projection metadata/receipts and four pinned stock snapshot files. No original mixed rows, raw source corpora, source calibration/confirmation/unused data, secrets, credentials, Jev artifacts or unrelated project files.",
+  "model_repo": "microsoft/deberta-v3-xsmall",
+  "model_revision": "eb2d654bf0a5b628c8be6c4be7d29118fbef95b8",
+  "packages": {
+    "torch": "2.5.1+cu121",
+    "transformers": "5.17.0",
+    "numpy": "2.4.6",
+    "safetensors": "0.8.0",
+    "huggingface_hub": "1.32.0",
+    "tokenizers": "0.23.2",
+    "sentencepiece": "0.2.2",
+    "protobuf": "7.36.2"
+  },
+  "gpu": "T4",
+  "serialization": "One GPU call at a time, one model resident, no automatic retries; dedicated private volume. Preserve exact absolute paths for existing immutable dataset manifests.",
+  "launches": [
+    "modal run research/endgame/native_arch_modal.py --stage preflight",
+    "modal run research/endgame/native_arch_modal.py --stage smoke",
+    "modal run research/endgame/native_arch_modal.py --stage train"
+  ],
+  "download": "After complete, download only explicit arm/runtime/preflight directories/files; reject changed input hashes and independently verify full local artifacts using native_arch_verify.py.",
+  "local_interruption": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/native_arch_modal_migration_interruption_v1.json",
+    "bytes": 1889,
+    "sha256": "7ec4beebad6aafb703ad9d4c0bec5bffdcc99c985aa61f961b7fad012e5443f6"
+  },
+  "local_interruption_paths": "cross-fit-interrupted-modal-migration-v1 (three actual partial files, no completed fit epoch); fresh remote restart only.",
+  "quality_recipe_changed": false,
+  "source_membership_changed": false,
+  "sealed_data_uploaded": false,
+  "local_GPU_fallback_allowed": false,
+  "performance_credit": false,
+  "quality_result_pending": true,
+  "B_STEF_allowed": false,
+  "endgame_complete": false
+}

@@ -6020,6 +6020,21 @@ binds the actual proof and retained OOM artifacts. Own allocation high-water
 counters are diagnostic shared-host values, not deployment memory or a
 controlled performance comparison. Full quality measurement restarts fresh.
 
+User-directed execution change: all subsequent GPU work runs on Modal, never
+on the local card. Local job `bg_220` is cancelled and its three partial
+artifacts are retained in `cross-fit-interrupted-modal-migration-v1`; persisted
+history contains only epoch 0. This interruption is not a neural quality
+failure. The remote amendment restarts all arms fresh on one serialized T4,
+with exact code, permitted inner-phase data, stock-weight and dependency hashes.
+Only 13 explicit allowed input files are transported; no source sealed rows,
+mixed raw corpora or credentials. Dedicated private-volume paths preserve the
+original dataset manifests. CPU preflight and actual Modal liveness precede
+quality fits; timeouts are bounded and automatic retries disabled.
+[`native_arch_modal_transport.json`](../research/endgame/native_arch_modal_transport.json)
+records the transfer contract. The pooled reference used RTX3060; numerical
+identity across hardware and any cross-hardware performance gain are unmeasured.
+
+
 
 
 
