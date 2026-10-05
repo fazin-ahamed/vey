@@ -1,0 +1,28 @@
+{
+  "schema": "vey.neutral.score-route-amendment.v2",
+  "evidence_class": "HYPOTHESIS",
+  "status": "PROSPECTIVE for future multilingual spelling Score execution; retrospective disclosure for already executed multilingual grammar Score",
+  "authority": "research/endgame/neutral_development_comparison_protocol.json",
+  "historical_limits": [
+    "The multilingual grammar Score run already executed under the Choice-only neutral_multilingual_route_protocol.json. It was not prospectively authorized as a Score route by that follow-up. Preserve its artifacts as exploratory development evidence, never retroactively preregister it.",
+    "Ordinal v1 verification checked target fields but trusted arm-derived expected_level and error fields, and accepted missing or duplicate rows. Preserve original receipts; v2 reconstructs metrics from persisted probabilities and verified native targets.",
+    "Choice ECE used gold-label probability, and its Vey correctness expression compared a probability with the answer string. Supersede those ECE values without altering accuracy, NLL, Brier, predictions or paired accuracy statistics.",
+    "The earlier Score report inferred a rubric-prior mechanism and absence of training exposure without supporting interventions or provenance. Those claims are withdrawn. A rounded target histogram was incorrectly described as exact level-four prevalence."
+  ],
+  "prospective_execution": {
+    "phase": "dev only through guarded native projection; no train, calibration, confirmation or unused phase access",
+    "remaining_endpoints": ["massive.grammar_score English under original protocol", "massive.spelling_score English under original protocol", "massive.spelling_score multilingual under this amendment"],
+    "bundle_revision": "55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851",
+    "route_rule": "Report both pinned English and multilingual routes separately. Do not pick a winner to overwrite the registered English reference cell. No typed-decisions substitution.",
+    "inputs": "Identical source-native question, state, rubric order and target membership. Model-specific tokenization and published truncation remain route-specific and are disclosed.",
+    "temperature": "Use each route's own pinned config and bundle temp_bucket helper. No temperature fitting.",
+    "metrics": ["native and normalized MAE", "signed error", "signed-error slope against rater mean", "normalized RPS", "Spearman", "per-locale metrics", "retained-rater NLL and Brier only with at least three raters"],
+    "integrity": "Complete unique membership, immutable native input/target equality, finite normalized probabilities, independent expectation/error reconstruction and file hashes. Eight-decimal probability serialization permits 1e-6 normalization/derived-error tolerance; retain probabilities as saved.",
+    "controls": "Exercise fail-closed missing, duplicate, serving-input and invalid-probability cases with temporary fixtures; no model rerun needed for metric corrections. Preserve original receipts. Determinism and paired interval gates not exercised remain explicitly incomplete.",
+    "selection": "No training, route tuning, promotion, final-pool access or endgame completion. Choice accuracy remains the original primary endpoint. All Score metrics remain secondary.",
+    "resources": "One GPU process at a time under /tmp/vey-gpu.lock, at most four CPU threads and one BLAS thread, no paid calls."
+  },
+  "B_STEF_allowed": false,
+  "promotion": false,
+  "endgame_complete": false
+}
