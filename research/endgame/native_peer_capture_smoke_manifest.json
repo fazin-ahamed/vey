@@ -1,0 +1,69 @@
+{
+  "schema": "vey.native-peer.capture-smoke.v1",
+  "status": "REAL_RUNTIME_TYPED_SMOKE_PASS",
+  "preregistration": "9fd5815",
+  "rows": 3,
+  "command": "native_peer_capture.py --out <file> --limit 3 under the registered CPU-only offline environment",
+  "header": {
+    "arm": "laya",
+    "compatibility_protocol_sha256": "c33752c566a891de94672f4c4e5cccaf8ceeb394afeeec8ce2d5ace2533623a0",
+    "complete_release_source_sha256": "47ab49706f27ffe7d1e28558219d90d1cc8ec7fa5680aa1ccb3a467d004687a8",
+    "criteria_convention": "choice criteria {candidate_id: exact rendered candidate text}",
+    "custody_manifest_sha256": "b58ccc69c559710baf0ffdd7b4ebb7f1bd480d3307c428a42d5e3a4a66995a17",
+    "endpoints": [
+      "banking77.intent",
+      "massive.intent"
+    ],
+    "final_benchmark_access": false,
+    "limit": 3,
+    "peer_protocol_sha256": "8ca37c2a64f22af5846c698a16ae1269e76f988770226aff4446d7abac3b31ca",
+    "performance_claim": false,
+    "published_version": "0.3.27",
+    "quality_claim": false,
+    "release_commit": "b09832bdd3819e375fe8b0d26dbd7a8f75c4f0bd",
+    "route": "english",
+    "schema": "vey.native-peer.laya-capture.v1",
+    "started_unix": 1791231093.5422761,
+    "state_convention": "system_one(state={'text': exact rendered state})"
+  },
+  "observations": [
+    {
+      "id": "0667cc2f4320568d",
+      "endpoint": "banking77.intent",
+      "K": 77,
+      "answer": "card_delivery_estimate",
+      "gold": "card_arrival",
+      "sum": 1.0,
+      "keys_match": true
+    },
+    {
+      "id": "d3b00c13bc263ace",
+      "endpoint": "banking77.intent",
+      "K": 77,
+      "answer": "card_delivery_estimate",
+      "gold": "card_arrival",
+      "sum": 0.9997,
+      "keys_match": true
+    },
+    {
+      "id": "6945d81d4f6fc48f",
+      "endpoint": "banking77.intent",
+      "K": 77,
+      "answer": "card_delivery_estimate",
+      "gold": "card_arrival",
+      "sum": 1.0,
+      "keys_match": true
+    }
+  ],
+  "runtime_warning": "Published runtime clamps shipped choice:11+ temperature 0.10058280825614929 to 0.5 and warns; this is the pinned runtime own behavior, not this capture.",
+  "temperature_policy": "Registered comparison uses the actual default published served route calibration with no DEV fitting; the clamp is part of that served route.",
+  "first_rows_gold": "The first six DEV rows share gold card_arrival with near-duplicate card-delivery states, so identical argmax is expected and is not evidence of a degenerate runtime; the same bundle measures 0.4345 en-US top1 on the separate MASSIVE-intent development study.",
+  "model_forwards": 3,
+  "quality_claim": false,
+  "performance_claim": false,
+  "artifact": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/peer_capture_smoke_v1.jsonl",
+    "bytes": 41309,
+    "sha256": "946c77fe665e3d45c04660a766d75d4cad3a19b8ab57854eac9600b3f07ed006"
+  }
+}
