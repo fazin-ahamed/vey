@@ -470,12 +470,13 @@ def prediction_controls(directory, cache, dev, fit, catalogues, arm):
                     raw = native.probabilities(logits)
                     probs = native.probabilities(logits, cache.temperatures[decision["endpoint"]])
                     rank = gold_rank(subset, probs, gold)
-                    readout = native_readout(subset, probs, "choice", list(subset))
                     row = {**native.identity(record, decision), "k": k, "subset_ids": subset,
                            "candidate_ids": list(subset), "logits": list(logits),
                            "raw_probs": raw, "probs": probs, "gold_rank": rank,
                            "gold_in_shortlist": bool(gold in subset)}
-                    row.update(readout)
+                    for prefix, masses in (("", probs), ("raw_", raw)):
+                        readout = native_readout(subset, masses, "choice", list(subset))
+                        row.update({prefix + name: value for name, value in readout.items()})
                     write_row(stream, row)
                     candidate_rows += 1
     receipt("candidate_count", before)
