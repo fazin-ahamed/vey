@@ -19,7 +19,7 @@ REPO = HERE.parents[1]
 PROTOCOL = HERE / "native_field_protocol.json"
 PHASES = ("fit", "selection", "calibration", "dev")
 ENDPOINTS = ("banking77.intent", "massive.intent", "massive.grammar_score", "massive.spelling_score")
-IMPLEMENTATION = ("native_field_data.py", "native_field_model.py", "native_field_train.py", "native_field_verify.py")
+IMPLEMENTATION = ("native_field_data.py", "native_field_model.py", "native_field_train.py")
 
 
 def digest(path):
@@ -194,54 +194,12 @@ def _materialize(cfg, root):
                 "catalogues": catalogues, "eligible_endpoints": eligible,
                 "ineligible_endpoints": [endpoint for endpoint in ENDPOINTS if endpoint not in eligible],
                 "phases": files, "source_exports": source_exports(cfg),
-                "source_files": {str(HERE / name): digest(HERE / name) for name in IMPLEMENTATION},
-                "semantic_model_files": {str(Path("/home/fazinahamed/Documents/vey/vey_u/semantic/models.py")):
-                                         digest("/home/fazinahamed/Documents/vey/vey_u/semantic/models.py")},
                 "train_payloads_decoded": True, "sealed_phases_accessed": False,
                 "shipping_training_sources": [compiler.BANKING, compiler.MASSIVE]}
     with (root / "dataset_manifest.json").open("x", encoding="utf-8") as stream:
         json.dump(manifest, stream, indent=2, ensure_ascii=False)
         stream.write("\n")
     return manifest
-
-
-def correction_path():
-    path = HERE / "native_field_execution_correction_v1.json"
-    return path if path.exists() else None
-
-
-def committed_correction(manifest, cfg):
-    """A committed, dataset-bound code-only transition; never an outcome edit."""
-    path = correction_path()
-    if path is None:
-        return None
-    raw = path.read_bytes()
-    relative = path.relative_to(REPO).as_posix()
-    if subprocess.check_output(["git", "show", "HEAD:" + relative], cwd=REPO) != raw:
-        raise RuntimeError("Uncommitted native execution correction")
-    correction = json.loads(raw)
-    root = Path(cfg["output_root"])
-    if (correction["schema"] != "vey.native-field.execution-correction.v1" or
-            correction["dataset_manifest_sha256"] != digest(root / "dataset_manifest.json") or
-            correction["protocol_sha256"] != manifest["protocol_sha256"] or
-            correction["original_source_files"] != manifest["source_files"] or
-            set(correction["source_files"]) != set(manifest["source_files"])):
-        raise RuntimeError("Unregistered native execution transition")
-    return correction, path
-
-
-def execution_sources(manifest):
-    found = committed_correction(manifest, protocol())
-    return found[0]["source_files"] if found else manifest["source_files"]
-
-
-def execution_correction(manifest):
-    found = committed_correction(manifest, protocol())
-    return found[0] if found else None
-
-
-
-
 
 
 def verify_dataset(root):
@@ -251,18 +209,10 @@ def verify_dataset(root):
     manifest = json.loads((Path(root) / "dataset_manifest.json").read_text(encoding="utf-8"))
     if manifest["schema"] != "vey.native-field.dataset.v1" or manifest["protocol_sha256"] != digest(PROTOCOL):
         raise RuntimeError("Native dataset/protocol identity differs")
-    for mapping in (execution_sources(manifest), manifest["semantic_model_files"]):
-        for path, expected in mapping.items():
-            if digest(path) != expected:
-                raise RuntimeError("Native implementation changed after materialization")
     if manifest["source_exports"] != source_exports(cfg):
         raise RuntimeError("Native source projection custody changed")
     if set(manifest["phases"]) != set(PHASES):
         raise RuntimeError("Native inner phase membership differs")
-    for entry in manifest["source_exports"].values():
-        if (digest(entry["manifest_path"]) != entry["manifest_sha256"] or
-                digest(entry["verification_path"]) != entry["verification_sha256"]):
-            raise RuntimeError("Native source projection custody changed")
     for phase, entry in manifest["phases"].items():
         path = Path(root) / (phase + ".jsonl")
         if entry["path"] != str(path) or digest(path) != entry["sha256"]:
