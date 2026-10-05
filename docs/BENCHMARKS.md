@@ -4584,6 +4584,17 @@ the claim that the frozen linear extent map fails on new text, and the
 rubric-anchor screen is correspondingly specified on development with
 validation explicitly prohibited as a pass/fail basis.
 
+MEASURED: after the import-scope fix the conditional reader ran on CUDA
+for the first time. A 2-epoch, 64-record smoke fit 295,686 parameters in
+46.67 s under the shared immutable normalizer. Train objective moved
+3.15357 to 4.55334 and validation objective 7.64320 to 3.67201, which on
+64 records carries no signal and earns nothing. The value of the smoke is
+that the mechanism executes end to end with finite objectives, a selected
+checkpoint and a hash-verified parameter set. Smoke checkpoint:
+`042d2b2784ef68d1e99d681212c4756779030cf958a6b654a90a505b31d0951a`.
+Smoke checkpoints are permanently ineligible for calibration or
+development evaluation.
+
 MEASURED finite linear ceiling: a bias-free FP64 least-squares map from the
 cached 384-d page feature to raw grade fits 180 unique supervised train page
 texts (14,848 supervised occurrences, 36 per grade, 15 per property) with
