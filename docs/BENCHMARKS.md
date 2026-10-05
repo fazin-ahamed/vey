@@ -4742,6 +4742,67 @@ S0 failure receipt:
 Neither the reviewer stage nor the S1 augmented linear ceiling is
 authorized until the screen outcome is resolved.
 
+#### S0 reviewer gate: FAIL on authored scale defects
+
+MEASURED, two genuinely independent opaque reviewers. Both hashed the packet
+before reading it (SHA-256 `3966685cf04b…`), both received only `item_id` and
+`anchor_text` across 60 items, and neither ever saw the other's file, the
+authored source, the withheld key, the S0 mechanical receipt, any target,
+family, split label, model output, weight or metric. The mapping from
+`item_id` back to property, family, field code and grade order was written
+to a separate key file that reviewers were forbidden to open, and neither
+did.
+
+| Reviewer | accept | ambiguous | reject | acceptance |
+|---|---:|---:|---:|---|
+| Reviewer One | 48 | 12 | 0 | false |
+| Reviewer Two | 42 | 18 | 0 | false |
+
+16 items drew different verdicts; 7 anchors are jointly ambiguous, spanning
+the durability, plausibility, priority, similarity, suitability and urgency
+families. Gate FAIL: the preregistration requires both reviewers to accept
+all 60 with zero ambiguous and zero rejected.
+
+MEASURED defect content, from the two disclosed rationales only. Two
+reviewers independently read one durability ladder as inverted, and both
+read the urgency scale as leaving stages 1 and 2 indistinguishable. The
+remaining five are unseparated adjacent boundaries, for example coherence
+versus consistency in plausibility and "workflow adjustment" versus "narrow
+accommodation" in suitability, with no stated threshold between them.
+
+INFERENCE: these are defects in the authored prefinal rubric scales
+themselves, not artifacts of the audit packet and not consequences of the
+unpinned marker vocabulary. Both the mechanical screen and the reviewer gate
+fail for one root cause: several authored properties are not five cleanly
+separable ordered qualitative stages.
+
+Reviewer independence was contested and resolved correctly. The agent that
+built and ran the mechanical screens was disqualified from the reviewer
+role because it knows which 20 anchors failed screen 5; it declined on
+independence grounds, and its offer to serve as a third explicitly
+non-independent reader was declined. A reviewer who has seen the mechanical
+result cannot independently validate it, and a contaminated accept would
+make the gate look satisfied while destroying its purpose.
+
+Gate consequence, per the preregistered decision rule: S0 fails, so the
+rubric-anchor design is unrunnable under this protocol. No anchor encoding,
+S1 augmented linear ceiling or S2 neural arm is authorized. The packet, both
+reviews, the merged receipt and the S0 negative screen are retained verbatim.
+
+Forbidden now: accepting anchors by narrowing the marker vocabulary,
+editing rubric text to obtain acceptance, or fitting on the 40
+mechanically passing or 48/42 reviewer-accepted subsets. All 60 or none.
+
+Packet `3966685cf04b47a9d4ef31df4808ab353a83da5b2f58fd735aa5c25bbff68cd5`;
+withheld key `6e1816d274c9b7bd5511da743514c6473a26a412b81866bdcde6e5e4fef67359`;
+merged receipt `16df9d4b4a1f8bc0fe035118e02a1d2c45c3d3b07cb5a4393d49b6e63198cbf5`.
+
+Next branch, selected by the frozen tree: failure branch 1, minimal
+final-layer encoder task adaptation, under a separate preregistration.
+Rubric grounding is retired for this assay. That branch must not repeat
+global numeric reconstruction or widen heads, and it inherits the same
+closed ECA-2 final.
+
 
 
 
