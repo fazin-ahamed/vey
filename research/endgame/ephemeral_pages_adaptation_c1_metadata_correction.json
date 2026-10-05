@@ -1,0 +1,64 @@
+{
+  "schema": "vey.eca2.c1-gradient-ceiling-metadata-correction.v1",
+  "original_git_commit": "c1e71d144db1fad9dbc9972c6718929ff479daa8",
+  "original_screens_source_sha256": "0384ab208bb2759c9211329223d96b9a962e7b99f2c75ee7db728e7d86a763fb",
+  "unchanged_prerequisite_source_sha256": "4d01c7791fe271b5550212ae0ac306d83a1bb7fe09cc7b2909e562694422e61f",
+  "original_source_hashes": {
+    "ephemeral_pages_adaptation_prerequisite.py": "4d01c7791fe271b5550212ae0ac306d83a1bb7fe09cc7b2909e562694422e61f",
+    "ephemeral_pages_adaptation_screens.py": "0384ab208bb2759c9211329223d96b9a962e7b99f2c75ee7db728e7d86a763fb",
+    "ephemeral_pages_capture.py": "3749020ae76f5b45939f9672468f6228cc6ac7643397eda57fe5954bdc986be6",
+    "ephemeral_pages_components.py": "c54cd718ab17f8d0510988b6bea18de943433d5e94b56e762d844dbb0e1df160",
+    "ephemeral_pages_conditional.py": "fd04eeafe443ce3a7f55d3e85ce31e2f68e2abeed03b122df6706b413efa6810",
+    "ephemeral_pages_evaluate.py": "5d55d0066035c19b899b5b89479d30cdf58b2e5d65f76a596187ecf5723f5d4b",
+    "ephemeral_pages_features.py": "0b11703840366161f16a8755f15657612ffdf9d58c5101dcab2f0cf0b3ee31f3",
+    "ephemeral_pages_model.py": "faabad5a6d024ca28faa16b70f66057aa2fd469268cbe13c3386a6ac2c087c14",
+    "ephemeral_pages_train.py": "3fd63dee39e6a265e6bb087d7d209ea687f5da83154b47daad8e46343795130a",
+    "ephemeral_pages_verify.py": "79632aaed00f974b74a1614bfd352b35494672ee99ecaac2c560eabc175e3ad6"
+  },
+  "run_root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1",
+  "prerequisite_receipt": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/c1-gradient-v1/prerequisite_receipt.json",
+    "sha256": "c9e96f1f18c7ffacb93844830a3eee5106921a6ab7e6bb9016c34e10e0d1fce6"
+  },
+  "prerequisite_checkpoint": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/c1-gradient-v1/prerequisite_checkpoint.pt",
+    "sha256": "7e42ea308e0995c12ad35c400f0bc90d77833cd19c0e7e1380182d2ebc338060"
+  },
+  "retained_partial_receipt": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/screen_c1_gradient_ceiling_receipt.json",
+    "sha256": "b2f0ea231c740e4a08ff89df6e6e0671438cce66ae20488d5b18532d721b8ebe"
+  },
+  "retained_arrays": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/c1_gradient_ceiling_arrays.npz",
+    "sha256": "d73c14c11f969b8a1a208354ae7ddca020d59a8bacb2ba881f8f81083364327f"
+  },
+  "retained_rows": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/c1_gradient_ceiling_rows.json",
+    "sha256": "bda7d20c19a9c9391966dc3a51eae3afccc37fa5fa2f5140213824be61f238b3"
+  },
+  "original_encoder_counters": {
+    "encoder_forward_batches": 14,
+    "encoder_texts_encoded": 420
+  },
+  "original_counter_evidence": "Complete counters object in the SHA-pinned partial receipt, preceding the truncated diagnostics object; these are original execution counts, not recovery work.",
+  "new_receipt_name": "screen_c1_gradient_ceiling_receipt_v2.json",
+  "failure": "write_receipt passed numpy.bool_ full_column_rank from rank == design.shape[1] to json.dump after opening the receipt. allow_nan=False does not convert NumPy scalar types; TypeError left a partial receipt after encodings, coefficients, predictions and row artifacts were persisted.",
+  "repair": "Convert NumPy scalar and array types using a JSON default converter; serialize with allow_nan=False before exclusive creation, preserving rejection of nonfinite numbers. Explicitly reconstruct the existing ceiling verdict from SHA-pinned saved predictions and coefficients. Retain all original artifacts unchanged. Lost original solver diagnostics are unavailable, not fabricated; any independent readout reconstruction is a separate verification receipt.",
+  "outcome_independent": true,
+  "quality_values_observed_for_registration": false,
+  "threshold_changed": false,
+  "threshold": 0.3332298906765268,
+  "threshold_operator": "<=",
+  "gradient_protocol_sha256": "67397c751512a06acb638d30df173789358bc3d9e91f7b5be6efe35da4148d82",
+  "targets_changed": false,
+  "population_changed": false,
+  "normalizer_changed": false,
+  "OLS_changed": false,
+  "encoder_forward_required": false,
+  "encoder_or_adaptation_refit_required": false,
+  "readout_refit_required": false,
+  "optimizer_steps_required": 0,
+  "source_compatibility": "Only the registered original screens hash may differ from the current canonical source hash. Every other original stage source hash must equal the current pinned canonical file, including the unchanged prerequisite module. Original checkpoint and receipt source_hashes must be identical; neither is rewritten.",
+  "receipt_consumption": "Both future regular executions and explicit cached recovery use the new v2 receipt name. Cached recovery is identified by receipt_origin=metadata-only-cached-array-recovery and the pinned correction artifact; it is never an implicit fallback to the retained partial receipt.",
+  "scope": "Serialization and metadata-only cached recovery; no new encoding, adaptation, readout fitting, target or gate selection, final pool access, promotion, B-STEF, or endgame claim."
+}

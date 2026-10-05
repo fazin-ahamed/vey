@@ -5062,6 +5062,54 @@ The failed smoke receipt remains under
 `interface-audit-v1/adaptation-gradient-smoke-v1/c1-gradient-v1/`.
 This is an execution failure, not an adaptation-quality result.
 
+MEASURED corrected GPU smoke at `c1e71d1` passes on eight train-only
+texts with two optimizer updates. The frozen prefix executes once;
+actual final-block cached replay matches the complete encoder at every
+token and after masked pooling with maximum absolute difference0.0.
+First-backward gradients are finite and nonzero for the final layer,
+each of six adapters and the existing value head. Frozen byte hashes
+match before and after both updates; strict CPU checkpoint reload
+passes. Receipt
+`3944fae749f6eb1b75138525407f9351d8ccb836bebfb3fa93aca46e2db43544`.
+Smoke is permanently C1-ineligible and supplies no quality verdict.
+The unchanged 180-text, 400-update prerequisite follows this smoke.
+
+MEASURED synthetic CPU readout checks pass at the inclusive MAE
+boundary and fail at its next larger FP64 value; nonfinite development
+features and mismatched family-membership lengths fail closed.
+These checks exercise gate arithmetic without opening any corpus.
+
+MEASURED full prerequisite at `c1e71d1` passes: 180 unique train
+texts, 400 updates, nonsmoke checkpoint eligible for C1. Receipt
+`c9e96f1f18c7ffacb93844830a3eee5106921a6ab7e6bb9016c34e10e0d1fce6`.
+The CPU ceiling reaches its final receipt write, then stops because
+the NumPy boolean `full_column_rank` is not directly JSON serializable.
+Raw features, targets, coefficients and predictions were persisted
+before this write. The partial receipt is retained; no quality verdict
+is accepted from the failed serialization. A registered metadata-only
+recovery must use these cached arrays without rerunning adaptation or
+the encoder, and preserve the original source and artifact hashes.
+
+MEASURED independent full-fit execution audit: its shared encoder
+feature table was backpropagated through once per reader chunk without
+retaining the graph. A synthetic run through the actual PageReader
+and objective reproduces failure on the second chunk. Corrective
+retention through the last chunk preserves the full-batch objective;
+all reader and encoder-interface gradients match an unchunked
+reference within rtol1e-5 and atol1e-7. No corpus or model checkpoint
+is opened by this test. This is a graph-lifetime repair, not a changed
+loss, training recipe or measured full development fit.
+
+MEASURED gradient-report audit also reproduces double counting:
+registered adapter parameters were enumerated again under canonical
+aliases. The optimizer already deduplicated them; only reported norm
+and tensor count were wrong. Removing the alias enumeration makes
+the reported norm match an independently concatenated gradient vector
+to absolute tolerance1e-12 in a differentiable synthetic control.
+
+
+
+
 
 
 

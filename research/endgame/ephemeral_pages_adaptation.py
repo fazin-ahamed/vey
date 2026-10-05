@@ -88,7 +88,7 @@ ENCODER_ABLATIONS = ("adapter_blind", "layer11_frozen")
 ABLATIONS = ENCODER_ABLATIONS + INTERVENTION_ABLATIONS
 ALLOWED_PHASES = ("train", "validation", "calibration", "development")
 SCREEN_RECEIPTS = ("screen_a_smoke_receipt.json", "screen_b_immutability_receipt.json",
-                   "screen_c0_liveness_restore_receipt.json", "screen_c1_gradient_ceiling_receipt.json")
+                   "screen_c0_liveness_restore_receipt.json", "screen_c1_gradient_ceiling_receipt_v2.json")
 EVALUATION_PHASES = ("calibration", "development")
 
 SCOPE = {
@@ -112,7 +112,8 @@ SOURCE_FILES = ("ephemeral_pages_adaptation.py", "ephemeral_pages_adaptation_scr
                 "ephemeral_pages_adaptation_preregistration.json",
                 "ephemeral_pages_adaptation_c0_amendment.json",
                 "ephemeral_pages_adaptation_prerequisite.py",
-                "ephemeral_pages_adaptation_c1_gradient_preregistration.json")
+                "ephemeral_pages_adaptation_c1_gradient_preregistration.json",
+                "ephemeral_pages_adaptation_c1_metadata_correction.json")
 
 
 # --------------------------------------------------------------------------- #
@@ -208,6 +209,15 @@ def _screen_receipts(root: Path) -> dict:
                 raise RuntimeError("C1 prerequisite checkpoint lineage mismatch")
             if payload.get("population_sha256") != prerequisite["population_sha256"]:
                 raise RuntimeError("C1 prerequisite population mismatch")
+            if payload.get("metadata_only_recovery"):
+                verification = json.loads((Path(root) /
+                    "screen_c1_gradient_ceiling_solver_verification.json").read_text(encoding="utf-8"))
+                if (verification.get("verdict") != "pass"
+                        or verification.get("ceiling_receipt") != evaluator.artifact(path)
+                        or verification.get("arrays") != payload["arrays"]
+                        or verification.get("protocol_sha256") != screens.C1_GRADIENT_PROTOCOL_SHA256
+                        or verification.get("population_sha256") != payload["population_sha256"]):
+                    raise RuntimeError("recovered C1 lacks matching independent solver verification")
         receipts[name] = {**evaluator.artifact(path), "verdict": "pass"}
     return receipts
 
@@ -495,7 +505,9 @@ def _objective(reader, tables, arrays, indices, denominators, chunk_size, swap_b
     """Exact full-batch component means accumulated before one optimizer step."""
     totals = dict.fromkeys(trainer.COMPONENTS, 0.0)
     device = reader.bk.device
+    remaining_rows = len(indices)
     for ix in trainer._chunks(indices, chunk_size):
+        remaining_rows -= len(ix)
         trainer._resource_guard(torch, swap_baseline)
         targets = trainer._batch(arrays, ix, device)
         output = _reader_forward(reader, tables, arrays, ix, normalizer, device)
@@ -510,7 +522,7 @@ def _objective(reader, tables, arrays, indices, denominators, chunk_size, swap_b
                 totals[key] += float(term.detach())
                 weighted.append(term)
         if backward and weighted:
-            sum(weighted).backward()
+            sum(weighted).backward(retain_graph=remaining_rows > 0)
             counters["backward_calls"] += 1
     totals["total"] = sum(totals.values())
     return totals
@@ -543,10 +555,9 @@ def _initial_reader(prereg: dict, device):
     return reader.to(device).train(), checkpoint["normalizer"]
 
 
-def _gradient_report(model, adapters, reader) -> dict:
+def _gradient_report(model, reader) -> dict:
     named = {f"encoder.{name}": tensor for name, tensor in model.named_parameters()
              if tensor.requires_grad}
-    named.update(adapters)
     named.update({f"reader.{name}": tensor for name, tensor in reader.named_parameters()
                   if tensor.requires_grad})
     missing, nonfinite = [], []
@@ -564,9 +575,9 @@ def _gradient_report(model, adapters, reader) -> dict:
             "nonfinite_gradients": nonfinite, "gradient_norm": math.sqrt(total)}
 
 
-def _require_finite_gradients(model, adapters, reader, epoch) -> dict:
+def _require_finite_gradients(model, reader, epoch) -> dict:
     """Every trainable tensor must carry a finite gradient before the step is taken."""
-    report = _gradient_report(model, adapters, reader)
+    report = _gradient_report(model, reader)
     if report["missing_gradients"] or report["nonfinite_gradients"] or \
             not math.isfinite(report["gradient_norm"]):
         raise RuntimeError(f"gradient screen failed closed at epoch {epoch}: {report}")
@@ -661,7 +672,7 @@ def _fit_surface(root: Path, encoder, device, chunk_size, epochs, *, normalizer,
                                 encoder.initial_swap_mib, normalizer, backward=True,
                                 counters=counters)
         if epoch == 1:
-            gradient_screen = _require_finite_gradients(model, adapters, reader, epoch)
+            gradient_screen = _require_finite_gradients(model, reader, epoch)
         optimizer.step()
         del tables
         immutability.append(_epoch_immutability(model, adapters, epoch, launch_digests))

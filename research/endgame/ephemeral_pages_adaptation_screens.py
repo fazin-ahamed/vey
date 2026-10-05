@@ -10,6 +10,7 @@ Implements, in order, the fail-closed screens of
   B immutability   ``--screen immutability --run-root PATH``
   C0 liveness      ``--screen c0-liveness --run-root PATH --features-root PATH``
   C1 adapted ceiling  ``--screen ceiling --run-root PATH --features-root PATH``
+  C1 receipt repair  add ``--recover-ceiling-arrays`` to the ceiling command
 
 Every screen writes exactly one receipt with exclusive-create (``open("x")``)
 semantics under the run root.  A protocol violation raises ``RuntimeError``
@@ -29,10 +30,17 @@ not test numerical identity against the frozen feature cache. Screen B
 guards parameter bytes, not forward-computation equivalence.
 
 C1 consumes the final epoch400 checkpoint from the separately preregistered
-train-only gradient prerequisite. It strictly reloads that actual adapted
-encoder on CPU, encodes train and development page texts, and applies the
-unchanged bias-free FP64 ceiling with fixed common train statistics.
-Validation is never opened in C0 or C1.
+train-only gradient prerequisite. Normally it strictly reloads that actual
+adapted encoder on CPU, encodes train and development page texts, and applies
+the unchanged bias-free FP64 ceiling with fixed common train statistics.
+Explicit ``--recover-ceiling-arrays`` instead verifies the registered original
+checkpoint and retained arrays/rows, and applies the same gate to the original
+saved predictions without encoding, optimizer steps or readout fitting.
+Both paths write ``screen_c1_gradient_ceiling_receipt_v2.json``; the partial
+original receipt is retained, never consumed as an implicit fallback.
+Recovery records its correction artifact and original counters separately
+from its zero-work counters. Lost solver diagnostics remain unavailable until
+separate independent reconstruction. Validation is never opened in C0 or C1.
 
 All arithmetic that already exists in the pinned modules is imported rather
 than reimplemented: ``features.FeatureEncoder`` for the pinned load, tokenizer
@@ -98,6 +106,9 @@ C0_AMENDMENT_PATH = HERE / "ephemeral_pages_adaptation_c0_amendment.json"
 C0_AMENDMENT_SHA256 = "de2d28b3e0128323e41b22cae4ac516f7cfb764eaf70a3425b200240105ab9ba"
 C1_GRADIENT_PROTOCOL_PATH = HERE / "ephemeral_pages_adaptation_c1_gradient_preregistration.json"
 C1_GRADIENT_PROTOCOL_SHA256 = "67397c751512a06acb638d30df173789358bc3d9e91f7b5be6efe35da4148d82"
+C1_METADATA_CORRECTION_PATH = HERE / "ephemeral_pages_adaptation_c1_metadata_correction.json"
+C1_METADATA_CORRECTION_SHA256 = "84a303573d8a833051bf0b478e6d2d027af5c2f78a1894374844db4740e662bb"
+C1_ORIGINAL_SCREENS_SHA256 = "0384ab208bb2759c9211329223d96b9a962e7b99f2c75ee7db728e7d86a763fb"
 
 # Pinned implementation sources: byte-identical to the preregistration pins.
 PINNED_SOURCES = {
@@ -193,7 +204,7 @@ RECEIPT_NAMES = {
     "smoke": "screen_a_smoke_receipt.json",
     "immutability": "screen_b_immutability_receipt.json",
     "c0_liveness": "screen_c0_liveness_restore_receipt.json",
-    "c1_adapted_ceiling": "screen_c1_gradient_ceiling_receipt.json",
+    "c1_adapted_ceiling": "screen_c1_gradient_ceiling_receipt_v2.json",
 }
 SCREEN_ORDER = ("smoke", "immutability", "c0_liveness", "c1_adapted_ceiling")
 SMOKE_CHECKPOINT_NAME = "screen_a_smoke_checkpoint.pt"
@@ -211,13 +222,22 @@ def _canonical_json(value: object) -> bytes:
                       allow_nan=False).encode("utf-8")
 
 
+def _numpy_json(value: object) -> object:
+    if isinstance(value, np.generic):
+        return value.item()
+    if isinstance(value, np.ndarray):
+        return value.tolist()
+    raise TypeError(f"Object of type {type(value).__name__} is not JSON serializable")
+
+
 def write_receipt(path: str | Path, payload: dict) -> dict:
-    """Persist one receipt with exclusive-create semantics."""
+    """Canonicalize and serialize before exclusively creating one receipt."""
+    serialized = json.dumps(payload, sort_keys=True, indent=2, default=_numpy_json,
+                            allow_nan=False) + chr(10)
     target = Path(path)
     try:
         with target.open("x", encoding="utf-8") as stream:
-            json.dump(payload, stream, sort_keys=True, indent=2, allow_nan=False)
-            stream.write("\n")
+            stream.write(serialized)
             stream.flush()
             os.fsync(stream.fileno())
     except FileExistsError as exc:
@@ -1033,14 +1053,22 @@ def evaluate_ceiling(train_features: np.ndarray, train_target: np.ndarray,
         prediction_arrays.update(train_prediction=train_prediction,
                                  development_prediction=development_prediction,
                                  coefficients=coefficients)
+    return _ceiling_prediction_metrics(train_prediction, development_prediction, development_target,
+                                       development_families, list(design.shape), solution)
+
+
+def _ceiling_prediction_metrics(train_prediction: np.ndarray, development_prediction: np.ndarray,
+                                development_target: np.ndarray, development_families: Sequence[str],
+                                design_shape: list[int], diagnostics: dict) -> dict:
+    """Apply the unchanged C1 gate to raw, unclipped predictions."""
     error = np.abs(development_prediction - development_target)
     by_family: dict[str, list[float]] = {}
     for family, value in zip(development_families, error):
         by_family.setdefault(family, []).append(float(value))
     family_macro = float(np.mean([np.mean(values) for values in by_family.values()]))
     return {
-        "design_shape": list(design.shape),
-        "diagnostics": solution,
+        "design_shape": design_shape,
+        "diagnostics": diagnostics,
         "train_prediction_range": [float(train_prediction.min()), float(train_prediction.max())],
         "development": {
             "family_macro_unique_text_MAE": family_macro,
@@ -1226,42 +1254,306 @@ def gradient_population_sha256(rows: list[dict]) -> str:
     return features.sha256_bytes(_canonical_json(rows))
 
 
+def _registered_artifact(artifact: dict, expected_path: Path) -> Path:
+    path = Path(artifact["path"]).resolve()
+    _require(path == expected_path.resolve(), "registered artifact path mismatch")
+    _require(features.sha256_file(path) == artifact["sha256"],
+             f"registered artifact hash mismatch: {path.name}")
+    return path
+
+
+def _c1_metadata_correction(root: Path) -> dict:
+    _require(features.sha256_file(C1_METADATA_CORRECTION_PATH) == C1_METADATA_CORRECTION_SHA256,
+             "C1 metadata correction registration changed")
+    registration = json.loads(C1_METADATA_CORRECTION_PATH.read_text(encoding="utf-8"))
+    _require(registration["schema"] == "vey.eca2.c1-gradient-ceiling-metadata-correction.v1"
+             and Path(registration["run_root"]).resolve() == root.resolve(),
+             "C1 metadata correction belongs to another run")
+    _require(registration["original_screens_source_sha256"] == C1_ORIGINAL_SCREENS_SHA256
+             and registration["gradient_protocol_sha256"] == C1_GRADIENT_PROTOCOL_SHA256
+             and registration["threshold"] == SCREEN_C_THRESHOLD
+             and registration["threshold_operator"] == "<="
+             and registration["new_receipt_name"] == RECEIPT_NAMES["c1_adapted_ceiling"],
+             "C1 metadata correction protocol mismatch")
+    _require(registration["outcome_independent"] is True
+             and registration["quality_values_observed_for_registration"] is False
+             and all(registration[key] is False for key in (
+                 "threshold_changed", "targets_changed", "population_changed", "normalizer_changed",
+                 "OLS_changed", "encoder_forward_required", "encoder_or_adaptation_refit_required",
+                 "readout_refit_required")),
+             "C1 correction is not outcome-independent metadata repair")
+    return registration
+
+
+def _verify_prerequisite_state(receipt: dict, checkpoint: dict) -> None:
+    """Check the saved full state directly, without instantiating an encoder."""
+    final = receipt["final_encoder_hashes"]
+    initial = receipt["trainable"]["initial_encoder_hashes"]
+    _require(final["outside_layer11_sha256"] == initial["outside_layer11_sha256"],
+             "prerequisite frozen encoder bytes changed")
+    _require(final["layer11_parameter_count"] == LAYER11_TENSOR_COUNT
+             and final["layer11_scalars"] == LAYER11_SCALARS
+             and final["adapter_count"] == len(ADAPTER_NAMES)
+             and final["adapter_scalars"] == ADAPTER_SCALARS
+             and checkpoint["adapter_names"] == list(ADAPTER_NAMES),
+             "prerequisite full-state trainable surface changed")
+    state = checkpoint["adapted_state_dict"]
+    expected_keys = set()
+    for name, digest in final["per_name_sha256"].items():
+        key = (f"adapter.{ADAPTER_NAMES.index(name)}" if name in ADAPTER_NAMES else name)
+        expected_keys.add(key)
+        tensor = state.get(key)
+        _require(isinstance(tensor, torch.Tensor) and tensor.is_floating_point()
+                 and bool(torch.isfinite(tensor).all()),
+                 "prerequisite parameter is missing or nonfinite")
+        _require(features.sha256_bytes(_entry_bytes(name, tensor)) == digest,
+                 "prerequisite full-state parameter hash mismatch")
+    buffer_keys = set(state).difference(expected_keys)
+    _require(buffer_keys.issubset({"deberta.embeddings.position_ids"})
+             and all(isinstance(state[key], torch.Tensor)
+                     and not state[key].is_floating_point() for key in buffer_keys),
+             "unexpected prerequisite full-state keys")
+    _require(sum(state[key].numel() for key in expected_keys
+                 if key.startswith(WRAPPER_NAMESPACE)) == DENOMINATOR_ENCODER,
+             "prerequisite full encoder state is incomplete")
+    value_state = checkpoint["reader_value_state_dict"]
+    _require(set(value_state) == {"weight", "bias"}
+             and tuple(value_state["weight"].shape) == (1, WIDTH)
+             and tuple(value_state["bias"].shape) == (1,)
+             and all(bool(torch.isfinite(value).all()) for value in value_state.values()),
+             "prerequisite value readout state is incomplete or nonfinite")
+
+
 def verify_gradient_prerequisite(root: Path) -> tuple[dict, dict]:
-    """Verify prerequisite custody before opening any C1 scoring population."""
+    """Verify full epoch400 custody, with only the registered screens-source exception."""
     verify_gradient_protocol()
     directory = root / "c1-gradient-v1"
     path = directory / "prerequisite_receipt.json"
     receipt = json.loads(path.read_text(encoding="utf-8"))
     _require(receipt.get("verdict") == "pass", "gradient prerequisite did not pass")
     for key, expected in (("protocol_sha256", C1_GRADIENT_PROTOCOL_SHA256),
-                          ("epochs", 400), ("smoke", False)):
+                          ("epochs", 400), ("smoke", False), ("seed", SEED),
+                          ("eligible_for_C1", True), ("strict_cpu_reload", True),
+                          ("stage", "complete"), ("unique_train_texts", 180),
+                          ("full_unique_train_texts", 180), ("phases_opened", ["train"]),
+                          ("final_pool_touched", False)):
         _require(receipt.get(key) == expected, f"prerequisite receipt {key} mismatch")
-    artifact = receipt["checkpoint"]
-    checkpoint_path = Path(artifact["path"]).resolve()
-    _require(checkpoint_path == (directory / "prerequisite_checkpoint.pt").resolve(),
-             "prerequisite checkpoint is outside its exclusive run path")
-    _require(features.sha256_file(checkpoint_path) == artifact["sha256"],
-             "prerequisite checkpoint hash mismatch")
+    _require(receipt["counters"]["optimizer_steps"] == 400
+             and receipt["counters"]["frozen_prefix_texts_encoded"] == 180,
+             "prerequisite is not the completed full400-update train-only execution")
+    checkpoint_path = _registered_artifact(
+        receipt["checkpoint"], directory / "prerequisite_checkpoint.pt")
     checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
-    for key in ("protocol_sha256", "epochs", "smoke", "population_sha256"):
+    _require(checkpoint.get("schema") == "vey.eca2.c1-gradient-prerequisite-checkpoint.v1",
+             "prerequisite is not a full-state checkpoint")
+    for key in ("protocol_sha256", "epochs", "smoke", "seed", "population_sha256",
+                "full_population_sha256", "unique_train_texts", "eligible_for_C1",
+                "experiment_context", "frozen_parameters_sha256", "launch_receipt"):
         _require(checkpoint.get(key) == receipt.get(key),
                  f"prerequisite checkpoint/receipt {key} mismatch")
+    _require(receipt.get("source_hashes") == checkpoint.get("source_hashes"),
+             "prerequisite original source dictionaries differ")
     expected_sources = {
         **_check_pinned_sources(),
         Path(__file__).name: features.sha256_file(__file__),
         "ephemeral_pages_adaptation_prerequisite.py": features.sha256_file(
             HERE / "ephemeral_pages_adaptation_prerequisite.py"),
     }
-    _require(receipt.get("source_hashes") == expected_sources
-             and checkpoint.get("source_hashes") == expected_sources,
-             "prerequisite source lineage mismatch")
+    if receipt["source_hashes"] != expected_sources:
+        registration = _c1_metadata_correction(root)
+        original_sources = {**expected_sources, Path(__file__).name: C1_ORIGINAL_SCREENS_SHA256}
+        _require(registration["original_source_hashes"] == original_sources
+                 and receipt["source_hashes"] == original_sources
+                 and registration["unchanged_prerequisite_source_sha256"]
+                 == expected_sources["ephemeral_pages_adaptation_prerequisite.py"],
+                 "prerequisite source lineage mismatch outside registered metadata repair")
+        _registered_artifact(registration["prerequisite_receipt"], path)
+        _require(registration["prerequisite_checkpoint"] == receipt["checkpoint"],
+                 "registered original prerequisite checkpoint changed")
     _require(isinstance(receipt.get("population_sha256"), str)
-             and len(receipt["population_sha256"]) == 64, "missing prerequisite population hash")
+             and len(receipt["population_sha256"]) == 64
+             and receipt["full_population_sha256"] == receipt["population_sha256"],
+             "missing or incomplete prerequisite population hash")
+    _require(components.fingerprint(checkpoint["normalizer"]) == receipt["normalizer_sha256"]
+             and components.fingerprint(checkpoint["stats"])
+             == components.fingerprint(checkpoint["normalizer"]["pages"]),
+             "prerequisite common fixed statistics changed")
+    for key, filename in (
+            ("launch_receipt", "launch_receipt.json"),
+            ("epoch_history", "epoch_history.jsonl"),
+            ("initial_replay", "initial_replay_receipt.json"),
+            ("first_backward", "first_backward_receipt.json")):
+        _registered_artifact(receipt[key], directory / filename)
+    for key, filename in (
+            ("full_population_rows", "train_population_rows.jsonl"),
+            ("input_rows", "train_input_rows.jsonl"),
+            ("raw_targets", "train_raw_targets.npy"),
+            ("optimizer_indices", "train_optimizer_indices.npy"),
+            ("input_ids", "train_input_ids.npy"),
+            ("attention_mask", "train_attention_mask.npy")):
+        _registered_artifact(receipt["input_artifacts"][key], directory / filename)
+    _verify_prerequisite_state(receipt, checkpoint)
     return receipt, checkpoint
 
 
-def screen_c1_adapted_ceiling(run_root, features_root, device: str = "cpu") -> dict:
-    """Screen C1: strict CPU consumer of the completed gradient prerequisite."""
+def _verify_c1_predecessors(root: Path, experiment: capture.Experiment,
+                           prerequisite: dict) -> None:
+    for screen in ("smoke", "immutability", "c0_liveness"):
+        path = root / RECEIPT_NAMES[screen]
+        predecessor = json.loads(path.read_text(encoding="utf-8"))
+        _require(predecessor.get("verdict") == "pass"
+                 and predecessor.get("experiment_context") == experiment.context()
+                 and predecessor.get("preregistration", {}).get("sha256") == PREREGISTRATION_SHA256,
+                 f"C1 predecessor {screen} custody failed")
+        _require(evaluator.artifact(path) == prerequisite["predecessor_receipts"][screen],
+                 "prerequisite predecessor custody changed")
+        if screen == "c0_liveness":
+            _require(predecessor.get("c0_amendment", {}).get("sha256") == C0_AMENDMENT_SHA256,
+                     "C0 amendment mismatch")
+
+
+def _verify_c1_material(root: Path, material: dict, prerequisite: dict, checkpoint: dict) -> None:
+    train_rows, development_rows = material["train_rows"], material["development_rows"]
+    _require(len(train_rows) == 180 and len(development_rows) == 240
+             and material["train_slots"] == list(range(180))
+             and material["development_slots"] == list(range(240))
+             and len(material["train_text_list"]) == 180
+             and len(material["development_text_list"]) == 240,
+             "C1 fixed text populations or row remapping changed")
+    _require(gradient_population_sha256(train_rows) == prerequisite["population_sha256"],
+             "C1 training population differs from prerequisite")
+    stats = material["stats"]
+    _require(components.fingerprint(checkpoint["stats"]) == components.fingerprint(stats),
+             "prerequisite fixed stats changed")
+    mean, std = np.asarray(stats["mean"]), np.asarray(stats["std"])
+    _require(mean.shape == std.shape == (WIDTH,)
+             and np.isfinite(mean).all() and np.isfinite(std).all()
+             and np.all(std >= np.float32(.01)), "C1 fixed normalizer contract changed")
+    directory = root / "c1-gradient-v1"
+    full_rows = [json.loads(line) for line in
+                 (directory / "train_population_rows.jsonl").read_text(encoding="utf-8").splitlines()]
+    _require(_canonical_json(full_rows) == _canonical_json(evaluator.plain(train_rows)),
+             "prerequisite saved population rows differ from current material")
+    targets = np.load(directory / "train_raw_targets.npy", allow_pickle=False)
+    indices = np.load(directory / "train_optimizer_indices.npy", allow_pickle=False)
+    _require(np.array_equal(targets, np.asarray([row["target"] for row in train_rows],
+                                               dtype=np.float64))
+             and np.array_equal(indices, material["selected"]),
+             "prerequisite saved targets or optimizer indices changed")
+    _require(components.record_identity_hash(material["train"]["records"], material["selected"])
+             == prerequisite["selected_row_identity_sha256"],
+             "prerequisite selected record identity changed")
+    input_rows = [json.loads(line) for line in
+                  (directory / "train_input_rows.jsonl").read_text(encoding="utf-8").splitlines()]
+    expected_input = []
+    for order, row in enumerate(train_rows):
+        record = material["train"]["records"][row["record_index"]]
+        page = record["pages"][row["page_index"]]
+        _require(record["split"] == "train", "prerequisite input escaped train")
+        expected_input.append({**row, "order": order, "raw_extent": row["target"],
+                               "property_id": row["field_key"], "family_id": row["family"],
+                               "row_id": record["row_id"], "world_id": record["world_id"],
+                               "candidate_id": record["candidate_id"], "term_index": record["term_index"],
+                               "page_block_id": page["block_id"]})
+    _require(_canonical_json(input_rows) == _canonical_json(evaluator.plain(expected_input)),
+             "prerequisite ordered input custody differs from current material")
+
+
+def _recover_c1_ceiling_arrays(root: Path, material: dict, prerequisite: dict,
+                              payload: dict) -> None:
+    """Recover the gate from retained predictions; never encode or fit a readout."""
+    registration = _c1_metadata_correction(root)
+    _require(prerequisite["source_hashes"] == registration["original_source_hashes"],
+             "cached recovery requires the registered original producer")
+    _registered_artifact(registration["prerequisite_receipt"],
+                         root / "c1-gradient-v1" / "prerequisite_receipt.json")
+    _require(prerequisite["checkpoint"] == registration["prerequisite_checkpoint"],
+             "cached recovery checkpoint lineage changed")
+    partial_path = _registered_artifact(registration["retained_partial_receipt"],
+                                       root / "screen_c1_gradient_ceiling_receipt.json")
+    arrays_path = _registered_artifact(registration["retained_arrays"],
+                                      root / "c1_gradient_ceiling_arrays.npz")
+    rows_path = _registered_artifact(registration["retained_rows"],
+                                    root / "c1_gradient_ceiling_rows.json")
+    partial = partial_path.read_text(encoding="utf-8")
+    _require(partial.rstrip().endswith('"full_column_rank":'),
+             "registered partial receipt is not the scalar serialization failure")
+    counter_marker = chr(10) + '  "counters":'
+    _require(partial.count(counter_marker) == 1, "original encoder counters are ambiguous")
+    counter_text = partial.split(counter_marker, 1)[1].lstrip()
+    original_counters, _ = json.JSONDecoder().raw_decode(counter_text)
+    _require(original_counters == registration["original_encoder_counters"],
+             "original partial encoder counters changed")
+    rows = json.loads(rows_path.read_text(encoding="utf-8"))
+    expected_rows = {"train": material["train_rows"], "development": material["development_rows"]}
+    _require(_canonical_json(rows) == _canonical_json(evaluator.plain(expected_rows)),
+             "retained ceiling rows differ from current original material")
+    expected_keys = {"train_rawfeature", "train_target", "train_prediction", "train_family",
+                     "development_rawfeature", "development_target", "development_prediction",
+                     "development_family", "coefficients"}
+    with np.load(arrays_path, allow_pickle=False) as archive:
+        _require(set(archive.files) == expected_keys, "retained ceiling array inventory changed")
+        arrays = {name: archive[name] for name in expected_keys}
+    coefficients = arrays["coefficients"]
+    _require(coefficients.shape == (WIDTH,) and coefficients.dtype == np.float64
+             and np.isfinite(coefficients).all(), "retained ceiling coefficients are invalid")
+    for phase, count in (("train", 180), ("development", 240)):
+        phase_rows = rows[phase]
+        matrix = arrays[f"{phase}_rawfeature"]
+        targets = arrays[f"{phase}_target"]
+        prediction = arrays[f"{phase}_prediction"]
+        families = arrays[f"{phase}_family"]
+        _require(matrix.shape == (count, WIDTH) and matrix.dtype == np.float32
+                 and targets.shape == prediction.shape == families.shape == (count,)
+                 and targets.dtype == prediction.dtype == np.float64
+                 and np.isfinite(matrix).all() and np.isfinite(targets).all()
+                 and np.isfinite(prediction).all(), "retained ceiling array contract changed")
+        _require(np.array_equal(targets, np.asarray([row["target"] for row in phase_rows],
+                                                   dtype=np.float64))
+                 and np.array_equal(families, np.asarray([row["family"] for row in phase_rows])),
+                 "retained ceiling targets or family mapping changed")
+        design = _normalized_design(matrix, material["stats"])
+        _require(np.isfinite(design).all()
+                 and np.array_equal(design @ coefficients, prediction),
+                 "retained predictions do not exactly match original saved coefficients")
+    diagnostics = {
+        "available": False,
+        "reason": "Original solver diagnostics were truncated by numpy.bool_ receipt serialization; "
+                  "no solver or readout refit is performed during metadata-only recovery.",
+        "independent_reconstruction_required_for_solver_diagnostics": True,
+    }
+    metrics = _ceiling_prediction_metrics(
+        arrays["train_prediction"], arrays["development_prediction"], arrays["development_target"],
+        arrays["development_family"].tolist(), [180, WIDTH], diagnostics)
+    payload.update({
+        "receipt_origin": "metadata-only-cached-array-recovery",
+        "metadata_only_recovery": True,
+        "metadata_correction": evaluator.artifact(C1_METADATA_CORRECTION_PATH),
+        "retained_partial_receipt": registration["retained_partial_receipt"],
+        "original_git_commit": registration["original_git_commit"],
+        "original_source_hashes": dict(prerequisite["source_hashes"]),
+        "original_encoder_counters": original_counters,
+        "original_counter_evidence": registration["original_counter_evidence"],
+        "counters": {"encoder_forward_batches": 0, "encoder_texts_encoded": 0},
+        "recovery_encoder_forwards": 0, "recovery_optimizer_steps": 0, "readout_refits": 0,
+        "population_sha256": prerequisite["population_sha256"],
+        "unique_supervised_train_page_texts": 180,
+        "unique_supervised_development_page_texts": 240,
+        "arrays": evaluator.artifact(arrays_path), "rows": evaluator.artifact(rows_path),
+        "solver": "original persisted numpy.linalg.lstsq(rcond=None); not rerun during recovery",
+        "saved_coefficient_prediction_identity": "exact on train and development",
+        "solver_diagnostics_available": False,
+        "bias": False, "dtype": "float64",
+        "train_capture": material["train_evidence"],
+        "development_capture": material["development_evidence"],
+        **metrics,
+        "scope": "metadata-only gate recovery from original saved predictions; no promotion",
+    })
+
+
+def screen_c1_adapted_ceiling(run_root, features_root, device: str = "cpu",
+                             *, recover_ceiling_arrays: bool = False) -> dict:
+    """Consume the completed prerequisite, optionally recovering only retained metadata."""
     _require(features_root is not None, "screen C1 requires --features-root")
     _require(device == "cpu", "screen C1 is CPU-only")
     source_hashes = _check_pinned_sources()
@@ -1275,32 +1567,39 @@ def screen_c1_adapted_ceiling(run_root, features_root, device: str = "cpu") -> d
         "gradient_protocol": evaluator.artifact(C1_GRADIENT_PROTOCOL_PATH),
         "adaptation_state": "fixed final epoch400 train-only gradient prerequisite",
         "quality_claim": True,
+        "receipt_origin": ("metadata-only-cached-array-recovery" if recover_ceiling_arrays
+                           else "regular-new-encoding"),
+        "metadata_only_recovery": recover_ceiling_arrays,
         "source_lineage": {name: evaluator.artifact(HERE / name) for name in (
             "ephemeral_pages_adaptation_screens.py",
             "ephemeral_pages_adaptation_prerequisite.py")},
     })
     receipt_path = root / RECEIPT_NAMES["c1_adapted_ceiling"]
+    _require(not receipt_path.exists(), "refusing to overwrite existing C1 v2 receipt")
     try:
-        for screen in ("smoke", "immutability", "c0_liveness"):
-            predecessor_path = root / RECEIPT_NAMES[screen]
-            predecessor = json.loads(predecessor_path.read_text(encoding="utf-8"))
-            _require(predecessor.get("verdict") == "pass", f"C1 predecessor {screen} failed")
-            if screen == "c0_liveness":
-                _require(predecessor.get("c0_amendment", {}).get("sha256")
-                         == C0_AMENDMENT_SHA256, "C0 amendment mismatch")
         prerequisite, checkpoint = verify_gradient_prerequisite(root)
+        _require(prerequisite["experiment_context"] == experiment.context()
+                 and checkpoint["corpus_protocol_sha256"] == experiment.protocol()[1],
+                 "C1 prerequisite experiment custody mismatch")
+        _verify_c1_predecessors(root, experiment, prerequisite)
+        payload["original_source_hashes"] = dict(prerequisite["source_hashes"])
+        if prerequisite["source_hashes"][Path(__file__).name] != features.sha256_file(__file__):
+            payload["prerequisite_source_compatibility"] = evaluator.artifact(
+                C1_METADATA_CORRECTION_PATH)
         payload["prerequisite_receipt"] = evaluator.artifact(
             root / "c1-gradient-v1" / "prerequisite_receipt.json")
         payload["prerequisite_checkpoint"] = prerequisite["checkpoint"]
+        _require(PAGES_CHECKPOINT.exists()
+                 and features.sha256_file(PAGES_CHECKPOINT) == PAGES_CHECKPOINT_SHA256,
+                 "C1 common-normalizer pages checkpoint custody changed")
         material = _screen_c_material(experiment)
+        _verify_c1_material(root, material, prerequisite, checkpoint)
         train_rows, development_rows = material["train_rows"], material["development_rows"]
-        _require(len(train_rows) == 180 and len(development_rows) == 240,
-                 "C1 fixed unique-text populations changed")
         population_hash = gradient_population_sha256(train_rows)
-        _require(population_hash == prerequisite["population_sha256"],
-                 "C1 training population differs from prerequisite")
-        _require(components.fingerprint(checkpoint["stats"])
-                 == components.fingerprint(material["stats"]), "prerequisite fixed stats changed")
+        if recover_ceiling_arrays:
+            _recover_c1_ceiling_arrays(root, material, prerequisite, payload)
+            payload["receipt"] = write_receipt(receipt_path, payload)
+            return payload
         train_target = np.asarray([row["target"] for row in train_rows], dtype=np.float64)
         development_target = np.asarray([row["target"] for row in development_rows], dtype=np.float64)
         counters = {"encoder_forward_batches": 0, "encoder_texts_encoded": 0}
@@ -1367,7 +1666,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--state-checkpoint", type=Path)
     parser.add_argument("--records", type=int, default=SMOKE_RECORDS_BOUND)
     parser.add_argument("--epochs", type=int, default=SMOKE_EPOCHS_BOUND)
+    parser.add_argument("--recover-ceiling-arrays", action="store_true",
+                        help="ceiling only: recover the registered retained arrays without encoding or fitting")
     args = parser.parse_args(argv)
+    _require(not args.recover_ceiling_arrays or args.screen == "ceiling",
+             "--recover-ceiling-arrays is valid only for --screen ceiling")
 
     if args.screen in ("c0-liveness", "ceiling"):
         _require(args.device in (None, "cpu"),
@@ -1379,7 +1682,9 @@ def main(argv: list[str] | None = None) -> int:
         os.environ["CUDA_VISIBLE_DEVICES"] = ""
         result = (screen_c0_liveness(args.run_root, args.features_root, device="cpu")
                   if args.screen == "c0-liveness" else
-                  screen_c1_adapted_ceiling(args.run_root, args.features_root, device="cpu"))
+                  screen_c1_adapted_ceiling(
+                      args.run_root, args.features_root, device="cpu",
+                      recover_ceiling_arrays=args.recover_ceiling_arrays))
     elif args.screen == "smoke":
         device = args.device or "cuda"
         result = screen_a(args.run_root, args.features_root, device=device,
