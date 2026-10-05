@@ -6088,6 +6088,15 @@ The next separate study must preregister actual natural-variable-question
 Boolean/answerability and evidence-conditioned behavior before model work.
 Its architecture choice waits for NATIVE-2, not QASPER DEV model outcomes.
 
+The next study is registered prospectively at
+`research/endgame/neutral_qasper_question_study_protocol.json` (sha256
+`40d66173e91a827725dc107553a644894f39212f4667d4d47c33e45491f73f1f`). It
+covers the four natural-variable-question endpoints on this projection, keeps
+the inner component split and the sealed phases closed, and defers architecture
+selection to the measured NATIVE-2 result through a separate amendment before
+any QASPER model forward. Unmatched native evidence and spans stay in every
+future quality denominator. No model has loaded against this projection.
+
 
 
 
