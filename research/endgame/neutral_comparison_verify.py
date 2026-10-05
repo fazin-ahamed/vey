@@ -156,13 +156,24 @@ def clopper_pearson_upper(k, n, alpha=0.05):
 
 
 def _beta_cdf(k, n, p):
+    """Exact P(X <= k) for X ~ Binomial(n, p), evaluated in log space.
+
+    The naive sum overflows to a float error once n reaches tens of thousands,
+    so each term is formed with lgamma and the total with a max-shift
+    log-sum-exp. This stays exact rather than falling back to a normal or beta
+    approximation.
+    """
     if p <= 0:
         return 0.0
     if p >= 1:
         return 1.0
-    return sum(
-        math.comb(n, i) * p ** i * (1 - p) ** (n - i) for i in range(k + 1)
-    )
+    terms = [
+        math.lgamma(n + 1) - math.lgamma(i + 1) - math.lgamma(n - i + 1)
+        + i * math.log(p) + (n - i) * math.log1p(-p)
+        for i in range(k + 1)
+    ]
+    top = max(terms)
+    return min(1.0, math.exp(top) * sum(math.exp(t - top) for t in terms))
 
 
 def main(argv=None):
@@ -176,36 +187,55 @@ def main(argv=None):
     laya_header, laya_rows = load_arm(Path(args.laya))
 
     # Independent membership check against the projection, not against the arms.
+    # Each arm persists a different field set, so each is checked against what it
+    # actually wrote: comparing an absent field would be a harness crash, not a
+    # verification result.
     projected = {row["id"]: row for row in R.choice_rows()}
     problems = []
+    vey_inputs, laya_inputs = {}, {}
     for name, rows in (("vey", vey_rows), ("laya", laya_rows)):
         for r in rows:
             ref = projected.get(r["id"])
             if ref is None:
                 problems.append(f"{name}: row {r['id']} absent from projection")
                 continue
-            for field in ("gold", "group_id", "candidate_ids", "question", "state"):
-                if r[field] != ref[field]:
-                    problems.append(f"{name}: row {r['id']} field {field} differs from projection")
-                    break
+            # An ABSENT field is a verification failure in its own right. Reading
+            # it with .get() yields None, which compares unequal and manufactures
+            # a false "differs from projection" for every row of that arm.
+            required = ["gold", "group_id"] + (
+                ["question", "state", "candidate_ids"] if name == "laya" else [])
+            missing = [f for f in required if f not in r]
+            if missing:
+                problems.append(f"{name}: row {r['id']} missing persisted fields {missing}")
+                continue
+            digest = hashlib.sha256(json.dumps({
+                "id": ref["id"], "question": ref["question"], "state": ref["state"],
+                "candidate_ids": ref["candidate_ids"], "candidates": ref["candidates"],
+            }, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
+            differing = [f for f in required if r[f] != ref[f]]
+            if differing:
+                problems.append(f"{name}: row {r['id']} fields {differing} differ from projection")
+                continue
+            if name == "vey":
+                vey_inputs[ref["id"]] = digest
+                if r.get("input_sha256") != digest:
+                    problems.append(f"vey: row {r['id']} input_sha256 differs from independent recompute")
             else:
-                if name == "laya":
-                    if r["markers"] != len(ref["candidate_ids"]):
-                        problems.append(f"laya: row {r['id']} markers != candidate count")
-    if problems:
-        print(json.dumps({"status": "FAIL", "problems": problems[:20], "problem_count": len(problems)}))
-        return 1
+                laya_inputs[ref["id"]] = digest
+                if r.get("markers") != len(ref["candidate_ids"]):
+                    problems.append(f"laya: row {r['id']} markers != candidate count")
 
-    # Shared-exact-workflow control: identical inputs across arms, by hash.
-    vey_inputs = {r["id"]: r.get("input_sha256") for r in vey_rows}
-    laya_inputs = {}
-    for r in laya_rows:
-        laya_inputs[r["id"]] = hashlib.sha256(
-            json.dumps({"id": r["id"], "question": r["question"], "state": r["state"],
-                        "candidate_ids": r["candidate_ids"],
-                        "candidates": {cid: r["candidates"][cid] for cid in r["candidate_ids"]}},
-                       ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
-        ).hexdigest() if "candidates" in r else None
+    # Shared-exact-workflow control: the two arms' independently recomputed input
+    # digests must be identical on every shared row. If they differ, the arms did
+    # not receive identical inputs and no paired statistic below is valid.
+    shared_ids = sorted(set(vey_inputs) & set(laya_inputs))
+    mismatched = [i for i in shared_ids if vey_inputs[i] != laya_inputs[i]]
+    if mismatched:
+        problems.append(f"shared-exact-workflow control failed on {len(mismatched)} rows")
+    shared_digest = hashlib.sha256(
+        json.dumps({i: vey_inputs[i] for i in shared_ids}, sort_keys=True).encode("utf-8")
+    ).hexdigest()
+
 
     vey_stats = choice_stats(vey_rows)
     laya_stats = choice_stats(laya_rows)
@@ -223,6 +253,12 @@ def main(argv=None):
         "comparison_protocol_sha256": R.COMPARISON_PROTOCOL_SHA256,
         "arm_headers": {"vey": vey_header, "laya": laya_header},
         "membership": {"projected_choice_rows": len(projected), "problems": problems},
+        "shared_exact_workflow": {
+            "shared_rows": len(shared_ids),
+            "mismatched_input_digests": len(mismatched),
+            "shared_input_digest_sha256": shared_digest,
+            "note": "Recomputed here from the projection, not copied from either arm.",
+        },
         "vey": vey_stats,
         "laya": laya_stats,
         "paired_group_bootstrap": delta,

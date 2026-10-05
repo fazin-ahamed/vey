@@ -5600,6 +5600,70 @@ what the mechanism claim rests on. The completed run's numbers are taken only
 after independent verification, and this partial figure is explicitly not a
 final number.
 
+## Verified Choice comparison: Vey 2 loses to the pinned Laya English route by 11.2 points
+
+Protocol `3a45bff`, amendment `a4b34dd`, arms `71da28c`, verifier `46de525`
+with two later verifier fixes (per-arm absent-field checks, log-space exact
+binomial CDF), independent verification receipt written after both runs
+completed.
+
+MEASURED on all 63,852 labeled dev `massive.intent` rows, 1,252 independent base
+utterance groups, K=60, identical inputs to both arms:
+
+| Quantity | Vey 2 (frozen `e6b046f`) | Laya English (pinned `55cf4c4eb`) |
+|---|---:|---:|
+| top-1 accuracy | 0.004792 | 0.116739 |
+| NLL | 27.4986 | 17.0523 |
+| Brier | 1.99042 | 1.52798 |
+| ECE (15-bin) | 0.004792 | 0.007877 |
+
+Paired cluster bootstrap over base utterance groups, 10000 resamples, seed 0:
+delta = **-0.111946**, 95% CI **[-0.121046, -0.102832]**. The frozen Vey
+reference is significantly WORSE, not merely non-inferior. The preregistered
+0.01 margin is excluded by a wide interval.
+
+Exact discordance on shared rows: Vey correct / Laya wrong = 293, Laya correct /
+Vey wrong = 7,441, both correct 13, neither 56,105. McNemar n10/n01 = 293/7441.
+The Clopper-Pearson upper bound on the harmful-side proportion (Vey-only correct
+events) is 0.005054, which alone clears 0.01; the preregistered rule that zero
+discordance alone never establishes non-inferiority is not what decides this
+outcome. The loss is decided by the bootstrap interval and the discordance
+count, both of which are large and unambiguous.
+
+Verification controls, all computed from the artifacts rather than asserted:
+membership problems 0 of 63,852; shared-exact-workflow mismatched input digests
+0 of 63,852 with shared digest `57a1c14f84041e7466360028bd32cb492dff0f3454881aab76c57adc42ff8037`;
+every headline number recomputed by the independent verifier, matching the
+arms' own summaries exactly.
+
+Interpretation, stated conservatively. This is a legacy replication of a public
+benchmark with prior Vey and Laya exposure disclosed, not fresh transfer. It
+establishes that the frozen `vey-2-final` reference loses to the pinned Laya
+English route on native multilingual intent by a wide, statistically resolved
+margin, for the mechanism recorded above: Vey's public `decide()` surface is an
+ordinal instruction executor with no fixed-label or rubric-relative mode, so
+both of its preregistered arms here answer by alphabetical fallback. Laya's
+0.116739 is itself depressed by the pinned K=60 option truncation recorded
+above, and is not a measure of Laya's capability ceiling; the vendor's
+multilingual route is still unmeasured.
+
+What this does NOT establish: nothing about Laya's multilingual route, Jev, any
+non-English route selection, or any post-V2 architecture. It earns no promotion,
+no Pareto credit, no B-STEF clearance and no endgame completion, and it does not
+change any frozen Vey 2 scientific conclusion.
+
+Two verifier defects surfaced before this receipt and are retained in history
+rather than corrected silently. The first compared a uniform field list across
+both arms using `.get()`, so the Vey arm's absent `question`/`state`/
+`candidate_ids` fields read as `None` and manufactured 63,852 false
+"differs from projection" errors while silently emptying the shared-digest
+control to 0 rows. The second overflowed a float in the naive binomial CDF at
+n = 63,852. Both are fixed in the verifier; no arm data was modified.
+
+Next branch, per the preregistered follow-up: the pinned multilingual route on
+identical rows (`ee2fa01`), which is also the arm that tests the vendor's
+0.4008 MASSIVE-51 claim.
+
 
 
 
