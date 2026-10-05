@@ -5004,6 +5004,54 @@ invented and presented as the old preregistered objective.
 C1's threshold remains 0.3332298906765268. No full fit or promotion is
 authorized by an implementation crash.
 
+### C1 replacement: bounded train-only scalar extent adaptation
+
+HYPOTHESIS: adapting the existing final transformer layer and its six
+multiplicative adapters with scalar extent supervision may improve
+development extent transfer through the actual pooled representation.
+Preregistration:
+`research/endgame/ephemeral_pages_adaptation_c1_gradient_preregistration.json`.
+This is a new prerequisite experiment, not an implementation repair of
+the retired closed-form proposal.
+
+INFERENCE from the audited equations: scalar extent `[N]` cannot specify
+a hidden output target `[N,384]`. The proposed output-block path also
+resolves to a module without the expected dense weight. Correcting those
+paths and mask slices does not define the missing target, and linearity
+before tokenwise LayerNorm does not imply linearity after it. The retained
+execution failure supplies no adaptation-quality observation.
+
+The replacement uses the existing PageReader value equation
+`sigmoid(wv(normalized_pooled_page))` and its raw grade MSE component.
+Exactly the existing 180 unique supervised train page texts fit the
+final layer, adapters and existing value head. Other encoder parameters
+and reader heads remain frozen. Seed7, 400 deterministic accumulated
+full-population updates, encoder/adapters learning rate0.0001,
+value-head learning rate0.01 and AdamW decay0.0001 are fixed in advance.
+Only the epoch400 checkpoint is eligible. No development, validation or
+final data selects or trains this prerequisite.
+
+Frozen-prefix caching must replay the actual final block, including its
+attention, residuals, bias and LayerNorm, and pass an initialization
+parity check against a complete encoder forward. Gradients and frozen
+parameter bytes are explicit controls. A bounded train-only smoke is
+permanently ineligible for the C1 gate.
+
+The subsequent CPU FP64 bias-free readout and development population of
+240 unique texts are unchanged. Primary gate: equal-family macro raw
+unclipped MAE <=0.3332298906765268. This finite deterministic inventory
+does not supply an IID confidence interval. Raw predictions, targets,
+family IDs and features must be retained for independent reconstruction.
+No quality result has yet been obtained for this replacement.
+
+A passing C1 permits the existing full four-component development fit;
+it does not authorize promotion, final access or B-STEF. A quality
+failure retires this finite grade-supervised prerequisite, not every
+possible encoder adaptation. An execution or invariant failure remains
+an implementation failure. The autonomous endgame continues along an
+evidence-justified, prospectively committed branch.
+
+
 
 
 
