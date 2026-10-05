@@ -676,6 +676,8 @@ def metadata_base(cfg, manifest, root, arm, mode, resources):
             "catalogues": manifest["catalogues"], "recipe": cfg["training"],
             "state_mask_text": EMPTY_EVIDENCE,
             "semantic_scope": cfg["model"]["semantic_scope"],
+            "execution_correction_sha256": (sha256_file(HERE / "native_field_execution_correction_v1.json")
+                                             if data.execution_correction(manifest) else None),
             "no_dev_selection_or_calibration": True, "sealed_phases_accessed": False,
             "resource_events": resources.events}
 
@@ -692,7 +694,9 @@ def run(root: str | Path, arm: str, mode: str, device: str):
     endpoints = manifest["eligible_endpoints"]
     catalogues = {endpoint: manifest["catalogues"][endpoint] for endpoint in endpoints}
     phases = {phase: eligible_records(records, endpoints) for phase, records in phases.items()}
-    directory = root / (arm if mode == "train" else arm + "-smoke")
+    correction = data.execution_correction(manifest)
+    smoke_suffix = correction["smoke_directory_suffix"] if correction else "-smoke"
+    directory = root / (arm if mode == "train" else arm + smoke_suffix)
     directory.mkdir(exist_ok=False)
     history = {"schema": "vey.native-field.history.v1", "arm": arm, "epochs": []}
     liveness = {"schema": "vey.native-field.liveness.v1", "arm": arm}

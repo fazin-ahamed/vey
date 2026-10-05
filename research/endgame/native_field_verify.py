@@ -8,6 +8,7 @@ import hashlib
 import json
 import math
 from pathlib import Path
+import subprocess
 import sys
 
 import numpy as np
@@ -738,6 +739,21 @@ def dataset_custody(root, manifest, cfg):
                 and receipt["manifest_sha256"] == entry["manifest_sha256"]
                 and receipt["source_payloads_of_sealed_phases_read"] is False, "native source verification receipt")
     source_files = manifest["source_files"]
+    correction_path = HERE / "native_field_execution_correction_v1.json"
+    correction = None
+    if correction_path.exists():
+        correction = load_json(correction_path)
+        relative = correction_path.relative_to(HERE.parents[1]).as_posix()
+        require(subprocess.check_output(["git", "show", "HEAD:" + relative], cwd=HERE.parents[1])
+                == correction_path.read_bytes(), "committed execution correction")
+        require(correction["schema"] == "vey.native-field.execution-correction.v1"
+                and correction["dataset_manifest_sha256"] == digest(root / "dataset_manifest.json")
+                and correction["protocol_sha256"] == protocol_hash
+                and correction["original_source_files"] == source_files
+                and set(correction["source_files"]) == set(source_files), "bounded code-only execution transition")
+        for entry in correction["retained_artifacts"]:
+            require(digest(entry["path"]) == entry["sha256"], "retained failed/prior evidence")
+        source_files = correction["source_files"]
     require({str(HERE / name) for name in (
         "native_field_data.py", "native_field_model.py", "native_field_train.py", "native_field_verify.py")}
             <= set(source_files), "native implementation custody membership")
@@ -750,6 +766,9 @@ def dataset_custody(root, manifest, cfg):
                 and digest(entry["path"]) == entry["sha256"], "selected dataset artifact hash")
     return {"protocol_sha256": protocol_hash, "dataset_manifest_sha256": digest(root / "dataset_manifest.json"),
             "source_exports": manifest["source_exports"], "source_files": source_files,
+            "original_source_files": manifest["source_files"],
+            "execution_correction": correction,
+            "execution_correction_sha256": digest(correction_path) if correction else None,
             "semantic_model_files": manifest["semantic_model_files"],
             "phase_hashes": {phase: manifest["phases"][phase]["sha256"] for phase in PHASES},
             "scope": "Guarded selected records and native projection receipts; no raw source/target payload replay"}
@@ -1067,7 +1086,16 @@ def verify_arm(root, arm, manifest, records, eligibility, priors, plans, cfg, cu
         ("no_dev_selection_or_calibration", True), ("sealed_phases_accessed", False),
     ):
         require(metadata[key] == expected, arm + ": custody/recipe " + key)
-    require(metadata["source_files"] == {str(HERE / name): manifest["source_files"][str(HERE / name)]
+    expected_sources = custody["source_files"]
+    correction = custody["execution_correction"]
+    if arm == "prior" and correction:
+        require(digest(directory / "metadata.json") == correction["reused_prior_metadata_sha256"],
+                "exact retained pre-correction prior receipt")
+        expected_sources = custody["original_source_files"]
+    else:
+        require(metadata.get("execution_correction_sha256") == custody["execution_correction_sha256"],
+                arm + ": execution correction identity")
+    require(metadata["source_files"] == {str(HERE / name): expected_sources[str(HERE / name)]
             for name in ("native_field_model.py", "native_field_train.py", "native_field_data.py")},
             arm + ": trainer source identity")
     hashes = artifact_files(directory, metadata, arm)

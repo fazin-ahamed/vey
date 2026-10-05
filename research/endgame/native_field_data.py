@@ -205,6 +205,33 @@ def _materialize(cfg, root):
     return manifest
 
 
+def execution_correction(manifest):
+    path = HERE / "native_field_execution_correction_v1.json"
+    if not path.exists():
+        return None
+    raw = path.read_bytes()
+    relative = path.relative_to(REPO).as_posix()
+    if subprocess.check_output(["git", "show", "HEAD:" + relative], cwd=REPO) != raw:
+        raise RuntimeError("Uncommitted native execution correction")
+    correction = json.loads(raw)
+    root = Path(protocol()["output_root"])
+    if (correction["schema"] != "vey.native-field.execution-correction.v1" or
+            correction["dataset_manifest_sha256"] != digest(root / "dataset_manifest.json") or
+            correction["protocol_sha256"] != manifest["protocol_sha256"] or
+            correction["original_source_files"] != manifest["source_files"] or
+            set(correction["source_files"]) != set(manifest["source_files"])):
+        raise RuntimeError("Unregistered native execution transition")
+    for entry in correction["retained_artifacts"]:
+        if digest(entry["path"]) != entry["sha256"]:
+            raise RuntimeError("Retained pre-correction evidence changed")
+    return correction
+
+
+def execution_sources(manifest):
+    correction = execution_correction(manifest)
+    return correction["source_files"] if correction else manifest["source_files"]
+
+
 def verify_dataset(root):
     cfg = protocol()
     if Path(root).resolve() != Path(cfg["output_root"]).resolve():
@@ -212,7 +239,7 @@ def verify_dataset(root):
     manifest = json.loads((Path(root) / "dataset_manifest.json").read_text(encoding="utf-8"))
     if manifest["schema"] != "vey.native-field.dataset.v1" or manifest["protocol_sha256"] != digest(PROTOCOL):
         raise RuntimeError("Native dataset/protocol identity differs")
-    for mapping in (manifest["source_files"], manifest["semantic_model_files"]):
+    for mapping in (execution_sources(manifest), manifest["semantic_model_files"]):
         for path, expected in mapping.items():
             if digest(path) != expected:
                 raise RuntimeError("Native implementation changed after materialization")

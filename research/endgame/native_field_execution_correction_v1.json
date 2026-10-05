@@ -1,0 +1,56 @@
+{
+  "schema": "vey.native-field.execution-correction.v1",
+  "scope": "Code-only. The first full-arm liveness run failed while auditing stored stock keys: the guarded ledger accepted the absolute-position table aliases but not the stored tensor alias deberta.embeddings.position_embeddings._weight, so it stopped before any optimizer step, dev prediction or verification. No data, protocol, model, seed, recipe, target, split or selection changed. The dataset bytes and protocol hash are untouched; only the two implementation files recorded below and the verifier gain an exclusion/custody entry.",
+  "cause": "custody ledger omission of a stored safetensors alias for a table config.position_biased_input already disables; the loaded encoder omits all three aliases",
+  "not_a_result": "No loss, gradient, delta, restore, cache, accuracy or interval was produced by the failed run; it earns nothing and is retained as evidence.",
+  "fix": [
+    "native_field_model.py: added the stored _weight alias to inactive position keys, and required each such stored table to match [max_position_embeddings, hidden_size] from the pinned config.",
+    "native_field_data.py, native_field_train.py, native_field_verify.py: added a bounded committed execution-correction registry so pre-correction dataset custody, retained failed receipts and the exact prior receipt stay verifiable after a code-only change.",
+    "native_field_train.py: smoke reruns write to a distinct retained-suffix directory; training arm outputs are unchanged in name."
+  ],
+  "unchanged": [
+    "protocol",
+    "dataset_manifest.json and all four phase files",
+    "model repo/revision/weights/tokenizer",
+    "seed7 effective batch32 recipe",
+    "inner split hash",
+    "targets, catalogues, mask text",
+    "prior arm output bytes"
+  ],
+  "dataset_manifest_sha256": "67624183cb02d184383c36e0183c64a6aed91caa9f8031d5edd079545281337d",
+  "protocol_sha256": "f0f21d4695be2f930f2f0993be415dd8fee6e05ee1a888fe756cac0f7f94dfa3",
+  "original_source_files": {
+    "/home/fazinahamed/Documents/vey-public/research/endgame/native_field_data.py": "8934c8cf49e690d4940fc706f67a19bbb36c7992f9570bb87ac5faafdac9368d",
+    "/home/fazinahamed/Documents/vey-public/research/endgame/native_field_model.py": "9aff36fd41de3537d2500a5a0b33d9311c93e9a35dae23aeb62791f8e618bb04",
+    "/home/fazinahamed/Documents/vey-public/research/endgame/native_field_train.py": "820a59f12f13b41a1dd2416d8e47b3e3cdf88b8c5339110f9b6801be8ed36035",
+    "/home/fazinahamed/Documents/vey-public/research/endgame/native_field_verify.py": "0cb9d405ff9722dc8060aa0c257f3b7f402f4e40ee106e47d7f596ca61d875eb"
+  },
+  "source_files": {
+    "/home/fazinahamed/Documents/vey-public/research/endgame/native_field_data.py": "4f4a2e1081b5d2e2ee883f0adb9666ef643e0a0f4810fa7b715bcf7b33fe79f5",
+    "/home/fazinahamed/Documents/vey-public/research/endgame/native_field_model.py": "1fe718658cbc544f2531c06b342059c471d110c1ce301245155c27442b7f4b77",
+    "/home/fazinahamed/Documents/vey-public/research/endgame/native_field_train.py": "c45b43c82aaf56636e607f8ddbd99dea08865ee27e408b0bf51089a2a92b18a4",
+    "/home/fazinahamed/Documents/vey-public/research/endgame/native_field_verify.py": "ee74d29a7487978aa62d1e54ab5797889c55aad75fa37b12acee8376d87d7d06"
+  },
+  "smoke_directory_suffix": "-smoke-c1",
+  "retained_artifacts": [
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/full-smoke/metadata.json",
+      "bytes": 10421,
+      "sha256": "2a8f907c958a01f6dd2cb3e131cc9d3e2f63a2e6fc067ff49ab4c20ac629159f",
+      "retained_failure": true
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/full-smoke/history.json",
+      "bytes": 79,
+      "sha256": "14145e3232953b0bcb714faf0bbe5d584fcce6d2f145c10aada8de5e6b0c4a2e",
+      "retained_failure": true
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/full-smoke/liveness.json",
+      "bytes": 64,
+      "sha256": "dbb86eb9e21dcfd53bc37d90e7adc9d75e5215990d9f59ab107ebd084a339061",
+      "retained_failure": true
+    }
+  ],
+  "reused_prior_metadata_sha256": "93581aae8c3426de0d38cfd60ea804e44122daff741e77539347079a160653bc"
+}

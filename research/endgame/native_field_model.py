@@ -148,7 +148,9 @@ def load_stock(config: dict, catalogues: dict[str, list[str]], arm: str, device:
     inactive_position_keys = set()
     if not source_config.get("position_biased_input", True):
         inactive_position_keys = {
-            "embeddings.position_embeddings.weight", "deberta.embeddings.position_embeddings.weight"}
+            "embeddings.position_embeddings.weight", "deberta.embeddings.position_embeddings.weight",
+            "deberta.embeddings.position_embeddings._weight",
+        }
     unexpected = set(loading.get("unexpected_keys", []))
     unexplained = unexpected - EXPECTED_TASK_KEYS - inactive_position_keys
     if unexplained:
@@ -167,6 +169,8 @@ def load_stock(config: dict, catalogues: dict[str, list[str]], arm: str, device:
                 reason = "expected stock MLM/task or embedding alias exclusion"
             elif name in inactive_position_keys:
                 reason = "config disables absolute position embeddings"
+                if list(value.get_shape()) != [source_config["max_position_embeddings"], source_config["hidden_size"]]:
+                    raise RuntimeError(f"inactive position table shape differs: {name}")
             elif base_name in live_keys:
                 reason = "loaded encoder state"
             else:
