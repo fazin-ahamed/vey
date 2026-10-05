@@ -26,7 +26,7 @@ STREAMS = ("serving", "decisions", "targets", "provenance")
 ENDPOINTS = ("qasper.yes_no", "qasper.answerability", "qasper.evidence_retrieval", "qasper.extractive_answer")
 MODIFICATION = "QNATIVE-1: source-only DecisionIR projection; native annotations retained separately; answerability is the complement of native unanswerable."
 READ_COLUMNS = {
-    "source_groups": frozenset(("group_id", "source_id", "pinned_revision", "component_id", "final_split")),
+    "source_groups": frozenset(("group_id", "source_id", "pinned_revision", "component_id", "final_split", "rank_sha256")),
     "papers": frozenset(("paper_pk", "paper_id", "source_partition", "title_json", "abstract_json", "full_text_json", "group_id", "question_count", "annotation_count")),
     "questions": frozenset(("question_pk", "paper_pk", "ordinal", "question_id_present", "question_id_json", "question_json", "annotation_count")),
     "annotations": frozenset(("paper_pk", "question_pk", "ordinal", "yes_no_present", "yes_no_json", "unanswerable_present", "unanswerable_json", "evidence_present", "evidence_json", "extractive_spans_present", "extractive_spans_json", "free_form_answer_present", "free_form_answer_json")),
@@ -395,7 +395,7 @@ def _source_groups(connection, phase, cfg):
     require(collision is None, "Selected component crosses source roles")
     groups = {}
     for row in connection.execute(
-            "SELECT group_id,source_id,pinned_revision,component_id,final_split FROM source_groups WHERE final_split=? ORDER BY group_id", (phase,)):
+            "SELECT group_id,source_id,pinned_revision,component_id,final_split FROM source_groups WHERE final_split=? ORDER BY rank_sha256,group_id", (phase,)):
         require(row["source_id"] == cfg["source"]["id"] and row["pinned_revision"] == cfg["source"]["revision"], "Original source group identity differs")
         require(row["final_split"] == phase and type(row["component_id"]) is str and row["component_id"], "Invalid selected source component")
         require(type(row["group_id"]) is str and row["group_id"] and row["group_id"] not in groups, "Duplicate/invalid selected source group")
@@ -566,7 +566,7 @@ def _verify_population(phase, cfg, directory, manifest, receipt):
             require(stream.readline() == b"", "Projection artifact contains extra population rows")
     counts["groups"], counts["components"] = len(groups), len(set(groups.values()))
     require(len(decision_ids) == len(set(decision_ids)), "Duplicate native decision identity")
-    membership = {"ordered_group_ids_sha256": value_digest(sorted(groups)),
+    membership = {"ordered_group_ids_sha256": value_digest(list(groups)),
                   "ordered_component_ids_sha256": value_digest(sorted(set(groups.values()))),
                   "ordered_decision_ids_sha256": value_digest(decision_ids)}
     expected = cfg["data"]["expected"][phase]

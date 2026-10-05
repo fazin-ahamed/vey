@@ -201,13 +201,13 @@ def synthetic_database(tmp_path):
     path = tmp_path / "source.sqlite3"
     connection = sqlite3.connect(path)
     connection.executescript("""
-        CREATE TABLE source_groups(group_id TEXT,source_id TEXT,pinned_revision TEXT,component_id TEXT,final_split TEXT);
+        CREATE TABLE source_groups(group_id TEXT,source_id TEXT,pinned_revision TEXT,component_id TEXT,final_split TEXT,rank_sha256 TEXT);
         CREATE TABLE papers(paper_pk INTEGER,paper_id TEXT,source_partition TEXT,title_json TEXT,abstract_json TEXT,full_text_json TEXT,group_id TEXT,question_count INTEGER,annotation_count INTEGER,payload_json TEXT);
         CREATE TABLE questions(question_pk INTEGER,paper_pk INTEGER,ordinal INTEGER,question_id_present INTEGER,question_id_json TEXT,question_json TEXT,annotation_count INTEGER);
         CREATE TABLE annotations(paper_pk INTEGER,question_pk INTEGER,ordinal INTEGER,yes_no_present INTEGER,yes_no_json TEXT,unanswerable_present INTEGER,unanswerable_json TEXT,evidence_present INTEGER,evidence_json TEXT,extractive_spans_present INTEGER,extractive_spans_json TEXT,free_form_answer_present INTEGER,free_form_answer_json TEXT,annotation_json TEXT,answer_json TEXT,worker_id_json TEXT);
     """)
     for index, phase in enumerate(("train", "dev", "confirmation"), 1):
-        connection.execute("INSERT INTO source_groups VALUES(?,?,?,?,?)", (str(index), "synthetic", "revision", "component" + str(index), phase))
+        connection.execute("INSERT INTO source_groups VALUES(?,?,?,?,?,?)", (str(index), "synthetic", "revision", "component" + str(index), phase, str(index)))
         connection.execute("INSERT INTO papers VALUES(?,?,?,?,?,?,?,?,?,?)", (index, "paper" + str(index), phase, '"source"', None, None, str(index), 1, 1, '{}'))
         connection.execute("INSERT INTO questions VALUES(?,?,?,?,?,?,?)", (index, index, 0, 0, None, '{"question":"Original?"}', 1))
         row = annotation(yes_no=True if phase == "train" else "invalid-if-leaked")
@@ -233,6 +233,25 @@ def test_fixed_source_reads_do_not_cross_phase(synthetic_database):
         assert list(verifier._questions(connection, "train", {"paper_pk": 2})) == []
         assert verifier._annotations(connection, "train", {"paper_pk": 2}, {"question_pk": 2}) == []
 
+
+
+def test_source_membership_uses_custody_rank_order_not_lexical_ids(synthetic_database):
+    connection = sqlite3.connect(synthetic_database)
+    connection.execute("UPDATE source_groups SET final_split='train',rank_sha256='0' WHERE group_id='2'")
+    connection.commit()
+    connection.close()
+    cfg = {"authority": {"database": {"path": str(synthetic_database)}},
+           "source": {"id": "synthetic", "revision": "revision"},
+           "resources": {"SQLite_cache_MiB": 16},
+           "data": {"expected": {"train": {"groups": 2, "components": 2,
+                    "ordered_group_ids_sha256": compiler.value_digest(["2", "1"])}}}}
+    with verifier._database("train", cfg, set()) as connection:
+        assert list(verifier._source_groups(connection, "train", cfg)) == ["2", "1"]
+    # The producer must accept the original ranked membership before reading any paper.
+    source = compiler._source_papers("train", cfg, set(), float("inf"))
+    native_paper, _ = next(source)
+    assert native_paper["group_id"] == "1" and native_paper["rank_sha256"] == "1"
+    source.close()
 
 @pytest.mark.parametrize("sql", ["SELECT payload_json FROM papers", "SELECT annotation_json FROM annotations", "SELECT answer_json FROM annotations", "SELECT worker_id_json FROM annotations", "UPDATE papers SET paper_id='changed'", "DELETE FROM questions"])
 def test_read_only_column_allowlist_denies_unregistered_access(synthetic_database, sql):

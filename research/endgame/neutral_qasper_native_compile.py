@@ -36,7 +36,7 @@ READ_COLUMNS = {
                               "yes_no_present", "yes_no_json", "evidence_present", "evidence_json",
                               "extractive_spans_present", "extractive_spans_json",
                               "free_form_answer_present", "free_form_answer_json"}),
-    "source_groups": frozenset({"group_id", "source_id", "pinned_revision", "component_id", "final_split"}),
+    "source_groups": frozenset({"group_id", "source_id", "pinned_revision", "component_id", "final_split", "rank_sha256"}),
 }
 COVERAGE_KEYS = ("questions", "annotations", "eligible_questions", "ineligible_questions", "decisions",
                  "target_available", "target_unavailable", "observed_raters", "missing_fields", "null_fields",
@@ -187,8 +187,8 @@ def _source_papers(phase, cfg, read_columns, deadline):
         require(mismatch is None, "Selected annotation/question paper membership differs")
         groups = {}
         for group in connection.execute(
-                "SELECT group_id,source_id,pinned_revision,component_id,final_split FROM source_groups "
-                "WHERE final_split=? ORDER BY group_id", (phase,)):
+                "SELECT group_id,source_id,pinned_revision,component_id,final_split,rank_sha256 FROM source_groups "
+                "WHERE final_split=? ORDER BY rank_sha256,group_id", (phase,)):
             require(group["source_id"] == cfg["source"]["id"] and
                     group["pinned_revision"] == cfg["source"]["revision"] and group["final_split"] == phase,
                     "Selected source group provenance differs")
@@ -200,7 +200,7 @@ def _source_papers(phase, cfg, read_columns, deadline):
         require(len(groups) == expected["groups"], "Selected group count differs")
         require(len({group["component_id"] for group in groups.values()}) == expected["components"],
                 "Selected component count differs")
-        require(value_digest(sorted(groups)) == expected["ordered_group_ids_sha256"],
+        require(value_digest(list(groups)) == expected["ordered_group_ids_sha256"],
                 "Selected source group membership differs")
         seen_groups = set()
         papers = connection.execute(
@@ -214,6 +214,7 @@ def _source_papers(phase, cfg, read_columns, deadline):
             group = groups.get(paper["group_id"])
             require(group is not None and paper["component_id"] == group["component_id"] and
                     paper["final_split"] == phase, "Selected paper source membership differs")
+            paper["rank_sha256"] = group["rank_sha256"]
             require(type(paper["paper_id"]) is str and type(paper["source_partition"]) is str,
                     "Malformed native paper identity")
             require(type(paper["question_count"]) is int and paper["question_count"] >= 0 and
@@ -530,7 +531,7 @@ def compile_phase(phase):
     compiler_sha, verifier_sha = digest(Path(__file__)), digest(VERIFIER)
     root.mkdir(parents=True, exist_ok=True, mode=0o700)
     directory.mkdir(exist_ok=False, mode=0o700)
-    source_counts, groups, components, seen_ids = Counter(), set(), set(), set()
+    source_counts, groups, components, seen_ids = Counter(), {}, set(), set()
     coverage = {endpoint: Counter({key: 0 for key in COVERAGE_KEYS +
                                   (SUPPORT_KEYS if endpoint in ENDPOINTS[2:] else ())}) for endpoint in ENDPOINTS}
     read_columns, decision_count = set(), 0
@@ -544,7 +545,7 @@ def compile_phase(phase):
                 source_counts["papers"] += 1
                 if source_counts["papers"] % 32 == 0:
                     _memory(cfg)
-                groups.add(paper["group_id"])
+                groups[paper["group_id"]] = paper["rank_sha256"]
                 components.add(paper["component_id"])
                 blocks, missingness = state_blocks(paper, ir)
                 catalogue = {}
@@ -574,7 +575,7 @@ def compile_phase(phase):
         expected = cfg["data"]["expected"][phase]
         require(all(source_counts[key] == expected[key] for key in ("papers", "questions", "annotations", "groups", "components")),
                 "Selected source population denominator differs")
-        group_sha = value_digest(sorted(groups))
+        group_sha = value_digest(sorted(groups, key=lambda group_id: (groups[group_id], group_id)))
         require(group_sha == expected["ordered_group_ids_sha256"], "Selected source group hash differs")
         require(metadata() == cfg, "Original pinned inputs changed during materialization")
         require(digest(Path(__file__)) == compiler_sha and digest(VERIFIER) == verifier_sha,
