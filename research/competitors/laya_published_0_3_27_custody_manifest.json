@@ -244,10 +244,21 @@
       "revision": "e929ae5cf69bc34259cd2f95c9e91145b818b1f0"
     }
   },
-  "schema": "vey.laya.published-release-preparation.v1",
+  "schema": "vey.laya.published-release-preparation.v2",
   "standalone_multilingual_difference": "Only tokenizer/tokenizer_config.json differs from bundled historical multilingual route. Exact standalone current Git-blob metadata captured; all three weight identities equal historical proven cached payloads. Historical compatibility unchanged.",
-  "status": "prepared_not_executed",
+  "status": "wheel_backend_import_failed; complete_unmodified_release_source_prepared_not_executed",
   "weight_payloads_downloaded": false,
+  "complete_release_source": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya-0.3.27-preparation/complete-release-source-custody.json",
+    "sha256": "47ab49706f27ffe7d1e28558219d90d1cc8ec7fa5680aa1ccb3a467d004687a8"
+  },
+  "failed_wheel_backend_probe": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya-0.3.27-preparation/cpu-compatibility-result.json",
+    "sha256": "2dd45013ce67598a9a29843ef017355c4dda8eff3590052a793f6f7bfb983994",
+    "protocol_commit": "9c94c00",
+    "protocol_sha256": "11c9c51bff6c7f50480d6390c4908b5779386e5eda16a73f5d62687b2414e4d6"
+  },
+  "failure_scope": "Published wheel lacks five exact-release backend files. Agent(...backend=eager) constructor failed with ModuleNotFoundError before any completed model route. No claim every wheel API fails; no wheel or vendor source patched.",
   "wheel_source_root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya-0.3.27-preparation/wheel-source",
   "wheel_source_sha256": {
     "laya/__init__.py": "2625f436dc7e93b8e18bda559f71a138b724381cfdd055c06477b8eff64b2771",

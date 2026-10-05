@@ -15,7 +15,7 @@ import traceback
 ROOT = Path('/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya-0.3.27-preparation')
 MANIFEST = Path(__file__).with_name('laya_published_0_3_27_custody_manifest.json')
 PROTOCOL = Path(__file__).with_name('laya_published_0_3_27_protocol.json')
-OUTPUT = ROOT / 'cpu-compatibility-result.json'
+OUTPUT = ROOT / 'cpu-compatibility-release-source-v2.json'
 
 
 def sha(path):
@@ -65,11 +65,17 @@ def main():
             require(sha(Path(artifact['path'])) == artifact['actual_sha256'] == artifact['advertised_sha256'], 'Published artifact changed')
         require(sha(Path(manifest['historical_inventory']['path'])) == manifest['historical_inventory']['sha256'], 'Historical custody changed')
         require(sha(Path(manifest['release_tree']['path'])) == manifest['release_tree']['sha256'], 'Release tree changed')
-        source_root = Path(manifest['wheel_source_root'])
+        release_entry = manifest['complete_release_source']
+        release_path = Path(release_entry['path'])
+        require(sha(release_path) == release_entry['sha256'], 'Complete release custody changed')
+        release = json.loads(release_path.read_text())
+        require(release['release_commit'] == manifest['release_commit'] == protocol['release_commit'],
+                'Complete source is not the registered published release')
+        source_root = Path(release['source_root'])
         actual = {str(path.relative_to(source_root)) for path in (source_root / 'laya').rglob('*') if path.is_file() and '__pycache__' not in path.parts}
-        require(actual == set(manifest['wheel_source_sha256']), 'Unexpected package source member')
-        for name, digest in manifest['wheel_source_sha256'].items():
-            require(sha(source_root / name) == digest, f'Published source changed: {name}')
+        require(actual == set(release['files']), 'Unexpected complete-release source member')
+        for name, info in release['files'].items():
+            require(sha(source_root / name) == info['sha256'], f'Published release source changed: {name}')
         socket.socket.connect = offline
         socket.socket.connect_ex = offline
         socket.create_connection = offline
@@ -86,7 +92,7 @@ def main():
             fields = dict(line.split(':', 1) for line in Path('/proc/meminfo').read_text().splitlines())
             require(int(fields['MemAvailable'].split()[0]) * 1024 >= 10 * 1024**3, 'Insufficient host RAM')
             entry = manifest['routes'][route]
-            directory = ROOT / 'probe-artifacts' / route
+            directory = ROOT / 'release-probe-artifacts-v2' / route
             directory.mkdir(parents=True, exist_ok=False)
             expected = {}
             for relative, info in entry['files'].items():

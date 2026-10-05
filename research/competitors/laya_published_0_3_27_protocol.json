@@ -2,7 +2,7 @@
   "capture_policy": "Receipt uses allow_nan=True only to preserve nonfinite failing payload evidence; finite checks still reject such values. Normal successful receipts are finite JSON. External timeout/native crash may prevent finally receipt; retain command logs and partial per-route evidence, never infer success.",
   "command": "timeout --signal=TERM --kill-after=30s 300s nice -n 10 ionice -c 2 -n 7 env -u HF_TOKEN -u HUGGING_FACE_HUB_TOKEN -u LAYA_SHA256_DIGESTS CUDA_VISIBLE_DEVICES='' HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_HUB_DISABLE_IMPLICIT_TOKEN=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 USE_TF=0 HF_HOME=/home/fazinahamed/Documents/vey-data/decisionmix/hf-home /home/fazinahamed/Documents/vey/venvs/vey/bin/python /home/fazinahamed/Documents/vey-public/research/competitors/laya_published_0_3_27_probe.py",
   "custody_manifest_path": "/home/fazinahamed/Documents/vey-public/research/competitors/laya_published_0_3_27_custody_manifest.json",
-  "custody_manifest_sha256": "d08bc296395c62dc01e838cc9909b0cc511165f0fd47e3a890c7ddccc8fd2e62",
+  "custody_manifest_sha256": "b58ccc69c559710baf0ffdd7b4ebb7f1bd480d3307c428a42d5e3a4a66995a17",
   "data": "Exact same synthetic state and mixed Choice/Noul/Score questions as historical v2 probe; no benchmark pools.",
   "environment_variables": {
     "CUDA_VISIBLE_DEVICES": "",
@@ -16,7 +16,7 @@
     "USE_TF": "0"
   },
   "executable": "/home/fazinahamed/Documents/vey/venvs/vey/bin/python",
-  "execution": "Published wheel package source imported directly from verified extraction, no installation or dependency/environment mutation. Sequential CPU eager routes; isolated copied metadata/tokenizers and symlinks to verified old cached weight bytes. No Hub alias.",
+  "execution": "Complete unmodified source of published release b09832b imported directly from all40 verified release package members; no installation, missing-module shim, vendor edit or dependency/environment mutation. Sequential CPU eager routes; isolated copied metadata/tokenizers and symlinks to verified old cached weight bytes. No Hub alias.",
   "failure_policy": "Fail closed without checkpoint substitution, shims, fake paths, dependency upgrade or historical relabel. Refuse overwriting receipts/artifact directories.",
   "gates": [
     "Exact artifact, release-tree, source-member, dependency and payload custody checked before load.",
@@ -35,7 +35,7 @@
     "transformers": "5.17.0"
   },
   "probe_path": "/home/fazinahamed/Documents/vey-public/research/competitors/laya_published_0_3_27_probe.py",
-  "probe_sha256": "a0d564bb0920790d685449bf7aeec158c5ef211d8bfb7e4e2ca2ddd8bb148c8c",
+  "probe_sha256": "16aece41003b04be33461d147f5ffaca3f6d8890b072215aa536cb8c53997752",
   "published_version": "0.3.27",
   "release_commit": "b09832bdd3819e375fe8b0d26dbd7a8f75c4f0bd",
   "resource_guards": {
@@ -66,7 +66,7 @@
       "role": "multilingual"
     }
   ],
-  "schema": "vey.laya.published-current-cpu-compatibility-protocol.v1",
+  "schema": "vey.laya.published-current-cpu-compatibility-protocol.v2",
   "scope": "Current published-runtime offline CPU eager integration compatibility only. No quality, calibration, latency, residency, neutral comparison, competitor superiority or matrix-cell promotion.",
   "serialization_bound": {
     "decimals": 4,
@@ -79,5 +79,13 @@
   },
   "source_custody_only_exercised": true,
   "status": "prospective_not_executed",
-  "success_receipt": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya-0.3.27-preparation/cpu-compatibility-result.json"
+  "supersedes": {
+    "commit": "9c94c00",
+    "protocol_sha256": "11c9c51bff6c7f50480d6390c4908b5779386e5eda16a73f5d62687b2414e4d6",
+    "failed_probe_sha256": "2dd45013ce67598a9a29843ef017355c4dda8eff3590052a793f6f7bfb983994",
+    "reason": "Published wheel omits laya/backends; registered backend=eager constructor failed before any completed model route. Retain that failure; test exact complete release source rather than patching vendor code.",
+    "unchanged": "Synthetic fixture, all3current model references/payloads, CPU eager, dtype/dependencies, offline guards, serialization bounds and no-quality claim."
+  },
+  "complete_release_source_sha256": "47ab49706f27ffe7d1e28558219d90d1cc8ec7fa5680aa1ccb3a467d004687a8",
+  "success_receipt": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya-0.3.27-preparation/cpu-compatibility-release-source-v2.json"
 }
