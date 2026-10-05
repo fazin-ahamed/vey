@@ -14,7 +14,7 @@ Implements, in order, the fail-closed screens of
 Every screen writes exactly one receipt with exclusive-create (``open("x")``)
 semantics under the run root.  A protocol violation raises ``RuntimeError``
 after the failing receipt is retained; a legitimate negative screen outcome
-(C1 below its predeclared threshold) is written as ``"verdict": "fail"`` and
+(C1 above its predeclared MAE threshold) is written as ``"verdict": "fail"`` and
 returned with exit code 3 instead of raising.  The process exits 0 only for a
 passing screen.  C1 requires a passing C0 receipt in the same run root.
 
@@ -28,18 +28,11 @@ restoring its saved values restores the pre-perturbation features. It does
 not test numerical identity against the frozen feature cache. Screen B
 guards parameter bytes, not forward-computation equivalence.
 
-C1 is CPU-only and builds no reader.  It first runs one bounded FP64
-closed-form bias-free adaptation of layer 11 on the unique supervised train
-page texts only, with no selection, no early stopping, no checkpoint choice
-and no tuning.  Layer 11 computes ``LayerNorm(W . activation + residual)``
-and a masked mean is linear, so the exact masked mean of that pre-norm sum is
-``W . masked_mean(activation) + masked_mean(residual)``; solving for ``W``
-therefore changes the representation rather than the readout.  It then encodes
-the development unique page texts with the adapted layer and runs the same
-finite bias-free FP64 least-squares procedure as
-``ephemeral_pages_components.run_linear``, emitting pass or fail against the
-pinned development unique-text family-macro threshold.  Validation is never
-opened in C0 or C1 and can neither satisfy nor fail either screen.
+C1 consumes the final epoch400 checkpoint from the separately preregistered
+train-only gradient prerequisite. It strictly reloads that actual adapted
+encoder on CPU, encodes train and development page texts, and applies the
+unchanged bias-free FP64 ceiling with fixed common train statistics.
+Validation is never opened in C0 or C1.
 
 All arithmetic that already exists in the pinned modules is imported rather
 than reimplemented: ``features.FeatureEncoder`` for the pinned load, tokenizer
@@ -103,6 +96,8 @@ SCREEN_C_AMENDMENT_PATH = HERE / "ephemeral_pages_adaptation_screen_c_amendment.
 SCREEN_C_AMENDMENT_SHA256 = "81a76d9eeed58745a0215106dfb7f6e1cf245607d10f4b9644d9a4b165304e2c"
 C0_AMENDMENT_PATH = HERE / "ephemeral_pages_adaptation_c0_amendment.json"
 C0_AMENDMENT_SHA256 = "de2d28b3e0128323e41b22cae4ac516f7cfb764eaf70a3425b200240105ab9ba"
+C1_GRADIENT_PROTOCOL_PATH = HERE / "ephemeral_pages_adaptation_c1_gradient_preregistration.json"
+C1_GRADIENT_PROTOCOL_SHA256 = "67397c751512a06acb638d30df173789358bc3d9e91f7b5be6efe35da4148d82"
 
 # Pinned implementation sources: byte-identical to the preregistration pins.
 PINNED_SOURCES = {
@@ -198,7 +193,7 @@ RECEIPT_NAMES = {
     "smoke": "screen_a_smoke_receipt.json",
     "immutability": "screen_b_immutability_receipt.json",
     "c0_liveness": "screen_c0_liveness_restore_receipt.json",
-    "c1_adapted_ceiling": "screen_c1_adapted_ceiling_receipt.json",
+    "c1_adapted_ceiling": "screen_c1_gradient_ceiling_receipt.json",
 }
 SCREEN_ORDER = ("smoke", "immutability", "c0_liveness", "c1_adapted_ceiling")
 SMOKE_CHECKPOINT_NAME = "screen_a_smoke_checkpoint.pt"
@@ -1006,12 +1001,22 @@ def _normalized_design(matrix: np.ndarray, stats: dict) -> np.ndarray:
 
 def evaluate_ceiling(train_features: np.ndarray, train_target: np.ndarray,
                      development_features: np.ndarray, development_target: np.ndarray,
-                     stats: dict, development_families: Sequence[str]) -> dict:
+                     stats: dict, development_families: Sequence[str],
+                     prediction_arrays: dict | None = None) -> dict:
     """Fit the finite bias-free ceiling and score it against the pinned threshold.
 
     Exposed so a fitted adapted state can be scored under exactly the same
     arithmetic, diagnostics and threshold as the preregistered screen C.
     """
+    for name, matrix, target in (("train", train_features, train_target),
+                                 ("development", development_features, development_target)):
+        _require(matrix.ndim == 2 and matrix.shape[1] == WIDTH
+                 and target.shape == (matrix.shape[0],) and matrix.shape[0] > 0,
+                 f"{name} ceiling shape mismatch")
+        _require(np.isfinite(matrix).all() and np.isfinite(target).all(),
+                 f"nonfinite {name} ceiling inputs")
+    _require(len(development_families) == len(development_target),
+             "development family membership length mismatch")
     design = _normalized_design(train_features, stats)
     _require(np.isfinite(design).all() and np.isfinite(train_target).all(),
              "nonfinite design or target in the adapted ceiling")
@@ -1022,6 +1027,12 @@ def evaluate_ceiling(train_features: np.ndarray, train_target: np.ndarray,
     train_prediction = design @ coefficients
     development_design = _normalized_design(development_features, stats)
     development_prediction = development_design @ coefficients
+    _require(np.isfinite(development_design).all()
+             and np.isfinite(development_prediction).all(), "nonfinite development ceiling")
+    if prediction_arrays is not None:
+        prediction_arrays.update(train_prediction=train_prediction,
+                                 development_prediction=development_prediction,
+                                 coefficients=coefficients)
     error = np.abs(development_prediction - development_target)
     by_family: dict[str, list[float]] = {}
     for family, value in zip(development_families, error):
@@ -1041,7 +1052,7 @@ def evaluate_ceiling(train_features: np.ndarray, train_target: np.ndarray,
                                      for name, values in by_family.items()},
             "used_for_verdict": True,
         },
-        "verdict": "pass" if family_macro < SCREEN_C_THRESHOLD else "fail",
+        "verdict": "pass" if family_macro <= SCREEN_C_THRESHOLD else "fail",
     }
 
 
@@ -1204,245 +1215,142 @@ def screen_c0_liveness(run_root, features_root, device: str = "cpu") -> dict:
     return payload
 
 
-class Layer11Probe:
-    """Capture the layer-11 GELU activation and the pre-norm residual.
-
-    Layer 11 computes ``LayerNorm(W . activation + residual)`` and a masked mean
-    is linear, so the masked mean of that pre-norm sum is exactly
-    ``W . masked_mean(activation) + masked_mean(residual)``.  Those two means
-    are the exact closed-form design and offset for the layer-11 output weight.
-    The hooks record raw activations per batch; the encode path owns the
-    attention mask and performs the masked mean.
-    """
-
-    def __init__(self, adapted: AdaptedEncoder):
-        layer = _module_for(adapted.deberta, LAYER11_LIVE_PREFIX.rstrip("."))
-        self.activation: list[np.ndarray] = []
-        self.residual: list[np.ndarray] = []
-        self._handles = [
-            layer.output.register_forward_pre_hook(self._residual_hook),
-            layer.intermediate.register_forward_hook(self._activation_hook),
-        ]
-
-    def _residual_hook(self, _module, inputs):
-        self.residual.append(inputs[1].detach().to("cpu").to(torch.float32).numpy())
-
-    def _activation_hook(self, _module, _inputs, output):
-        self.activation.append(output.detach().to("cpu").to(torch.float32).numpy())
-
-    def reset(self) -> None:
-        self.activation = []
-        self.residual = []
-
-    def close(self) -> None:
-        for handle in self._handles:
-            handle.remove()
-        self._handles = []
+def verify_gradient_protocol() -> dict:
+    _require(features.sha256_file(C1_GRADIENT_PROTOCOL_PATH) == C1_GRADIENT_PROTOCOL_SHA256,
+             "C1 gradient prerequisite protocol changed")
+    return json.loads(C1_GRADIENT_PROTOCOL_PATH.read_text(encoding="utf-8"))
 
 
-def _probe_encode(adapted: AdaptedEncoder, ids: np.ndarray, masks: np.ndarray,
-                  probe: Layer11Probe) -> np.ndarray:
-    """Encode while the layer-11 probe captures its pre-norm activations."""
-    parts = []
-    with torch.no_grad():
-        for start in range(0, int(ids.shape[0]), BATCH_SIZE):
-            stop = start + BATCH_SIZE
-            batch_ids = torch.as_tensor(ids[start:stop], dtype=torch.long, device="cpu")
-            batch_mask = torch.as_tensor(masks[start:stop], dtype=torch.long, device="cpu")
-            values = adapted(input_ids=batch_ids, attention_mask=batch_mask).to(torch.float32)
-            _require(torch.isfinite(values).all(), "probe encode produced nonfinite features")
-            parts.append(values.numpy())
-    _require(parts, "probe encode received no texts")
-    return np.concatenate(parts, axis=0)
+def gradient_population_sha256(rows: list[dict]) -> str:
+    """Hash the complete ordered supervised_unique row list, without projection."""
+    return features.sha256_bytes(_canonical_json(rows))
 
 
-def _masked_mean_per_batch(activations: list[np.ndarray], masks: np.ndarray) -> np.ndarray:
-    """Pool captured batches against their corresponding token-mask rows."""
-    _require(activations and sum(batch.shape[0] for batch in activations) == len(masks),
-             "layer-11 probe captured a different number of rows than encoded")
-    outputs = []
-    offset = 0
-    for activation in activations:
-        mask = masks[offset:offset + activation.shape[0]]
-        _require(activation.shape[:2] == mask.shape,
-                 "captured layer-11 activation does not match the attention mask shape")
-        weights = np.asarray(mask, dtype=np.float32).reshape(activation.shape[0], -1, 1)
-        denominator = np.maximum(weights.sum(axis=1), 1.0)
-        outputs.append((activation * weights).sum(axis=1) / denominator)
-        offset += activation.shape[0]
-    return np.concatenate(outputs, axis=0).astype(np.float64)
-
-
-def adapt_layer11_closed_form(activation_mean: np.ndarray, residual_mean: np.ndarray,
-                              target: np.ndarray, adapted: AdaptedEncoder) -> dict:
-    """Bounded FP64 bias-free least-squares adaptation of the layer-11 output.
-
-    Solves ``W . activation_mean + residual_mean == target`` for the layer-11
-    output weight with the same ``numpy.linalg.lstsq(rcond=None)`` procedure,
-    then writes the solution into the live weight and pins that weight's
-    adapter to 1.0 so the effective weight equals the solve exactly.  One
-    solve, no selection, no early stopping, no checkpoint choice, no tuning.
-    The design is the exact masked mean of the layer-11 activation, so this
-    changes the representation rather than the readout.
-    """
-    lhs = np.asarray(activation_mean, dtype=np.float64)
-    rhs = np.asarray(target, dtype=np.float64) - np.asarray(residual_mean, dtype=np.float64)
-    _require(lhs.ndim == 2 and lhs.shape[0] == rhs.shape[0],
-             "closed-form adaptation design and target disagree on rows")
-    coefficients, _residuals, rank, singular = np.linalg.lstsq(lhs, rhs, rcond=None)
-    fitted = lhs @ coefficients
-    error = fitted - rhs
-    gram = np.zeros((lhs.shape[1], lhs.shape[1]), dtype=np.float64)
-    cross = np.zeros(lhs.shape[1], dtype=np.float64)
-    for vector, value in zip(lhs, rhs):
-        gram += np.outer(vector, vector)
-        cross += vector * value
-    direct_gradient = lhs.T @ error
-    scale = max(1.0, float(np.linalg.norm(gram, ord=np.inf)
-                           * np.linalg.norm(coefficients, ord=np.inf)
-                           + np.linalg.norm(cross, ord=np.inf)))
-    _require(np.isfinite(coefficients).all(),
-             "closed-form adaptation produced nonfinite coefficients")
-    _require(np.linalg.norm(direct_gradient, ord=np.inf) / scale <= 1e-10,
-             "closed-form adaptation normal-equation check failed")
-    mse = float(np.mean(np.square(error)))
-    second, _residual2, second_rank, _singular2 = linalg.lstsq(
-        lhs, rhs, cond=np.finfo(np.float64).eps * max(lhs.shape), lapack_driver="gelss")
-    coefficient_scale = max(1.0, float(np.linalg.norm(coefficients)))
-    coefficient_difference = float(np.linalg.norm(second - coefficients) / coefficient_scale)
-    _require(second_rank == rank and coefficient_difference <= 1e-7,
-             "closed-form adaptation second-solver agreement failed")
-    output_module = _module_for(adapted.deberta, LAYER11_LIVE_PREFIX + "output")
-    weight = output_module.weight
-    solved = np.asarray(coefficients).T
-    _require(tuple(weight.shape) == tuple(solved.shape),
-             "solved layer-11 weight shape does not match the live weight")
-    with torch.no_grad():
-        weight.copy_(torch.as_tensor(solved, dtype=torch.float32, device=weight.device))
-    # Both attention.output.dense and output.dense end with "output.dense.weight",
-    # so match the solved weight's own canonical adapter name exactly.
-    solved_adapter = ADAPTER_PREFIX + LAYER11_PREFIX + "output.dense.weight"
-    for name, parameter in adapted.adapters().items():
-        if name == solved_adapter:
-            with torch.no_grad():
-                parameter.fill_(1.0)
-    return {
-        "diagnostics": {
-            "rank": int(rank),
-            "retained_singular_condition": float(singular[0] / singular[rank - 1]) if rank else None,
-            "singular_condition": float(singular[0] / singular[-1]) if singular[-1] > 0 else None,
-            "train_MSE": mse,
-            "unidentified_coefficient_directions": int(lhs.shape[1] - rank),
-            "normal_equation_direct_gradient_inf": float(np.max(np.abs(direct_gradient))),
-            "normalization_scale": scale,
-            "second_solver_rank": int(second_rank),
-            "relative_coefficient_difference": coefficient_difference,
-            "solver": "numpy.linalg.lstsq(rcond=None)",
-            "fit": "single FP64 closed-form bias-free solve for the layer-11 output weight",
-            "finite": True,
-        },
+def verify_gradient_prerequisite(root: Path) -> tuple[dict, dict]:
+    """Verify prerequisite custody before opening any C1 scoring population."""
+    verify_gradient_protocol()
+    directory = root / "c1-gradient-v1"
+    path = directory / "prerequisite_receipt.json"
+    receipt = json.loads(path.read_text(encoding="utf-8"))
+    _require(receipt.get("verdict") == "pass", "gradient prerequisite did not pass")
+    for key, expected in (("protocol_sha256", C1_GRADIENT_PROTOCOL_SHA256),
+                          ("epochs", 400), ("smoke", False)):
+        _require(receipt.get(key) == expected, f"prerequisite receipt {key} mismatch")
+    artifact = receipt["checkpoint"]
+    checkpoint_path = Path(artifact["path"]).resolve()
+    _require(checkpoint_path == (directory / "prerequisite_checkpoint.pt").resolve(),
+             "prerequisite checkpoint is outside its exclusive run path")
+    _require(features.sha256_file(checkpoint_path) == artifact["sha256"],
+             "prerequisite checkpoint hash mismatch")
+    checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
+    for key in ("protocol_sha256", "epochs", "smoke", "population_sha256"):
+        _require(checkpoint.get(key) == receipt.get(key),
+                 f"prerequisite checkpoint/receipt {key} mismatch")
+    expected_sources = {
+        **_check_pinned_sources(),
+        Path(__file__).name: features.sha256_file(__file__),
+        "ephemeral_pages_adaptation_prerequisite.py": features.sha256_file(
+            HERE / "ephemeral_pages_adaptation_prerequisite.py"),
     }
+    _require(receipt.get("source_hashes") == expected_sources
+             and checkpoint.get("source_hashes") == expected_sources,
+             "prerequisite source lineage mismatch")
+    _require(isinstance(receipt.get("population_sha256"), str)
+             and len(receipt["population_sha256"]) == 64, "missing prerequisite population hash")
+    return receipt, checkpoint
 
 
 def screen_c1_adapted_ceiling(run_root, features_root, device: str = "cpu") -> dict:
-    """Screen C1: adapted ceiling after one bounded closed-form layer-11 adaptation.
-
-    Fits the adaptation on unique supervised train page texts only, encodes the
-    development unique page texts with the adapted layer, and scores the frozen
-    FP64 least-squares ceiling against the pinned development threshold.
-    """
+    """Screen C1: strict CPU consumer of the completed gradient prerequisite."""
     _require(features_root is not None, "screen C1 requires --features-root")
     _require(device == "cpu", "screen C1 is CPU-only")
     source_hashes = _check_pinned_sources()
     ledger = safetensors_ledger()
     experiment = _experiment(features_root)
     root = _safe_root(run_root, experiment)
-    payload = _screen_c_base("C1-adapted-ceiling", root, experiment, source_hashes, ledger)
+    payload = _screen_c_base("C1-gradient-ceiling", root, experiment, source_hashes, ledger)
     payload.update({
-        "threshold": SCREEN_C_THRESHOLD,
-        "threshold_derivation": "frozen page-only development unique-text family macro MAE minus 0.05",
+        "threshold": SCREEN_C_THRESHOLD, "threshold_operator": "<=",
         "frozen_reference_MAE": SCREEN_C_FROZEN_MAE,
-        "adaptation_state": "bounded FP64 closed-form bias-free layer-11 adaptation on unique "
-                            "supervised train page texts; no selection, no early stopping, no tuning",
+        "gradient_protocol": evaluator.artifact(C1_GRADIENT_PROTOCOL_PATH),
+        "adaptation_state": "fixed final epoch400 train-only gradient prerequisite",
         "quality_claim": True,
+        "source_lineage": {name: evaluator.artifact(HERE / name) for name in (
+            "ephemeral_pages_adaptation_screens.py",
+            "ephemeral_pages_adaptation_prerequisite.py")},
     })
     receipt_path = root / RECEIPT_NAMES["c1_adapted_ceiling"]
     try:
-        c0_path = root / RECEIPT_NAMES["c0_liveness"]
-        _require(c0_path.exists(),
-                 f"screen C1 requires a passing C0 liveness receipt: {c0_path}")
-        c0 = json.loads(c0_path.read_text(encoding="utf-8"))
-        _require(c0.get("verdict") == "pass",
-                 f"screen C0 did not pass; C1 is forbidden: {c0.get('verdict')}")
-        _require(c0.get("c0_amendment", {}).get("sha256") == C0_AMENDMENT_SHA256,
-                 "C0 receipt does not match the approved amendment")
-        payload["predecessor_c0_receipt"] = {
-            **evaluator.artifact(c0_path), "verdict": c0["verdict"]}
+        for screen in ("smoke", "immutability", "c0_liveness"):
+            predecessor_path = root / RECEIPT_NAMES[screen]
+            predecessor = json.loads(predecessor_path.read_text(encoding="utf-8"))
+            _require(predecessor.get("verdict") == "pass", f"C1 predecessor {screen} failed")
+            if screen == "c0_liveness":
+                _require(predecessor.get("c0_amendment", {}).get("sha256")
+                         == C0_AMENDMENT_SHA256, "C0 amendment mismatch")
+        prerequisite, checkpoint = verify_gradient_prerequisite(root)
+        payload["prerequisite_receipt"] = evaluator.artifact(
+            root / "c1-gradient-v1" / "prerequisite_receipt.json")
+        payload["prerequisite_checkpoint"] = prerequisite["checkpoint"]
         material = _screen_c_material(experiment)
         train_rows, development_rows = material["train_rows"], material["development_rows"]
+        _require(len(train_rows) == 180 and len(development_rows) == 240,
+                 "C1 fixed unique-text populations changed")
+        population_hash = gradient_population_sha256(train_rows)
+        _require(population_hash == prerequisite["population_sha256"],
+                 "C1 training population differs from prerequisite")
+        _require(components.fingerprint(checkpoint["stats"])
+                 == components.fingerprint(material["stats"]), "prerequisite fixed stats changed")
         train_target = np.asarray([row["target"] for row in train_rows], dtype=np.float64)
-        development_target = np.asarray([row["target"] for row in development_rows],
-                                        dtype=np.float64)
+        development_target = np.asarray([row["target"] for row in development_rows], dtype=np.float64)
         counters = {"encoder_forward_batches": 0, "encoder_texts_encoded": 0}
         with _open_encoder("cpu") as encoder:
-            adapted, _adapters = attach_trainable_surface(torch, encoder, "cpu")
-            # Bounded closed-form adaptation of layer 11 on the train
-            # population only. Layer 11 computes LayerNorm(W . activation +
-            # residual) and a masked mean is linear, so solving
-            # W . masked_mean(activation) + masked_mean(residual) == raw extent
-            # changes the representation on the unique supervised train page
-            # texts alone. One solve, no selection, no early stopping, no
-            # checkpoint choice, no tuning.
-            probe = Layer11Probe(adapted)
-            try:
-                train_ids, train_masks = encoder.tokenize(material["train_text_list"])
-                probe.reset()
-                activation = _probe_encode(adapted, train_ids, train_masks, probe)
-                activation_mean = _masked_mean_per_batch(probe.activation, train_masks)
-                residual_mean = _masked_mean_per_batch(probe.residual, train_masks)
-            finally:
-                probe.close()
-            _require(activation.shape[0] == len(material["train_text_list"]),
-                     "probe encode returned a different row count than the train population")
-            update = adapt_layer11_closed_form(activation_mean, residual_mean,
-                                              train_target, adapted)
-            adapted_train_unique = _encode_unique_texts(adapted, encoder,
-                                                        material["train_text_list"],
-                                                        "cpu", counters)
-            adapted_development_unique = _encode_unique_texts(adapted, encoder,
-                                                              material["development_text_list"],
-                                                              "cpu", counters)
-        adapted_train = adapted_train_unique[np.asarray(material["train_slots"], dtype=np.int64)]
-        adapted_development = adapted_development_unique[np.asarray(material["development_slots"],
-                                                                     dtype=np.int64)]
-        metrics = evaluate_ceiling(adapted_train, train_target, adapted_development,
-                                   development_target, material["stats"],
-                                   [row["family"] for row in development_rows])
+            adapted, _ = attach_trainable_surface(torch, encoder, "cpu")
+            frozen_before = parameter_hashes(adapted)["outside_layer11_sha256"]
+            adapted.load_state_dict(checkpoint["adapted_state_dict"], strict=True)
+            _require(parameter_hashes(adapted)["outside_layer11_sha256"] == frozen_before,
+                     "prerequisite changed frozen encoder parameters")
+            adapted.eval()
+            train_unique = _encode_unique_texts(
+                adapted, encoder, material["train_text_list"], "cpu", counters)
+            development_unique = _encode_unique_texts(
+                adapted, encoder, material["development_text_list"], "cpu", counters)
+        train_features = train_unique[np.asarray(material["train_slots"], dtype=np.int64)]
+        development_features = development_unique[
+            np.asarray(material["development_slots"], dtype=np.int64)]
+        families = [row["family"] for row in development_rows]
+        _require(train_features.shape == (180, WIDTH)
+                 and development_features.shape == (240, WIDTH), "C1 feature population mismatch")
+        predictions = {}
+        metrics = evaluate_ceiling(train_features, train_target, development_features,
+                                   development_target, material["stats"], families, predictions)
+        arrays_path = root / "c1_gradient_ceiling_arrays.npz"
+        with arrays_path.open("xb") as handle:
+            np.savez(handle, train_rawfeature=train_features, train_target=train_target,
+                     train_prediction=predictions["train_prediction"],
+                     train_family=np.asarray([row["family"] for row in train_rows]),
+                     development_rawfeature=development_features,
+                     development_target=development_target,
+                     development_prediction=predictions["development_prediction"],
+                     development_family=np.asarray(families), coefficients=predictions["coefficients"])
+        rows_path = root / "c1_gradient_ceiling_rows.json"
+        write_receipt(rows_path, {"train": train_rows, "development": development_rows})
         payload.update({
+            "population_sha256": population_hash,
             "unique_supervised_train_page_texts": len(train_rows),
             "unique_supervised_development_page_texts": len(development_rows),
-            "supervised_train_occurrences": material["train_occurrences"],
-            "supervised_development_occurrences": material["development_occurrences"],
-            "counters": counters,
-            "solver": "numpy.linalg.lstsq(rcond=None)",
-            "bias": False,
-            "dtype": "float64",
-            "normalizer_policy": "existing train-only joint q/page statistics with the 0.01 floor",
-            "adaptation": {**update["diagnostics"],
-                           "population": "unique supervised train page texts only",
-                           "selection": "none", "early_stopping": False, "tuning": False},
+            "arrays": evaluator.artifact(arrays_path), "rows": evaluator.artifact(rows_path),
+            "counters": counters, "solver": "numpy.linalg.lstsq(rcond=None)",
+            "bias": False, "dtype": "float64",
             "train_capture": material["train_evidence"],
             "development_capture": material["development_evidence"],
-            "optimizer_row_identity_sha256": components.record_identity_hash(
-                material["train"]["records"], material["selected"]),
             **metrics,
-            "scope": "finite pinned bias-free linear function class on the adapted final-layer "
-                     "representation; not a ranking bound and not proof that semantic "
-                     "information is absent",
-            "verdict": metrics["verdict"],
+            "scope": "finite fixed linear readout of the trained representation; no promotion",
         })
-    except RuntimeError as exc:
-        payload["failure_reason"] = str(exc)
+    except Exception as exc:
+        payload.update({"verdict": "fail", "failure_reason": str(exc),
+                        "failure_class": "execution_or_invariant",
+                        "quality_claim": False, "quality_result_persisted": False})
         write_receipt(receipt_path, payload)
         raise
     payload["receipt"] = write_receipt(receipt_path, payload)

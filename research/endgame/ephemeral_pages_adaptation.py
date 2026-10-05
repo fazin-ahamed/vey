@@ -21,10 +21,9 @@ Scope limits that are structural, not advisory:
   * stdout carries metadata only: no authored text, question, page, rubric or
     per-example value leaves this process.
 
-Screens A (smoke fit), B (encoder parameter hash check) and C (adapted linear
-ceiling) are owned by ephemeral_pages_adaptation_screens and must have passed,
-with receipts on disk, before this driver writes a launch receipt or takes an
-optimizer step. This file never weakens a screen and never re-authors inputs.
+Screens A, B, C0 and the gradient-prerequisite CPU C1 ceiling must have passed
+with receipts on disk before this driver writes a launch receipt or takes an
+optimizer step. This file never weakens a screen or re-authors inputs.
 """
 from __future__ import annotations
 
@@ -89,7 +88,7 @@ ENCODER_ABLATIONS = ("adapter_blind", "layer11_frozen")
 ABLATIONS = ENCODER_ABLATIONS + INTERVENTION_ABLATIONS
 ALLOWED_PHASES = ("train", "validation", "calibration", "development")
 SCREEN_RECEIPTS = ("screen_a_smoke_receipt.json", "screen_b_immutability_receipt.json",
-                   "screen_c0_liveness_restore_receipt.json", "screen_c1_adapted_ceiling_receipt.json")
+                   "screen_c0_liveness_restore_receipt.json", "screen_c1_gradient_ceiling_receipt.json")
 EVALUATION_PHASES = ("calibration", "development")
 
 SCOPE = {
@@ -111,7 +110,9 @@ SOURCE_FILES = ("ephemeral_pages_adaptation.py", "ephemeral_pages_adaptation_scr
                 "ephemeral_pages_conditional.py", "ephemeral_pages_verify.py",
                 "ephemeral_pages_protocol.json", "ephemeral_pages_atomic_protocol.json",
                 "ephemeral_pages_adaptation_preregistration.json",
-                "ephemeral_pages_adaptation_c0_amendment.json")
+                "ephemeral_pages_adaptation_c0_amendment.json",
+                "ephemeral_pages_adaptation_prerequisite.py",
+                "ephemeral_pages_adaptation_c1_gradient_preregistration.json")
 
 
 # --------------------------------------------------------------------------- #
@@ -159,6 +160,7 @@ def _verify_preregistration() -> dict:
     """Fail closed unless this driver runs against the pinned preregistration."""
     if trainer._hash_file(PREREG_PATH) != PREREG_SHA256:
         raise RuntimeError("adaptation preregistration changed after the implementation pin")
+    screens.verify_gradient_protocol()
     prereg = _preregistration()
     for name, entry in sorted(prereg["pinned_artifacts"]["implementation"].items()):
         path = Path(entry["path"])
@@ -195,6 +197,17 @@ def _screen_receipts(root: Path) -> dict:
         if name == screens.RECEIPT_NAMES["c0_liveness"]:
             if payload.get("c0_amendment", {}).get("sha256") != screens.C0_AMENDMENT_SHA256:
                 raise RuntimeError("C0 receipt does not match the approved amendment")
+        if name == screens.RECEIPT_NAMES["c1_adapted_ceiling"]:
+            prerequisite, _ = screens.verify_gradient_prerequisite(Path(root))
+            if payload.get("gradient_protocol", {}).get("sha256") != screens.C1_GRADIENT_PROTOCOL_SHA256:
+                raise RuntimeError("C1 gradient protocol mismatch")
+            expected_receipt = evaluator.artifact(Path(root) / "c1-gradient-v1" / "prerequisite_receipt.json")
+            if payload.get("prerequisite_receipt") != expected_receipt:
+                raise RuntimeError("C1 prerequisite receipt lineage mismatch")
+            if payload.get("prerequisite_checkpoint") != prerequisite["checkpoint"]:
+                raise RuntimeError("C1 prerequisite checkpoint lineage mismatch")
+            if payload.get("population_sha256") != prerequisite["population_sha256"]:
+                raise RuntimeError("C1 prerequisite population mismatch")
         receipts[name] = {**evaluator.artifact(path), "verdict": "pass"}
     return receipts
 
@@ -1234,8 +1247,9 @@ def main(argv=None) -> int:
     if args.screen == "smoke" and args.evaluate_only:
         parser.error("smoke checkpoints are not eligible for evaluation")
     if args.screen == "smoke":
-        parser.error("screens A, B and C, including the bounded adaptation prerequisite, are run by "
-                     "ephemeral_pages_adaptation_screens; this driver runs the full development fit")
+        parser.error("run A/B/C0/C1 with ephemeral_pages_adaptation_screens and the bounded "
+                     "train-only prerequisite with ephemeral_pages_adaptation_prerequisite; "
+                     "this driver runs the full development fit")
     root = _safe_root(args.run_root)
     if not args.evaluate_only:
         root = train_adapted(args.run_root, args.device)
