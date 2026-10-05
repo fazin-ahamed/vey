@@ -5934,7 +5934,7 @@ different-target donors (zero unavailable); repeated canonical Choice and
 membership reads added no encoder calls while an uncached read advanced the
 counter. Candidate-ID reversal is an exact gather, not alias understanding.
 
-Execution failures are retained. The first full-arm smoke stopped before an
+The first full-arm smoke stopped before an
 optimizer step because the stock-key ledger omitted the disabled absolute-position
 table alias `deberta.embeddings.position_embeddings._weight`. Two subsequent
 custody failures were caused by parent edits: a verifier edit between arm starts,
@@ -5944,12 +5944,17 @@ rerun under committed source state `ba27eac`, with unchanged data and thresholds
 Superseded arm outputs and smoke receipts remain under `retained-pre-cutover/`.
 The original dataset manifest retains historical materialization-source hashes;
 current arm source hashes are verified separately.
+The original failed verification receipt was deleted before the rerun rather than
+archived. Its observed error is retained as a labelled transcript extract;
+the missing original payload is not reconstructed.
 
 No sealed-final, fresh-transfer, competitor, many-axis, free-form-query,
 generic-Boolean, certificate, controlled-performance, shipping or B-STEF credit.
 Custody is recorded in
 [`native_field_result_manifest.json`](../research/endgame/native_field_result_manifest.json):
-36 current artifacts, 39 retained artifacts and seven source/protocol files.
+36 current artifacts, 39 retained raw artifacts, one failure transcript extract
+and seven source/protocol files. Per-class and donor maps remain in the hash-bound
+raw verification receipt rather than being duplicated into this manifest.
 The manifest initially published at `64da723` accidentally contained the earlier
 neutral comparison after a failed construction reused a retained variable.
 It is corrected from the native `PASS` receipt; predictions and gates are unchanged.
