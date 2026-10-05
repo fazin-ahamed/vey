@@ -67,6 +67,8 @@ PREREG_PATH = HERE / "ephemeral_pages_adaptation_preregistration.json"
 PREREG_SHA256 = "2aa64bc77c236192681368a8c83751aeac185414d0cd0660578b2ada9cd7731c"
 EXPERIMENT = capture.ATOMIC_EXPERIMENT
 DEFAULT_RUN_ROOT = capture.ATOMIC_ROOT / "runs" / "interface-audit-v1" / "adaptation-v1"
+EXECUTION_CORRECTION_PATH = HERE / "ephemeral_pages_adaptation_fullfit_execution_correction.json"
+EXECUTION_CORRECTION_SHA256 = "0534331e819df0068c7536352c80cfd33f2e8c40eb5766b8412c6d816c232ebc"
 
 ARM = "pages_adapted_final_layer"
 ADAPTER_PREFIX = "adapter."          # canonical preregistered name prefix
@@ -114,7 +116,8 @@ SOURCE_FILES = ("ephemeral_pages_adaptation.py", "ephemeral_pages_adaptation_scr
                 "ephemeral_pages_adaptation_prerequisite.py",
                 "ephemeral_pages_adaptation_c1_gradient_preregistration.json",
                 "ephemeral_pages_adaptation_c1_metadata_correction.json",
-                "ephemeral_pages_adaptation_verify_ceiling.py")
+                "ephemeral_pages_adaptation_verify_ceiling.py",
+                "ephemeral_pages_adaptation_fullfit_execution_correction.json")
 
 
 # --------------------------------------------------------------------------- #
@@ -162,6 +165,8 @@ def _verify_preregistration() -> dict:
     """Fail closed unless this driver runs against the pinned preregistration."""
     if trainer._hash_file(PREREG_PATH) != PREREG_SHA256:
         raise RuntimeError("adaptation preregistration changed after the implementation pin")
+    if trainer._hash_file(EXECUTION_CORRECTION_PATH) != EXECUTION_CORRECTION_SHA256:
+        raise RuntimeError("prospective full-fit execution correction changed")
     screens.verify_gradient_protocol()
     prereg = _preregistration()
     for name, entry in sorted(prereg["pinned_artifacts"]["implementation"].items()):
@@ -604,6 +609,12 @@ def _fit_surface(root: Path, encoder, device, chunk_size, epochs, *, normalizer,
                 not np.array_equal(fitted["mean"], expected["mean"]) or
                 not np.array_equal(fitted["std"], expected["std"])):
             raise RuntimeError("the adaptation normalizer differs from the frozen train normalizer")
+    encoder_pins = prereg["pinned_artifacts"]["encoder"]
+    observed_tokenizer = encoder.tokenizer_hash
+    observed_parameters = encoder.parameter_hash()
+    if (observed_tokenizer != encoder_pins["pinned_tokenizer_sha256"]
+            or observed_parameters != encoder_pins["pinned_encoder_parameters_sha256"]):
+        raise RuntimeError("loaded tokenizer or encoder parameter digest differs from its pin")
     surface = _trainable_surface_report(model, adapters, reader, prereg)
     launch_digests = _verify_against_pinned_weight_file(model)
     train, validation = evidence.pop("arrays")
@@ -640,9 +651,13 @@ def _fit_surface(root: Path, encoder, device, chunk_size, epochs, *, normalizer,
         "git_commit": environment["git_commit"], "git_branch": environment["git_branch"],
         "source_sha256": sources, "environment": environment,
         "resources": encoder.priority, "screen_receipts": screen_receipts,
-        "encoder": {key: prereg["pinned_artifacts"]["encoder"][key] for key in
-                    ("repo", "revision", "pinned_encoder_parameters_sha256",
-                     "pinned_tokenizer_sha256", "pinned_weight_sha256")},
+        "encoder": {
+            **{key: encoder_pins[key] for key in
+               ("repo", "revision", "pinned_encoder_parameters_sha256",
+                "pinned_tokenizer_sha256", "pinned_weight_sha256")},
+            "observed_tokenizer_sha256": observed_tokenizer,
+            "observed_encoder_parameters_sha256": observed_parameters,
+        },
         "encoder_forwards_at_launch": 0,
         "pooling": "FP32 final-layer masked mean over non-padding tokens; width 384",
         "native_pooler_unused": True, "classifier_unused": True,
@@ -666,7 +681,7 @@ def _fit_surface(root: Path, encoder, device, chunk_size, epochs, *, normalizer,
     initial_reader_sha256 = trainer._parameter_hash(reader)
     started = time.time_ns()
     for epoch in range(1, epochs + 1):
-        model.train()
+        model.eval()
         reader.train()
         optimizer.zero_grad(set_to_none=True)
         tables = _stage_tables(train, model, encoder, device, grad=True, counters=counters,
@@ -895,7 +910,8 @@ def _predict(state, data, *, intervention=None) -> readers.ReaderOutput:
     n, pmax = data["page_mask"].shape
     ix = np.arange(n, dtype=np.int64)
     fields = [[] for _ in readers.ReaderOutput._fields]
-    counters = {"forward_calls": 0, "encoded_examples": 0, "backward_calls": 0}
+    counters = state.setdefault("encoder_counters",
+                                {"forward_calls": 0, "encoded_examples": 0, "backward_calls": 0})
     model.eval()
     reader.eval()
     tables = _stage_tables(data, model, state["encoder"], device, grad=False, counters=counters,
@@ -912,7 +928,6 @@ def _predict(state, data, *, intervention=None) -> readers.ReaderOutput:
                                         constant_values=fill)
                 fields[position].append(data_array)
     del tables
-    state["encoder_counters"] = counters
     return readers.ReaderOutput(*(np.concatenate(values, axis=0) if values else
                                   np.empty((0,) if i < 2 else (0, pmax), dtype=np.float32)
                                   for i, values in enumerate(fields)))
@@ -1090,6 +1105,7 @@ def evaluate_adapted(root, device: str = "cuda") -> Path:
         state = load_adapted(root, device, encoder=encoder)
         calibration = None
         for phase in EVALUATION_PHASES:
+            state["encoder_counters"] = {"forward_calls": 0, "encoded_examples": 0, "backward_calls": 0}
             trainer._resource_guard(torch, encoder.initial_swap_mib)
             data = load_phase(phase)
             ir = evaluator.load_ir(phase, experiment=EXPERIMENT)
@@ -1283,7 +1299,7 @@ def main(argv=None) -> int:
         "recipe": history["recipe"],
         "trainable_surface": {key: surface[key] for key in
                               ("encoder_side_trainable_scalars", "combined_trainable_scalars",
-                               "trainable_fraction_encoder_side", "trainable_fraction_combined",
+                               "encoder_side_fraction", "combined_fraction",
                                "bound_encoder_side_fraction", "bound_combined_fraction")},
         "selected_epoch": history["selected_epoch"],
         "epochs_run": len(history["history"]),

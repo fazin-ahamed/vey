@@ -1,0 +1,102 @@
+{
+  "B_STEF_allowed": false,
+  "arrays": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/c1_gradient_ceiling_arrays.npz",
+    "sha256": "d73c14c11f969b8a1a208354ae7ddca020d59a8bacb2ba881f8f81083364327f"
+  },
+  "ceiling_receipt": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/screen_c1_gradient_ceiling_receipt_v2.json",
+    "sha256": "851b173bce6ab71a08cdaa82d7b52e49b60139ffbd9b282dd967babfbb97de1a"
+  },
+  "checkpoint": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/c1-gradient-v1/prerequisite_checkpoint.pt",
+    "sha256": "7e42ea308e0995c12ad35c400f0bc90d77833cd19c0e7e1380182d2ebc338060"
+  },
+  "development_family_macro_unique_text_MAE": 0.3065382709259676,
+  "endgame_complete": false,
+  "epoch_history": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/c1-gradient-v1/epoch_history.jsonl",
+    "sha256": "f1c9024caefde06c23db6af4a944f484d0946002fc421e9ba7e08316b1719f58"
+  },
+  "evidence_class": "MEASURED",
+  "final_pool_access": false,
+  "frozen_prefix_forward_batches": 6,
+  "gate": "pass",
+  "implementation_commit": "c1e71d144db1fad9dbc9972c6718929ff479daa8",
+  "independent_prediction_reconstruction_max_abs": {
+    "development": 0.0,
+    "train": 0.0
+  },
+  "input_artifacts": {
+    "attention_mask": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/c1-gradient-v1/train_attention_mask.npy",
+      "sha256": "07367b4881dbb12cc1131f3019702b5b2a08e62a0f2015229684a25accd3b8ff"
+    },
+    "full_population_rows": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/c1-gradient-v1/train_population_rows.jsonl",
+      "sha256": "64d65f8e5b524f7f737a75dd33b329fff7b9eb72cc9f4dc5abffb9b681c70d9a"
+    },
+    "input_ids": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/c1-gradient-v1/train_input_ids.npy",
+      "sha256": "f9523c67febc919523d577fc9ed163029219c7e9ffa9c445fda34c039e8c47b3"
+    },
+    "input_rows": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/c1-gradient-v1/train_input_rows.jsonl",
+      "sha256": "2f48aa8b1b4955407f24cfb78730bb7207d51e734efd06a911ba1ff0b2fc8b0c"
+    },
+    "optimizer_indices": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/c1-gradient-v1/train_optimizer_indices.npy",
+      "sha256": "bcfc01d708ede30511c21060a754bcc7978fe232624e23a58ad0dbe1df85ea90"
+    },
+    "raw_targets": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/c1-gradient-v1/train_raw_targets.npy",
+      "sha256": "a85d9d98226ae1eb68d03086c939df14ad0840e198da9b0a490d62f188dde10f"
+    }
+  },
+  "launch_receipt": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/c1-gradient-v1/launch_receipt.json",
+    "sha256": "b198f54e36ad20a145e3023193b4b1d70fc24628726c039d1e6168013d1faa48"
+  },
+  "metadata_correction": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_adaptation_c1_metadata_correction.json",
+    "sha256": "84a303573d8a833051bf0b478e6d2d027af5c2f78a1894374844db4740e662bb"
+  },
+  "metadata_recovery_commit": "a1b3fc3",
+  "next_branch": "Original full four-component development fit, with execution repairs verified before launch.",
+  "optimizer_steps": 400,
+  "original_CPU_ceiling_counters": {
+    "encoder_forward_batches": 14,
+    "encoder_texts_encoded": 420
+  },
+  "preregistration_commit": "25842d4",
+  "prerequisite_receipt": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/c1-gradient-v1/prerequisite_receipt.json",
+    "sha256": "c9e96f1f18c7ffacb93844830a3eee5106921a6ab7e6bb9016c34e10e0d1fce6"
+  },
+  "promotion": false,
+  "protocol_sha256": "67397c751512a06acb638d30df173789358bc3d9e91f7b5be6efe35da4148d82",
+  "rank": 180,
+  "recovery_encoder_forwards": 0,
+  "recovery_optimizer_steps": 0,
+  "retained_partial_receipt": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/screen_c1_gradient_ceiling_receipt.json",
+    "sha256": "b2f0ea231c740e4a08ff89df6e6e0671438cce66ae20488d5b18532d721b8ebe"
+  },
+  "rows": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/c1_gradient_ceiling_rows.json",
+    "sha256": "bda7d20c19a9c9391966dc3a51eae3afccc37fa5fa2f5140213824be61f238b3"
+  },
+  "schema": "vey.eca2.c1-gradient-result.v1",
+  "scope": "Finite fixed-inventory candidate extent transfer through an adapted final pooled representation; not criterion transfer, OOD deployment, full decision quality, calibration, competitor parity or promotion.",
+  "solver_verification": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/screen_c1_gradient_ceiling_solver_verification.json",
+    "sha256": "dbac90cc14bdd5ce5a85ee8ef494ca6018b457fa73fba13231efd61c3a598b2c"
+  },
+  "threshold": 0.3332298906765268,
+  "threshold_operator": "<=",
+  "train_population_sha256": "610022296676aed33cb105b2874e46678d2669ef263c34b99f09667e1c51303e",
+  "unidentified_coefficient_directions": 204,
+  "unique_development_texts": 240,
+  "unique_train_texts": 180,
+  "verification_commit": "f57738f"
+}

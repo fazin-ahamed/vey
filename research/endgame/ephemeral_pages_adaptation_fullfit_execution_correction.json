@@ -1,0 +1,47 @@
+{
+  "schema": "vey.eca2.fullfit-execution-correction.v1",
+  "evidence_class": "MEASURED",
+  "status": "prospective execution corrections before any full development fit",
+  "parent_preregistration_sha256": "2aa64bc77c236192681368a8c83751aeac185414d0cd0660578b2ada9cd7731c",
+  "gradient_prerequisite_protocol_sha256": "67397c751512a06acb638d30df173789358bc3d9e91f7b5be6efe35da4148d82",
+  "prior_fullfit_result": "none; full development trainer has not been launched",
+  "outcome_independent": true,
+  "basis": "Independent source audit and synthetic differentiable controls. C1 candidate-extent results do not select these implementation corrections.",
+  "corrections": [
+    {
+      "defect": "One encoder feature table graph serves all objective chunks; first backward frees it and second chunk raises.",
+      "repair": "Retain the shared graph until the final chunk, then release it; accumulate the exact same component-weighted full-batch gradients before one optimizer update.",
+      "verification": "Failing-before synthetic real PageReader objective reproduces second-backward error. Corrected two-chunk objective and every encoder-interface/reader gradient agree with unchunked reference at rtol1e-5, atol1e-7. Actual pinned encoder plus pinned reader two-chunk backward also passes."
+    },
+    {
+      "defect": "Gradient diagnostics enumerate each registered adapter again under canonical aliases.",
+      "repair": "Enumerate registered parameters once. Optimizer groups were already deduplicated and remain unchanged.",
+      "verification": "Original report double-counts adapter norm/tensor count; corrected norm matches independently concatenated differentiable control gradients to absolute1e-12."
+    },
+    {
+      "defect": "model.train() activates DeBERTa dropout in the frozen prefix and final layer, contrary to the Screen A declared eval-mode deterministic feature path.",
+      "repair": "Keep encoder in eval mode with autograd enabled during fitting. Reader train mode remains, with no dropout modules. Validation remains eval mode.",
+      "verification": "Actual pinned model repeated synthetic forwards: train mode max abs3.235638380050659; eval mode0.0. Actual pinned joint objective in eval mode supplies finite gradients through all trainable tensors across two chunks."
+    },
+    {
+      "defect": "CLI summary requests nonexistent trainable_fraction_encoder_side/trainable_fraction_combined keys.",
+      "repair": "Use encoder_side_fraction/combined_fraction from the existing surface report.",
+      "verification": "Actual pinned encoder and reader surface report supplies every corrected summary key and enforces existing fraction bounds."
+    },
+    {
+      "defect": "Launch receipt copies pinned tokenizer/whole-encoder digest without comparing or recording observed digests.",
+      "repair": "Compare actual tokenizer_hash and parameter_hash to existing pins before any fit, and record both observed values.",
+      "verification": "Actual pinned encoder/tokenizer digests match both parent pins."
+    },
+    {
+      "defect": "Each _predict overwrites encoder counters, so development report omits earlier arm and ablation forwards.",
+      "repair": "Reset counters once per phase and accumulate every prediction call in that phase.",
+      "verification": "Two actual pinned-model synthetic prediction calls accumulate4 forwards and16 encoded texts; predictions are exactly repeated. No corpus opened."
+    }
+  ],
+  "unchanged": ["Encoder revision and trainable surface", "Pinned reader initialization and equations", "Training/validation/calibration/development data and targets", "Common train-only normalizer", "All four loss components and global denominators", "Seed7", "400 epochs", "One accumulated optimizer update per epoch", "Chunk32", "AdamW encoder/adapters0.0001 reader0.01 decay0.0001", "Earliest minimum held-world validation selection", "Calibration-only calibration", "All quality and mechanism gates", "Final isolation", "No promotion/B-STEF/competitor credit"],
+  "new_final_or_quality_evaluation": false,
+  "authorizes_final_open": false,
+  "promotion": false,
+  "B_STEF_allowed": false
+}

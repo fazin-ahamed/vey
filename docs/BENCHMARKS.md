@@ -5107,6 +5107,69 @@ and tensor count were wrong. Removing the alias enumeration makes
 the reported norm match an independently concatenated gradient vector
 to absolute tolerance1e-12 in a differentiable synthetic control.
 
+### C1 adapted candidate-extent gate passes; decision fit remains unmeasured
+
+Preregistration `25842d4`; fixed training implementation `c1e71d1`;
+metadata-only recovery `a1b3fc3`; independent verification `f57738f`.
+MEASURED primary development equal-family macro raw unclipped MAE:
+0.3065382709259676, below the unchanged <=0.3332298906765268 gate.
+The frozen reference is0.3832298906765268. Gate PASS.
+Data: 180 unique supervised train texts, 240 development texts;
+seed7, fixed400 train-only updates, final epoch400 only.
+The frozen prefix executes six batches once over the180 train texts.
+
+The original CPU ceiling encoded420 texts in14 batches. Recovery
+uses only retained, SHA-pinned raw features, coefficients and
+predictions: zero encoder forwards, zero optimizer updates and zero
+readout refits. The failed partial receipt remains byte-identical.
+JSON correction converts NumPy types but preserves rejection of
+nonfinite values before creating a receipt.
+
+Independent FP64 NumPy/GELSS reconstruction matches saved train and
+development predictions exactly. Rank180; 204 unidentified coefficient
+directions; retained singular condition209.54714065159507;
+relative normal-equation residual5.152610238543211e-17;
+relative GELSS coefficient difference1.1245838679473521e-14.
+This is a finite minimum-norm readout result, not a bound on all
+possible readouts. No IID confidence interval applies to this fixed
+authored inventory.
+
+Artifacts and full lineage:
+`research/endgame/ephemeral_pages_adaptation_c1_gradient_result.json`.
+Recovered ceiling receipt
+`851b173bce6ab71a08cdaa82d7b52e49b60139ffbd9b282dd967babfbb97de1a`;
+solver verification
+`dbac90cc14bdd5ce5a85ee8ef494ca6018b457fa73fba13231efd61c3a598b2c`.
+
+INFERENCE: this bounded adaptation can produce candidate-extent
+features that pass the preregistered development assay. Criterion
+transfer, full decision quality, calibration and OOD utility remain
+unmeasured for this arm. Passing C1 selects the original full
+four-component development-fit branch, with its execution repairs
+verified before launch. It earns no promotion, final access,
+competitor claim or B-STEF authorization.
+
+Prospective full-fit execution correction:
+`research/endgame/ephemeral_pages_adaptation_fullfit_execution_correction.json`.
+The independent driver audit additionally identifies active encoder
+dropout, nonexistent CLI fraction keys, copied rather than observed
+tokenizer/encoder pins, and phase counters overwritten by ablations.
+These repairs precede any full development fit and change no loss,
+capacity, data, learning rate, epoch count, selection rule or gate.
+
+MEASURED actual pinned-model synthetic smoke: repeated train-mode
+forwards differ by3.235638380050659; eval-mode forwards match exactly.
+The corrected full trainer keeps the encoder in eval mode with
+autograd enabled, matching Screen A's deterministic feature contract.
+The actual pinned encoder and pinned PageReader complete two objective
+backward chunks with finite trainable gradients. Live tokenizer and
+encoder digests match their pins; all corrected summary bound keys
+exist. Two repeated prediction calls accumulate four encoder forwards
+and16 encoded texts, with identical predictions. Zero optimizer steps
+and no corpus or final pool are opened by this smoke.
+
+
+
 
 
 
