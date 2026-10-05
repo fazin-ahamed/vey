@@ -205,31 +205,43 @@ def _materialize(cfg, root):
     return manifest
 
 
-def execution_correction(manifest):
+def correction_path():
     path = HERE / "native_field_execution_correction_v1.json"
-    if not path.exists():
+    return path if path.exists() else None
+
+
+def committed_correction(manifest, cfg):
+    """A committed, dataset-bound code-only transition; never an outcome edit."""
+    path = correction_path()
+    if path is None:
         return None
     raw = path.read_bytes()
     relative = path.relative_to(REPO).as_posix()
     if subprocess.check_output(["git", "show", "HEAD:" + relative], cwd=REPO) != raw:
         raise RuntimeError("Uncommitted native execution correction")
     correction = json.loads(raw)
-    root = Path(protocol()["output_root"])
+    root = Path(cfg["output_root"])
     if (correction["schema"] != "vey.native-field.execution-correction.v1" or
             correction["dataset_manifest_sha256"] != digest(root / "dataset_manifest.json") or
             correction["protocol_sha256"] != manifest["protocol_sha256"] or
             correction["original_source_files"] != manifest["source_files"] or
             set(correction["source_files"]) != set(manifest["source_files"])):
         raise RuntimeError("Unregistered native execution transition")
-    for entry in correction["retained_artifacts"]:
-        if digest(entry["path"]) != entry["sha256"]:
-            raise RuntimeError("Retained pre-correction evidence changed")
-    return correction
+    return correction, path
 
 
 def execution_sources(manifest):
-    correction = execution_correction(manifest)
-    return correction["source_files"] if correction else manifest["source_files"]
+    found = committed_correction(manifest, protocol())
+    return found[0]["source_files"] if found else manifest["source_files"]
+
+
+def execution_correction(manifest):
+    found = committed_correction(manifest, protocol())
+    return found[0] if found else None
+
+
+
+
 
 
 def verify_dataset(root):
@@ -247,6 +259,10 @@ def verify_dataset(root):
         raise RuntimeError("Native source projection custody changed")
     if set(manifest["phases"]) != set(PHASES):
         raise RuntimeError("Native inner phase membership differs")
+    for entry in manifest["source_exports"].values():
+        if (digest(entry["manifest_path"]) != entry["manifest_sha256"] or
+                digest(entry["verification_path"]) != entry["verification_sha256"]):
+            raise RuntimeError("Native source projection custody changed")
     for phase, entry in manifest["phases"].items():
         path = Path(root) / (phase + ".jsonl")
         if entry["path"] != str(path) or digest(path) != entry["sha256"]:
