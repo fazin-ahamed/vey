@@ -157,7 +157,7 @@ def _layer_hidden(output) -> torch.Tensor:
 def _cache_prefix(adapted, encoder, ids: np.ndarray, masks: np.ndarray,
                   device: str, counters: dict) -> tuple[list[dict], dict]:
     base = adapted.deberta
-    require(len(base.encoder.layer) == 12 and int(base.config.conv_kernel_size) == 0
+    require(len(base.encoder.layer) == 12 and base.encoder.conv is None
             and int(base.z_steps) <= 1, "pinned encoder no longer ends at exactly layer11")
     layer = base.encoder.layer[11]
     batches, reports = [], []

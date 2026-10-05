@@ -5051,6 +5051,18 @@ possible encoder adaptation. An execution or invariant failure remains
 an implementation failure. The autonomous endgame continues along an
 evidence-justified, prospectively committed branch.
 
+MEASURED replacement smoke at implementation `00e3ba9` stops before
+cache replay or optimization. The pinned configuration omits the optional
+`conv_kernel_size` attribute, while the installed encoder constructs
+`encoder.conv = None` using its default zero. The prerequisite accessed
+the missing configuration attribute instead of checking the actual
+module. Corrective change checks `encoder.conv is None` directly;
+all targets, hyperparameters and quality gates remain unchanged.
+The failed smoke receipt remains under
+`interface-audit-v1/adaptation-gradient-smoke-v1/c1-gradient-v1/`.
+This is an execution failure, not an adaptation-quality result.
+
+
 
 
 
