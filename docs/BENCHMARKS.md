@@ -5992,6 +5992,24 @@ binds 44 live, interrupted and diagnostic artifacts, including both failed
 probes. Counter reconstruction is receipt-backed instrumentation, not an
 independent CUDA kernel profiler. Sealed phases and frozen product stay untouched.
 
+The first registered quality fit then fails during cross backpropagation after
+reducing microbatch states from four to two to one. Epoch 0 inner-selection
+output and all partial artifacts are retained in `cross-fit-oom-v1`; no training
+epoch completes and no DEV quality is assessed. The explicit CUDA exception
+reports 7.69 GiB live PyTorch allocation, 359.09 MiB unused reserve and only
+105.94 MiB device free. This is live activation pressure, distinct from the
+earlier recyclable-cache stall.
+
+The prospective execution correction enables non-reentrant encoder activation
+checkpointing with RNG preservation for all three arms. It retains FP32,
+the full candidate catalogue, 512-token cap, effective batch 32, objective,
+optimizer and all selection/calibration/quality gates. Before restarting
+from fresh seeds, require stochastic logits/gradient parity and real CUDA
+backpropagation through the exact first effective block and longest FIT input.
+Training recomputation is not included in inference counters or performance
+claims. No completion or quality credit from the interrupted fit.
+
+
 
 
 

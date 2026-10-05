@@ -76,6 +76,11 @@ def load_arch_encoder(config, catalogues, device):
     encoder = native.pool.encoder
     del native
     encoder.requires_grad_(True)
+    checkpointing = {"use_reentrant": False, "preserve_rng_state": True}
+    encoder.gradient_checkpointing_enable(gradient_checkpointing_kwargs=checkpointing)
+    if not encoder.is_gradient_checkpointing:
+        raise RuntimeError("NATIVE-2 activation checkpointing did not enable")
+    custody["activation_checkpointing"] = checkpointing
     return tokenizer, encoder, custody
 
 
