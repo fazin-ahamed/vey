@@ -4539,6 +4539,31 @@ individually limiting, and the exact compiler plus exact teacher can solve
 the task when all three semantic components are correct. This identifies
 three separable learned interfaces, not one broken interface.
 
+Joint cross substitution is sharper still (learned baseline atomic macro
+.313477, attribution .833984, orientation .813721, ordinal MAE .257670,
+coverage .652344, correct-new .313388):
+
+| Substituted components | Atomic macro | Attribution | Coverage | Correct-new |
+|---|---:|---:|---:|---:|
+| none (learned) | .313477 | .833984 | .652344 | .313388 |
+| knownness | .470703 | .833984 | 1.000000 | .471413 |
+| relevance | .472656 | 1.000000 | 1.000000 | .478871 |
+| direct grade | .682617 | .833984 | .653125 | .647550 |
+| direct grade + knownness | 1.000000 | .833984 | 1.000000 | .958452 |
+| relevance + direct grade | 1.000000 | 1.000000 | .653125 | 1.000000 |
+
+MEASURED: the joint cross reader needs only extent and knownness. Fixing
+both reaches exact1.000000 with no relevance substitution, so orientation
+and relevance are not binding for that architecture. Extent is the dominant
+single bottleneck (.313477 to .682617), knownness is second, and their
+combination is sufficient and necessary for exactness.
+
+Together with the linear ceiling (MAE .383230 from an exactly fitted finite
+linear map), this retires the joint final-mean reader plus linear repair
+interface for extent: the label is not linearly recoverable from the cached
+page feature at any training size. Extent identifiability needs a different
+model-visible input, which is what an explicit rubric anchor would supply.
+
 MEASURED finite linear ceiling: a bias-free FP64 least-squares map from the
 cached 384-d page feature to raw grade fits 180 unique supervised train page
 texts (14,848 supervised occurrences, 36 per grade, 15 per property) with
