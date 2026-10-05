@@ -6131,6 +6131,33 @@ selection to the measured NATIVE-2 result through a separate amendment before
 any QASPER model forward. Unmatched native evidence and spans stay in every
 future quality denominator. No model has loaded against this projection.
 
+MEASURED QNATIVE-2 membership census under preregistration `f49933a`, committed
+implementation `1648ff3`: the registered NATIVE-1 component hash rule assigns
+QASPER train papers to fit/selection/calibration; outer DEV remains DEV.
+
+| Phase | Papers/components | All endpoint decisions | Native yes/no | Answerability | Evidence retrieval | Extraction |
+|---|---:|---:|---:|---:|---:|---:|
+| Fit | 354 | 3,363 | 162 | 1,067 | 1,067 | 1,067 |
+| Selection | 87 | 785 | 38 | 249 | 249 | 249 |
+| Calibration | 91 | 830 | 38 | 264 | 264 | 264 |
+| DEV | 319 | 3,186 | 147 | 1,013 | 1,013 | 1,013 |
+
+Independent direct hash reconstruction matches every persisted membership row:
+8,164 decisions, 851 components, zero duplicate IDs or cross-phase component
+leaks. Every endpoint has nonempty coverage in all four phases. This passes
+membership custody, not a semantic gate; no confidence interval or model quality
+is measured. In particular, yes/no selection and calibration each contain only
+38 questions. Their calibration utility remains unmeasured.
+
+The existing guarded train/DEV provenance reader decodes annotation fields,
+but this census uses and persists membership fields only. No targets or
+annotation text become model inputs. No model loads, forwards, architecture
+selection or sealed-phase access occurred.
+`neutral_qasper_question_split_result_manifest.json` binds the census manifest
+SHA-256 `42b5dbc6d3398da8bb1193db5216c455aa1beac877a8fd0e77dc8eff518e196a`
+and independent receipt. The next branch remains the deferred architecture and
+mechanism-gate amendment after NATIVE-2 evidence; this census changes no split.
+
 
 
 

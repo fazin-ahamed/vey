@@ -1,0 +1,61 @@
+{
+  "schema": "vey.neutral.qasper.question-split-result.v1",
+  "preregistration": "f49933a",
+  "implementation_commit": "1648ff3",
+  "status": "INDEPENDENT_MEMBERSHIP_PASS_NO_MODEL_RESULT",
+  "manifest": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-question-split-v1/manifest.json",
+    "bytes": 7168,
+    "sha256": "42b5dbc6d3398da8bb1193db5216c455aa1beac877a8fd0e77dc8eff518e196a"
+  },
+  "verification_receipt": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-question-split-v1/verification_receipt.json",
+    "bytes": 1900,
+    "sha256": "3856650ea7195f4a720c284ccc29909ceeda3151c21920ba8b4d672b12ccbc31"
+  },
+  "phases": {
+    "fit": {
+      "rows": 3363,
+      "components": 354,
+      "endpoint_counts": {
+        "qasper.answerability": 1067,
+        "qasper.extractive_answer": 1067,
+        "qasper.evidence_retrieval": 1067,
+        "qasper.yes_no": 162
+      }
+    },
+    "selection": {
+      "rows": 785,
+      "components": 87,
+      "endpoint_counts": {
+        "qasper.evidence_retrieval": 249,
+        "qasper.answerability": 249,
+        "qasper.yes_no": 38,
+        "qasper.extractive_answer": 249
+      }
+    },
+    "calibration": {
+      "rows": 830,
+      "components": 91,
+      "endpoint_counts": {
+        "qasper.answerability": 264,
+        "qasper.evidence_retrieval": 264,
+        "qasper.extractive_answer": 264,
+        "qasper.yes_no": 38
+      }
+    },
+    "dev": {
+      "rows": 3186,
+      "components": 319,
+      "endpoint_counts": {
+        "qasper.evidence_retrieval": 1013,
+        "qasper.yes_no": 147,
+        "qasper.extractive_answer": 1013,
+        "qasper.answerability": 1013
+      }
+    }
+  },
+  "scope": "QNATIVE-2 fitting/selection/calibration/DEV membership only; architecture and model gates remain deferred to NATIVE-2 evidence",
+  "model_forwards": 0,
+  "quality_credit": false
+}
