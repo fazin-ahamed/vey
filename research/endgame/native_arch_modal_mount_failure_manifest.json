@@ -1,0 +1,39 @@
+{
+  "schema": "vey.native-arch.modal-mount-failure.v1",
+  "preregistration": "2f5d8cd",
+  "old_transport": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/native_arch_modal_transport_mount_failure_v1.json",
+    "bytes": 8737,
+    "sha256": "7d18d4dd34727badeefa3c3ad2b5ece361c26743028d80ed41efcb7ac64c55be"
+  },
+  "cause": "All four immutable input hashes match. Modal v2 volume resolves registered logical root to /__modal/volumes/<id>; trainer resolved this alias before immutable absolute manifest comparison, causing pre-model failure. Logical-root correction preserves physical-root equivalence and every data/source hash guard; no neural recipe or outcome change.",
+  "quality_failure": false,
+  "model_forwards": 0,
+  "artifacts": [
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal_runtime_cross_smoke_mount_failure_v1.json",
+      "bytes": 862,
+      "sha256": "98226af74740d6a6e43a4b1b718fff87094e96b8386cba5ebdfc5be89c8e15c1"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal_path_diagnostic_v1.json",
+      "bytes": 2052,
+      "sha256": "e7b1e3c23c89a30a5cb48ae158306f3bab3b7d18d803e5e7d1b416da94061ced"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal_preflight_mount_failure_v1.json",
+      "bytes": 988,
+      "sha256": "2f379c0a115b05fa6434ea2842c1e4511e30f9354d5d111376affb9ae0c0cbdb"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal_path_diagnostic_v1.py",
+      "bytes": 1503,
+      "sha256": "b0010462928b42f1523853795c2f7dca420165f6d98821faceea1b538da3edd2"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal_retain_mount_failure_v1.py",
+      "bytes": 1540,
+      "sha256": "75c7de7d337f8f0c51aae5d95f49cb6d9b3253eece52ef9de6432088a85cf167"
+    }
+  ]
+}

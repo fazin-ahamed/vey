@@ -16,13 +16,13 @@
     },
     {
       "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_arch_train.py",
-      "bytes": 40201,
-      "sha256": "8d6e7df0d8734e168adf9b4fcf72fa648ed5d2c96221ef18684cee0acb4b2c38"
+      "bytes": 40362,
+      "sha256": "eb0583fe1950d048d423dca081d004413ab2e53fe890caa1a19ac88b9652650b"
     },
     {
       "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_arch_protocol.json",
-      "bytes": 11909,
-      "sha256": "a0c0a8445227daa429b95949b823e39d78bfae84ad8120a16d90b0ae3c95bec0"
+      "bytes": 12446,
+      "sha256": "44c5b54f772b6d2041675c8550d456d5e3e4a03a94f342b01229ebff2202a468"
     },
     {
       "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_field_data.py",

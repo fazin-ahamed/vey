@@ -6034,6 +6034,16 @@ quality fits; timeouts are bounded and automatic retries disabled.
 records the transfer contract. The pooled reference used RTX3060; numerical
 identity across hardware and any cross-hardware performance gain are unmeasured.
 
+The actual Modal CPU preflight passes with every transported input and pinned
+dependency verified. The first T4 smoke fails before model loading: the trainer
+resolves the volume symlink to `/__modal/volumes/<id>`, whereas the immutable
+dataset manifest binds the original absolute logical paths. A CPU-only remote
+diagnostic proves every phase hash matches and every resolved path spelling
+differs. This is a mount-custody execution failure, not a quality result.
+The prospective correction preserves the registered logical root and checks
+physical root equivalence separately; no source manifest, hash check, neural
+recipe or gate is relaxed. Fresh actual Modal liveness remains required.
+
 
 
 

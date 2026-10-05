@@ -592,7 +592,10 @@ def metadata_base(cfg, arch, manifest, root, arm, mode, resources):
 def run(root: str | Path, arm: str, mode: str, device: str):
     cfg = data.protocol()
     arch = arch_protocol()
-    root = Path(root).resolve()
+    supplied_root = Path(root)
+    root = Path(cfg["output_root"])
+    if supplied_root.resolve() != root.resolve():
+        raise RuntimeError("Unregistered native architecture dataset root")
     manifest, phases = data.load_dataset(root)
     endpoints = manifest["eligible_endpoints"]
     catalogues = {endpoint: manifest["catalogues"][endpoint] for endpoint in endpoints}
