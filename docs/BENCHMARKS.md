@@ -5251,6 +5251,174 @@ non-inferiority margins and both historical runtime manifests are
 unchanged. Metadata refresh earns no quality, performance,
 calibration, promotion or Pareto-victory credit.
 
+## ECA-2 minimal final-layer adaptation: full-fit negative
+
+HYPOTHESIS: adapting only the pinned encoder's final layer and six diagonal
+adapters, with the existing rank-64 PageReader equations, repairs the inadequate
+frozen final-mean interface. The committed adaptation preregistration fixes
+400 epochs, seed 7, reader/encoder learning rates .01/.0001 and earliest
+minimum held-world validation-objective selection. All four equal-weight losses,
+the corpus, exact compiler, target semantics and calibration grids are unchanged.
+The retained correctness amendments fix execution and gradient accumulation,
+not the gates or evaluation population.
+
+MEASURED: the full CUDA fit completed 400 epochs and selected epoch 374,
+validation objective 2.642213854. Its durable per-epoch journal reproduces the
+returned history exactly. All 400 named frozen-parameter checks retain the same
+digest; only the final-layer tensor population and six adapters change.
+Training recorded 7,200 encoder forwards, 201,600 encoded examples,
+288,000 reader-chunk backwards and 400 shared-table encoder backwards.
+These counters are execution evidence, not an end-to-end speed result.
+
+Calibration and development each contain 12,544 authored decisions and 75,520
+term/candidate outputs. The primary fixed 16-family atomic Choice macro is
+0.145508, descriptive 95% CI [0.124388, 0.167030], versus the .80 gate.
+Statistics reuse the registered 10,000 whole-world bootstrap draws, seed 0,
+128 development worlds; variants remain clustered. The primary denominator
+1,024 is derived decision support, not 1,024 independent worlds.
+
+| Development gate | Observed | Required | Verdict |
+|---|---:|---:|---|
+| Atomic Choice macro | .145508 | >= .80 | FAIL |
+| UNKNOWN precision / recall | .730854 / .724688 | both >= .90 | FAIL |
+| Composition | .031250 | >= .80 | FAIL |
+| Criterion-swap correct-new | .145508 | >= .80 | FAIL |
+| Grade-swap correct-new | .091797 | >= .80 | FAIL |
+| Ordinal MAE | .337307 | <= .10 | FAIL |
+| Orientation | .824219 | >= .90 | FAIL |
+| Page attribution | .266602 | >= .85 | FAIL |
+| Supported coverage | .332813 | >= .90 | FAIL |
+| Teacher-changing correct-new | .130859 | >= .80 | FAIL |
+| Permutation / rename / reorder | 1.000000 | 1.00 | PASS |
+
+Exact literals remain an unsupplied closed-regression prerequisite; held-four-family
+Choice is unavailable in this development phase. Neither earns a pass.
+Binding mechanism claims use one-sided Bonferroni lower bounds, alpha .0125
+per contrast, on the same fixed family inventory:
+
+| Adapted atomic macro minus control | Paired delta | Simultaneous lower bound | Verdict |
+|---|---:|---:|---|
+| Frozen pages | +.086914 | +.059748 | PASS |
+| Adapter scalars reset to one | +.004883 | -.003399 | FAIL |
+| Zero pages | +.145508 | +.121644 | PASS |
+| Lexical | -.492188 | -.552605 | FAIL |
+
+MEASURED mechanism evidence: the joint refit improves over frozen pages and
+zero pages, but fails the registered adapter-specific contrast and performs
+materially worse than lexical. Resetting adapters does not refit the reader
+or encoder. The other recorded interventions restore the frozen final layer,
+zero the question and replace attention with uniform weights; all five are
+independently reconstructed, without retraining controls.
+
+The independent CLI reconstructs child-local IR projection, exact teacher,
+raw page mixtures, knownness, ordinal masses, calibration-grid winners,
+composed Choice/Bool/Score decisions, causal pairs, world metric ledgers,
+bootstrap indices, gate screens and all four claims. It also reconstructs
+saved frozen pages and lexical baselines. Reconstruction PASS is numerical
+and provenance verification; the scientific gates still fail.
+It runs zero encoder/model forwards and zero optimizer/refit steps.
+
+The result manifest is
+`research/endgame/ephemeral_pages_adaptation_fullfit_result_manifest.json`.
+The checkpoint SHA-256 is
+`3acb2011523d848f7b5af1602c278eb3c0cebea626421dff7918afc88f05b87e`;
+the independently exercised v2 replay receipt SHA-256 is
+`41abb4f5726210bd01f4d6eeedd89b37b8f8623ff294a34efdac001e5f305944`.
+The manifest pins launch, history, reports, original/v2 replay source and
+all prerequisite receipts. Raw artifacts remain outside Git.
+
+INFERENCE: this tested representation-change route is inadequate. The results
+do not prove semantic information absence, adapter equivalence or exhaustion
+of all Vey architectures. Protocol failure branch 3 retires the route for this
+authored assay; no wider head, extra layer, enlarged adapter or ratio search
+is authorized. Explicit rubric grounding was already retired here.
+Next: preserve both negatives, prepare source-native neutral train/dev contracts,
+and preregister a separately justified architecture branch. This is not an
+endgame hard block. No final pool was accessed in this adaptation protocol.
+The earlier ECA-2 final was already evaluated and reported; the preregistration
+cites its negative. That old pool is exposed historical evidence, not fresh
+confirmation for a later architecture. The inherited final-access prohibition
+remains; any future confirmation must be independently fresh and preregistered.
+No promotion, B-STEF, certification, neutral comparison or competitor win is earned.
+
+## Published Laya 0.3.27: complete-source CPU compatibility
+
+HYPOTHESIS and preregistration: test the exact current published release and
+three current-reference checkpoints on the same synthetic mixed typed request,
+offline, sequential CPU eager FP32. The prospective v2 protocol retains the
+original wheel failure and changes only source completeness.
+
+MEASURED: the published wheel's registered `backend='eager'` constructor fails
+with missing `laya.backends`, before any completed model route. The complete
+release tree contains five backend files omitted from the wheel. All 35 shipped
+package members match that release; all 40 complete-source members have verified
+SHA-256 and Git blob identities. Success uses unmodified complete source at
+`b09832bdd3819e375fe8b0d26dbd7a8f75c4f0bd`, not a patched wheel or post-release head.
+
+English, typed specialist and multilingual each complete Choice/Noul/Score.
+All nine outputs pass finite range, exact keys and registered serialization
+sum-bound checks. This one-state compatibility scenario has no quality metric,
+statistical CI, calibration or performance claim. The multilingual isolated
+tokenizer copy changes from list to mapping metadata; both hashes are retained,
+and the pinned standalone source bytes remain intact. Custody verification uses
+the documented current `resolved_path`, not its legacy bundled display path.
+
+The additive result manifest
+`research/competitors/laya_published_0_3_27_result_manifest.json`
+has SHA-256 `0808f5b0a35d76dbeae85aa9ea00852a34a2c765660dca500b1d896fcf7b8719`;
+the successful raw receipt has SHA-256
+`3176c04a3b4acd5ed34a2086f99b0ef275573fe6e929fce81247677822218048`.
+Original wheel failure, immutable protocols/custody and historical 0.3.25 evidence
+remain separate. The current dossier/matrix reference this new compatibility
+evidence while retaining all 21 critical cells non-green.
+Unknown: neutral quality, same-hardware performance, GPU compatibility,
+high-K accuracy and broad multilingual/long-context behavior.
+Next: use this exact task-appropriate roster for a prospective neutral development
+comparison; no final benchmark access, Jev request or superiority claim occurred.
+
+## Neutral source-native compiler: prospective train/dev contract
+
+MEASURED metadata only: Banking77's complete publisher catalogue has 77
+unique IDs; the pinned MASSIVE loader declares 60 unique intent IDs.
+Exact source Git blobs, original bytes, derived catalogue hashes, the native
+rubric document and current DecisionIR/renderer bytes are recorded in
+`research/endgame/neutral_native_catalogue_manifest.json`.
+Static literal extraction executes no loader and opens no per-example records.
+
+HYPOTHESIS: the separately registered
+`research/endgame/neutral_native_compiler_protocol.json`
+can project original train/dev membership into separated serving, DecisionIR,
+target and provenance files with exact full-population reconstruction.
+The original connected components and role allocation remain unchanged.
+Classification retains all K77/K60 publisher IDs on every row. Descriptions
+only replace underscores with spaces; no label-selected universe or generated
+paraphrases enter the catalogue.
+
+MASSIVE grammar uses its documented naturalness prompt and five native levels;
+spelling uses three original error bins. Ordered original ratings, missingness
+and native types remain in the target ledger. Distribution targets are empirical
+source-retained raters, not workforce/population probabilities. Score DecisionIR
+has no fabricated single gold or accepted-label set. Missing ratings remain
+unlabeled; spelling is never rescaled to five bins. Native `intent_score` and
+`slots_score` are nominal and do not become generic Boolean or ordinal gold.
+
+Selectors may consume only manifest-hashed train/dev exports after code and
+projection identities freeze. A nonselecting custodian may stream mixed source
+envelopes; parsing them can transiently decode sealed payloads. The contract
+therefore prohibits their export, diagnostic use, fitting or selection, rather
+than falsely claiming no bytes were decoded. Model text excludes gold,
+annotations, worker IDs, source/group identifiers and target metadata.
+Reader requests for calibration, confirmation or unused roles must fail before
+opening data.
+
+All 21 endgame dimensions remain required. Public legacy intent, source-native
+ordinal ratings and 51 locale descendants do not establish arbitrary criteria,
+generic Boolean, language usability, natural K1000 or long-context quality.
+No model outputs, quality metrics, promotion or new calibration/final exposure
+were obtained for this registration. Next: commit the compiler before
+materialization, reconstruct its source projection independently, freeze
+output manifests, then preregister the development model comparison.
+
 
 
 

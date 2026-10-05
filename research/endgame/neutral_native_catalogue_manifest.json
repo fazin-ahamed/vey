@@ -1,0 +1,61 @@
+{
+  "captured_at_UTC": "2026-10-05T09:22:55.203123+00:00",
+  "catalogue_rule": "Publisher order and IDs unchanged. Description replaces underscores with spaces only. No catalogue inferred from per-example or held-out labels.",
+  "evidence_class": "MEASURED public metadata only",
+  "licenses": "Both dataset-specific CC-BY-4.0 grants recorded in existing acquisition custody; grants are not inferred from model or loader-code licenses.",
+  "loader_executed": false,
+  "model_executed": false,
+  "per_example_records_opened_for_this_metadata_capture": false,
+  "quality_credit": false,
+  "schema": "vey.neutral.native-catalogue-custody.v1",
+  "sources": {
+    "AmazonScience/massive": {
+      "candidate_count": 60,
+      "catalogue": {
+        "bytes": 5138,
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/native-compiler-metadata-v1/massive-catalogue.json",
+        "sha256": "700a6e97c0d5ceb0fa1fa564ee5f247a843adcc2a543760127dc1749d2171c81"
+      },
+      "git_blob_sha1": "4731be1adc5c42b075603588248d8ae99cb01896",
+      "grammar_levels": 5,
+      "loader_revision": "ff6bd8e4b27c3543e4f8fe2108f32bb95a6f8740",
+      "nominal_not_ordinal": [
+        "intent_score",
+        "slots_score"
+      ],
+      "original_metadata": {
+        "bytes": 30340,
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/native-compiler-metadata-v1/massive-loader-source.py",
+        "sha256": "b6086578ec0bd3e29000ed4d73f2841dfba48cd8e5a91b00f92c87411df368ba"
+      },
+      "rubric_document": {
+        "bytes": 34420,
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/sqlite-guard-amended/raw/massive/README.md",
+        "sha256": "9a74b2298db2cb509eb39725612ef5d5b9eb99d59ef7c960ab01f58526051e3d"
+      },
+      "rubrics": {
+        "bytes": 1419,
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/native-compiler-metadata-v1/massive-rubrics.json",
+        "sha256": "cd0d13e4348c3672ab01ab5c27ceb3d34ebce12313e1b34bceeae064bd74d1c1"
+      },
+      "source_url": "https://huggingface.co/datasets/AmazonScience/massive/raw/ff6bd8e4b27c3543e4f8fe2108f32bb95a6f8740/massive.py",
+      "spelling_levels": 3
+    },
+    "PolyAI/banking77": {
+      "candidate_count": 77,
+      "catalogue": {
+        "bytes": 7526,
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/native-compiler-metadata-v1/banking77-catalogue.json",
+        "sha256": "0bb75931a2eb552f6f7851257ac7bc91b9bd04e0994c354acc5e59a48317e196"
+      },
+      "dataset_revision": "57ec275d8078af65b7731c2a98be812d844a6d6b",
+      "git_blob_sha1": "cdd2a5c77a4079a455f8fb7e751d1ecee0e2a5a4",
+      "original_metadata": {
+        "bytes": 2036,
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/native-compiler-metadata-v1/banking77-categories-source.json",
+        "sha256": "53261da888122daf2d120d925458631d9619e15d82e56052e7a42e535ce32b63"
+      },
+      "source_url": "https://raw.githubusercontent.com/PolyAI-LDN/task-specific-datasets/57ec275d8078af65b7731c2a98be812d844a6d6b/banking_data/categories.json"
+    }
+  }
+}

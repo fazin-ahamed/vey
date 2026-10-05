@@ -1,0 +1,170 @@
+{
+  "B_STEF_allowed": false,
+  "access_control": {
+    "custodian": "A nonselecting bounded compiler process may stream the mixed custodied envelopes to filter train/dev. JSON parsing may decode sealed payload bytes transiently: this is custody, not selector/model access. Never claim sealed payloads were not decoded when a complete JSON envelope parser ran. Do not project, log, export, fit or choose using calibration/confirmation/unused contents.",
+    "manifest_gate": "Commit compiler code before materialization. Freeze output hashes, ordered component/group/row/decision membership hashes and per-endpoint/per-locale coverage/type summaries before selectors read train/dev.",
+    "selector_reader": "Accept only exact train/dev role, rooted output path, manifest-hashed completed projection and registered protocol/compiler provenance. Deny sealed/unused/unknown phases before opening any data. Do not expose mixed-source file handles or payloads to selectors.",
+    "source_schema": "Validate source membership and selected payload shape/type before output. Nonselected payload contents do not become diagnostics."
+  },
+  "artifacts_to_persist": [
+    "All named separated outputs and immutable manifests",
+    "Exact native rater/missingness and coverage ledgers",
+    "Compiler/protocol/IR/renderer/catalogue/source SHAs",
+    "Independent reconstruction receipt and failure receipt if any",
+    "No model output or calibration/final target exports"
+  ],
+  "authority": {
+    "IR": {
+      "bytes": 2121,
+      "path": "/home/fazinahamed/Documents/vey/vey_u/ir.py",
+      "sha256": "0184e25e05c17638117e776fc660fd6e4896c3590da0fcf94fc753509869ea2d"
+    },
+    "acquisition_manifest": {
+      "bytes": 5388,
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/sqlite-guard-amended/metadata/acquisition_manifest.json",
+      "sha256": "05c7365315ea62b2d84a0b5793ab4b55cc9be419827cfbe3d95d57242bf48c17"
+    },
+    "all21_critical_dimensions_unchanged": true,
+    "catalogue_manifest": {
+      "bytes": 3219,
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_native_catalogue_manifest.json",
+      "sha256": "e5b046c1441b08a12905776bfde60b582cc6690329eb6778ca32e79ce95a7dda"
+    },
+    "immutable_product_reference": "e6b046ffbd138cbdbfb2f89c6ae77525fe6b0b18",
+    "neutral_benchmark_protocol": {
+      "bytes": 28743,
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_benchmark_protocol.json",
+      "sha256": "9e3bfbdd9371d6202c8bf6d6ec5fc224eababb402d409f206abd0215fcf3f0c5"
+    },
+    "no_product_edits": true,
+    "renderer": {
+      "bytes": 1017,
+      "path": "/home/fazinahamed/Documents/vey/vey_u/semantic/format.py",
+      "sha256": "3e7ad63a26b68e7bb74142d8c69306bd4c0473f42eb5a69680e0474422c0e1ab"
+    },
+    "source_custody_result": {
+      "bytes": 28109,
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_source_custody_result_manifest.json",
+      "sha256": "885f9665ccc41ad800a1971c1b5f48ce1d71cf2e51bf21cff26a2b58cb0c6113"
+    }
+  },
+  "calibration_or_confirmation_selector_access": false,
+  "controls": [
+    "Independent original-field reconstruction of classification IDs, native rater arrays/frequencies/means and immutable membership",
+    "Serving reconstruction from DecisionIR via pinned renderer with no annotation-bearing fields",
+    "Rejected sealed-phase access; no partial manifest accepted",
+    "Publication manifest retains source/IR/renderer/catalogue/compiler/protocol hashes and source-role denominators"
+  ],
+  "data": {
+    "allocation": "Reuse every selected existing source row and original input-only connected component. No reallocation, downsampling, cap changes, task/label-driven membership or moved confirmation. Component IDs remain statistical grouping units; all translations, ratings and endpoints remain descendants.",
+    "exposure": "Public and legacy benchmark/model exposure disclosed. Study sealing is not universal freshness.",
+    "groups": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/sqlite-guard-amended/private/groups.jsonl.gz",
+      "sha256": "b8710b8bb828aa9cdaf02fa194ce998e59ad25728859f298cda025b4385ed7ee"
+    },
+    "license": "shipping-train source class as recorded, CC-BY-4.0 dataset-specific grants; preserve attribution, publisher references and modification notice; no raw rows or labels in Git",
+    "output_root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/native-train-dev-v1",
+    "release": "Original Banking77 and MASSIVE1.1 custody; original fixed51locale membership",
+    "roles": [
+      "train",
+      "dev"
+    ],
+    "source_files_manifest": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/sqlite-guard-amended/metadata/source_files.json",
+      "sha256": "1c58add56da1c585690d918ab9e2fcc80761bebf192994a35f28fe93f4d8aa32"
+    },
+    "source_root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/sqlite-guard-amended",
+    "source_rows": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/sqlite-guard-amended/private/source_rows.jsonl.gz",
+      "sha256": "ada7993cd2e12eacdf4c3ead16f6f95d32968272c55cb7afd17a9f833794190f"
+    },
+    "sources": [
+      "PolyAI/banking77",
+      "AmazonScience/massive"
+    ]
+  },
+  "endgame_complete": false,
+  "evidence_class": "HYPOTHESIS source-native compiler; referenced metadata identities MEASURED",
+  "failure_branches": {
+    "missing_ratings": "Report truthful source coverage; unavailable endpoint stays unmeasured. No imputation or target invention.",
+    "pass": "Freeze projection result manifest, then preregister appropriate model/control/route/calibration development experiment. Compiler pass earns no model capability, promotion or endgame completion.",
+    "schema_or_source_hash": "Fail closed, retain failure and partial outputs outside selector serving. Document implementation-only correction with original lineage; no changed membership/targets based on model quality.",
+    "unsupported_capability": "Keep all21 endpoints, arbitrary criteria, generic Boolean, naturalK>=255/1000, multilingual non-intent, long context and other gaps unmeasured; open a separate justified source/mechanism protocol."
+  },
+  "gates": {
+    "model_outputs": "zero",
+    "native_types": "Zero invalid present selected labels/rating types; missing preserved, not a failure or invented target",
+    "phase_isolation": "Only train/dev outputs, sealed phase reader requests fail before file access",
+    "projection": "100percent exact field/target/renderer reconstruction",
+    "serving": "Only allowed input fields",
+    "source_artifact_hashes": "Exact expected bytes",
+    "source_membership": "Exact existing train/dev membership and source-role totals"
+  },
+  "hypothesis": "A source-native projection can preserve immutable source membership and original categorical/ordinal judgments in DecisionIR and separated target ledgers without leaking gold into serving input or exposing sealed phases to selectors. This is compiler correctness, not semantic quality.",
+  "primary_metric": "Exact source-native projection agreement for all selected records/endpoints, target arrays, serving bytes and membership",
+  "projection": {
+    "choice": {
+      "candidates": "Full pinned publisher catalogue:K77/K60, same order and IDs on every row; underscores-to-spaces descriptions only. Never remove classes using source labels.",
+      "endpoints": [
+        "banking77.intent",
+        "massive.intent"
+      ],
+      "gold": "Original category/intent string must match exactly one catalogue ID; never fuzzy-match, relabel or infer unknown.",
+      "question": "Which intent best matches this utterance?",
+      "task": "choice"
+    },
+    "forbidden_surrogates": [
+      "intent_score/slots_score as ordinal or generic Boolean",
+      "native intent as arbitrary-criterion transfer",
+      "native51locale counts as51language usability",
+      "score/classification rows as independent extra n",
+      "annotator content in model-visible state",
+      "label-derived candidate descriptions",
+      "generated labels/translations/rubrics"
+    ],
+    "ids": "SHA256 of canonical [source_row.row_key, endpoint_id]; no gold/rating or label content in IDs. Preserve row_key/group_id/component_id in provenance.",
+    "ordinal": {
+      "IR_gold": "Empty tuple: no fabricated single gold, rounded mean, majority target or accepted-label set. Target distribution is carried separately.",
+      "endpoints": [
+        "massive.grammar_score",
+        "massive.spelling_score"
+      ],
+      "missing": "Emit unlabeled endpoint with target_available=false and no empirical target when no valid native ratings exist; retain coverage/missingness ledger and original intent row. Do not fabricate English ratings.",
+      "question_and_candidates": "Exact pinned original publisher prompt and level descriptions; grammar5levels0..4, spelling3levels0..2. No five-bin spelling rescale.",
+      "semantics": "Filtered/source-retained rater distribution, not workforce/population probabilities. Spelling distances are native bin distances, not expected error counts. Shared workers across groups are not independent new n.",
+      "targets": "Preserve original rater order, each present native integer value, missing/null distinction and per-rater field mask; exclude JSON bool and reject unsupported types/ranges. Preserve source missingness. Empirical categorical frequencies and mean level use only observed valid raters; do not impute or replicate a mean into raters.",
+      "task": "score"
+    },
+    "outputs": [
+      "serving.jsonl.gz",
+      "decisions.jsonl.gz",
+      "targets.jsonl.gz",
+      "provenance.jsonl.gz",
+      "manifest.json"
+    ],
+    "provenance": "Source ID/revision/file/line/row/group/component/official partition/current role/input fingerprint, licence and modifications; raw worker identifiers stay in original private custody, never in serving or stdout.",
+    "serialization": "Finite canonical UTF8 JSON, sorted keys, compact separators, lists retain source order; reproducible gzip mtime0. Refuse overwrites and incomplete manifests.",
+    "serving": "Use pinned state_text/question_text/candidate_text renderer. Only id/task and rendered state/question/candidates plus explicit input locale for identical routing. IR gold, source/group IDs, split, license, annotations, evidence/targets and metadata are excluded from model text.",
+    "state": "Exactly one non-exact StateBlock(id=utterance,text=original text/utt). No normalization, annotated utterance, scenario, intent, worker, rating or label text enters state."
+  },
+  "promotion": false,
+  "resource_budget": {
+    "CPU_threads": 1,
+    "GPU_jobs": 0,
+    "RAM_guard_available_bytes": 4294967296,
+    "model_loading": false,
+    "paid_calls": 0,
+    "raw_outputs_outside_Git": true,
+    "streaming": true,
+    "wall_timeout_seconds": 900
+  },
+  "schema": "vey.neutral.native-train-dev-compiler-protocol.v1",
+  "secondary_metrics": [
+    "Selected source rows/component/group counts versus original custody",
+    "Per-locale/per-endpoint observed/missing/invalid type counts without model outputs",
+    "No cross-role connected component",
+    "No extra candidate classes, duplicated raters, rescaled spelling labels or worker leakage"
+  ],
+  "statistical_test": "Deterministic full-population independent reconstruction and exact-byte hashes; no sampled quality inference or CI",
+  "status": "PROSPECTIVE; commit before source projection and selector exposure"
+}

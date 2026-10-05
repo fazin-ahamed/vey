@@ -223,3 +223,36 @@ The refresh manifest is `/home/fazinahamed/Documents/vey-data/decisionmix/compet
 Those hashes cover raw fetched bytes, not reader-rendered markdown. Model LFS SHA-256 values in the manifest are advertised upstream identities compared across metadata snapshots, not newly downloaded or rehashed weights.
 
 The existing [runtime custody manifest](laya_runtime_custody_manifest.json) and [CPU compatibility manifest](laya_cpu_compatibility_result_manifest.json) remain unchanged and apply only to source `859b8ee595cc04f84dd2af476d6d1d90ec1fea46`, runtime 0.3.25 and bundle `55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851`. They are not current-head or current-HF-revision verification. Quality, calibration, GPU compatibility, latency, residency, energy and neutral comparisons remain unmeasured; no critical comparison cell becomes green.
+
+## Published 0.3.27 CPU compatibility
+
+MEASURED under the separately committed [published-release protocol](laya_published_0_3_27_protocol.json):
+the exact complete release source at `b09832bdd3819e375fe8b0d26dbd7a8f75c4f0bd`
+loads all three pinned current-reference routes on CPU FP32. Each completes the
+same synthetic mixed Choice/Noul/Score request, with finite bounded values,
+correct question/probability keys and the registered four-decimal sum bound.
+This is nine typed answers on one synthetic state, not a quality benchmark.
+Live parameter counts are 421,293,827 for English and typed, and 321,908,995
+for multilingual; these are loaded parameters, not the stored-scalar metadata totals.
+
+The published wheel's registered `backend='eager'` constructor first failed with
+`ModuleNotFoundError: No module named 'laya.backends'`, before any completed route.
+The wheel omits five backend files present in the exact release tree. All 35
+shipped package members match the release; all 40 complete-source members have
+verified SHA-256 and Git blob identities. The successful run imports that complete
+unmodified release source, without a missing-module shim, installation or later-head
+substitution. It does not establish that every wheel API fails or that wheel packaging
+has been repaired.
+
+The multilingual isolated tokenizer copy is rewritten from a list of extra tokens
+to the runtime-compatible mapping. Both before/after hashes are retained; the pinned
+standalone source bytes remain intact. Its authoritative `resolved_path` overrides
+the historical bundled display path in the prospective custody record. English and
+typed tokenizer configurations are unchanged. The fixture's Choice has K=3; raw
+`choice:11+` temperature metadata and the served floor do not earn high-K evidence.
+
+The [post-execution result manifest](laya_published_0_3_27_result_manifest.json)
+pins the successful receipt, original wheel failure, immutable prospective inputs,
+release-source custody and route summaries. Historical 0.3.25 evidence above remains
+unchanged. GPU compatibility, neutral quality, calibration, latency, residency and
+Pareto comparison remain unmeasured; all 21 critical cells stay non-green.

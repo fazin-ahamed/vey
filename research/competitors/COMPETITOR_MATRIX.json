@@ -28,6 +28,15 @@
     "CPU_eager_typed_compatibility_verified": true,
     "neutral_comparison_earned": false
   },
+  "Laya_published_0_3_27_CPU_compatibility": {
+    "evidence_class": "MEASURED",
+    "manifest": "research/competitors/laya_published_0_3_27_result_manifest.json",
+    "manifest_sha256": "0808f5b0a35d76dbeae85aa9ea00852a34a2c765660dca500b1d896fcf7b8719",
+    "exact_complete_release_source_CPU_FP32_verified": true,
+    "published_wheel_backend_constructor_failed": true,
+    "historical_runtime_evidence_unchanged": true,
+    "neutral_comparison_earned": false
+  },
   "critical_cells": [
     {
       "CI95": null,
@@ -321,11 +330,11 @@
       "evidence": "MEASURED primary-source inspection; advertised capability/quality remains unreproduced.",
       "path": "research/competitors/LAYA.json",
       "retrieved_at_UTC": "2026-10-05T07:23:43.878500Z",
-      "sha256": "600afa36ffa8c0db6e64c908dddf7c7b1453c9be42f668185f515b76919eac7b",
+      "sha256": "c3ab6f5dbe60c1f8dadc453fd20994e92ec79e25cafc857003311ea18bbd72b1",
       "source_revision": "8a6e1328cce2460a0e5aa348ad465bb1b5821cd2",
       "raw_source_manifest": "/home/fazinahamed/Documents/vey-data/decisionmix/competitors/refresh-2026-10-04/laya/refresh_manifest.json",
       "raw_source_manifest_sha256": "11528aab8def77bd51772c3d7cbca95ab0b80a00df23298130f1a71b0338bbfa",
-      "runtime_measurement_scope": "Existing local custody and CPU compatibility remain source859b8ee/runtime0.3.25/bundle55cf4c4. No local0.3.27 execution or neutral comparison is claimed."
+      "runtime_measurement_scope": "Historical source859b8ee/runtime0.3.25/bundle55cf4c4 evidence retained. Additive published0.3.27 exact complete-source CPU FP32 compatibility on three current-reference routes; wheel backend constructor failure retained. No neutral comparison."
     }
   },
   "fairness": "Identical decomposition, exact rules and shared workflow code for all systems wherever possible. Compare semantic decisions, not Vey's code against competitor neural arithmetic. Exact native architectural support can be compared separately, never fabricated as an accuracy win when both shared workflows are perfect.",
@@ -460,8 +469,8 @@
     "runtime_release": "0.3.27",
     "source_inspection_commit": "8a6e1328cce2460a0e5aa348ad465bb1b5821cd2",
     "source_head_includes_post_release_changes": true,
-    "latest_runtime_execution": "UNMEASURED; source-only post-release changes are not attributed to the published0.3.27 package.",
-    "checkpoint_delta": "All three refreshed HF revisions add only a160-byte root config.json. Previous tree entries and advertised LFS payload identities are unchanged; no new weights downloaded or rehashed.",
+    "latest_runtime_execution": "MEASURED exact complete release source0.3.27 CPU FP32 mixed typed compatibility on all three current-reference routes; packaged wheel backend constructor failed. Post-release head not imported. No neutral comparison.",
+    "checkpoint_delta": "All three refreshed HF revisions add only a160-byte root config.json. Prior weight payload identities are unchanged and cached payload bytes reverified for the published-release probe; no new weight download.",
     "recommended_task_selection_unchanged": true,
     "abstention_release_delta": "Published0.3.27 supports installed binning maps, clears stale low-confidence flags and groups whole ties under coverage_metric_definition2; no local calibration measurement.",
     "reviewed_vendor_pins_remain_previous_HF_revisions": true

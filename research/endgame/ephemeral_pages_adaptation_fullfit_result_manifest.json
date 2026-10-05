@@ -1,0 +1,351 @@
+{
+  "B_STEF_allowed": false,
+  "binding_claims": {
+    "adapter_blind": {
+      "CI95": [
+        -0.0022182418304520168,
+        0.01248425626484675
+      ],
+      "alpha": 0.0125,
+      "families": [
+        "compliance",
+        "cost",
+        "effort",
+        "intent",
+        "latency",
+        "plausibility",
+        "priority",
+        "quality",
+        "relevance",
+        "risk",
+        "safety",
+        "sentiment",
+        "similarity",
+        "suitability",
+        "trust",
+        "urgency"
+      ],
+      "metric": "atomic_choice_macro",
+      "one_sided_Bonferroni_lower": -0.0033987813738945386,
+      "pass": false,
+      "point": 0.0048828125,
+      "valid_bootstrap_draws": 10000
+    },
+    "bootstrap": {
+      "draws": 10000,
+      "seed": 0
+    },
+    "claims": 4,
+    "familywise_alpha": 0.05,
+    "lexical": {
+      "CI95": [
+        -0.5445512756936814,
+        -0.44085757604254844
+      ],
+      "alpha": 0.0125,
+      "families": [
+        "compliance",
+        "cost",
+        "effort",
+        "intent",
+        "latency",
+        "plausibility",
+        "priority",
+        "quality",
+        "relevance",
+        "risk",
+        "safety",
+        "sentiment",
+        "similarity",
+        "suitability",
+        "trust",
+        "urgency"
+      ],
+      "metric": "atomic_choice_macro",
+      "one_sided_Bonferroni_lower": -0.552604906800242,
+      "pass": false,
+      "point": -0.4921875,
+      "valid_bootstrap_draws": 10000
+    },
+    "pages_frozen_baseline": {
+      "CI95": [
+        0.06336751332096317,
+        0.11032444891011699
+      ],
+      "alpha": 0.0125,
+      "families": [
+        "compliance",
+        "cost",
+        "effort",
+        "intent",
+        "latency",
+        "plausibility",
+        "priority",
+        "quality",
+        "relevance",
+        "risk",
+        "safety",
+        "sentiment",
+        "similarity",
+        "suitability",
+        "trust",
+        "urgency"
+      ],
+      "metric": "atomic_choice_macro",
+      "one_sided_Bonferroni_lower": 0.05974821940328317,
+      "pass": true,
+      "point": 0.0869140625,
+      "valid_bootstrap_draws": 10000
+    },
+    "pass": false,
+    "unit": "whole world; variants clustered",
+    "zero_pages": {
+      "CI95": [
+        0.1243882122772651,
+        0.1670298600928641
+      ],
+      "alpha": 0.0125,
+      "families": [
+        "compliance",
+        "cost",
+        "effort",
+        "intent",
+        "latency",
+        "plausibility",
+        "priority",
+        "quality",
+        "relevance",
+        "risk",
+        "safety",
+        "sentiment",
+        "similarity",
+        "suitability",
+        "trust",
+        "urgency"
+      ],
+      "metric": "atomic_choice_macro",
+      "one_sided_Bonferroni_lower": 0.12164360083746631,
+      "pass": true,
+      "point": 0.1455078125,
+      "valid_bootstrap_draws": 10000
+    }
+  },
+  "checkpoint": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/pages_adapted_final_layer.pt",
+    "sha256": "3acb2011523d848f7b5af1602c278eb3c0cebea626421dff7918afc88f05b87e"
+  },
+  "development_absolute_gates": {
+    "pages_adapted_final_layer": {
+      "UNKNOWN_precision": {
+        "observed": 0.7308540813110621,
+        "pass": false,
+        "status": "evaluated_point_screen",
+        "threshold": 0.9
+      },
+      "UNKNOWN_recall": {
+        "observed": 0.7246875,
+        "pass": false,
+        "status": "evaluated_point_screen",
+        "threshold": 0.9
+      },
+      "atomic_choice_macro": {
+        "observed": 0.1455078125,
+        "pass": false,
+        "status": "evaluated_point_screen",
+        "threshold": 0.8
+      },
+      "composition": {
+        "observed": 0.03125,
+        "pass": false,
+        "status": "evaluated_point_screen",
+        "threshold": 0.8
+      },
+      "criterion_swap_teacher_changing_correct_new": {
+        "observed": 0.1455078125,
+        "pass": false,
+        "status": "evaluated_point_screen",
+        "threshold": 0.8
+      },
+      "exact_literals": {
+        "pass": null,
+        "status": "closed_regression_prerequisite_not_supplied; parent_owned",
+        "threshold": 1.0
+      },
+      "grade_swap_teacher_changing_correct_new": {
+        "observed": 0.091796875,
+        "pass": false,
+        "status": "evaluated_point_screen",
+        "threshold": 0.8
+      },
+      "held4_family_choice_macro": {
+        "observed": null,
+        "pass": null,
+        "status": "unavailable_in_this_phase",
+        "threshold": 0.8
+      },
+      "ordinal_MAE_max": {
+        "observed": 0.3373070079177296,
+        "pass": false,
+        "status": "evaluated_point_screen",
+        "threshold": 0.1
+      },
+      "orientation": {
+        "observed": 0.82421875,
+        "pass": false,
+        "status": "evaluated_point_screen",
+        "threshold": 0.9
+      },
+      "page_attribution": {
+        "observed": 0.2666015625,
+        "pass": false,
+        "status": "evaluated_point_screen",
+        "threshold": 0.85
+      },
+      "permutation_rename_reorder": {
+        "observed": 1.0,
+        "pass": true,
+        "status": "evaluated_point_screen",
+        "threshold": 1.0
+      },
+      "supported_coverage": {
+        "observed": 0.3328125,
+        "pass": false,
+        "status": "evaluated_point_screen",
+        "threshold": 0.9
+      },
+      "teacher_changing_correct_new": {
+        "observed": 0.130859375,
+        "pass": false,
+        "status": "evaluated_point_screen",
+        "threshold": 0.8
+      }
+    }
+  },
+  "encoder_counters": {
+    "backward_calls": 288000,
+    "encoded_examples": 201600,
+    "encoder_backward_calls": 400,
+    "forward_calls": 7200
+  },
+  "endgame_complete": false,
+  "evaluation_manifest": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/evaluation_manifest.json",
+    "sha256": "31dbff6483333db23e60ff683b9175df1b1219d8208e18717f01d84d622111fb"
+  },
+  "evidence_class": "MEASURED authored development-only assay; no neutral or competitor credit",
+  "final_pool_access": false,
+  "final_exposure_scope": "No new final access in this adaptation protocol. The earlier ECA-2 final was evaluated and reported before this branch; its published negative is cited in the preregistration rationale. That old pool is exposed historical evidence, not fresh confirmation for a subsequent architecture. Frozen prospective inputs are retained unchanged.",
+  "old_ECA2_final_eligible_as_fresh_confirmation": false,
+  "fixed_recipe": {
+    "adapter_lr": 0.0001,
+    "chunk_size": 32,
+    "components": [
+      "relevance",
+      "grade",
+      "orientation",
+      "known"
+    ],
+    "encoder_lr": 0.0001,
+    "epochs": 400,
+    "lr_ratio_encoder_to_reader": 0.01,
+    "lr_ratio_search": false,
+    "normalizer": "train-only optimizer rows; pinned 0.01 floor",
+    "optimizer": "AdamW",
+    "reader_lr": 0.01,
+    "seed": 7,
+    "selection": "earliest minimum held-world validation objective",
+    "steps_per_epoch": 1,
+    "weight_decay": 0.0001
+  },
+  "history": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/pages_adapted_final_layer_history.json",
+    "sha256": "9ad7f630d7b83cd144d3a8400e60128c0605537159cd8051a81f712c21970a59"
+  },
+  "independent_reconstruction": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/fullfit_independent_reconstruction_v2.json",
+    "script_sha256": "94932dd7430c3eef173f1c00d6befaed54f93975530880c2b8193c6b537f9f3d",
+    "sha256": "41abb4f5726210bd01f4d6eeedd89b37b8f8623ff294a34efdac001e5f305944",
+    "status": "PASS"
+  },
+  "inference": "Joint refit improves versus frozen pages and zero_pages, but the registered adapter-specific contrast fails and lexical is materially better. This does not prove equivalence, semantic information absence, or exhaustion of all Vey architectures.",
+  "launch_receipt": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/launch_receipt.json",
+    "sha256": "ee59e2be58b3629f12d66cf2785ae912b3206dc9778b9eb0ae6cb42cdf2d3dc4"
+  },
+  "next_branch": "Retire minimal final-layer adaptation for this authored assay under failure_branches.3. Explicit rubric grounding is already retired here; no wider head/layer/adapter/ratio search. Continue source-native neutral train/dev preparation and a separately preregistered evidence-justified architecture branch.",
+  "primary_metric": {
+    "CI95": [
+      0.1243882122772651,
+      0.1670298600928641
+    ],
+    "denominator": 1024.0,
+    "families": [
+      "compliance",
+      "cost",
+      "effort",
+      "intent",
+      "latency",
+      "plausibility",
+      "priority",
+      "quality",
+      "relevance",
+      "risk",
+      "safety",
+      "sentiment",
+      "similarity",
+      "suitability",
+      "trust",
+      "urgency"
+    ],
+    "point": 0.1455078125,
+    "valid_bootstrap_draws": 10000
+  },
+  "promotion": false,
+  "protocol": {
+    "path": "research/endgame/ephemeral_pages_adaptation_preregistration.json",
+    "sha256": "2aa64bc77c236192681368a8c83751aeac185414d0cd0660578b2ada9cd7731c"
+  },
+  "reports": {
+    "calibration": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/evaluation/calibration/evaluation.json",
+      "sha256": "125440a04a94e27cade4f7bbc54cbd83ec33aeaae612fe5950c1a45e5e1d481c"
+    },
+    "development": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/evaluation/development/evaluation.json",
+      "sha256": "9f44b52d4ad6dd0bb314e6e389320af7316d4f9adfec1e9d1fa2c49e51628ff9"
+    }
+  },
+  "retained_initial_reconstruction": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/fullfit_independent_reconstruction.json",
+    "script_copy": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/fullfit_independent_reconstruction_v1.py",
+    "script_sha256": "c6ca7214e851e2cb8f0ce8d351eeac4ba614de06a9b0eca091c04bb63420276a",
+    "sha256": "234e4df2606ae6fd33477514865e30059c4973b3c53aee1c0611de58b82ff621"
+  },
+  "run_root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1",
+  "schema": "vey.eca2.adaptation-fullfit-result.v1",
+  "screen_receipts": {
+    "screen_a_smoke_receipt.json": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/screen_a_smoke_receipt.json",
+      "sha256": "0bd928a526a8186acaac775e2b6911ea09618666db0fbc70771a9602adc2991d",
+      "verdict": "pass"
+    },
+    "screen_b_immutability_receipt.json": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/screen_b_immutability_receipt.json",
+      "sha256": "7816b5e75e386a428e540aa7e0adc8a57abefbc8d898aea469715dc0a143b4aa",
+      "verdict": "pass"
+    },
+    "screen_c0_liveness_restore_receipt.json": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/screen_c0_liveness_restore_receipt.json",
+      "sha256": "2f0c76347d2e5d96d7125c5bba813c7aa5962b17fa96be481689234f1f37df71",
+      "verdict": "pass"
+    },
+    "screen_c1_gradient_ceiling_receipt_v2.json": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/screen_c1_gradient_ceiling_receipt_v2.json",
+      "sha256": "851b173bce6ab71a08cdaa82d7b52e49b60139ffbd9b282dd967babfbb97de1a",
+      "verdict": "pass"
+    }
+  },
+  "selected_epoch": 374,
+  "selected_validation_objective": 2.6422138537615583,
+  "status": "NEGATIVE; retire this representation-change route for this assay"
+}

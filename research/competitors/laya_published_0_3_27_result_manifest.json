@@ -1,0 +1,143 @@
+{
+  "calibration_claim": false,
+  "complete_release_source": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya-0.3.27-preparation/complete-release-source-custody.json",
+    "sha256": "47ab49706f27ffe7d1e28558219d90d1cc8ec7fa5680aa1ccb3a467d004687a8"
+  },
+  "critical_cells_green": false,
+  "environment": {
+    "laya_source": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya-0.3.27-preparation/release-source/laya/__init__.py",
+    "packages": {
+      "huggingface_hub": "1.32.0",
+      "numpy": "2.4.6",
+      "safetensors": "0.8.0",
+      "torch": "2.5.1+cu121",
+      "transformers": "5.17.0"
+    },
+    "python": "3.11.16 (main, Aug 14 2026, 15:35:36) [Clang 22.1.3 ]"
+  },
+  "environment_mutated": false,
+  "evidence_class": "MEASURED",
+  "final_benchmark_access": false,
+  "historical_runtime_evidence_relabelled": false,
+  "latency_claim": false,
+  "memory_claim": false,
+  "metadata_side_effects": {
+    "English_and_typed_tokenizer_configs_unchanged": true,
+    "after_sha256": "6c6b2d8e3c84ce0e671c129cd6b374b235d6f9863042a5836358d00a89bbb5a1",
+    "before_sha256": "424b69444bf7b5809dc2cd2e36d0bd71b8055124dd24274d6db3c655d38205e7",
+    "current_source_bytes_still_match_pin": true,
+    "multilingual_isolated_copy_changed": true,
+    "source_path_rule": "Use each files.resolved_path. Multilingual standalone tokenizer_config.json overrides the retained historical bundled display path; their bytes are not presumed equal."
+  },
+  "models_retrained": false,
+  "neutral_comparison_earned": false,
+  "package_installed": false,
+  "probe": {
+    "path": "research/competitors/laya_published_0_3_27_probe.py",
+    "sha256": "16aece41003b04be33461d147f5ffaca3f6d8890b072215aa536cb8c53997752"
+  },
+  "prospective_custody": {
+    "path": "research/competitors/laya_published_0_3_27_custody_manifest.json",
+    "sha256": "b58ccc69c559710baf0ffdd7b4ebb7f1bd480d3307c428a42d5e3a4a66995a17"
+  },
+  "protocol": {
+    "path": "research/competitors/laya_published_0_3_27_protocol.json",
+    "sha256": "c33752c566a891de94672f4c4e5cccaf8ceeb394afeeec8ce2d5ace2533623a0"
+  },
+  "published_artifacts": [
+    {
+      "actual_sha256": "7d3c30b1afc8e8ea5ab0285b02de2a46ee71563ba1590e1278a4a637a988fbfe",
+      "advertised_sha256": "7d3c30b1afc8e8ea5ab0285b02de2a46ee71563ba1590e1278a4a637a988fbfe",
+      "bytes": 322956,
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya-0.3.27-preparation/laya-0.3.27-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/fc/2d/fcc20780d4a757e13afed7f1e626712520591a425116e8bb4fbcbcafeae1/laya-0.3.27-py3-none-any.whl"
+    },
+    {
+      "actual_sha256": "8a1ad028f2b02289fad0cb69a6058c7eb0cbf42506945726693e822b2f7f601b",
+      "advertised_sha256": "8a1ad028f2b02289fad0cb69a6058c7eb0cbf42506945726693e822b2f7f601b",
+      "bytes": 927091,
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya-0.3.27-preparation/laya-0.3.27.tar.gz",
+      "url": "https://files.pythonhosted.org/packages/6d/77/7b58479ccc1c4d105e94df7721559c355f2aa07acbd0e4aeafa2703dc98e/laya-0.3.27.tar.gz"
+    }
+  ],
+  "quality_claim": false,
+  "release_commit": "b09832bdd3819e375fe8b0d26dbd7a8f75c4f0bd",
+  "retained_failed_wheel_probe": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya-0.3.27-preparation/cpu-compatibility-result.json",
+    "protocol_commit": "9c94c00",
+    "protocol_sha256": "11c9c51bff6c7f50480d6390c4908b5779386e5eda16a73f5d62687b2414e4d6",
+    "sha256": "2dd45013ce67598a9a29843ef017355c4dda8eff3590052a793f6f7bfb983994"
+  },
+  "routes": {
+    "english": {
+      "amp_enabled": false,
+      "device": "cpu",
+      "live_parameter_count": 421293827,
+      "repository": "convaiinnovations/laya",
+      "revision": "7b928d828b7b0e022f929d9bd2e44165aa270148",
+      "runtime_dtype": "torch.float32",
+      "tokenizer_config_sha256_after": "50044de60daaa73df97d262e15a40d4faf0160e7d742df64b377877a1320dd12",
+      "tokenizer_config_sha256_before": "50044de60daaa73df97d262e15a40d4faf0160e7d742df64b377877a1320dd12"
+    },
+    "multilingual": {
+      "amp_enabled": false,
+      "device": "cpu",
+      "live_parameter_count": 321908995,
+      "repository": "convaiinnovations/laya-multilingual",
+      "revision": "1720e3e3357cfe1e281542e223f8273b0890ca34",
+      "runtime_dtype": "torch.float32",
+      "tokenizer_config_sha256_after": "6c6b2d8e3c84ce0e671c129cd6b374b235d6f9863042a5836358d00a89bbb5a1",
+      "tokenizer_config_sha256_before": "424b69444bf7b5809dc2cd2e36d0bd71b8055124dd24274d6db3c655d38205e7"
+    },
+    "typed-decisions": {
+      "amp_enabled": false,
+      "device": "cpu",
+      "live_parameter_count": 421293827,
+      "repository": "convaiinnovations/laya-typed-decisions",
+      "revision": "e929ae5cf69bc34259cd2f95c9e91145b818b1f0",
+      "runtime_dtype": "torch.float32",
+      "tokenizer_config_sha256_after": "08d4cf3ac4dca381759441b85b91a6d40e688471dcd33d15d6649eb0a9a854d1",
+      "tokenizer_config_sha256_before": "08d4cf3ac4dca381759441b85b91a6d40e688471dcd33d15d6649eb0a9a854d1"
+    }
+  },
+  "schema": "vey.laya.published-release-cpu-compatibility-result.v1",
+  "scope": "Current published-runtime offline CPU eager integration compatibility only. No quality, calibration, latency, residency, neutral comparison, competitor superiority or matrix-cell promotion.",
+  "source_equivalence": {
+    "all35_wheel_members_byte_equal_to_release_source": true,
+    "all40_sha256_and_git_blob_identities_checked": true,
+    "missing_wheel_backend_files": 5,
+    "post_release_head_imported": false,
+    "release_package_files": 40,
+    "vendor_source_modified": false,
+    "wheel_package_files": 35
+  },
+  "status": "PASS exact complete release-source CPU compatibility; packaged wheel backend constructor failure retained",
+  "success_receipt": {
+    "passed": true,
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya-0.3.27-preparation/cpu-compatibility-release-source-v2.json",
+    "sha256": "3176c04a3b4acd5ed34a2086f99b0ef275573fe6e929fce81247677822218048"
+  },
+  "temperature_metadata": {
+    "english_and_typed_raw_choice_11_plus": 0.10058280825614929,
+    "evidence_class": "MEASURED checkpoint metadata; clamp previously source-inspected, not a high-K calibration result",
+    "fixture_choice_K": 3,
+    "high_K_exercised": false,
+    "served_floor_source": 0.5
+  },
+  "typed_request": {
+    "complete_route_predictions": 3,
+    "distribution_sum_bound": "K*0.00005 + 1e-6",
+    "finite_ranges_and_keys_checked": true,
+    "questions_per_route": 3,
+    "synthetic_states": 1,
+    "typed_answers": 9,
+    "types": [
+      "Choice",
+      "Noul",
+      "Score"
+    ]
+  },
+  "version": "0.3.27",
+  "weight_payloads_downloaded": false
+}

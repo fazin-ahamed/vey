@@ -1171,5 +1171,19 @@
     "joules_per_verified_decision": null,
     "same_host_Vey_advantage": null,
     "hosted_pricing": null
+  },
+  "published_release_cpu_compatibility_0_3_27": {
+    "evidence_class": "MEASURED",
+    "manifest": "research/competitors/laya_published_0_3_27_result_manifest.json",
+    "manifest_sha256": "0808f5b0a35d76dbeae85aa9ea00852a34a2c765660dca500b1d896fcf7b8719",
+    "release_commit": "b09832bdd3819e375fe8b0d26dbd7a8f75c4f0bd",
+    "exact_complete_release_source_CPU_FP32_routes_passed": ["english", "typed-decisions", "multilingual"],
+    "synthetic_states": 1,
+    "typed_answers": 9,
+    "published_wheel_constructor": "FAILED: missing laya.backends; exact five release backend files absent from wheel; original failure retained",
+    "source_package_not_wheel_success": true,
+    "isolated_multilingual_tokenizer_metadata_rewritten": true,
+    "historical_runtime_evidence_unchanged": true,
+    "quality_calibration_performance_neutral_credit": false
   }
 }
