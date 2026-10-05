@@ -146,6 +146,12 @@ def main(argv=None):
     parser.add_argument("--limit", type=int, default=0)
     args = parser.parse_args(argv)
 
+    out = Path(args.out)
+    raw_out = out.with_name(out.name + ".raw.jsonl")
+    for target in (out, raw_out):
+        if target.exists():
+            raise FileExistsError(target)
+
     cfg = protocol()
     for variable, value in cfg["laya"]["environment_variables"].items():
         require(os.environ.get(variable) == value, "Environment guard: " + variable)
@@ -166,7 +172,6 @@ def main(argv=None):
     # contract; the exact published constructor and typed call are unchanged.
     agent = laya.Agent(str(directory), device="cpu", backend="eager", expected_sha256=expected)
 
-    out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     rows = 0
     hits = 0
@@ -183,9 +188,12 @@ def main(argv=None):
         "endpoints": list(DEV_ENDPOINTS), "limit": args.limit, "started_unix": time.time(),
         "final_benchmark_access": False, "quality_claim": False, "performance_claim": False,
     }
-    with out.open("x", encoding="utf-8") as stream:
+    with out.open("x", encoding="utf-8") as stream, raw_out.open("x", encoding="utf-8") as raw_stream:
         stream.write(json.dumps(header, ensure_ascii=False, sort_keys=True) + "\n")
         stream.flush()
+        raw_stream.write(json.dumps({**header, "schema": "vey.native-peer.laya-raw-capture.v1"},
+                                    ensure_ascii=False, sort_keys=True) + "\n")
+        raw_stream.flush()
         try:
             for row in dev_rows(cfg):
                 if args.limit and rows >= args.limit:
@@ -193,6 +201,11 @@ def main(argv=None):
                 questions = {"q": {"type": "choice", "instructions": row["question"],
                                    "criteria": {cid: row["candidates"][cid] for cid in row["candidate_ids"]}}}
                 prediction = agent.system_one({"text": row["state"]}, questions)
+                raw_stream.write(json.dumps({"id": row["id"], "endpoint": row["endpoint"],
+                                             "prediction": prediction},
+                                            ensure_ascii=False, sort_keys=True) + "\n")
+                raw_stream.flush()
+                require(set(prediction["answers"]) == {"q"}, "Question keys differ")
                 answer = prediction["answers"]["q"]
                 probabilities = answer["probabilities"]
                 require(set(probabilities) == set(row["candidate_ids"]), "Probability keys differ")

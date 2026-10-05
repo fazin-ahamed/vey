@@ -28,10 +28,21 @@
     "no_additional_peer_execution_until_dependency_completes": true
   },
   "inflight_custody": {
+    "scope": "The 15 registered Modal transport source files only; peer capture is outside that transport",
     "implementation_edits": false,
     "model_gate_edits": false,
     "threshold_edits": false,
     "new_model_forwards": 0
+  },
+  "peer_payload_correction": {
+    "failure_before": "Synthetic successful replies lost full prediction and usage diagnostics; failed validation retained only the exception, not the returned payload",
+    "correction": "An exclusive <out>.raw.jsonl sidecar retains and flushes each full return before validation; exact returned question-key set must be q; existing raw evidence is refused before runtime setup",
+    "unchanged": "Published runtime, route, model, call arguments, row membership, probability arithmetic and protocol",
+    "smoke_after": "Synthetic successful payload including truncation and collapsed-option diagnostics retained by the actual capture entrypoint",
+    "regressions": "20 peer capture/verifier tests pass, including malformed payload retention and refusal to overwrite raw evidence",
+    "model_loads_or_forwards_for_correction": 0,
+    "historical_smoke_limit": "Original three-row smoke lacks full returned diagnostics; no retrospective full-payload custody claim",
+    "scope": "Operational evidence custody only; no new peer quality result"
   },
   "pending": "Correct and regression-test verifier after current run ends; then independently verify complete artifacts. Preserve partial and failed evidence without granting architecture credit."
 }

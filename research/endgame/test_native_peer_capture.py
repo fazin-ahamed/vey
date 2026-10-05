@@ -150,3 +150,39 @@ def test_capture_refuses_an_existing_output(monkeypatch, tmp_path):
     out.write_text("existing\n")
     with pytest.raises(FileExistsError):
         capture.main(["--out", str(out), "--limit", "1"])
+
+
+@pytest.mark.parametrize("malformed", ["extra_question", "missing_answers", "illegal_choice"])
+def test_failed_payload_is_retained_before_validation(monkeypatch, tmp_path, malformed):
+    row = _rows(1)[0]
+    probabilities = {cid: 0.0 for cid in row["candidate_ids"]}
+    probabilities[row["gold"]] = 1.0
+    reply = {"answers": {"q": {"choice": row["gold"], "probabilities": probabilities}},
+             "usage": {"truncated": True, "collapsed_options": [row["candidate_ids"][-1]]}}
+    if malformed == "extra_question":
+        reply["answers"]["unexpected"] = {"choice": row["gold"]}
+    elif malformed == "missing_answers":
+        del reply["answers"]
+    else:
+        reply["answers"]["q"]["choice"] = "not_a_candidate"
+    agent = _FakeAgent(reply)
+    _patched(monkeypatch, tmp_path, agent, [row])
+    out = tmp_path / "capture.jsonl"
+    with pytest.raises((RuntimeError, KeyError)):
+        capture.main(["--out", str(out), "--limit", "1"])
+    raw = [json.loads(line) for line in Path(str(out) + ".raw.jsonl").read_text().splitlines()]
+    assert raw[1] == {"id": row["id"], "endpoint": row["endpoint"], "prediction": reply}
+    validated = [json.loads(line) for line in out.read_text().splitlines()]
+    assert validated[-1]["schema"] == "vey.native-peer.laya-capture-failure.v1"
+    assert validated[-1]["rows_before_failure"] == 0
+
+
+def test_existing_raw_sidecar_is_preserved_without_runtime_loading(monkeypatch, tmp_path):
+    out = tmp_path / "capture.jsonl"
+    raw = Path(str(out) + ".raw.jsonl")
+    raw.write_text("retained original evidence\n")
+    monkeypatch.setattr(capture, "protocol", lambda: pytest.fail("Must refuse before runtime setup"))
+    with pytest.raises(FileExistsError):
+        capture.main(["--out", str(out)])
+    assert raw.read_text() == "retained original evidence\n"
+    assert not out.exists()

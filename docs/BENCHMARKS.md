@@ -6068,6 +6068,16 @@ runtime do not establish either for this capture. No full-DEV or quality credit
 follows. `native_execution_audit_manifest.json` binds these corrections and
 retained evidence. Further peer execution waits for the registered dependency.
 
+Peer payload-custody correction before the full comparison: the original
+capture omitted complete returned diagnostics, including on validation failure.
+An exclusive raw sidecar now flushes each returned payload before checking it;
+existing raw evidence is refused before runtime setup. Synthetic entrypoint
+execution verifies successful diagnostic retention, and 20 peer capture/verifier
+tests pass, including malformed question/choice payload retention. No model
+loads or forwards were performed for this correction. Published call semantics,
+membership, protocol and all 15 Modal transport source files remain unchanged.
+The historical three-row smoke cannot earn retrospective full-payload custody.
+
 ## QNATIVE-1: natural-question source projection
 
 Preregistered at `05e5d36`; allocation-order correctness repair at `34f8d73`.
