@@ -1,0 +1,62 @@
+{
+  "schema": "vey.neutral.multilingual-route-protocol.v1",
+  "status": "PROSPECTIVE; commit before executing the multilingual route. The English-route run is already complete on Choice and is reported separately; this protocol governs only the multilingual arm.",
+  "evidence_class": "HYPOTHESIS",
+  "hypothesis": "The pinned Laya multilingual route scores materially higher than the pinned English route on the same verified MASSIVE dev intent rows, and its macro accuracy over 51 locales approaches or exceeds the vendor-reported 0.4008. If instead the English route is competitive, the vendor's route-separation claim is wrong on this benchmark.",
+  "why_this_arm": "The comparison protocol at 3a45bff fixed the English route and registered the multilingual route as a separate follow-up, because selecting it mid-run would have changed the arm set after outcomes existed. This file is that follow-up, committed on its own terms.",
+  "authority": {
+    "comparison_protocol": "research/endgame/neutral_development_comparison_protocol.json",
+    "comparison_amendment": "research/endgame/neutral_development_comparison_amendment_v1.json",
+    "laya_dossier": "research/competitors/LAYA.json",
+    "vendor_claim_under_test": "Laya multilingual route MASSIVE-51 macro accuracy 0.4008 (advertised, never reproduced)",
+    "routing_rule": "The registered Laya routing rule selects the multilingual route for recognized non-English input. MASSIVE dev is 50/51 non-English by group, so this is the strongest appropriate route for this stratum, not a convenience choice."
+  },
+  "arm": {
+    "route": "multilingual",
+    "bundle_subfolder": "multilingual",
+    "bundle_revision": "55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851",
+    "weights": "multilingual/model.safetensors, loaded with safetensors",
+    "tokenizer": "multilingual/tokenizer, loaded from the pinned bundle directory",
+    "temperature": "The multilingual rl_agent_config carries only per-qtype temperatures of 1.0 and no option bands. Apply the bundle's own config verbatim.",
+    "note_on_tokenizer": "Prior published-release work recorded that the isolated multilingual tokenizer metadata needed rewriting to load offline. This run uses the cached pinned bundle directory; if that load fails, the failure is retained and recorded rather than worked around by downloading a different tokenizer."
+  },
+  "data": {
+    "identical_to": "the completed English Choice run: same 63,852 rows, same order, same candidate ids, same state text, same question string, same metrics code",
+    "difference_is_only": "the pinned route under evaluation"
+  },
+  "metrics": {
+    "primary": "Macro accuracy over base utterance groups within locale, then averaged across the 51 locales, reported alongside micro accuracy over locale rows.",
+    "secondary": [
+      "top-1 accuracy per locale",
+      "NLL and Brier over the 60-way distribution",
+      "15-bin ECE",
+      "option token spans under the multilingual head_max_len"
+    ],
+    "grouping": "Base utterance group is the inferential unit. Locale descendants never multiply n.",
+    "comparison": "English versus multilingual on identical rows, paired at group level, cluster bootstrap 10000 resamples seed 0, plus exact McNemar discordance counts."
+  },
+  "gates": [
+    "Route loads with zero missing and zero unexpected weight keys, or the run fails and the receipt is retained.",
+    "Every scored row persists id, group_id, locale, probs, answer, gold, temperature, marker count and option spans.",
+    "Row set is byte-identical to the English run's row set; verified by id-set hash, not asserted.",
+    "Vendor 0.4008 is reported as a claim beside our measurement, never merged into it."
+  ],
+  "interpretation_rules": [
+    "If the multilingual route materially beats English, the English-route number is reported as the weaker registered route, not as Laya's capability.",
+    "If the multilingual route does not reach 0.4008, that vendor number is recorded as unreproduced on this benchmark with our exact protocol, route revision and macro definition.",
+    "A macro-over-locales number and a micro-over-rows number are never compared to each other. The vendor metric definition must be stated before any comparison is made."
+  ],
+  "resource_budget": {
+    "concurrent_GPU_jobs_max": 1,
+    "local_VRAM_limit_GB": 12,
+    "note": "Multilingual weights are 643 MB safetensors; FP32 residency with activations fits the 12 GB budget. The Choice run must be complete before this starts."
+  },
+  "failure_branches": {
+    "load_failure": "Retain the failure receipt with the exact exception. Do not substitute the typed-decisions or english route without a committed amendment.",
+    "tokenizer_load_failure": "Retain. Do not fetch a different tokenizer revision."
+  },
+  "current_state": {"model_executed": false, "rows_scored": false, "sealed_phase_opened": false, "vendor_claim_reproduced": null},
+  "promotion": false,
+  "endgame_complete": false,
+  "B_STEF_allowed": false
+}
