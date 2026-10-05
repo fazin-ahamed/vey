@@ -260,7 +260,10 @@ def verify(phase, compiler_path):
         order_hash.update((key + "\n").encode())
         for bundle in expected_projection(envelope, cfg, catalogues, rubrics, ir, renderer):
             for name, value in zip(STREAMS, bundle):
-                require(next(streams[name]) == value, "Independent projection differs from persisted stream: " + name)
+                # Persisted streams are canonical JSON, so tuple-valued dataclass
+                # fields compare through their JSON round trip, not by container type.
+                require(next(streams[name]) == json.loads(canonical(value)),
+                        "Independent projection differs from persisted stream: " + name)
             decision_hash.update((bundle[0]["id"] + "\n").encode())
             bucket = coverage[bundle[3]["endpoint"] + "/" + str(bundle[3]["locale"])]
             bucket["decisions"] += 1
