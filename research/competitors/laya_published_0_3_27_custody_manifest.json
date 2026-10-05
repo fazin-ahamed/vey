@@ -1,0 +1,289 @@
+{
+  "HF_snapshot_aliases_created": false,
+  "artifacts": [
+    {
+      "actual_sha256": "7d3c30b1afc8e8ea5ab0285b02de2a46ee71563ba1590e1278a4a637a988fbfe",
+      "advertised_sha256": "7d3c30b1afc8e8ea5ab0285b02de2a46ee71563ba1590e1278a4a637a988fbfe",
+      "bytes": 322956,
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya-0.3.27-preparation/laya-0.3.27-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/fc/2d/fcc20780d4a757e13afed7f1e626712520591a425116e8bb4fbcbcafeae1/laya-0.3.27-py3-none-any.whl"
+    },
+    {
+      "actual_sha256": "8a1ad028f2b02289fad0cb69a6058c7eb0cbf42506945726693e822b2f7f601b",
+      "advertised_sha256": "8a1ad028f2b02289fad0cb69a6058c7eb0cbf42506945726693e822b2f7f601b",
+      "bytes": 927091,
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya-0.3.27-preparation/laya-0.3.27.tar.gz",
+      "url": "https://files.pythonhosted.org/packages/6d/77/7b58479ccc1c4d105e94df7721559c355f2aa07acbd0e4aeafa2703dc98e/laya-0.3.27.tar.gz"
+    }
+  ],
+  "historical_inventory": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya_runtime_inventory_v1.json",
+    "sha256": "639de7150c1fec59c7bd00972d903c75a262cf4db4b8ec7153613c2656cfd4e1"
+  },
+  "inspected_post_release_head": "8a6e1328cce2460a0e5aa348ad465bb1b5821cd2",
+  "metadata_refresh_manifest": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/competitors/refresh-2026-10-04/laya/refresh_manifest.json",
+    "sha256": "11528aab8def77bd51772c3d7cbca95ab0b80a00df23298130f1a71b0338bbfa"
+  },
+  "models_loaded": false,
+  "package_version": "0.3.27",
+  "probability_serialization": {
+    "decimals": 4,
+    "lines": [
+      1357,
+      1376
+    ],
+    "source": "laya/agent.py",
+    "sum_tolerance": "K * 0.00005 + 1e-6"
+  },
+  "quality_claim": false,
+  "release_commit": "b09832bdd3819e375fe8b0d26dbd7a8f75c4f0bd",
+  "release_equivalence": "Every shipped laya package member matches exact release Git blob and sdist bytes. Post-release head not imported.",
+  "release_tree": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya-0.3.27-preparation/github-release-tree.json",
+    "sha256": "b80202a41fc6ff19586d48b675d016aac75e2ecd0a46dc2d9f97624c219b8e66"
+  },
+  "routes": {
+    "english": {
+      "files": {
+        "encoder/config.json": {
+          "bytes": 2083,
+          "cache_blob_name": "5881ba831f2db5ce0f606bbaa1f2668e1e6cb706",
+          "current_advertised_identity": "5881ba831f2db5ce0f606bbaa1f2668e1e6cb706",
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/snapshots/55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851/encoder/config.json",
+          "resolved_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/blobs/5881ba831f2db5ce0f606bbaa1f2668e1e6cb706",
+          "sha256": "bf3ab80598fdccf414855a2ce80f22859e4492d06ca8a62ddd1cfb63972f8979",
+          "upstream_identity": "5881ba831f2db5ce0f606bbaa1f2668e1e6cb706",
+          "upstream_identity_kind": "git_blob_sha1",
+          "upstream_identity_verified": true,
+          "upstream_xet_hash": null
+        },
+        "model.safetensors": {
+          "bytes": 842609210,
+          "cache_blob_name": "dd8562d713759821a0bc049e79abd09e5817d218d18fa51478ad16986d018764",
+          "current_advertised_identity": "891102d372688fc2a094dac56a384bc537b87c63f21f9f3dac0be2b7cbc8d86c",
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/snapshots/55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851/model.safetensors",
+          "resolved_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/blobs/dd/dd8562d713759821a0bc049e79abd09e5817d218d18fa51478ad16986d018764",
+          "sha256": "891102d372688fc2a094dac56a384bc537b87c63f21f9f3dac0be2b7cbc8d86c",
+          "upstream_identity": "891102d372688fc2a094dac56a384bc537b87c63f21f9f3dac0be2b7cbc8d86c",
+          "upstream_identity_kind": "lfs_sha256",
+          "upstream_identity_verified": true,
+          "upstream_xet_hash": "dd8562d713759821a0bc049e79abd09e5817d218d18fa51478ad16986d018764"
+        },
+        "rl_agent_config.json": {
+          "bytes": 745,
+          "cache_blob_name": "3e4fcbf12cf36164ce18a1398aa9f35f58375ae0",
+          "current_advertised_identity": "3e4fcbf12cf36164ce18a1398aa9f35f58375ae0",
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/snapshots/55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851/rl_agent_config.json",
+          "resolved_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/blobs/3e4fcbf12cf36164ce18a1398aa9f35f58375ae0",
+          "sha256": "ae287b56bbcf5f8c4f4541ae9dfd00c914c4c48b940b8398c3058af37ba92bbd",
+          "upstream_identity": "3e4fcbf12cf36164ce18a1398aa9f35f58375ae0",
+          "upstream_identity_kind": "git_blob_sha1",
+          "upstream_identity_verified": true,
+          "upstream_xet_hash": null
+        },
+        "tokenizer/tokenizer.json": {
+          "bytes": 3583228,
+          "cache_blob_name": "2f4d8583e507b7466d2490e2d6c045647a822698",
+          "current_advertised_identity": "2f4d8583e507b7466d2490e2d6c045647a822698",
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/snapshots/55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851/tokenizer/tokenizer.json",
+          "resolved_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/blobs/2f4d8583e507b7466d2490e2d6c045647a822698",
+          "sha256": "6c8aaa9a542084f2457eab775d4eeb51f92a70c0fd9de28d5edb0ddec3c08d30",
+          "upstream_identity": "2f4d8583e507b7466d2490e2d6c045647a822698",
+          "upstream_identity_kind": "git_blob_sha1",
+          "upstream_identity_verified": true,
+          "upstream_xet_hash": null
+        },
+        "tokenizer/tokenizer_config.json": {
+          "bytes": 308,
+          "cache_blob_name": "9fd800115c5c92353220aa66addfce67a9135f32",
+          "current_advertised_identity": "9fd800115c5c92353220aa66addfce67a9135f32",
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/snapshots/55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851/tokenizer/tokenizer_config.json",
+          "resolved_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/blobs/9fd800115c5c92353220aa66addfce67a9135f32",
+          "sha256": "50044de60daaa73df97d262e15a40d4faf0160e7d742df64b377877a1320dd12",
+          "upstream_identity": "9fd800115c5c92353220aa66addfce67a9135f32",
+          "upstream_identity_kind": "git_blob_sha1",
+          "upstream_identity_verified": true,
+          "upstream_xet_hash": null
+        }
+      },
+      "repository": "convaiinnovations/laya",
+      "revision": "7b928d828b7b0e022f929d9bd2e44165aa270148"
+    },
+    "multilingual": {
+      "files": {
+        "encoder/config.json": {
+          "bytes": 1938,
+          "cache_blob_name": "0de0e2d30638873790cf962def52e2acf4db3eef",
+          "current_advertised_identity": "0de0e2d30638873790cf962def52e2acf4db3eef",
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/snapshots/55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851/multilingual/encoder/config.json",
+          "resolved_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/blobs/0de0e2d30638873790cf962def52e2acf4db3eef",
+          "sha256": "83f6916d13ef0f556ac461f28308dc2bffa7ebeadee8ec9e2db5812020ea5bb4",
+          "upstream_identity": "0de0e2d30638873790cf962def52e2acf4db3eef",
+          "upstream_identity_kind": "git_blob_sha1",
+          "upstream_identity_verified": true,
+          "upstream_xet_hash": null
+        },
+        "model.safetensors": {
+          "bytes": 643835514,
+          "cache_blob_name": "53499790a05bdabd4023a797e9e2776d39efd3bac72d6ddaed70495da40c6eb0",
+          "current_advertised_identity": "9d628fd971b700382ac6f65920a86f149777b2e748e0c955fb3b19695aa8f204",
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/snapshots/55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851/multilingual/model.safetensors",
+          "resolved_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/blobs/53/53499790a05bdabd4023a797e9e2776d39efd3bac72d6ddaed70495da40c6eb0",
+          "sha256": "9d628fd971b700382ac6f65920a86f149777b2e748e0c955fb3b19695aa8f204",
+          "upstream_identity": "9d628fd971b700382ac6f65920a86f149777b2e748e0c955fb3b19695aa8f204",
+          "upstream_identity_kind": "lfs_sha256",
+          "upstream_identity_verified": true,
+          "upstream_xet_hash": "53499790a05bdabd4023a797e9e2776d39efd3bac72d6ddaed70495da40c6eb0"
+        },
+        "rl_agent_config.json": {
+          "bytes": 472,
+          "cache_blob_name": "00e35f88bb731bb9126a914666ab1cdac8a204c8",
+          "current_advertised_identity": "00e35f88bb731bb9126a914666ab1cdac8a204c8",
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/snapshots/55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851/multilingual/rl_agent_config.json",
+          "resolved_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/blobs/00e35f88bb731bb9126a914666ab1cdac8a204c8",
+          "sha256": "25061739243b617ad88d1219ba6f8a9c86c5881ca28df024fa2d9b3b2fcc30c6",
+          "upstream_identity": "00e35f88bb731bb9126a914666ab1cdac8a204c8",
+          "upstream_identity_kind": "git_blob_sha1",
+          "upstream_identity_verified": true,
+          "upstream_xet_hash": null
+        },
+        "tokenizer/tokenizer.json": {
+          "bytes": 34363188,
+          "cache_blob_name": "8fdbdb0307b65058d3b81a88cba0082cd1bbe8e85d34295d2271d6fa85a31c7a",
+          "current_advertised_identity": "609d8f4c067cd3950f88594c5a802616cea245823836ef5848ee4fc40aab5b6f",
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/snapshots/55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851/multilingual/tokenizer/tokenizer.json",
+          "resolved_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/blobs/8f/8fdbdb0307b65058d3b81a88cba0082cd1bbe8e85d34295d2271d6fa85a31c7a",
+          "sha256": "609d8f4c067cd3950f88594c5a802616cea245823836ef5848ee4fc40aab5b6f",
+          "upstream_identity": "609d8f4c067cd3950f88594c5a802616cea245823836ef5848ee4fc40aab5b6f",
+          "upstream_identity_kind": "lfs_sha256",
+          "upstream_identity_verified": true,
+          "upstream_xet_hash": "8fdbdb0307b65058d3b81a88cba0082cd1bbe8e85d34295d2271d6fa85a31c7a"
+        },
+        "tokenizer/tokenizer_config.json": {
+          "bytes": 502,
+          "cache_blob_name": "c255ac0c8cb34a37d066cd0dafe313fd769d27ae",
+          "current_advertised_identity": "eea1ed61121530d74c1722dc2aab6ec917a75909",
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/snapshots/55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851/multilingual/tokenizer/tokenizer_config.json",
+          "provenance": "Standalone published tokenizer metadata differs from bundled historical route; fetched exact 502-byte metadata, no weight change.",
+          "resolved_path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya-0.3.27-preparation/multilingual-tokenizer_config.json",
+          "sha256": "424b69444bf7b5809dc2cd2e36d0bd71b8055124dd24274d6db3c655d38205e7",
+          "upstream_identity": "eea1ed61121530d74c1722dc2aab6ec917a75909",
+          "upstream_identity_kind": "git_blob_sha1",
+          "upstream_identity_verified": true,
+          "upstream_xet_hash": null
+        }
+      },
+      "repository": "convaiinnovations/laya-multilingual",
+      "revision": "1720e3e3357cfe1e281542e223f8273b0890ca34"
+    },
+    "typed-decisions": {
+      "files": {
+        "encoder/config.json": {
+          "bytes": 2084,
+          "cache_blob_name": "d4be4829750fb04c0aa8b9897c3ea827f76c0109",
+          "current_advertised_identity": "d4be4829750fb04c0aa8b9897c3ea827f76c0109",
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/snapshots/55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851/typed-decisions/encoder/config.json",
+          "resolved_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/blobs/d4be4829750fb04c0aa8b9897c3ea827f76c0109",
+          "sha256": "5268d24ad3b77c8151de5dcb0762ba4391619aad9ab0bda33e36fb083cfeae6d",
+          "upstream_identity": "d4be4829750fb04c0aa8b9897c3ea827f76c0109",
+          "upstream_identity_kind": "git_blob_sha1",
+          "upstream_identity_verified": true,
+          "upstream_xet_hash": null
+        },
+        "model.safetensors": {
+          "bytes": 842609220,
+          "cache_blob_name": "b944f07439893c34eed267bc3430ed0da390d5e435952f8a77e6a7dbf79669d1",
+          "current_advertised_identity": "4fa56de72383a9d3efa9cfa78955733c81b9fc8067a587ca4beb82c78107a24e",
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/snapshots/55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851/typed-decisions/model.safetensors",
+          "resolved_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/blobs/b9/b944f07439893c34eed267bc3430ed0da390d5e435952f8a77e6a7dbf79669d1",
+          "sha256": "4fa56de72383a9d3efa9cfa78955733c81b9fc8067a587ca4beb82c78107a24e",
+          "upstream_identity": "4fa56de72383a9d3efa9cfa78955733c81b9fc8067a587ca4beb82c78107a24e",
+          "upstream_identity_kind": "lfs_sha256",
+          "upstream_identity_verified": true,
+          "upstream_xet_hash": "b944f07439893c34eed267bc3430ed0da390d5e435952f8a77e6a7dbf79669d1"
+        },
+        "rl_agent_config.json": {
+          "bytes": 847,
+          "cache_blob_name": "5f0e1d5f2366fe8ba2ff330dffaeed53b469e97e",
+          "current_advertised_identity": "5f0e1d5f2366fe8ba2ff330dffaeed53b469e97e",
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/snapshots/55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851/typed-decisions/rl_agent_config.json",
+          "resolved_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/blobs/5f0e1d5f2366fe8ba2ff330dffaeed53b469e97e",
+          "sha256": "ebf0cd524d92342a6be5e48e9fca3d7c2babfb5a56ccd79d2171ef5d8c7f7be8",
+          "upstream_identity": "5f0e1d5f2366fe8ba2ff330dffaeed53b469e97e",
+          "upstream_identity_kind": "git_blob_sha1",
+          "upstream_identity_verified": true,
+          "upstream_xet_hash": null
+        },
+        "tokenizer/tokenizer.json": {
+          "bytes": 3583228,
+          "cache_blob_name": "2f4d8583e507b7466d2490e2d6c045647a822698",
+          "current_advertised_identity": "2f4d8583e507b7466d2490e2d6c045647a822698",
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/snapshots/55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851/typed-decisions/tokenizer/tokenizer.json",
+          "resolved_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/blobs/2f4d8583e507b7466d2490e2d6c045647a822698",
+          "sha256": "6c8aaa9a542084f2457eab775d4eeb51f92a70c0fd9de28d5edb0ddec3c08d30",
+          "upstream_identity": "2f4d8583e507b7466d2490e2d6c045647a822698",
+          "upstream_identity_kind": "git_blob_sha1",
+          "upstream_identity_verified": true,
+          "upstream_xet_hash": null
+        },
+        "tokenizer/tokenizer_config.json": {
+          "bytes": 337,
+          "cache_blob_name": "ed1ffabc2ce11120754705709569e365e46da71a",
+          "current_advertised_identity": "ed1ffabc2ce11120754705709569e365e46da71a",
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/snapshots/55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851/typed-decisions/tokenizer/tokenizer_config.json",
+          "resolved_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/blobs/ed1ffabc2ce11120754705709569e365e46da71a",
+          "sha256": "08d4cf3ac4dca381759441b85b91a6d40e688471dcd33d15d6649eb0a9a854d1",
+          "upstream_identity": "ed1ffabc2ce11120754705709569e365e46da71a",
+          "upstream_identity_kind": "git_blob_sha1",
+          "upstream_identity_verified": true,
+          "upstream_xet_hash": null
+        }
+      },
+      "repository": "convaiinnovations/laya-typed-decisions",
+      "revision": "e929ae5cf69bc34259cd2f95c9e91145b818b1f0"
+    }
+  },
+  "schema": "vey.laya.published-release-preparation.v1",
+  "standalone_multilingual_difference": "Only tokenizer/tokenizer_config.json differs from bundled historical multilingual route. Exact standalone current Git-blob metadata captured; all three weight identities equal historical proven cached payloads. Historical compatibility unchanged.",
+  "status": "prepared_not_executed",
+  "weight_payloads_downloaded": false,
+  "wheel_source_root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya-0.3.27-preparation/wheel-source",
+  "wheel_source_sha256": {
+    "laya/__init__.py": "2625f436dc7e93b8e18bda559f71a138b724381cfdd055c06477b8eff64b2771",
+    "laya/_compile.py": "487cbd1550ef180ece7ec948b99d34eb280930b16f889a5c5b2c4621000a5ede",
+    "laya/_eval_policy.py": "9788b90c673f20ba1c635169d572fac260eb92f8755b88a5c226421f81078f6c",
+    "laya/agent.py": "fce3efddb648b7911d3054773b233873493ba57fedc023f073a60368f5e237b4",
+    "laya/calibrate.py": "1e27411f4275264755a3fc0d7daf95643fa8dd463143b941f0fbeedad178d316",
+    "laya/cli.py": "11192da39d4725832e4a8836b618057f8befbadc80ba464e3de70b7cd0508b1d",
+    "laya/common.py": "0e4020cc844db80b28e446f3d5fed5a927ae6a8dc4af806fdd334107855211c2",
+    "laya/confidence.py": "37ddd611706b85971e8e98dc40d28306a7aa36c78f358e5e584772b960f7d690",
+    "laya/email.py": "0850ee825ba511547a18b5fc847b619f676bbbe9dc92f65fd082176b03d8ac75",
+    "laya/evals.py": "c7687e89098508d2f9efec2f9b7b7bb396966cd53c8e60727ba38a868f060947",
+    "laya/evals_cli.py": "5373284e295d883b4643f645fe8431429137fe09db9672f7a543a04cf9dbf569",
+    "laya/evals_shortlist.py": "c759cf291c98fd46374844488eb1ed311c3c8e326238c2cddcf1046626c6499f",
+    "laya/fast.py": "df722a500cf0074ba01e67fccd510cc1c279c2851594100c7c4ba5755ad08b9c",
+    "laya/hooks.py": "61f034082d0cf9e9b4f83212bf9b547adb7269a1adda14a8ad3d77d76077cb7b",
+    "laya/integrations/__init__.py": "a89caea33c7974f87420486d692dc42897d23ec015a6b77982bc3e7232ee592f",
+    "laya/integrations/_controls.py": "32ee545ff2354d5896a66a9f4ea7d0bcdd3f744b589a97358f2fbdcd40b75106",
+    "laya/integrations/_errors.py": "f47f5d3e4e3a0d7329ba859b873900dfdfee638280ba82fc778016c3e5d1897e",
+    "laya/integrations/_guard.py": "6ff6306fb8b5f45faa511f55582bc8dea2abb693922a886f4dc2224e85f8c636",
+    "laya/integrations/crewai.py": "de4bfbc4c1f19de1eda20fa18b2d03bbd0cd9829e516675ab7ba8af2c8958db2",
+    "laya/integrations/langchain.py": "03104605d9f1ff56f2463fb0c006850e4dfab45d85ef104f8ae91eef61da6c30",
+    "laya/integrations/llamaindex.py": "86cdd0e92421817cc10a5121491205c5b0a76083b44a073bab7756a85188ba72",
+    "laya/lang.py": "9a19b93dda8e784dfc8e326a1d29b67b14e170280ac0327171fc68fd2b76d1c9",
+    "laya/mcp/__init__.py": "3cddfbdb68ea7e25aaa46df3fd732a939d24b07ea2fbfbde2ba92a99af4b43d2",
+    "laya/mcp/device.py": "43d26c0e9145be8e45520bd46cb3e968f902148e4be4105f22c82dfed56bfd47",
+    "laya/mcp/remote.py": "ec46d54299b1aa61cb8cff16600173ed106cb993068695ff3381f71b9251971a",
+    "laya/mcp/server.py": "e3ca8896f638c408189acece2ac426177bf1733c94232e59a1fe9ad6f197f090",
+    "laya/mcp/tools.py": "36c2a8791c4a543ae9ca6d2d87cb9d5450cd5249f67538ed21949028aa9bdfdd",
+    "laya/onnx_agent.py": "d15eff733925af9f8dcb044f435ab674bb17b2e68a358104fca91e98f56c45e3",
+    "laya/presets.py": "40d91d74f5bd585b40f70c34c95cb4fe2aec83a85cfdb93e4c623a5d904defa3",
+    "laya/revisions.py": "3d07822d231e94d7e22da0fbae89cac159b7525ff87c54efb72f10a09f7319bc",
+    "laya/router.py": "7e4bf6b8341f8afc6b3d3a298784c0ea5544a23b959cfcb6f71594f35af71ce1",
+    "laya/serve.py": "e3ab7c88aaf071c9774a0b03d644a97aacc306445bfaa9819422edc5e5b28520",
+    "laya/shortlist.py": "6459e2ea60a22f8e0a82023af8cf6e59ec752a74ecf27989cce4d76ccc764cf8",
+    "laya/structured.py": "d2966656d25fbb34593c738d0e6912dbfe269fadb3fc8853a7820e4834d7306b",
+    "laya/tl_kernels.py": "f909abeb14be08968846d175abadd4c65ce1e5f1cb7f853dd565ab2ad6e5ec1a"
+  }
+}

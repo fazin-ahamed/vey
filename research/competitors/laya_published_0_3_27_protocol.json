@@ -1,0 +1,83 @@
+{
+  "capture_policy": "Receipt uses allow_nan=True only to preserve nonfinite failing payload evidence; finite checks still reject such values. Normal successful receipts are finite JSON. External timeout/native crash may prevent finally receipt; retain command logs and partial per-route evidence, never infer success.",
+  "command": "timeout --signal=TERM --kill-after=30s 300s nice -n 10 ionice -c 2 -n 7 env -u HF_TOKEN -u HUGGING_FACE_HUB_TOKEN -u LAYA_SHA256_DIGESTS CUDA_VISIBLE_DEVICES='' HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_HUB_DISABLE_IMPLICIT_TOKEN=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 USE_TF=0 HF_HOME=/home/fazinahamed/Documents/vey-data/decisionmix/hf-home /home/fazinahamed/Documents/vey/venvs/vey/bin/python /home/fazinahamed/Documents/vey-public/research/competitors/laya_published_0_3_27_probe.py",
+  "custody_manifest_path": "/home/fazinahamed/Documents/vey-public/research/competitors/laya_published_0_3_27_custody_manifest.json",
+  "custody_manifest_sha256": "d08bc296395c62dc01e838cc9909b0cc511165f0fd47e3a890c7ddccc8fd2e62",
+  "data": "Exact same synthetic state and mixed Choice/Noul/Score questions as historical v2 probe; no benchmark pools.",
+  "environment_variables": {
+    "CUDA_VISIBLE_DEVICES": "",
+    "HF_HOME": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home",
+    "HF_HUB_DISABLE_IMPLICIT_TOKEN": "1",
+    "HF_HUB_OFFLINE": "1",
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "TRANSFORMERS_OFFLINE": "1",
+    "USE_TF": "0"
+  },
+  "executable": "/home/fazinahamed/Documents/vey/venvs/vey/bin/python",
+  "execution": "Published wheel package source imported directly from verified extraction, no installation or dependency/environment mutation. Sequential CPU eager routes; isolated copied metadata/tokenizers and symlinks to verified old cached weight bytes. No Hub alias.",
+  "failure_policy": "Fail closed without checkpoint substitution, shims, fake paths, dependency upgrade or historical relabel. Refuse overwriting receipts/artifact directories.",
+  "gates": [
+    "Exact artifact, release-tree, source-member, dependency and payload custody checked before load.",
+    "Three sequential current-reference routes must complete mixed typed request and satisfy finite bounded typed outputs and exact question/probability keys.",
+    "Choice/Score distribution sum error <= K*0.00005+1e-6.",
+    "Capture each prediction before validation; persist completed routes and traceback on failure."
+  ],
+  "historical_protocols_unchanged": true,
+  "inspected_post_release_head_not_used": "8a6e1328cce2460a0e5aa348ad465bb1b5821cd2",
+  "latest_runtime_execution_verified": false,
+  "packages": {
+    "huggingface_hub": "1.32.0",
+    "numpy": "2.4.6",
+    "safetensors": "0.8.0",
+    "torch": "2.5.1+cu121",
+    "transformers": "5.17.0"
+  },
+  "probe_path": "/home/fazinahamed/Documents/vey-public/research/competitors/laya_published_0_3_27_probe.py",
+  "probe_sha256": "a0d564bb0920790d685449bf7aeec158c5ef211d8bfb7e4e2ca2ddd8bb148c8c",
+  "published_version": "0.3.27",
+  "release_commit": "b09832bdd3819e375fe8b0d26dbd7a8f75c4f0bd",
+  "resource_guards": {
+    "GPU": false,
+    "interop_threads": 1,
+    "ionice_class": 2,
+    "ionice_level": 7,
+    "kill_grace_seconds": 30,
+    "minimum_available_RAM_before_each_route_bytes": 10737418240,
+    "nice": 10,
+    "threads": 1,
+    "wall_timeout_seconds": 300
+  },
+  "routes": [
+    {
+      "repository": "convaiinnovations/laya",
+      "revision": "7b928d828b7b0e022f929d9bd2e44165aa270148",
+      "role": "english"
+    },
+    {
+      "repository": "convaiinnovations/laya-typed-decisions",
+      "revision": "e929ae5cf69bc34259cd2f95c9e91145b818b1f0",
+      "role": "typed-decisions"
+    },
+    {
+      "repository": "convaiinnovations/laya-multilingual",
+      "revision": "1720e3e3357cfe1e281542e223f8273b0890ca34",
+      "role": "multilingual"
+    }
+  ],
+  "schema": "vey.laya.published-current-cpu-compatibility-protocol.v1",
+  "scope": "Current published-runtime offline CPU eager integration compatibility only. No quality, calibration, latency, residency, neutral comparison, competitor superiority or matrix-cell promotion.",
+  "serialization_bound": {
+    "decimals": 4,
+    "lines": [
+      1357,
+      1376
+    ],
+    "source": "laya/agent.py",
+    "sum_tolerance": "K * 0.00005 + 1e-6"
+  },
+  "source_custody_only_exercised": true,
+  "status": "prospective_not_executed",
+  "success_receipt": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya-0.3.27-preparation/cpu-compatibility-result.json"
+}
