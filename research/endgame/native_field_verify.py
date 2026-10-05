@@ -273,7 +273,10 @@ def reconstruct_dataset(manifest, phases, cfg):
             values = list(records[phase][endpoint].values())
             census[phase][endpoint] = {"decisions": len(values),
                 "components": len({r["component_id"] for r in values}),
-                "observed_raters_at_least3": sum(r.get("observed_raters", 0) >= 3 for r in values)}
+                "observed_raters_at_least3": sum(r.get("observed_raters", 0) >= 3 for r in values),
+                "distribution_rows": len(values) if endpoint.endswith(".intent") else None,
+                "screen_eligible_rows": len(values) if endpoint.endswith(".intent") else sum(
+                    r.get("observed_raters", 0) >= 3 for r in values)}
             census[phase][endpoint]["native_ID_component_membership_sha256"] = hashlib.sha256(
                 json.dumps(sorted((r["id"], r["component_id"], r["group_id"]) for r in values),
                            ensure_ascii=False, separators=(",", ":"), allow_nan=False).encode("utf-8")).hexdigest()
