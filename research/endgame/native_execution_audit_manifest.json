@@ -1,0 +1,37 @@
+{
+  "schema": "vey.native-execution-audit.v1",
+  "evidence_class": "MEASURED",
+  "verifier_defect": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/native_arch_verifier_missing_comparison_defect_v1.json",
+    "bytes": 2327,
+    "sha256": "bb5c37f0e4aa44fe1c58e205473a4446cabe5acf2a7de149e85aade2f0235bde"
+  },
+  "peer_smoke": {
+    "original_manifest": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_peer_capture_smoke_manifest.json",
+      "bytes": 2878,
+      "sha256": "c6e441d81d4223623ba5fca759bdb311c5e8d0cc2c440d41d551dbe0002f34d5"
+    },
+    "original_capture": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/peer_capture_smoke_v1.jsonl",
+      "bytes": 41309,
+      "sha256": "946c77fe665e3d45c04660a766d75d4cad3a19b8ab57854eac9600b3f07ed006"
+    },
+    "original_protocol": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_peer_protocol.json",
+      "bytes": 14240,
+      "sha256": "8ca37c2a64f22af5846c698a16ae1269e76f988770226aff4446d7abac3b31ca"
+    },
+    "deviation": "Three peer forwards ran while NATIVE-2 was still in flight, contrary to the explicit sequencing clause. The protocol provides no smoke exemption; CPU-only execution does not satisfy that clause.",
+    "scope": "Retained typed-output liveness evidence only, not the registered full-DEV comparison or quality evidence",
+    "unsupported_interpretation": "Identical argmax on three same-gold rows does not establish state sensitivity or rule out degeneracy. A separate historical runtime/route measurement cannot establish that property for this current typed capture.",
+    "no_additional_peer_execution_until_dependency_completes": true
+  },
+  "inflight_custody": {
+    "implementation_edits": false,
+    "model_gate_edits": false,
+    "threshold_edits": false,
+    "new_model_forwards": 0
+  },
+  "pending": "Correct and regression-test verifier after current run ends; then independently verify complete artifacts. Preserve partial and failed evidence without granting architecture credit."
+}

@@ -6044,6 +6044,30 @@ The prospective correction preserves the registered logical root and checks
 physical root equivalence separately; no source manifest, hash check, neural
 recipe or gate is relaxed. Fresh actual Modal liveness remains required.
 
+The subsequent serialized T4 liveness runs pass for cross, dual and pages,
+as recorded in `native_arch_modal_smoke_results.json`. This proves numerical
+smoke execution only; complete quality artifacts and independent reconstruction
+remain required.
+
+MEASURED verifier defect before complete quality reconstruction: supplying no
+paired intervals to `screen_arch` returns PASS for all three synthetic arms
+when their other controls pass. The implementation conditionally omits each
+required comparison gate when its evidence is absent. The reproducer is
+retained with SHA-256
+`bb5c37f0e4aa44fe1c58e205473a4446cabe5acf2a7de149e85aade2f0235bde`.
+The frozen protocol requires those intervals. Implementation remains unchanged
+while the registered GPU run is in flight; correction and missing-evidence
+regressions must precede any architecture credit. No threshold changes.
+
+The separate published-Laya capture smoke completed three typed outputs while
+NATIVE-2 was still running. This violates the peer protocol's explicit sequence;
+CPU-only execution and a smoke label do not create an exemption. The original
+capture and receipt remain intact. Its three identical answers neither prove
+state sensitivity nor rule out degeneracy; historical measurements from another
+runtime do not establish either for this capture. No full-DEV or quality credit
+follows. `native_execution_audit_manifest.json` binds these corrections and
+retained evidence. Further peer execution waits for the registered dependency.
+
 ## QNATIVE-1: natural-question source projection
 
 Preregistered at `05e5d36`; allocation-order correctness repair at `34f8d73`.
