@@ -26,18 +26,24 @@
     "/home/fazinahamed/Documents/vey-public/research/endgame/native_field_verify.py": "0cb9d405ff9722dc8060aa0c257f3b7f402f4e40ee106e47d7f596ca61d875eb"
   },
   "source_files": {
-    "/home/fazinahamed/Documents/vey-public/research/endgame/native_field_data.py": "4f4a2e1081b5d2e2ee883f0adb9666ef643e0a0f4810fa7b715bcf7b33fe79f5",
+    "/home/fazinahamed/Documents/vey-public/research/endgame/native_field_data.py": "82f72929a6ab6f8011a5d807a6a4d5881d5d6976d9854fbced4fba35534d64e3",
     "/home/fazinahamed/Documents/vey-public/research/endgame/native_field_model.py": "1fe718658cbc544f2531c06b342059c471d110c1ce301245155c27442b7f4b77",
-    "/home/fazinahamed/Documents/vey-public/research/endgame/native_field_train.py": "c45b43c82aaf56636e607f8ddbd99dea08865ee27e408b0bf51089a2a92b18a4",
-    "/home/fazinahamed/Documents/vey-public/research/endgame/native_field_verify.py": "ee74d29a7487978aa62d1e54ab5797889c55aad75fa37b12acee8376d87d7d06"
+    "/home/fazinahamed/Documents/vey-public/research/endgame/native_field_train.py": "05dca44e25180bad01c21a906a9e738ddb67d2883a25cf8d2a94eaf594def5df",
+    "/home/fazinahamed/Documents/vey-public/research/endgame/native_field_verify.py": "1d2be57cf57d2f46e45e5e6701faaf28b75de6d24be9fd0d8d41a619c69c9236"
   },
   "smoke_directory_suffix": "-smoke-c1",
   "retained_artifacts": [
     {
-      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/full-smoke/metadata.json",
-      "bytes": 10421,
-      "sha256": "2a8f907c958a01f6dd2cb3e131cc9d3e2f63a2e6fc067ff49ab4c20ac629159f",
-      "retained_failure": true
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/frozen-smoke-c1/metadata.json",
+      "bytes": 70134,
+      "sha256": "a30954e1ee881381824db9ed23b6e899432f4e5e4241289a3db3b6308ead300e",
+      "retained_note": "corrected frozen liveness evidence."
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/frozen/metadata.json",
+      "bytes": 92716,
+      "sha256": "1590101920efdbe59e8678cf4f9df79023487303e274104daa09e63ef457d569",
+      "retained_note": "frozen arm trained under correction c1 with post-correction data/trainer bytes; a later committed verifier-only census change then blocked the full arm before its directory existed. The frozen receipt is exact evidence and is not a failed run."
     },
     {
       "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/full-smoke/history.json",
@@ -50,7 +56,14 @@
       "bytes": 64,
       "sha256": "dbb86eb9e21dcfd53bc37d90e7adc9d75e5215990d9f59ab107ebd084a339061",
       "retained_failure": true
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/full-smoke/metadata.json",
+      "bytes": 10421,
+      "sha256": "2a8f907c958a01f6dd2cb3e131cc9d3e2f63a2e6fc067ff49ab4c20ac629159f",
+      "retained_failure": true
     }
   ],
-  "reused_prior_metadata_sha256": "93581aae8c3426de0d38cfd60ea804e44122daff741e77539347079a160653bc"
+  "reused_prior_metadata_sha256": "93581aae8c3426de0d38cfd60ea804e44122daff741e77539347079a160653bc",
+  "scope_addendum": "The frozen arm was trained after the first correction. A subsequent committed, verifier-only census edit (separate screen/distribution population reporting, no metric, gate, dataset or model change) left the dataset-bound source registry stale, so the full arm refused to start and created no directory. That guard failure is the intended behavior. The registry now resolves the correction from committed state, so later committed research edits do not silently block an unstarted arm. Arm outputs are still bound to the exact source bytes recorded in each arm metadata file."
 }
