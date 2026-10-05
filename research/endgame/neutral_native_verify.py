@@ -286,7 +286,8 @@ def verify(phase, compiler_path):
     denials = selector_denials(compiler, cfg, compiler_path)
     pre_receipt = _denies_open_phase(compiler, phase)
     receipt = {"schema": "vey.neutral.native-projection-verification.v1", "status": "PASS", "phase": phase,
-        "protocol_sha256": PROTOCOL_SHA256, "projection_manifest": {"path": str(manifest_path), "sha256": digest(manifest_path)},
+        "protocol_sha256": PROTOCOL_SHA256, "manifest_sha256": digest(manifest_path),
+        "projection_manifest": {"path": str(manifest_path), "sha256": digest(manifest_path)},
         "verifier": {"path": str(Path(__file__).resolve()), "sha256": digest(Path(__file__))},
         "independent_catalogue_counts": {source: len(items) for source, items in catalogues.items()},
         "independent_rubric_levels": {name: maximum + 1 for name, maximum in RATINGS},
@@ -295,7 +296,15 @@ def verify(phase, compiler_path):
                            "unverified_phase_denied": pre_receipt},
         "source_payloads_of_sealed_phases_read": False,
         "model_executed": False, "quality_credit": False, "promotion": False, "endgame_complete": False}
-    with (directory / "verification_receipt.json").open("x", encoding="utf-8") as stream:
+    receipt_path = directory / "verification_receipt.json"
+    if receipt_path.exists():
+        # Retain earlier receipts rather than overwriting them. The selector gate
+        # reads this exact path, so the projection compiler stays unmodified.
+        existing = receipt_path.read_text(encoding="utf-8").count(chr(10))
+        superseded = directory / ("verification_receipt_superseded_v%d.json" % existing)
+        receipt_path.replace(superseded)
+        receipt["supersedes"] = {"path": superseded.name, "sha256": digest(superseded)}
+    with receipt_path.open("x", encoding="utf-8") as stream:
         stream.write(canonical(receipt) + "\n")
     for name in STREAMS:
         require(list(compiler.open_phase(phase, name)) == list(rows(directory / (name + ".jsonl.gz"))), "Verified selector stream differs")
