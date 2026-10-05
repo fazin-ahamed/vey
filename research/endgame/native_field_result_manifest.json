@@ -1,0 +1,1270 @@
+{
+  "schema": "vey.neutral.development-comparison-result.v1",
+  "status": "COMPLETED_DEVELOPMENT_MEASUREMENTS_NOT_PROMOTION",
+  "evidence_class": "MEASURED legacy public-benchmark development replication; prior exposure disclosed; not fresh transfer or sealed-final evidence",
+  "frozen_product_commit": "e6b046ffbd138cbdbfb2f89c6ae77525fe6b0b18",
+  "bundle_revision": "55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851",
+  "data_root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison",
+  "registered_scope": "Original English Choice/grammar, separate multilingual Choice, then prospective English/multilingual spelling amendment; historical multilingual grammar remains exploratory",
+  "source_data_licenses": {
+    "AmazonScience/massive": {
+      "license": "CC-BY-4.0",
+      "class": "shipping-train",
+      "study_use": "development evaluation only"
+    },
+    "PolyAI/banking77": {
+      "license": "CC-BY-4.0",
+      "class": "shipping-train",
+      "study_use": "metadata/projection verification; no model predictions in this study"
+    }
+  },
+  "license_authority": "research/endgame/neutral_native_compiler_protocol.json; existing competitor custody/dossier records retain model/runtime license provenance",
+  "native_dev_membership": {
+    "massive": {
+      "rows": 63852,
+      "lineage_groups": 1252,
+      "connected_components": 1024,
+      "locales": 51,
+      "rows_per_locale": 1252
+    },
+    "banking77": {
+      "rows": 1027,
+      "connected_components": 1024,
+      "model_measurements": false
+    }
+  },
+  "choice": {
+    "schema": "vey.neutral.development-comparison-verification.v3",
+    "status": "PASS",
+    "laya": {
+      "brier": 1.527977217555933,
+      "distribution_rows": 63852,
+      "ece15": 0.7097753505385915,
+      "macro_locale_accuracy": 0.11673870826285786,
+      "nll": 17.05227670950004,
+      "per_locale": {
+        "af-ZA": {
+          "rows": 1252,
+          "top1_accuracy": 0.13817891373801916
+        },
+        "am-ET": {
+          "rows": 1252,
+          "top1_accuracy": 0.038338658146964855
+        },
+        "ar-SA": {
+          "rows": 1252,
+          "top1_accuracy": 0.04233226837060703
+        },
+        "az-AZ": {
+          "rows": 1252,
+          "top1_accuracy": 0.06869009584664537
+        },
+        "bn-BD": {
+          "rows": 1252,
+          "top1_accuracy": 0.025559105431309903
+        },
+        "ca-ES": {
+          "rows": 1252,
+          "top1_accuracy": 0.18130990415335463
+        },
+        "cy-GB": {
+          "rows": 1252,
+          "top1_accuracy": 0.06629392971246006
+        },
+        "da-DK": {
+          "rows": 1252,
+          "top1_accuracy": 0.2220447284345048
+        },
+        "de-DE": {
+          "rows": 1252,
+          "top1_accuracy": 0.23162939297124602
+        },
+        "el-GR": {
+          "rows": 1252,
+          "top1_accuracy": 0.08146964856230032
+        },
+        "en-US": {
+          "rows": 1252,
+          "top1_accuracy": 0.43450479233226835
+        },
+        "es-ES": {
+          "rows": 1252,
+          "top1_accuracy": 0.24440894568690097
+        },
+        "fa-IR": {
+          "rows": 1252,
+          "top1_accuracy": 0.0463258785942492
+        },
+        "fi-FI": {
+          "rows": 1252,
+          "top1_accuracy": 0.10782747603833866
+        },
+        "fr-FR": {
+          "rows": 1252,
+          "top1_accuracy": 0.3075079872204473
+        },
+        "he-IL": {
+          "rows": 1252,
+          "top1_accuracy": 0.019169329073482427
+        },
+        "hi-IN": {
+          "rows": 1252,
+          "top1_accuracy": 0.027955271565495207
+        },
+        "hu-HU": {
+          "rows": 1252,
+          "top1_accuracy": 0.07827476038338659
+        },
+        "hy-AM": {
+          "rows": 1252,
+          "top1_accuracy": 0.031150159744408944
+        },
+        "id-ID": {
+          "rows": 1252,
+          "top1_accuracy": 0.17971246006389777
+        },
+        "is-IS": {
+          "rows": 1252,
+          "top1_accuracy": 0.0742811501597444
+        },
+        "it-IT": {
+          "rows": 1252,
+          "top1_accuracy": 0.24361022364217252
+        },
+        "ja-JP": {
+          "rows": 1252,
+          "top1_accuracy": 0.21645367412140576
+        },
+        "jv-ID": {
+          "rows": 1252,
+          "top1_accuracy": 0.07827476038338659
+        },
+        "ka-GE": {
+          "rows": 1252,
+          "top1_accuracy": 0.036741214057507986
+        },
+        "km-KH": {
+          "rows": 1252,
+          "top1_accuracy": 0.03514376996805112
+        },
+        "kn-IN": {
+          "rows": 1252,
+          "top1_accuracy": 0.01757188498402556
+        },
+        "ko-KR": {
+          "rows": 1252,
+          "top1_accuracy": 0.05511182108626198
+        },
+        "lv-LV": {
+          "rows": 1252,
+          "top1_accuracy": 0.06389776357827476
+        },
+        "ml-IN": {
+          "rows": 1252,
+          "top1_accuracy": 0.0231629392971246
+        },
+        "mn-MN": {
+          "rows": 1252,
+          "top1_accuracy": 0.038338658146964855
+        },
+        "ms-MY": {
+          "rows": 1252,
+          "top1_accuracy": 0.11261980830670927
+        },
+        "my-MM": {
+          "rows": 1252,
+          "top1_accuracy": 0.04153354632587859
+        },
+        "nb-NO": {
+          "rows": 1252,
+          "top1_accuracy": 0.19249201277955272
+        },
+        "nl-NL": {
+          "rows": 1252,
+          "top1_accuracy": 0.22763578274760382
+        },
+        "pl-PL": {
+          "rows": 1252,
+          "top1_accuracy": 0.14696485623003194
+        },
+        "pt-PT": {
+          "rows": 1252,
+          "top1_accuracy": 0.2787539936102236
+        },
+        "ro-RO": {
+          "rows": 1252,
+          "top1_accuracy": 0.1829073482428115
+        },
+        "ru-RU": {
+          "rows": 1252,
+          "top1_accuracy": 0.15495207667731628
+        },
+        "sl-SL": {
+          "rows": 1252,
+          "top1_accuracy": 0.09185303514376997
+        },
+        "sq-AL": {
+          "rows": 1252,
+          "top1_accuracy": 0.1110223642172524
+        },
+        "sv-SE": {
+          "rows": 1252,
+          "top1_accuracy": 0.16134185303514376
+        },
+        "sw-KE": {
+          "rows": 1252,
+          "top1_accuracy": 0.0439297124600639
+        },
+        "ta-IN": {
+          "rows": 1252,
+          "top1_accuracy": 0.03194888178913738
+        },
+        "te-IN": {
+          "rows": 1252,
+          "top1_accuracy": 0.01437699680511182
+        },
+        "th-TH": {
+          "rows": 1252,
+          "top1_accuracy": 0.04233226837060703
+        },
+        "tl-PH": {
+          "rows": 1252,
+          "top1_accuracy": 0.18210862619808307
+        },
+        "tr-TR": {
+          "rows": 1252,
+          "top1_accuracy": 0.12220447284345048
+        },
+        "ur-PK": {
+          "rows": 1252,
+          "top1_accuracy": 0.02476038338658147
+        },
+        "vi-VN": {
+          "rows": 1252,
+          "top1_accuracy": 0.0950479233226837
+        },
+        "zh-CN": {
+          "rows": 1252,
+          "top1_accuracy": 0.23961661341853036
+        }
+      },
+      "rows": 63852,
+      "top1_accuracy": 0.11673870826285786
+    },
+    "laya_multilingual": {
+      "brier": 1.03461343737999,
+      "distribution_rows": 63852,
+      "ece15": 0.26875108159008326,
+      "macro_locale_accuracy": 0.1780210486750611,
+      "nll": 4.484827769640186,
+      "per_locale": {
+        "af-ZA": {
+          "rows": 1252,
+          "top1_accuracy": 0.19728434504792333
+        },
+        "am-ET": {
+          "rows": 1252,
+          "top1_accuracy": 0.025559105431309903
+        },
+        "ar-SA": {
+          "rows": 1252,
+          "top1_accuracy": 0.17971246006389777
+        },
+        "az-AZ": {
+          "rows": 1252,
+          "top1_accuracy": 0.17012779552715654
+        },
+        "bn-BD": {
+          "rows": 1252,
+          "top1_accuracy": 0.1182108626198083
+        },
+        "ca-ES": {
+          "rows": 1252,
+          "top1_accuracy": 0.16134185303514376
+        },
+        "cy-GB": {
+          "rows": 1252,
+          "top1_accuracy": 0.08226837060702875
+        },
+        "da-DK": {
+          "rows": 1252,
+          "top1_accuracy": 0.21485623003194887
+        },
+        "de-DE": {
+          "rows": 1252,
+          "top1_accuracy": 0.2356230031948882
+        },
+        "el-GR": {
+          "rows": 1252,
+          "top1_accuracy": 0.17012779552715654
+        },
+        "en-US": {
+          "rows": 1252,
+          "top1_accuracy": 0.3146964856230032
+        },
+        "es-ES": {
+          "rows": 1252,
+          "top1_accuracy": 0.26198083067092653
+        },
+        "fa-IR": {
+          "rows": 1252,
+          "top1_accuracy": 0.2084664536741214
+        },
+        "fi-FI": {
+          "rows": 1252,
+          "top1_accuracy": 0.17092651757188498
+        },
+        "fr-FR": {
+          "rows": 1252,
+          "top1_accuracy": 0.26517571884984026
+        },
+        "he-IL": {
+          "rows": 1252,
+          "top1_accuracy": 0.13977635782747605
+        },
+        "hi-IN": {
+          "rows": 1252,
+          "top1_accuracy": 0.19968051118210864
+        },
+        "hu-HU": {
+          "rows": 1252,
+          "top1_accuracy": 0.17172523961661343
+        },
+        "hy-AM": {
+          "rows": 1252,
+          "top1_accuracy": 0.07507987220447285
+        },
+        "id-ID": {
+          "rows": 1252,
+          "top1_accuracy": 0.2763578274760383
+        },
+        "is-IS": {
+          "rows": 1252,
+          "top1_accuracy": 0.1269968051118211
+        },
+        "it-IT": {
+          "rows": 1252,
+          "top1_accuracy": 0.26677316293929715
+        },
+        "ja-JP": {
+          "rows": 1252,
+          "top1_accuracy": 0.3059105431309904
+        },
+        "jv-ID": {
+          "rows": 1252,
+          "top1_accuracy": 0.12460063897763578
+        },
+        "ka-GE": {
+          "rows": 1252,
+          "top1_accuracy": 0.04233226837060703
+        },
+        "km-KH": {
+          "rows": 1252,
+          "top1_accuracy": 0.04712460063897764
+        },
+        "kn-IN": {
+          "rows": 1252,
+          "top1_accuracy": 0.05990415335463259
+        },
+        "ko-KR": {
+          "rows": 1252,
+          "top1_accuracy": 0.2292332268370607
+        },
+        "lv-LV": {
+          "rows": 1252,
+          "top1_accuracy": 0.17971246006389777
+        },
+        "ml-IN": {
+          "rows": 1252,
+          "top1_accuracy": 0.06869009584664537
+        },
+        "mn-MN": {
+          "rows": 1252,
+          "top1_accuracy": 0.0694888178913738
+        },
+        "ms-MY": {
+          "rows": 1252,
+          "top1_accuracy": 0.2340255591054313
+        },
+        "my-MM": {
+          "rows": 1252,
+          "top1_accuracy": 0.026357827476038338
+        },
+        "nb-NO": {
+          "rows": 1252,
+          "top1_accuracy": 0.22763578274760382
+        },
+        "nl-NL": {
+          "rows": 1252,
+          "top1_accuracy": 0.2507987220447284
+        },
+        "pl-PL": {
+          "rows": 1252,
+          "top1_accuracy": 0.2452076677316294
+        },
+        "pt-PT": {
+          "rows": 1252,
+          "top1_accuracy": 0.25878594249201275
+        },
+        "ro-RO": {
+          "rows": 1252,
+          "top1_accuracy": 0.22284345047923323
+        },
+        "ru-RU": {
+          "rows": 1252,
+          "top1_accuracy": 0.2771565495207668
+        },
+        "sl-SL": {
+          "rows": 1252,
+          "top1_accuracy": 0.1869009584664537
+        },
+        "sq-AL": {
+          "rows": 1252,
+          "top1_accuracy": 0.15335463258785942
+        },
+        "sv-SE": {
+          "rows": 1252,
+          "top1_accuracy": 0.2452076677316294
+        },
+        "sw-KE": {
+          "rows": 1252,
+          "top1_accuracy": 0.09744408945686901
+        },
+        "ta-IN": {
+          "rows": 1252,
+          "top1_accuracy": 0.10543130990415335
+        },
+        "te-IN": {
+          "rows": 1252,
+          "top1_accuracy": 0.07188498402555911
+        },
+        "th-TH": {
+          "rows": 1252,
+          "top1_accuracy": 0.21166134185303515
+        },
+        "tl-PH": {
+          "rows": 1252,
+          "top1_accuracy": 0.18929712460063897
+        },
+        "tr-TR": {
+          "rows": 1252,
+          "top1_accuracy": 0.22843450479233227
+        },
+        "ur-PK": {
+          "rows": 1252,
+          "top1_accuracy": 0.16773162939297126
+        },
+        "vi-VN": {
+          "rows": 1252,
+          "top1_accuracy": 0.2364217252396166
+        },
+        "zh-CN": {
+          "rows": 1252,
+          "top1_accuracy": 0.2827476038338658
+        }
+      },
+      "rows": 63852,
+      "top1_accuracy": 0.17802104867506108
+    },
+    "vey": {
+      "brier": 1.9904153354632588,
+      "distribution_rows": 63852,
+      "ece15": 0.9952076677316294,
+      "macro_locale_accuracy": 0.004792332268370611,
+      "nll": 27.49860408182699,
+      "per_locale": {
+        "af-ZA": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "am-ET": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "ar-SA": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "az-AZ": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "bn-BD": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "ca-ES": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "cy-GB": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "da-DK": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "de-DE": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "el-GR": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "en-US": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "es-ES": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "fa-IR": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "fi-FI": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "fr-FR": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "he-IL": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "hi-IN": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "hu-HU": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "hy-AM": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "id-ID": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "is-IS": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "it-IT": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "ja-JP": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "jv-ID": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "ka-GE": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "km-KH": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "kn-IN": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "ko-KR": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "lv-LV": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "ml-IN": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "mn-MN": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "ms-MY": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "my-MM": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "nb-NO": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "nl-NL": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "pl-PL": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "pt-PT": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "ro-RO": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "ru-RU": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "sl-SL": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "sq-AL": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "sv-SE": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "sw-KE": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "ta-IN": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "te-IN": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "th-TH": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "tl-PH": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "tr-TR": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "ur-PK": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "vi-VN": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        },
+        "zh-CN": {
+          "rows": 1252,
+          "top1_accuracy": 0.004792332268370607
+        }
+      },
+      "rows": 63852,
+      "top1_accuracy": 0.004792332268370607
+    },
+    "paired_component_bootstrap": {
+      "ci95_bootstrap": [
+        -0.12228815275117196,
+        -0.10172972626038959
+      ],
+      "components": 1024,
+      "estimand": "row-weighted accuracy difference",
+      "interval_scope": "Nominal descriptive interval; not a simultaneous family-wise gate.",
+      "lineage_groups": 1252,
+      "observed_delta": -0.11194637599448726,
+      "resamples": 10000,
+      "seed": 0,
+      "shared_rows": 63852,
+      "unit": "input-only connected component"
+    },
+    "route_comparison": {
+      "ci95_bootstrap": [
+        0.04698985909311766,
+        0.07594719162565425
+      ],
+      "components": 1024,
+      "estimand": "row-weighted accuracy difference",
+      "interval_scope": "Nominal descriptive interval; not a simultaneous family-wise gate.",
+      "lineage_groups": 1252,
+      "mismatched_input_digests": 0,
+      "observed_delta": 0.06128234041220322,
+      "reference": "laya",
+      "resamples": 10000,
+      "seed": 0,
+      "shared_rows": 63852,
+      "unit": "input-only connected component"
+    },
+    "discordance": {
+      "both_correct": 13,
+      "laya_only_correct": 7441,
+      "mcnemar_n10_n01": [
+        293,
+        7441
+      ],
+      "neither_correct": 56105,
+      "shared_rows": 63852,
+      "vey_only_correct": 293
+    },
+    "formal_non_inferiority": "NOT_ESTABLISHED; no simultaneous family-wise gate evaluated"
+  },
+  "score_routes": [
+    {
+      "endpoint": "massive.grammar_score",
+      "route": "english",
+      "verified_rows": 62594,
+      "status": "PASS",
+      "registration_limit": null,
+      "input_validation_limit": "Historical rows omit rubric description strings; only persisted serving fields are checked. Guarded native rubric mappings are reconstructed, not encoded-byte proof.",
+      "ordinal": {
+        "mean_abs_error": 2.8530259520691015,
+        "mean_signed_error": -2.8515100929033714,
+        "normalized_mean_abs_error": 0.7132564880172754,
+        "normalized_ranked_probability_score": 0.5698545781096831,
+        "retained_rater_brier": 1.1108963821507924,
+        "retained_rater_nll": 3.83279934480709,
+        "rows": 62594,
+        "signed_error_slope_against_rater_mean": -0.9866464442215702,
+        "spearman_rank_correlation": 0.03280361274391149,
+        "three_or_more_raters_rows": 62338
+      }
+    },
+    {
+      "endpoint": "massive.grammar_score",
+      "route": "multilingual",
+      "verified_rows": 62594,
+      "status": "PASS",
+      "registration_limit": "The historical multilingual Score run cites a Choice-only follow-up protocol; its Score execution was not prospectively covered by that route protocol.",
+      "input_validation_limit": "Historical rows omit rubric description strings; only persisted serving fields are checked. Guarded native rubric mappings are reconstructed, not encoded-byte proof.",
+      "ordinal": {
+        "mean_abs_error": 1.91269850570342,
+        "mean_signed_error": -1.899192547816298,
+        "normalized_mean_abs_error": 0.478174626425855,
+        "normalized_ranked_probability_score": 0.28167722300849535,
+        "retained_rater_brier": 0.5998014835617345,
+        "retained_rater_nll": 1.5650436208939869,
+        "rows": 62594,
+        "signed_error_slope_against_rater_mean": -1.0311105087313865,
+        "spearman_rank_correlation": -0.03441091300817668,
+        "three_or_more_raters_rows": 62338
+      }
+    },
+    {
+      "endpoint": "massive.spelling_score",
+      "route": "english",
+      "verified_rows": 62594,
+      "status": "PASS",
+      "registration_limit": null,
+      "input_validation_limit": null,
+      "ordinal": {
+        "mean_abs_error": 1.449158471810336,
+        "mean_signed_error": -1.4491493382012575,
+        "normalized_mean_abs_error": 0.724579235905168,
+        "normalized_ranked_probability_score": 0.5556031582662893,
+        "retained_rater_brier": 1.1877484014279325,
+        "retained_rater_nll": 2.2419551057229823,
+        "rows": 62594,
+        "signed_error_slope_against_rater_mean": -0.9929584540466764,
+        "spearman_rank_correlation": 0.004382264332592128,
+        "three_or_more_raters_rows": 62338
+      }
+    },
+    {
+      "endpoint": "massive.spelling_score",
+      "route": "multilingual",
+      "verified_rows": 62594,
+      "status": "PASS",
+      "registration_limit": null,
+      "input_validation_limit": null,
+      "ordinal": {
+        "mean_abs_error": 1.0065260919390513,
+        "mean_signed_error": -1.0055918538303934,
+        "normalized_mean_abs_error": 0.5032630459695256,
+        "normalized_ranked_probability_score": 0.3108536740637417,
+        "retained_rater_brier": 0.7816426012527347,
+        "retained_rater_nll": 1.3872448276054223,
+        "rows": 62594,
+        "signed_error_slope_against_rater_mean": -0.9957278164899194,
+        "spearman_rank_correlation": 0.0032816072592969934,
+        "three_or_more_raters_rows": 62338
+      }
+    }
+  ],
+  "determinism": {
+    "schema": "vey.neutral.determinism-verification.v1",
+    "status": "PASS",
+    "comparison_scope": "Exact equality of persisted rounded distributions and answers/expected levels, not unrounded logits or all request shapes. No model rerun by this verifier.",
+    "implementation_commit": "4b55c0a",
+    "controls": [
+      {
+        "source_file": "vey_dev_choice.jsonl",
+        "repeat_file": "vey_dev_choice_determinism512.jsonl",
+        "rows": 512,
+        "compared_fields": [
+          "id",
+          "answer",
+          "probabilities"
+        ],
+        "mismatch_count": 0,
+        "mismatches": [],
+        "status": "PASS"
+      },
+      {
+        "source_file": "laya_dev_choice.jsonl",
+        "repeat_file": "laya_dev_choice_english_determinism512.jsonl",
+        "rows": 512,
+        "compared_fields": [
+          "id",
+          "answer",
+          "probs"
+        ],
+        "mismatch_count": 0,
+        "mismatches": [],
+        "status": "PASS"
+      },
+      {
+        "source_file": "laya_dev_choice_multilingual.jsonl",
+        "repeat_file": "laya_dev_choice_multilingual_determinism512.jsonl",
+        "rows": 512,
+        "compared_fields": [
+          "id",
+          "answer",
+          "probs"
+        ],
+        "mismatch_count": 0,
+        "mismatches": [],
+        "status": "PASS"
+      },
+      {
+        "source_file": "laya_dev_score_english.jsonl",
+        "repeat_file": "laya_dev_grammar_english_determinism512.jsonl",
+        "rows": 512,
+        "compared_fields": [
+          "id",
+          "expected_level",
+          "probs"
+        ],
+        "mismatch_count": 0,
+        "mismatches": [],
+        "status": "PASS"
+      },
+      {
+        "source_file": "laya_dev_spelling_multilingual.jsonl",
+        "repeat_file": "laya_dev_spelling_multilingual_determinism512.jsonl",
+        "rows": 512,
+        "compared_fields": [
+          "id",
+          "expected_level",
+          "probs"
+        ],
+        "mismatch_count": 0,
+        "mismatches": [],
+        "status": "PASS"
+      }
+    ]
+  },
+  "verification": [
+    "Three permanent metric regression tests passed, including unequal component sizes and mismatched paired-component rejection.",
+    "Actual Choice CLI replay: complete unique native rows, gold, flags, input fields/digests, finite normalized distributions and argmax validated; zero membership problems.",
+    "Actual ordinal CLI replay and throwaway malformed-input controls passed; all four endpoint/route receipts independently reconstruct metrics.",
+    "Matrix migration: four-route order invariant, obsolete Choice/Score schemas refused without mutation, stale scalar cleared when verified English route truly absent; 21 cells, zero green."
+  ],
+  "corrections": [
+    "Old ECE used gold probability rather than predicted confidence and incorrect Vey correctness comparison; historical values retained and superseded.",
+    "Old ordinal verifier trusted arm-derived fields and incomplete membership; superseded receipts retained.",
+    "1252 lineage groups are connected into 1024 components; old lineage-bootstrap intervals superseded by component ratio bootstrap without changing predictions or targets.",
+    "Original Banking77 no-dev rationale is false: 1027 dev records exist. Shared guarded readers decoded those targets before endpoint filtering, but no Banking77 model comparison occurred.",
+    "Early minimum-option-token count of one was a span measurement bug; bounded controls observe minimum three under four-token budget.",
+    "Historical multilingual grammar was not registered by its Choice-only header protocol; it remains exploratory."
+  ],
+  "limitations": [
+    "Raw bundle runtime/temperatures, not current 0.3.27 served calibration; rounded probabilities cannot recover original logits for served-temperature replay.",
+    "Historical grammar records omit rubric descriptions and exact execution source revision; current source hashes do not retroactively establish those bytes.",
+    "Nominal component-bootstrap intervals only; no simultaneous Bonferroni non-inferiority or risk certificate established.",
+    "Row-binomial discordance bounds are descriptive under correlated descendants/components.",
+    "Retained-rater NLL/Brier/RPS do not establish population calibration.",
+    "No controlled latency/throughput/memory benchmark, Jev request, final-pool access, training, release or B-STEF promotion occurred in this comparison."
+  ],
+  "architecture_audit": {
+    "direct_pretrained_nli_head": "Already tested in CBF-7 higher-field schema pairs, including selected xsmall-native; do not repeat as an untested branch.",
+    "native_train_dev_model_fit": "Existing pooled/cross/dual implementations found; no model training on these native exports found. A separate prospective registration is required."
+  },
+  "gate_result": {
+    "critical_dimensions": 21,
+    "green": 0,
+    "pareto_victory": false,
+    "b_stef_earned": false,
+    "direct_jev": "PROVISIONAL - DIRECT JEV EVALUATION UNAVAILABLE",
+    "endgame_complete": false
+  },
+  "artifacts": [
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/verification_choice_routes_v6.json",
+      "bytes": 19738,
+      "sha256": "29e09fe61e8d7d4e6fcfefb2e41d40aa7c707ec26b5d6f75ac411eead8ac4b11"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/laya_spelling_multilingual_smoke16.jsonl",
+      "bytes": 19986,
+      "sha256": "40b58d7da6f781981c94192908396b109192fc7eef3816cf0e21615f0c96fdfb"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/verification_determinism_v1.json",
+      "bytes": 1904,
+      "sha256": "a64d9006fafc55a4fb476151bc9cc7dbe0522cabc8525a94f2593d2e3aca3c04"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/verification_spelling_multilingual_v2.json",
+      "bytes": 27966,
+      "sha256": "bc2432914a6e51cc13161179a9d12aba60e587e7aa88209b60498fd329ad29da"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/verification_spelling_english_v2.json",
+      "bytes": 27877,
+      "sha256": "e733f9a6dcb2e3b14c0616cae5a1092219d1278f959671866f582ab41cfb1e74"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/laya_dev_grammar_english_determinism512.jsonl",
+      "bytes": 819343,
+      "sha256": "333160c39b8d6664db3c076173a714ca9ae6443eae8ad9488759cd2a60af3fd8"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/vey_dev_choice_determinism512.jsonl",
+      "bytes": 2242828,
+      "sha256": "9846c357208c086f6220b454a54b874e6dbfb8a50d0cae3dc19e11b9a8bd2f8b"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/laya_dev_choice_multilingual_determinism512.jsonl",
+      "bytes": 3204604,
+      "sha256": "cf8e930a76d2c9b19c49f30f5c88f389ea0bc8d0326d9f1a63838e7b947eeea2"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/laya_dev_spelling_multilingual_determinism512.jsonl",
+      "bytes": 637086,
+      "sha256": "bbf9a8790ea7a2e44ef7d087f56f738b2bee974ac44487f403aafc30e4b49daa"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/laya_dev_choice_english_determinism512.jsonl",
+      "bytes": 3056801,
+      "sha256": "a8a4090769dbe156828bfe837566254fd90d99da17a4deecfc8c15ee687af8f5"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/laya_dev_spelling_multilingual.jsonl",
+      "bytes": 77742658,
+      "sha256": "085d5a1aa1fbe5359d1d7fa816b32b1791ae3edc304114ac0f29810ff2c49386"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/laya_dev_spelling_english.jsonl",
+      "bytes": 77852521,
+      "sha256": "2ae41655b0d97d3ef044e9606732c4d0130ff9080cfc5cba22c1079642caf675"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/verification_choice_routes_v5.json",
+      "bytes": 19112,
+      "sha256": "6cea9c1489568f641888caea05190953a15ce94cf262904ecd59d2ee1a06dbf6"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/verification_score_english_v2.json",
+      "bytes": 27881,
+      "sha256": "7da0ef32d823eb47b619b7f9ba5e416266e9a506370b0ee1435f1a9e2f9b3227"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/laya_dev_score_english.jsonl",
+      "bytes": 69006998,
+      "sha256": "9ac5014dc8647c0d25b50e18eb5bd260cc2dc644cf9349e42a6f615cd0a9aab3"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/verification_choice_routes_v4.json",
+      "bytes": 18809,
+      "sha256": "b9d8ea57086fdff5bd4922ba9faa477cfb2607339d079d47ff01df22e757bde3"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/verification_score_multilingual_v3.json",
+      "bytes": 28030,
+      "sha256": "58aca21f617bf80e7faab7ebaff8b10505cf45335c446baeac3086d5bc69ac3f"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/verification_choice_routes_v3.json",
+      "bytes": 18809,
+      "sha256": "b9d8ea57086fdff5bd4922ba9faa477cfb2607339d079d47ff01df22e757bde3"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/verification_choice_routes_v2.json",
+      "bytes": 3990,
+      "sha256": "84a2d67a7f33374bfb84a74f7f9d66355e47243d6833527a4f5f74661b8e5513"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/verification_score_multilingual_v2.json",
+      "bytes": 27833,
+      "sha256": "704718e1eaced0c8f13d814ec4b19991d6d47d356d079f343ba3c53398490e12"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/verification_score.json",
+      "bytes": 1077,
+      "sha256": "d3921840a3728e5a708b908e9210865b8914e81d937580034f94289bf1d27b07"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/laya_dev_score_multilingual.jsonl",
+      "bytes": 67828994,
+      "sha256": "7df1e9cff813d6122510daba6b08624754059e28d714a0ed04afdfb06ef6cc6c"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/verification_routes.json",
+      "bytes": 2794,
+      "sha256": "55439ac2c2609720e9a0dfcbf861aa309a7519317b7ab3fac429b9ad55ca4613"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/laya_dev_choice_multilingual.jsonl",
+      "bytes": 153245712,
+      "sha256": "1fe025090d3177b6f926ed6d360b0310c62840518d32713bf1c62892a6786a8c"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/verification_choice.json",
+      "bytes": 2806,
+      "sha256": "9370592f70cd42d90d6d677005377966f8963f7b7da6836c343f9c55be39c5df"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/laya_dev_choice.jsonl",
+      "bytes": 137978656,
+      "sha256": "99a42658961f9df127aeb3e926185a89be44fdddb4f8ab6319f42a99b9a9ef01"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/vey_dev_choice.jsonl",
+      "bytes": 279630065,
+      "sha256": "7bb2475c58beafe17ed72de79ba2309cbc9fad4e3deb3f34f3269d0518afeeea"
+    }
+  ],
+  "source_files": [
+    {
+      "path": "research/endgame/neutral_development_comparison_protocol.json",
+      "sha256": "65aaafd10c3845f6d3f05e16ae70a99f3f5eb3a6d67b39bc5794243d11f99cf9",
+      "bytes": 10906
+    },
+    {
+      "path": "research/endgame/neutral_development_comparison_amendment_v1.json",
+      "sha256": "e47b1317628ff1fc1bc6edf3a999dfaf75aac751d5a1feb586641919f798d788",
+      "bytes": 3293
+    },
+    {
+      "path": "research/endgame/neutral_multilingual_route_protocol.json",
+      "sha256": "73f823b543581ebd5ba4ff46dd38985df3e6fd9c5b40acde5c6fd736f3183b52",
+      "bytes": 4989
+    },
+    {
+      "path": "research/endgame/neutral_score_route_amendment_v2.json",
+      "sha256": "247cf2e3f6c0c488803d91deffca3c842d8ffe7372d09f323e22036c98e6f67c",
+      "bytes": 3520
+    },
+    {
+      "path": "research/endgame/neutral_native_compiler_protocol.json",
+      "sha256": "f1da1e227e6195c2230f4f1a10c016e0c683a036a192030704ed9c67da259642",
+      "bytes": 11692
+    },
+    {
+      "path": "research/endgame/neutral_comparison_rows.py",
+      "sha256": "ad59c5eda918a8a150e807b66b38ff1dfea9531cbf23f1b2dc6580435ad33e4e",
+      "bytes": 6089
+    },
+    {
+      "path": "research/endgame/neutral_comparison_verify.py",
+      "sha256": "5162d7309051edb110ba4c61a7be81eb6bde04ed16bf185d7e07ea3dc007ca03",
+      "bytes": 26450
+    },
+    {
+      "path": "research/endgame/neutral_laya_arm.py",
+      "sha256": "2e4fee09240ee0e799e1fc9673ce75ff95c7a75e798832e21b1c8a85ec676769",
+      "bytes": 12549
+    },
+    {
+      "path": "research/endgame/neutral_vey_arm.py",
+      "sha256": "9539a913dddac31397e9d3dc9420c8a9d891406b790a879e8e1603b9026a1dc8",
+      "bytes": 4701
+    },
+    {
+      "path": "research/endgame/test_neutral_comparison_metrics.py",
+      "sha256": "cffd85e3875eb26f49c598b4a144d854b15fecb520babc1b824cf8d3e5019e7f",
+      "bytes": 2426
+    },
+    {
+      "path": "research/competitors/update_matrix_from_receipts.py",
+      "sha256": "18e6b554bf7ed7b0738a0ef1503fc5376932bc0ff1878b156301976e748a88e5",
+      "bytes": 9715
+    }
+  ],
+  "retained_pre_cutover": {
+    "retained-pre-cutover/prior/coordinate_reversal.jsonl": {
+      "bytes": 25107849,
+      "sha256": "cc13491418c9a0229946fb3cbb134718f796c35e4f1b5ea7989cb60e8647322e"
+    },
+    "retained-pre-cutover/prior/dev.jsonl": {
+      "bytes": 11155452,
+      "sha256": "f0665512cddafc843ad901560a45aa37c83c628ca3d8783c6b97332510186b2c"
+    },
+    "retained-pre-cutover/prior/history.json": {
+      "bytes": 4118,
+      "sha256": "af460227bd44ee719d4d8598234ea9bd98924bb0391a15ff36804ef05aa469d8"
+    },
+    "retained-pre-cutover/prior/liveness.json": {
+      "bytes": 58783,
+      "sha256": "e566a37849d0e22dc34dbe5cd981310e8d04d4b554b4fed63a1e59eac9c73469"
+    },
+    "retained-pre-cutover/prior/masked.jsonl": {
+      "bytes": 11155452,
+      "sha256": "f0665512cddafc843ad901560a45aa37c83c628ca3d8783c6b97332510186b2c"
+    },
+    "retained-pre-cutover/prior/metadata.json": {
+      "bytes": 15369,
+      "sha256": "93581aae8c3426de0d38cfd60ea804e44122daff741e77539347079a160653bc"
+    },
+    "retained-pre-cutover/prior/swapped.jsonl": {
+      "bytes": 11337772,
+      "sha256": "bfe342721bef372fe0857cf30c7badd27ad963571345db09a8e64f3576a92f79"
+    },
+    "retained-pre-cutover/prior/swapped_unavailable.jsonl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "retained-pre-cutover/frozen/calibration.jsonl": {
+      "bytes": 6084384,
+      "sha256": "38358e8b15549eadce2ea58ede164339fd9544b2d04f2fb39d23737c76f41b75"
+    },
+    "retained-pre-cutover/frozen/coordinate_reversal.jsonl": {
+      "bytes": 31899725,
+      "sha256": "53091154d32fe6f3a643befe5cb81e6f9803f201dd822054d0c7e0368948ace4"
+    },
+    "retained-pre-cutover/frozen/dev.jsonl": {
+      "bytes": 14544553,
+      "sha256": "81b6a12fd6188ace6f7d7ef2d8012318c23230aba3c00651f638483bc1fb07e8"
+    },
+    "retained-pre-cutover/frozen/history.json": {
+      "bytes": 315337,
+      "sha256": "1f2f53149dded29754b46c174f76e264d7e46735aed94b30e1581ab2f6da99ac"
+    },
+    "retained-pre-cutover/frozen/liveness.json": {
+      "bytes": 222541,
+      "sha256": "fe5ead360c407334e75fd901fdebe73c6515b465e189bca26925c8f21793dc86"
+    },
+    "retained-pre-cutover/frozen/masked.jsonl": {
+      "bytes": 14578640,
+      "sha256": "a1ccc2b9bb7ac450fd80acd804f7304335cbd6774c05982fe52401c539cd9c34"
+    },
+    "retained-pre-cutover/frozen/metadata.json": {
+      "bytes": 92716,
+      "sha256": "1590101920efdbe59e8678cf4f9df79023487303e274104daa09e63ef457d569"
+    },
+    "retained-pre-cutover/frozen/selected.safetensors": {
+      "bytes": 283683780,
+      "sha256": "013d3161bc6da826fa2cf77b2116dec05798f6f81d1709ae17ecca08132783d6"
+    },
+    "retained-pre-cutover/frozen/selection.jsonl": {
+      "bytes": 69588529,
+      "sha256": "64342bea811d8396d34453760f191ddf68a118c55f77df07291d7a50a1f16953"
+    },
+    "retained-pre-cutover/frozen/swapped.jsonl": {
+      "bytes": 14726542,
+      "sha256": "3a912a9bb841891bb58c2e0f1c10cd594fa283826b56cc66ee2916ecd5c491ae"
+    },
+    "retained-pre-cutover/frozen/swapped_unavailable.jsonl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "retained-pre-cutover/full/calibration.jsonl": {
+      "bytes": 6123897,
+      "sha256": "9e83de1da17b56bd8a4bd00ef57834a48dd4f4b0e18ce255e1a35865a2ab1fc3"
+    },
+    "retained-pre-cutover/full/coordinate_reversal.jsonl": {
+      "bytes": 32158893,
+      "sha256": "8c4b130b8f2d62af9341245daaaee3bcb23c69e7612d532c9786d29aa657e3c8"
+    },
+    "retained-pre-cutover/full/dev.jsonl": {
+      "bytes": 14671858,
+      "sha256": "b29d4bc0c5620e640416f4258c6ae01c4019df6ab0893c07b7ae665d2e210bc7"
+    },
+    "retained-pre-cutover/full/history.json": {
+      "bytes": 316175,
+      "sha256": "2fe3b38f82582cfe52f203d43a60fb48816647393236c82802fdefba4bfe769a"
+    },
+    "retained-pre-cutover/full/liveness.json": {
+      "bytes": 258109,
+      "sha256": "736702a0c079ee6c33727e6bdbdd071ce9df8fc5eff5f3299bfcbd3c8ee0b8a9"
+    },
+    "retained-pre-cutover/full/masked.jsonl": {
+      "bytes": 14597460,
+      "sha256": "b8ab5dee1bf0cfe7a1faf8cd3c931d08c8836d2b71a66939f8c7d13d6474e18a"
+    },
+    "retained-pre-cutover/full/metadata.json": {
+      "bytes": 92738,
+      "sha256": "054e1cb0bd00fa1f89bcc105930e4562fc0a82894d13b6acfe0358fc97c1ac53"
+    },
+    "retained-pre-cutover/full/selected.safetensors": {
+      "bytes": 283683780,
+      "sha256": "651bd97d4c2ce3d426a62a90f54ba820882d61567951523308eec4e560bba6ef"
+    },
+    "retained-pre-cutover/full/selection.jsonl": {
+      "bytes": 69936382,
+      "sha256": "6e5e374ee9293ed9e06beca2b5a8a7b34633100adab4557dc7a4120c66863993"
+    },
+    "retained-pre-cutover/full/swapped.jsonl": {
+      "bytes": 14854282,
+      "sha256": "4e117d785660c091299582e4b019bb10d598d9f13ffbbf95b15ac703d9933700"
+    },
+    "retained-pre-cutover/full/swapped_unavailable.jsonl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "retained-pre-cutover/full-smoke/history.json": {
+      "bytes": 79,
+      "sha256": "14145e3232953b0bcb714faf0bbe5d584fcce6d2f145c10aada8de5e6b0c4a2e"
+    },
+    "retained-pre-cutover/full-smoke/liveness.json": {
+      "bytes": 64,
+      "sha256": "dbb86eb9e21dcfd53bc37d90e7adc9d75e5215990d9f59ab107ebd084a339061"
+    },
+    "retained-pre-cutover/full-smoke/metadata.json": {
+      "bytes": 10421,
+      "sha256": "2a8f907c958a01f6dd2cb3e131cc9d3e2f63a2e6fc067ff49ab4c20ac629159f"
+    },
+    "retained-pre-cutover/full-smoke-c1/history.json": {
+      "bytes": 79,
+      "sha256": "14145e3232953b0bcb714faf0bbe5d584fcce6d2f145c10aada8de5e6b0c4a2e"
+    },
+    "retained-pre-cutover/full-smoke-c1/liveness.json": {
+      "bytes": 176465,
+      "sha256": "40037c9ea9a0edeac4e9e55bae26539ed146fa3daf28a5b2fb4f8bba759bb823"
+    },
+    "retained-pre-cutover/full-smoke-c1/metadata.json": {
+      "bytes": 70132,
+      "sha256": "45266dc5681be24f668b1f9b1373eaf18ad7aa54f7cb41cafa91b0c1a82f012a"
+    },
+    "retained-pre-cutover/frozen-smoke-c1/history.json": {
+      "bytes": 81,
+      "sha256": "55a01e4de13fa9882a0e56910228c5084b794dcb19a3c50164ede8562398d2a3"
+    },
+    "retained-pre-cutover/frozen-smoke-c1/liveness.json": {
+      "bytes": 141383,
+      "sha256": "a550bf9b21d41d1a5a22ec8df42bcb12f044222e9eaf3b44ab17acf175c6b2ce"
+    },
+    "retained-pre-cutover/frozen-smoke-c1/metadata.json": {
+      "bytes": 70134,
+      "sha256": "a30954e1ee881381824db9ed23b6e899432f4e5e4241289a3db3b6308ead300e"
+    }
+  }
+}

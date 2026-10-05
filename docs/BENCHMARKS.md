@@ -5890,6 +5890,71 @@ Custody is recorded in
 27 retained prediction/replay/control artifacts and 11 implementation/protocol
 files, each with size and SHA256. Raw records remain outside Git.
 
+## Native English state-field supervision: Banking77 intent earns the screen, MASSIVE intent misses
+
+Preregistered at `9e1b65b` (protocol + guarded data/material/model/train/verify
+implementation), run under the committed custody cutover `ba27eac`. Every arm
+ran offline on the pinned stock `microsoft/deberta-v3-xsmall`
+(`eb2d654bf0a5b628c8be6c4be7d29118fbef95b8`) with no checkpoint substitution.
+This is a new source-native study, not a rerun of the retired authored
+literal-registry or direct-NLI-head experiments, which CBF-6/7 already failed.
+
+MEASURED on the selected English native projection: 4,105 Banking77 train
+records (1,027 dev) and 3,971 MASSIVE en-US train records (1,252 dev). Whole
+original components split 70/15/15 into disjoint fit/selection/calibration, so
+no component or duplicate lineage crosses a phase; the original dev stays a
+development assessment, not a sealed final.
+
+| Field | Arm | real top-1 | masked | swapped vs original | swapped correct-new | status |
+|---|---|---:|---:|---:|---:|---|
+| banking77.intent | full | 0.8199 | 0.0097 | 0.0019 | 0.8179 | passed |
+| banking77.intent | frozen | 0.4859 | 0.0243 | 0.0088 | 0.4830 | failed |
+| massive.intent | full | 0.7564 | 0.0759 | 0.0080 | 0.7556 | failed |
+| massive.intent | frozen | 0.5120 | 0.0759 | 0.0200 | 0.5096 | failed |
+
+Component ratio bootstrap over 1,024 input-only connected components, 10,000
+resamples, seed 0, row-weighted estimand. Full arm Banking77 real-minus-masked
+accuracy CI **[+0.7854, +0.8341]** and model-minus-prior CI **[+0.7707, +0.8205]**;
+MASSIVE model-minus-prior CI **[+0.6282, +0.6879]**. These are nominal
+descriptive intervals, not the endgame simultaneous gate.
+
+Full-encoder fine-tuning is the mechanism that earns `banking77.intent`: the
+frozen-head arm reaches only 0.4859, so the improvement is in the adapted
+representation, not the pooled head alone. `massive.intent` lands at 0.7564 and
+fails only the 0.80 accuracy and 0.80 swapped-correct-new gates while sitting
+far above the state-blind prior. No arm reached the ordinal fields: the native
+English export contains no grammar or spelling retained-rater targets, so both
+`massive.grammar_score` and `massive.spelling_score` are data-insufficient and
+earned nothing, with zero fabricated head or grade.
+
+Controls reconstructed from the artifacts, not asserted: constant-mask states
+collapse accuracy to 0.010 / 0.076; donor-swapped states collapse
+against-original accuracy to 0.002 / 0.008 while swapped-correct-new tracks the
+real accuracy; all 2,279 dev decisions had lawful different-component,
+different-target donors (zero unavailable); cached repeated Choice, membership
+and ordinal reads added no encoder calls while an uncached read advanced the
+counter; candidate-ID reversal is an exact gather.
+
+Three failures are retained rather than hidden. The first full-arm liveness run
+stopped before any optimizer step: the stock-key ledger omitted the stored
+alias `deberta.embeddings.position_embeddings._weight`, a table the pinned
+config's `position_biased_input=false` already disables. A later committed
+verifier-only census edit left a dataset-bound source registry stale, so the
+full arm refused to start and created no directory - the guard working as
+designed. Those two plus a third spurious integrity stop showed the real
+defect: gating verification on raw hashes of mutable implementation files.
+That mechanism is removed. Runs now bind to the protocol, the guarded source
+projection and the phase bytes, and each arm records the exact trainer sources
+it ran with. Superseded arm outputs and liveness receipts are retained under
+`retained-pre-cutover/`.
+
+What this does NOT establish: nothing about sealed-final data, fresh transfer,
+competitor superiority, many-axis grounding, free-form question or alias
+interpretation, generic Boolean truth, calibration certificates, latency,
+shipping or B-STEF. The ordinal fields remain unmeasured for lack of English
+retained-rater targets, not for failing a gate. Custody is recorded in
+[`native_field_result_manifest.json`](../research/endgame/native_field_result_manifest.json).
+
 
 
 
