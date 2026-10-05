@@ -1,0 +1,193 @@
+{
+  "schema": "vey.neutral.qasper.native-projection-protocol.v1",
+  "experiment": "QNATIVE-1 guarded source-native natural-question train/dev compiler",
+  "status": "PROSPECTIVE; commit protocol and producer/verifier before any selected labels or projection",
+  "hypothesis": "Existing independently custodied QASPER train/dev papers can emit truthful native Boolean, answerability, evidence retrieval and extraction DecisionIR with original annotations in separate targets/provenance, unchanged component membership and no sealed-label access. Compiler correctness and coverage only, not model quality.",
+  "authority": {
+    "immutable_product_commit": "e6b046ffbd138cbdbfb2f89c6ae77525fe6b0b18",
+    "neutral_protocol": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_benchmark_protocol.json",
+      "bytes": 28743,
+      "sha256": "9e3bfbdd9371d6202c8bf6d6ec5fc224eababb402d409f206abd0215fcf3f0c5"
+    },
+    "source_plan": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_paper_acquisition_sources.json",
+      "bytes": 4747,
+      "sha256": "b37d02448c7f9ff33d8ec8eb9c74effc6b2120063d4e851e18797bcea158e9db"
+    },
+    "source_custody_result": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_source_custody_result_manifest.json",
+      "bytes": 28109,
+      "sha256": "885f9665ccc41ad800a1971c1b5f48ce1d71cf2e51bf21cff26a2b58cb0c6113"
+    },
+    "source_manifest": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/attempts/20261004T074414.392704Z-593810-cb44d7ae/manifest.json",
+      "bytes": 19780,
+      "sha256": "de5bc1986d7aa0d89833ddab45c48e4a44f440f80a376acf744a874df5ff5c72"
+    },
+    "source_verification": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/attempts/20261004T074414.392704Z-593810-cb44d7ae/verification/20261004T095212.711566Z-662025-fd3aaf90/report.json",
+      "bytes": 18521,
+      "sha256": "7a1120b239e222ada0e6db33ec0f5e28633ed68267dccea95c92b9dff3ea3abc"
+    },
+    "database": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/attempts/20261004T074414.392704Z-593810-cb44d7ae/private.sqlite3",
+      "bytes": 769089536,
+      "sha256": "8f4a194262a40662633951dbc6d9ef105412c487b329c169427388748fc6b09e"
+    },
+    "IR": {
+      "path": "/home/fazinahamed/Documents/vey/vey_u/ir.py",
+      "bytes": 2121,
+      "sha256": "0184e25e05c17638117e776fc660fd6e4896c3590da0fcf94fc753509869ea2d"
+    },
+    "renderer": {
+      "path": "/home/fazinahamed/Documents/vey/vey_u/semantic/format.py",
+      "bytes": 1017,
+      "sha256": "3e7ad63a26b68e7bb74142d8c69306bd4c0473f42eb5a69680e0474422c0e1ab"
+    }
+  },
+  "source": {
+    "id": "allenai/qasper",
+    "revision": "fdc9d8214fbab5dd782958601db4d678e6934a54",
+    "license_class": "shipping-train as recorded: source-specific CC-BY-4.0 grant; attribution and modification notice retained; underlying full-paper republication rights remain under review; no raw Git redistribution",
+    "exposure": "Public QASPER and possible LongBench/SCROLLS overlap; unknown pretrained membership; not universally fresh",
+    "citation": "Dasigi et al. (2021), A Dataset of Information-Seeking Questions and Answers Anchored in Research Papers"
+  },
+  "data": {
+    "output_root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1",
+    "roles": [
+      "train",
+      "dev"
+    ],
+    "expected": {
+      "train": {
+        "papers": 532,
+        "components": 532,
+        "groups": 532,
+        "questions": 1580,
+        "annotations": 1636,
+        "ordered_group_ids_sha256": "5231e111b521d20e45706f7439bdd69c2f6eec1829ed7e7fdd41a96848a0b928"
+      },
+      "dev": {
+        "papers": 319,
+        "components": 319,
+        "groups": 319,
+        "questions": 1013,
+        "annotations": 1396,
+        "ordered_group_ids_sha256": "ed0e922b5a8bc64544d80c43928a07845b4898ddbdf467dd9ef20f2e718acf2c"
+      }
+    },
+    "allocation": "Reuse exact existing source_groups.final_split and component_id; no resplit, cap, filtering by quality, moved phase or model labels. Every selected paper/question remains in a private source census even if a task is unlabelled."
+  },
+  "access": {
+    "custodian": "Read-only query-only SQLite, table/column authorizer; fixed parameterized queries join papers/questions/annotations through source_groups.final_split=? and allow train/dev only. Reject unknown/sealed roles before protocol/database/file access. Never SELECT payload_json, annotation_json, answer_json, worker_id_json, questions from unselected papers, or sealed labels. Do not return SQLite handles or expose mixed database rows to selectors. Hash unchanged database before/after.",
+    "selector": "open_phase(phase,stream=serving) rejects non-train/dev before any file access; require completed manifest, exact current producer/protocol and original-source pins, independent PASS receipt tied to manifest and hashed rooted stream. Four streams serving/decisions/targets/provenance; no final/calibration export. Producer gate checks git committed exact files before DB access.",
+    "reader_boundary": "Operational phase and column separation; not a sandbox against a principal with arbitrary filesystem access."
+  },
+  "projection": {
+    "state": "Only original title, abstract, full_text. Ordered nonempty string blocks: title, abstract, each section heading and paragraph. IDs title, abstract, section:%04d:heading, section:%04d:paragraph:%04d (source positions retained); full_text list-of-sections or columnar section_name/paragraphs supported. Preserve wording/order; no normalization, truncation, figures, source questions, labels or annotations in state. If no text exists, one empty document block and explicit missingness. All source-only blocks are the label-independent retrieval catalogue, including duplicates at distinct positions.",
+    "question": "Original string question; refuse malformed present non-string question. Source-only question identity hashes [source ID, revision, group_id, paper_id, source_partition, question ordinal, endpoint]. Gold and output text never enter IDs.",
+    "boolean": {
+      "endpoint": "qasper.yes_no",
+      "task": "bool",
+      "candidates": [
+        {
+          "id": "false",
+          "description": "No"
+        },
+        {
+          "id": "true",
+          "description": "Yes"
+        }
+      ],
+      "question": "Original question unchanged",
+      "eligibility": "Emit only when at least one annotation contains native yes_no of exact Python/JSON Boolean type. Do not treat arbitrary non-Boolean questions as yes/no tasks. All other questions remain in source census/coverage; null/absent is not False. Conflicting unanswerable/yes_no annotations are preserved and explicitly flagged, not silently removed.",
+      "target": "Separate per-annotation original presence, native value and observed mask; counts[false,true], empirical retained-annotation distribution and observed_raters; no majority or rounded gold. IR.gold is all IDs with nonzero counts; filtered native task distribution, not population truth probability."
+    },
+    "answerability": {
+      "endpoint": "qasper.answerability",
+      "task": "bool",
+      "candidates": [
+        {
+          "id": "false",
+          "description": "No"
+        },
+        {
+          "id": "true",
+          "description": "Yes"
+        }
+      ],
+      "question_prefix": "Can the following question be answered using this paper?\n",
+      "eligibility": "Every source question, including unlabelled ones",
+      "target": "Exact complement of each observed native Boolean unanswerable; preserve original value/presence/missingness and mapped value. Null/absent never becomes answerable or unanswerable. Counts/distribution as native Boolean; explicit transformed-source target, not generic arbitrary Boolean truth."
+    },
+    "evidence": {
+      "endpoint": "qasper.evidence_retrieval",
+      "task": "retrieval",
+      "question_prefix": "Which passages support an answer to the following question?\n",
+      "eligibility": "Every source question",
+      "candidates": "Every source-only state block with original text/ID; no gold-dependent shortlist or candidate addition",
+      "target": "Retain original ordered per-annotation evidence arrays and null/absent distinction. Exact byte-equal matching to all source blocks; duplicates map to all positions. No fuzzy matching or marker stripping. Preserve every unmatched native evidence string, including excluded figure/table references; report full/mixed/no catalogue support. IR.gold/evidence include only resolvable block IDs; native target ledger retains all gold and incomplete support. Unmatched gold cannot be dropped from any future quality denominator."
+    },
+    "extraction": {
+      "endpoint": "qasper.extractive_answer",
+      "task": "extract",
+      "question": "Original question unchanged",
+      "eligibility": "Every source question",
+      "candidates": "Empty; never infer candidates from gold answers",
+      "target": "Retain ordered original per-annotation extractive_spans and null/absent distinction, and all exact substring occurrences within every source block with block_id/start/end. Retain unmatched spans; no normalization, alias synthesis or free-form-to-extractive conversion. Native free_form_answer is separate provenance only. IR.gold empty; IR.evidence only exact resolved span positions."
+    },
+    "annotations": "Only exact bool is a present Boolean; non-null wrong types fail closed. Evidence/extractive_spans must be list[str] when present non-null; invalid present types fail closed. Original arrays/order/presence values retained; worker/annotation IDs remain in original custody, not serving or stdout. Annotation ordinal is local provenance, never independent sample n.",
+    "serving_keys": [
+      "id",
+      "task",
+      "locale",
+      "state",
+      "question",
+      "candidates"
+    ],
+    "serving": "Pinned IR renderer, locale=en. Strict source-only task/question/state/candidate projection; no gold/evidence/provenance/targets/metadata in serving. IR stream is non-serving and may contain gold evidence.",
+    "streams": [
+      "serving",
+      "decisions",
+      "targets",
+      "provenance"
+    ],
+    "serialization": "Canonical finite UTF-8 JSON sorted keys and compact separators, lists source order; deterministic gzip mtime0; refuse output overwrite/incomplete manifest; failure artifacts retained outside selector surface."
+  },
+  "controls": [
+    "Independent original-field target/IR/serving reconstruction without producer projection helper",
+    "Exact membership and source/question/annotation denominators; deterministic ordered group/component/decision hashes",
+    "Sealed/unknown role and invalid stream denial before opening source or output",
+    "Negative tamper cases: source/stream/manifest/receipt changes rejected; nullable/wrong-type Bool boundaries, evidence duplicates/unmatched, extractive offsets, source-only state",
+    "No cross-role component; original DB hash unchanged; full unlabelled and partial-support coverage retained"
+  ],
+  "gates": {
+    "custody": "Exact pinned artifacts and unchanged source database",
+    "membership": "Exact all train/dev counts and original group hash; no moved components",
+    "projection": "Full-population exact reconstruction of fields, target masks/distributions/offsets, serving bytes and separated provenance",
+    "access": "All guarded negative controls reject before prohibited access",
+    "claim": "Zero models/optimizers/GPU/quality/competitor/final credit"
+  },
+  "resources": {
+    "CPU_threads": 1,
+    "BLAS_threads": 1,
+    "GPU_jobs": 0,
+    "SQLite_cache_MiB": 16,
+    "minimum_available_RAM_GiB": 4,
+    "nice": 10,
+    "wall_timeout_seconds": 900,
+    "streaming": "One selected paper at a time; bounded arrays and gzip writers",
+    "paid_calls": 0
+  },
+  "statistics": "Deterministic population reconstruction/coverage; no quality CIs. Statistical unit for future question results is component/paper, never annotation or repeated question.",
+  "failure": "Fail closed on hashes, schema, membership/access or present wrong types; retain partial/failure receipt; fix implementation-only prospectively with same frozen source allocation. Missing labels and unmatched evidence/spans are truthful coverage, not invented targets or quality failures.",
+  "next_branch": "Verified projection and coverage allow a separately preregistered source-native variable-question/Boolean/evidence DEV mechanism. Audit retained task support and public exposure before selecting any architecture, calibrating or using long-document strata. Existing intent NATIVE-2 runs and protocol remain untouched.",
+  "sealed_labels_opened": false,
+  "model_outputs": 0,
+  "quality_credit": false,
+  "B_STEF_allowed": false,
+  "promotion": false,
+  "Pareto_credit": false,
+  "endgame_complete": false
+}
