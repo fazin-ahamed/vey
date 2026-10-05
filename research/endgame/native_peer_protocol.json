@@ -1,0 +1,232 @@
+{
+  "schema": "vey.native-field.current-peer-protocol.v1",
+  "experiment": "NATIVE-P1 actual published Laya English API versus NATIVE-1 native English development controls",
+  "status": "PROSPECTIVE_PEER_EXECUTION; Vey DEV and historical Laya output exposure disclosed",
+  "hypothesis": "The earned native English field can be compared on identical held-development inputs against the actual current published English generic Laya route. No sealed test, new model fitting, arbitrary-question or Pareto inference follows.",
+  "outcome_exposure": "All NATIVE-1 DEV controls and historical Laya MASSIVE routes already measured. This freezes new current-API peer forwards and paired analysis, not a blind preregistration before all outcomes. No selecting task, model or metric from new peer results.",
+  "data": {
+    "root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1",
+    "dataset_manifest": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/dataset_manifest.json",
+      "bytes": 7864,
+      "sha256": "67624183cb02d184383c36e0183c64a6aed91caa9f8031d5edd079545281337d"
+    },
+    "dev": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/dev.jsonl",
+      "bytes": 16764916,
+      "sha256": "36d1fe0590e32bf9cf5769d2f84ce0b5e726ca96d7b1c10304ddfdf53d9577d8"
+    },
+    "native_field_protocol": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_field_protocol.json",
+      "bytes": 10753,
+      "sha256": "f0f21d4695be2f930f2f0993be415dd8fee6e05ee1a888fe756cac0f7f94dfa3"
+    },
+    "native_field_verification": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/verification.json",
+      "bytes": 2671286,
+      "sha256": "74e3d22f26f4bb0563d87977cf27479fafb5187ba34aa6446236bbb08d49f3c4"
+    },
+    "endpoints": [
+      "banking77.intent",
+      "massive.intent"
+    ],
+    "expected_counts": {
+      "banking77.intent": {
+        "rows": 1027,
+        "components": 1024,
+        "K": 77
+      },
+      "massive.intent": {
+        "rows": 1252,
+        "components": 1024,
+        "K": 60
+      }
+    },
+    "serving": "Exact existing NATIVE-1 source-only rendered state/question/public full catalogue/canonical ID order; locale=en-US/en English task only. No annotation/gold/IDs/splits in model text. Native endpoint selects Vey trained field in code; Laya receives explicit original question and full criteria.",
+    "source_class": "Both original source-specific CC-BY-4.0 shipping-train grant as recorded; exposed public development replication, no raw Git publication."
+  },
+  "vey": {
+    "arms": [
+      "prior",
+      "frozen",
+      "full"
+    ],
+    "reference_result_manifest": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_field_result_manifest.json",
+      "bytes": 90021,
+      "sha256": "420566eedbcf40b50136d7a62c8dc2fec1a0654ccda3984229fc92bfd1293245"
+    },
+    "predictions": {
+      "prior": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/prior/dev.jsonl",
+        "bytes": 11155452,
+        "sha256": "f0665512cddafc843ad901560a45aa37c83c628ca3d8783c6b97332510186b2c"
+      },
+      "frozen": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/frozen/dev.jsonl",
+        "bytes": 14544553,
+        "sha256": "81b6a12fd6188ace6f7d7ef2d8012318c23230aba3c00651f638483bc1fb07e8"
+      },
+      "full": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/full/dev.jsonl",
+        "bytes": 14671858,
+        "sha256": "b29d4bc0c5620e640416f4258c6ae01c4019df6ab0893c07b7ae665d2e210bc7"
+      }
+    },
+    "primary": "full, fixed before peer output; all controls reported",
+    "trained_scope": "Task/catalogue-specific NATIVE-1 trained encoder/head and disjoint inner calibrated temperatures. This is a research candidate, not frozen shipped Vey2, novel criterion support or current final product."
+  },
+  "laya": {
+    "published_version": "0.3.27",
+    "release_commit": "b09832bdd3819e375fe8b0d26dbd7a8f75c4f0bd",
+    "route": "english",
+    "checkpoint": {
+      "files": {
+        "encoder/config.json": {
+          "bytes": 2083,
+          "cache_blob_name": "5881ba831f2db5ce0f606bbaa1f2668e1e6cb706",
+          "current_advertised_identity": "5881ba831f2db5ce0f606bbaa1f2668e1e6cb706",
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/snapshots/55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851/encoder/config.json",
+          "resolved_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/blobs/5881ba831f2db5ce0f606bbaa1f2668e1e6cb706",
+          "sha256": "bf3ab80598fdccf414855a2ce80f22859e4492d06ca8a62ddd1cfb63972f8979",
+          "upstream_identity": "5881ba831f2db5ce0f606bbaa1f2668e1e6cb706",
+          "upstream_identity_kind": "git_blob_sha1",
+          "upstream_identity_verified": true,
+          "upstream_xet_hash": null
+        },
+        "model.safetensors": {
+          "bytes": 842609210,
+          "cache_blob_name": "dd8562d713759821a0bc049e79abd09e5817d218d18fa51478ad16986d018764",
+          "current_advertised_identity": "891102d372688fc2a094dac56a384bc537b87c63f21f9f3dac0be2b7cbc8d86c",
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/snapshots/55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851/model.safetensors",
+          "resolved_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/blobs/dd/dd8562d713759821a0bc049e79abd09e5817d218d18fa51478ad16986d018764",
+          "sha256": "891102d372688fc2a094dac56a384bc537b87c63f21f9f3dac0be2b7cbc8d86c",
+          "upstream_identity": "891102d372688fc2a094dac56a384bc537b87c63f21f9f3dac0be2b7cbc8d86c",
+          "upstream_identity_kind": "lfs_sha256",
+          "upstream_identity_verified": true,
+          "upstream_xet_hash": "dd8562d713759821a0bc049e79abd09e5817d218d18fa51478ad16986d018764"
+        },
+        "rl_agent_config.json": {
+          "bytes": 745,
+          "cache_blob_name": "3e4fcbf12cf36164ce18a1398aa9f35f58375ae0",
+          "current_advertised_identity": "3e4fcbf12cf36164ce18a1398aa9f35f58375ae0",
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/snapshots/55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851/rl_agent_config.json",
+          "resolved_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/blobs/3e4fcbf12cf36164ce18a1398aa9f35f58375ae0",
+          "sha256": "ae287b56bbcf5f8c4f4541ae9dfd00c914c4c48b940b8398c3058af37ba92bbd",
+          "upstream_identity": "3e4fcbf12cf36164ce18a1398aa9f35f58375ae0",
+          "upstream_identity_kind": "git_blob_sha1",
+          "upstream_identity_verified": true,
+          "upstream_xet_hash": null
+        },
+        "tokenizer/tokenizer.json": {
+          "bytes": 3583228,
+          "cache_blob_name": "2f4d8583e507b7466d2490e2d6c045647a822698",
+          "current_advertised_identity": "2f4d8583e507b7466d2490e2d6c045647a822698",
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/snapshots/55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851/tokenizer/tokenizer.json",
+          "resolved_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/blobs/2f4d8583e507b7466d2490e2d6c045647a822698",
+          "sha256": "6c8aaa9a542084f2457eab775d4eeb51f92a70c0fd9de28d5edb0ddec3c08d30",
+          "upstream_identity": "2f4d8583e507b7466d2490e2d6c045647a822698",
+          "upstream_identity_kind": "git_blob_sha1",
+          "upstream_identity_verified": true,
+          "upstream_xet_hash": null
+        },
+        "tokenizer/tokenizer_config.json": {
+          "bytes": 308,
+          "cache_blob_name": "9fd800115c5c92353220aa66addfce67a9135f32",
+          "current_advertised_identity": "9fd800115c5c92353220aa66addfce67a9135f32",
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/snapshots/55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851/tokenizer/tokenizer_config.json",
+          "resolved_path": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home/hub/models--convaiinnovations--laya/blobs/9fd800115c5c92353220aa66addfce67a9135f32",
+          "sha256": "50044de60daaa73df97d262e15a40d4faf0160e7d742df64b377877a1320dd12",
+          "upstream_identity": "9fd800115c5c92353220aa66addfce67a9135f32",
+          "upstream_identity_kind": "git_blob_sha1",
+          "upstream_identity_verified": true,
+          "upstream_xet_hash": null
+        }
+      },
+      "repository": "convaiinnovations/laya",
+      "revision": "7b928d828b7b0e022f929d9bd2e44165aa270148"
+    },
+    "custody_manifest": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/competitors/laya_published_0_3_27_custody_manifest.json",
+      "bytes": 21864,
+      "sha256": "b58ccc69c559710baf0ffdd7b4ebb7f1bd480d3307c428a42d5e3a4a66995a17"
+    },
+    "compatibility_protocol": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/competitors/laya_published_0_3_27_protocol.json",
+      "bytes": 5421,
+      "sha256": "c33752c566a891de94672f4c4e5cccaf8ceeb394afeeec8ce2d5ace2533623a0"
+    },
+    "complete_release_source": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya-0.3.27-preparation/complete-release-source-custody.json",
+      "sha256": "47ab49706f27ffe7d1e28558219d90d1cc8ec7fa5680aa1ccb3a467d004687a8"
+    },
+    "interface": "Unmodified complete published release source; actual laya.Agent(...,device=cpu,backend=eager,expected_sha256=...).system_one with state={text: exact rendered state}, one choice request type/instructions/criteria. No missing-module shim, vendor edits, forced CUDA, alternative logits path or package upgrade.",
+    "capture": "Retain full returned prediction before validation outside Git. Validate exact question key, every candidate probability key, legal returned choice, finite masses and normalization within source-declared rounding bound. Do not infer public answer from rounded argmax.",
+    "calibration": "Use actual default published served route calibration; no fitting/tuning on DEV. Vey inner-calibration exposure and Laya generic training/calibration histories differ and must be disclosed.",
+    "probability_precision": "Published API rounds probabilities to4decimals. Preserve original vector/sum; normalize only for secondary proper-score arithmetic, disclose it. Clipped NLL floor1e-12 describes serialized masses, not hidden full-precision scores or independent trust calibration.",
+    "packages": {
+      "huggingface_hub": "1.32.0",
+      "numpy": "2.4.6",
+      "safetensors": "0.8.0",
+      "torch": "2.5.1+cu121",
+      "transformers": "5.17.0"
+    },
+    "environment_variables": {
+      "CUDA_VISIBLE_DEVICES": "",
+      "HF_HOME": "/home/fazinahamed/Documents/vey-data/decisionmix/hf-home",
+      "HF_HUB_DISABLE_IMPLICIT_TOKEN": "1",
+      "HF_HUB_OFFLINE": "1",
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "TRANSFORMERS_OFFLINE": "1",
+      "USE_TF": "0"
+    },
+    "executable": "/home/fazinahamed/Documents/vey/venvs/vey/bin/python"
+  },
+  "primary_metric": "Per-source paired top1 accuracy Vey full minus actual public Laya choice on every DEV row. No macro51language substitution or omitted Banking77.",
+  "secondary_metrics": [
+    "All Vey controls raw/calibrated accuracy",
+    "Serialized-distribution NLL with fixed1e-12 floor, Brier, predicted-label ECE15 and equal-frequency adaptive ECE15",
+    "Reliability bins, selective risk/coverage and confidence correctness AUROC; tied-confidence thresholds never split by gold",
+    "Both discordance directions and complete row/component counts"
+  ],
+  "statistics": {
+    "unit": "Input-only connected component, never locale/annotation descendants",
+    "estimand": "Row-weighted paired component-ratio bootstrap difference",
+    "resamples": 10000,
+    "seed": 0,
+    "intervals": "Nominal descriptive95percent only. Not endgame simultaneous or release NI gates.",
+    "zero_discordance": "Report exact harmful-discordance CP upper bound if needed; no inference from degenerate bootstrap alone."
+  },
+  "gates": {
+    "custody": "Exact source/model/runtime/dependency/projection identities and native reference PASS before model load; every row/ID/input/target independently reconstructed",
+    "coverage": "Every2279 English DEV row, full native candidates, no cap or dropped errors",
+    "execution": "Actual published CPU typed API; every numerical output retained and independently reconstructed",
+    "promotion": "Always false; descriptive measured DEV peer contrast only. Keep all critical cells non-green, direct Jev and final/OOD/runtime/certification gaps explicit."
+  },
+  "resources": {
+    "GPU": false,
+    "CPU_threads": 1,
+    "interop_threads": 1,
+    "BLAS_threads": 1,
+    "nice": 10,
+    "minimum_RAM_before_load_GiB": 10,
+    "pause_available_RAM_GiB_below": 4,
+    "pause_swap_growth_MiB_above": 256,
+    "offline": true,
+    "paid_calls": 0,
+    "one_model_resident": true,
+    "sequence": "Run peer model only after serialized NATIVE-2 GPU study completes; CPU-only capture, no local GPU use."
+  },
+  "failure": "Retain partial native-ID captures, exact returned failing payload and exception; do not drop rows, substitute model/runtime, fake probabilities, fit DEV or hide under partial aggregate. Correct operational issues prospectively with unchanged membership/call semantics.",
+  "next": "Measured native-task DEV contrast informs coverage/diagnostic record only; continue registered architecture and natural-variable-question transfer. Does not satisfy other twenty critical dimensions or direct Jev requirement.",
+  "sealed_access": false,
+  "Jev_calls": 0,
+  "model_training": false,
+  "quality_promotion": false,
+  "performance_comparison": false,
+  "B_STEF_allowed": false,
+  "Pareto_credit": false,
+  "endgame_complete": false
+}
