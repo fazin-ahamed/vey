@@ -1,0 +1,96 @@
+{
+  "schema": "vey.neutral.development-choice-score-comparison-protocol.v1",
+  "status": "PROSPECTIVE; commit before any model execution, model or head selection, or dev row scoring. Both cited projection phases are already materialized and independently verified; no row, label, or model output is read by this protocol.",
+  "evidence_class": "HYPOTHESIS",
+  "hypothesis": "On the verified source-native projection, the frozen Vey 2 runtime and the pinned Laya English route can be compared on shared evidence for two source-native endpoints, MASSIVE binary intent Choice and MASSIVE retained-rater ordinal Score, with every quantity computed by identical code from identical serving bytes. This is a development comparison; it is not the endgame final, not a Pareto claim, and it does not open any sealed phase.",
+  "authority": {
+    "neutral_benchmark_protocol": "research/endgame/neutral_benchmark_protocol.json",
+    "native_compiler_protocol": "research/endgame/neutral_native_compiler_protocol.json",
+    "competitor_matrix": "research/competitors/COMPETITOR_MATRIX.json",
+    "laya_dossier": "research/competitors/LAYA.json",
+    "immutable_product_reference": {"tag": "vey-2-final", "commit": "e6b046ffbd138cbdbfb2f89c6ae77525fe6b0b18", "modification_allowed": false},
+    "no_product_edits": true,
+    "all21_critical_dimensions_unchanged": true,
+    "jev_direct_evidence": "Still unauthorized. No authenticated call, account creation, credential use, or paid request is authorized here. Every Jev cell stays UNMEASURED."
+  },
+  "data": {
+    "projection_root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/native-train-dev-v1",
+    "phases_in_scope": ["dev"],
+    "phase_access": "Read only the verified dev projection through neutral_native_compile.open_phase('dev', stream). Never read train, calibration, confirmation, or unused phases. Sealed-phase requests must fail before any file opens.",
+    "endpoints": {
+      "choice": "massive.intent only. 63,852 dev decisions, 1,252 independent utterance groups, K=60 intent candidates per row, binary source-native label. Every dev utterance group has exactly two intent decisions, one per polar axis.",
+      "ordinal_score": "massive.grammar_score (5 native levels) and massive.spelling_score (3 native levels), 62,594 labeled dev decisions each. Targets are retained per-rater arrays in original rater order; native missingness is preserved, so 1,258 of 63,852 rows carry no valid ordinal target and stay unlabeled."
+    },
+    "excluded_endpoints_and_why": {
+      "banking77.intent": "All 4,105 projected rows are in the train phase, so no dev intent row exists. It also cannot serve a dev comparison even in principle: the frozen Vey lane cannot answer fixed-label classification, since compile_instruction yields an empty program and compose falls back to alphabetical text order.",
+      "massive.intent_nontarget": "Excluded by label outcome, not by difficulty. Rows whose gold is the pole label rather than the intent label are excluded from the Choice endpoint by the frozen rule above."
+    },
+    "exposure_disclosure": "MASSIVE is a public benchmark with prior Vey and Laya exposure disclosed. Study sealing controls selection-process leakage only, never universal freshness. Results are legacy replication evidence, not fresh transfer.",
+    "grouping": "component_id and group_id from the projection provenance are the statistical unit. MASSIVE locale descendants share one base utterance group, so 51 locales never multiply independent n. A paired interval resamples base utterance groups, never individual locale rows.",
+    "license": "CC-BY-4.0 dataset-specific grant. Attribution and modification notice required. No raw rows, utterances, or labels enter Git."
+  },
+  "arms": {
+    "vey": {
+      "route": "Frozen vey.decide() with candidates set to the source-native candidate id->description map. state carries the utterance text block. question is the source-native question string verbatim.",
+      "artifact": "NLI grounder tasksource/ModernBERT-base-nli at revision de4ab7e77845098b7fab7f6ab9d370ddff27b19c plus published comparator fazinahamed/vey at pinned revision 04d22c8b3cff843d7e64c61ab6550ba412898c94.",
+      "legal_surface_proved_by_execution": "The empty-program alphabetical fallback is a behaviour of the frozen product, not an assumption. The Choice harness must persist the compiled program, decision_mode, and decision state per row so a reader can see which lane and program answered."
+    },
+    "laya": {
+      "route": "Pinned English bundle convaiinnovations/laya at snapshot 55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851, weights loaded with safetensors, using the bundle's own rl_common build_sequence/DecisionModel and its published temperature table. The multilingual bundle is not used: MASSIVE dev locale coverage is local and non-English-heavy, and adding a second competitor route mid-protocol would change the arm set. Its evaluation is registered separately.",
+      "english_route_only_justification": "The registered route rule selects the highest DEV-quality appropriate route per endpoint. Choosing the multilingual route for MASSIVE intent is a legitimate registered alternative. It is preregistered here as a follow-up route selection, not silently skipped."
+    },
+    "shared_exact_workflow": "Identical row order, identical candidate dictionary and ordering, identical state text, identical truncation, identical metrics code and identical output code. No arm receives model-private summaries or gold."
+  },
+  "endpoints_and_margins": {
+    "choice_accuracy": {
+      "statistic": "Unconditional top-1 accuracy over labeled dev rows, plus accuracy on gold-changing locale pairs, both-endpoints-correct rate, changed-to-new rate, and unwanted change on stable gold, reported separately and never pooled.",
+      "direction": "higher_is_better",
+      "non_inferiority_margin": 0.01,
+      "superiority": "Paired cluster bootstrap 95% interval excluding zero favorably."
+    },
+    "choice_calibration": {
+      "statistic": "NLL and Brier over the full 60-way distribution, plus 15-bin ECE, on the same rows.",
+      "direction": "lower_is_better",
+      "non_inferiority_margin": {"NLL": 0.02, "Brier": 0.01, "ECE": 0.01}
+    },
+    "ordinal_score": {
+      "statistic": "Expected level from the source rubric, predicted MAE over the native level range, normalized MAE, mean signed error, signed-error slope against the observed rater mean, and RPS over the level distribution. Reported per level count and per locale.",
+      "direction": "mixed_as_declared",
+      "non_inferiority_margin": {"normalized_MAE": 0.01, "rank_correlation": 0.01},
+      "calibration_limit": "Targets are retained per-rater arrays, not population probabilities. Population calibration claims are prohibited. NLL/Brier against a retained-rater distribution is reportable only when at least three raters rated the row."
+    },
+    "frozen_primary": "choice_accuracy is the single frozen primary endpoint for this development comparison. Ordinal Score and calibration are secondary and preregistered but cannot retroactively become primary after outcomes exist.",
+    "familywise": "Two-sided nominal 95% Bonferroni intervals across every preregistered endpoint versus each directly evaluated competitor. Cluster bootstrap resamples base utterance groups with 10000 resamples, seed 0.",
+    "zero_discordance": "Degenerate bootstrap or zero observed harmful discordance is not non-inferiority. Require the exact paired-discordance Clopper-Pearson harmful-event upper bound to clear the frozen margin, or a deterministic proof of identical outputs."
+  },
+  "controls": [
+    "Vey empty-program fallback control: report the fraction of dev rows whose compiled program is empty, because an empty program makes the Vey Choice answer alphabetical rather than semantic.",
+    "Laya route control: report the exact bundle revision, config, temperature table applied, and marker truncation count per row, since the head marker budget silently shrinks long options.",
+    "Label-free permutation control: on a fixed seeded subset, shuffle dev gold and confirm both arms collapse toward their prior-implied chance under shuffled labels, catching any arm that ignores serving input.",
+    "Shared-exact-workflow control: assert identical row ids, candidate ids, candidate order, state text and question string for both arms on every scored row, computed from persisted per-row records rather than asserted."
+  ],
+  "gates": {
+    "no_sealed_access": "Zero reads of train, calibration, confirmation or unused phases. Any sealed request must fail before file access.",
+    "row_level_persistence": "Every scored dev row persists id, group_id, locale, endpoint, arm, answer, per-candidate distribution or scores, decision_mode, compiled program, and input digests. Aggregate-only output is a failure, not a summary.",
+    "determinism": "Re-running any arm on a fixed 512-row subset reproduces identical answers and distributions bit for bit.",
+    "mechanism": "The comparison reports what each arm did, not only which number won. An arm failing an endpoint leaves that endpoint unmeasured or failed, never reframed."
+  },
+  "resource_budget": {
+    "paid_calls_now": 0,
+    "cpu_threads_max": 4,
+    "blas_threads_max": 1,
+    "concurrent_GPU_jobs_max": 1,
+    "local_VRAM_limit_GB": 12,
+    "arms_serialized": "Run Vey and Laya in separate processes, never concurrently. Estimated VRAM: ModernBERT-large Laya head at FP32 is about 1.7GB weights plus activations; Vey NLI plus comparator is about 0.6GB. Both fit the 12GB budget, but serialization is mandatory."
+  },
+  "failure_branches": {
+    "vey_empty_program": "If the Vey empty-program fraction is above 0.95, the Vey arm is not a legal Choice arm on this source. Record the frozen product's Choice limitation as a MEASURED scope fact, record the Choice cell as Vey-not-applicable, and keep the ordinal Score cell, which does have a legal Vey surface only if a Score entrypoint exists; it does not in the frozen product, so record that too. Do not write a proxy scorer and call it the product.",
+    "laya_load_failure": "Retain the failure receipt. Do not substitute a different bundle, revision, or the multilingual route without a committed amendment.",
+    "sealed_access_attempt": "Fail closed, retain the failure, and do not proceed with the comparison.",
+    "pass": "This development comparison earns no promotion, no Pareto credit and no endgame completion. Record the endpoints it measured and register the next branch."
+  },
+  "promotion": false,
+  "endgame_complete": false,
+  "B_STEF_allowed": false,
+  "current_state": {"model_executed": false, "dev_rows_scored": false, "sealed_phase_opened": false, "competitor_quality_measured": false, "tests_build_lint_or_formatters_run": false, "commit_authority": "Parent"}
+}
