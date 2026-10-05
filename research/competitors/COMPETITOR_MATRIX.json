@@ -51,16 +51,20 @@
       "status": "UNMEASURED_NEUTRAL_COMPARISON"
     },
     {
-      "CI95": null,
+      "CI95": [
+        -0.12104554281776664,
+        -0.10283154795464564
+      ],
       "Jev": null,
-      "Laya": null,
-      "Vey": null,
+      "Laya": 0.11673870826285786,
+      "Vey": 0.004792332268370607,
       "dimension": "Choice accuracy",
       "green": false,
       "hardware": null,
-      "paired_delta": null,
-      "sample_count": null,
-      "status": "UNMEASURED_NEUTRAL_COMPARISON"
+      "paired_delta": -0.11194637599448788,
+      "sample_count": 63852,
+      "status": "MEASURED_DEVELOPMENT_PARTITION",
+      "green_reason": "Development partition on an exposed public benchmark. Sealed final data and direct Jev contrast remain required."
     },
     {
       "CI95": null,
@@ -510,5 +514,59 @@
       "system": "Jev",
       "value": 0.042
     }
-  ]
+  ],
+  "verified_development_measurements": {
+    "choice_intent_dev": {
+      "receipt": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/verification_choice.json",
+      "receipt_sha256": "9370592f70cd42d90d6d677005377966f8963f7b7da6836c343f9c55be39c5df",
+      "endpoint": "massive.intent",
+      "rows": 63852,
+      "vey": {
+        "brier": 1.9904153354632588,
+        "distribution_rows": 63852,
+        "ece15": 0.004792332268370607,
+        "nll": 27.49860408182699,
+        "rows": 63852,
+        "top1_accuracy": 0.004792332268370607
+      },
+      "laya_english": {
+        "brier": 1.527977217555933,
+        "distribution_rows": 63852,
+        "ece15": 0.007877414990759928,
+        "nll": 17.05227670950004,
+        "rows": 63852,
+        "top1_accuracy": 0.11673870826285786
+      },
+      "note": "Vey arm is Vey-not-applicable by mechanism: the frozen decide() surface compiles this question to an empty program and answers alphabetically. The recorded accuracy is what the frozen reference actually produced.",
+      "laya_multilingual": {
+        "brier": 1.03461343737999,
+        "distribution_rows": 63852,
+        "ece15": 0.047063666637693374,
+        "nll": 4.484827769640186,
+        "rows": 63852,
+        "top1_accuracy": 0.17802104867506108
+      }
+    },
+    "route_comparison": {
+      "ci95_bootstrap": [
+        0.04895696297688392,
+        0.07334147716594618
+      ],
+      "groups": 1252,
+      "mismatched_input_digests": 0,
+      "observed_delta": 0.06128234041220309,
+      "reference": "laya",
+      "resamples": 10000,
+      "seed": 0,
+      "shared_rows": 63852
+    },
+    "vendor_claim_context": {
+      "claim": "Laya multilingual MASSIVE-51 macro accuracy 0.4008",
+      "rule": "A macro-over-locales vendor number is never compared against a micro-over-rows measurement, and never against another route.",
+      "status": "ADVERTISED, NOT OUR MEASUREMENT"
+    },
+    "note": "Verified dev-partition Choice and route comparison",
+    "evidence_class": "MEASURED on the verified source-native dev projection. Legacy replication of an exposed public benchmark, not fresh transfer, and not a final or sealed-pool result.",
+    "direct_Jev_status": "PROVISIONAL - DIRECT JEV EVALUATION UNAVAILABLE"
+  }
 }
