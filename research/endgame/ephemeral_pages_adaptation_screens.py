@@ -390,8 +390,18 @@ class AdaptedEncoder(torch.nn.Module):
 
 
 def _module_for(base: torch.nn.Module, dotted: str) -> torch.nn.Module:
+    """Resolve a dotted path to its owning module.
+
+    Adapter targets and layer names are spelled as parameter names and so end
+    in ".weight".  Walking that suffix reaches the bare Parameter instead of
+    the nn.Linear that owns it, so the trailing parameter name is dropped and
+    resolved separately.
+    """
+    parts = dotted.split(".")
+    if parts[-1].endswith("weight") or parts[-1].endswith("bias"):
+        parts = parts[:-1]
     module = base
-    for part in dotted.split("."):
+    for part in parts:
         _require(hasattr(module, part), f"pinned encoder has no module {dotted}")
         module = getattr(module, part)
     return module
@@ -581,6 +591,10 @@ def encode_records(adapted: AdaptedEncoder, plan: TextPlan, indices, device: str
     index_list = [int(value) for value in indices]
     needed = sorted({plan.question[index] for index in index_list}
                     | {slot for index in index_list for slot in plan.pages[index]})
+    # ``plan`` slots index the whole text plan, while ``table`` holds only the
+    # rows this chunk needs, so global slots must be translated to table
+    # offsets before any gather.  Without this the gather reads past the table.
+    offset = {slot: position for position, slot in enumerate(needed)}
     parts = []
     context = torch.enable_grad() if gradient else torch.no_grad()
     with context:
@@ -595,14 +609,14 @@ def encode_records(adapted: AdaptedEncoder, plan: TextPlan, indices, device: str
             counters["encoder_texts_encoded"] += len(part)
         table = (torch.cat(parts, dim=0) if parts
                  else torch.zeros((0, WIDTH), device=device, dtype=torch.float32))
-        question_index = torch.as_tensor([plan.question[index] for index in index_list],
+        question_index = torch.as_tensor([offset[plan.question[index]] for index in index_list],
                                          dtype=torch.long, device=device)
         questions = table.index_select(0, question_index)
         rows = len(index_list)
         page_index = torch.full((rows, page_slots), -1, dtype=torch.long, device=device)
         for row, index in enumerate(index_list):
             for column, slot in enumerate(plan.pages[index]):
-                page_index[row, column] = slot
+                page_index[row, column] = offset[slot]
         gathered = table.index_select(0, page_index.clamp_min(0).reshape(-1)).reshape(rows, page_slots, WIDTH)
         pages = torch.where((page_index >= 0).unsqueeze(-1), gathered,
                             torch.zeros((), device=device, dtype=gathered.dtype))
