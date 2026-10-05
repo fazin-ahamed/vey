@@ -38,3 +38,19 @@ def test_ordinal_distribution_metrics_retain_native_level_distance():
     assert result["normalized_ranked_probability_score"] == .25
     assert result["retained_rater_brier"] == 1.
     assert result["spearman_rank_correlation"] is None  # Fewer than three samples.
+
+
+def test_component_bootstrap_preserves_row_weighted_delta():
+    first = [
+        {"id": str(i), "group_id": str(i), "component_id": "a", "correct": True}
+        for i in range(3)
+    ] + [{"id": "3", "group_id": "3", "component_id": "b", "correct": False}]
+    second = [{**row, "correct": not row["correct"]} for row in first]
+    result = verify.paired_delta(first, second, resamples=200, seed=0)
+    assert result["components"] == 2
+    assert result["lineage_groups"] == 4
+    assert result["observed_delta"] == .5
+    assert result["ci95_bootstrap"] == [-1., 1.]
+    second[0]["component_id"] = "wrong"
+    with pytest.raises(RuntimeError, match="different connected components"):
+        verify.paired_delta(first, second, resamples=200, seed=0)

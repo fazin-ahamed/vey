@@ -32,7 +32,8 @@ def load(path):
 
 
 def digest(path):
-    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+    with Path(path).open("rb") as stream:
+        return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
 def main(argv=None):
@@ -49,11 +50,11 @@ def main(argv=None):
 
     routes = load(args.routes_receipt)
     if (routes.get("status") != "PASS" or routes.get("schema") !=
-            "vey.neutral.development-comparison-verification.v2"):
+            "vey.neutral.development-comparison-verification.v3"):
         raise SystemExit("route receipt schema/status invalid; refusing to fill cells")
     choice = load(args.choice_receipt) if args.choice_receipt else None
     if choice and (choice.get("status") != "PASS" or choice.get("schema") !=
-                   "vey.neutral.development-comparison-verification.v2"):
+                   "vey.neutral.development-comparison-verification.v3"):
         raise SystemExit("choice receipt schema/status invalid; refusing to fill cells")
 
     def fill(dimension, values):
@@ -73,8 +74,8 @@ def main(argv=None):
         fill(dim, {
             "Vey": choice["vey"]["top1_accuracy"],
             "Laya": choice["laya"]["top1_accuracy"],
-            "paired_delta": choice["paired_group_bootstrap"]["observed_delta"],
-            "CI95": choice["paired_group_bootstrap"]["ci95_bootstrap"],
+            "paired_delta": choice["paired_component_bootstrap"]["observed_delta"],
+            "CI95": choice["paired_component_bootstrap"]["ci95_bootstrap"],
             "sample_count": choice["discordance"]["shared_rows"],
             "route": "english",
             "metric": "top1_accuracy",

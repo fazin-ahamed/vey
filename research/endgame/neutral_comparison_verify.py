@@ -169,37 +169,46 @@ def _spearman(a, b):
 
 
 def paired_delta(vey_rows, laya_rows, key="correct", resamples=10000, seed=0):
-    """Cluster bootstrap over base utterance groups. Group, never locale row."""
+    """Resample connected components; retain the row-weighted estimand."""
     vey = {r["id"]: r for r in vey_rows}
     laya = {r["id"]: r for r in laya_rows}
     shared = sorted(set(vey) & set(laya))
     if not shared:
         raise RuntimeError("arms share no row ids")
-    by_group = defaultdict(list)
+    by_component = defaultdict(list)
     for rid in shared:
-        by_group[(vey[rid]["group_id"], laya[rid]["group_id"])].append(rid)
-    groups = sorted(by_group)
-    per_group = []
-    for g in groups:
-        ids = by_group[g]
-        v = sum(1 for i in ids if vey[i][key]) / len(ids)
-        l = sum(1 for i in ids if laya[i][key]) / len(ids)
-        per_group.append(v - l)
-    obs = sum(per_group) / len(per_group)
+        component = vey[rid]["component_id"]
+        if component != laya[rid]["component_id"]:
+            raise RuntimeError("paired rows have different connected components")
+        by_component[component].append(rid)
+    aggregates = []
+    for component in sorted(by_component):
+        ids = by_component[component]
+        delta_hits = sum(int(vey[i][key]) - int(laya[i][key]) for i in ids)
+        aggregates.append((delta_hits, len(ids)))
+    observed = sum(delta for delta, _ in aggregates) / len(shared)
     rng = random.Random(seed)
     boots = []
-    k = len(per_group)
+    n = len(aggregates)
     for _ in range(resamples):
-        s = 0.0
-        for _ in range(k):
-            s += per_group[rng.randrange(k)]
-        boots.append(s / k)
+        numerator = denominator = 0
+        for _ in range(n):
+            delta, count = aggregates[rng.randrange(n)]
+            numerator += delta
+            denominator += count
+        boots.append(numerator / denominator)
     boots.sort()
-    lo = boots[int(0.025 * resamples)]
-    hi = boots[min(resamples - 1, int(0.975 * resamples))]
     return {
-        "groups": k, "shared_rows": len(shared), "observed_delta": obs,
-        "ci95_bootstrap": [lo, hi], "resamples": resamples, "seed": seed,
+        "unit": "input-only connected component",
+        "components": n,
+        "lineage_groups": len({vey[i]["group_id"] for i in shared}),
+        "shared_rows": len(shared),
+        "estimand": "row-weighted accuracy difference",
+        "observed_delta": observed,
+        "ci95_bootstrap": [boots[int(0.025 * resamples)],
+                           boots[min(resamples - 1, int(0.975 * resamples))]],
+        "resamples": resamples, "seed": seed,
+        "interval_scope": "Nominal descriptive interval; not a simultaneous family-wise gate.",
     }
 
 
@@ -307,6 +316,9 @@ def main(argv=None):
             if differing:
                 bad.append(f"{label}: row {r['id']} fields {differing} differ from projection")
                 continue
+            if "component_id" in r and r["component_id"] != ref["component_id"]:
+                bad.append(f"{label}: row {r['id']} connected component differs from projection")
+            r["component_id"] = ref["component_id"]
             digests[ref["id"]] = hashlib.sha256(json.dumps({
                 "id": ref["id"], "question": ref["question"], "state": ref["state"],
                 "candidate_ids": ref["candidate_ids"], "candidates": ref["candidates"],
@@ -357,7 +369,7 @@ def main(argv=None):
 
 
     receipt = {
-        "schema": "vey.neutral.development-comparison-verification.v2",
+        "schema": "vey.neutral.development-comparison-verification.v3",
         "status": "PASS" if not problems else "FAIL",
         "endpoint": "massive.intent",
         "independent_of_arm_aggregation": True,
@@ -365,6 +377,7 @@ def main(argv=None):
             "ece15": "maximum predicted probability versus native-gold correctness",
             "correctness": "answer equals native gold; persisted flags validated",
             "membership": "complete unique native rows; probabilities and argmax validated",
+            "bootstrap_unit": "input-only connected component; row-weighted ratio bootstrap",
             "nll_probability_floor": 1e-12,
         },
         "projection_root": str(HERE),
@@ -386,43 +399,30 @@ def main(argv=None):
         delta = paired_delta(vey_rows, laya_rows)
         disc = discordance(vey_rows, laya_rows)
         receipt["vey"] = choice_stats(vey_rows)
-        receipt["paired_group_bootstrap"] = delta
+        receipt["paired_component_bootstrap"] = delta
         receipt["discordance"] = disc
         receipt["clopper_pearson_upper_vey_only"] = clopper_pearson_upper(
             disc["vey_only_correct"], disc["shared_rows"])
         receipt["clopper_pearson_upper_laya_only"] = clopper_pearson_upper(
             disc["laya_only_correct"], disc["shared_rows"])
         receipt["discordance_bound_limit"] = (
-            "Row-binomial bounds assume independent rows, violated by 51 locale descendants "
-            "per base group. They are descriptive calculations, not valid clustered risk guarantees. "
+            "Row-binomial independence is violated by locale descendants and connected "
+            "duplicate lineage groups. These calculations are not clustered risk guarantees. "
             "Laya-only-correct is the harmful direction for Vey.")
-        receipt["non_inferiority_observed"] = delta["ci95_bootstrap"][0] > -0.01
+        receipt["nominal_interval_above_minus_one_point"] = delta["ci95_bootstrap"][0] > -0.01
+        receipt["formal_non_inferiority"] = "NOT_ESTABLISHED; no simultaneous family-wise gate evaluated"
     if alt_rows:
         alt_stats = choice_stats(alt_rows)
         shared_alt = sorted(set(laya_inputs) & set(alt_inputs))
         mismatched_alt = [i for i in shared_alt if laya_inputs[i] != alt_inputs[i]]
         if mismatched_alt:
             problems.append(f"route-comparison input control failed on {len(mismatched_alt)} rows")
-        alt_by = {r["id"]: r for r in alt_rows}
-        laya_by = {r["id"]: r for r in laya_rows}
-        by_group = defaultdict(list)
-        for i in shared_alt:
-            by_group[laya_by[i]["group_id"]].append(i)
-        diffs = [sum(alt_by[i]["correct"] for i in ids) / len(ids)
-                 - sum(laya_by[i]["correct"] for i in ids) / len(ids)
-                 for ids in by_group.values()]
-        rng = random.Random(0)
-        boots = sorted(sum(diffs[rng.randrange(len(diffs))] for _ in range(len(diffs))) / len(diffs)
-                       for _ in range(10000))
+        route_delta = paired_delta(alt_rows, laya_rows)
         receipt[args.alt_name] = alt_stats
         receipt["route_comparison"] = {
+            **route_delta,
             "reference": "laya",
-            "shared_rows": len(shared_alt),
             "mismatched_input_digests": len(mismatched_alt),
-            "groups": len(diffs),
-            "observed_delta": sum(diffs) / len(diffs),
-            "ci95_bootstrap": [boots[250], boots[9749]],
-            "resamples": 10000, "seed": 0,
         }
         receipt["vendor_claim_context"] = {
             "claim": "Laya multilingual MASSIVE-51 macro accuracy 0.4008",

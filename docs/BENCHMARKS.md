@@ -5552,7 +5552,7 @@ frozen reference are therefore Vey-not-applicable, by mechanism rather than by
 numerical shortfall. The competitor cells remain measurable and are reported
 separately.
 
-## Laya pinned English route on MASSIVE dev intent: K=60 truncates every option to 4 tokens
+## Laya pinned English route on MASSIVE dev intent: K=60 imposes a four-token option budget
 
 MEASURED, pinned English bundle `55cf4c4eb`, weights loaded with zero missing
 and zero unexpected keys, identical rows to the Vey arm. Measured on a partial
@@ -5571,8 +5571,8 @@ run of 31,228 rows before the completed run was verified:
 | markers vs options | 60 vs 60 on every row |
 | sequence length | 259 to 512, hitting the `max_len` 512 cap |
 
-The measured head budget limits each option to `[MASK]` plus three content
-tokens. That restricts label visibility but does not remove all label text.
+The measured head budget limits each option to `[MASK]` plus at most three
+content tokens. That restricts label visibility but does not remove all label text.
 Correction to the original anonymous-marker diagnosis: a current pinned-runtime
 input-only reconstruction finds 43 distinct token blocks across the 60 options
 of one dev row; reversing the catalogue changes the encoded sequence. This
@@ -5602,8 +5602,9 @@ with two later verifier fixes (per-arm absent-field checks, log-space exact
 binomial CDF), independent verification receipt written after both runs
 completed.
 
-MEASURED on all 63,852 labeled dev `massive.intent` rows, 1,252 independent base
-utterance groups, K=60, identical inputs to both arms:
+MEASURED on all 63,852 labeled dev `massive.intent` rows, 1,252 lineage
+utterance groups in 1,024 input-only connected components, K=60, identical
+serving fields to both arms:
 
 | Quantity | Vey 2 (frozen `e6b046f`) | Laya English (pinned `55cf4c4eb`) |
 |---|---:|---:|
@@ -5612,10 +5613,12 @@ utterance groups, K=60, identical inputs to both arms:
 | Brier | 1.99042 | 1.52798 |
 | ECE (15-bin, corrected predicted-label confidence) | 0.995208 | 0.709775 |
 
-Paired cluster bootstrap over base utterance groups, 10000 resamples, seed 0:
-delta = **-0.111946**, 95% CI **[-0.121046, -0.102832]**. The frozen Vey
-reference is significantly WORSE, not merely non-inferior. The preregistered
-0.01 margin is excluded by a wide interval.
+Corrected paired ratio bootstrap over 1,024 connected components, 10,000
+resamples, seed 0, retaining the row-weighted accuracy estimand:
+delta = **-0.111946**, nominal 95% CI **[-0.122288, -0.101730]**. The interval
+is wholly below the -0.01 margin. It is not a simultaneous non-inferiority gate.
+The former 1,252-lineage interval **[-0.121046, -0.102832]** is superseded:
+connected duplicate lineage groups were incorrectly treated as independent.
 
 Exact discordance on shared rows: Vey correct / Laya wrong = 293, Laya correct /
 Vey wrong = 7,441, both correct 13, neither 56,105. McNemar n10/n01 = 293/7441.
@@ -5624,9 +5627,9 @@ The historical Clopper-Pearson calculation bounds Vey-only-correct events at
 Laya-only-correct events are the harmful direction when evaluating Vey against
 Laya. This historical bound supplies no Vey non-inferiority evidence. The paired
 accuracy interval above independently establishes the loss.
-Both row-binomial bounds also assume independent trials, which these 51 locale
-descendants per base group violate. They are descriptive calculations, not
-cluster-valid risk certificates. The corrected Laya-only event calculation
+Both row-binomial bounds assume independent trials, violated by locale
+descendants and connected duplicate lineage groups. They are descriptive
+calculations, not cluster-valid risk certificates. The Laya-only event calculation
 is 0.118644, without an inferential guarantee for this clustered population.
 The reported bootstrap intervals are nominal descriptive 95% intervals, not
 the preregistered simultaneous Bonferroni family-wise gate.
@@ -5680,19 +5683,20 @@ routes loaded with zero missing and zero unexpected weight keys. Identical
 | ECE (15-bin, corrected predicted-label confidence) | 0.709775 | 0.268751 |
 | `en-US` accuracy, complete run | 0.434505 | 0.314696 |
 | non-English mean over 50 locales, complete run | 0.110383 | 0.175288 |
-| option token spans | 4 per option | 4 per option |
+| Option token budget | At most 4, including `[MASK]` | At most 4, including `[MASK]` |
 
-Paired cluster bootstrap over 1,252 base utterance groups, 10000 resamples,
-seed 0: multilingual minus English = **+0.061282**, 95% CI
-**[+0.048957, +0.073341]**. Route selection is a large, resolved effect, not
-noise.
+Corrected paired ratio bootstrap over 1,024 connected components, 10,000
+resamples, seed 0: multilingual minus English = **+0.061282**, nominal 95% CI
+**[+0.046990, +0.075947]**. The earlier 1,252-lineage interval
+**[+0.048957, +0.073341]** is retained but superseded by the component correction.
 
 The route difference is measured; its causal decomposition is unresolved.
 `en-US` accuracy falls from 0.434505 to 0.314696, while the non-English mean
 rises from 0.110383 to 0.175288. Earlier locale figures used partial runs.
-Both routes retain four tokens per option, but different
-tokenizers need not retain equivalent content in four tokens. These arms
-change encoder, tokenizer and weights together, so the difference cannot be
+Both routes have a four-token option budget; actual fixed-512-row controls
+observe a minimum span of three, while the first eight option spans are four.
+Different tokenizers need not retain equivalent content under that budget.
+These arms change encoder, tokenizer and weights together, so the difference cannot be
 attributed to encoder training alone.
 
 Correction to the original calibration report: the verifier used gold-label
@@ -5700,8 +5704,9 @@ probability rather than predicted-label confidence for ECE, and compared a
 probability with an answer string for Vey correctness. The earlier ECE values
 0.004792 / 0.007877 / 0.047064 are invalid. Reconstructing from unchanged
 predictions gives Vey 0.995208, English 0.709775 and multilingual 0.268751.
-Accuracy, NLL, Brier and both paired accuracy intervals are unchanged. The
-multilingual route has lower measured ECE, NLL and Brier on these rows.
+Accuracy, NLL and Brier are unchanged; the ECE correction itself did not alter
+accuracy intervals. The later connected-component correction above supersedes
+both intervals. Multilingual has lower measured ECE, NLL and Brier on these rows.
 These likelihood metrics use persisted eight-decimal probabilities with a
 `1e-12` NLL floor. They are serialization-defined scores, not reconstruction
 of the unrounded logits' likelihood.
@@ -5776,7 +5781,7 @@ manufactured 62,594 missing-field errors, then v1 trusted arm-derived error
 fields and did not enforce complete unique membership. Original receipts are
 retained; v2 supersedes their verification status. Tiny numerical differences
 from reconstruction reflect saved probability rounding, not changed predictions.
-The latest receipts are `verification_choice_routes_v5.json` and
+The latest receipts are `verification_choice_routes_v6.json` and
 `verification_score_multilingual_v3.json` under the comparison data directory.
 Choice replay also checks complete unique membership, native gold, correctness
 flags, probability validity and argmax consistency. Throwaway CLI controls
@@ -5816,12 +5821,75 @@ calibration. Its English Choice temperature was `.10058280825614929`, whereas
 the current served floor is `.5`. An exact replay at that floor cannot recover
 original logits from rounded saved probabilities.
 
-Matrix migration now accepts only corrected Choice receipt schema v2 and
+Matrix migration accepts only corrected Choice receipt schema v3 and
 independently reconstructed Score schema v2. It rejects old schemas without
 writing the matrix, separates endpoint/route provenance, and clears a stale
 Score scalar if no verified English grammar receipt exists. Grammar receipt
 order does not change the English scalar. Actual matrix update retains all
 21 critical dimensions and zero green cells.
+
+## Registered spelling Score and bounded determinism controls
+
+Both spelling routes completed all 62,594 eligible native dev rows under
+amendment `33c880c`; receipts `verification_spelling_english_v2.json` and
+`verification_spelling_multilingual_v2.json` independently reconstruct the
+native targets, probabilities and derived metrics with zero membership problems.
+
+| Metric | English | Multilingual |
+|---|---:|---:|
+| MAE, native levels 0-2 | 1.449158 | 1.006526 |
+| Normalized MAE | 0.724579 | 0.503263 |
+| Mean signed error | -1.449149 | -1.005592 |
+| Signed-error slope against rater mean | -0.992958 | -0.995728 |
+| Spearman rank correlation | 0.004382 | 0.003282 |
+| Normalized RPS | 0.555603 | 0.310854 |
+| Retained-rater NLL | 2.241955 | 1.387245 |
+| Retained-rater Brier | 1.187748 | 0.781643 |
+| Rows with at least three raters | 62,338 | 62,338 |
+
+Shared native-input digest:
+`e6644d5b256834905e6fd192beabf98c59514af0f5d83d020f491f747568eb38`.
+Unlike the historical grammar records, both spelling runs persist and validate
+the complete native rubric candidate descriptions. These are retained-rater
+agreement scores, not population calibration or evidence of a training cause.
+
+Five actual fixed-512-row reruns matched saved answers/expected levels and
+eight-decimal probability distributions exactly: frozen Vey Choice, English
+Laya Choice, multilingual Laya Choice, English grammar, and multilingual
+spelling. Each had zero mismatches; `verification_determinism_v1.json` records
+the comparisons; the tracked manifest binds hashes. Determinism is demonstrated only for the
+observed subset and saved precision, not unrounded logits or every shape.
+The 16-row multilingual spelling smoke is preserved separately.
+
+## Native comparison scope and inference corrections
+
+The input-only component manifests identify 1,024 MASSIVE dev components
+containing 1,252 lineage groups and 63,852 locale rows. Schema-v3 Choice replay
+reconstructs those component IDs from guarded provenance, validates persisted
+IDs when present, and resamples whole components. Component sizes differ, so
+each draw divides summed paired correct-count differences by summed row counts;
+averaging component means would silently change the estimand. Predictions and
+native targets remain unchanged. Old receipts retain the superseded intervals.
+
+The original comparison protocol incorrectly said Banking77 has no dev rows.
+The verified native manifest already records 4,105 train and 1,027 dev records;
+dev has 1,024 components. That protocol stays immutable and its exclusion
+rationale is withdrawn. No Banking77 model predictions or quality measurements
+were produced by this MASSIVE-only comparison. Shared readers join all guarded
+dev target records before endpoint filtering, so Banking77 target records have
+been decoded; they cannot be described as never opened. A Banking77 comparison
+requires a separate prospective scope registration, not retroactive expansion.
+
+The matrix retains all four Score endpoint/route results separately. Its scalar
+Score cell remains the registered English grammar normalized MAE; the
+exploratory multilingual grammar result does not acquire registered status.
+All 21 critical dimensions remain non-green. No release, Pareto, certificate,
+fresh-transfer, B-STEF, controlled-performance or endgame-completion claim follows.
+Custody is recorded in
+[`neutral_comparison_result_manifest.json`](../research/endgame/neutral_comparison_result_manifest.json):
+27 retained prediction/replay/control artifacts and 11 implementation/protocol
+files, each with size and SHA256. Raw records remain outside Git.
+
 
 
 

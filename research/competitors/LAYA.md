@@ -267,6 +267,7 @@ MEASURED on guarded MASSIVE dev records, using bundle
 | K=60 intent Choice accuracy | 0.116739 | 0.178021 | 63,852 |
 | Choice ECE, predicted-label confidence | 0.709775 | 0.268751 | 63,852 |
 | Grammar normalized ordinal MAE | 0.713256 | 0.478175 | 62,594 |
+| Spelling normalized ordinal MAE | 0.724579 | 0.503263 | 62,594 |
 
 Independent replay receipts and limitations are recorded in
 [`docs/BENCHMARKS.md`](../../docs/BENCHMARKS.md) and
@@ -274,6 +275,11 @@ Independent replay receipts and limitations are recorded in
 1,252 rows, so macro and micro accuracy coincide. The original ECE report was
 wrong and is explicitly superseded; model predictions are unchanged.
 Historical multilingual grammar was exploratory, not prospectively registered.
+Choice inference uses 1,024 connected components containing 1,252 lineage
+groups, with a ratio bootstrap preserving row-weighted accuracy. Earlier
+lineage-only intervals are explicitly superseded. Both spelling routes were
+prospectively registered; five actual fixed-512-row controls matched saved
+predictions exactly, limited to those subsets and eight-decimal probabilities.
 
 This is not a current 0.3.27 served-runtime calibration comparison. The study
 applied the raw English `choice:11+` temperature, rather than the current served
