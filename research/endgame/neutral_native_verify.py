@@ -284,6 +284,7 @@ def verify(phase, compiler_path):
     sys.path.insert(0, str(HERE))
     compiler = importlib.import_module("neutral_native_compile")
     denials = selector_denials(compiler, cfg, compiler_path)
+    superseded = _archive_receipt(directory)
     pre_receipt = _denies_open_phase(compiler, phase)
     receipt = {"schema": "vey.neutral.native-projection-verification.v1", "status": "PASS", "phase": phase,
         "protocol_sha256": PROTOCOL_SHA256, "manifest_sha256": digest(manifest_path),
@@ -296,19 +297,28 @@ def verify(phase, compiler_path):
                            "unverified_phase_denied": pre_receipt},
         "source_payloads_of_sealed_phases_read": False,
         "model_executed": False, "quality_credit": False, "promotion": False, "endgame_complete": False}
-    receipt_path = directory / "verification_receipt.json"
-    if receipt_path.exists():
-        # Retain earlier receipts rather than overwriting them. The selector gate
-        # reads this exact path, so the projection compiler stays unmodified.
-        existing = receipt_path.read_text(encoding="utf-8").count(chr(10))
-        superseded = directory / ("verification_receipt_superseded_v%d.json" % existing)
-        receipt_path.replace(superseded)
-        receipt["supersedes"] = {"path": superseded.name, "sha256": digest(superseded)}
-    with receipt_path.open("x", encoding="utf-8") as stream:
+    if superseded is not None:
+        receipt["supersedes"] = superseded
+    with (directory / "verification_receipt.json").open("x", encoding="utf-8") as stream:
         stream.write(canonical(receipt) + "\n")
     for name in STREAMS:
         require(list(compiler.open_phase(phase, name)) == list(rows(directory / (name + ".jsonl.gz"))), "Verified selector stream differs")
     return receipt
+
+
+def _archive_receipt(directory):
+    """Move a prior receipt aside so the pre-write gate observes genuine absence.
+
+    The selector gate reads this exact path, so retention happens here instead of
+    by overwriting, and the projection compiler stays unmodified.
+    """
+    receipt_path = directory / "verification_receipt.json"
+    if not receipt_path.exists():
+        return None
+    version = len(list(directory.glob("verification_receipt_superseded_v*.json"))) + 1
+    target = directory / ("verification_receipt_superseded_v%d.json" % version)
+    receipt_path.replace(target)
+    return {"path": target.name, "sha256": digest(target)}
 
 
 def _denies_open_phase(compiler, phase):
