@@ -1320,8 +1320,11 @@ def adapt_layer11_closed_form(activation_mean: np.ndarray, residual_mean: np.nda
              "solved layer-11 weight shape does not match the live weight")
     with torch.no_grad():
         weight.copy_(torch.as_tensor(solved, dtype=torch.float32, device=weight.device))
+    # Both attention.output.dense and output.dense end with "output.dense.weight",
+    # so match the solved weight's own canonical adapter name exactly.
+    solved_adapter = ADAPTER_PREFIX + LAYER11_PREFIX + "output.dense.weight"
     for name, parameter in adapted.adapters().items():
-        if name.endswith("output.dense.weight"):
+        if name == solved_adapter:
             with torch.no_grad():
                 parameter.fill_(1.0)
     return {
