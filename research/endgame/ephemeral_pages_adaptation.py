@@ -113,7 +113,8 @@ SOURCE_FILES = ("ephemeral_pages_adaptation.py", "ephemeral_pages_adaptation_scr
                 "ephemeral_pages_adaptation_c0_amendment.json",
                 "ephemeral_pages_adaptation_prerequisite.py",
                 "ephemeral_pages_adaptation_c1_gradient_preregistration.json",
-                "ephemeral_pages_adaptation_c1_metadata_correction.json")
+                "ephemeral_pages_adaptation_c1_metadata_correction.json",
+                "ephemeral_pages_adaptation_verify_ceiling.py")
 
 
 # --------------------------------------------------------------------------- #
@@ -215,6 +216,8 @@ def _screen_receipts(root: Path) -> dict:
                 if (verification.get("verdict") != "pass"
                         or verification.get("ceiling_receipt") != evaluator.artifact(path)
                         or verification.get("arrays") != payload["arrays"]
+                        or verification.get("verifier_source") != evaluator.artifact(
+                            HERE / "ephemeral_pages_adaptation_verify_ceiling.py")
                         or verification.get("protocol_sha256") != screens.C1_GRADIENT_PROTOCOL_SHA256
                         or verification.get("population_sha256") != payload["population_sha256"]):
                     raise RuntimeError("recovered C1 lacks matching independent solver verification")
