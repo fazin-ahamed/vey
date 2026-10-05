@@ -5209,6 +5209,49 @@ match the returned history. Receipt
 This synthetic fixture is explicitly ineligible for C1, development,
 final evaluation or quality credit.
 
+## Competitor metadata refresh, 2026-10-05
+
+MEASURED metadata custody: the refreshed Laya and Jev dossiers retain
+56 and 22 raw public HTTP response bodies, respectively. Every body
+hash, both current dossier hashes, and both refresh-manifest hashes
+were independently checked during matrix integration. No model
+payload was downloaded, no terms were accepted, and no authenticated
+Jev request or new competitor model evaluation was performed.
+
+[Laya v0.3.27](https://github.com/NandhaKishorM/laya/releases/tag/v0.3.27)
+is the current published runtime. Inspected source head
+`8a6e1328cce2460a0e5aa348ad465bb1b5821cd2` additionally contains
+post-release changes, which are not attributed to that package.
+The three updated HF revisions add only a 160-byte root configuration
+file. Prior tree entries and advertised LFS identities are unchanged;
+that is metadata evidence, not a new payload hash or runtime result.
+The recommended task-specific roster, parameter metadata, token budgets,
+raw temperatures and high-K controls are unchanged. Published
+abstention changes handle installed binning maps, stale low-confidence
+flags and whole ties under `coverage_metric_definition2`.
+
+Existing local Laya custody and CPU compatibility remain scoped to
+source `859b8ee`, runtime `0.3.25` and bundle `55cf4c4`. They do not
+verify local execution of `0.3.27`. Newly reported upstream M1 Pro
+measurements remain vendor reports without a recorded HF revision.
+
+[Jev model documentation](https://docs.typesafe.ai/models.md) still
+reports `jev-1.13.0`; no documented model/schema/limit/tariff or released
+SDK change was found. The [MCA](https://typesafe.ai/legal/mca)
+section 2.3(b) authorization gate remains, with an additional
+[Site Terms](https://typesafe.ai/legal/terms) automated-access
+restriction observed at section 3(b)(vi). Direct Jev measurement
+remains unperformed and authorization is unestablished. This does
+not block independently developed Vey research.
+
+`research/competitors/COMPETITOR_MATRIX.json` now references the current
+dossier and raw-source manifests. All 21 critical cells remain
+`UNMEASURED_NEUTRAL_COMPARISON`, with `green=false`. Simultaneous
+non-inferiority margins and both historical runtime manifests are
+unchanged. Metadata refresh earns no quality, performance,
+calibration, promotion or Pareto-victory credit.
+
+
 
 
 

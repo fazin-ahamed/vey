@@ -1,12 +1,12 @@
 # Jev / TypeSafe AI: current primary-source dossier
 
-Retrieved 2026-10-03; refresh completed at **2026-10-03T17:37:41Z**. Audience: Vey maintainers deciding what a fair, authorized comparison must cover. This dossier records public documentation and source inspection, not an API experiment.
+Historical inspection completed at **2026-10-03T17:37:41Z**. Audience: Vey maintainers deciding what a fair, authorized comparison must cover. The sections before the refresh preserve that public-documentation and source inspection, not an API experiment. The [current metadata refresh](#public-metadata-refresh-2026-10-05) was retrieved on 2026-10-05; its campaign custody directory is named `refresh-2026-10-04`.
 
 ## Evidence boundary
 
 `MEASURED_SOURCE_INSPECTION` means that a public page or repository was inspected and contains the described contract or implementation documentation. It does **not** mean the hosted service was exercised. All quality, calibration, speed, cost-saving, type-safety and scaling claims below remain **HYPOTHESIS / vendor-reported, independently unreproduced**. No authenticated request, model inference, account action, paid call, package installation, weight download, test, build or formatter was performed. Neither Jev's superiority nor Vey's superiority is confirmed.
 
-The companion [JEV.json](JEV.json) records explicit nulls for unsupported quantities. Website/docs content has no inspected immutable revision or supplied SHA-256; a retrieval date is not a model hash. SDK and ecosystem commits are pinned separately from model weights.
+For the historical inspection, the companion [JEV.json](JEV.json) records explicit nulls for unsupported quantities; live website/docs pages had no retained immutable revision or supplied SHA-256. The appended refresh adds raw-response metadata hashes without changing that historical evidence boundary. A retrieval date is not a model hash. SDK and ecosystem commits are pinned separately from model weights.
 
 ## Version and API identity
 
@@ -89,3 +89,51 @@ The [Jev 1.13 jaggedness page](https://docs.typesafe.ai/model-jaggedness/jev-1.1
 The introduction's claim that adding independent questions avoids question-induced context rot must not be expanded into immunity to irrelevant **state** content; the jaggedness page explicitly reports the latter failure.
 
 Direct evaluation status: **NOT RUN**. Unknowns include parameter count/weight bytes, runtime hardware and memory, ONNX/quantization/local deployment, percentile latency/sustained throughput, accuracy on Vey tasks, causal criterion swaps, high-K degradation, candidate-order invariance, calibration metrics, selective-risk/coverage guarantees and energy per verified decision. All comparisons stay hypotheses until a separately authorized, pinned, held-out evaluation measures the full end-to-end behavior.
+
+## Public metadata refresh 2026-10-05
+
+Retrieved **2026-10-05T07:12:42Z through 2026-10-05T07:13:27Z**. The current machine-readable pointer is `current_metadata_refresh` in [JEV.json](JEV.json). Only public documentation, package registries and public GitHub release/tag metadata were retrieved. No credentials, authenticated service endpoints, account actions, term-acceptance actions, paid calls, model/package payload downloads, inference, benchmarks, tests, builds, linters or formatters were used. The earlier performance, cookbook and integration claims remain dated to the historical inspection.
+
+### Current contract versus the historical inspection
+
+| Surface | Current public fact | Change detected |
+| --- | --- | --- |
+| [Models](https://docs.typesafe.ai/models.md) | `jev-1.13.0` remains the documented versioned ID; `jev-latest` and `jev-preview` both point to it, with no distinct preview documented. The response reports the versioned ID. Model release date, weights/hash and parameter count remain unknown. | No model or alias change. The jaggedness page's shorter `jev-1.13` label/sample does not establish an additional accepted alias. |
+| [HTTP API](https://docs.typesafe.ai/api.md) | Bearer-authenticated `POST /v1/systemone`; request `model`, `state`, `questions`; string/object/array state and instructions; keyed typed answers, serving model and token usage. Question IDs are not model input. Errors remain 401/422/429/529. | No documented request/response change. Neither service endpoint was called. |
+| [Choice](https://docs.typesafe.ai/primitives/choice.md), [Score](https://docs.typesafe.ai/primitives/score.md), [Noul](https://docs.typesafe.ai/primitives/noul.md) | Choice accepts at most 255 options and returns the highest-probability option plus its distribution/confidence. Score accepts at most 10 ordered levels, recommends at least two, and returns the expected zero-indexed level plus legend/distribution/confidence. Noul returns a yes probability without separate confidence. | No primitive or cardinality change. An API-enforced Score minimum and a maximum question count remain null. |
+| [Confidence](https://docs.typesafe.ai/confidence.md) | Choice and Score formulas remain the distribution statistics recorded above; optional caller-computed Noul confidence remains `abs(2*p-1)`. | No formula change. Independent correctness calibration, ECE/Brier/log loss and selective-risk guarantees remain null. |
+| [Context and service quotas](https://docs.typesafe.ai/models.md) | 64k tokens for state plus all questions; 32k for state plus the longest question. Published quotas remain 100,000 input tokens/s and 80 requests/s, explicitly dynamic without notice. | No documented limit change. These are vendor service limits, not independently measured sustained throughput. |
+| [Pricing](https://docs.typesafe.ai/models.md), [MCA §8](https://typesafe.ai/legal/mca) | $42/B input tokens ($0.042/M); output tokens free. MCA credit consumption may vary by account settings/model; purchased credits generally expire at term end or after 12 months, whichever is earlier, unless the Order differs. Taxes are excluded. | No published tariff or recorded credit-expiry change. Account pricing, minimum spend, promotions, cache discounts and actual per-decision cost remain null. |
+| [Jev 1.13 jaggedness](https://docs.typesafe.ai/model-jaggedness/jev-1.13.md) | Still last reviewed 2026-10-02. The vendor still lists literal reading, unreliable numbers/counting/dates, weak numerical Score calibration, indirection, irrelevant-state context rot, adversarial steering, contradictory criteria, first-option Choice preference and ineffective generation. | No recorded failure-mode change; no independent reproduction. |
+
+### Latest released SDK metadata
+
+The release numbers and commit pins are unchanged, but their registry/latest-release status is now checked rather than inferred from changelogs.
+
+| SDK | Current released metadata and exact source pin |
+| --- | --- |
+| Python `typesafe-sdk` | [PyPI metadata](https://pypi.org/pypi/typesafe-sdk/json) reports latest 0.7.2, not yanked, Python >=3.10 and MIT. The wheel was uploaded at **2026-09-26T21:20:23.511034Z**; [GitHub latest release](https://api.github.com/repos/typesafe-ai/typesafe-sdk-python/releases/latest) was published at **2026-09-26T21:20:32Z**. [Tag metadata](https://api.github.com/repos/typesafe-ai/typesafe-sdk-python/git/ref/tags/v0.7.2) still resolves directly to commit [`f078f1e208a0d885154dc758344ae4fce77ac168`](https://github.com/typesafe-ai/typesafe-sdk-python/tree/f078f1e208a0d885154dc758344ae4fce77ac168). HTTP/2 extra remains documented. |
+| JavaScript `@typesafe-ai/sdk` | [npm latest metadata](https://registry.npmjs.org/@typesafe-ai%2Fsdk/latest) and [package history](https://registry.npmjs.org/@typesafe-ai%2Fsdk) report latest 0.6.0, Node >=20 and MIT. Registry publication was **2026-09-15T18:17:19.263Z**; [GitHub latest release](https://api.github.com/repos/typesafe-ai/typesafe-sdk-js/releases/latest) was published at **2026-09-15T18:17:21Z**. [Tag metadata](https://api.github.com/repos/typesafe-ai/typesafe-sdk-js/git/ref/tags/v0.6.0) still resolves directly to commit [`66880ccded6cb642dc1809620c2b108c33730214`](https://github.com/typesafe-ai/typesafe-sdk-js/tree/66880ccded6cb642dc1809620c2b108c33730214). |
+
+Registry-declared distribution hashes/integrity values are metadata, not locally verified package bytes. No package was installed or downloaded.
+
+### Legal observations and direct-evaluation boundary
+
+The [MCA](https://typesafe.ai/legal/mca) still says **last updated 2026-09-23**. Its §2.3(b) still restricts Services/Output use for distillation, imitation training and development of similar or competing products/services; §9.3 still acknowledges inaccurate outputs and requires independent customer evaluation. No changed competitive-use permission was established. Authorization remains null and blocks **direct Jev service/output competitive evaluation**, not independent Vey work or other separately permitted competitor research.
+
+The [Site Terms](https://typesafe.ai/legal/terms), last updated **2026-09-19**, also contain §3(b)(vi), restricting automated programs that monitor, copy or download Site content. This is a newly recorded observation, not evidence that the clause was newly introduced. It is separate from the MCA's service/output restriction; public availability and the SDKs' MIT licenses do not establish permission to use the hosted model for competitive evaluation. This refresh gives no conclusion on legal enforceability and performs no account creation or affirmative acceptance.
+
+### Raw-source custody
+
+All 22 responses and a per-source retrieval manifest are outside Git under `/home/fazinahamed/Documents/vey-data/decisionmix/competitors/refresh-2026-10-04/jev/`. Manifest: `retrieval-manifest.json`, SHA-256 **`abf9e479c24bb6a18b0290f3432dc79c8f8080d42c16382ce9d2651a41f6dfec`**. The complete source URL/timestamp/hash inventory is also recorded in the JSON refresh.
+
+| Captured response body | SHA-256 |
+| --- | --- |
+| `models.md` | `15351adaab85874b5f1a942fc2fdf3c7b3ecadcc936d580793d734855a0038f3` |
+| `api.md` | `6b760275f89341fe15cff80c28aacae94d7d0c0c99afcd987ec0bca680b5713a` |
+| `confidence.md` | `5c325ec0c0b69e78129406ca7c5d3aef113bce365abd34985b8674cd278c81be` |
+| `jaggedness-jev-1.13.md` | `5d471be7c8d2a359a81979b7bcf2c2fab536a198d4e50155c4233380d5c03986` |
+| `mca.response.txt` | `4b9d3c9971342e7e74aeb0ecabdbbb33ed0603b5a266cbcc552d949615c3fb4f` |
+| `terms.response.txt` | `a03e95b455eeac5cedb04569536f74b7337b06da225a66b2757a817824ea26f3` |
+
+These SHA-256 values cover exact HTTP response-body bytes requested with `Accept-Encoding: identity`. Documentation bodies are server-delivered Markdown; legal bodies are server-delivered, content-negotiated Markdown requested with `Accept: text/markdown`. They are not hashes of read-tool display text, original HTML, model weights or an immutable documentation commit. Older live-page bytes were not retained in the historical dossier, so “unchanged” above compares documented facts rather than claiming byte identity. The docs' returned `Last-Modified` values match retrieval time and are not treated as publication dates.

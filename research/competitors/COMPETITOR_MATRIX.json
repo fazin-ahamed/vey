@@ -7,7 +7,11 @@
       "TYPESAFE_API_KEY": false
     },
     "permission_risk": "Section2.3(b) restricts competing-product development. Ordinary key possession is not evidence of permission for this project. Do not accept terms or send requests without established authorization.",
-    "secrets_read_or_published": false
+    "secrets_read_or_published": false,
+    "credential_presence_scope": "Historical 2026-10-03 presence-only inspection; no secrets inspected or authenticated calls made during the 2026-10-05 metadata refresh.",
+    "direct_Jev_authorization": null,
+    "Site_Terms_source": "https://typesafe.ai/legal/terms",
+    "Site_Terms_observation": "The refreshed 2026-09-19 Site Terms additionally contain an automated-access restriction at section3(b)(vi). No terms accepted. MCA and Site Terms observations restrict this direct-service study, not independent Vey research."
   },
   "Laya_runtime_artifact_custody": {
     "evidence_class": "MEASURED",
@@ -283,8 +287,12 @@
     "Jev": {
       "evidence": "MEASURED primary-source inspection; advertised capability/quality remains unreproduced.",
       "path": "research/competitors/JEV.json",
-      "retrieved_at_UTC": "2026-10-03T17:37:41Z",
-      "sha256": "8785779e7430305319e3be4d5ecc3224c77ab6a29c52dd4d24bbff2c8cc43889",
+      "retrieved_at_UTC": "2026-10-05T07:13:27Z",
+      "sha256": "e13d2f3562717a0513d4cc872ff3e669797bda8e46df9e0ee2aacdc141a84565",
+      "current_metadata_pointer": "metadata_refresh_2026_10_05",
+      "raw_source_manifest": "/home/fazinahamed/Documents/vey-data/decisionmix/competitors/refresh-2026-10-04/jev/retrieval-manifest.json",
+      "raw_source_manifest_sha256": "abf9e479c24bb6a18b0290f3432dc79c8f8080d42c16382ce9d2651a41f6dfec",
+      "source_revision_scope": "Historical SDK/integration source inspection pins retained; latest released SDK metadata is unchanged. Current raw documentation hashes are in the refresh manifest, not immutable upstream documentation or model revisions.",
       "source_revision": {
         "community_mcp": {
           "commit": "10737f071d4b299c3db30243093d2e739c2d03ad"
@@ -312,9 +320,12 @@
     "Laya": {
       "evidence": "MEASURED primary-source inspection; advertised capability/quality remains unreproduced.",
       "path": "research/competitors/LAYA.json",
-      "retrieved_at_UTC": "2026-10-03T17:49:43.768812Z",
-      "sha256": "63e080043735bc026eff118a60f5fdb2263e0d349321a30406b3500f12f66496",
-      "source_revision": "859b8ee595cc04f84dd2af476d6d1d90ec1fea46"
+      "retrieved_at_UTC": "2026-10-05T07:23:43.878500Z",
+      "sha256": "600afa36ffa8c0db6e64c908dddf7c7b1453c9be42f668185f515b76919eac7b",
+      "source_revision": "8a6e1328cce2460a0e5aa348ad465bb1b5821cd2",
+      "raw_source_manifest": "/home/fazinahamed/Documents/vey-data/decisionmix/competitors/refresh-2026-10-04/laya/refresh_manifest.json",
+      "raw_source_manifest_sha256": "11528aab8def77bd51772c3d7cbca95ab0b80a00df23298130f1a71b0338bbfa",
+      "runtime_measurement_scope": "Existing local custody and CPU compatibility remain source859b8ee/runtime0.3.25/bundle55cf4c4. No local0.3.27 execution or neutral comparison is claimed."
     }
   },
   "fairness": "Identical decomposition, exact rules and shared workflow code for all systems wherever possible. Compare semantic decisions, not Vey's code against competitor neural arithmetic. Exact native architectural support can be compared separately, never fabricated as an accuracy win when both shared workflows are perfect.",
@@ -340,9 +351,9 @@
         "encoder": "answerdotai/ModernBERT-large",
         "head_layers": 2,
         "head_max_len_default": 192,
-        "huggingface_last_modified": "2026-09-24T05:39:22.000Z",
+        "huggingface_last_modified": "2026-10-03T18:00:07.000Z",
         "huggingface_repo": "convaiinnovations/laya",
-        "huggingface_revision": "55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851",
+        "huggingface_revision": "7b928d828b7b0e022f929d9bd2e44165aa270148",
         "license_declared": "apache-2.0",
         "max_context_claimed": null,
         "max_context_independently_verified": null,
@@ -369,9 +380,9 @@
         "encoder": "jhu-clsp/mmBERT-base",
         "head_layers": 2,
         "head_max_len_default": 256,
-        "huggingface_last_modified": "2026-09-24T05:39:24.000Z",
+        "huggingface_last_modified": "2026-10-03T18:00:08.000Z",
         "huggingface_repo": "convaiinnovations/laya-multilingual",
-        "huggingface_revision": "e4e9ddf21a7b1903b7acffd8814ad4307bf63a67",
+        "huggingface_revision": "1720e3e3357cfe1e281542e223f8273b0890ca34",
         "license_declared": "apache-2.0",
         "max_context_claimed": 8192,
         "max_context_independently_verified": null,
@@ -391,9 +402,9 @@
         "encoder": "answerdotai/ModernBERT-large",
         "head_layers": 2,
         "head_max_len_default": 256,
-        "huggingface_last_modified": "2026-09-24T04:08:17.000Z",
+        "huggingface_last_modified": "2026-10-03T18:00:10.000Z",
         "huggingface_repo": "convaiinnovations/laya-typed-decisions",
-        "huggingface_revision": "1a793eb568e6718f15941d08f85432581df534e3",
+        "huggingface_revision": "e929ae5cf69bc34259cd2f95c9e91145b818b1f0",
         "license_declared": "apache-2.0",
         "max_context_claimed": null,
         "max_context_independently_verified": null,
@@ -430,7 +441,7 @@
       ],
       "state_room": "max_len - actual rendered head_len -1; fourtokenfloor can make actualhead exceed nominalcap."
     },
-    "release_commit": "8a976468b57c1b53541363dc86523263c9b68d34",
+    "release_commit": "b09832bdd3819e375fe8b0d26dbd7a8f75c4f0bd",
     "routing": {
       "bundle_subfolders": {
         "english": null,
@@ -439,15 +450,21 @@
       },
       "default": "English forEnglish; multilingual forrecognized nonEnglish; heuristic ambiguity defaults configurable.",
       "default_bundle_repo": "convaiinnovations/laya",
-      "default_bundle_revision_to_pin": "55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851",
+      "default_bundle_revision_to_pin": "7b928d828b7b0e022f929d9bd2e44165aa270148",
       "lazy_load": true,
       "resident_default": 2,
       "reviewed_revision_pins_opt_in": true,
       "standalone_repos_option": true,
       "typed_specialist": "Explicit model=typed-decisions or task=typed_decisions; optional exact known question-ID detection, offbydefault."
     },
-    "runtime_release": "0.3.25",
-    "source_inspection_commit": "859b8ee595cc04f84dd2af476d6d1d90ec1fea46"
+    "runtime_release": "0.3.27",
+    "source_inspection_commit": "8a6e1328cce2460a0e5aa348ad465bb1b5821cd2",
+    "source_head_includes_post_release_changes": true,
+    "latest_runtime_execution": "UNMEASURED; source-only post-release changes are not attributed to the published0.3.27 package.",
+    "checkpoint_delta": "All three refreshed HF revisions add only a160-byte root config.json. Previous tree entries and advertised LFS payload identities are unchanged; no new weights downloaded or rehashed.",
+    "recommended_task_selection_unchanged": true,
+    "abstention_release_delta": "Published0.3.27 supports installed binning maps, clears stale low-confidence flags and groups whole ties under coverage_metric_definition2; no local calibration measurement.",
+    "reviewed_vendor_pins_remain_previous_HF_revisions": true
   },
   "scope": "Current public source snapshot; NOT direct neutral head-to-head evidence. No overall victory claim.",
   "vendor_claims_not_reproduced": [

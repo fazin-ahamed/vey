@@ -1,12 +1,12 @@
 # Laya: current primary-source dossier
 
-Retrieved 2026-10-03, beginning at 17:35:16 UTC. Audience: Vey researchers choosing a fair competitor configuration. The companion `LAYA.json` records source hashes and machine-readable facts.
+Current metadata was retrieved 2026-10-05, from 07:11:30 to 07:23:43 UTC; see the [refresh section](#metadata-refresh-retrieved-2026-10-05) for source, release and model pins. The 2026-10-03 source snapshot and old-pinned local runtime evidence below are retained. Audience: Vey researchers choosing a fair competitor configuration. The companion `LAYA.json` records source hashes and machine-readable facts.
 
-## Evidence boundary and current version
+## 2026-10-03 source snapshot and evidence boundary
 
 This is source and metadata inspection, not an inference benchmark. API existence and configuration are **MEASURED source inspection**. Every quality, latency, throughput, calibration and numerical-parity result below remains **HYPOTHESIS / vendor- or externally reported, not independently reproduced by Vey**. No model weights were downloaded, no model/API calls were made, and no tests or builds were run.
 
-The current Python package is **0.3.25**, not 0.3.20: [GitHub latest release](https://github.com/NandhaKishorM/laya/releases/tag/v0.3.25) published 2026-10-03T15:58:35Z, [PyPI metadata](https://pypi.org/pypi/laya/json), and the pinned package manifest agree. Release commit: `8a976468b57c1b53541363dc86523263c9b68d34`. This inspection pins source main at `859b8ee595cc04f84dd2af476d6d1d90ec1fea46`, committed 2026-10-03T17:31:47Z. The model cards still describe runtime 0.3.20, so GitHub/package sources take precedence for current API behavior. Published benchmark environments are older and are not silently relabeled 0.3.25.
+At the original inspection, the Python package was **0.3.25**, not 0.3.20: [GitHub release](https://github.com/NandhaKishorM/laya/releases/tag/v0.3.25) published 2026-10-03T15:58:35Z, [PyPI metadata](https://pypi.org/pypi/laya/json) retrieved that day, and the pinned package manifest agreed. Release commit: `8a976468b57c1b53541363dc86523263c9b68d34`. That snapshot pins source main at `859b8ee595cc04f84dd2af476d6d1d90ec1fea46`, committed 2026-10-03T17:31:47Z. Its API/configuration descriptions and original source references are historical unless explicitly updated in the refresh section. Published benchmark environments are not silently relabeled with a newer runtime.
 
 Primary source entry points: [README][readme], [BENCHMARKS][bench], [package manifest][package], [routing guide][routing], [question/answer semantics][questions], [calibration implementation][calibrate], [HTTP API][http].
 
@@ -162,3 +162,64 @@ Missing: committed raw rows for .766, independently reproduced quality/performan
 [clamped]: https://github.com/NandhaKishorM/laya/blob/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/research/results/cpu_51_language_sweep_clamped.json
 [long]: https://github.com/NandhaKishorM/laya/blob/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/research/results/long_context_multilingual.json
 [capacity]: https://github.com/NandhaKishorM/laya/blob/859b8ee595cc04f84dd2af476d6d1d90ec1fea46/research/results/nvidia_capacity_20260925.json
+
+## Metadata refresh retrieved 2026-10-05
+
+This refresh inspects public primary sources and metadata only. It downloads no package or model payload, loads no model, executes no inference or benchmark, and runs no tests/builds/linters/formatters. Vendor quality and performance reports remain **HYPOTHESIS / not independently reproduced by Vey**. Current source inspection earns no new local-runtime or neutral-comparison status.
+
+### Released package and later source head
+
+[GitHub latest release](https://github.com/NandhaKishorM/laya/releases/tag/v0.3.27) and [PyPI](https://pypi.org/pypi/laya/0.3.27/json), retrieved during this refresh, report **0.3.27**. The release was published 2026-10-04T18:18:11Z and resolves to commit `b09832bdd3819e375fe8b0d26dbd7a8f75c4f0bd`. PyPI advertises wheel SHA-256 `7d3c30b1afc8e8ea5ab0285b02de2a46ee71563ba1590e1278a4a637a988fbfe` and sdist SHA-256 `8a1ad028f2b02289fad0cb69a6058c7eb0cbf42506945726693e822b2f7f601b`; these are metadata identities, not locally downloaded package hashes.
+
+The [observed main head](https://github.com/NandhaKishorM/laya/commit/8a6e1328cce2460a0e5aa348ad465bb1b5821cd2) is `8a6e1328cce2460a0e5aa348ad465bb1b5821cd2`, committed 2026-10-04T18:49:24Z, with tree `684b182420daa34bcda50f95fad7603625c035f2`. The [old-to-current comparison](https://github.com/NandhaKishorM/laya/compare/859b8ee595cc04f84dd2af476d6d1d90ec1fea46...8a6e1328cce2460a0e5aa348ad465bb1b5821cd2) contains 40 commits. Its package manifest still says 0.3.27, but the [release-to-head comparison](https://github.com/NandhaKishorM/laya/compare/b09832bdd3819e375fe8b0d26dbd7a8f75c4f0bd...8a6e1328cce2460a0e5aa348ad465bb1b5821cd2) includes later changes: the shared `laya.train` loop, rejection of unpublished/path-like HTTP model IDs, and the remaining fine-tune temperature-bound fixes. Do not attribute those later changes to the published 0.3.27 wheel.
+
+### Current recommended model pins, unchanged weights
+
+| Role | Latest observed standalone repository revision | Shipped total / option budget |
+|---|---|---|
+| English | [`convaiinnovations/laya`, `7b928d828b7b0e022f929d9bd2e44165aa270148`](https://huggingface.co/convaiinnovations/laya/tree/7b928d828b7b0e022f929d9bd2e44165aa270148) | 512 / 192 |
+| Multilingual | [`convaiinnovations/laya-multilingual`, `1720e3e3357cfe1e281542e223f8273b0890ca34`](https://huggingface.co/convaiinnovations/laya-multilingual/tree/1720e3e3357cfe1e281542e223f8273b0890ca34) | 1,024 / 256; opt-in total limit 8,192 |
+| Typed workflows | [`convaiinnovations/laya-typed-decisions`, `e929ae5cf69bc34259cd2f95c9e91145b818b1f0`](https://huggingface.co/convaiinnovations/laya-typed-decisions/tree/e929ae5cf69bc34259cd2f95c9e91145b818b1f0) | 1,024 / 256 |
+
+The commits are dated 2026-10-03T18:00:07Z, 18:00:08Z and 18:00:10Z respectively. Every commit adds only a 160-byte root `config.json` for Hub download tracking. Comparing the old and current pinned HF trees finds all previous entries unchanged, including cards, `rl_agent_config.json`, tokenizers, bundled subfolders and advertised LFS weight identities. The root config addition does not establish a new trained checkpoint or a quality improvement. This is metadata comparison, not a fresh weight-byte hash, current-revision model load, numerical-equivalence test or AutoModel compatibility claim.
+
+English still uses ModernBERT-large; multilingual still uses mmBERT-base; typed-decisions remains the ModernBERT-large specialist. Parameter metadata, budgets, temperatures and cards are unchanged. The English card still describes runtime 0.3.20. The strongest task-appropriate configuration remains routed English/multilingual for generic language-aware decisions and the explicit typed specialist for its matching workflows.
+
+The [current router](https://github.com/NandhaKishorM/laya/blob/8a6e1328cce2460a0e5aa348ad465bb1b5821cd2/laya/router.py) still defaults to the bundle `convaiinnovations/laya`. For a latest-observed bundle snapshot, pin **`7b928d828b7b0e022f929d9bd2e44165aa270148`** and record subfolder `None`, `multilingual` or `typed-decisions`. For `standalone_repos=True`, pin the three distinct revisions above through the per-model revision map. The [vendor's opt-in reviewed-pin table](https://github.com/NandhaKishorM/laya/blob/8a6e1328cce2460a0e5aa348ad465bb1b5821cd2/laya/revisions.py) still names the old `55cf4c4…` / `e4e9ddf…` / `1a793eb…` snapshots. `LAYA_REVISION=reviewed` therefore does not select the latest metadata revisions; ordinary unpinned loads still follow the Hub default.
+
+Language routing, explicit typed selection, the two-checkpoint default resident cap, wider-head/high-K controls and the roughly 20-option default-budget recommendation are unchanged. Multilingual 8,192 remains an opt-in total sequence budget, with no new broad long-context quality evidence.
+
+### Calibration and temperature corrections
+
+The following corrections supersede the relevant 0.3.25 caveats above:
+
+1. Released 0.3.27 [`fit_abstention_thresholds`](https://github.com/NandhaKishorM/laya/blob/b09832bdd3819e375fe8b0d26dbd7a8f75c4f0bd/laya/calibrate.py) accepts `binning_map`. Pass the installed map when the deployed gate reads histogram-binned `answer_confidence`; fitting a cut on unbinned max-probability and applying it to binned confidence is no longer the prescribed procedure. The [decoder](https://github.com/NandhaKishorM/laya/blob/8a6e1328cce2460a0e5aa348ad465bb1b5821cd2/laya/agent.py) still bypasses global binning for a per-language temperature override. Fit those language-specific effective temperatures without applying the global map, then validate cuts on held-out served confidences.
+2. Released 0.3.27 [confidence gating](https://github.com/NandhaKishorM/laya/blob/b09832bdd3819e375fe8b0d26dbd7a8f75c4f0bd/laya/confidence.py) clears a stale `low_confidence` flag when re-evaluation clears the threshold or the confidence is unusable. The old result dict no longer remains permanently abstained solely because an earlier gate flagged it.
+3. Released 0.3.27 [coverage metrics](https://github.com/NandhaKishorM/laya/blob/b09832bdd3819e375fe8b0d26dbd7a8f75c4f0bd/laya/evals.py) use whole confidence-tie groups and record `config.coverage_metric_definition=2`. `selective_accuracy@50` can cover more than 50% when the cut intersects a tie. AURC weights each level by its answer count. Regenerate old definition-1 coverage reports before comparing them; cross-definition baseline comparisons are refused. This is a metric-definition correction, not evidence of better model accuracy or calibration.
+4. The later head's [Apple-silicon fine-tune script](https://github.com/NandhaKishorM/laya/blob/8a6e1328cce2460a0e5aa348ad465bb1b5821cd2/notebooks/laya_finetune_typed_decisions_mps.py) and [single-device fine-tune script](https://github.com/NandhaKishorM/laya/blob/8a6e1328cce2460a0e5aa348ad465bb1b5821cd2/research/scripts/finetune_single_device.py) now clamp fitted temperatures with shared `TEMP_MIN=.5` / `TEMP_MAX=5`, rather than [.1, 10]. This removes a fit-versus-served-scale mismatch in those training entry points. It does not change the already-shipped checkpoint temperatures.
+
+The legacy English and typed `choice:11+` raw temperature remains `.10058280825614929`, and served temperature remains clamped to `.5`. Multilingual still ships all-one temperatures and no option map. Type/bucket fit floors 10/2,000, the 20% eligible-bucket ECE holdout, binning floor 200 and abstention floor 100 are unchanged. These procedures remain empirical; no deployment-risk guarantee or fresh held-out calibration result is established.
+
+### Vendor reports and runtime surfaces
+
+The [current BENCHMARKS](https://github.com/NandhaKishorM/laya/blob/8a6e1328cce2460a0e5aa348ad465bb1b5821cd2/BENCHMARKS.md) change only adds the paired M1 Pro MPS fp32/fp16 study. The typed specialist `.766` headline, missing committed specialist rows, multilingual MASSIVE51 `.4008` and existing T4 operating points are unchanged. The `.766` specialist accuracy and multilingual 32.8ms T4 p50 still belong to different checkpoints/workloads and cannot be combined.
+
+The new [English](https://github.com/NandhaKishorM/laya/blob/8a6e1328cce2460a0e5aa348ad465bb1b5821cd2/benchmarks/results/mps_autocast_english_m1pro.json) and [multilingual](https://github.com/NandhaKishorM/laya/blob/8a6e1328cce2460a0e5aa348ad465bb1b5821cd2/benchmarks/results/mps_autocast_multilingual_m1pro.json) artifacts report runtime **0.3.26**, Apple M1 Pro, macOS 26.1, torch 2.14.0 and transformers 5.17.0 on a non-idle machine. The [harness](https://github.com/NandhaKishorM/laya/blob/8a6e1328cce2460a0e5aa348ad465bb1b5821cd2/benchmarks/bench_mps_autocast.py) times warm `Agent.system_one` requests and compares the returned outputs from the two modes. It alternates order on the same loaded model, with 72 pairs per cell, and excludes initial load. No HF revision is recorded in the result or load call, so these measurements are not attributed to the latest HF pins or runtime 0.3.27.
+
+Upstream reports fp16 slower on every multilingual row and all English rows except the long eight-question case. It suggests `LAYA_MPS_AMP_MIN_ROWS=1000000` to keep fp32 on that M1 Pro; the runtime default remains five rows. Reported comparisons change 0/1,248 English decisions and 1/1,248 multilingual decisions. The score comparison uses argmax level rather than equality of the returned expected score, and the `noul` comparison uses the .5 boundary. This is workload-specific upstream precision evidence, not a universal optimal configuration, broad quality parity or a Vey measurement.
+
+[Current README](https://github.com/NandhaKishorM/laya/blob/8a6e1328cce2460a0e5aa348ad465bb1b5821cd2/README.md) also documents released batch per-call hooks, long-window scans outside hook dispatch, the `USE_TF=0` default guard and a Java ONNX inference package. These are source-inspected capabilities only; Vey has not built or exercised the new package or its advisory parity lane. The HTTP unpublished/path-like model-ID refusal is a later-head change, not part of the released-wheel attribution above.
+
+### Raw-source custody and unchanged local evidence
+
+The refresh manifest is `/home/fazinahamed/Documents/vey-data/decisionmix/competitors/refresh-2026-10-04/laya/refresh_manifest.json`, SHA-256 `11528aab8def77bd51772c3d7cbca95ab0b80a00df23298130f1a71b0338bbfa`. Its complete raw retrieval index is `retrieval_index.json` in the same directory, SHA-256 `794215dd803928b24f9b1da70005f0ba75106dba7fb3a4770ef030010d8a9ce7`. The folder date names the refresh series; actual retrieval occurred 2026-10-05. The index retains 56 raw HTTP/source bodies, URLs, hashes and capture timing. Four entries retain a bounded capture interval instead of an exact request-start timestamp.
+
+| Raw source body at the current pinned source revision | SHA-256 |
+|---|---|
+| README | `0ea9fc1c99c358dbf5ef2971fd55d848eed0addefac27850bcca027bfd8fa374` |
+| BENCHMARKS | `90b723a9a2398b2559712911a065339b4d0ee4245b0052138ff8ebe80f6e3937` |
+| Calibration implementation | `1e27411f4275264755a3fc0d7daf95643fa8dd463143b941f0fbeedad178d316` |
+
+Those hashes cover raw fetched bytes, not reader-rendered markdown. Model LFS SHA-256 values in the manifest are advertised upstream identities compared across metadata snapshots, not newly downloaded or rehashed weights.
+
+The existing [runtime custody manifest](laya_runtime_custody_manifest.json) and [CPU compatibility manifest](laya_cpu_compatibility_result_manifest.json) remain unchanged and apply only to source `859b8ee595cc04f84dd2af476d6d1d90ec1fea46`, runtime 0.3.25 and bundle `55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851`. They are not current-head or current-HF-revision verification. Quality, calibration, GPU compatibility, latency, residency, energy and neutral comparisons remain unmeasured; no critical comparison cell becomes green.

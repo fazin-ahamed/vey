@@ -1,7 +1,46 @@
 {
   "competitor": "Laya",
-  "retrieved_at_UTC": "2026-10-03T17:49:43.768812Z",
-  "pinned_source_revision": "859b8ee595cc04f84dd2af476d6d1d90ec1fea46",
+  "retrieved_at_UTC": "2026-10-05T07:23:43.878500Z",
+  "pinned_source_revision": "8a6e1328cce2460a0e5aa348ad465bb1b5821cd2",
+  "metadata_refresh": {
+    "evidence_class": "MEASURED primary-source metadata inspection; no new runtime or model-quality measurement",
+    "capture_started_UTC": "2026-10-05T07:11:30.670216Z",
+    "refresh_series_directory_date": "2026-10-04",
+    "manifest": "/home/fazinahamed/Documents/vey-data/decisionmix/competitors/refresh-2026-10-04/laya/refresh_manifest.json",
+    "manifest_sha256": "11528aab8def77bd51772c3d7cbca95ab0b80a00df23298130f1a71b0338bbfa",
+    "retrieval_index": "/home/fazinahamed/Documents/vey-data/decisionmix/competitors/refresh-2026-10-04/laya/retrieval_index.json",
+    "retrieval_index_sha256": "794215dd803928b24f9b1da70005f0ba75106dba7fb3a4770ef030010d8a9ce7",
+    "raw_source_bodies": 56,
+    "hash_scope": "New hashes cover exact raw HTTP response body bytes, not reader-rendered markdown. LFS payload hashes are advertised metadata, not freshly downloaded or rehashed weights.",
+    "previous_retrieved_at_UTC": "2026-10-03T17:49:43.768812Z",
+    "previous_source_revision": "859b8ee595cc04f84dd2af476d6d1d90ec1fea46",
+    "previous_python_version": "0.3.25",
+    "historical_source_provenance": "Source records without a retrieved_at_UTC field and existing published_metrics retain the 2026-10-03 inspection provenance; they are not refreshed measurements.",
+    "previous_HF_revisions": {
+      "convaiinnovations/laya": "55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851",
+      "convaiinnovations/laya-multilingual": "e4e9ddf21a7b1903b7acffd8814ad4307bf63a67",
+      "convaiinnovations/laya-typed-decisions": "1a793eb568e6718f15941d08f85432581df534e3"
+    },
+    "source_commits_since_previous_pin": 40,
+    "model_revision_change": "All three add only a 160-byte root config.json for Hub download tracking. Previous tree entries, including cards, rl_agent_config.json, tokenizers and model LFS identities, are unchanged according to pinned upstream metadata.",
+    "strongest_task_appropriate_checkpoints_changed": false,
+    "new_quality_upgrade_observed": false,
+    "vendor_reviewed_pins_remain_previous_HF_revisions": true,
+    "vendor_claims": {
+      "typed_specialist_accuracy_unchanged": 0.766,
+      "typed_specialist_raw_rows_still_absent": true,
+      "MASSIVE51_multilingual_macro_accuracy_unchanged": 0.4008,
+      "old_T4_operating_points_unchanged_and_not_relabelled": true,
+      "new_report": "M1 Pro paired MPS fp32/fp16 results, runtime 0.3.26; upstream report only, no checkpoint revision recorded."
+    },
+    "local_measured_custody_scope": {
+      "source_revision": "859b8ee595cc04f84dd2af476d6d1d90ec1fea46",
+      "bundle_revision": "55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851",
+      "existing_manifest_hashes_and_measured_results_unchanged": true,
+      "latest_source_or_latest_HF_revision_runtime_verified": false
+    },
+    "no_model_download_load_execution_or_benchmark": true
+  },
   "local_runtime_artifact_custody": {
     "evidence_class": "MEASURED",
     "manifest": "research/competitors/laya_runtime_custody_manifest.json",
@@ -217,21 +256,97 @@
       "retrieval_result": "HTTP404"
     },
     {
+      "url": "https://api.github.com/repos/NandhaKishorM/laya/commits/main",
+      "sha256_if_available": "ccbc39cb61e7de07b3e5375ef4d723a327cfa595258e8e9b3fdf767ed84b863d",
+      "retrieved_at_UTC": "2026-10-05T07:11:30.670813Z",
+      "hash_scope": "Raw response body; exact observed revision is pinned_source_revision."
+    },
+    {
+      "url": "https://api.github.com/repos/NandhaKishorM/laya/releases/latest",
+      "sha256_if_available": "19654ff444691073aae1fd8b3ecc88ef56844444f327a76aacbeded89625f317",
+      "retrieved_at_UTC": "2026-10-05T07:11:30.680385Z",
+      "hash_scope": "Raw response body."
+    },
+    {
+      "url": "https://pypi.org/pypi/laya/json",
+      "sha256_if_available": "ed30dcb0ead74975bd9a1d319950f8465fdcfabf51dfdc3117a5256381b1223d",
+      "retrieved_at_UTC": "2026-10-05T07:11:30.680539Z",
+      "hash_scope": "Raw response body."
+    },
+    {
+      "url": "https://api.github.com/repos/NandhaKishorM/laya/compare/859b8ee595cc04f84dd2af476d6d1d90ec1fea46...8a6e1328cce2460a0e5aa348ad465bb1b5821cd2",
+      "sha256_if_available": "4fdb0378241592abfacad1bdef311a08d8a2bbdadfb1e7c227a99f1d526c4ddb",
+      "retrieved_at_UTC": "2026-10-05T07:11:30.680706Z",
+      "hash_scope": "Raw response body."
+    },
+    {
+      "url": "https://api.github.com/repos/NandhaKishorM/laya/git/trees/8a6e1328cce2460a0e5aa348ad465bb1b5821cd2?recursive=1",
+      "sha256_if_available": "f4eac263b2ccd2f3e8a169c9a61c553cbfbb13f5900f229a432fa2164e15ab1a",
+      "retrieved_at_UTC": "2026-10-05T07:11:30.680823Z",
+      "hash_scope": "Raw response body; non-truncated recursive source tree."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/8a6e1328cce2460a0e5aa348ad465bb1b5821cd2/README.md",
+      "sha256_if_available": "0ea9fc1c99c358dbf5ef2971fd55d848eed0addefac27850bcca027bfd8fa374",
+      "retrieved_at_UTC": "2026-10-05T07:12:28.521518Z",
+      "hash_scope": "Raw fetched file bytes, not reader-rendered markdown."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/8a6e1328cce2460a0e5aa348ad465bb1b5821cd2/BENCHMARKS.md",
+      "sha256_if_available": "90b723a9a2398b2559712911a065339b4d0ee4245b0052138ff8ebe80f6e3937",
+      "retrieved_at_UTC": "2026-10-05T07:12:28.521691Z",
+      "hash_scope": "Raw fetched file bytes, not reader-rendered markdown."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/8a6e1328cce2460a0e5aa348ad465bb1b5821cd2/laya/calibrate.py",
+      "sha256_if_available": "1e27411f4275264755a3fc0d7daf95643fa8dd463143b941f0fbeedad178d316",
+      "retrieved_at_UTC": "2026-10-05T07:12:28.522260Z",
+      "hash_scope": "Raw fetched file bytes."
+    },
+    {
+      "url": "https://huggingface.co/api/models/convaiinnovations/laya",
+      "sha256_if_available": "136d9527698e4e4ce7f46de610b4cd015784ddf98668d612020f9d99377bf84a",
+      "retrieved_at_UTC": "2026-10-05T07:11:31.003762Z",
+      "hash_scope": "Raw response body; exact observed revision is recorded in models."
+    },
+    {
+      "url": "https://huggingface.co/api/models/convaiinnovations/laya-multilingual",
+      "sha256_if_available": "5175bdec81b075ecdbac87e620709ed41f07af2becb3da2d25fbd2050692318d",
+      "retrieved_at_UTC": "2026-10-05T07:11:31.004815Z",
+      "hash_scope": "Raw response body; exact observed revision is recorded in models."
+    },
+    {
+      "url": "https://huggingface.co/api/models/convaiinnovations/laya-typed-decisions",
+      "sha256_if_available": "5e5a4f53310df46cc2974a7492fbca3f9e0a8bde01c0595691a5b35bd0be0b14",
+      "retrieved_at_UTC": "2026-10-05T07:11:31.088736Z",
+      "hash_scope": "Raw response body; exact observed revision is recorded in models."
+    },
+    {
       "url": "https://registry.npmjs.org/laya-client/latest",
       "sha256_if_available": null,
       "retrieval_result": "HTTP404"
     }
   ],
   "version": {
-    "python_source": "0.3.25",
-    "pypi": "0.3.25",
-    "latest_github_release": "v0.3.25",
-    "release_published_UTC": "2026-10-03T15:58:35Z",
-    "release_commit": "8a976468b57c1b53541363dc86523263c9b68d34",
-    "source_commit_UTC": "2026-10-03T17:31:47Z",
-    "inspection_started_UTC": "2026-10-03T17:35:16.072627Z",
+    "python_source": "0.3.27",
+    "pypi": "0.3.27",
+    "latest_github_release": "v0.3.27",
+    "release_published_UTC": "2026-10-04T18:18:11Z",
+    "release_commit": "b09832bdd3819e375fe8b0d26dbd7a8f75c4f0bd",
+    "source_commit_UTC": "2026-10-04T18:49:24Z",
+    "inspection_started_UTC": "2026-10-05T07:11:30.670216Z",
     "model_cards_runtime_whats_new": "0.3.20",
     "benchmark_versions_not_relabelled": true,
+    "source_head_includes_post_release_changes": true,
+    "post_release_changes_not_attributed_to_published_package": [
+      "laya.train shared fine-tuning loop",
+      "HTTP unpublished/path-like model-id rejection",
+      "MPS and single-device fine-tune fitted temperatures clamped to shared [0.5, 5.0] bounds"
+    ],
+    "pypi_advertised_artifact_sha256_not_downloaded": {
+      "laya-0.3.27-py3-none-any.whl": "7d3c30b1afc8e8ea5ab0285b02de2a46ee71563ba1590e1278a4a637a988fbfe",
+      "laya-0.3.27.tar.gz": "8a1ad028f2b02289fad0cb69a6058c7eb0cbf42506945726693e822b2f7f601b"
+    },
     "typescript_source_versions": {
       "laya-ts": "0.1.0",
       "laya-client": "0.1.0"
@@ -240,15 +355,15 @@
       "laya-ts": null,
       "laya-client": null
     },
-    "npm_observation": "Both public registry latest lookups returned HTTP404; no npm publication confirmed."
+    "npm_observation": "Historical 2026-10-03 public registry latest lookups returned HTTP404; npm publication was not rechecked in this refresh."
   },
   "models": [
     {
       "name": "laya",
       "role": "english",
       "huggingface_repo": "convaiinnovations/laya",
-      "huggingface_revision": "55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851",
-      "huggingface_last_modified": "2026-09-24T05:39:22.000Z",
+      "huggingface_revision": "7b928d828b7b0e022f929d9bd2e44165aa270148",
+      "huggingface_last_modified": "2026-10-03T18:00:07.000Z",
       "parameters_total": 421293830,
       "parameters_evidence": "MEASURED metadata inspection; not resident model count",
       "encoder": "answerdotai/ModernBERT-large",
@@ -276,8 +391,8 @@
       "name": "laya-multilingual",
       "role": "multilingual",
       "huggingface_repo": "convaiinnovations/laya-multilingual",
-      "huggingface_revision": "e4e9ddf21a7b1903b7acffd8814ad4307bf63a67",
-      "huggingface_last_modified": "2026-09-24T05:39:24.000Z",
+      "huggingface_revision": "1720e3e3357cfe1e281542e223f8273b0890ca34",
+      "huggingface_last_modified": "2026-10-03T18:00:08.000Z",
       "parameters_total": 321908998,
       "parameters_evidence": "MEASURED metadata inspection; not resident model count",
       "encoder": "jhu-clsp/mmBERT-base",
@@ -298,8 +413,8 @@
       "name": "laya-typed-decisions",
       "role": "typed-decisions specialist",
       "huggingface_repo": "convaiinnovations/laya-typed-decisions",
-      "huggingface_revision": "1a793eb568e6718f15941d08f85432581df534e3",
-      "huggingface_last_modified": "2026-09-24T04:08:17.000Z",
+      "huggingface_revision": "e929ae5cf69bc34259cd2f95c9e91145b818b1f0",
+      "huggingface_last_modified": "2026-10-03T18:00:10.000Z",
       "parameters_total": 421293830,
       "parameters_evidence": "MEASURED metadata inspection; not resident model count",
       "encoder": "answerdotai/ModernBERT-large",
@@ -339,7 +454,7 @@
       "default": "English forEnglish; multilingual forrecognized nonEnglish; heuristic ambiguity defaults configurable.",
       "typed_specialist": "Explicit model=typed-decisions or task=typed_decisions; optional exact known question-ID detection, offbydefault.",
       "default_bundle_repo": "convaiinnovations/laya",
-      "default_bundle_revision_to_pin": "55cf4c4ebb4ebe31b2550e8bdf3bd21b99753851",
+      "default_bundle_revision_to_pin": "7b928d828b7b0e022f929d9bd2e44165aa270148",
       "bundle_subfolders": {
         "english": null,
         "multilingual": "multilingual",
@@ -384,13 +499,17 @@
       "abstention_default_target_error": 0.1,
       "abstention_guarantee": "Empirical only, no formal coverageguarantee.",
       "threshold_unknown_bucket_fallback": "map default, otherwise0.0; gate nothing.",
-      "binning_threshold_caveat": "fit_abstention_thresholds consumes temperature-scaled logits, not binningmap; validatecuts on actual recalibrated confidence scale.",
+      "binning_threshold_caveat": "Since 0.3.27, fit_abstention_thresholds accepts binning_map; pass the map the deployed gate reads. Per-language temperature overrides bypass global binning, so fit their effective language scales without the global map. Validate cuts on held-out served confidences.",
       "persist": [
         "save_calibration",
         "load_calibration"
       ],
       "procedure": "Disjoint fit/thresholddevelopment/finaleval; validate bytype/options/language and deployedprecision; no threshold transfer assumed.",
-      "confidence_fields": "entropyconfidence is notmaxp; answer_confidence ismaxp before optionalhistogrambinning."
+      "confidence_fields": "entropyconfidence is notmaxp; answer_confidence ismaxp before optionalhistogrambinning.",
+      "abstention_binning_map_argument": true,
+      "coverage_metric_definition": 2,
+      "coverage_ties": "AURC and selective_accuracy include whole tied-confidence groups; selective coverage can exceed its nominal fraction. Regenerate definition-1 reports before cross-definition comparisons.",
+      "stale_low_confidence_flag_cleared_on_reevaluation": true
     },
     "deployment": [
       "CPU",
@@ -437,6 +556,7 @@
     "LangGraph": true,
     "LlamaIndex": true,
     "CrewAI": true,
+    "Java": "Source-inspected JVM split-ONNX inference package and advisory Python parity lane; not loaded, built or parity-tested by Vey.",
     "ONNX": "Export/runtime, predict_batch,predict_long,decide_batch; provider-specificparity unmeasured here.",
     "quantization": "CPUdynamicweightINT8 defaultper-tensor; substantial reportedparitydrift; no assumedcalibrationparity.",
     "pricing_model": "Apache2software selfhosted; operatingcost notmeasured."
@@ -933,6 +1053,53 @@
       ]
     },
     {
+      "name": "MPS_autocast_M1Pro_paired",
+      "checkpoint": "english and multilingual; exact HF revisions not recorded in upstream artifacts",
+      "values": {
+        "runtime": "0.3.26",
+        "hardware": "Apple M1 Pro",
+        "OS": "macOS 26.1",
+        "torch": "2.14.0",
+        "transformers": "5.17.0",
+        "pairs_per_cell": 72,
+        "cells_per_checkpoint": 12,
+        "decisions_per_checkpoint": 1248,
+        "reported_decisions_changed": {
+          "english": 0,
+          "multilingual": 1
+        },
+        "maximum_probability_change": {
+          "english": 0.0081,
+          "multilingual": 0.0206
+        },
+        "short_five_question_median_ms": {
+          "english_fp32": 190.4,
+          "english_fp16": 213.6,
+          "multilingual_fp32": 56.4,
+          "multilingual_fp16": 66.5
+        }
+      },
+      "source_url": "https://raw.githubusercontent.com/NandhaKishorM/laya/8a6e1328cce2460a0e5aa348ad465bb1b5821cd2/BENCHMARKS.md",
+      "raw_artifacts": [
+        {
+          "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/8a6e1328cce2460a0e5aa348ad465bb1b5821cd2/benchmarks/results/mps_autocast_english_m1pro.json",
+          "sha256_raw_response_body": "66832bfe065fea23a4b68036eb6843fa38d5a75a10f9c6ac739586bf40f9668c"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/NandhaKishorM/laya/8a6e1328cce2460a0e5aa348ad465bb1b5821cd2/benchmarks/results/mps_autocast_multilingual_m1pro.json",
+          "sha256_raw_response_body": "a8eb305823bb48ef48cc39f7cb226a74d9beee41b2b4f5e43ec04d97d709edb9"
+        }
+      ],
+      "evidence_status": "HYPOTHESIS: upstream published report; not independently reproduced by Vey",
+      "limitations": [
+        "Warm Agent.system_one wall time, excluding initial load; same loaded agent, alternating fp32/fp16 order, non-idle machine.",
+        "Harness timed output feeds its result comparison, inspected in source only; no harness executed by Vey.",
+        "Score comparison uses argmax level, not equality of returned expected score; noul comparison uses the 0.5 boundary.",
+        "No exact model SHA in upstream result or load call; no attribution to latest HF revisions or current 0.3.27 runtime.",
+        "M1 Pro fp16 loses on every multilingual row and all but long eight-row English; upstream suggests LAYA_MPS_AMP_MIN_ROWS=1000000 for fp32 throughout, not a universal hardware optimum."
+      ]
+    },
+    {
       "name": "AOTInductor_forward_only",
       "checkpoint": "bundled multilingual at1c5edc17a7acd8701df6fc341c0d179f1c62c982",
       "values": {
@@ -976,9 +1143,10 @@
     "8Kcontext quality evidenced onlyby20paddedcases/row; longwindowselectorconfidence notwhole-documentcalibrated.",
     "Backend/dtype flips andINT8drift requireactualpathcalibration.",
     "Defaultresidentroutercan usemultiplemodels; 12GBVRAM unmeasured.",
-    "npm source exists but bothpubliclatestlookups404."
+    "npm source exists; historical 2026-10-03 publiclatestlookups404, not refreshed."
   ],
   "direct_evaluation_status": {
+    "scope": "This primary-source refresh only. Earlier local CPU/runtime measurements remain separate and pinned to the old source/bundle revisions.",
     "source_and_metadata": "MEASURED primary-source inspection",
     "model_quality": "HYPOTHESIS published only",
     "latency_throughput": "HYPOTHESIS published only",

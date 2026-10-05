@@ -1,6 +1,8 @@
 {
   "competitor": "Jev / TypeSafe AI",
   "retrieved_at_UTC": "2026-10-03T17:37:41Z",
+  "current_metadata_refresh": "metadata_refresh_2026_10_05",
+  "historical_inspection_note": "The original retrieved_at_UTC, source list, SDK/integration inspection and published metrics below retain their 2026-10-03 evidence scope. Current public metadata and captured raw-response hashes are in the separately timestamped refresh object.",
   "pinned_source_revision": {
     "website_and_docs": null,
     "website_and_docs_note": "Public live pages inspected; no immutable source revision or content SHA-256 supplied. Retrieval date is not a weight or documentation revision.",
@@ -397,5 +399,193 @@
     "multilingual_quality": null,
     "runtime_HTTP_SDK_MCP_LangChain_LangGraph_behavior": null,
     "actual_billing_and_retention": null
+  },
+  "metadata_refresh_2026_10_05": {
+    "retrieved_at_UTC": "2026-10-05T07:13:27Z",
+    "first_response_at_UTC": "2026-10-05T07:12:42Z",
+    "campaign_directory_label": "refresh-2026-10-04",
+    "historical_inspection_retrieved_at_UTC": "2026-10-03T17:37:41Z",
+    "evidence_class": "MEASURED_SOURCE_INSPECTION of public metadata only; no service, SDK or model execution",
+    "change_comparison_basis": "Documented facts versus the historical dossier, not byte equality: historical live-page response bytes/hashes were not retained there.",
+    "documented_model_schema_limits_tariff_jaggedness_MCA_changes_detected": [],
+    "SDK_version_changes_detected": [],
+    "newly_established": [
+      "Raw-response byte custody and individual retrieval timestamps",
+      "PyPI/npm latest released metadata agrees with historical SDK pins",
+      "Registry upload/publication timestamps distinguished from GitHub release publication timestamps",
+      "Site Terms automated-access restriction recorded without claiming that it is new"
+    ],
+    "version": {
+      "documented_current_model": "jev-1.13.0",
+      "aliases": {"jev-latest": "jev-1.13.0", "jev-preview": "jev-1.13.0"},
+      "distinct_preview_documented": false,
+      "response_reports_versioned_id_documented": true,
+      "short_label_jev_1_13": "Jaggedness title/sample-client value only; not verified as an additional accepted alias",
+      "additional_short_alias_acceptance": null,
+      "release_date_UTC": null,
+      "model_hash": null,
+      "parameter_count": null,
+      "immutable_documentation_revision": null,
+      "model_listing_endpoint_called": false,
+      "source": "https://docs.typesafe.ai/models.md"
+    },
+    "http": {
+      "evaluation_endpoint": "POST https://api.typesafe.ai/v1/systemone",
+      "authentication": "Bearer API key",
+      "request_fields": ["model", "state", "questions"],
+      "state_types": ["string", "object", "array"],
+      "instructions_types": ["string", "object", "array"],
+      "question_ids_sent_to_model": false,
+      "response_fields": ["model", "answers", "usage.input_tokens", "usage.output_tokens"],
+      "documented_error_statuses": [401, 422, 429, 529],
+      "evaluation_endpoint_called": false,
+      "source": "https://docs.typesafe.ai/api.md"
+    },
+    "question_types": {
+      "choice": {"maximum_options_documented": 255, "criteria": "Map from option names to string/object/array/null descriptions", "choice_rule": "Highest-probability supplied option", "response_fields": ["type", "choice", "probabilities", "confidence"], "confidence_formula": "(p_max - 1/n)/(1 - 1/n), n > 1", "source": "https://docs.typesafe.ai/primitives/choice.md"},
+      "score": {"maximum_levels_documented": 10, "minimum_levels_recommended": 2, "minimum_levels_api_enforced": null, "criteria": "Ordered descriptive array, indexed from zero", "response_fields": ["type", "score", "legend", "probabilities", "confidence"], "score_rule": "sum(i*p_i), range [0,n-1]", "confidence_formula": "max(0,1 - sum(p_i*abs(i-m))/MAD_unif); m=modal level, MAD_unif=sum(abs(i-(n-1)/2))/n", "source": "https://docs.typesafe.ai/primitives/score.md"},
+      "noul": {"criteria": "Optional true/false descriptions", "response_fields": ["type", "noul"], "noul_semantics": "Probability of yes in [0,1], not Boolean", "separate_confidence_field": false, "optional_caller_confidence_formula": "abs(2*p-1)", "source": "https://docs.typesafe.ai/primitives/noul.md"}
+    },
+    "limits": {
+      "state_plus_all_questions_tokens_documented": 64000,
+      "state_plus_longest_question_tokens_documented": 32000,
+      "maximum_question_count": null,
+      "multi_state_offline_batch_endpoint": null,
+      "input_tokens_per_second_documented": 100000,
+      "requests_per_second_documented": 80,
+      "quotas_dynamic_without_notice": true,
+      "rate_values_are_service_quotas_not_measured_model_throughput": true,
+      "runtime_boundary_or_sustained_throughput_measurement": null,
+      "source": "https://docs.typesafe.ai/models.md"
+    },
+    "pricing": {
+      "currency": "USD",
+      "published_input_per_billion_tokens": 42,
+      "published_input_per_million_tokens": 0.042,
+      "published_output_per_million_tokens": 0,
+      "billing_exercised": false,
+      "actual_per_decision_cost": null,
+      "minimum_spend": null,
+      "promotional_credit_amount": null,
+      "enterprise_price": null,
+      "cache_discount": null,
+      "credit_expiry": "Earlier of term end or 12 months after purchase unless Order differs",
+      "taxes_included": false,
+      "MCA_credit_consumption": "Section 8.2 says consumption may vary with account settings/model; published tariff is not a verified account invoice",
+      "sources": ["https://docs.typesafe.ai/models.md", "https://typesafe.ai/legal/mca"]
+    },
+    "sdk_latest_released_metadata": {
+      "python": {
+        "package": "typesafe-sdk",
+        "registry_latest": "0.7.2",
+        "GitHub_latest_release_tag": "v0.7.2",
+        "tag_object_type": "commit",
+        "tag_commit": "f078f1e208a0d885154dc758344ae4fce77ac168",
+        "GitHub_release_published_UTC": "2026-09-26T21:20:32Z",
+        "requires_python": ">=3.10",
+        "license": "MIT",
+        "optional_HTTP2_documented": true,
+        "registry_uploads": [
+          {"filename": "typesafe_sdk-0.7.2-py3-none-any.whl", "upload_time_UTC": "2026-09-26T21:20:23.511034Z", "registry_declared_sha256_not_download_verified": "0a961148187d52e18276ed7f2d02617cfac48e3b97673cb631a8749397d43d1e", "yanked": false},
+          {"filename": "typesafe_sdk-0.7.2.tar.gz", "upload_time_UTC": "2026-09-26T21:20:24.988426Z", "registry_declared_sha256_not_download_verified": "2434f4af5cdfc45d6ab5ff27048e8b257207f786b60456e69995e345b32e77e1", "yanked": false}
+        ],
+        "sources": ["https://pypi.org/pypi/typesafe-sdk/json", "https://api.github.com/repos/typesafe-ai/typesafe-sdk-python/releases/latest", "https://api.github.com/repos/typesafe-ai/typesafe-sdk-python/git/ref/tags/v0.7.2", "https://raw.githubusercontent.com/typesafe-ai/typesafe-sdk-python/f078f1e208a0d885154dc758344ae4fce77ac168/pyproject.toml"]
+      },
+      "javascript": {
+        "package": "@typesafe-ai/sdk",
+        "registry_latest": "0.6.0",
+        "GitHub_latest_release_tag": "v0.6.0",
+        "tag_object_type": "commit",
+        "tag_commit": "66880ccded6cb642dc1809620c2b108c33730214",
+        "registry_published_UTC": "2026-09-15T18:17:19.263Z",
+        "GitHub_release_published_UTC": "2026-09-15T18:17:21Z",
+        "requires_node": ">=20",
+        "license": "MIT",
+        "registry_declared_integrity_not_download_verified": "sha512-IddX+Q0XM+VagOUZFeP7wZjaO4SHMdvnh2zEBdrZZnXedWI3BNK1lKhMx3ayrkFWvVLbVcUHJy6AVZlY+e6Jaw==",
+        "sources": ["https://registry.npmjs.org/@typesafe-ai%2Fsdk/latest", "https://registry.npmjs.org/@typesafe-ai%2Fsdk", "https://api.github.com/repos/typesafe-ai/typesafe-sdk-js/releases/latest", "https://api.github.com/repos/typesafe-ai/typesafe-sdk-js/git/ref/tags/v0.6.0", "https://raw.githubusercontent.com/typesafe-ai/typesafe-sdk-js/66880ccded6cb642dc1809620c2b108c33730214/package.json"]
+      },
+      "packages_installed_downloaded_or_executed": false
+    },
+    "jaggedness": {
+      "model_scope": "Jev 1.13",
+      "last_reviewed": "2026-10-02",
+      "changes_to_recorded_failure_modes_detected": false,
+      "Choice_first_option_preference_vendor_reported": true,
+      "numerical_Score_calibration_vendor_reported": "Weak for exact magnitude reconstruction",
+      "irrelevant_state_context_rot_vendor_reported": true,
+      "independent_failure_reproduction": null,
+      "source": "https://docs.typesafe.ai/model-jaggedness/jev-1.13.md"
+    },
+    "legal": {
+      "MCA_last_updated": "2026-09-23",
+      "MCA_competition_restriction": "2.3(b): Services/Output use for distillation, imitation training or developing/facilitating a similar or competing product/service is restricted",
+      "MCA_output_disclaimer": "9.3: inaccurate/erroneous outputs possible; customer independently evaluates",
+      "competitive_use_permission_change_established": false,
+      "authorization_for_direct_competitive_evaluation": null,
+      "block_scope": "Direct Jev service/output competitive evaluation only; not independent Vey research or other separately permitted competitor work",
+      "site_terms_last_updated": "2026-09-19",
+      "site_terms_automated_access_restriction": "3(b)(vi): restricts automated programs monitoring/copying/downloading Site content",
+      "site_terms_observation_scope": "Newly recorded observation, not evidence that the clause was newly introduced",
+      "legal_enforceability_conclusion": null,
+      "affirmative_account_or_terms_acceptance_actions": 0,
+      "sources": ["https://docs.typesafe.ai/legal.md", "https://typesafe.ai/legal/mca", "https://typesafe.ai/legal/terms"]
+    },
+    "quality_and_runtime_evidence": {
+      "historical_published_performance_claims_refreshed": false,
+      "performance_calibration_claims": "HYPOTHESIS / vendor-reported, independently unreproduced",
+      "confidence_is_distribution_statistic": true,
+      "independent_ECE": null,
+      "independent_Brier_score": null,
+      "independent_log_loss": null,
+      "selective_risk_guarantee": null,
+      "new_independent_quality_or_runtime_measurements": null,
+      "source": "https://docs.typesafe.ai/confidence.md"
+    },
+    "raw_custody": {
+      "root": "/home/fazinahamed/Documents/vey-data/decisionmix/competitors/refresh-2026-10-04/jev",
+      "retrieval_manifest": "retrieval-manifest.json",
+      "retrieval_manifest_sha256": "abf9e479c24bb6a18b0290f3432dc79c8f8080d42c16382ce9d2651a41f6dfec",
+      "response_count": 22,
+      "hash_scope": "Exact UTF-8 HTTP response-body bytes with Accept-Encoding identity; excludes headers and read-tool display/markdown conversion. Docs and content-negotiated legal bodies were server-delivered Markdown, not original HTML.",
+      "original_HTML_sha256": null,
+      "immutable_documentation_commit": null,
+      "model_weights_sha256": null,
+      "docs_Last_Modified_note": "Returned values match retrieval time; not treated as publication dates",
+      "sources": [
+        {"filename": "models.md", "url": "https://docs.typesafe.ai/models.md", "retrieved_at_UTC": "2026-10-05T07:12:42Z", "raw_response_body_sha256": "15351adaab85874b5f1a942fc2fdf3c7b3ecadcc936d580793d734855a0038f3"},
+        {"filename": "api.md", "url": "https://docs.typesafe.ai/api.md", "retrieved_at_UTC": "2026-10-05T07:12:42Z", "raw_response_body_sha256": "6b760275f89341fe15cff80c28aacae94d7d0c0c99afcd987ec0bca680b5713a"},
+        {"filename": "choice.md", "url": "https://docs.typesafe.ai/primitives/choice.md", "retrieved_at_UTC": "2026-10-05T07:12:42Z", "raw_response_body_sha256": "ae9c49b815ee30b28ed851e22b63041130fba50ae41368d41a5d80b571f383bb"},
+        {"filename": "score.md", "url": "https://docs.typesafe.ai/primitives/score.md", "retrieved_at_UTC": "2026-10-05T07:12:42Z", "raw_response_body_sha256": "a0a39b9c01f5ac3616efae071bf23f879bbe3fb12b0af2169932dbb71dd83d32"},
+        {"filename": "noul.md", "url": "https://docs.typesafe.ai/primitives/noul.md", "retrieved_at_UTC": "2026-10-05T07:12:42Z", "raw_response_body_sha256": "bf5d8c6700fbd9272ce27b53a6439d598e7915cdf505704ac7c827c6175ecb88"},
+        {"filename": "confidence.md", "url": "https://docs.typesafe.ai/confidence.md", "retrieved_at_UTC": "2026-10-05T07:12:42Z", "raw_response_body_sha256": "5c325ec0c0b69e78129406ca7c5d3aef113bce365abd34985b8674cd278c81be"},
+        {"filename": "jaggedness-jev-1.13.md", "url": "https://docs.typesafe.ai/model-jaggedness/jev-1.13.md", "retrieved_at_UTC": "2026-10-05T07:12:42Z", "raw_response_body_sha256": "5d471be7c8d2a359a81979b7bcf2c2fab536a198d4e50155c4233380d5c03986"},
+        {"filename": "legal.md", "url": "https://docs.typesafe.ai/legal.md", "retrieved_at_UTC": "2026-10-05T07:12:42Z", "raw_response_body_sha256": "cc96ee6f2d53a89a76b21dc0df6102e5982d2583aa9ad95971d8bebc9de55897"},
+        {"filename": "mca.response.txt", "url": "https://typesafe.ai/legal/mca", "retrieved_at_UTC": "2026-10-05T07:12:42Z", "raw_response_body_sha256": "4b9d3c9971342e7e74aeb0ecabdbbb33ed0603b5a266cbcc552d949615c3fb4f"},
+        {"filename": "terms.response.txt", "url": "https://typesafe.ai/legal/terms", "retrieved_at_UTC": "2026-10-05T07:12:42Z", "raw_response_body_sha256": "a03e95b455eeac5cedb04569536f74b7337b06da225a66b2757a817824ea26f3"},
+        {"filename": "llms.txt", "url": "https://docs.typesafe.ai/llms.txt", "retrieved_at_UTC": "2026-10-05T07:12:42Z", "raw_response_body_sha256": "4151e8fd18e5494580571957beff0933e18aecbea2ac7826d3bf53184e8a6a40"},
+        {"filename": "sdk-python-changelog.md", "url": "https://docs.typesafe.ai/sdk/python/changelog.md", "retrieved_at_UTC": "2026-10-05T07:12:42Z", "raw_response_body_sha256": "686ef1baf6cfe2b15c669f5cbccdf28f4e6e7ef3aafc7123f6864f868d74a821"},
+        {"filename": "sdk-javascript-changelog.md", "url": "https://docs.typesafe.ai/sdk/javascript/changelog.md", "retrieved_at_UTC": "2026-10-05T07:12:42Z", "raw_response_body_sha256": "6204f65e88fd44beee8a5515b4f7e6d566eb8203cac2e7838c12db1cb8890381"},
+        {"filename": "python-pypi.json", "url": "https://pypi.org/pypi/typesafe-sdk/json", "retrieved_at_UTC": "2026-10-05T07:13:27Z", "raw_response_body_sha256": "1f8cd661f175be8aa8dcee2cb392f10dab9f6ed50d9b388763f0668111c83573"},
+        {"filename": "javascript-npm-latest.json", "url": "https://registry.npmjs.org/@typesafe-ai%2Fsdk/latest", "retrieved_at_UTC": "2026-10-05T07:13:27Z", "raw_response_body_sha256": "2af1623a49127b9c10c1d11b6c91688c1a61a4904cb672a4c63aec192e581361"},
+        {"filename": "python-github-release-latest.json", "url": "https://api.github.com/repos/typesafe-ai/typesafe-sdk-python/releases/latest", "retrieved_at_UTC": "2026-10-05T07:12:42Z", "raw_response_body_sha256": "3ca2e59fcaf50fb3bc2a427aa7460cf1d96ab5aba0c69dfeb7e69c1dac68201a"},
+        {"filename": "javascript-github-release-latest.json", "url": "https://api.github.com/repos/typesafe-ai/typesafe-sdk-js/releases/latest", "retrieved_at_UTC": "2026-10-05T07:12:42Z", "raw_response_body_sha256": "8c37f362a9f3644cadfb3aad8080ab91a40f7fac37c271b98a12f0a0519afc64"},
+        {"filename": "python-github-tag-v0.7.2.json", "url": "https://api.github.com/repos/typesafe-ai/typesafe-sdk-python/git/ref/tags/v0.7.2", "retrieved_at_UTC": "2026-10-05T07:12:42Z", "raw_response_body_sha256": "f7cd27722b16120451721423cd443708d4c2bbf9ae7d29c1f2825c6b7c639ef3"},
+        {"filename": "javascript-github-tag-v0.6.0.json", "url": "https://api.github.com/repos/typesafe-ai/typesafe-sdk-js/git/ref/tags/v0.6.0", "retrieved_at_UTC": "2026-10-05T07:12:42Z", "raw_response_body_sha256": "cfe3de924d99726b0ca30e80d377f48034460b86d4a40e6605487ea20fe8be41"},
+        {"filename": "python-pyproject-v0.7.2.toml", "url": "https://raw.githubusercontent.com/typesafe-ai/typesafe-sdk-python/f078f1e208a0d885154dc758344ae4fce77ac168/pyproject.toml", "retrieved_at_UTC": "2026-10-05T07:12:44Z", "raw_response_body_sha256": "a55a234195c21367b332c9915fd7283842f1872a3df9f6b379980841d9559bd8"},
+        {"filename": "javascript-package-v0.6.0.json", "url": "https://raw.githubusercontent.com/typesafe-ai/typesafe-sdk-js/66880ccded6cb642dc1809620c2b108c33730214/package.json", "retrieved_at_UTC": "2026-10-05T07:12:42Z", "raw_response_body_sha256": "b94bd1d862b166be53b0b91a36a2af27a0b14e397ffea8f0c53cbfcc9718c508"},
+        {"filename": "javascript-npm-packument.json", "url": "https://registry.npmjs.org/@typesafe-ai%2Fsdk", "retrieved_at_UTC": "2026-10-05T07:12:45Z", "raw_response_body_sha256": "878ac45031737723a669290afa6e5102d26015b680227815e9015b5dc676bbba"}
+      ]
+    },
+    "actions": {
+      "authenticated_service_calls": 0,
+      "inference_calls": 0,
+      "paid_calls": 0,
+      "credential_reads": 0,
+      "account_actions": 0,
+      "SDK_installations": 0,
+      "model_or_package_payload_downloads": 0,
+      "CPU_GPU_benchmark_runs": 0,
+      "build_test_lint_formatter_runs": 0
+    }
   }
 }
