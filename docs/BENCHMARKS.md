@@ -5664,6 +5664,62 @@ Next branch, per the preregistered follow-up: the pinned multilingual route on
 identical rows (`ee2fa01`), which is also the arm that tests the vendor's
 0.4008 MASSIVE-51 claim.
 
+## Laya route selection on identical MASSIVE dev rows: multilingual beats English by 6.1 points
+
+Preregistered at `ee2fa01`; verifier generalized for a second route and
+confirmed to reproduce the earlier Choice receipt exactly before use. Both
+routes loaded with zero missing and zero unexpected weight keys. Identical
+63,852 rows, identical inputs (0 mismatched input digests), identical metrics.
+
+| Quantity | English route | Multilingual route |
+|---|---:|---:|
+| top-1 accuracy (micro over rows) | 0.116739 | 0.178021 |
+| NLL | 17.0523 | 4.48483 |
+| Brier | 1.52798 | 1.03461 |
+| ECE (15-bin) | 0.007877 | 0.047064 |
+| `en-US` accuracy | 0.4429 | 0.3049 |
+| non-English mean over 50 locales | 0.1103 | 0.1729 |
+| option token spans | 4 per option | 4 per option |
+
+Paired cluster bootstrap over 1,252 base utterance groups, 10000 resamples,
+seed 0: multilingual minus English = **+0.061282**, 95% CI
+**[+0.048957, +0.073341]**. Route selection is a large, resolved effect, not
+noise.
+
+Mechanism and reading. The routes are genuinely different models, not one
+model relabelled: `en-US` accuracy falls from 0.443 to 0.305 when switching to
+the multilingual encoder, while the non-English mean rises from 0.110 to 0.173
+and `ja-JP` (0.292) and `ru-RU` (0.281) approach `en-US`. Both routes carry the
+same 4-token-per-option truncation at K=60, so this difference is attributable
+to the encoder and its training, not to option visibility.
+
+Calibration, stated carefully. The multilingual route is better on both proper
+scoring rules (NLL 4.48 vs 17.05, Brier 1.03 vs 1.53) and worse on ECE (0.047
+vs 0.008). The English route's near-zero ECE is not a calibration success: that
+route is uniformly near-chance, and a confidently wrong predictor can score
+well on ECE alone while failing every proper scoring rule. ECE alone does not
+license a calibration claim here; NLL and Brier do, and they favour the
+multilingual route decisively.
+
+Vendor claim: the advertised MASSIVE-51 macro accuracy of 0.4008 is on the
+multilingual route. Our measurement on that route is 0.178021 micro over locale
+rows. These are different statistics (macro over locales versus micro over
+rows) and are therefore not directly comparable; the claim is recorded as
+UNREPRODUCED-UNDER-AN-EQUIVALENT-DEFINITION rather than confirmed or refuted.
+Resolving it requires the vendor's macro definition, which is not published in
+the inspected sources. A macro number cannot be replaced by a micro number and
+vice versa.
+
+What this does NOT establish: nothing about Laya's typed-decisions route, Jev,
+or any configuration using Laya's documented high-K remedies (embedding
+shortlist, coarse-to-fine decomposition), none of which were exercised here.
+Both routes remain far below the frozen Vey architectural cells, and no
+promotion, Pareto credit or B-STEF clearance follows.
+
+Next branch, per the registered order: the ordinal Score endpoint on
+`massive.grammar_score`, where the frozen Vey reference has no legal surface
+and Laya is therefore measured alone against the source-native rubric.
+
 
 
 
