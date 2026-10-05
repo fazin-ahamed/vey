@@ -5533,6 +5533,25 @@ written: the Choice cell is recorded Vey-not-applicable for the frozen
 reference, and no proxy scorer was written to fill it. Nothing about promotion,
 Pareto credit, B-STEF or endgame completion follows.
 
+The same defect governs the ordinal Score endpoint, and this was confirmed by
+direct execution rather than inference. The `massive.grammar_score` source
+question, `"Read the sentence out loud. Ignore any spelling, punctuation, or
+capitalization errors. Does it sound natural?"`, also compiles to zero stages;
+its five rubric levels are candidate *descriptions*, not ordinal axes. Calling
+the frozen `decide()` with those five levels as candidates returns level `"0"`,
+the alphabetically first id, with `trust.state == "confident"` and
+`primary_margin == None`. A confident state on an answer selected by
+alphabetical fallback is a trust-labeling defect, independent of the accuracy
+defect, and it is recorded as such.
+
+MEASURED scope of `vey-2-final` on this projection: the public `decide()`
+surface is an ordinal instruction executor. It cannot express fixed-label
+classification or rubric-relative scoring, so on the two endpoints this study
+preregistered it has no legal surface at all. Both preregistered arms for the
+frozen reference are therefore Vey-not-applicable, by mechanism rather than by
+numerical shortfall. The competitor cells remain measurable and are reported
+separately.
+
 
 
 
