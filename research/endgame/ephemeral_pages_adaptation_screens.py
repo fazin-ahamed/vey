@@ -3,11 +3,12 @@
 
 Implements, in order, the fail-closed screens of
 ``ephemeral_pages_adaptation_preregistration.json`` as corrected by
-``ephemeral_pages_adaptation_screen_c_amendment.json``:
+``ephemeral_pages_adaptation_screen_c_amendment.json`` and the user-authorized
+``ephemeral_pages_adaptation_c0_amendment.json``:
 
   A smoke fit      ``--screen smoke --run-root PATH``
   B immutability   ``--screen immutability --run-root PATH``
-  C0 identity      ``--screen c0-identity --run-root PATH --features-root PATH``
+  C0 liveness      ``--screen c0-liveness --run-root PATH --features-root PATH``
   C1 adapted ceiling  ``--screen ceiling --run-root PATH --features-root PATH``
 
 Every screen writes exactly one receipt with exclusive-create (``open("x")``)
@@ -22,12 +23,10 @@ train/validation/calibration/development and the pinned atomic corpus/feature
 manifests are hash-checked against the preregistration before use.
 
 C0 is CPU-only, takes zero optimizer steps, builds no reader and makes no
-quality claim.  It encodes the unique supervised train and development page
-texts with the adapted final layer at its init identity (adapter exactly 1.0,
-final layer at the pinned frozen weights), requires that this reproduces the
-frozen captured page features within 1e-5 absolute, and requires that a
-deliberately perturbed adapter demonstrably moves those features, which
-separates an adapter-path failure from ordinary FP32 CPU/GPU drift.
+quality claim. It verifies that perturbing an adapter changes features and
+restoring its saved values restores the pre-perturbation features. It does
+not test numerical identity against the frozen feature cache. Screen B
+guards parameter bytes, not forward-computation equivalence.
 
 C1 is CPU-only and builds no reader.  It first runs one bounded FP64
 closed-form bias-free adaptation of layer 11 on the unique supervised train
@@ -102,6 +101,8 @@ SCREEN_C_DEFECT_PATH = HERE / "ephemeral_pages_adaptation_screen_c_defect.json"
 SCREEN_C_DEFECT_SHA256 = "7e494efc3a09e630c1f052b07e5ffa93dddb61edaf324f6b7e37bd9bf9eb57a5"
 SCREEN_C_AMENDMENT_PATH = HERE / "ephemeral_pages_adaptation_screen_c_amendment.json"
 SCREEN_C_AMENDMENT_SHA256 = "81a76d9eeed58745a0215106dfb7f6e1cf245607d10f4b9644d9a4b165304e2c"
+C0_AMENDMENT_PATH = HERE / "ephemeral_pages_adaptation_c0_amendment.json"
+C0_AMENDMENT_SHA256 = "de2d28b3e0128323e41b22cae4ac516f7cfb764eaf70a3425b200240105ab9ba"
 
 # Pinned implementation sources: byte-identical to the preregistration pins.
 PINNED_SOURCES = {
@@ -196,10 +197,10 @@ SCREEN_C_PHASES = ("train", "development")
 RECEIPT_NAMES = {
     "smoke": "screen_a_smoke_receipt.json",
     "immutability": "screen_b_immutability_receipt.json",
-    "c0_identity": "screen_c0_identity_receipt.json",
+    "c0_liveness": "screen_c0_liveness_restore_receipt.json",
     "c1_adapted_ceiling": "screen_c1_adapted_ceiling_receipt.json",
 }
-SCREEN_ORDER = ("smoke", "immutability", "c0_identity", "c1_adapted_ceiling")
+SCREEN_ORDER = ("smoke", "immutability", "c0_liveness", "c1_adapted_ceiling")
 SMOKE_CHECKPOINT_NAME = "screen_a_smoke_checkpoint.pt"
 
 _PHASE_CACHE: dict[tuple[str, str], tuple[dict, dict]] = {}
@@ -315,6 +316,8 @@ def safetensors_ledger(path: str | Path | None = None) -> dict:
 
 def _check_pinned_sources() -> dict:
     hashes = {}
+    _require(features.sha256_file(C0_AMENDMENT_PATH) == C0_AMENDMENT_SHA256,
+             "C0 liveness amendment changed")
     for name, expected in PINNED_SOURCES.items():
         actual = features.sha256_file(HERE / name)
         _require(actual == expected, f"pinned implementation source changed: {name}")
@@ -1127,65 +1130,47 @@ def _screen_c_base(screen: str, root: Path, experiment: capture.Experiment,
         "screen_order": list(SCREEN_ORDER),
         "screen_c_defect": evaluator.artifact(SCREEN_C_DEFECT_PATH),
         "screen_c_amendment": evaluator.artifact(SCREEN_C_AMENDMENT_PATH),
+        "c0_amendment": evaluator.artifact(C0_AMENDMENT_PATH),
         "scope": "CPU-only screens; no final pool, no promotion, no certificate",
     })
     return payload
 
 
-def screen_c0_identity(run_root, features_root, device: str = "cpu") -> dict:
-    """Screen C0: identity precondition and adapter liveness, with no quality claim.
-
-    Verdict is decided only by the 1e-5 identity tolerance and the liveness
-    control.  No MAE, no threshold and no quality statement is produced here.
-    """
+def screen_c0_liveness(run_root, features_root, device: str = "cpu") -> dict:
+    """Screen C0: adapter liveness and restoration, with no cache identity claim."""
     _require(features_root is not None, "screen C0 requires --features-root")
     _require(device == "cpu", "screen C0 is CPU-only")
     source_hashes = _check_pinned_sources()
     ledger = safetensors_ledger()
     experiment = _experiment(features_root)
     root = _safe_root(run_root, experiment)
-    payload = _screen_c_base("C0-identity-precondition", root, experiment, source_hashes, ledger)
-    payload["identity_tolerance"] = IDENTITY_TOLERANCE
+    payload = _screen_c_base("C0-liveness-restore", root, experiment, source_hashes, ledger)
+    payload["restore_tolerance"] = IDENTITY_TOLERANCE
     payload["quality_claim"] = False
     payload["threshold"] = None
-    receipt_path = root / RECEIPT_NAMES["c0_identity"]
+    receipt_path = root / RECEIPT_NAMES["c0_liveness"]
     try:
         material = _screen_c_material(experiment)
-        train, development = material["train"], material["development"]
         counters = {"encoder_forward_batches": 0, "encoder_texts_encoded": 0}
         control_counters = {"encoder_forward_batches": 0, "encoder_texts_encoded": 0}
         with _open_encoder("cpu") as encoder:
             adapted, adapters = attach_trainable_surface(torch, encoder, "cpu")
-            encoded = _encode_unique_texts(adapted, encoder,
-                                           material["train_text_list"]
-                                           + material["development_text_list"],
+            encoded = _encode_unique_texts(adapted, encoder, material["train_text_list"],
                                            "cpu", counters)
-            # Liveness control: a deliberately perturbed adapter must move the
-            # features. This separates an adapter-path failure from ordinary
-            # FP32 CPU/GPU reproduction drift, which the 1e-5 tolerance alone
-            # cannot distinguish.
+            # Compare the same texts and batch layout before, during and after
+            # perturbation; no frozen-cache compatibility claim is made.
             probe = list(adapters.values())[0]
+            saved_probe = probe.detach().clone()
             with torch.no_grad():
                 probe.add_(torch.full_like(probe, 0.01))
             control = _encode_unique_texts(adapted, encoder, material["train_text_list"],
                                            "cpu", control_counters)
             with torch.no_grad():
-                probe.sub_(torch.full_like(probe, 0.01))
+                probe.copy_(saved_probe)
             restored = _encode_unique_texts(adapted, encoder, material["train_text_list"],
                                            "cpu", control_counters)
         train_count = len(material["train_text_list"])
-        adapted_train = encoded[:train_count][np.asarray(material["train_slots"], dtype=np.int64)]
-        adapted_development = encoded[train_count:][np.asarray(material["development_slots"],
-                                                              dtype=np.int64)]
-        frozen_train = np.asarray([train["pages"][int(row["record_index"]), int(row["page_index"])]
-                                   for row in material["train_rows"]], dtype=np.float32)
-        frozen_development = np.asarray([development["pages"][int(row["record_index"]),
-                                                              int(row["page_index"])]
-                                         for row in material["development_rows"]], dtype=np.float32)
-        train_difference = float(np.max(np.abs(adapted_train.astype(np.float64)
-                                               - frozen_train.astype(np.float64))))
-        development_difference = float(np.max(np.abs(adapted_development.astype(np.float64)
-                                                     - frozen_development.astype(np.float64))))
+        adapted_train = encoded[:train_count]
         control_difference = float(np.max(np.abs(control.astype(np.float64)
                                                  - adapted_train.astype(np.float64))))
         restored_difference = float(np.max(np.abs(restored.astype(np.float64)
@@ -1194,18 +1179,14 @@ def screen_c0_identity(run_root, features_root, device: str = "cpu") -> dict:
                  "the adapter is not live: perturbing it did not change the encoded features")
         _require(restored_difference <= IDENTITY_TOLERANCE,
                  "restoring the adapter did not return the identity features")
-        identity_ok = max(train_difference, development_difference) <= IDENTITY_TOLERANCE
         payload.update({
-            "identity_precondition": {
-                "train_max_abs_difference": train_difference,
-                "development_max_abs_difference": development_difference,
+            "adapter_liveness_restore": {
                 "tolerance": IDENTITY_TOLERANCE,
-                "compared_train_texts": len(material["train_rows"]),
-                "compared_development_texts": len(material["development_rows"]),
+                "compared_train_texts": train_count,
                 "adapter_liveness_control_max_difference": control_difference,
                 "adapter_liveness_control": "pass",
                 "adapter_restore_max_difference": restored_difference,
-                "pass": identity_ok,
+                "pass": True,
             },
             "counters": counters,
             "liveness_counters": control_counters,
@@ -1213,7 +1194,7 @@ def screen_c0_identity(run_root, features_root, device: str = "cpu") -> dict:
             "development_capture": material["development_evidence"],
             "optimizer_row_identity_sha256": components.record_identity_hash(
                 material["train"]["records"], material["selected"]),
-            "verdict": "pass" if identity_ok else "fail",
+            "verdict": "pass",
         })
     except RuntimeError as exc:
         payload["failure_reason"] = str(exc)
@@ -1385,12 +1366,14 @@ def screen_c1_adapted_ceiling(run_root, features_root, device: str = "cpu") -> d
     })
     receipt_path = root / RECEIPT_NAMES["c1_adapted_ceiling"]
     try:
-        c0_path = root / RECEIPT_NAMES["c0_identity"]
+        c0_path = root / RECEIPT_NAMES["c0_liveness"]
         _require(c0_path.exists(),
-                 f"screen C1 requires a passing C0 identity receipt: {c0_path}")
+                 f"screen C1 requires a passing C0 liveness receipt: {c0_path}")
         c0 = json.loads(c0_path.read_text(encoding="utf-8"))
         _require(c0.get("verdict") == "pass",
                  f"screen C0 did not pass; C1 is forbidden: {c0.get('verdict')}")
+        _require(c0.get("c0_amendment", {}).get("sha256") == C0_AMENDMENT_SHA256,
+                 "C0 receipt does not match the approved amendment")
         payload["predecessor_c0_receipt"] = {
             **evaluator.artifact(c0_path), "verdict": c0["verdict"]}
         material = _screen_c_material(experiment)
@@ -1467,7 +1450,7 @@ def screen_c1_adapted_ceiling(run_root, features_root, device: str = "cpu") -> d
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--screen", required=True,
-                        choices=("smoke", "immutability", "c0-identity", "ceiling"))
+                        choices=("smoke", "immutability", "c0-liveness", "ceiling"))
     parser.add_argument("--run-root", type=Path, required=True)
     parser.add_argument("--features-root", type=Path)
     parser.add_argument("--device", default=None)
@@ -1476,7 +1459,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--epochs", type=int, default=SMOKE_EPOCHS_BOUND)
     args = parser.parse_args(argv)
 
-    if args.screen in ("c0-identity", "ceiling"):
+    if args.screen in ("c0-liveness", "ceiling"):
         _require(args.device in (None, "cpu"),
                  "screens C0 and C1 are CPU-only; --device cuda is forbidden")
         _require(args.features_root is not None,
@@ -1484,8 +1467,8 @@ def main(argv: list[str] | None = None) -> int:
         # Scope the device mask to this CLI run only. Masking at module import
         # once hid a live GPU from every other module importing these helpers.
         os.environ["CUDA_VISIBLE_DEVICES"] = ""
-        result = (screen_c0_identity(args.run_root, args.features_root, device="cpu")
-                  if args.screen == "c0-identity" else
+        result = (screen_c0_liveness(args.run_root, args.features_root, device="cpu")
+                  if args.screen == "c0-liveness" else
                   screen_c1_adapted_ceiling(args.run_root, args.features_root, device="cpu"))
     elif args.screen == "smoke":
         device = args.device or "cuda"

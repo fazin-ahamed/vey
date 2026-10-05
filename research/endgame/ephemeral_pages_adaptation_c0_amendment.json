@@ -1,0 +1,58 @@
+{
+  "B_STEF_allowed": false,
+  "correction": "User-authorized narrowing: C0 asserts only deliberate adapter perturbation changes the output by more than the unchanged 1e-5 tolerance and restoration returns to the pre-perturbation output within that tolerance. It makes no cache compatibility or independent frozen-path numeric identity claim.",
+  "decided_by": "User explicitly selected liveness and restore only; identity from screen B in the archived conversation.",
+  "defect": "The original cache-identity check failed at the retained measured deltas. The cause is unresolved. The prior claim of a per-record versus unique-text comparison mismatch is retracted: screen_c0_identity maps unique features through train_slots/development_slots and compares matching record_index/page_index entries. Earlier same-path probes shared the attached model and did not independently isolate adapter-at-init behavior. Synthetic CPU repeats do not exclude CPU/GPU or batch-shape drift on these actual inputs.",
+  "endgame_complete": false,
+  "evidence_class": "HYPOTHESIS",
+  "field": "mandatory_screens.C0_identity_precondition",
+  "forbidden_now": "Do not restore a cache-identity tolerance of any value. Do not use the 1.29342e-05 observation to set the restore tolerance. Do not record the failed C0 run as a mechanism result.",
+  "identity_delegated_to": "B guards parameter byte identity and in-fit guards confine updates; neither is a proof of identical forward computation.",
+  "observed_on_the_failed_run": {
+    "adapter_liveness_control": "pass",
+    "adapter_liveness_control_max_difference": 0.07282257080078125,
+    "adapter_restore_max_difference": 0.0,
+    "development_max_abs_difference": 1.2934207916259766e-05,
+    "identity_tolerance": 1e-05,
+    "optimizer_steps": 0,
+    "quality_claim": false,
+    "train_max_abs_difference": 1.2874603271484375e-05,
+    "validation_phase_opened": false,
+    "verdict": "fail"
+  },
+  "original_contract": {
+    "requires": [
+      "adapter-at-init reproduces frozen page features within 1e-05 absolute",
+      "a deliberately perturbed adapter demonstrably moves the features, separating adapter-path failure from FP32 drift"
+    ],
+    "threshold": null
+  },
+  "original_uncommitted_amendment_sha256": "6e9cf7881a6a2e25632f0da2802cef29f681ec2f7a587ca0dac0a3184da39b2e",
+  "receipt_name": "screen_c0_liveness_restore_receipt.json",
+  "retained_diagnosis": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/c0_failure_diagnosis-v2.json",
+    "sha256": "7b26188516f87a1d23b98e272828ee482429cbc816aa5393d037bc31abe10be8"
+  },
+  "retained_negative_receipt": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/screen_c0_identity_receipt.json",
+    "sha256": "7ef3bbccd8d232b8785bd2c517e45f20e91b02ed192dadcc30c146ec076f6dd6"
+  },
+  "schema": "vey.eca2.adaptation-c0-correctness-amendment.v1",
+  "target": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_adaptation_preregistration.json",
+    "sha256": "2aa64bc77c236192681368a8c83751aeac185414d0cd0660578b2ada9cd7731c"
+  },
+  "unchanged": [
+    "C1 threshold 0.3332298906765268",
+    "C1 bounded closed-form adaptation population, normalizer and solver",
+    "trainable surface and fractions",
+    "learning rates and ratio",
+    "optimizer, epochs, seed, chunks, normalizer",
+    "parent gate set",
+    "four mechanism claims",
+    "promotion rule",
+    "all pinned artifacts",
+    "liveness and restore assertions themselves"
+  ],
+  "what_this_weakens": "Byte immutability from B does not prove numerical forward identity. C0 no longer tests frozen/cache forward identity; that property remains unmeasured by this narrowed screen. C1 retains its independent unchanged quality gate."
+}

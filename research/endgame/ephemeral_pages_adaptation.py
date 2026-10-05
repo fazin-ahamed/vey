@@ -89,7 +89,7 @@ ENCODER_ABLATIONS = ("adapter_blind", "layer11_frozen")
 ABLATIONS = ENCODER_ABLATIONS + INTERVENTION_ABLATIONS
 ALLOWED_PHASES = ("train", "validation", "calibration", "development")
 SCREEN_RECEIPTS = ("screen_a_smoke_receipt.json", "screen_b_immutability_receipt.json",
-                   "screen_c0_identity_receipt.json", "screen_c1_adapted_ceiling_receipt.json")
+                   "screen_c0_liveness_restore_receipt.json", "screen_c1_adapted_ceiling_receipt.json")
 EVALUATION_PHASES = ("calibration", "development")
 
 SCOPE = {
@@ -110,7 +110,8 @@ SOURCE_FILES = ("ephemeral_pages_adaptation.py", "ephemeral_pages_adaptation_scr
                 "ephemeral_pages_features.py", "ephemeral_pages_components.py",
                 "ephemeral_pages_conditional.py", "ephemeral_pages_verify.py",
                 "ephemeral_pages_protocol.json", "ephemeral_pages_atomic_protocol.json",
-                "ephemeral_pages_adaptation_preregistration.json")
+                "ephemeral_pages_adaptation_preregistration.json",
+                "ephemeral_pages_adaptation_c0_amendment.json")
 
 
 # --------------------------------------------------------------------------- #
@@ -182,7 +183,7 @@ def _verify_preregistration() -> dict:
 
 
 def _screen_receipts(root: Path) -> dict:
-    """Load the three mandatory screen receipts; every one must be a recorded pass."""
+    """Load the four mandatory screen receipts; every one must be a recorded pass."""
     receipts = {}
     for name in SCREEN_RECEIPTS:
         path = Path(root) / name
@@ -191,6 +192,9 @@ def _screen_receipts(root: Path) -> dict:
         payload = json.loads(path.read_text(encoding="utf-8"))
         if payload.get("verdict") != "pass":
             raise RuntimeError(f"mandatory screen did not pass: {name}")
+        if name == screens.RECEIPT_NAMES["c0_liveness"]:
+            if payload.get("c0_amendment", {}).get("sha256") != screens.C0_AMENDMENT_SHA256:
+                raise RuntimeError("C0 receipt does not match the approved amendment")
         receipts[name] = {**evaluator.artifact(path), "verdict": "pass"}
     return receipts
 

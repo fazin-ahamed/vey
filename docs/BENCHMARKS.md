@@ -4914,7 +4914,7 @@ Amendment `81a76d9eeed58745a0215106dfb7f6e1cf245607d10f4b9644d9a4b165304e2c`;
 corrected preregistration `2aa64bc77c236192681368a8c83751aeac185414d0cd0660578b2ada9cd7731c`.
 Screen order is now A, B, C0, C1, full development fit.
 
-### Final-layer adaptation screens A and B pass, C0 fails on a comparison basis
+### Final-layer adaptation screens A and B pass, original C0 identity check fails
 
 MEASURED screen A, CUDA, 64 records and 2 epochs: verdict pass. Two
 optimizer steps, 4 encoder forward batches over 86 texts, 4 backward calls.
@@ -4939,33 +4939,35 @@ exactly 0.0. Validation was never opened, no MAE or quality claim was
 made, and zero optimizer steps ran. Receipt
 `7ef3bbccd8d232b8785bd2c517e45f20e91b02ed192dadcc30c146ec076f6dd6`.
 
-Four candidate causes were tested and ruled out with measurements, not
-inference. FP32 nondeterminism: recomputing the same pinned forward twice
-at two seeds gives maximum absolute difference 0.0. Pooling variant:
-canonical `EncoderPool` against a manual masked mean gives 0.0. Adapter
-arithmetic at init 1.0: adapted output against the canonical pool gives 0.0
-with byte-identical layer-11 weights. Tokenization: the capture manifest
-records token limit 128, truncation false, batch 32 and the same canonical
-pooling contract the screens use.
+Correction to the interpretation recorded in commit `83183ff`: the cause of
+the cache-identity discrepancy is unresolved. The asserted comparison-basis
+mismatch is retracted. The C0 implementation maps unique features through
+`train_slots`/`development_slots` before comparing matching
+`record_index`/`page_index` entries. Different storage shapes do not establish
+a comparison defect. The claim that no correct implementation could pass is
+also withdrawn.
 
-MEASURED actual cause: the two sides of the comparison aggregate different
-populations. The prefinal cache stores per-record padded page features of
-shape [75520, 5, 384], while the screen builds a per-unique-text table and
-compares those rows. Both computations are correct; the residual is the
-difference between a per-record padded array and a deduplicated text table.
+The earlier adapted-versus-canonical probe reused the same model after
+adapter attachment, so both paths contained the patched linear forwards.
+It did not independently isolate adapter arithmetic. Synthetic CPU repeated
+forwards with zero discrepancy do not rule out device or batch-shape drift
+on the actual cached inputs. Manifest settings are custody evidence, not
+proof of identical token arrays or numerical computation.
 
-INFERENCE: C0 as specified is a gate no correct implementation can pass,
-the same class of specification defect as the retired screen C. It is not
-a mechanism result about encoder adaptation, and it is not evidence that
-adaptation fails. Three corrections are available (compare against a
-same-path recompute; aggregate the recompute back to per-record shape under
-a pinned rule; or restate C0 as liveness and restore only and delegate
-identity to the screen B byte equality that already passed). Each changes
-what the screen establishes, so the choice must be recorded as a
-prospective amendment before rerunning. The tolerance must not be loosened
-after observing 1.29342e-05.
+The user explicitly selected a narrower C0 contract: adapter liveness and
+restoration only. Amendment
+`de2d28b3e0128323e41b22cae4ac516f7cfb764eaf70a3425b200240105ab9ba`
+records that this removes the cache-identity test rather than repairs a
+demonstrated comparison defect. B establishes parameter byte immutability;
+it does not establish identical forward outputs. No numerical cache-identity
+claim follows from the narrowed screen. Liveness and restoration retain the
+original 1e-5 tolerance; the C1 quality threshold remains 0.3332298906765268.
+The original failure receipt remains untouched, and the narrowed screen
+writes a separately named receipt.
 
-Diagnosis `7b26188516f87a1d23b98e272828ee482429cbc816aa5393d037bc31abe10be8`.
+Retained, superseded diagnosis
+`7b26188516f87a1d23b98e272828ee482429cbc816aa5393d037bc31abe10be8`;
+its causal conclusion is withdrawn above.
 Screen B was first blocked by a namespace defect of its own: it compared a
 base-namespace digest against a wrapper-namespace digest, which differ by
 construction. Hashing both sides in one namespace makes all three digests
