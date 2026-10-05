@@ -85,6 +85,60 @@ def choice_stats(rows):
     }
 
 
+def score_stats(rows):
+    """Ordinal metrics against the retained-rater mean level.
+
+    Targets are retained per-rater arrays, not population probabilities, so this
+    reports ordinal distance only. No population-calibration claim is derived
+    here; NLL/Brier against a retained-rater distribution is reported separately
+    and only for rows with at least three observed raters, per the preregistration.
+    """
+    n = len(rows)
+    if n == 0:
+        raise RuntimeError("no score rows")
+    mae = sum(r["abs_error"] for r in rows) / n
+    nmae = sum(r["normalized_abs_error"] for r in rows) / n
+    signed = sum(r["expected_level"] - r["mean_level"] for r in rows) / n
+    # Rank correlation between predicted expected level and observed rater mean.
+    xs = [r["expected_level"] for r in rows]
+    ys = [r["mean_level"] for r in rows]
+    return {
+        "rows": n,
+        "mean_abs_error": mae,
+        "normalized_mean_abs_error": nmae,
+        "mean_signed_error": signed,
+        "spearman_rank_correlation": _spearman(xs, ys),
+        "three_or_more_raters_rows": sum(1 for r in rows if r["observed_raters"] >= 3),
+    }
+
+
+def _rank(values):
+    order = sorted(range(len(values)), key=lambda i: values[i])
+    ranks = [0.0] * len(values)
+    i = 0
+    while i < len(order):
+        j = i
+        while j + 1 < len(order) and values[order[j + 1]] == values[order[i]]:
+            j += 1
+        shared = (i + j) / 2.0 + 1.0
+        for k in range(i, j + 1):
+            ranks[order[k]] = shared
+        i = j + 1
+    return ranks
+
+
+def _spearman(a, b):
+    ra, rb = _rank(a), _rank(b)
+    n = len(ra)
+    if n < 3:
+        return None
+    ma, mb = sum(ra) / n, sum(rb) / n
+    num = sum((x - ma) * (y - mb) for x, y in zip(ra, rb))
+    da = math.sqrt(sum((x - ma) ** 2 for x in ra))
+    db = math.sqrt(sum((y - mb) ** 2 for y in rb))
+    return num / (da * db) if da > 0 and db > 0 else None
+
+
 def paired_delta(vey_rows, laya_rows, key="correct", resamples=10000, seed=0):
     """Cluster bootstrap over base utterance groups. Group, never locale row."""
     vey = {r["id"]: r for r in vey_rows}
@@ -178,52 +232,60 @@ def _beta_cdf(k, n, p):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--vey", required=True)
-    parser.add_argument("--laya", required=True)
+    parser.add_argument("--vey", help="Choice endpoint: Vey arm file")
+    parser.add_argument("--laya", required=True, help="Choice endpoint: competitor arm file")
+    parser.add_argument("--laya-alt", help="Second competitor route on identical rows")
+    parser.add_argument("--alt-name", default="laya_alt", help="Label for --laya-alt")
+    parser.add_argument("--score", help="Ordinal endpoint: single competitor arm file")
+    parser.add_argument("--score-endpoint", default=R.SCORE_ENDPOINTS[0])
     parser.add_argument("--out")
     args = parser.parse_args(argv)
 
-    vey_header, vey_rows = load_arm(Path(args.vey))
+    if args.score:
+        return verify_score(Path(args.score), args.score_endpoint, args.out)
+
+    vey_header, vey_rows = (load_arm(Path(args.vey)) if args.vey else (None, []))
     laya_header, laya_rows = load_arm(Path(args.laya))
+    alt_header, alt_rows = (load_arm(Path(args.laya_alt)) if args.laya_alt else (None, []))
 
     # Independent membership check against the projection, not against the arms.
-    # Each arm persists a different field set, so each is checked against what it
-    # actually wrote: comparing an absent field would be a harness crash, not a
-    # verification result.
     projected = {row["id"]: row for row in R.choice_rows()}
-    problems = []
-    vey_inputs, laya_inputs = {}, {}
-    for name, rows in (("vey", vey_rows), ("laya", laya_rows)):
+
+    def membership_of(rows, label):
+        """Per-arm membership check. Returns the recomputed input digests."""
+        digests, bad = {}, []
         for r in rows:
             ref = projected.get(r["id"])
             if ref is None:
-                problems.append(f"{name}: row {r['id']} absent from projection")
+                bad.append(f"{label}: row {r['id']} absent from projection")
                 continue
             # An ABSENT field is a verification failure in its own right. Reading
             # it with .get() yields None, which compares unequal and manufactures
             # a false "differs from projection" for every row of that arm.
             required = ["gold", "group_id"] + (
-                ["question", "state", "candidate_ids"] if name == "laya" else [])
+                ["question", "state", "candidate_ids"] if label != "vey" else [])
             missing = [f for f in required if f not in r]
             if missing:
-                problems.append(f"{name}: row {r['id']} missing persisted fields {missing}")
+                bad.append(f"{label}: row {r['id']} missing persisted fields {missing}")
                 continue
-            digest = hashlib.sha256(json.dumps({
+            differing = [f for f in required if r[f] != ref[f]]
+            if differing:
+                bad.append(f"{label}: row {r['id']} fields {differing} differ from projection")
+                continue
+            digests[ref["id"]] = hashlib.sha256(json.dumps({
                 "id": ref["id"], "question": ref["question"], "state": ref["state"],
                 "candidate_ids": ref["candidate_ids"], "candidates": ref["candidates"],
             }, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
-            differing = [f for f in required if r[f] != ref[f]]
-            if differing:
-                problems.append(f"{name}: row {r['id']} fields {differing} differ from projection")
-                continue
-            if name == "vey":
-                vey_inputs[ref["id"]] = digest
-                if r.get("input_sha256") != digest:
-                    problems.append(f"vey: row {r['id']} input_sha256 differs from independent recompute")
-            else:
-                laya_inputs[ref["id"]] = digest
-                if r.get("markers") != len(ref["candidate_ids"]):
-                    problems.append(f"laya: row {r['id']} markers != candidate count")
+            if label == "vey" and r.get("input_sha256") != digests[ref["id"]]:
+                bad.append(f"vey: row {r['id']} input_sha256 differs from independent recompute")
+            if label != "vey" and r.get("markers") != len(ref["candidate_ids"]):
+                bad.append(f"{label}: row {r['id']} markers != candidate count")
+        return digests, bad
+
+    vey_inputs, bad_vey = membership_of(vey_rows, "vey")
+    laya_inputs, bad_laya = membership_of(laya_rows, "laya")
+    alt_inputs, bad_alt = membership_of(alt_rows, "alt") if alt_rows else ({}, [])
+    problems = bad_vey + bad_laya + bad_alt
 
     # Shared-exact-workflow control: the two arms' independently recomputed input
     # digests must be identical on every shared row. If they differ, the arms did
@@ -237,21 +299,14 @@ def main(argv=None):
     ).hexdigest()
 
 
-    vey_stats = choice_stats(vey_rows)
-    laya_stats = choice_stats(laya_rows)
-    delta = paired_delta(vey_rows, laya_rows)
-    disc = discordance(vey_rows, laya_rows)
-    n = disc["shared_rows"]
-    cp_upper = clopper_pearson_upper(disc["vey_only_correct"], n)
-
     receipt = {
         "schema": "vey.neutral.development-comparison-verification.v1",
-        "status": "PASS",
+        "status": "PASS" if not problems else "FAIL",
         "endpoint": "massive.intent",
         "independent_of_arm_aggregation": True,
-        "projection_root": str(R.PROTOCOL and HERE),
+        "projection_root": str(HERE),
         "comparison_protocol_sha256": R.COMPARISON_PROTOCOL_SHA256,
-        "arm_headers": {"vey": vey_header, "laya": laya_header},
+        "arm_headers": {"vey": vey_header, "laya": laya_header, "alt": alt_header},
         "membership": {"projected_choice_rows": len(projected), "problems": problems},
         "shared_exact_workflow": {
             "shared_rows": len(shared_ids),
@@ -259,22 +314,109 @@ def main(argv=None):
             "shared_input_digest_sha256": shared_digest,
             "note": "Recomputed here from the projection, not copied from either arm.",
         },
-        "vey": vey_stats,
-        "laya": laya_stats,
-        "paired_group_bootstrap": delta,
-        "discordance": disc,
-        "clopper_pearson_upper_vey_only": cp_upper,
+        "laya": choice_stats(laya_rows),
         "non_inferiority_margin": 0.01,
-        "non_inferiority_observed": (delta["ci95_bootstrap"][0] > -0.01),
         "zero_discordance_rule": "Zero discordance alone is not non-inferiority; the exact "
                                  "Clopper-Pearson upper bound must clear 0.01.",
     }
+    if vey_rows:
+        delta = paired_delta(vey_rows, laya_rows)
+        disc = discordance(vey_rows, laya_rows)
+        receipt["vey"] = choice_stats(vey_rows)
+        receipt["paired_group_bootstrap"] = delta
+        receipt["discordance"] = disc
+        receipt["clopper_pearson_upper_vey_only"] = clopper_pearson_upper(
+            disc["vey_only_correct"], disc["shared_rows"])
+        receipt["non_inferiority_observed"] = delta["ci95_bootstrap"][0] > -0.01
+    if alt_rows:
+        alt_stats = choice_stats(alt_rows)
+        shared_alt = sorted(set(laya_inputs) & set(alt_inputs))
+        mismatched_alt = [i for i in shared_alt if laya_inputs[i] != alt_inputs[i]]
+        if mismatched_alt:
+            problems.append(f"route-comparison input control failed on {len(mismatched_alt)} rows")
+        alt_by = {r["id"]: r for r in alt_rows}
+        laya_by = {r["id"]: r for r in laya_rows}
+        by_group = defaultdict(list)
+        for i in shared_alt:
+            by_group[laya_by[i]["group_id"]].append(i)
+        diffs = [sum(alt_by[i]["correct"] for i in ids) / len(ids)
+                 - sum(laya_by[i]["correct"] for i in ids) / len(ids)
+                 for ids in by_group.values()]
+        rng = random.Random(0)
+        boots = sorted(sum(diffs[rng.randrange(len(diffs))] for _ in range(len(diffs))) / len(diffs)
+                       for _ in range(10000))
+        receipt[args.alt_name] = alt_stats
+        receipt["route_comparison"] = {
+            "reference": "laya",
+            "shared_rows": len(shared_alt),
+            "mismatched_input_digests": len(mismatched_alt),
+            "groups": len(diffs),
+            "observed_delta": sum(diffs) / len(diffs),
+            "ci95_bootstrap": [boots[250], boots[9749]],
+            "resamples": 10000, "seed": 0,
+        }
+        receipt["vendor_claim_context"] = {
+            "claim": "Laya multilingual MASSIVE-51 macro accuracy 0.4008",
+            "status": "ADVERTISED, NOT OUR MEASUREMENT",
+            "rule": "A macro-over-locales vendor number is never compared against a "
+                    "micro-over-rows measurement, and never against another route.",
+        }
     text = json.dumps(receipt, ensure_ascii=False, indent=2, sort_keys=True)
     print(text)
     if args.out:
         Path(args.out).parent.mkdir(parents=True, exist_ok=True)
         Path(args.out).write_text(text + "\n", encoding="utf-8")
-    return 0
+    return 0 if not problems else 1
+
+
+def verify_score(path: Path, endpoint: str, out):
+    """Ordinal endpoint. There is no legal Vey arm, so this is single-arm."""
+    header, rows = load_arm(path)
+    projected = {r["id"]: r for r in R.score_rows() if r["endpoint"] == endpoint}
+    problems = []
+    for r in rows:
+        ref = projected.get(r["id"])
+        if ref is None:
+            problems.append(f"score: row {r['id']} absent from projection")
+            continue
+        bad = False
+        for field, want in (("mean_level", ref["mean_level"]),
+                            ("level_max", ref["level_max"]),
+                            ("observed_raters", ref["observed_raters"])):
+            if field not in r:
+                problems.append(f"score: row {r['id']} missing {field}")
+                bad = True
+                break
+            if abs(r[field] - want) > 1e-9:
+                problems.append(f"score: row {r['id']} field {field} differs from projection")
+                bad = True
+                break
+        if bad:
+            continue
+        if r.get("target_counts") != ref["counts"]:
+            problems.append(f"score: row {r['id']} target_counts differ from projection")
+        if r.get("markers") != ref["level_max"] + 1:
+            problems.append(f"score: row {r['id']} markers != rubric level count")
+    receipt = {
+        "schema": "vey.neutral.ordinal-score-verification.v1",
+        "status": "PASS" if not problems else "FAIL",
+        "endpoint": endpoint,
+        "vey_arm": "Vey-not-applicable: frozen decide() has no rubric-relative score surface",
+        "arm_header": header,
+        "projected_rows": len(projected),
+        "membership_problems": problems[:20],
+        "membership_problem_count": len(problems),
+        "ordinal": score_stats(rows),
+        "calibration_limit": "Retained per-rater targets are not population probabilities; "
+                             "no population calibration claim is derived.",
+    }
+    text = json.dumps(receipt, ensure_ascii=False, indent=2, sort_keys=True)
+    print(text)
+    if out:
+        Path(out).parent.mkdir(parents=True, exist_ok=True)
+        Path(out).write_text(text + "\n", encoding="utf-8")
+    return 0 if not problems else 1
+
 
 
 if __name__ == "__main__":
