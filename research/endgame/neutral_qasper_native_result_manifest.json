@@ -1,0 +1,324 @@
+{
+  "schema": "vey.neutral.qasper.native-projection-result.v1",
+  "experiment": "QNATIVE-1",
+  "preregistration_commit": "05e5d36",
+  "custody_order_correction_commit": "34f8d73",
+  "status": "PASS_SOURCE_PROJECTION_ONLY",
+  "source_database": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/attempts/20261004T074414.392704Z-593810-cb44d7ae/private.sqlite3",
+    "bytes": 769089536,
+    "sha256": "8f4a194262a40662633951dbc6d9ef105412c487b329c169427388748fc6b09e"
+  },
+  "sources": [
+    {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_qasper_native_protocol.json",
+      "bytes": 13075,
+      "sha256": "87b016779e700d63f4426f1626735ed8e5efbe90cbfe18ab9953f19c985b95b0"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_qasper_native_compile.py",
+      "bytes": 39970,
+      "sha256": "6321f8c64a95b88cdc6da8d52951cc855323645d40c6157467676c69ef1f9940"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_qasper_native_verify.py",
+      "bytes": 38912,
+      "sha256": "634238fc1c68ce15421d931d7bafe69968e742239302b599746ec0b961e45797"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/test_neutral_qasper_native.py",
+      "bytes": 22419,
+      "sha256": "5a34d9e735f4dfd10498b0abef4bb0cba80496e6d9d91c83e2da8e2da8a839c1"
+    }
+  ],
+  "phases": {
+    "train": {
+      "source_counts": {
+        "annotations": 1636,
+        "components": 532,
+        "groups": 532,
+        "papers": 532,
+        "questions": 1580
+      },
+      "decision_rows": 4978,
+      "endpoints": {
+        "qasper.answerability": {
+          "annotations": 1636,
+          "conflicting_annotations": 0,
+          "conflicting_questions": 0,
+          "decisions": 1580,
+          "eligible_questions": 1580,
+          "ineligible_questions": 0,
+          "missing_fields": 0,
+          "null_fields": 0,
+          "observed_raters": 1636,
+          "questions": 1580,
+          "target_available": 1580,
+          "target_unavailable": 0
+        },
+        "qasper.evidence_retrieval": {
+          "annotations": 1636,
+          "conflicting_annotations": 0,
+          "conflicting_questions": 0,
+          "decisions": 1580,
+          "eligible_questions": 1580,
+          "full_support_questions": 1088,
+          "ineligible_questions": 0,
+          "matched_item_count": 2181,
+          "missing_fields": 0,
+          "mixed_support_questions": 136,
+          "native_item_count": 2516,
+          "no_native_items_questions": 238,
+          "no_support_questions": 118,
+          "null_fields": 0,
+          "observed_raters": 1636,
+          "questions": 1580,
+          "target_available": 1342,
+          "target_unavailable": 238,
+          "unmatched_item_count": 335
+        },
+        "qasper.extractive_answer": {
+          "annotations": 1636,
+          "conflicting_annotations": 0,
+          "conflicting_questions": 0,
+          "decisions": 1580,
+          "eligible_questions": 1580,
+          "full_support_questions": 784,
+          "ineligible_questions": 0,
+          "matched_item_count": 1525,
+          "missing_fields": 0,
+          "mixed_support_questions": 1,
+          "native_item_count": 1532,
+          "no_native_items_questions": 790,
+          "no_support_questions": 5,
+          "null_fields": 0,
+          "observed_raters": 1636,
+          "questions": 1580,
+          "target_available": 790,
+          "target_unavailable": 790,
+          "unmatched_item_count": 7
+        },
+        "qasper.yes_no": {
+          "annotations": 1636,
+          "conflicting_annotations": 0,
+          "conflicting_questions": 0,
+          "decisions": 238,
+          "eligible_questions": 238,
+          "ineligible_questions": 1342,
+          "missing_fields": 0,
+          "null_fields": 1392,
+          "observed_raters": 244,
+          "questions": 1580,
+          "target_available": 238,
+          "target_unavailable": 0
+        }
+      },
+      "artifacts": [
+        {
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/train/decisions.jsonl.gz",
+          "bytes": 50728109,
+          "sha256": "ca86464dba0262226ed9dca7480a30ef7827c9c04b92cc438b724682821d92a6"
+        },
+        {
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/train/manifest.json",
+          "bytes": 6116,
+          "sha256": "587af65377984bded768c56fcfe0b962b479bc30541a33f051d4709cb72507fd"
+        },
+        {
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/train/provenance.jsonl.gz",
+          "bytes": 725728,
+          "sha256": "ad327e68163aec84ce750b60a0d40da026417431c53377cf1aa775e9727a4399"
+        },
+        {
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/train/serving.jsonl.gz",
+          "bytes": 46879573,
+          "sha256": "6ffb8f06c1e4d86b925e83160ca8829b5e12ff005a6ac5a23244b5070d1bb489"
+        },
+        {
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/train/source_census.jsonl.gz",
+          "bytes": 336693,
+          "sha256": "0d17d0ec8e4c21eb735328035f0a329fe49e90b7fddb1a93606435297cfa3433"
+        },
+        {
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/train/targets.jsonl.gz",
+          "bytes": 991064,
+          "sha256": "c680cdba8f1b86b4301d277baf2060e01628cdbdf05ca57eefe66f605f501227"
+        },
+        {
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/train/verification_receipt.json",
+          "bytes": 4537,
+          "sha256": "c19973887e48e3a0bd889f23261295abf8ec4da23ca521d61c4bb9c10bfda873"
+        }
+      ]
+    },
+    "dev": {
+      "source_counts": {
+        "annotations": 1396,
+        "components": 319,
+        "groups": 319,
+        "papers": 319,
+        "questions": 1013
+      },
+      "decision_rows": 3186,
+      "endpoints": {
+        "qasper.answerability": {
+          "annotations": 1396,
+          "conflicting_annotations": 0,
+          "conflicting_questions": 0,
+          "decisions": 1013,
+          "eligible_questions": 1013,
+          "ineligible_questions": 0,
+          "missing_fields": 0,
+          "null_fields": 0,
+          "observed_raters": 1396,
+          "questions": 1013,
+          "target_available": 1013,
+          "target_unavailable": 0
+        },
+        "qasper.evidence_retrieval": {
+          "annotations": 1396,
+          "conflicting_annotations": 0,
+          "conflicting_questions": 0,
+          "decisions": 1013,
+          "eligible_questions": 1013,
+          "full_support_questions": 754,
+          "ineligible_questions": 0,
+          "matched_item_count": 1983,
+          "missing_fields": 0,
+          "mixed_support_questions": 114,
+          "native_item_count": 2227,
+          "no_native_items_questions": 98,
+          "no_support_questions": 47,
+          "null_fields": 0,
+          "observed_raters": 1396,
+          "questions": 1013,
+          "target_available": 915,
+          "target_unavailable": 98,
+          "unmatched_item_count": 244
+        },
+        "qasper.extractive_answer": {
+          "annotations": 1396,
+          "conflicting_annotations": 0,
+          "conflicting_questions": 0,
+          "decisions": 1013,
+          "eligible_questions": 1013,
+          "full_support_questions": 593,
+          "ineligible_questions": 0,
+          "matched_item_count": 1434,
+          "missing_fields": 0,
+          "mixed_support_questions": 2,
+          "native_item_count": 1440,
+          "no_native_items_questions": 416,
+          "no_support_questions": 2,
+          "null_fields": 0,
+          "observed_raters": 1396,
+          "questions": 1013,
+          "target_available": 597,
+          "target_unavailable": 416,
+          "unmatched_item_count": 6
+        },
+        "qasper.yes_no": {
+          "annotations": 1396,
+          "conflicting_annotations": 0,
+          "conflicting_questions": 0,
+          "decisions": 147,
+          "eligible_questions": 147,
+          "ineligible_questions": 866,
+          "missing_fields": 0,
+          "null_fields": 1203,
+          "observed_raters": 193,
+          "questions": 1013,
+          "target_available": 147,
+          "target_unavailable": 0
+        }
+      },
+      "artifacts": [
+        {
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/dev/decisions.jsonl.gz",
+          "bytes": 30111335,
+          "sha256": "20e6ccd97171294e0112fbf4dfbd0499ea52c54d2ee82c01a7bac1629d291446"
+        },
+        {
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/dev/manifest.json",
+          "bytes": 6108,
+          "sha256": "0790bdfb65728d352914e03995d5cefb094795220fd99d9558ac27b30658d0d3"
+        },
+        {
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/dev/provenance.jsonl.gz",
+          "bytes": 468965,
+          "sha256": "3e5197a3566d2a7ac0e7dc81acbf37fab0e1d5170df106b5741e29cdce7f2640"
+        },
+        {
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/dev/serving.jsonl.gz",
+          "bytes": 27615577,
+          "sha256": "2b655221f63d1267226c2c5393fed5657a7822874c654dff97499e54af838078"
+        },
+        {
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/dev/source_census.jsonl.gz",
+          "bytes": 216133,
+          "sha256": "6353f24c19e7bf14c1752a44386c5f8b2cbe186ae972d3ecf05554d08d561cec"
+        },
+        {
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/dev/targets.jsonl.gz",
+          "bytes": 763483,
+          "sha256": "7ce4609e6aeb77985f410b84ea8c098026fa9e4662902cf5aa5323a3fb835f73"
+        },
+        {
+          "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/dev/verification_receipt.json",
+          "bytes": 4527,
+          "sha256": "a21709f6fd871547b2d1223c53a853b7e90293273bfa0c0123b5586f9ab13fd5"
+        }
+      ]
+    }
+  },
+  "retained_failures": {
+    "receipt": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/membership-order-failure-v1.json",
+      "bytes": 2322,
+      "sha256": "f0f2a6e830bbc29ac30dd18dc18a1ea6608e202ce6d3f8123b5bdfd15ac44c8a"
+    },
+    "artifacts": [
+      {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/retained-membership-order-failure-v1/decisions.jsonl.gz",
+        "bytes": 20,
+        "sha256": "458c5a203299dd326aa747fee1bbc7709bfbd560507d1603459d9f7d9eb6be76"
+      },
+      {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/retained-membership-order-failure-v1/failure.json",
+        "bytes": 393,
+        "sha256": "1a8340e2d6af08dc29459d6d8bf80ca80258a3c76eb84031dc6af1b19c5e9df7"
+      },
+      {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/retained-membership-order-failure-v1/provenance.jsonl.gz",
+        "bytes": 20,
+        "sha256": "458c5a203299dd326aa747fee1bbc7709bfbd560507d1603459d9f7d9eb6be76"
+      },
+      {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/retained-membership-order-failure-v1/serving.jsonl.gz",
+        "bytes": 20,
+        "sha256": "458c5a203299dd326aa747fee1bbc7709bfbd560507d1603459d9f7d9eb6be76"
+      },
+      {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/retained-membership-order-failure-v1/source_census.jsonl.gz",
+        "bytes": 20,
+        "sha256": "458c5a203299dd326aa747fee1bbc7709bfbd560507d1603459d9f7d9eb6be76"
+      },
+      {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/retained-membership-order-failure-v1/targets.jsonl.gz",
+        "bytes": 20,
+        "sha256": "458c5a203299dd326aa747fee1bbc7709bfbd560507d1603459d9f7d9eb6be76"
+      }
+    ]
+  },
+  "verification": "Independent fixed-phase source reconstruction of every serving/IR/target/provenance/census byte, membership, types, missingness, spans, unmatched gold and current fail-closed selectors. Both original source hashes unchanged. 65 behavioral edge/access regressions pass. No model forwards.",
+  "source_license": "Recorded QASPER source-specific CC-BY-4.0 shipping-train grant with attribution/modification notice; underlying full-paper republication rights under review, no raw Git publication.",
+  "source_exposure": "Public QASPER / possible LongBench or SCROLLS membership; unknown pretrained overlap; not fresh-final evidence.",
+  "next_branch": "Preregister an actual natural-variable-question Boolean/answerability and evidence-conditioned model study before model loading; preserve full native support/unmatched denominators. Architecture choice waits for already registered NATIVE-2 evidence, never for QASPER DEV model outcomes.",
+  "sealed_labels_accessed": false,
+  "model_outputs": 0,
+  "quality_credit": false,
+  "performance_credit": false,
+  "B_STEF_allowed": false,
+  "Pareto_credit": false,
+  "endgame_complete": false
+}

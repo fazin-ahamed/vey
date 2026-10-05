@@ -6044,6 +6044,51 @@ The prospective correction preserves the registered logical root and checks
 physical root equivalence separately; no source manifest, hash check, neural
 recipe or gate is relaxed. Fresh actual Modal liveness remains required.
 
+## QNATIVE-1: natural-question source projection
+
+Preregistered at `05e5d36`; allocation-order correctness repair at `34f8d73`.
+The first train attempt failed before paper/question/annotation payloads:
+the original custody hash orders groups by allocation rank, whereas the new
+compiler initially used lexical IDs. The refusal and all partial artifacts
+remain retained. The correction reproduces the original rank order without
+changing any membership, source bytes or native targets.
+
+Both train and DEV independently reconstruct every serving, DecisionIR,
+target, provenance and source-census byte and pass the current receipt-bound
+reader guards. The source database remains unchanged; 65 behavioral
+missingness, type, support, offset and access regressions pass.
+
+| Source population | Train | DEV |
+|---|---:|---:|
+| Papers / connected components | 532 | 319 |
+| Original questions | 1,580 | 1,013 |
+| Retained annotations | 1,636 | 1,396 |
+| Emitted task decisions | 4,978 | 3,186 |
+| Native yes/no questions with an observed Boolean | 238 | 147 |
+| Answerability questions with native targets | 1,580 | 1,013 |
+| Questions with nonempty native evidence targets | 1,342 | 915 |
+| Questions with nonempty native extractive targets | 790 | 597 |
+
+Null native yes/no fields never become false. Exact evidence matching retains
+all unmatched targets: 335 of 2,516 train evidence items and 244 of 2,227 DEV
+items are not source-block matches. Extractive spans retain every exact
+occurrence and unmatched item: 7 of 1,532 train and 6 of 1,440 DEV spans are
+unmatched. These targets cannot be removed from future quality denominators.
+Free-form answers remain separate provenance, never serving state or inferred
+extractive labels.
+
+[`neutral_qasper_native_result_manifest.json`](../research/endgame/neutral_qasper_native_result_manifest.json)
+binds all current and retained evidence. Original source-specific CC-BY-4.0
+attribution and modification notices remain; underlying full-paper
+republication rights remain under review. No raw source redistribution or
+shipping-model permission follows from this projection. QASPER is public and
+may overlap LongBench/SCROLLS or pretraining; this is not fresh final evidence.
+There are zero model forwards and no quality, performance or Pareto credit.
+The next separate study must preregister actual natural-variable-question
+Boolean/answerability and evidence-conditioned behavior before model work.
+Its architecture choice waits for NATIVE-2, not QASPER DEV model outcomes.
+
+
 
 
 
