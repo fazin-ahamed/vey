@@ -1,0 +1,32 @@
+{
+  "schema": "vey.native-arch.modal-smoke-results.v1",
+  "preregistration": "cd976ec",
+  "transport": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_arch_modal_transport.json",
+    "bytes": 8737,
+    "sha256": "9e483b809234a8f57c6966ee5f679702499ecec56c8a59a213d319d504fb27e0"
+  },
+  "device": "Tesla T4",
+  "capability": [
+    7,
+    5
+  ],
+  "GPU_total_bytes": 15645278208,
+  "arms": {
+    "cross": {
+      "metadata_sha256": "c1004c26cd550d818ffb3bf9f2056552237d9966f609717fe9d6e3c297480087"
+    },
+    "dual": {
+      "metadata_sha256": "ea0897867b419790fde4962898e5f45aab80edf381566c9cba33d9750667938c"
+    },
+    "pages": {
+      "metadata_sha256": "652c9bd63fc68b83f565e4a6b837b8314101950257c1d7fd18f2c7ed717ab72e"
+    }
+  },
+  "numerical_smoke_verified": true,
+  "all_three_arms": true,
+  "fresh_quality_fits_started": true,
+  "performance_credit": false,
+  "quality_credit": false,
+  "note": "Three serialized actual Modal T4 liveness smokes passed on the corrected logical-root custody. Fresh quality fits follow on the same transport."
+}
