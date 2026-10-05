@@ -68,7 +68,7 @@ PREREG_SHA256 = "2aa64bc77c236192681368a8c83751aeac185414d0cd0660578b2ada9cd7731
 EXPERIMENT = capture.ATOMIC_EXPERIMENT
 DEFAULT_RUN_ROOT = capture.ATOMIC_ROOT / "runs" / "interface-audit-v1" / "adaptation-v1"
 EXECUTION_CORRECTION_PATH = HERE / "ephemeral_pages_adaptation_fullfit_execution_correction.json"
-EXECUTION_CORRECTION_SHA256 = "0534331e819df0068c7536352c80cfd33f2e8c40eb5766b8412c6d816c232ebc"
+EXECUTION_CORRECTION_SHA256 = "8400355fc04a14bbee9ae17139fe63e725bc2f108e00b8d383ce4b5f9d868ecf"
 
 ARM = "pages_adapted_final_layer"
 ADAPTER_PREFIX = "adapter."          # canonical preregistered name prefix
@@ -510,12 +510,14 @@ def _reader_forward(reader, tables, arrays, indices, normalizer, device, *, inte
 
 def _objective(reader, tables, arrays, indices, denominators, chunk_size, swap_baseline,
                normalizer, *, backward: bool, counters: dict) -> dict:
-    """Exact full-batch component means accumulated before one optimizer step."""
+    """Accumulate reader adjoints, then traverse the shared encoder graph once."""
     totals = dict.fromkeys(trainer.COMPONENTS, 0.0)
     device = reader.bk.device
-    remaining_rows = len(indices)
+    encoder_tables = tables
+    if backward:
+        tables = {key: value.detach().requires_grad_(value.requires_grad)
+                  for key, value in encoder_tables.items()}
     for ix in trainer._chunks(indices, chunk_size):
-        remaining_rows -= len(ix)
         trainer._resource_guard(torch, swap_baseline)
         targets = trainer._batch(arrays, ix, device)
         output = _reader_forward(reader, tables, arrays, ix, normalizer, device)
@@ -530,8 +532,15 @@ def _objective(reader, tables, arrays, indices, denominators, chunk_size, swap_b
                 totals[key] += float(term.detach())
                 weighted.append(term)
         if backward and weighted:
-            sum(weighted).backward(retain_graph=remaining_rows > 0)
+            sum(weighted).backward()
             counters["backward_calls"] += 1
+    if backward:
+        adjoints = [(value, tables[key].grad) for key, value in encoder_tables.items()
+                    if value.requires_grad and tables[key].grad is not None]
+        if adjoints:
+            torch.autograd.backward([value for value, _ in adjoints],
+                                    [gradient for _, gradient in adjoints])
+            counters["encoder_backward_calls"] = counters.get("encoder_backward_calls", 0) + 1
     totals["total"] = sum(totals.values())
     return totals
 
@@ -704,6 +713,12 @@ def _fit_surface(root: Path, encoder, device, chunk_size, epochs, *, normalizer,
                                   counters=counters)
             del tables
         history.append({"epoch": epoch, "train": train_loss, "validation": val_loss})
+        progress_path = root / f"{ARM}_epoch_progress.jsonl"
+        serialized = json.dumps(history[-1], sort_keys=True, allow_nan=False) + "\n"
+        with progress_path.open("x" if epoch == 1 else "a", encoding="utf-8") as stream:
+            stream.write(serialized)
+            stream.flush()
+            os.fsync(stream.fileno())
         if val_loss["total"] < best:
             best = val_loss["total"]
             selected = {"epoch": epoch, "validation_objective": best,
@@ -723,6 +738,7 @@ def _fit_surface(root: Path, encoder, device, chunk_size, epochs, *, normalizer,
               "counters": counters, "surface": surface, "launch_digests": launch_digests,
               "initial_reader_sha256": initial_reader_sha256, "receipt": receipt,
               "train_den": train_den, "val_den": val_den,
+              "epoch_progress": evaluator.artifact(progress_path),
               "seconds": time.time_ns() - started, "normalizer": normalizer}
     del optimizer, model, adapters, reader
     if str(device).startswith("cuda"):
@@ -735,7 +751,8 @@ def train_adapted(run_root=DEFAULT_RUN_ROOT, device: str = "cuda", *,
     """Write the launch receipt before the first optimizer step, then fit 400 epochs."""
     prereg = _verify_preregistration()
     root = _safe_root(run_root)
-    if any((root / name).exists() for name in ("launch_receipt.json", "calibration.json", "evaluation")):
+    if any((root / name).exists() for name in (
+            "launch_receipt.json", "calibration.json", "evaluation", f"{ARM}_epoch_progress.jsonl")):
         raise FileExistsError("refusing to replace adaptation artifacts")
     screen_receipts = _screen_receipts(root)
     sources = _source_hashes()
@@ -844,6 +861,7 @@ def _persist_checkpoint(root: Path, result: dict, prereg: dict, sources: dict,
         "reader_parameter_sha256": checkpoint["reader_parameter_sha256"],
         "checkpoint": evaluator.artifact(path),
         "history": result["history"],
+        "epoch_progress": result["epoch_progress"],
     }
     evaluator.write_json(root / f"{ARM}_history.json", record)
     return record

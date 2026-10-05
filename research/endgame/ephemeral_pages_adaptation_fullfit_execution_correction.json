@@ -1,17 +1,29 @@
 {
-  "schema": "vey.eca2.fullfit-execution-correction.v1",
+  "schema": "vey.eca2.fullfit-execution-correction.v2",
   "evidence_class": "MEASURED",
-  "status": "prospective execution corrections before any full development fit",
+  "status": "outcome-independent resource execution correction before any completed full development fit",
   "parent_preregistration_sha256": "2aa64bc77c236192681368a8c83751aeac185414d0cd0660578b2ada9cd7731c",
   "gradient_prerequisite_protocol_sha256": "67397c751512a06acb638d30df173789358bc3d9e91f7b5be6efe35da4148d82",
-  "prior_fullfit_result": "none; full development trainer has not been launched",
+  "prior_fullfit_result": "Interrupted execution from1badd4b; no fitted checkpoint or evaluation present at interruption; completed optimizer-step count not observed.",
   "outcome_independent": true,
   "basis": "Independent source audit and synthetic differentiable controls. C1 candidate-extent results do not select these implementation corrections.",
+  "supersedes_execution_correction_sha256": "0534331e819df0068c7536352c80cfd33f2e8c40eb5766b8412c6d816c232ebc",
+  "interrupted_execution_commit": "1badd4bec834a8a7b33e38e1949333c698ba12b7",
+  "retained_interrupted_launch": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-v1/fullfit_interrupted_launch-1badd4b.json",
+    "sha256": "2970994fe43c73f2e85688d51dfe489698df9a1c6ad814b2ba276b268073c020"
+  },
+  "native_execution_smoke_receipt": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/adaptation-adjoint-native-smoke-v1/smoke_receipt.json",
+    "sha256": "09bc674599574deb202c31ce55faf9b6005b20cbbe5a8f1c5c2cb361965120e4",
+    "synthetic_ineligible": true
+  },
   "corrections": [
     {
       "defect": "One encoder feature table graph serves all objective chunks; first backward frees it and second chunk raises.",
-      "repair": "Retain the shared graph until the final chunk, then release it; accumulate the exact same component-weighted full-batch gradients before one optimizer update.",
-      "verification": "Failing-before synthetic real PageReader objective reproduces second-backward error. Corrected two-chunk objective and every encoder-interface/reader gradient agree with unchunked reference at rtol1e-5, atol1e-7. Actual pinned encoder plus pinned reader two-chunk backward also passes."
+      "initial_repair_superseded": "Retaining the shared graph through the last chunk fixed the exception, but retraversed the entire encoder graph once per reader chunk; synthetic hooks observed two traversals for two chunks. The actual inventory has23040 optimizer rows and720 reader chunks per epoch.",
+      "repair": "Accumulate reader adjoints into detached feature-table leaves across all chunks, then backpropagate their summed adjoints through the original encoder graph once per epoch. No feature copying, altered component weights or extra optimizer updates.",
+      "verification": "Three repeated-page/shared-question regression cases with differing masks and partial chunks agree with an independent unchunked full-loss reference for every encoder-interface and reader gradient at rtol1e-5/atol1e-7. Synthetic hooks observe one encoder traversal for two reader chunks; actual pinned encoder and reader two-chunk backward passes with one encoder backward and finite trainable gradients."
     },
     {
       "defect": "Gradient diagnostics enumerate each registered adapter again under canonical aliases.",
@@ -37,6 +49,11 @@
       "defect": "Each _predict overwrites encoder counters, so development report omits earlier arm and ablation forwards.",
       "repair": "Reset counters once per phase and accumulate every prediction call in that phase.",
       "verification": "Two actual pinned-model synthetic prediction calls accumulate4 forwards and16 encoded texts; predictions are exactly repeated. No corpus opened."
+    },
+    {
+      "defect": "The interrupted trainer kept completed epoch history only in memory until the end.",
+      "repair": "Durably append and fsync the exact epoch/train/validation history after each completed epoch; bind its final hash in the training record. Refuse replacing an existing progress file.",
+      "verification": "Actual pinned encoder/reader two-epoch synthetic execution writes two durable rows exactly matching returned history, completes four reader backward chunks and two encoder backwards, and passes both epoch byte guards. Smoke is ineligible for C1/development/final or quality credit."
     }
   ],
   "unchanged": ["Encoder revision and trainable surface", "Pinned reader initialization and equations", "Training/validation/calibration/development data and targets", "Common train-only normalizer", "All four loss components and global denominators", "Seed7", "400 epochs", "One accumulated optimizer update per epoch", "Chunk32", "AdamW encoder/adapters0.0001 reader0.01 decay0.0001", "Earliest minimum held-world validation selection", "Calibration-only calibration", "All quality and mechanism gates", "Final isolation", "No promotion/B-STEF/competitor credit"],

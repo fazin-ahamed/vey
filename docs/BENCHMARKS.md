@@ -5168,6 +5168,49 @@ exist. Two repeated prediction calls accumulate four encoder forwards
 and16 encoded texts, with identical predictions. Zero optimizer steps
 and no corpus or final pool are opened by this smoke.
 
+### Full-fit restart uses summed feature adjoints, not repeated encoder backpropagation
+
+MEASURED the `1badd4b` full-fit execution is interrupted before a
+fitted checkpoint or evaluation artifact is present. Its retained-graph
+repair avoids the second-backward exception but traverses the entire
+shared encoder graph for every reader chunk. Synthetic parameter
+hooks observe two traversals for two reader chunks. The actual launch
+selects23040 train records, or720 chunks per epoch.
+INFERENCE: applying that implementation to the fixed inventory repeats
+encoder backward work720 times per epoch unnecessarily.
+
+The outcome-independent correction accumulates reader adjoints into
+detached feature-table leaves, then backpropagates their sum through
+the original encoder graph once. No feature copy, changed component
+mean, changed optimizer step or altered model equation is introduced.
+Three regression cases cover repeated pages/shared questions,
+component masks and partial chunks; every encoder-interface and reader
+gradient matches an independent unchunked full-loss reference within
+rtol1e-5/atol1e-7. Actual pinned-model two-chunk backward passes with
+one encoder backward and finite trainable gradients.
+
+The original launch bytes remain at
+`adaptation-v1/fullfit_interrupted_launch-1badd4b.json`, SHA
+`2970994fe43c73f2e85688d51dfe489698df9a1c6ad814b2ba276b268073c020`.
+`fullfit_execution_interrupt-1badd4b.json` records cancellation and
+unknown completed update count. No quality result is read from this
+interrupted fit, and it is not a negative mechanism result.
+Execution-correction v2 supersedes the retained-graph implementation
+before restart; the earlier registration remains in commit `1badd4b`.
+The restarted trainer durably appends each completed epoch's existing
+train/validation history and retains its final hash, rather than
+keeping the entire progress record only in memory.
+
+MEASURED two-epoch native execution smoke completes two optimizer
+updates, four reader backward chunks and two encoder backwards.
+Both epoch frozen-byte guards pass. Two durable progress rows exactly
+match the returned history. Receipt
+`09bc674599574deb202c31ce55faf9b6005b20cbbe5a8f1c5c2cb361965120e4`.
+This synthetic fixture is explicitly ineligible for C1, development,
+final evaluation or quality credit.
+
+
+
 
 
 
