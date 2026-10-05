@@ -4564,6 +4564,26 @@ interface for extent: the label is not linearly recoverable from the cached
 page feature at any training size. Extent identifiability needs a different
 model-visible input, which is what an explicit rubric anchor would supply.
 
+The device-mask fix is verified by byte comparison rather than by a
+completed rerun. A rerun under the corrected code reached a strict 174-file
+prefix of the first run's 724 files before its 1800 s deadline, matching 167
+of them byte-for-byte. The 7 differing files are one substitution cell whose
+`provenance.json` the rerun never wrote, so it was interrupted mid-write
+rather than computed differently. The completed first run remains the
+result of record, and the partial rerun root is retained and explicitly not
+cited as a result. Rerun evidence:
+`fec4f16b0b07a606b2d6328443e639a0f03c7e987928e33e35a8006e889a189b`.
+
+Validation is not a substitute for development evidence here. The page-only
+linear ceiling scores family-macro unique-text MAE .21770556 on validation
+over 180 unique page texts, which is exactly the train unique-text count,
+while development holds 240 unique page texts of which 60 are unseen in the
+fit. The low validation figure measures reuse of fit-population texts, not
+held-out generalization. Only the development figure (.38322990) supports
+the claim that the frozen linear extent map fails on new text, and the
+rubric-anchor screen is correspondingly specified on development with
+validation explicitly prohibited as a pass/fail basis.
+
 MEASURED finite linear ceiling: a bias-free FP64 least-squares map from the
 cached 384-d page feature to raw grade fits 180 unique supervised train page
 texts (14,848 supervised occurrences, 36 per grade, 15 per property) with
