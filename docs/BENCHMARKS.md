@@ -4688,6 +4688,60 @@ Result manifest `ephemeral_pages_conditional_result_manifest.json`
 Development evaluation:
 `ba7901b5c1156527defa74a1b8809fef8c6bb02db189d6d08251a6f54d220eb3`.
 
+### Rubric-anchor stage S0: mechanical screen failure, no gate edit
+
+HYPOTHESIS: making the caller's ordered per-property rubric explicit as a
+model-visible anchor restores extent identifiability. Preregistered in
+`ephemeral_pages_grade_interface_preregistration.json` (`668759487d…`),
+with the design rationale corrected to cite only the development ceiling
+(the .21770556 validation figure measures reuse of fit-population texts
+and is explicitly prohibited as a pass/fail basis).
+
+MEASURED S0, CPU only, zero encoder forwards, zero optimizer steps, final
+pool never opened. The authored prefinal source (60 properties, 300 ordered
+rubric stage strings, 1,800 questions, 4,500 page wordings) yields 60
+anchors with 60 distinct SHA-256 digests, each exactly 5 stages.
+
+| Screen | Result |
+|---|---|
+| one anchor per property, count equality | 60/60 pass |
+| anchor nonempty | 60/60 pass |
+| no Unicode digit | 60/60 pass |
+| no grade_order label occurrence | 60/60 pass |
+| no stage heading or ordinal marker | 20/60 FAIL |
+| no equality or containment vs same-property question/page text | 60/60 pass |
+| token Jaccard below .60 | 60/60 pass, max .538462 |
+
+Gate FAIL. The 20 failures are triggered by ordinary English vocabulary:
+"most" (10 properties), "step" (6), "steps" (5), "stage" (1), "stages"
+(1). Failing and passing properties have identical stage counts (5) and
+near-identical mean anchor length (306.1 vs 309.4 characters), so this is
+not a length artifact.
+
+INFERENCE: preregistration condition (b) forbids numeric or literal grade
+tokens and stage heading strings. The implementation instead applied a
+36-token closed vocabulary that also contains comparatives and process
+nouns. That vocabulary was an unpinned implementation choice rather than a
+preregistered list, and narrowing it after seeing these 60 properties
+would be an outcome-driven gate change, which is forbidden. The original
+screen and its negative result are retained verbatim.
+
+The preregistration also requires a blocking two-reviewer opaque audit
+that has not run. That audit, not a vocabulary edit, is the correct
+adjudicator of whether these tokens constitute stage-ordinal leakage. If
+both reviewers accept all 60 anchors, record a documented amendment while
+keeping this negative screen. If any reviewer rejects, the design is
+unrunnable and rubric grounding retires in favor of minimal final-layer
+encoder adaptation. Using the 40 passing anchors as a subset fit is
+forbidden in both outcomes.
+
+Mechanical receipt:
+`7c2a0ffd8e0514c07bea38fec1e4aaf9556c4986338856ca9bae00bdae9aad7a`.
+S0 failure receipt:
+`025e01ff8c54447535b71ace5c98f44349933e667823e6544b13507134f3e8d2`.
+Neither the reviewer stage nor the S1 augmented linear ceiling is
+authorized until the screen outcome is resolved.
+
 
 
 
