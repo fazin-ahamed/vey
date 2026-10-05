@@ -59,6 +59,27 @@ def resource_config(cfg, arch):
                          "batch_states": arch["training"]["batch_decisions"]}}
 
 
+class Resources(native.Resources):
+    def guard(self):
+        if self.device.startswith("cuda"):
+            device = torch.device(self.device)
+            free_before = torch.cuda.mem_get_info(device)[0]
+            threshold = float(self.cfg["pause_GPU_free_MiB_below"]) * 1024 ** 2
+            reserved = torch.cuda.memory_reserved(device)
+            allocated = torch.cuda.memory_allocated(device)
+            if free_before < threshold and reserved > allocated:
+                torch.cuda.empty_cache()
+                self.events.append({
+                    "kind": "reclaimed_idle_CUDA_cache",
+                    "GPU_free_before_bytes": free_before,
+                    "GPU_free_after_bytes": torch.cuda.mem_get_info(device)[0],
+                    "own_allocated_bytes": allocated,
+                    "own_reserved_before_bytes": reserved,
+                    "own_reserved_after_bytes": torch.cuda.memory_reserved(device),
+                })
+        return super().guard()
+
+
 def group_records(records, endpoints):
     grouped = []
     allowed = set(endpoints)
@@ -579,7 +600,7 @@ def run(root: str | Path, arm: str, mode: str, device: str):
     directory.mkdir(exist_ok=False)
     history = {"schema": "vey.native-arch.history.v1", "arm": arm, "epochs": []}
     liveness = {"schema": "vey.native-arch.liveness.v1", "arm": arm}
-    with native.Resources(resource_config(cfg, arch), device) as resources:
+    with Resources(resource_config(cfg, arch), device) as resources:
         metadata = metadata_base(cfg, arch, manifest, root, arm, mode, resources)
         try:
             liveness["smoke"] = neural_smoke(cfg, arch, catalogues, phases["fit"], arm, device,
