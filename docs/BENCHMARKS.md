@@ -5490,6 +5490,49 @@ Next: preregister the development Choice and ordinal Score comparison against
 this verified projection. All 21 critical cells remain
 `UNMEASURED_NEUTRAL_COMPARISON` with `green=false`.
 
+## Neutral development comparison: the frozen Vey Choice arm cannot answer fixed-label intent
+
+Preregistered at `3a45bff` (protocol), amended prospectively at `a4b34dd`
+(amendment), arms at `71da28c`, independent verifier at `46de525`.
+
+MEASURED, Vey arm over all 63,852 labeled dev `massive.intent` rows, running
+the frozen product `e6b046f` with no source edit and no proxy scorer:
+
+| Quantity | Value |
+|---|---|
+| rows scored | 63,852 |
+| top-1 accuracy | 0.004792 |
+| uniform chance (1/60) | 0.016667 |
+| `empty_program_fraction` | 1.0 |
+| lanes used | `structured` 63,852, `crux` 0, `field` 0 |
+| peak RSS | 5.19 GiB |
+| wall clock | 107 s, CPU |
+
+Mechanism, from the persisted per-row records rather than inferred: the
+source-native question `"Which intent best matches this utterance?"` compiles
+to zero stages in every row, so `compose()` has no ordinal stage and its empty
+program fallback returns `min(top, key=strip_identity(text))`, which is
+alphabetical. Every answer is `alarm_query`, the alphabetically first MASSIVE
+intent id, with a degenerate one-hot distribution. The `structured` lane claims
+the row before the semantic lanes are consulted, so no grounding ever runs.
+
+INFERENCE: the frozen product's public Choice surface is an ordinal
+instruction executor, not a fixed-label classifier. It is not merely
+inaccurate here; it is below chance, and it is below chance for a mechanical
+reason that no amount of calibration, temperature fitting or threshold choice
+can repair. This is consistent with, and independent of, the frozen product's
+own documentation, which describes `decide()` as ranking consequence texts
+under a compiled priority program.
+
+What remains unknown: whether an added fixed-label head over the frozen
+`PooledClassifier` substrate would close this gap. That is a different product
+surface and is registered as post-V2 research, not claimed here.
+
+This is the preregistered `vey_empty_program` failure branch executing as
+written: the Choice cell is recorded Vey-not-applicable for the frozen
+reference, and no proxy scorer was written to fill it. Nothing about promotion,
+Pareto credit, B-STEF or endgame completion follows.
+
 
 
 
