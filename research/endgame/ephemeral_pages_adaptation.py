@@ -65,7 +65,7 @@ from ephemeral_pages_features import FeatureEncoder, WIDTH, sha256_bytes
 
 HERE = Path(__file__).resolve().parent
 PREREG_PATH = HERE / "ephemeral_pages_adaptation_preregistration.json"
-PREREG_SHA256 = "5bc31a5034ee737cf7af4c74df5adc9ff3b1a7957ce005ad0e810d1c87fcbecd"
+PREREG_SHA256 = "2aa64bc77c236192681368a8c83751aeac185414d0cd0660578b2ada9cd7731c"
 EXPERIMENT = capture.ATOMIC_EXPERIMENT
 DEFAULT_RUN_ROOT = capture.ATOMIC_ROOT / "runs" / "interface-audit-v1" / "adaptation-v1"
 
@@ -171,11 +171,12 @@ def _verify_preregistration() -> dict:
         raise RuntimeError("pinned encoder weight file changed")
     if Path(screens.pinned_weight_path()).resolve() != weight_path.resolve():
         raise RuntimeError("screens module resolves a different pinned weight file")
+    # ratio_encoder_to_reader is encoder_lr / reader_lr, not its reciprocal.
     learning = prereg["learning_rates"]
     if (ENCODER_LR != float(learning["encoder_lr"]) or
             READER_LR != float(learning["reader_lr"]) or
             ENCODER_LR != float(learning["adapter_lr"]) or
-            READER_LR / ENCODER_LR != float(learning["ratio_encoder_to_reader"])):
+            ENCODER_LR / READER_LR != float(learning["ratio_encoder_to_reader"])):
         raise RuntimeError("learning rates differ from the preregistered frozen ratio")
     return prereg
 
@@ -595,7 +596,7 @@ def _fit_surface(root: Path, encoder, device, chunk_size, epochs, *, normalizer,
         weight_decay=WEIGHT_DECAY)
     recipe = {"seed": SEED, "epochs": epochs, "optimizer": "AdamW",
               "reader_lr": READER_LR, "encoder_lr": ENCODER_LR, "adapter_lr": ENCODER_LR,
-              "weight_decay": WEIGHT_DECAY, "lr_ratio_encoder_to_reader": READER_LR / ENCODER_LR,
+              "weight_decay": WEIGHT_DECAY, "lr_ratio_encoder_to_reader": ENCODER_LR / READER_LR,
               "lr_ratio_search": False, "steps_per_epoch": 1, "chunk_size": chunk_size,
               "selection": "earliest minimum held-world validation objective",
               "components": list(trainer.COMPONENTS),
