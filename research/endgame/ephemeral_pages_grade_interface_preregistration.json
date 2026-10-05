@@ -1,0 +1,597 @@
+{
+  "B_STEF_allowed": false,
+  "anchor_definition": {
+    "anchor_cannot_encode_a_page_grade": "the anchor is identical for every page and every question of a property, so its bytes cannot depend on any single page or its authored grade; only the ordered scale content is supplied",
+    "anchor_forbidden_content": [
+      "any Unicode digit character",
+      "any stage ordinal or stage heading string",
+      "any token drawn from the property grade_order labels",
+      "any question-specific or page-specific token",
+      "any substring that appears verbatim in a question or page text of the same property"
+    ],
+    "anchor_identical_for_all_pages_of_a_property": true,
+    "anchor_never_seen_by_the_frozen_reader_today": "no rubric text, property title, description or criterion enters any current ECA feature, target, cache key or reader input; the only model-visible strings today are term.question and page.text",
+    "anchor_text_rule": "for each active property, concatenate its five grade_rubrics strings in grade_order, with no ordinal markers, no stage labels, no headings and no separators that encode stage boundaries; this single string is the anchor for that property",
+    "encoding": "single text through the same pinned frozen encoder, FP32 final-layer masked mean over non-padding tokens, width 384, separate rubric modality with its own cache key, token limit 128, truncate disabled",
+    "normalization": "new train-only per-coordinate mean/std floor 0.01 fit on the distinct anchor features of the optimizer train rows only; frozen at deployment; the page block keeps the unchanged checkpoint normalizer",
+    "one_anchor_per_property": true,
+    "properties_covered": "only properties active in the authorized phase; anchors for inactive or final-only properties must not be encoded or cached",
+    "source_field": "authored property grade_rubrics, an ordered list of five extent stage strings per property, stored with property_id, family, field_code, title, description, criterion, grade_order and questions in the authored private source"
+  },
+  "artifacts_to_persist": [
+    "the property-definition audit receipt with per-anchor sha256 values and all raw reviewer judgments",
+    "the anchor source pin and anchor tokenization receipts",
+    "the S1 augmented linear ceiling result with rank, condition, residuals, both solvers and held-out predictions",
+    "the single new arm checkpoint, every objective component per epoch, and selected-epoch validation row hashes",
+    "anchor and page feature hashes, token hashes and actual encoder forward counters",
+    "the frozen calibration file and the DEV evaluation with all decision rows and ablations",
+    "the four-claim mechanism bootstrap indices and one-sided lower bounds",
+    "the explicit measured/inferred/unknown statement and the decision-rule outcome"
+  ],
+  "authorized_next_step": "Development-only evaluation of one targeted representation change: the caller's own ordered per-property rubric becomes an explicit model-visible anchor text, and one additional frozen-encoder value head predicts raw page extent from the train-normalized 384-d page feature concatenated with a train-normalized 384-d rubric-anchor feature. Execution is gated on the property-definition audit and the CPU-only augmented linear ceiling screen below.",
+  "authorizes_final_open": false,
+  "closed_final_guard": {
+    "eca2_final": "stays closed until DEV results exist and a separate protocol authorizes opening it",
+    "final_features_read": false,
+    "final_ir_read": false,
+    "final_labels_read": false,
+    "final_outcomes_used_for_selection": false,
+    "old_eca1_final": "stays closed for all correction selection and fitting",
+    "retention": "preserve every ECA-1 checkpoint, corpus, feature, target artifact, receipt and raw result; preserve every ECA-2 corrected artifact and the sealed selection receipt"
+  },
+  "decision_rule": {
+    "order": "evaluate S0, then S1, then S2; never skip ahead",
+    "rules": [
+      "if S0 fails: design unrunnable; retain audit evidence; stop",
+      "if S0 passes and S1 fails: branch 1 (extent identifiability is not the binding constraint at the frozen-representation level); retire rubric grounding; do not fit; do not widen capacity",
+      "if S0 passes, S1 passes, and S2 fails any absolute gate: branch 3 (negative evidence for this head route); record the negative; do not widen capacity or add layers",
+      "if S0 passes, S1 passes, S2 passes every absolute gate, and the anchor-specific mechanism claim passes: DEV success; branch 2 (replication on seeds 7/11/13 and fresh independently audited wording before any promotion)",
+      "if S0 passes, S1 passes, S2 passes every absolute gate, but the anchor-specific mechanism claim fails: branch 1 (the premise is falsified even though absolute metrics passed); retire rubric grounding; do not promote",
+      "if S0 passes, S1 passes, S2 improves extent specifically (anchor-specific claim passes) but fails other absolute gates: branch 1 is supported, since extent identifiability improved while the full task still failed; retire rubric grounding and open minimal final-layer encoder adaptation under a separate protocol"
+    ]
+  },
+  "design_under_test": {
+    "concatenation_form": "Numerically identical to concatenating htilde_page_j and htilde_anchor into a 768-d vector and applying one bias-bearing 768-to-1 linear map. The additive form is normative; the concatenated form must reproduce it to 1e-6 in a frozen smoke check.",
+    "forbidden": [
+      "new encoder or encoder fine-tuning",
+      "wider hidden layer or any GELU/MLP head",
+      "new loss family or loss reweighting",
+      "re-authored evaluation text",
+      "anchor text derived from page text, question text, gold, or model outputs",
+      "anchor entering targets, metadata, DecisionIR gold or exact facts",
+      "any use of the ECA-2 final pool",
+      "selection of an arm, threshold, seed or epoch from DEV outcomes"
+    ],
+    "new_arm": "pages_rubric_anchor: the frozen PageReader relevance/direction/knownness mechanism with the raw-value map extended from a 384-d page-only input to a 768-d concatenated page-plus-anchor input.",
+    "one_sentence": "The caller's own ordered per-property rubric becomes an explicit model-visible anchor text alongside the existing question and page text, and one extra frozen-encoder head predicts raw extent from the concatenated train-normalized page and rubric-anchor features.",
+    "parameter_delta": "exactly +384 trainable scalars (w_r); value path grows from 385 to 769; no hidden layer, no activation, no second layer, no width search",
+    "rationale_to_test": "Corrected ECA-2 final cross page_attribution 0.883203125 passes its 0.85 screen while ordinal_MAE_max 0.35999951392847995 fails its 0.10 screen; corrected ECA-2 final pages page_attribution 0.24775390625 fails and ordinal_MAE_max 0.36104662390189335 fails. Page relevance is largely recoverable in the joint reader while raw extent is not. Supplying the actual ordered rubric stage descriptions may restore extent identifiability without widening the architecture or touching relevance.",
+    "single_change": "The value/extent path only. Relevance, orientation and knownness equations are unchanged.",
+    "unchanged_paths": {
+      "attention": "softmax over relevance with the frozen page mask and frozen uniform-attention policy; unchanged",
+      "direction": "direction_j = tanh(z_j . (Wqd h_q)/sqrt(64)); rank 64; bias-free; unchanged",
+      "knownness": "sigmoid(bk + softplus(uk) max_j relevance_j - softplus(vk) sum_j a_j (value_j - sum_l a_l value_l)^2); scalars unchanged",
+      "relevance": "z_j = Wp h_page_j; relevance_j = z_j . (Wqa h_q)/sqrt(64); rank 64; bias-free; unchanged"
+    },
+    "value_equation": "raw_value_j = sigmoid(w_v . htilde_page_j + w_r . htilde_anchor + b_v); htilde_page_j is the page block under the unchanged checkpoint train-only normalizer; htilde_anchor is the anchor block under a new train-only normalizer fit on the distinct train anchors only; w_v and b_v retain their frozen shapes; w_r is one new bias-free 384-to-1 map."
+  },
+  "dev_screens": {
+    "S0_custody": {
+      "checks": [
+        "number of distinct anchors equals the number of active properties in the phase",
+        "each anchor is nonempty, finite after encoding, and distinct from every other active anchor",
+        "anchor block rank >= 2 over active anchors",
+        "no anchor contains a Unicode digit, a stage heading, or a grade_order label",
+        "no anchor equals or contains any question or page text of its property",
+        "every anchor tokenizes within the pinned 128-token limit with truncate disabled; any over-length anchor fails the run closed with no per-property exclusion and no truncation",
+        "anchor feature cache key includes only anchor text hash plus encoder lineage; no target or page identity enters the key",
+        "no anchor string appears in any DecisionIR field other than the new anchor input"
+      ],
+      "failure": "fail closed; the design is unrunnable under this protocol; do not weaken the audit or re-author text",
+      "kind": "mechanical, zero encoder forwards beyond anchor encoding, zero optimizer steps"
+    },
+    "S1_augmented_linear_ceiling": {
+      "design": "bias-free FP64 least squares with numpy.linalg.lstsq(rcond=None) on unique supervised train page texts in the augmented space [normalized page feature ; normalized anchor feature], predicting raw extent; same unique-text fit population, same page normalization and same solver policy as the measured page-only ceiling",
+      "fail_reading": "extent identifiability is not the binding constraint in the frozen linear space; retire rubric grounding and open minimal final-layer encoder adaptation under a separate protocol; no neural fit is authorized",
+      "kind": "CPU-only, FP64, zero optimizer steps, zero new encoder forwards beyond anchor encoding",
+      "pass_reading": "the augmented frozen linear space carries held-out extent information the page-only space does not; a later neural DEV failure is then a negative result for this head/optimization route",
+      "required_diagnostics": "rank, condition, train MSE, unidentified coefficient directions, normal-equation residual, independent SciPy GELSS second solver agreement, and raw unclipped prediction range",
+      "scope": "finite pinned bias-free linear function class on the frozen representation; not a ranking bound and not proof that semantic information is absent",
+      "screen": "DEV unique-text family macro MAE must be <= 0.3332298906765268 (page-only DEV value 0.3832298906765268 minus a predeclared absolute margin of 0.05). Validation must not be used to satisfy or fail this screen.",
+      "validation_prohibition": "Report validation only as a reuse diagnostic. Passing or failing S1 on validation is prohibited."
+    },
+    "S2_neural_dev_run": {
+      "ablations": "evaluation-time only, no retraining: rubric_blind sets w_r to zero; zero_anchor sets the anchor block to zero; zero_pages sets the page block to zero; zero_question uses the existing intervention; uniform_attention uses the existing intervention",
+      "absolute_gates": "all of atomic_choice_macro >= 0.80, ordinal_MAE_max <= 0.10, orientation >= 0.90, page_attribution >= 0.85, UNKNOWN_precision >= 0.90, UNKNOWN_recall >= 0.90, supported_coverage >= 0.90, composition >= 0.80, teacher_changing_correct_new >= 0.80, permutation_rename_reorder == 1.0",
+      "calibration": "frozen knownness and sigma grids on the original corrected calibration split only",
+      "evaluation": "development split; report the parent gate set with status development_screen",
+      "exact_literals": "parent-owned closed/runtime prerequisite; not re-measured here and not credited",
+      "fit": "pages_rubric_anchor fit under the inherited frozen constants; all five existing controls remain frozen and are not refit or re-selected",
+      "kind": "single new arm, frozen recipe, DEV only",
+      "required_reports": "every objective component per epoch, training histories, optimizer and validation row hashes, anchor feature and token hashes, actual encoder forward counters, and all DEV decision rows"
+    },
+    "order": [
+      "S0 custody",
+      "S1 augmented linear ceiling",
+      "S2 neural DEV run"
+    ],
+    "phase_scope": "train, validation, calibration, development only; the ECA-2 final pool is closed"
+  },
+  "endgame_complete": false,
+  "evidence_class": "HYPOTHESIS",
+  "failure_branches": {
+    "1_extent_not_binding": "If extent identifiability is not the binding constraint (S1 fails, or the anchor-specific mechanism claim fails while absolute gates pass, or extent improves but the full task still fails), retire rubric grounding and open minimal final-layer encoder adaptation under a separate preregistered protocol. Do not widen heads, add layers, or re-author evaluation text here.",
+    "2_dev_passes": "If DEV passes, require replication on seeds 7, 11 and 13 with fresh independently audited wording before any promotion. The untouched ECA-2 final stays closed; promotion additionally requires a separate final protocol. Old DEV success earns no capability credit.",
+    "3_dev_fails": "If DEV fails, record the negative evidence verbatim in the durable record and do not widen capacity. A finite DEV negative does not establish absence of semantic information in all encoder states.",
+    "not_authorized": "no arm, threshold, seed, epoch, prompt, pooling or capacity selection from DEV outcomes; no B-STEF; no endgame completion claim"
+  },
+  "final_pool_access": "forbidden under this protocol; the untouched ECA-2 final stays closed until DEV results exist and a separate protocol authorizes opening it",
+  "inherited_frozen_constants": {
+    "architecture": {
+      "cross_hidden": 128,
+      "note": "rank 64 is fixed and enforced by the existing reader constructor",
+      "rank": 64,
+      "width": 384
+    },
+    "calibration": {
+      "knownness_grid": "0.05 to 0.95 step 0.05 maximizing candidate balanced known/unknown accuracy, lower threshold on ties",
+      "policy": "unchanged frozen grid; no DEV tuning; temperature is not a certificate",
+      "sigma_grid": [
+        0.025,
+        0.05,
+        0.075,
+        0.1,
+        0.15,
+        0.2,
+        0.3,
+        0.4
+      ],
+      "split": "original corrected calibration worlds only"
+    },
+    "compiler_and_facts": "exact compiler, integer facts, exact composition arithmetic and UNKNOWN propagation unchanged; no numeric path enters any encoder",
+    "encoder": {
+      "encoder_parameters_sha256": "6176abe0b5f5be31cb3201078e71af2a639a0cf32d808aa48f98b530780912a8",
+      "frozen": "encoder parameters must hash identically before and after; zero new encoder downloads; zero encoder fine-tuning",
+      "max_tokens": 128,
+      "pooling": "FP32 final-layer masked mean over non-padding tokens; width 384; native pooler and classifier unused",
+      "repo": "cross-encoder/nli-deberta-v3-xsmall",
+      "revision": "a150876415327c80daeff35ca6f68f5ed8cf5c24",
+      "tokenizer_sha256": "7caa16d3d730231fc7b9c2db4716e3e38736880bd4f2e016bb37987645e4900a",
+      "truncate": false,
+      "weight_sha256": "4e4fc4977f8d29d2a164255c8f69b9d6c158deeb309bb5e70445b94666ccd9e9"
+    },
+    "gates": {
+      "UNKNOWN_precision": 0.9,
+      "UNKNOWN_recall": 0.9,
+      "atomic_choice_macro": 0.8,
+      "composition": 0.8,
+      "exact_literals": 1.0,
+      "held4_family_choice_macro": 0.8,
+      "internal_cross_NI_margin": 0.05,
+      "mechanism": "simultaneous corrected lower bounds on the predeclared learned benefit differences must exceed 0; relevant-page interventions must meet correct-new gate; UNKNOWN counts wrong on supported gold; macro and held-family gates cannot be hidden by micro averages",
+      "ordinal_MAE_max": 0.1,
+      "orientation": 0.9,
+      "page_attribution": 0.85,
+      "permutation_rename_reorder": 1.0,
+      "supported_coverage": 0.9,
+      "teacher_changing_correct_new": 0.8
+    },
+    "recipe": {
+      "batch": "full cached training set, accumulated in deterministic chunks if RAM requires",
+      "checkpoint": "earliest minimum held-world validation objective; no development/calibration/final checkpoint selection",
+      "epochs": 400,
+      "k4_protocol": "only semantic K4 main and paired missing/contradiction examples from train worlds contribute optimizer gradients; candidate-count/order/rename/page-reorder, grade-change interventions and exact-fact probes remain diagnostic only",
+      "loss": "unchanged equal-weight sum of relevance cross entropy onto the uniform relevant-page target, raw page-grade normalized MSE, orientation squared error on relevant pages, and candidate known/unknown BCE; exactly four components; no new term, no reweighting",
+      "lr": 0.01,
+      "normalizer": "train-only per-coordinate mean/std floor 0.01; frozen at deployment",
+      "optimizer": "AdamW",
+      "seed": 7,
+      "smoke": "save smoke artifacts separately before real fitting",
+      "weight_decay": 0.0001
+    },
+    "statistics": {
+      "bootstrap": "exact same world-cluster bootstrap, 10000 draws, seed 0, whole world as unit, variants clustered",
+      "correction": "one-sided Bonferroni over the predeclared claim set only",
+      "family_macro": "equal family weights; fixed authored inventory"
+    }
+  },
+  "measured_basis": {
+    "corrected_dev_cross_factorial_atomic_choice_macro": {
+      "learned": 0.313477,
+      "oracle_direct_grade": 0.682617,
+      "oracle_direct_grade_knownness": 1.0,
+      "oracle_knownness": 0.470703,
+      "oracle_relevance": 0.472656,
+      "oracle_relevance_direct_grade": 1.0,
+      "oracle_relevance_direct_grade_knownness": 1.0,
+      "oracle_relevance_knownness": 0.472656
+    },
+    "corrected_dev_pages_cross_atomic_choice_macro": {
+      "cross": 0.3134765625,
+      "pages": 0.05859375
+    },
+    "corrected_dev_pages_factorial_atomic_choice_macro": {
+      "learned": 0.058594,
+      "oracle_knownness": 0.260742,
+      "oracle_orientation": 0.114258,
+      "oracle_orientation_knownness": 0.444336,
+      "oracle_raw_extent": 0.104492,
+      "oracle_raw_extent_knownness": 0.413086,
+      "oracle_raw_extent_orientation": 0.300781,
+      "oracle_raw_extent_orientation_knownness": 1.0,
+      "oracle_relevance": 0.0,
+      "oracle_relevance_knownness": 0.345703,
+      "oracle_relevance_orientation": 0.0,
+      "oracle_relevance_orientation_knownness": 0.365234,
+      "oracle_relevance_raw_extent": 0.0,
+      "oracle_relevance_raw_extent_knownness": 0.573242,
+      "oracle_relevance_raw_extent_orientation": 0.0,
+      "oracle_relevance_raw_extent_orientation_knownness": 1.0
+    },
+    "corrected_dev_pages_factorial_readings": {
+      "learned_ordinal_MAE": 0.321672,
+      "oracle_raw_extent_ordinal_MAE": 0.0,
+      "page_attribution_fixed": 0.260498,
+      "page_attribution_note": "0.260498 in every cell except oracle-relevance cells, where it is 1.0",
+      "reading": "extent, orientation and knownness are each individually binding; relevance alone is actively harmful without knownness; the exact compiler and exact teacher solve the task when all three semantic components are correct"
+    },
+    "corrected_eca2_final_all_five_controls_failed": true,
+    "corrected_eca2_final_counts": {
+      "closed_cbf8_independent_replay_assertions": 2004676,
+      "closed_cbf8_literal_maximal_set_accuracy": 1.0,
+      "closed_cbf8_literal_rows": 4960,
+      "decision_ir_rows": 31360,
+      "worlds": 320
+    },
+    "corrected_eca2_final_cross": {
+      "atomic_choice_macro": 0.281640625,
+      "ordinal_MAE_max": 0.35999951392847995,
+      "orientation": 0.62861328125,
+      "page_attribution": 0.883203125,
+      "page_attribution_screen": "pass at threshold 0.85",
+      "supported_coverage": 0.5209375,
+      "teacher_changing_correct_new": 0.2489346590909091
+    },
+    "corrected_eca2_final_other_controls_atomic_choice_macro": {
+      "cosine": 0.030078125,
+      "lexical": 0.26953125,
+      "query_blind": 0.425
+    },
+    "corrected_eca2_final_pages": {
+      "atomic_choice_macro": 0.085546875,
+      "composition": 0.0453125,
+      "held4_family_choice_macro": 0.1328125,
+      "ordinal_MAE_max": 0.36104662390189335,
+      "orientation": 0.54130859375,
+      "page_attribution": 0.24775390625,
+      "supported_coverage": 0.28,
+      "teacher_changing_correct_new": 0.08032670454545454
+    },
+    "finite_linear_page_feature_ceiling": {
+      "design": "bias-free FP64 least squares on the cached 384-d page feature only, fit on unique supervised train page texts",
+      "dev_unclipped_prediction_range": [
+        -1.0950165169850952,
+        1.4707872781000932
+      ],
+      "dev_unique_text_count": 240,
+      "dev_unique_text_family_macro_MAE": 0.3832298906765268,
+      "full_column_rank": false,
+      "independent_gram_residual_inf": 1.7053025658242404e-13,
+      "normal_equation_gradient_inf": 1.243457591278255e-13,
+      "rank": 180,
+      "reading": "the cached page feature does not linearly identify extent even with exact fitting on every unique supervised text; a rubric-anchor feature that is itself a frozen final-layer mean is unlikely to fix extent unless the anchor changes what the encoder can represent for the page; this is the reason the design must be falsifiable and the reason the augmented ceiling screen below is mandatory",
+      "second_solver_relative_coefficient_difference": 2.184533409753123e-14,
+      "singular_condition": 221.80657657811963,
+      "train_MSE": 1.816885422626678e-29,
+      "unidentified_coefficient_directions": 204,
+      "unique_supervised_train_page_texts": 180,
+      "validation_note": "Do not cite the validation ceiling as evidence that extent is unidentifiable. It measures reuse of fit-population texts.",
+      "validation_reading": "MEASURED validation unique-text family macro MAE 0.21770556 over 180 unique page texts equals the train unique-text count, and validation worlds reuse prefinal property page texts; development holds 240 unique page texts, 60 of them unseen in fit. The page-only ceiling therefore nearly interpolates same-text validation while failing on genuinely new development texts. Held-out generalization of the page-only frozen linear extent map is the failing quantity, and any augmented ceiling must be screened on development, never on validation.",
+      "validation_unique_text_family_macro_MAE": 0.21770556090535256
+    }
+  },
+  "measured_vs_inferred_vs_unknown": {
+    "inferred": [
+      "supplying the ordered rubric scale as model-visible text may restore extent identifiability, because the joint reader already recovers page relevance while extent is the failing component",
+      "the inference is weak: the linear ceiling shows the frozen final-layer page mean does not linearly identify extent even when fit exactly, so an anchor that is itself a frozen final-layer mean is unlikely to help unless the anchor changes what the encoder represents for the page; the design's only live mechanism is joint optimization of the new value path against the anchor, and the design is expected to fail S1 unless the anchor adds genuine scale information",
+      "the audit conditions (a) to (d) are satisfiable for the prefinal property rubrics, but this is unverified until the independent review runs"
+    ],
+    "measured": [
+      "corrected ECA-2 final: all five controls fail semantic gates; pages atomic macro 0.085546875, ordinal_MAE_max 0.36104662390189335, page_attribution 0.24775390625; cross page_attribution 0.883203125 passes 0.85 while cross ordinal_MAE_max 0.35999951392847995 fails 0.10; closed literal path 1.0 with 2004676 independent replay assertions",
+      "corrected DEV pages factorial: extent, orientation and knownness each individually binding; all-three oracle 1.0; page_attribution 0.260498 in every non-relevance cell; oracle relevance alone 0.0",
+      "finite linear page-feature ceiling: rank 180 of 384, condition 221.80657657811963, train MSE 1.816885422626678e-29, 204 unidentified directions, DEV unique-text family macro MAE 0.3832298906765268 with unclipped range [-1.0950165169850952, 1.4707872781000932]",
+      "architecture and recipe constants, encoder revision and weight hash, feature and corpus byte hashes, and the sealed selection receipt hash, all read from disk this turn"
+    ],
+    "unknown": [
+      "whether the frozen encoder's rubric-text mean carries property-scale information at all",
+      "whether any active property's concatenated five-stage anchor exceeds the 128-token limit with truncation disabled",
+      "whether the prefinal property rubrics satisfy audit conditions (a) to (d); no rubric text was opened in this preregistration",
+      "whether extent is the binding constraint in the deployed reader rather than orientation or knownness, which the factorial shows are also individually binding",
+      "whether the augmented linear ceiling can beat the page-only ceiling on held-out DEV texts"
+    ]
+  },
+  "mechanism_screen": {
+    "anchor_specific_claim": "new_arm minus rubric_blind is the falsifier for the design premise; if it does not pass, the observed change is not attributable to the anchor regardless of absolute gate values",
+    "claims": [
+      "new_arm minus rubric_blind",
+      "new_arm minus zero_pages",
+      "new_arm minus zero_question",
+      "new_arm minus lexical"
+    ],
+    "correction": "one-sided Bonferroni familywise alpha 0.05 over exactly these four claims; each claim at alpha 0.05/4",
+    "descriptive_only": "new_arm versus the frozen corrected pages reader on the same DEV pool, paired by world, reported with the same bootstrap; never a promotion gate",
+    "note": "this is a DEV mechanism screen, not the parent promoted mechanism gate, and it earns no final or promotion credit",
+    "pass": "all four one-sided lower bounds exceed 0",
+    "role": "binding DEV mechanism decomposition; a predeclared claim set fixed now and never chosen from outcomes",
+    "unit": "exact same world-cluster bootstrap, 10000 draws, seed 0"
+  },
+  "parent_decision_tree": {
+    "authorized_branch": "conditional_and_cross_inadequate",
+    "authorized_branch_text": "Retire only these demonstrated inadequate frozen final-mean/readout interfaces, not semantic information in all encoder states. Use component oracle/linear ceilings to preregister one targeted representation change on fresh material: minimal final-layer task adaptation if semantic match/polarity is limiting, or explicit caller-supplied ordinal rubric grounding if grade identifiability is limiting. Do not repeat global numeric reconstruction, arbitrarily widen heads, or select on closed ECA final.",
+    "selected_mechanism": "explicit caller-supplied ordinal rubric grounding (rubric anchor) on the value/extent path",
+    "source": "research/endgame/ephemeral_pages_atomic_audit_protocol.json",
+    "source_pre_amendment_sha256": "1d41ea1c2afb81b82472500859119fa5b48bb37065076a6b15afa96e72e2f1fa",
+    "source_pre_amendment_sha256_role": "value pinned by the corrected-final result manifest next_branch before the correctness amendment; the on-disk file is the post-amendment byte state",
+    "source_sha256": "5d5edb69fe8d76ec8049924272d2d1f923c946187e8c124c6d3a94e590e15858",
+    "why_not_final_layer_adaptation_first": "The DEV privileged-substitution factorial shows extent, orientation and knownness each individually binding, and the finite linear page-feature ceiling shows the frozen 384-d page mean does not linearly identify extent on held-out development page texts (family macro MAE 0.38322989 over 240 unique texts) even when fit exactly on all 180 unique supervised train page texts; its 0.21770556 validation figure reflects reuse of fit-population texts and is not evidence about new text. The rubric anchor is the cheapest change that adds model-visible scale information without touching relevance, orientation or knownness, and it is falsifiable before any GPU spend. Minimal final-layer encoder adaptation is deferred to failure branch 1."
+  },
+  "pinned_artifacts": {
+    "authored_source_private": {
+      "eca1_authored_source": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/source/eca_authored_source_v1.json",
+        "role": "property and rubric definition source for the prefinal train/validation/calibration/development phases; 60 properties, 300 ordered rubric strings; never decoded in this preregistration",
+        "sha256": "1fb1f6609cbaa899bbf3f836917027421d2ca6b5543d972a13969d945d51dff4"
+      },
+      "eca1_source_inventory": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/source/eca_source_inventory_v1.json",
+        "sha256": "867d2d175b54984c82053cc11863eaa35e204032f531f0524330cf80df1fc4aa"
+      },
+      "eca2_final_inventory": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/source/eca2_final_inventory.json",
+        "sha256": "7a9b108fd76ed50e3869032e3354456063468037978979a66f8b485953cdc745"
+      },
+      "eca2_final_prepare_manifest": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/source/eca2_final_prepare_manifest.json",
+        "sha256": "37f914b8325e1bcdcc1d11a9d59c08c6d3617893a91ce554788d354070ffa9ed"
+      },
+      "eca2_final_source": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/source/eca2_final_source.json",
+        "role": "final-only property and rubric source; 20 properties, 100 ordered rubric strings; stays closed and is not encoded under this protocol",
+        "sha256": "715f51b55fc07b61bb7a291ccaf8f8e0ebe78592d967a359638628944b9b720f"
+      }
+    },
+    "checkpoints": {
+      "cross": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/cross.pt",
+        "sha256": "1ba9d51f7e919a747474f39280c361fa36d1082e02e3c27916f67f68e1f1175a"
+      },
+      "pages": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/pages.pt",
+        "sha256": "052fcf1657bcdfb21ac1d78914b8452002446df768bbc9d670ca7946756bbdcf"
+      }
+    },
+    "closed_exact_replay": {
+      "closed_result": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/closed_custody-lock-v3/result.json",
+        "sha256": "a85f4e575880d636f4a3cbb0e9a321bfcf2018608b36c0e82e9c8de82d231ae2"
+      },
+      "independent_custody_v3": {
+        "assertions": 2004676,
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/closed_custody-lock-v3.independent.custody-v3.json",
+        "sha256": "4eb334350e43a2f11107af36ff08765c462b38d209c7630ff9df6f4495b40fae"
+      }
+    },
+    "corpus": {
+      "calibration": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/corpus/calibration.jsonl",
+        "sha256": "81a82aec29079f9709965c72e168e9f7a1dc3172be20ff2de6c3646ffb990dcb"
+      },
+      "development": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/corpus/development.jsonl",
+        "sha256": "c40c4d7c7838bae4f66d887e531cdb5ace387ac8bb17b4c0f41ba4c2615fea6c"
+      },
+      "prefinal_provenance_manifest": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/corpus/eca2_prefinal_provenance_manifest.json",
+        "sha256": "5a88a1d7772d88b9e22a27e71836f3118c2033120d27c74324d655413f57af60"
+      },
+      "train": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/corpus/train.jsonl",
+        "sha256": "2a200ea08068ba6d7029db75236b615d4bb294c3975c8d12df7d1b5721da0a38"
+      },
+      "validation": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/corpus/validation.jsonl",
+        "sha256": "8c8c89cf89d5f0c2face02b8eef3f30f3d208ed932b5663de0c7a365b337922a"
+      }
+    },
+    "dev_evidence": {
+      "corrected_component_audit_result": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/components/result.json",
+        "sha256": "9ffb4603247a53f537ae73cf5fc265cd7ac9a621ad631ad0393c58098c48c2b4"
+      },
+      "corrected_component_factorial": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/components/factorial_result.json",
+        "sha256": "53f978ecedfddfc7e5b7c4d29c6d0e243e1d90154e845f7fe94f19cf9f2bb362"
+      },
+      "corrected_component_linear": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/components/linear_result.json",
+        "sha256": "bc1852f2f1c5c7d1d993c6d99278dd624b7b861c86be9c0a37041c948bb9339c"
+      },
+      "dev_evaluation": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/evaluation/development/evaluation.json",
+        "sha256": "73c640d696f87476475336614470035e8cb0cfb14d59cd105d3b2073f0ae2123"
+      },
+      "dev_factorial_bootstrap": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/components/factorial/development/world_bootstrap_indices.npy",
+        "sha256": "bb483cc2703c33e298456b207f0b4d31283c954ea10717c373be8bf017e55884"
+      },
+      "dev_pages_learned_cell": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/components/factorial/development/pages/learned/world_metrics.json",
+        "sha256": "5048595bc54a54c8c165dd1b017b6040d64da3e5ed92f0ab243ef3f5f1e820d6"
+      },
+      "dev_pages_oracle_raw_extent_cell": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/components/factorial/development/pages/oracle_raw_extent/world_metrics.json",
+        "sha256": "2c43c8d72e412857a26de5f4477860aeb59140eee8e5755054d54acb2b2b3c81"
+      },
+      "linear_coefficients": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/components/linear/coefficients.npy",
+        "sha256": "0dc03fab9cdcbe020dc20c2101a3d8b1f8a0e6650537f35cc5e710e8b78ea0ef"
+      },
+      "linear_dev_predictions": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/components/linear/development_predictions.jsonl",
+        "sha256": "35ec9a39330e0a713891336a3f045a1a695ad944cf2725f627f6303f54565fbc"
+      },
+      "linear_normalizer": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/components/linear/normalizer.json",
+        "sha256": "556a193f18fe8a937e5bb6516155511718d829002d08ebad745fcf053f3bf35f"
+      },
+      "linear_optimizer_row_indices": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/components/linear/optimizer_record_indices.npy",
+        "sha256": "bcfc01d708ede30511c21060a754bcc7978fe232624e23a58ad0dbe1df85ea90"
+      },
+      "linear_validation_predictions": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/components/linear/validation_predictions.jsonl",
+        "sha256": "b569d256ff453127ae91a1d695e4e46a2143255a45deae8528f3aa83448981da"
+      },
+      "prefit_verification": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/prefit_verification.custody-v2.json",
+        "sha256": "cfaa475dd6c65d4a572387e9a8555806a848ae857e14c2babf1e4d70ac68459b"
+      }
+    },
+    "features": {
+      "calibration_manifest": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/features/calibration_manifest.json",
+        "sha256": "b383d8cbac991ef77eb2925129fdf9bd6f15bb5469f3f2440d83c374ba1e20e2"
+      },
+      "development_manifest": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/features/development_manifest.json",
+        "sha256": "79afa10a043a50e5605d25c19bc4144cf1a5a08b9cc9b4d61f2a9634760eedba"
+      },
+      "train_manifest": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/features/train_manifest.json",
+        "sha256": "cc84e1ba2d5028d9e7de8389d26ef9c9bdc8295b175b1ae62b7259ac92bc7ff8"
+      },
+      "validation_manifest": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/features/validation_manifest.json",
+        "sha256": "ca32ebfaaeed898fdfb7c62cf23fb6a11262bef8d5d7bffe6e9f2327de3ec79a"
+      }
+    },
+    "implementation": {
+      "atomic_final_builder": {
+        "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_atomic_final.py",
+        "sha256": "ada2c96f0646430b83aaa3d2c28bd498de238c46c641b64074a2822196f8f944"
+      },
+      "atomic_repack": {
+        "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_atomic_repack.py",
+        "sha256": "5049835837c5765135fbae47943305bf7c3162fcf27b2f6239123c91c6e6bbdc"
+      },
+      "capture": {
+        "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_capture.py",
+        "sha256": "3749020ae76f5b45939f9672468f6228cc6ac7643397eda57fe5954bdc986be6"
+      },
+      "components": {
+        "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_components.py",
+        "sha256": "c54cd718ab17f8d0510988b6bea18de943433d5e94b56e762d844dbb0e1df160"
+      },
+      "conditional": {
+        "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_conditional.py",
+        "sha256": "fd04eeafe443ce3a7f55d3e85ce31e2f68e2abeed03b122df6706b413efa6810"
+      },
+      "corpus_builder": {
+        "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_build.py",
+        "sha256": "51d4b488651be37c92acadc5cf008846f8b7decee46c86eca6811f8c62d5484a"
+      },
+      "evaluate": {
+        "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_evaluate.py",
+        "sha256": "5d55d0066035c19b899b5b89479d30cdf58b2e5d65f76a596187ecf5723f5d4b"
+      },
+      "features": {
+        "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_features.py",
+        "sha256": "0b11703840366161f16a8755f15657612ffdf9d58c5101dcab2f0cf0b3ee31f3"
+      },
+      "reader_model": {
+        "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_model.py",
+        "sha256": "faabad5a6d024ca28faa16b70f66057aa2fd469268cbe13c3386a6ac2c087c14"
+      },
+      "train": {
+        "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_train.py",
+        "sha256": "3fd63dee39e6a265e6bb087d7d209ea687f5da83154b47daad8e46343795130a"
+      },
+      "verify": {
+        "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_verify.py",
+        "sha256": "79632aaed00f974b74a1614bfd352b35494672ee99ecaac2c560eabc175e3ad6"
+      }
+    },
+    "protocols": {
+      "eca1_audit_protocol": {
+        "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_audit_protocol.json",
+        "sha256": "7ff11075c9e8298100a29756354951017a71c85dff34193b63a811d7ac61c567"
+      },
+      "eca1_closed_protocol": {
+        "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_closed_protocol.json",
+        "sha256": "ec5864b944fcb8174cd53926f28139eba75aa9af122b3e7e83fb329327b2fa1f"
+      },
+      "eca2_atomic_closed_protocol": {
+        "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_atomic_closed_protocol.json",
+        "sha256": "5c70f25c7c5592b5582aa8c6d9528a223a1c96a8003a3b7993a2a6334790fde3"
+      },
+      "eca2_atomic_protocol": {
+        "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_atomic_protocol.json",
+        "sha256": "21e295c362da058b4b5d2247b61caf247449e79132ed7520a6f637926816b0fb"
+      },
+      "eca2_audit_amendment": {
+        "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_atomic_audit_amendment.json",
+        "sha256": "e10ad1fb8f752d48d4f2070ffa8af73cbcd5bc01285bfdfefef4c27f2ca7e1a2"
+      },
+      "eca2_audit_protocol": {
+        "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_atomic_audit_protocol.json",
+        "sha256": "5d5edb69fe8d76ec8049924272d2d1f923c946187e8c124c6d3a94e590e15858"
+      },
+      "eca2_grade_amendment": {
+        "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_grade_amendment.json",
+        "sha256": "c945e03406e1cab2889625c3d53b2fd97f110b115427da934239271ebb243d6c"
+      },
+      "parent_eca1_protocol": {
+        "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_protocol.json",
+        "sha256": "4c0c1efe8ad8ffdde79004536a44fc6d034b7701cdedde8e2034dc3f4e52b489"
+      }
+    },
+    "repo_state": {
+      "branch": "post-v2/cbf",
+      "head": "95d2fac878f1f3c85e9c20a1c7fac6f26d6d418f",
+      "note": "HEAD may advance; the launch receipt pins the exact commit at execution time",
+      "repo": "/home/fazinahamed/Documents/vey-public"
+    },
+    "result_manifests": {
+      "eca2_atomic_custody_manifest": {
+        "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_atomic_custody_manifest.json",
+        "sha256": "140be1c5055078efbd03aa67ea219c92b1ddad7b48684ad0a688f4069479cfda"
+      },
+      "eca2_corrected_final_result_manifest": {
+        "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_atomic_result_manifest.json",
+        "sha256": "98e82cd42708b30be77c9e0266bc697fea90c8fd399361e1ff6d8934b07151d3"
+      }
+    },
+    "sealed_selection_receipt": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/seed7/selection_calibration_receipt.json",
+      "sha256": "3555e4cbd83b1aa4c9b27beeb602b1633c3c804c00dacf08bc8e91529ac57b7c"
+    },
+    "self_pin_policy": "the two new files are hashed by the future launch receipt at execution time; they must byte-match the committed preregistration before any encoder call"
+  },
+  "promotion": false,
+  "property_definition_audit_prerequisite": {
+    "conditions": {
+      "a_fixed_before_capture": "each anchor string exists byte-identically in the authored source; the source file sha256 and every per-anchor sha256 are recorded and committed before any encoder call or optimizer step; no anchor may be edited after DEV outcomes are observed",
+      "b_no_numeric_or_literal_grade_tokens": "mechanical check asserts zero Unicode digit characters, zero occurrences of the property grade_order labels, and zero occurrences of any stage heading string, plus reviewer attestation",
+      "c_does_not_reveal_the_answer": "the anchor is property-level and identical across all pages and questions of that property; mechanical check asserts no anchor is a substring of, or shares normalized token Jaccard >= 0.60 with, any question or page text of the same property; reviewer attestation is primary",
+      "d_not_a_question_paraphrase": "reviewer attestation is primary; the same lexical screen is a necessary mechanical check; the audit records raw judgments and disagreements verbatim and never forces acceptance"
+    },
+    "failure": "if any condition fails, retain the raw judgments, do not encode anchors, and treat the design as unrunnable under this protocol; do not substitute re-authored text",
+    "primary_gate": "two independent opaque reviewers each cover every anchor of the authorized phase and accept all with zero ambiguous and zero rejected items; any ambiguity blocks the run; no model-quality credit from this audit",
+    "reviewer_isolation": "reviewers never receive model outputs, weights, DEV performance, targets, family or split labels",
+    "role": "blocking prerequisite before any anchor encoding or fit; authored rubric texts are private property data and must not be trusted as anchors without audit"
+  },
+  "resource_budget": "Zero encoder fine-tuning and zero new encoder downloads. Anchor encoding is one frozen forward per distinct active anchor. S1 is CPU-only FP64. S2 is one GPU job under the inherited resource guards: four Torch threads and one BLAS thread, mmap caches, bounded chunks 32, nice 10 and ionice 2-7, inherited RAM and swap guards, one GPU job at a time.",
+  "schema": "vey.eca2.rubric-anchor-grade-interface-preregistration.v1",
+  "scope": "Authored English mechanism correctness assay on the frozen ECA-2 prefinal inventory, development only. No final-pool access, no promotion, no B-STEF, no many-axis endgame completion, no native Boolean/intent/compliance, no multilingual, no neutral benchmark, no certificate, no speed, no shipping clearance and no competitor superiority credit.",
+  "status": "prospective; design and protocol only; no fit, no capture, no new data access, no final-pool access"
+}
