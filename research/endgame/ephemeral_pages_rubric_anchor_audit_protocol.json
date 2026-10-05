@@ -1,0 +1,100 @@
+{
+  "schema": "vey.eca.rubric-anchor-property-definition-audit.v1",
+  "stage": "S0_property_definition_audit",
+  "status": "prospective; design and protocol only; no fit, no capture, no new data access, no final-pool access, no reviewer judgments yet collected",
+  "evidence_class": "HYPOTHESIS",
+  "promotion": false,
+  "B_STEF_allowed": false,
+  "endgame_complete": false,
+  "competitor_or_neutral_credit": false,
+  "scope": "Blocking property-definition audit of the per-property rubric anchors for the rubric-anchor value/extent arm, development only. Authored English mechanism correctness assay on the frozen ECA-2 prefinal inventory. No model-quality credit, no representation conclusion, no encoder call, no fitting, no optimization step, no B-STEF, no many-axis endgame completion, no certificate, no speed claim, no shipping clearance and no competitor superiority credit.",
+  "parent_preregistration": {
+    "path": "research/endgame/ephemeral_pages_grade_interface_preregistration.json",
+    "sha256": "668759487db589832d436a289d858dd0beccf8e80b41218f294a842c216990d1",
+    "role": "The preregistration this stage executes. Its anchor_definition, property_definition_audit_prerequisite, dev_screens.S0_custody, failure_branches.1 and decision_rule rows are the authority for the screens and gates below. This file may not widen them."
+  },
+  "authored_source": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/source/eca_authored_source_v1.json",
+    "sha256": "1fb1f6609cbaa899bbf3f836917027421d2ca6b5543d972a13969d945d51dff4",
+    "role": "Pre-final authored property and rubric definition source. 60 properties, 5 ordered rubric stage strings per property, 300 stage strings total, 30 question texts and 75 page wordings per property. Read only to build anchors, count fields and compute digests.",
+    "privacy": "Authored rubric, question, page and property description text is private property data. Audit receipts, protocol entries and console output carry counts, digests and per-condition booleans only, never authored text.",
+    "final_split_rows_present_in_file": "The prefinal authored source carries rows labelled split final. The screens compare an anchor against every question and page text of the same property in the file, because the preregistration forbids an anchor that equals or shares normalized token Jaccard at or above 0.60 with any question or page text of its property, with no split exemption. Excluding those rows would be a re-authored, weakened screen. The sealed final-pool artifacts are separate files and are never opened."
+  },
+  "implementation": {
+    "path": "research/endgame/ephemeral_pages_rubric_anchor_audit.py",
+    "cli": "--source PATH --output PATH",
+    "role": "Builds one anchor per property and runs the mechanical screens only. Writes the receipt with exclusive-create semantics so a rerun cannot overwrite an existing receipt.",
+    "default_source": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-v1/source/eca_authored_source_v1.json",
+    "constraints": "Zero network. Zero encoder or model import. Zero fitting. One BLAS thread. No decoding of any final-pool artifact. The tool refuses a source path that names a sealed final-pool artifact.",
+    "stdout": "Metadata-only counts, digests, status and the receipt path. Never anchor, rubric, question, page or property description text."
+  },
+  "anchor_definition": {
+    "construction": "For each property, concatenate the five grade_rubrics stage strings in the order given by that property's grade_order, joined by a single space, with stage text stripped and empty stages dropped.",
+    "one_anchor_per_property": true,
+    "anchor_count_rule": "Number of distinct anchors equals the number of properties in the file. Count equality is a screened condition.",
+    "identical_across_property_instances": "The anchor is a property-level constant. It is identical for every page and every question of that property, so its bytes cannot depend on any single page or its authored grade.",
+    "no_boundary_markers_introduced": "The construction adds no ordinal marker, no stage label, no heading and no separator that encodes a stage boundary.",
+    "no_anchors_for_inactive_or_final_only_properties": "Anchors exist only for properties active in the authorized phase. Inactive or final-only properties must not be encoded or cached."
+  },
+  "normalization": {
+    "rule": "NFC, casefold, collapse all whitespace runs to one space, strip.",
+    "applies_to": "Anchor text, question texts and page wording texts, for the equality, containment and Jaccard screens."
+  },
+  "mechanical_screens": {
+    "kind": "Mechanical, zero encoder forwards, zero optimizer steps, zero fitting. Necessary only.",
+    "per_property_conditions": [
+      "screen_1_one_anchor_per_property_and_count_equality: exactly one anchor is built per property and the anchor count equals the property count.",
+      "screen_2_anchor_nonempty: every anchor is nonempty after normalization.",
+      "screen_3_no_unicode_digit_in_anchor: no Unicode digit character occurs anywhere in any anchor.",
+      "screen_4_no_grade_order_label_in_anchor: no grade_order label string occurs in any anchor.",
+      "screen_5_no_stage_heading_or_ordinal_marker_in_anchor: no stage-heading or ordinal-marker string occurs in any anchor.",
+      "screen_6_anchor_distinct_from_question_and_page_text: no anchor is equal to, does not contain, and is not contained in any question text or page text of the same property.",
+      "screen_7_token_jaccard_below_limit: normalized token Jaccard between an anchor and any question or page text of the same property is below 0.60."
+    ],
+    "grade_order_labels": "grade_order is [0, 1, 2, 3, 4]. The label strings are their decimal integer forms.",
+    "stage_marker_vocabulary": "Closed set matched on casefolded text with word boundaries: ordinal position words (first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth, last, final, lowest, highest, least, most), stage and scale nouns (stage, stages, step, steps, tier, tiers, level, levels, band, bands, grade, grades, score, scores, point, points, rating, ratings, ordinal, scale, phase, phases). Grounded in the marker words that actually occur in the authored rubric text: most, stage, stages, step, steps. A hit is recorded as a vocabulary token only, never as authored text.",
+    "jaccard": "Token Jaccard on the word-token set of the normalized strings. An empty anchor against a nonempty text scores 0.0; two empty strings score 1.0, which screen 2 already excludes.",
+    "receipt": "Per-property rows carry property_id, anchor_sha256, anchor and normalized-anchor character counts, stage_count, grade_order, the overall pass boolean and one pass/fail row per condition with structural detail only. The receipt records the authored source path and sha256, the overall counts, and the failing property ids grouped by condition."
+  },
+  "mechanical_pass_is_not_audit_acceptance": {
+    "rule": "A mechanical pass is not audit acceptance. Every screen above is a necessary mechanical check and the reviewer attestation is primary, as stated in the preregistration conditions b, c and d.",
+    "mechanical_pass_says_nothing_about": "It does not establish that an anchor is not a question paraphrase, does not establish that an anchor does not reveal an answer, and earns no model-quality credit.",
+    "audit_acceptance_field": "The receipt sets audit_acceptance to false unconditionally. Only the reviewer stage below can change the audit outcome, and it does so by producing judgments, not by editing the receipt."
+  },
+  "reviewer_stage": {
+    "role": "Blocking prerequisite before any anchor encoding or fit. Authored rubric texts are private property data and must not be trusted as anchors without audit.",
+    "primary_gate": "Two independent opaque reviewers each cover every anchor of the authorized phase and accept all of them, with zero ambiguous and zero rejected items. Any ambiguity blocks the run.",
+    "reviewers_are_independent": true,
+    "reviewers_are_opaque": "Reviewers receive only neutral property definitions and the candidate anchor, presented without model outputs, weights, DEV performance, targets, grades, family labels or split labels.",
+    "reviewer_isolation": "Reviewers never receive model outputs, weights, DEV performance, targets, family labels or split labels, and no page grade, page text or question text is attributed to any reviewed anchor.",
+    "raw_judgments_preserved": "Raw judgments and disagreements are preserved verbatim. Nothing is summarized away and no disagreement is reconciled by the auditor.",
+    "no_forced_acceptance": "No forced acceptance. A reviewer may reject or mark ambiguous, and the auditor may not pressure, re-prompt for agreement or drop an item to reach the gate.",
+    "no_re_authored_anchor_text": "The reviewed anchor text is exactly the anchor built from the authored source. No re-authored, paraphrased, repaired or shortened anchor may be substituted after a rejection or an ambiguity. Any edit to an anchor after DEV outcomes are observed is prohibited, and an edit made in response to an audit outcome is prohibited outright.",
+    "judgments_recorded_per_anchor": "For each anchor, each reviewer records accept, ambiguous or reject with a verbatim reason, per preregistration condition a, b, c and d."
+  },
+  "gates_and_failure": {
+    "mechanical_gate": "Every property passes all seven screens. Any failure fails the stage closed.",
+    "reviewer_gate": "Two independent opaque reviewers accept every anchor with zero ambiguous and zero rejected items.",
+    "failure": "If any screen or the reviewer gate fails, retain the raw judgments and the receipt, do not encode anchors, and treat the design as unrunnable under this protocol. Do not substitute re-authored text and do not weaken the audit.",
+    "consequence_for_parent": "Per the parent decision rule, S0 failure means the design is unrunnable: retain audit evidence and stop. Rubric grounding is not retired by an S0 failure, since S0 tests the anchors rather than the hypothesis. S1 and S2 are not authorized until S0 passes mechanically and by reviewer attestation.",
+    "model_quality_credit": "No model-quality credit from this audit."
+  },
+  "artifacts_to_persist": [
+    "this protocol file and its sha256",
+    "the mechanical receipt with the authored source sha256, the per-anchor sha256 per property and all overall counts",
+    "all raw reviewer judgments and disagreements verbatim, per anchor per reviewer"
+  ],
+  "declarations": {
+    "final_pool_access": "forbidden under this protocol; the untouched ECA-2 final stays closed until DEV results exist and a separate protocol authorizes opening it",
+    "sealed_final_artifacts_never_opened": "The ECA-2 final source, inventory, prepare manifest, corpus final.jsonl and features final_records.jsonl are never opened by the audit tool or by this protocol.",
+    "network_access": false,
+    "encoder_forwards": 0,
+    "model_import": false,
+    "fitting": false,
+    "training": false,
+    "blas_threads": 1,
+    "mechanical_pass_alone_is_not_audit_acceptance": true
+  },
+  "resource_budget": "CPU only and text only. One process, one BLAS thread, bounded memory proportional to the authored source size. Zero encoder forwards, zero optimizer steps, zero new downloads.",
+  "status_note": "This is a prospective pin. The mechanical tool exists; no reviewer has been convened, no judgment exists, and no anchor has been encoded, cached or fitted."
+}
