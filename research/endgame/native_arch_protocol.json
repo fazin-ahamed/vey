@@ -1,6 +1,7 @@
 {
   "schema": "vey.native-arch.protocol.v1",
   "experiment": "NATIVE-2 native architecture comparison on earned English intent fields",
+  "preexecution_correction": "Before any NATIVE-2 model execution: corrected transcribed split counts against NATIVE-1 verification; prohibited gold-dependent subset construction; replaced identical-question-only memoization with a two-public-catalogue same-state computational probe. Original preregistration remains in commit db12aa1. Recipe, data membership and quality thresholds unchanged.",
   "basis": "NATIVE-1 (protocol9e1b65b, result64da723) earned banking77.intent with a full-encoder pooled head (top-1 0.8199) and missed massive.intent at 0.7564 against a 0.80 gate. Its registered next branch requires a separately preregistered pooled/cross/dual/Evidence Pages comparison, and AGENTS.md research order 4 requires Evidence Pages to approach cross-encoder quality and make repeated questions materially cheaper without rerunning the state encoder.",
   "hypothesis": "On identical English native intent data and split, a cross-encoder that rereads state plus candidate reaches higher top-1 than the pooled field, while Evidence Pages approaches cross-encoder quality and answers repeated questions over the same state without a second state-encoder call.",
   "frozen_product_commit": "e6b046ffbd138cbdbfb2f89c6ae77525fe6b0b18",
@@ -8,8 +9,8 @@
     "reader": "native_field_data.load_dataset on the committed NATIVE-1 dataset; phases fit/selection/calibration/dev only, never sealed",
     "fields": ["banking77.intent", "massive.intent"],
     "split": "Identical whole-component fit/selection/calibration split and dev assessment as NATIVE-1; no resplit",
-    "candidate_universe": "The full native catalogue in its fixed order; no candidate sampling at training or eval",
-    "known_counts": {"banking77.intent": {"fit": 2915, "selection": 563, "calibration": 617, "dev": 1027}, "massive.intent": {"fit": 2773, "selection": 616, "calibration": 616, "dev": 1252}}
+    "candidate_universe": "Full native catalogue for training and primary evaluation; nested input-only subsets for candidate-count diagnostics.",
+    "known_counts": {"banking77.intent": {"fit": 2915, "selection": 627, "calibration": 563, "dev": 1027}, "massive.intent": {"fit": 2773, "selection": 582, "calibration": 616, "dev": 1252}}
   },
   "model": {
     "repo": "microsoft/deberta-v3-xsmall",
@@ -17,7 +18,7 @@
     "weights_sha256": "964ceb3612da6cfdb45997d380fdb95f92c7499ffcabb50cbeea55e04756cafd",
     "source": "Existing pinned stock checkpoint only; no NLI-derived conditional checkpoint or competitor weights.",
     "inputs": "Canonical serving state text and native candidate descriptions only; endpoint selects the catalogue in code. No free-form question or alias interpretation.",
-    "state_reuse": "The state encoder is called once per distinct state bytes per architecture path; dual and pages reuse the cached state representation across repeated questions.",
+    "state_reuse": "Cross rereads the state jointly with each candidate. Dual and pages encode each distinct state once and reuse its representation across both public catalogues; candidate encodes are counted separately.",
     "architectures": {
       "cross": "EncoderPool over concatenated state+candidate tokens per candidate (vey_u.semantic.models.CrossEncoderScorer); scores every catalogue candidate.",
       "dual": "One pooled state embedding and one pooled candidate embedding, normalized, scaled dot product (DualEncoderScorer); candidates precomputable.",
@@ -37,7 +38,7 @@
     "dtype": "float32",
     "optimizer": "AdamW; head lr0.001, encoder lr0.00002, weight_decay0.01; no schedule or sweep",
     "loss": "Soft-target categorical CE summed over decisions and divided by decisions per effective batch, identical to NATIVE-1",
-    "grouping": "Co-occurring endpoints on one state share one state encode; candidates batched per state",
+    "grouping": "Co-occurring endpoints share one state-only encode for dual/pages; cross encodes state-candidate pairs. Candidates are batched per state.",
     "checkpoint": "Highest macro source intent accuracy on inner selection components; tie lower mean endpoint unweighted NLL then earlier epoch; include epoch0; strict restore with fingerprint",
     "calibration": "One temperature per endpoint on disjoint calibration components, bounded0.5..10, deterministic101-point grid, lower NLL then closest to1; raw retained",
     "smoke": "Actual tiny forward/backward/optimizer step: finite loss, nonzero named active head gradient and parameter delta, encoder liveness for the trained encoder, strict restore equality, and cached-state reuse proven by encoder-call counters. Smoke discarded; fresh seeded arms"
@@ -47,8 +48,8 @@
     "state_mask": "Replace dev states with the public empty-evidence string; preserve heads and catalogues",
     "state_swap": "Identical donor plan to NATIVE-1 (next different-component different-target donor); persist donor IDs and denominators",
     "candidate_order": "Deterministic candidate permutation; the winning semantic ID must be invariant",
-    "candidate_count": "Evaluate each dev decision at deterministic nested K subsets {2,4,8,16,32,Kmax} drawn once per decision by seeded component grouping; report top-1 and shortlist recall of the native gold at each K",
-    "repeated_state": "One state with its K native candidate questions scored repeatedly; count state-encoder calls and require no additional state encode after the first"
+    "candidate_count": "Nested K prefixes {2,4,8,16,32,Kmax} of an entire-catalogue shuffle seeded solely by component_id and seed7. Never force gold into a subset. Report overall accuracy, conditional accuracy when gold is present, and input-only membership frequency; membership is not learned shortlist recall or retrieval credit.",
+    "repeated_state": "First DEV state by id queried with its native catalogue and the other endpoint catalogue from the first FIT decision by id. The foreign catalogue is an unlabelled computational probe, never a semantic metric. Fresh cache, three rounds. Count state-containing sequences: first round cross137, dual/pages1. Later identical repeats have zero extra encoder calls for every arm, demonstrating generic memoization only. No latency or free-form-question claim."
   },
   "statistics": {
     "unit": "Input-only connected component, preserving descendants",
@@ -62,12 +63,13 @@
     "cross_vs_pooled_accuracy_lower_nominal_bound": 0.0,
     "pages_minus_cross_accuracy_lower_nominal_bound": -0.02,
     "dual_minus_cross_accuracy_lower_nominal_bound": -0.05,
-    "candidate_count_monotone_shortlist_recall": true,
+    "candidate_count_monotone_membership_frequency": true,
     "reorder_winner_invariance": true,
     "repeated_state_no_extra_state_encode": true,
+    "novel_catalogue_state_reuse": "dual/pages must encode one state-containing sequence across both public catalogues; cross must account for every joint pair",
     "scope": "Development mechanism screens on identical native data. No sealed-final, competitor, many-axis, certificate or shipping credit."
   },
-  "selection": "Report every architecture and every control; choose the architecture that passes its gates with the fewest state-encoder calls per repeated question; retain all negatives. No promotion beyond an earned development field.",
+  "selection": "Report all architectures/controls; among quality-passing arms choose the smallest measured first-round state-containing sequence exposure count across the two public catalogues, tie by declared arm order. Exact-repeat memoization and random subset membership earn zero learned retrieval credit. No promotion beyond a development field.",
   "next_branch": "An earned Evidence Pages result proceeds to repeated-state and many-axis transfer under a new preregistration; a cross-only win keeps pages as an open engineering branch and proceeds to variable-query transfer. MASSIVE intent remains an open near-miss to audit at the representation level before larger capacity.",
   "resources": {"paid": false, "gpu": "Serialized RTX3060 12GB under /tmp/vey-gpu.lock", "threads": 2, "dataloader_workers": 0, "nice": 10, "one_model_resident": true, "pause_available_RAM_GiB_below": 4, "pause_swap_growth_MiB_above": 256, "pause_GPU_free_MiB_below": 2048, "user_workloads": "Never kill user processes."},
   "custody": "Commit protocol and implementation before any model work. Bind custody to the protocol, the committed NATIVE-1 dataset and its verification, and the phase bytes; each arm records the trainer sources it ran with. Retain every failed receipt and superseded output. Never edit implementation files while a registered run is in flight.",
