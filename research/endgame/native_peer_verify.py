@@ -56,7 +56,12 @@ def protocol():
     return cfg
 
 
-def load_arm(path):
+def load_arm(path, require_header=False):
+    """Return (header, rows).
+
+    Peer captures carry a header record; the NATIVE-1 arm files are bare
+    prediction rows. A header is only demanded where the format requires one.
+    """
     header = None
     rows = []
     with Path(path).open(encoding="utf-8") as stream:
@@ -66,12 +71,17 @@ def load_arm(path):
                 header = record
                 continue
             rows.append(record)
-    require(header is not None, str(path) + " carries no run header")
+    require(not require_header or header is not None, str(path) + " carries no run header")
     return header, rows
 
 
 def projection(cfg):
-    """Independent DEV row universe: id -> exact serving inputs and native gold."""
+    """Independent DEV row universe: decision id -> exact serving inputs and native gold.
+
+    The join key is the emitted DecisionIR identity (``decision["id"]``), which is
+    what every arm persists; the enclosing record id is provenance only and must
+    not be used as a join key.
+    """
     rows = {}
     for entry in (cfg["data"]["dev"],):
         path = checked(entry)
@@ -80,8 +90,8 @@ def projection(cfg):
                 record = json.loads(line)
                 decision = record["decisions"][0]
                 require(decision["endpoint"] in DEV_ENDPOINTS, "Unregistered DEV endpoint")
-                rid = record["id"]
-                require(rid not in rows, "Duplicate DEV row id")
+                rid = decision["id"]
+                require(type(rid) is str and rid and rid not in rows, "Duplicate/invalid DEV decision id")
                 rows[rid] = {
                     "id": rid, "group_id": record["group_id"], "component_id": record["component_id"],
                     "locale": record["locale"], "endpoint": decision["endpoint"],
@@ -285,7 +295,7 @@ def main(argv=None):
             "DEV projection row count differs from the registered expectation")
     problems = []
 
-    laya_header, laya_rows = load_arm(args.laya)
+    laya_header, laya_rows = load_arm(args.laya, require_header=True)
     require(laya_header.get("schema") == CAPTURE_SCHEMA, "Unexpected peer capture schema")
     require(laya_header.get("route") == cfg["laya"]["route"], "Peer capture route differs")
     require(laya_header.get("release_commit") == cfg["laya"]["release_commit"], "Peer release commit differs")
@@ -298,7 +308,7 @@ def main(argv=None):
     controls = {}
     for path in args.control:
         header, rows = load_arm(path)
-        name = Path(path).stem
+        name = Path(path).parent.name + "/" + Path(path).name
         controls[name] = (header, reconstruct(rows, "vey-control:" + name, refs, problems))
 
     ids = {rid: refs[rid]["candidate_ids"] for rid in refs}
@@ -334,7 +344,9 @@ def main(argv=None):
     }
     disc = receipt["discordance"]
     receipt["clopper_pearson_upper_laya_only"] = clopper_pearson_upper(disc["laya_only_correct"], disc["shared_rows"])
-    receipt["nominal_interval_above_minus_one_point"] = receipt["paired_component_bootstrap"]["ci95_bootstrap"][0] > -0.01
+    interval = receipt["paired_component_bootstrap"]["ci95_bootstrap"]
+    receipt["nominal_interval_above_minus_one_point"] = (
+        interval[0] > -0.01 if interval else None)
     for endpoint in DEV_ENDPOINTS:
         v = {i: r for i, r in vey.items() if r["endpoint"] == endpoint}
         l = {i: r for i, r in laya.items() if r["endpoint"] == endpoint}

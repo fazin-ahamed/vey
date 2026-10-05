@@ -130,8 +130,10 @@ def dev_rows(cfg):
             decision = row["decisions"][0]
             require(decision["endpoint"] in DEV_ENDPOINTS, "Unregistered DEV endpoint")
             require(decision["task"] == "choice", "Native DEV decision is not Choice")
+            require(type(decision["id"]) is str and decision["id"], "Invalid native decision identity")
             yield {
-                "id": row["id"], "group_id": row["group_id"], "component_id": row["component_id"],
+                "id": decision["id"], "record_id": row["id"],
+                "group_id": row["group_id"], "component_id": row["component_id"],
                 "locale": row["locale"], "state": row["state"], "endpoint": decision["endpoint"],
                 "question": decision["question"], "candidate_ids": list(decision["candidate_ids"]),
                 "candidates": dict(decision["candidates"]), "gold": decision["gold"],
