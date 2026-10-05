@@ -1,0 +1,1733 @@
+{
+  "B_STEF_allowed": false,
+  "amendment": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_atomic_audit_amendment.json",
+    "sha256": "e10ad1fb8f752d48d4f2070ffa8af73cbcd5bc01285bfdfefef4c27f2ca7e1a2"
+  },
+  "calibration_evaluation": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/conditional-full-v1/evaluation/calibration/evaluation.json",
+    "sha256": "fd8c62a08c6cff762f4e790825706bc3c3f455aeb58316093c0bf2a97f598407"
+  },
+  "checkpoint": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/conditional-full-v1/conditional.pt",
+    "sha256": "23ea72fcd2764c8762593fa094e693774e754985c4b1aa02e5d2650512282295"
+  },
+  "decision_tree_branch": "conditional_control_passes_parent_development_screens is NOT met: atomic .205078 < .80, ordinal MAE .303060 > .10, orientation .830078 < .90, attribution .260742 < .85, UNKNOWN precision .748014 / recall .617813 < .90, coverage .479688 < .90, correct-new .189098 < .80. Therefore the conditional interface is demonstrated inadequate and the frozen final-mean/readout family is retired for this assay. Development success would not have earned capability credit; partial improvement earns none either.",
+  "development_evaluation": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/conditional-full-v1/evaluation/development/evaluation.json",
+    "sha256": "ba7901b5c1156527defa74a1b8809fef8c6bb02db189d6d08251a6f54d220eb3"
+  },
+  "development_summary": {
+    "UNKNOWN_precision": 0.7480136208853575,
+    "UNKNOWN_recall": 0.6178125,
+    "atomic_choice_macro": 0.205078125,
+    "calibrated_distribution_ECE": 0.05869417605238771,
+    "composition": 0.09765625,
+    "concrete_winner_choice_macro": 0.205078125,
+    "ordinal_MAE": 0.30306002542238275,
+    "orientation": 0.830078125,
+    "page_attribution": 0.2607421875,
+    "permutation_rename_reorder": 1.0,
+    "supported_coverage": 0.4796875,
+    "teacher_changing_correct_new": 0.18909801136363635
+  },
+  "endgame_complete": false,
+  "evidence_class": "MEASURED",
+  "fit": {
+    "epochs": 400,
+    "lr": 0.01,
+    "optimizer": "AdamW",
+    "parameter_count": 295686,
+    "seed": 7,
+    "selected_epoch": 5,
+    "selected_validation_objective": 2.84048327701523,
+    "selection": "earliest minimum held-world validation objective",
+    "steps_per_epoch": 1,
+    "weight_decay": 0.0001
+  },
+  "implementation": {
+    "ephemeral_pages_capture.py": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_capture.py",
+      "sha256": "3749020ae76f5b45939f9672468f6228cc6ac7643397eda57fe5954bdc986be6"
+    },
+    "ephemeral_pages_components.py": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_components.py",
+      "sha256": "c54cd718ab17f8d0510988b6bea18de943433d5e94b56e762d844dbb0e1df160"
+    },
+    "ephemeral_pages_conditional.py": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_conditional.py",
+      "sha256": "fd04eeafe443ce3a7f55d3e85ce31e2f68e2abeed03b122df6706b413efa6810"
+    },
+    "ephemeral_pages_evaluate.py": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_evaluate.py",
+      "sha256": "5d55d0066035c19b899b5b89479d30cdf58b2e5d65f76a596187ecf5723f5d4b"
+    },
+    "ephemeral_pages_features.py": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_features.py",
+      "sha256": "0b11703840366161f16a8755f15657612ffdf9d58c5101dcab2f0cf0b3ee31f3"
+    },
+    "ephemeral_pages_model.py": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_model.py",
+      "sha256": "faabad5a6d024ca28faa16b70f66057aa2fd469268cbe13c3386a6ac2c087c14"
+    },
+    "ephemeral_pages_train.py": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_train.py",
+      "sha256": "3fd63dee39e6a265e6bb087d7d209ea687f5da83154b47daad8e46343795130a"
+    },
+    "ephemeral_pages_verify.py": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_verify.py",
+      "sha256": "79632aaed00f974b74a1614bfd352b35494672ee99ecaac2c560eabc175e3ad6"
+    }
+  },
+  "launch_receipt": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/conditional-full-v1/launch_receipt.json",
+    "sha256": "d2edc8b4c5f9c73dbfc0f9ddcf8d5e572f648d7f861ab6718cc0a40cca12f3fd"
+  },
+  "paired_minus_cross": {
+    "K16_choice": {
+      "CI95": [
+        -0.265625,
+        -0.125
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.1953125,
+      "valid_bootstrap_draws": 10000
+    },
+    "K2_choice": {
+      "CI95": [
+        -0.4296875,
+        -0.1875
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.3125,
+      "valid_bootstrap_draws": 10000
+    },
+    "K32_choice": {
+      "CI95": [
+        -0.265625,
+        -0.125
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.1953125,
+      "valid_bootstrap_draws": 10000
+    },
+    "K4_choice": {
+      "CI95": [
+        -0.14488636363636362,
+        -0.0703125
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.10724431818181815,
+      "valid_bootstrap_draws": 10000
+    },
+    "K64_choice": {
+      "CI95": [
+        -0.265625,
+        -0.125
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.1953125,
+      "valid_bootstrap_draws": 10000
+    },
+    "K8_choice": {
+      "CI95": [
+        -0.1953125,
+        -0.0234375
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.109375,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_calibrated_distribution_Brier": {
+      "CI95": [
+        0.0428077917105273,
+        0.06575313955470935
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.05414634773322702,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_calibrated_distribution_ECE_bin3_accuracy": {
+      "CI95": [
+        -0.08100436854019961,
+        0.04049171817353898
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.0226276872518143,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_calibrated_distribution_ECE_bin3_confidence": {
+      "CI95": [
+        -0.03725613379938316,
+        -0.031348503016421767
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.034058527746531675,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_calibrated_distribution_NLL": {
+      "CI95": [
+        -0.02255671689601426,
+        0.08238771652799641
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.02792135404445939,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_raw_distribution_Brier": {
+      "CI95": [
+        0.17272869506829092,
+        0.2980580724569415
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.23528109873373726,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_raw_distribution_ECE_bin5_accuracy": {
+      "CI95": [
+        -0.1704782117412302,
+        0.0024506784597554043
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.08501194947080914,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_raw_distribution_ECE_bin5_confidence": {
+      "CI95": [
+        -0.003963948600252931,
+        0.01580682720942942
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.0056899230165785575,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_raw_distribution_ECE_bin6_accuracy": {
+      "CI95": [
+        -0.1238528052186172,
+        0.026407274309890125
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.050112930547713125,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_raw_distribution_ECE_bin6_confidence": {
+      "CI95": [
+        -0.0038021969473097605,
+        0.010981981029749096
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.0035577665334498576,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_raw_distribution_ECE_bin7_accuracy": {
+      "CI95": [
+        -0.10473203101293892,
+        0.057443756170729866
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.022951427512050426,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_raw_distribution_ECE_bin7_confidence": {
+      "CI95": [
+        -0.0035393097061309576,
+        0.012695917269259989
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.004583084957461736,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_raw_distribution_ECE_bin8_accuracy": {
+      "CI95": [
+        -0.2485040958350746,
+        -0.10459530252776851
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.17751648981932894,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_raw_distribution_ECE_bin8_confidence": {
+      "CI95": [
+        -0.006918772412955976,
+        0.0030179557846983862
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.0018169735786144336,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_raw_distribution_ECE_bin9_accuracy": {
+      "CI95": [
+        -0.2251793576269727,
+        -0.09042421839956588
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.15695174390826563,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_raw_distribution_ECE_bin9_confidence": {
+      "CI95": [
+        -0.005215718425336882,
+        -0.00179447966883167
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.0035185421111711968,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_raw_distribution_NLL": {
+      "CI95": [
+        0.5171097632938108,
+        1.6506982066257343
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 1.0608950098010128,
+      "valid_bootstrap_draws": 10000
+    },
+    "UNKNOWN_precision": {
+      "CI95": [
+        -0.08160601733653126,
+        -0.058579521600472306
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.07013104605375164,
+      "valid_bootstrap_draws": 10000
+    },
+    "UNKNOWN_recall": {
+      "CI95": [
+        -0.04749999999999999,
+        0.03156249999999994
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.0078125,
+      "valid_bootstrap_draws": 10000
+    },
+    "atomic_choice_macro": {
+      "CI95": [
+        -0.14345479289052881,
+        -0.07427089953945429
+      ],
+      "families": [
+        "compliance",
+        "cost",
+        "effort",
+        "intent",
+        "latency",
+        "plausibility",
+        "priority",
+        "quality",
+        "relevance",
+        "risk",
+        "safety",
+        "sentiment",
+        "similarity",
+        "suitability",
+        "trust",
+        "urgency"
+      ],
+      "point": -0.1083984375,
+      "valid_bootstrap_draws": 10000
+    },
+    "atomic_choice_micro": {
+      "CI95": [
+        -0.1484375,
+        -0.0693359375
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.1083984375,
+      "valid_bootstrap_draws": 10000
+    },
+    "calibrated_distribution_Brier": {
+      "CI95": [
+        0.05154060287507299,
+        0.06573665288378822
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.05859088191522088,
+      "valid_bootstrap_draws": 10000
+    },
+    "calibrated_distribution_ECE_bin3_accuracy": {
+      "CI95": [
+        -0.053527942416077216,
+        0.07219916762093434
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.00491803278688524,
+      "valid_bootstrap_draws": 10000
+    },
+    "calibrated_distribution_ECE_bin3_confidence": {
+      "CI95": [
+        -0.0424962997768659,
+        -0.03625649051239165
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.03905064612741932,
+      "valid_bootstrap_draws": 10000
+    },
+    "calibrated_distribution_NLL": {
+      "CI95": [
+        0.025271093800164658,
+        0.0829321853066824
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.05418247133437637,
+      "valid_bootstrap_draws": 10000
+    },
+    "candidate_directed_ordinal_MAE": {
+      "CI95": [
+        0.044810324787728284,
+        0.059368078109109934
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.05205980201401417,
+      "valid_bootstrap_draws": 10000
+    },
+    "candidate_permutation_1_invariance": {
+      "CI95": [
+        0.0,
+        0.0
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.0,
+      "valid_bootstrap_draws": 10000
+    },
+    "candidate_permutation_2_invariance": {
+      "CI95": [
+        0.0,
+        0.0
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.0,
+      "valid_bootstrap_draws": 10000
+    },
+    "candidate_rename_invariance": {
+      "CI95": [
+        0.0,
+        0.0
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.0,
+      "valid_bootstrap_draws": 10000
+    },
+    "composition": {
+      "CI95": [
+        -0.3046875,
+        -0.1640625
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.234375,
+      "valid_bootstrap_draws": 10000
+    },
+    "concrete_winner_choice_macro": {
+      "CI95": [
+        -0.14345479289052881,
+        -0.07427089953945429
+      ],
+      "families": [
+        "compliance",
+        "cost",
+        "effort",
+        "intent",
+        "latency",
+        "plausibility",
+        "priority",
+        "quality",
+        "relevance",
+        "risk",
+        "safety",
+        "sentiment",
+        "similarity",
+        "suitability",
+        "trust",
+        "urgency"
+      ],
+      "point": -0.1083984375,
+      "valid_bootstrap_draws": 10000
+    },
+    "criterion_swap_changed_to_new": {
+      "CI95": [
+        -0.148193359375,
+        -0.071044921875
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.109130859375,
+      "valid_bootstrap_draws": 10000
+    },
+    "criterion_swap_teacher_changing_correct_new": {
+      "CI95": [
+        -0.1484375,
+        -0.0693359375
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.1083984375,
+      "valid_bootstrap_draws": 10000
+    },
+    "criterion_swap_teacher_stable_unwanted_changes": {
+      "CI95": [
+        -0.197265625,
+        -0.126953125
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.16145833333333337,
+      "valid_bootstrap_draws": 10000
+    },
+    "development4_family_choice_macro": {
+      "CI95": [
+        -0.0871212121212121,
+        0.042857142857142844
+      ],
+      "families": [
+        "effort",
+        "latency",
+        "priority",
+        "trust"
+      ],
+      "point": -0.01953125,
+      "valid_bootstrap_draws": 10000
+    },
+    "grade_swap_changed_to_new": {
+      "CI95": [
+        -0.13671875,
+        -0.09114583333333333
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.11328125,
+      "valid_bootstrap_draws": 10000
+    },
+    "grade_swap_teacher_changing_correct_new": {
+      "CI95": [
+        -0.20572916666666666,
+        -0.12695312500000003
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.16666666666666669,
+      "valid_bootstrap_draws": 10000
+    },
+    "matched_page_attention_mass": {
+      "CI95": [
+        -0.5600436006584727,
+        -0.5251673692094333
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.542694820248612,
+      "valid_bootstrap_draws": 10000
+    },
+    "ordinal_MAE": {
+      "CI95": [
+        0.03791856229982741,
+        0.05314030472577568
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.045390115625864924,
+      "valid_bootstrap_draws": 10000
+    },
+    "orientation": {
+      "CI95": [
+        0.001708984375,
+        0.030517578125
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.016357421875,
+      "valid_bootstrap_draws": 10000
+    },
+    "page_attribution": {
+      "CI95": [
+        -0.595703125,
+        -0.551025390625
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.5732421875,
+      "valid_bootstrap_draws": 10000
+    },
+    "page_reorder_invariance": {
+      "CI95": [
+        0.0,
+        0.0
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.0,
+      "valid_bootstrap_draws": 10000
+    },
+    "permutation_rename_reorder": {
+      "CI95": [
+        0.0,
+        0.0
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.0,
+      "valid_bootstrap_draws": 10000
+    },
+    "question_reorder_invariance": {
+      "CI95": [
+        0.0,
+        0.0
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.0,
+      "valid_bootstrap_draws": 10000
+    },
+    "raw_distribution_Brier": {
+      "CI95": [
+        0.22963421462455028,
+        0.287474851279171
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.25847161572305843,
+      "valid_bootstrap_draws": 10000
+    },
+    "raw_distribution_ECE_bin5_accuracy": {
+      "CI95": [
+        -0.16760846579900424,
+        -0.07194401009847896
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.11926083866382375,
+      "valid_bootstrap_draws": 10000
+    },
+    "raw_distribution_ECE_bin5_confidence": {
+      "CI95": [
+        -0.005915664285833791,
+        0.001756282723320721
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.0021402307730650216,
+      "valid_bootstrap_draws": 10000
+    },
+    "raw_distribution_ECE_bin6_accuracy": {
+      "CI95": [
+        -0.11911308817218105,
+        -0.03270028979328157
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.07614749375840213,
+      "valid_bootstrap_draws": 10000
+    },
+    "raw_distribution_ECE_bin6_confidence": {
+      "CI95": [
+        -0.00028199407571991296,
+        0.006154326462521932
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.002966985055002369,
+      "valid_bootstrap_draws": 10000
+    },
+    "raw_distribution_ECE_bin7_accuracy": {
+      "CI95": [
+        -0.16522784944046207,
+        -0.07562215014480499
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.12056828975561626,
+      "valid_bootstrap_draws": 10000
+    },
+    "raw_distribution_ECE_bin7_confidence": {
+      "CI95": [
+        -0.005638785079213532,
+        0.0006138868393630536
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.0025940494118276147,
+      "valid_bootstrap_draws": 10000
+    },
+    "raw_distribution_ECE_bin8_accuracy": {
+      "CI95": [
+        -0.16855388649581704,
+        -0.10041824292018808
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.13399325084364452,
+      "valid_bootstrap_draws": 10000
+    },
+    "raw_distribution_ECE_bin8_confidence": {
+      "CI95": [
+        0.0005539488975333018,
+        0.00534336180033779
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.002950590112681617,
+      "valid_bootstrap_draws": 10000
+    },
+    "raw_distribution_ECE_bin9_accuracy": {
+      "CI95": [
+        -0.23444187239911377,
+        -0.15925233070600858
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.1972532112538335,
+      "valid_bootstrap_draws": 10000
+    },
+    "raw_distribution_ECE_bin9_confidence": {
+      "CI95": [
+        -0.01001118843541341,
+        -0.007889218615190428
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.008954414492515217,
+      "valid_bootstrap_draws": 10000
+    },
+    "raw_distribution_NLL": {
+      "CI95": [
+        0.46788342222134816,
+        1.022175964003166
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.7429044436893761,
+      "valid_bootstrap_draws": 10000
+    },
+    "relevant_page_contradiction_changed_to_new": {
+      "CI95": [
+        0.0,
+        0.0
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.0,
+      "valid_bootstrap_draws": 10000
+    },
+    "relevant_page_contradiction_teacher_changing_correct_new": {
+      "CI95": [
+        0.14713541666666669,
+        0.2591145833333333
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.20312499999999994,
+      "valid_bootstrap_draws": 10000
+    },
+    "relevant_page_erasure_changed_to_new": {
+      "CI95": [
+        -0.4674479166666667,
+        -0.37760416666666674
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.4225260416666667,
+      "valid_bootstrap_draws": 10000
+    },
+    "relevant_page_erasure_teacher_changing_correct_new": {
+      "CI95": [
+        -0.26692708333333326,
+        -0.19855143229166683
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.232421875,
+      "valid_bootstrap_draws": 10000
+    },
+    "supported_coverage": {
+      "CI95": [
+        -0.22499999999999998,
+        -0.11953124999999998
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.17265625,
+      "valid_bootstrap_draws": 10000
+    },
+    "teacher_changing_changed_to_new": {
+      "CI95": [
+        -0.1413352272727273,
+        -0.07936789772727273
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.11026278409090909,
+      "valid_bootstrap_draws": 10000
+    },
+    "teacher_changing_correct_new": {
+      "CI95": [
+        -0.15625443892045457,
+        -0.09215198863636365
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.12428977272727276,
+      "valid_bootstrap_draws": 10000
+    },
+    "teacher_stable_unwanted_changes": {
+      "CI95": [
+        -0.197265625,
+        -0.126953125
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.16145833333333337,
+      "valid_bootstrap_draws": 10000
+    }
+  },
+  "paired_minus_frozen_pages": {
+    "K16_choice": {
+      "CI95": [
+        0.0,
+        0.0
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.0,
+      "valid_bootstrap_draws": 10000
+    },
+    "K2_choice": {
+      "CI95": [
+        -0.125,
+        0.078125
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.0234375,
+      "valid_bootstrap_draws": 10000
+    },
+    "K32_choice": {
+      "CI95": [
+        0.0,
+        0.0
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.0,
+      "valid_bootstrap_draws": 10000
+    },
+    "K4_choice": {
+      "CI95": [
+        0.11292613636363638,
+        0.15980113636363635
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.13636363636363635,
+      "valid_bootstrap_draws": 10000
+    },
+    "K64_choice": {
+      "CI95": [
+        0.0,
+        0.0
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.0,
+      "valid_bootstrap_draws": 10000
+    },
+    "K8_choice": {
+      "CI95": [
+        0.0,
+        0.125
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.0625,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_calibrated_distribution_Brier": {
+      "CI95": [
+        -0.029897989587542882,
+        -0.00637398325345367
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.018468805124766563,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_calibrated_distribution_ECE_bin2_accuracy": {
+      "CI95": [
+        -0.10211622232323526,
+        -0.006234248121057631
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.05388104319142359,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_calibrated_distribution_ECE_bin2_confidence": {
+      "CI95": [
+        -0.003435681184763756,
+        -0.0019013526326826543
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.0026646222078712256,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_calibrated_distribution_ECE_bin3_accuracy": {
+      "CI95": [
+        -0.0033517178095243206,
+        0.104228193198297
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.05057924152551446,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_calibrated_distribution_ECE_bin3_confidence": {
+      "CI95": [
+        -0.02465039641840072,
+        -0.014153887147097931
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.019150434424712537,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_calibrated_distribution_NLL": {
+      "CI95": [
+        -0.15388261981645932,
+        -0.07109739613904113
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.11328191380748809,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_raw_distribution_Brier": {
+      "CI95": [
+        -0.019210013881556975,
+        0.10132825238632877
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.038701508015252406,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_raw_distribution_ECE_bin5_accuracy": {
+      "CI95": [
+        -0.2406070299619301,
+        -0.024199211587825474
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.129262184550183,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_raw_distribution_ECE_bin5_confidence": {
+      "CI95": [
+        -0.004951123422602718,
+        0.007203100624960157
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.0007606047954556994,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_raw_distribution_ECE_bin6_accuracy": {
+      "CI95": [
+        -0.11231035141832751,
+        0.07921899883804698
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.014809384164222866,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_raw_distribution_ECE_bin6_confidence": {
+      "CI95": [
+        -0.0019285392714367326,
+        0.015330837365664408
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.006743382807220644,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_raw_distribution_ECE_bin7_accuracy": {
+      "CI95": [
+        0.026523942669345896,
+        0.21705072931673577
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.12343496833112391,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_raw_distribution_ECE_bin7_confidence": {
+      "CI95": [
+        -0.005644639447361757,
+        0.0062389231225519785
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.00041653501806482307,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_raw_distribution_ECE_bin8_accuracy": {
+      "CI95": [
+        -0.04526591353430765,
+        0.044801821365718836
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.0014064980208563782,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_raw_distribution_ECE_bin8_confidence": {
+      "CI95": [
+        -0.005868048827323066,
+        0.008949953485723828
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.001438976056930441,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_raw_distribution_ECE_bin9_accuracy": {
+      "CI95": [
+        -0.13388143537512728,
+        0.047620803483635316
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.04680681637203374,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_raw_distribution_ECE_bin9_confidence": {
+      "CI95": [
+        -0.00932979911849717,
+        -0.004954547106838822
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.007121081844671973,
+      "valid_bootstrap_draws": 10000
+    },
+    "OOD_raw_distribution_NLL": {
+      "CI95": [
+        -4.393622182936033,
+        -2.816144985911614
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -3.6212028467610997,
+      "valid_bootstrap_draws": 10000
+    },
+    "UNKNOWN_precision": {
+      "CI95": [
+        0.018535133936364696,
+        0.029777239579035265
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.02398131790568614,
+      "valid_bootstrap_draws": 10000
+    },
+    "UNKNOWN_recall": {
+      "CI95": [
+        -0.22624999999999995,
+        -0.1625000000000001
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.1946875,
+      "valid_bootstrap_draws": 10000
+    },
+    "atomic_choice_macro": {
+      "CI95": [
+        0.12105845930120392,
+        0.1717927431326897
+      ],
+      "families": [
+        "compliance",
+        "cost",
+        "effort",
+        "intent",
+        "latency",
+        "plausibility",
+        "priority",
+        "quality",
+        "relevance",
+        "risk",
+        "safety",
+        "sentiment",
+        "similarity",
+        "suitability",
+        "trust",
+        "urgency"
+      ],
+      "point": 0.146484375,
+      "valid_bootstrap_draws": 10000
+    },
+    "atomic_choice_micro": {
+      "CI95": [
+        0.119140625,
+        0.1748046875
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.146484375,
+      "valid_bootstrap_draws": 10000
+    },
+    "calibrated_distribution_Brier": {
+      "CI95": [
+        -0.03340444964993504,
+        -0.01839722302521351
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.025856042055505513,
+      "valid_bootstrap_draws": 10000
+    },
+    "calibrated_distribution_ECE_bin2_accuracy": {
+      "CI95": [
+        -0.0034571630982931914,
+        0.04005266118004747
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.018292707781675244,
+      "valid_bootstrap_draws": 10000
+    },
+    "calibrated_distribution_ECE_bin2_confidence": {
+      "CI95": [
+        -0.00281774767926444,
+        -0.0019477912051272708
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.0023782888022492177,
+      "valid_bootstrap_draws": 10000
+    },
+    "calibrated_distribution_ECE_bin3_accuracy": {
+      "CI95": [
+        0.009301788679875864,
+        0.13763620023681614
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.06979293544457976,
+      "valid_bootstrap_draws": 10000
+    },
+    "calibrated_distribution_ECE_bin3_confidence": {
+      "CI95": [
+        -0.03071111313922038,
+        -0.0228429175059915
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.02647019044478255,
+      "valid_bootstrap_draws": 10000
+    },
+    "calibrated_distribution_NLL": {
+      "CI95": [
+        -0.13800890579520486,
+        -0.09122830086257504
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.11440537367545289,
+      "valid_bootstrap_draws": 10000
+    },
+    "candidate_directed_ordinal_MAE": {
+      "CI95": [
+        -0.07241142135588916,
+        -0.05321880317850116
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.06268401729346351,
+      "valid_bootstrap_draws": 10000
+    },
+    "candidate_permutation_1_invariance": {
+      "CI95": [
+        0.0,
+        0.0
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.0,
+      "valid_bootstrap_draws": 10000
+    },
+    "candidate_permutation_2_invariance": {
+      "CI95": [
+        0.0,
+        0.0
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.0,
+      "valid_bootstrap_draws": 10000
+    },
+    "candidate_rename_invariance": {
+      "CI95": [
+        0.0,
+        0.0
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.0,
+      "valid_bootstrap_draws": 10000
+    },
+    "composition": {
+      "CI95": [
+        0.0546875,
+        0.125
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.08984375,
+      "valid_bootstrap_draws": 10000
+    },
+    "concrete_winner_choice_macro": {
+      "CI95": [
+        0.12105845930120392,
+        0.1717927431326897
+      ],
+      "families": [
+        "compliance",
+        "cost",
+        "effort",
+        "intent",
+        "latency",
+        "plausibility",
+        "priority",
+        "quality",
+        "relevance",
+        "risk",
+        "safety",
+        "sentiment",
+        "similarity",
+        "suitability",
+        "trust",
+        "urgency"
+      ],
+      "point": 0.146484375,
+      "valid_bootstrap_draws": 10000
+    },
+    "criterion_swap_changed_to_new": {
+      "CI95": [
+        0.089111328125,
+        0.14013671875
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.114501953125,
+      "valid_bootstrap_draws": 10000
+    },
+    "criterion_swap_teacher_changing_correct_new": {
+      "CI95": [
+        0.119140625,
+        0.1748046875
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.146484375,
+      "valid_bootstrap_draws": 10000
+    },
+    "criterion_swap_teacher_stable_unwanted_changes": {
+      "CI95": [
+        0.14322916666666669,
+        0.2376464843749998
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.19075520833333331,
+      "valid_bootstrap_draws": 10000
+    },
+    "development4_family_choice_macro": {
+      "CI95": [
+        0.06756107068607067,
+        0.16129032258064516
+      ],
+      "families": [
+        "effort",
+        "latency",
+        "priority",
+        "trust"
+      ],
+      "point": 0.1171875,
+      "valid_bootstrap_draws": 10000
+    },
+    "grade_swap_changed_to_new": {
+      "CI95": [
+        0.031249999999999997,
+        0.056640625
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.043619791666666664,
+      "valid_bootstrap_draws": 10000
+    },
+    "grade_swap_teacher_changing_correct_new": {
+      "CI95": [
+        0.062499999999999986,
+        0.10937499999999999
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.08528645833333334,
+      "valid_bootstrap_draws": 10000
+    },
+    "matched_page_attention_mass": {
+      "CI95": [
+        -0.010249982541055374,
+        0.007768687988921953
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.001079524540798682,
+      "valid_bootstrap_draws": 10000
+    },
+    "ordinal_MAE": {
+      "CI95": [
+        -0.028631944679614208,
+        -0.008501909473193339
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.018612282018693804,
+      "valid_bootstrap_draws": 10000
+    },
+    "orientation": {
+      "CI95": [
+        0.1015625,
+        0.134765625
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.1181640625,
+      "valid_bootstrap_draws": 10000
+    },
+    "page_attribution": {
+      "CI95": [
+        -0.015869140625,
+        0.015869140625
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.000244140625,
+      "valid_bootstrap_draws": 10000
+    },
+    "page_reorder_invariance": {
+      "CI95": [
+        0.0,
+        0.0
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.0,
+      "valid_bootstrap_draws": 10000
+    },
+    "permutation_rename_reorder": {
+      "CI95": [
+        0.0,
+        0.0
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.0,
+      "valid_bootstrap_draws": 10000
+    },
+    "question_reorder_invariance": {
+      "CI95": [
+        0.0,
+        0.0
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.0,
+      "valid_bootstrap_draws": 10000
+    },
+    "raw_distribution_Brier": {
+      "CI95": [
+        -0.06084543598863643,
+        0.007132711457417545
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.027034037366358232,
+      "valid_bootstrap_draws": 10000
+    },
+    "raw_distribution_ECE_bin5_accuracy": {
+      "CI95": [
+        -0.16871643181803772,
+        -0.06888935488782437
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.11910815233879274,
+      "valid_bootstrap_draws": 10000
+    },
+    "raw_distribution_ECE_bin5_confidence": {
+      "CI95": [
+        -0.008185086297727951,
+        -0.001319751417218038
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.004756497395906112,
+      "valid_bootstrap_draws": 10000
+    },
+    "raw_distribution_ECE_bin6_accuracy": {
+      "CI95": [
+        -0.06028444130584787,
+        0.04676484831833243
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.005901704259888202,
+      "valid_bootstrap_draws": 10000
+    },
+    "raw_distribution_ECE_bin6_confidence": {
+      "CI95": [
+        0.00048801637047011804,
+        0.008419903292393482
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.004507910973108653,
+      "valid_bootstrap_draws": 10000
+    },
+    "raw_distribution_ECE_bin7_accuracy": {
+      "CI95": [
+        -0.03167064572242402,
+        0.05756582722599347
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.013534520507955033,
+      "valid_bootstrap_draws": 10000
+    },
+    "raw_distribution_ECE_bin7_confidence": {
+      "CI95": [
+        -0.008262242423935298,
+        -0.001213797042969689
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.004769823313906074,
+      "valid_bootstrap_draws": 10000
+    },
+    "raw_distribution_ECE_bin8_accuracy": {
+      "CI95": [
+        -0.005728502771451235,
+        0.05315191744087747
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.02317863387541,
+      "valid_bootstrap_draws": 10000
+    },
+    "raw_distribution_ECE_bin8_confidence": {
+      "CI95": [
+        -0.0010131318234616548,
+        0.004740028218952108
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.001858913856534361,
+      "valid_bootstrap_draws": 10000
+    },
+    "raw_distribution_ECE_bin9_accuracy": {
+      "CI95": [
+        -0.009712033868592226,
+        0.07382425984212942
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.03204008458214583,
+      "valid_bootstrap_draws": 10000
+    },
+    "raw_distribution_ECE_bin9_confidence": {
+      "CI95": [
+        -0.006845587252308732,
+        -0.00480954855808158
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.005811475101582642,
+      "valid_bootstrap_draws": 10000
+    },
+    "raw_distribution_NLL": {
+      "CI95": [
+        -4.044859403319523,
+        -3.2574510749976433
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -3.6488300838619896,
+      "valid_bootstrap_draws": 10000
+    },
+    "relevant_page_contradiction_changed_to_new": {
+      "CI95": [
+        -0.006510416666666667,
+        -0.0006510416666666666
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.0032552083333333335,
+      "valid_bootstrap_draws": 10000
+    },
+    "relevant_page_contradiction_teacher_changing_correct_new": {
+      "CI95": [
+        -0.271484375,
+        -0.1959472656250002
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.23372395833333337,
+      "valid_bootstrap_draws": 10000
+    },
+    "relevant_page_erasure_changed_to_new": {
+      "CI95": [
+        0.02864583333333333,
+        0.078125
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.052734375,
+      "valid_bootstrap_draws": 10000
+    },
+    "relevant_page_erasure_teacher_changing_correct_new": {
+      "CI95": [
+        -0.21549479166666663,
+        -0.15364583333333326
+      ],
+      "families": [
+        "all"
+      ],
+      "point": -0.18424479166666663,
+      "valid_bootstrap_draws": 10000
+    },
+    "supported_coverage": {
+      "CI95": [
+        0.2140625,
+        0.29374999999999996
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.25390625,
+      "valid_bootstrap_draws": 10000
+    },
+    "teacher_changing_changed_to_new": {
+      "CI95": [
+        0.07599431818181819,
+        0.11470614346590904
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.09517045454545456,
+      "valid_bootstrap_draws": 10000
+    },
+    "teacher_changing_correct_new": {
+      "CI95": [
+        0.10919744318181818,
+        0.15092329545454544
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.1297940340909091,
+      "valid_bootstrap_draws": 10000
+    },
+    "teacher_stable_unwanted_changes": {
+      "CI95": [
+        0.14322916666666669,
+        0.2376464843749998
+      ],
+      "families": [
+        "all"
+      ],
+      "point": 0.19075520833333331,
+      "valid_bootstrap_draws": 10000
+    }
+  },
+  "preregistration": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/ephemeral_pages_atomic_audit_protocol.json",
+    "sha256": "5d5edb69fe8d76ec8049924272d2d1f923c946187e8c124c6d3a94e590e15858"
+  },
+  "promotion": false,
+  "schema": "vey.eca2.conditional-audit-result.v1",
+  "scope": "Corrected child-local development only. Diagnostic function-class control, not an eligible ECA arm. No promotion, no certificate, no B-STEF, no final-pool access, no competitor or neutral-task credit. Reconstructing saved baseline outputs cost zero baseline model runs.",
+  "smoke_precondition": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/conditional-smoke-v3/smoke/conditional_history.json",
+    "sha256": "264ac71a3b995137ff96ff901ff3edba5fe387ea953dc40ac88c3956cd7201c7"
+  },
+  "training_history": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/ephemeral-pages-atomic-v2/runs/interface-audit-v1/conditional-full-v1/conditional_history.json",
+    "sha256": "2fe9866515130500493e56f6bdabb1bcee093ead5d99eea770e0a68ff8cee26a"
+  }
+}

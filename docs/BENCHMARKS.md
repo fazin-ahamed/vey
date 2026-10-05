@@ -4622,6 +4622,72 @@ optimizer step. The mask is now scoped to direct CLI execution; pre-fix
 source snapshots and the failed roots are retained outside Git, and the
 component parts rerun in a new exclusive root before any conditional fit.
 
+### Conditional readout diagnostic: real gains, no gate passage
+
+HYPOTHESIS: a frozen cached q/page conditional reader with independent
+768->128->1 relevance, grade and direction heads, plus the unchanged
+three-parameter knownness expression, distinguishes readout restrictions
+from an unresolved frozen representation interface. Preregistered in
+`ephemeral_pages_atomic_audit_protocol.json` (`5d5edb69…`) with
+import-scope amendment (`e10ad1fb…`). Corrected child-local
+train/validation/calibration/development only; the ECA-2 final was never
+opened. Baseline predictions were reconstructed from saved artifacts, so
+zero baseline model runs were needed.
+
+MEASURED fit: seed7, 400 epochs, AdamW lr .01, weight decay .0001, one
+full-batch step per epoch, rank64, 295,686 parameters, identical shared
+immutable train normalizer. Earliest minimum held-world validation
+objective selected epoch 5 at 2.840483; the epoch-400 validation total was
+4.060195, so later training did not improve held-world validation.
+
+MEASURED development, conditional against the frozen pages reader on the
+same pool (10,000 paired world-cluster bootstrap draws, seed0):
+
+| Metric | Conditional | Frozen pages | Paired delta [95% CI] |
+|---|---:|---:|---:|
+| Atomic choice macro | .205078 | .058594 | +.146484 [.121058,.171793] |
+| Concrete winner macro | .205078 | .058594 | +.146484 [.121058,.171793] |
+| Ordinal MAE | .303060 | .321672 | -.018612 [-.028632,-.008502] |
+| Orientation | .830078 | .711914 | +.118164 [.101563,.134766] |
+| Page attribution | .260742 | .260498 | +.000244 [-.015869,.015869] |
+| Supported coverage | .479688 | .225781 | +.253906 [.214063,.293750] |
+| Causal correct-new | .189098 | .059304 | +.129794 [.109197,.150923] |
+
+Permutation/rename/reorder invariance is 1. Calibrated distribution ECE is
+.058694. UNKNOWN precision .748014 and recall .617813 both fail.
+
+MEASURED against joint cross, the conditional reader is worse on every
+quality metric, consistent with the substitution finding that the joint
+reader already recovers relevance and needs only extent and knownness.
+
+Gate FAIL against every parent screen: atomic .205078 < .80, ordinal MAE
+.303060 > .10, orientation .830078 < .90, attribution .260742 < .85,
+UNKNOWN precision/recall .748014/.617813 < .90, coverage .479688 < .90,
+composition .097656 < .80, correct-new .189098 < .80. The preregistered
+branch `conditional_control_passes_parent_development_screens` is not met,
+so this control earns no capability credit and no promotion despite its
+consistent improvement over the frozen pages reader.
+
+MEASURED conclusion: the conditional readout materially improves every
+metric it touches and still lands far below the gates. Readout capacity
+and joint pooling were not the binding constraint. Combined with the
+substitution factorial (extent and knownness binding, relevance not) and
+the failed linear extent ceiling (development MAE .383230), the tested
+frozen final-mean representation with any readout of it is retired for
+this assay. Extent identifiability needs model-visible information the
+current inputs do not contain.
+
+INFERENCE: the rubric-anchor branch is the justified next experiment, and
+its own CPU-only augmented linear ceiling screen can retire it before GPU
+spend. Unknown: whether the frozen encoder's rubric-text mean carries
+property-scale information at all, and whether prefinal properties satisfy
+the four anchor audit conditions.
+
+Result manifest `ephemeral_pages_conditional_result_manifest.json`
+(`6741cdcbf7bf6e7dcab243e55a3d00c8ffe82d28e1e4b3b473e0dfd11bdda295`).
+Development evaluation:
+`ba7901b5c1156527defa74a1b8809fef8c6bb02db189d6d08251a6f54d220eb3`.
+
 
 
 
