@@ -5720,6 +5720,63 @@ Next branch, per the registered order: the ordinal Score endpoint on
 `massive.grammar_score`, where the frozen Vey reference has no legal surface
 and Laya is therefore measured alone against the source-native rubric.
 
+## Ordinal Score on MASSIVE grammar rubric: the pinned multilingual route is anti-correlated
+
+MEASURED, pinned multilingual bundle `55cf4c4eb`, 62,594 labeled dev rows
+(`massive.grammar_score`, 5-level native rubric, 62,338 rows with three or more
+observed raters), independently verified with 0 membership problems.
+
+| Quantity | Value |
+|---|---:|
+| rows | 62,594 |
+| mean absolute error (levels 0-4) | 1.91270 |
+| normalized MAE | 0.47817 |
+| mean signed error | -1.89919 |
+| Spearman rank correlation vs rater mean | **-0.03441** |
+
+The signed error and the rank correlation are the substantive results, not the
+MAE. A mean signed error of -1.90 on a 0-4 scale means the route predicts
+almost two full levels BELOW the observed rater mean on average, and a Spearman
+correlation of -0.034 means its expected level is very slightly
+anti-correlated with the truth: as the utterance gets better by the rubric,
+the route's expectation moves the wrong way. The MAE of 1.91 is large, but a
+constant offset alone would give a positive correlation; the near-zero
+negative correlation shows the route is not merely miscalibrated in level, it
+carries almost no usable ordinal signal on this rubric.
+
+Mechanism, from the persisted per-row fields. The predicted expected level is a
+smooth unimodal distribution centred near 2.0, so the output is not degenerate
+and is not a fixed constant. The target distribution is extremely skewed:
+29,843 of 36,663 sampled rows carry a rater mean of 4. The route's argmax level
+concentrates at level 0 (8,938 rows) and level 1 (11,935) while the target mass
+sits at level 4, so the reported expectation is a compromise between the rubric
+prior and the input rather than a reading of the utterance. The uniform spread
+of expected levels around a badly wrong centre is exactly the failure mode that
+a rank correlation detects and an MAE does not.
+
+Reading, stated conservatively. This is one rubric on one public dataset with
+prior exposure disclosed. It is not a general verdict on Laya's Score primitive:
+Laya's Score head was trained against its own rubric formats and this
+MASSIVE grammar judgment scale is not one of them, so the route is operating
+out of its training regime. What it does establish is that the competitor
+routes we can evaluate do not currently supply a calibrated ordinal primitive
+on this benchmark, which is the specific capability the endgame Score cell
+requires. The frozen Vey reference supplies none either, for the mechanism
+recorded earlier: `decide()` has no rubric-relative mode.
+
+Calibration limit, per preregistration: the targets are retained per-rater
+arrays, not population probabilities. No population calibration claim is
+derived from these rows, and none is made.
+
+What this does NOT establish: nothing about Laya's typed-decisions Score route,
+Jev Score, or any ordinal task with a different rubric. No promotion, no Pareto
+credit, no B-STEF clearance.
+
+One verifier defect surfaced and is retained in history: the ordinal check
+compared `level_max` while the arm persists `native_level_max`, producing
+62,594 false "missing" errors and a spurious FAIL. The field name is corrected;
+the corrected run passes with zero problems and reproduces the arm's MAE exactly.
+
 
 
 

@@ -233,13 +233,14 @@ def _beta_cdf(k, n, p):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--vey", help="Choice endpoint: Vey arm file")
-    parser.add_argument("--laya", required=True, help="Choice endpoint: competitor arm file")
-    parser.add_argument("--laya-alt", help="Second competitor route on identical rows")
+    parser.add_argument("--laya", help="Choice endpoint: competitor arm file")
     parser.add_argument("--alt-name", default="laya_alt", help="Label for --laya-alt")
     parser.add_argument("--score", help="Ordinal endpoint: single competitor arm file")
     parser.add_argument("--score-endpoint", default=R.SCORE_ENDPOINTS[0])
     parser.add_argument("--out")
     args = parser.parse_args(argv)
+    if not args.score and not args.laya:
+        parser.error("--laya is required unless --score is given")
 
     if args.score:
         return verify_score(Path(args.score), args.score_endpoint, args.out)
@@ -380,8 +381,11 @@ def verify_score(path: Path, endpoint: str, out):
             problems.append(f"score: row {r['id']} absent from projection")
             continue
         bad = False
+        # The score arm persists native_level_max, matching the projection field
+        # name. Checking "level_max" here reported 62594 false "missing" errors
+        # rather than performing a membership check.
         for field, want in (("mean_level", ref["mean_level"]),
-                            ("level_max", ref["level_max"]),
+                            ("native_level_max", ref["level_max"]),
                             ("observed_raters", ref["observed_raters"])):
             if field not in r:
                 problems.append(f"score: row {r['id']} missing {field}")

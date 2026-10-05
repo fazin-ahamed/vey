@@ -69,14 +69,15 @@
     {
       "CI95": null,
       "Jev": null,
-      "Laya": null,
+      "Laya": 0.47817462642645736,
       "Vey": null,
       "dimension": "Score/ordinal quality",
       "green": false,
       "hardware": null,
       "paired_delta": null,
-      "sample_count": null,
-      "status": "UNMEASURED_NEUTRAL_COMPARISON"
+      "sample_count": 62594,
+      "status": "MEASURED_DEVELOPMENT_PARTITION",
+      "green_reason": "Development partition on an exposed public benchmark. Sealed final data and direct Jev contrast remain required."
     },
     {
       "CI95": null,
@@ -565,8 +566,22 @@
       "rule": "A macro-over-locales vendor number is never compared against a micro-over-rows measurement, and never against another route.",
       "status": "ADVERTISED, NOT OUR MEASUREMENT"
     },
-    "note": "Verified dev-partition Choice and route comparison",
+    "note": "Verified dev-partition Choice, route comparison and ordinal Score",
     "evidence_class": "MEASURED on the verified source-native dev projection. Legacy replication of an exposed public benchmark, not fresh transfer, and not a final or sealed-pool result.",
-    "direct_Jev_status": "PROVISIONAL - DIRECT JEV EVALUATION UNAVAILABLE"
+    "direct_Jev_status": "PROVISIONAL - DIRECT JEV EVALUATION UNAVAILABLE",
+    "score_grammar_score_dev": {
+      "receipt": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-comparison/verification_score.json",
+      "receipt_sha256": "d3921840a3728e5a708b908e9210865b8914e81d937580034f94289bf1d27b07",
+      "endpoint": "massive.grammar_score",
+      "ordinal": {
+        "mean_abs_error": 1.9126985057058294,
+        "mean_signed_error": -1.89919254783516,
+        "normalized_mean_abs_error": 0.47817462642645736,
+        "rows": 62594,
+        "spearman_rank_correlation": -0.034410920870633015,
+        "three_or_more_raters_rows": 62338
+      },
+      "vey": "Vey-not-applicable: frozen decide() has no rubric-relative score surface"
+    }
   }
 }
