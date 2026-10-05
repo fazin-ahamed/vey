@@ -4975,6 +4975,36 @@ equal with 198 shared names and 0 differing, and the guard is unchanged in
 strength. Retained receipts and every launch failure are preserved outside
 Git; no failed artifact was deleted or cited as a result.
 
+### Narrowed C0 passes; C1 stops before its adaptation solve
+
+Preregistration: user-authorized C0 amendment committed in `6e25c9d`.
+MEASURED CPU liveness and restoration over 180 supervised train texts:
+perturbation maximum absolute difference 0.07282257080078125; restoration
+0.0; tolerance 1e-5; gate PASS. Eighteen encoder batches encoded 540 texts
+across baseline, perturbation and restoration. Zero optimizer steps and
+no quality claim. Validation and final pools were not opened.
+Receipt `2f0c76347d2e5d96d7125c5bba813c7aa5962b17fa96be481689234f1f37df71`.
+The original failed cache-identity receipt remains unchanged.
+
+MEASURED C1 execution stops before fitting or quality scoring:
+the pooling helper compares six captured activation batches with 180 mask
+rows. A separate synthetic smoke exposes scalar-target `[3]` versus
+residual `[3,384]` broadcasting failure. These failures do not evaluate
+adaptation quality and do not activate the scientific retirement branch.
+
+Corrective smoke: pooling now aligns each captured batch with its mask
+row slice, including a short final batch; the residual hook reads the
+second input to the output block rather than the dense layer's activation.
+A live pinned-encoder three-text smoke yields activation `[3,1536]`,
+residual `[3,384]` and pooled output `[3,384]`; row mismatch fails closed.
+The bounded adaptation objective remains under mathematical audit:
+linearity before LayerNorm does not establish a closed-form fit to the
+final normalized pooled representation. No scalar-to-vector target may be
+invented and presented as the old preregistered objective.
+C1's threshold remains 0.3332298906765268. No full fit or promotion is
+authorized by an implementation crash.
+
+
 
 
 

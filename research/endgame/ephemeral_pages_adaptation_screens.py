@@ -1220,12 +1220,12 @@ class Layer11Probe:
         self.activation: list[np.ndarray] = []
         self.residual: list[np.ndarray] = []
         self._handles = [
-            layer.output.dense.register_forward_pre_hook(self._residual_hook),
+            layer.output.register_forward_pre_hook(self._residual_hook),
             layer.intermediate.register_forward_hook(self._activation_hook),
         ]
 
     def _residual_hook(self, _module, inputs):
-        self.residual.append(inputs[0].detach().to("cpu").to(torch.float32).numpy())
+        self.residual.append(inputs[1].detach().to("cpu").to(torch.float32).numpy())
 
     def _activation_hook(self, _module, _inputs, output):
         self.activation.append(output.detach().to("cpu").to(torch.float32).numpy())
@@ -1257,17 +1257,19 @@ def _probe_encode(adapted: AdaptedEncoder, ids: np.ndarray, masks: np.ndarray,
 
 
 def _masked_mean_per_batch(activations: list[np.ndarray], masks: np.ndarray) -> np.ndarray:
-    """Masked mean of each captured batch, matching the canonical FP32 pooling."""
-    _require(activations and len(activations) == len(masks),
-             "layer-11 probe captured a different number of batches than encoded")
+    """Pool captured batches against their corresponding token-mask rows."""
+    _require(activations and sum(batch.shape[0] for batch in activations) == len(masks),
+             "layer-11 probe captured a different number of rows than encoded")
     outputs = []
-    for activation, mask in zip(activations, masks):
+    offset = 0
+    for activation in activations:
+        mask = masks[offset:offset + activation.shape[0]]
         _require(activation.shape[:2] == mask.shape,
                  "captured layer-11 activation does not match the attention mask shape")
         weights = np.asarray(mask, dtype=np.float32).reshape(activation.shape[0], -1, 1)
-        # The canonical masked_mean takes a per-row denominator clamped at 1.
         denominator = np.maximum(weights.sum(axis=1), 1.0)
         outputs.append((activation * weights).sum(axis=1) / denominator)
+        offset += activation.shape[0]
     return np.concatenate(outputs, axis=0).astype(np.float64)
 
 
