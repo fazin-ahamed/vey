@@ -186,9 +186,9 @@ def ir_modules(cfg):
     return ir, renderer
 
 
-def selector_denials(compiler, cfg):
+def selector_denials(compiler, cfg, compiler_path):
     require(digest(PROTOCOL) == PROTOCOL_SHA256, "Verifier protocol identity differs")
-    require(digest(compiler) == digest(HERE / "neutral_native_compile.py"), "Selector compiler identity differs")
+    require(digest(compiler_path) == digest(HERE / "neutral_native_compile.py"), "Selector compiler identity differs")
     denials = {}
     for phase in ("calibration", "confirmation", "unused", "", "train "):
         try:
@@ -283,7 +283,7 @@ def verify(phase, compiler_path):
     require({key: dict(value) for key, value in sorted(coverage.items())} == projection["coverage"], "Coverage/type census differs")
     sys.path.insert(0, str(HERE))
     compiler = importlib.import_module("neutral_native_compile")
-    denials = selector_denials(compiler, cfg)
+    denials = selector_denials(compiler, cfg, compiler_path)
     for name in STREAMS:
         require(list(compiler.open_phase(phase, name)) == list(rows(directory / (name + ".jsonl.gz"))), "Verified selector stream differs")
     selector_closure = {"sealed_phase_denials": denials, "verified_stream_openings": sorted(STREAMS)}
