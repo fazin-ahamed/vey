@@ -4854,6 +4854,39 @@ verified against disk before commit.
 `research/endgame/ephemeral_pages_adaptation_preregistration.json`,
 SHA-256 `5bc31a5034ee737cf7af4c74df5adc9ff3b1a7957ce005ad0e810d1c87fcbecd`.
 
+Implementation review, before any screen was executed. The screens module
+independently reproduced the retired page-only ceiling arithmetic exactly
+(rank 180, retained condition 221.8066, development family-macro MAE
+0.3832298906765268 over 240 unique texts) and reconciled the safetensors
+ledger from disk: 203 tensors, 70,831,107 FP32 scalars, layer 11
+16 tensors / 1,774,464 scalars, layers 1 through 11 176 tensors /
+19,519,104 scalars. Loaded encoder parameters are 70,682,112 with
+parameter hash `6176abe0b5f5be…`, matching the pin.
+
+MEASURED specification defect, found by the implementation rather than by an
+outcome: screen C is specified to encode features with the adapted final
+layer at adapter init identity 1.0 and to require an identity precondition
+that this reproduces the frozen page features within 1e-5. At identity
+1.0 that precondition holds by construction, so screen C necessarily
+reproduces the retired page-only ceiling of 0.3832298906765268 and returns
+`fail` against the 0.3332298906765268 threshold. No amount of fitting can
+change it, because screen C runs before any optimizer step.
+
+INFERENCE: screen C as written is a gate that cannot pass, so it would
+retire encoder adaptation without testing it. Running it as specified
+would manufacture a negative result from a specification error rather than
+from evidence. The defect is in the screen, not in the mechanism, and no
+evaluation outcome was observed before the defect was found.
+
+Two candidate corrections exist and neither is outcome-driven: measure the
+ceiling after a bounded, preregistered adaptation of layer 11 (which makes
+the screen a genuine test but spends GPU before the screens report), or
+drop screen C and rely on screens A and B plus the frozen development gate
+with its own mechanism claims. The choice changes what the screen can
+conclude, so it must be decided prospectively and recorded as a documented
+amendment before execution, retaining this negative specification finding
+verbatim.
+
 
 
 
