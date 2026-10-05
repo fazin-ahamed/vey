@@ -5415,9 +5415,68 @@ All 21 endgame dimensions remain required. Public legacy intent, source-native
 ordinal ratings and 51 locale descendants do not establish arbitrary criteria,
 generic Boolean, language usability, natural K1000 or long-context quality.
 No model outputs, quality metrics, promotion or new calibration/final exposure
-were obtained for this registration. Next: commit the compiler before
-materialization, reconstruct its source projection independently, freeze
-output manifests, then preregister the development model comparison.
+were obtained for this registration. The compiler and its independent verifier
+were committed before any selected record was materialized; the materialized
+counts and verification receipts are recorded in the following entry.
+
+## Neutral source-native train/dev projection: materialized and reconstructed
+
+MEASURED: the committed compiler materialized the original train and dev
+membership into separated serving, DecisionIR, target and provenance streams.
+No source row was relabelled, added, dropped or reallocated. Both phases
+reproduce the registered connected-component, source-lineage-group and row
+counts exactly from the sealed custody manifest:
+
+| Selected denominator | train | dev |
+|---|---:|---:|
+| Banking77 source rows / decisions | 4,105 | 1,027 |
+| MASSIVE source rows | 202,521 | 63,852 |
+| MASSIVE decisions (intent + 2 ordinal) | 607,563 | 191,556 |
+| Total source rows | 206,626 | 64,879 |
+| Total decisions | 611,668 | 192,583 |
+
+The independent verifier re-derives every projected field from the pinned
+source envelopes and the canonical DecisionIR classes, recovering both
+candidate catalogues from original metadata bytes alone (Banking77 77 unique
+IDs at Git blob `cdd2a5c7…`, MASSIVE 60 at `4731be1a…`) and re-parsing the
+original MASSIVE rubric document for its five grammar levels and three
+spelling levels. It never executes the loader or the compiler's projection
+helpers.
+
+MEASURED, dev receipt (64,879 rows / 192,583 decisions): all four streams match
+by canonical JSON round trip; coverage and ordering digests match; the
+manifest digest binds the receipt; the five registered catalogues, prompt
+texts and level descriptions match the recovered originals; all 51 MASSIVE
+locales appear; zero invalid present rating types; and requests for
+`calibration`, `confirmation`, `unused`, empty and whitespace-padded phases all
+fail before any file opens. The phase also fails closed while unverified.
+
+Native missingness is preserved rather than filled. Of 63,852 MASSIVE dev rows,
+1,258 carry no valid grammar or spelling rating and stay unlabeled; 187,513
+observed native integers are retained in original rater order. Score
+DecisionIR carry no fabricated single gold, accepted-label set or rescaled
+spelling bins. Rater distributions remain source-retained, not workforce or
+population probabilities.
+
+INFERENCE: the source-native path is mechanically faithful, so Choice and
+ordinal Score can now be exercised on real public intent data without
+inventing labels. This is compiler correctness only. It establishes no model
+quality, calibration, language usability, arbitrary-criterion, generic Boolean
+or high-K capability, and it does not open any sealed phase.
+
+Five implementation defects surfaced in the verifier before it passed, all
+recorded in the retained commit history: a tuple-versus-list comparison across
+the JSON boundary, a module passed where a path was required, exercising the
+selector gate before writing the receipt it demands, a receipt missing the
+manifest digest its own gate requires, and receipt retention happening after
+that gate check. Each was fixed in the verifier and committed before rerunning.
+The projection compiler was never edited after materialization, because its
+digest is frozen into both projection manifests. The earlier dev receipt is
+retained as `verification_receipt_superseded_v1.json` rather than overwritten.
+
+Next: complete and verify the train phase identically, then preregister the
+development model comparison. All 21 critical cells remain
+`UNMEASURED_NEUTRAL_COMPARISON` with `green=false`.
 
 
 
