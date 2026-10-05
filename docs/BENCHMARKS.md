@@ -5959,6 +5959,40 @@ The manifest initially published at `64da723` accidentally contained the earlier
 neutral comparison after a failed construction reused a retained variable.
 It is corrected from the native `PASS` receipt; predictions and gates are unchanged.
 
+## NATIVE-2 architecture comparison: pre-training checks
+
+Preregistered at `db12aa1`, corrected before execution and integrated at
+`74255c7`. Cross, dual and Evidence Pages use the same NATIVE-1 English data,
+component splits and stock encoder. Quality training is a separate pending
+measurement; these checks earn no quality, transfer or release credit.
+
+All three actual CUDA optimizer smokes have finite loss, nonzero named
+encoder/head gradients and optimizer deltas, changed encoder fingerprints,
+and exact save/perturb/restore output equality. Smoke weights are discarded.
+The first cross smoke timed out on the resource guard after the optimizer step.
+A bounded diagnostic separated live CUDA allocation from recyclable reserved
+cache. `b1912cd` releases only idle own cache under low free VRAM, then applies
+the unchanged resource thresholds; it does not suppress external pressure.
+
+A four-decision live control probe exposed missing raw readout fields in
+candidate-count rows. `0fbd9c4` repairs the producer without changing model,
+loss, splits or quality gates. Repaired probes independently reconstruct
+target-blind component-seeded subsets, including absent-gold cases.
+Subset membership is random input coverage, not learned retrieval recall.
+
+On one state and two public catalogues, the fresh computational probe observes
+137 state-containing sequences for cross versus one for dual and Pages.
+The foreign catalogue is unlabelled and excluded from semantic metrics.
+Later identical-query repeats incur zero additional encoder forwards for
+every arm. That is generic memoization, not Pages-specific semantic credit.
+Candidate encoding is counted separately; no latency or throughput claim.
+
+[`native_arch_smoke_manifest.json`](../research/endgame/native_arch_smoke_manifest.json)
+binds 44 live, interrupted and diagnostic artifacts, including both failed
+probes. Counter reconstruction is receipt-backed instrumentation, not an
+independent CUDA kernel profiler. Sealed phases and frozen product stay untouched.
+
+
 
 
 
