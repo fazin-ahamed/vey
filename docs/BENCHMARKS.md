@@ -5471,11 +5471,23 @@ selector gate before writing the receipt it demands, a receipt missing the
 manifest digest its own gate requires, and receipt retention happening after
 that gate check. Each was fixed in the verifier and committed before rerunning.
 The projection compiler was never edited after materialization, because its
-digest is frozen into both projection manifests. The earlier dev receipt is
-retained as `verification_receipt_superseded_v1.json` rather than overwritten.
+digest is frozen into both projection manifests. Each phase retains its earlier
+receipt as `verification_receipt_superseded_v1.json` rather than overwriting it.
 
-Next: complete and verify the train phase identically, then preregister the
-development model comparison. All 21 critical cells remain
+MEASURED, train receipt (206,626 rows / 611,668 decisions): identical criteria
+pass on the larger phase. All four stream digests and sizes match, the manifest
+digest binds the receipt, both catalogues and both native rubrics match the
+recovered originals, all 51 locales appear, zero invalid present rating types,
+and the same five sealed-phase requests are denied. Of 202,521 MASSIVE train
+rows, 3,990 carry no valid ordinal rating and stay unlabeled; 594,718 observed
+native integers are retained in original rater order.
+
+Both phases are therefore closed and immutable: 271,505 source rows, 804,251
+decisions, all reconstructed byte-identically by a verifier that never runs the
+compiler's projection code or the MASSIVE loader.
+
+Next: preregister the development Choice and ordinal Score comparison against
+this verified projection. All 21 critical cells remain
 `UNMEASURED_NEUTRAL_COMPARISON` with `green=false`.
 
 
