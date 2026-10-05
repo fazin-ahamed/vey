@@ -162,6 +162,9 @@ def main(argv=None):
     socket.socket.connect_ex = offline
     socket.create_connection = offline
     laya, torch = load_agent(source_root, directory, expected)
+    # One model resident for the whole capture, matching the registered resource
+    # contract; the exact published constructor and typed call are unchanged.
+    agent = laya.Agent(str(directory), device="cpu", backend="eager", expected_sha256=expected)
 
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -189,8 +192,7 @@ def main(argv=None):
                     break
                 questions = {"q": {"type": "choice", "instructions": row["question"],
                                    "criteria": {cid: row["candidates"][cid] for cid in row["candidate_ids"]}}}
-                prediction = laya.Agent(str(directory), device="cpu", backend="eager",
-                                        expected_sha256=expected).system_one({"text": row["state"]}, questions)
+                prediction = agent.system_one({"text": row["state"]}, questions)
                 answer = prediction["answers"]["q"]
                 probabilities = answer["probabilities"]
                 require(set(probabilities) == set(row["candidate_ids"]), "Probability keys differ")
