@@ -28,7 +28,7 @@
     "no_additional_peer_execution_until_dependency_completes": true
   },
   "inflight_custody": {
-    "scope": "The 15 registered Modal transport source files only; peer capture is outside that transport",
+    "scope": "Original v1 in-flight period: the 15 registered Modal transport source files only; peer capture is outside that transport",
     "implementation_edits": false,
     "model_gate_edits": false,
     "threshold_edits": false,
@@ -44,5 +44,14 @@
     "historical_smoke_limit": "Original three-row smoke lacks full returned diagnostics; no retrospective full-payload custody claim",
     "scope": "Operational evidence custody only; no new peer quality result"
   },
-  "pending": "Correct and regression-test verifier after current run ends; then independently verify complete artifacts. Preserve partial and failed evidence without granting architecture credit."
+  "verifier_correction": {
+    "status": "MEASURED_FAIL_CLOSED_SMOKE_AND_REGRESSIONS_PASS",
+    "missing_required_intervals": {"cross": "failed", "dual": "failed", "pages": "failed"},
+    "selection": "No earned architecture selection if any registered arm is failed or missing; retain local screen and passing-candidate diagnostics",
+    "verification": "192 endgame tests pass on CPU; actual screen entrypoint missing-interval reproducer now rejects all three arms",
+    "scientific_gate_changes": false,
+    "reproducer_evidence_rewritten": false,
+    "model_forwards": 0
+  },
+  "pending": "Fresh isolated v2 CPU preflight and numerical smokes, then complete ten-epoch quality fits and independent full-artifact reconstruction. Preserve original timeout evidence and grant no partial architecture credit."
 }

@@ -1,0 +1,42 @@
+{
+  "schema": "vey.native-arch.modal-timeout-recovery-protocol.v1",
+  "experiment": "NATIVE-2 prospective fresh Modal timeout recovery",
+  "status": "PROSPECTIVE_FRESH_RESTART_NO_QUALITY_RESULT",
+  "original_failure_manifest": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_arch_modal_timeout_result_manifest.json",
+    "bytes": 3660,
+    "sha256": "9651e9d9758c0c51ca96256ab90f87a4ad7aa6e9770dbe5e0e31a8253fdf20e3"
+  },
+  "original_protocol": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal-cross-timeout-v1/native_arch_protocol.json",
+    "bytes": 12446,
+    "sha256": "44c5b54f772b6d2041675c8550d456d5e3e4a03a94f342b01229ebff2202a468"
+  },
+  "original_transport": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal-cross-timeout-v1/native_arch_modal_transport.json",
+    "bytes": 8737,
+    "sha256": "9e483b809234a8f57c6966ee5f679702499ecec56c8a59a213d319d504fb27e0"
+  },
+  "original_volume": "vey-native-arch-modal-v1",
+  "volume": "vey-native-arch-modal-v2",
+  "app": "vey-native-arch-v2",
+  "arms": ["cross", "dual", "pages"],
+  "gpu": "T4",
+  "train_timeout_seconds_per_arm": 43200,
+  "smoke_timeout_seconds_per_arm": 600,
+  "preflight_timeout_seconds": 600,
+  "max_containers": 1,
+  "retries": 0,
+  "restart": "Fresh seeded encoder and optimizer for each arm on the isolated v2 volume. Never resume from selected.safetensors: the timed-out run saved neither optimizer state nor ongoing RNG state.",
+  "required_before_training": "A passing CPU preflight and all three actual v2-volume GPU smokes bound to this recovery protocol and the current transport hash. Original v1 preflight/smoke evidence cannot authorize v2 training.",
+  "original_artifacts": "Retain the v1 volume and every timeout receipt, partial checkpoint, prediction and original source/protocol/transport snapshot unchanged. Upload only the unchanged registered input_files to v2; do not copy v1 arm outputs or execution receipts.",
+  "unchanged_contract": "Ten epochs including epoch0 selection; original fresh seed, FP32, activation checkpointing, full candidates, data membership, objective, effective batch, optimizer, selection, strict restore, calibration, controls, screen gates and software dependencies. Only the isolated execution volume and bounded training allowance change.",
+  "QNATIVE2_lineage": "QNATIVE-2 authority intentionally retains the original NATIVE-2 protocol hash. Any later use of recovered NATIVE-2 results requires a separate prospective lineage amendment; do not mutate the frozen QNATIVE-2 protocol.",
+  "quality_recipe_changed": false,
+  "input_files_changed": false,
+  "resume_allowed": false,
+  "v1_evidence_authorizes_training": false,
+  "quality_credit": false,
+  "performance_credit": false,
+  "B_STEF_allowed": false
+}

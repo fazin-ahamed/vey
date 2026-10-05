@@ -6078,6 +6078,51 @@ loads or forwards were performed for this correction. Published call semantics,
 membership, protocol and all 15 Modal transport source files remain unchanged.
 The historical three-row smoke cannot earn retrospective full-payload custody.
 
+### NATIVE-2 Modal timeout: retained incomplete training
+
+MEASURED execution failure on the original registered transport: the cross call
+hit its 14,400-second deadline. The client reports `FunctionTimeoutError`;
+the remote receipt and trainer metadata report generic `InputCancellation`
+with “cancelled by user” wording. No user cancellation caused this termination.
+The original log footer, remote receipt and every partial artifact are retained.
+History contains completed epochs 0 through 6, with partial selected epoch 6.
+All persisted partial artifact hashes match their downloaded bytes.
+
+Selected restore, calibration and DEV/control captures were not reached.
+Dual and pages training were not called. Thus the registered full comparison is
+incomplete: no primary DEV metric, confidence interval, quality PASS/FAIL or
+negative neural result follows from the timeout. Liveness smoke remains separate
+evidence and cannot replace the missing quality comparison.
+
+`native_arch_modal_timeout_result_manifest.json` binds the preserved lineage.
+The timeout is operational, not a terminal scientific block. The chosen recovery
+is a fresh isolated volume, the same ten-epoch recipe and gates, and a bounded
+43,200-second allowance per arm, with no automatic retries. The selected partial
+checkpoint lacks optimizer and continuing RNG state, so it cannot reproduce
+an uninterrupted AdamW continuation; recovery must restart freshly seeded.
+Whether the larger deadline suffices is unmeasured. Failed volume and artifacts
+remain unchanged. Preflight and fresh three-arm numerical smoke precede recovery
+training; no local GPU execution is allowed.
+
+Prospective correction after termination: all three architecture screens now
+explicitly fail when their required comparison interval is absent or invalid.
+The original missing-interval reproducer now returns FAIL for cross, dual and
+pages. A failed or incomplete registered study cannot earn architecture
+selection, even if an available local screen passes. The original defect
+receipt remains unchanged; scientific thresholds and neural recipe are
+unchanged. CPU verification passes 192 endgame regressions, including missing
+intervals, threshold equality and complete-study selection boundaries.
+
+`native_arch_modal_timeout_recovery_protocol.json` registers fresh v2-volume
+preflight and three new smokes before training. Its guard rejects scientific
+protocol changes beyond the operational timeout amendment. Independent local
+custody checks match all 17 transported sources and 13 unchanged allowed inputs;
+model and training implementation bytes match the original transport.
+The 13 pinned inputs were uploaded explicitly to v2. CPU preflight verifies
+remote bytes and never overwrites inputs. No failed v1 execution receipt or
+checkpoint is copied into v2. Original QNATIVE-2 authority remains frozen;
+recovered-result use requires a separate lineage/architecture amendment.
+
 ## QNATIVE-1: natural-question source projection
 
 Preregistered at `05e5d36`; allocation-order correctness repair at `34f8d73`.

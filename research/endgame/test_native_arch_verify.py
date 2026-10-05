@@ -112,6 +112,45 @@ def test_screen_arch_enforces_protocol_bounds():
         {**repeated, "novel_catalogue_state_reuse": False}, _cfg())["status"] == "failed"
 
 
+def _screen(arch, uncertainty):
+    return verify.screen_arch(
+        arch, 0.85, uncertainty, {"monotone_membership_frequency": True},
+        {"status": "passed"},
+        {"extra_state_encodes": 0, "extra_encoder_forwards": 0,
+         "extra_encoded_states": 0, "novel_catalogue_state_reuse": True}, _cfg())
+
+
+@pytest.mark.parametrize("arch,comparison,gate", [
+    ("cross", "cross_minus_pooled_accuracy",
+     "cross_vs_pooled_accuracy_lower_nominal_bound"),
+    ("dual", "dual_minus_cross_accuracy",
+     "dual_minus_cross_accuracy_lower_nominal_bound"),
+    ("pages", "pages_minus_cross_accuracy",
+     "pages_minus_cross_accuracy_lower_nominal_bound"),
+])
+def test_screen_requires_valid_comparison_interval_at_frozen_bound(arch, comparison, gate):
+    bound = _cfg()["screen_gates"][gate]
+    for uncertainty in ({}, {comparison: {}}, {comparison: None}, None):
+        result = _screen(arch, uncertainty)
+        assert result["status"] == "failed"
+        assert result["checks"][gate] is False
+        assert result["failed_checks"] == [gate]
+    for interval in (
+        None, [], [bound], [bound, bound, bound], "0,1",
+        {"0": bound, "1": bound}, [str(bound), bound], [False, bound],
+        [None, bound], [float("nan"), bound], [bound, float("nan")],
+        [float("-inf"), bound], [bound, float("inf")],
+        [bound + 0.01, bound], [bound - 0.01, bound],
+    ):
+        result = _screen(arch, {comparison: {"ci95_bootstrap": interval}})
+        assert result["status"] == "failed"
+        assert result["failed_checks"] == [gate]
+    result = _screen(arch, {comparison: {"ci95_bootstrap": [bound, bound]}})
+    assert result["status"] == "passed"
+    assert result["checks"][gate] is True
+    assert result["failed_checks"] == []
+
+
 def test_prediction_rows_fail_closed_on_empty_duplicate_and_missing(tmp_path):
     native = _native()
     natives = {"x.intent": {native["id"]: native}}
@@ -372,6 +411,92 @@ def test_architecture_selection_uses_exposures_and_declared_tie_order():
     assert verify.select_architecture(["pages", "cross"], architectures)["architectures"] == ["pages"]
     assert verify.select_architecture(["cross"], architectures)["architectures"] == ["cross"]
     assert verify.select_architecture([], architectures)["earned"] is False
+
+
+@pytest.mark.parametrize("unavailable_arch,arm_status,expected_status", [
+    ("dual", "no-data", "INCOMPLETE"),
+    ("dual", "failed", "FAIL"),
+    ("pages", "no-data", "INCOMPLETE"),
+    ("pages", "failed", "FAIL"),
+    ("cross", "no-data", "INCOMPLETE"),
+    ("cross", "failed", "FAIL"),
+    (None, None, "PASS"),
+])
+def test_verify_withholds_selection_until_registered_study_complete(
+        tmp_path, monkeypatch, unavailable_arch, arm_status, expected_status):
+    endpoint = "x.intent"
+    native = _native(endpoint)
+    natives = {endpoint: {native["id"]: native}}
+    cfg = {**_cfg(), "schema": "vey.native-arch.protocol.v1",
+           "arms": list(verify.ARCHS),
+           "statistics": {"resamples": 10000, "seed": 0},
+           "data": {"fields": [endpoint]}}
+    (tmp_path / "dataset_manifest.json").write_text("{}", encoding="utf-8")
+    monkeypatch.setattr(verify, "load_json", lambda path: cfg)
+    monkeypatch.setattr(verify.DATA, "load_dataset", lambda root: ({}, {}))
+    monkeypatch.setattr(verify, "reconstruct_natives", lambda manifest, phases: (
+        {"dev": natives}, {}, {}, {endpoint: {"eligible": True}}))
+    monkeypatch.setattr(verify, "build_priors", lambda records, endpoints: {})
+    monkeypatch.setattr(verify, "build_donors", lambda records, endpoints: {})
+    dev = {endpoint: {native["id"]: {"answer": native["gold"], "gold": native["gold"]}}}
+    monkeypatch.setattr(verify, "read_pooled_reference", lambda root, natives: {"dev": dev})
+    monkeypatch.setattr(verify, "digest", lambda path: "fixture-hash")
+
+    def verify_arm(root, arch, records, phases, natives, plans, cfg):
+        if arch == unavailable_arch:
+            return {"status": arm_status, "reason": "fixture unavailable arm"}, None
+        return {
+            "status": "passed", "field_controls": {endpoint: {}},
+            "candidate_count": {endpoint: {"monotone_membership_frequency": True}},
+            "coordinate_reversal": {"status": "passed"},
+            "repeated_state": {
+                "extra_state_encodes": 0, "extra_encoder_forwards": 0,
+                "extra_encoded_states": 0, "novel_catalogue_state_reuse": True,
+                "first_round_encoded_states": 137 if arch == "cross" else 1},
+        }, dev
+
+    def paired(endpoint, rows, correct, cfg):
+        return {
+            name: {"ci95_bootstrap": [0.0, 0.0]}
+            for name, left, right in (
+                ("cross_minus_pooled_accuracy", "cross", "pooled"),
+                ("dual_minus_cross_accuracy", "dual", "cross"),
+                ("pages_minus_cross_accuracy", "pages", "cross"))
+            if left in correct and right in correct}
+
+    monkeypatch.setattr(verify, "verify_arch", verify_arm)
+    monkeypatch.setattr(verify, "paired_comparison", paired)
+    receipt = verify.verify(tmp_path)
+    assert receipt["status"] == expected_status
+    choice = receipt["selection"][endpoint]
+    screens = receipt["screens"][endpoint]
+    passing = [arch for arch in verify.ARCHS if screens[arch]["status"] == "passed"]
+    assert choice["passing"] == passing
+    assert receipt["architectures"]["cross"]["status"] == (
+        arm_status if unavailable_arch == "cross" else "passed")
+    if unavailable_arch:
+        assert screens[unavailable_arch]["status"] == "no-data"
+        assert receipt["architectures"][unavailable_arch]["status"] == arm_status
+        assert receipt["missing_architectures"] == (
+            [unavailable_arch] if arm_status == "no-data" else [])
+        assert receipt["failed_architectures"] == (
+            [unavailable_arch] if arm_status == "failed" else [])
+        assert choice["earned"] is False
+        assert choice["architectures"] == []
+        assert "first_round_encoded_states" not in choice
+        if unavailable_arch != "cross":
+            assert passing == [arch for arch in verify.ARCHS if arch != unavailable_arch]
+            assert choice["passing_first_round_encoded_states"] == {
+                arch: 137 if arch == "cross" else 1 for arch in passing}
+    else:
+        assert passing == list(verify.ARCHS)
+        assert choice["earned"] is True
+        assert choice["architectures"] == ["dual"]
+        assert choice["first_round_encoded_states"] == 1
+        assert choice["passing_first_round_encoded_states"] == {
+            "cross": 137, "dual": 1, "pages": 1}
+        assert choice["learned_retrieval_credit"] == 0
+    assert receipt["promotion"] is receipt["final_credit"] is False
 
 
 def _fixture_digest(tensors):

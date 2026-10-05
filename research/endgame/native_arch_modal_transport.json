@@ -1,13 +1,28 @@
 {
   "schema": "vey.native-arch.modal-transport.v1",
   "status": "PROSPECTIVE_FROZEN_INPUTS_AND_CODE",
-  "volume": "vey-native-arch-modal-v1",
+  "volume": "vey-native-arch-modal-v2",
   "data_mount": "/home/fazinahamed/Documents/vey-data/decisionmix",
+  "timeout_recovery_protocol": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_arch_modal_timeout_recovery_protocol.json",
+    "bytes": 2852,
+    "sha256": "b0248bf26de6bb55b22759eee7ea9e6bf8ffc4df11889fc8523e265c06d7cc01"
+  },
   "source_files": [
     {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_arch_modal_timeout_recovery_protocol.json",
+      "bytes": 2852,
+      "sha256": "b0248bf26de6bb55b22759eee7ea9e6bf8ffc4df11889fc8523e265c06d7cc01"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_arch_modal_timeout_result_manifest.json",
+      "bytes": 3660,
+      "sha256": "9651e9d9758c0c51ca96256ab90f87a4ad7aa6e9770dbe5e0e31a8253fdf20e3"
+    },
+    {
       "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_arch_modal.py",
-      "bytes": 9928,
-      "sha256": "a4712f7a5f611e9b7ee87046748bfd07ed832786ec6371457635f414b09f97c5"
+      "bytes": 15011,
+      "sha256": "9ac267db6731c5d4a07348229cfe510463d6dac48f962e2bdd5e397921a96cf8"
     },
     {
       "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_arch_model.py",
@@ -21,8 +36,8 @@
     },
     {
       "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_arch_protocol.json",
-      "bytes": 12446,
-      "sha256": "44c5b54f772b6d2041675c8550d456d5e3e4a03a94f342b01229ebff2202a468"
+      "bytes": 13447,
+      "sha256": "4bc6c117d3cb2a2f1e5d4b5d3fcd4e76fbeecb1921c2d83ffda436d1cf6ad422"
     },
     {
       "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_field_data.py",
@@ -161,12 +176,13 @@
     "protobuf": "7.36.2"
   },
   "gpu": "T4",
-  "serialization": "One GPU call at a time, one model resident, no automatic retries; dedicated private volume. Preserve exact absolute paths for existing immutable dataset manifests.",
+  "serialization": "One GPU call at a time in declared cross/dual/pages order, one model resident, no automatic retries; isolated private vey-native-arch-modal-v2 volume, leaving v1 and all its failed artifacts unchanged. Bound training43200seconds per arm and smoke600seconds per arm. Preserve exact absolute paths for existing immutable dataset manifests.",
   "launches": [
     "modal run research/endgame/native_arch_modal.py --stage preflight",
     "modal run research/endgame/native_arch_modal.py --stage smoke",
     "modal run research/endgame/native_arch_modal.py --stage train"
   ],
+  "recovery_prerequisites": "Commit all registered sources and transport; verify retained original failure/protocol/transport identities locally. Upload exactly the unchanged input_files to fresh v2, run CPU preflight, then three actual serialized v2 smokes before any quality training. Bind every receipt to v2, current transport and timeout recovery protocol; v1 receipts cannot pass. Fresh seeded training only; selected-checkpoint pseudo-resume is forbidden because optimizer and ongoing RNG state were not saved.",
   "download": "After complete, download only explicit arm/runtime/preflight directories/files; reject changed input hashes and independently verify full local artifacts using native_arch_verify.py.",
   "local_interruption": {
     "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/native_arch_modal_migration_interruption_v1.json",

@@ -16,7 +16,10 @@ HERE = REPO / 'research/endgame'
 DATA = Path('/home/fazinahamed/Documents/vey-data/decisionmix')
 ROOT = DATA / 'endgame/native-field-v1'
 TRANSPORT = HERE / 'native_arch_modal_transport.json'
-VOLUME_NAME = 'vey-native-arch-modal-v1'
+RECOVERY = HERE / 'native_arch_modal_timeout_recovery_protocol.json'
+VOLUME_NAME = 'vey-native-arch-modal-v2'
+TRAIN_TIMEOUT = 43200
+SMOKE_TIMEOUT = 600
 ARMS = ('cross', 'dual', 'pages')
 PACKAGES = {'torch': '2.5.1+cu121', 'transformers': '5.17.0', 'numpy': '2.4.6',
             'safetensors': '0.8.0', 'huggingface_hub': '1.32.0', 'tokenizers': '0.23.2',
@@ -39,7 +42,86 @@ def transport():
     return manifest
 
 
-app = modal.App('vey-native-arch-v1')
+def recovery(manifest, retained=False):
+    pin = manifest['timeout_recovery_protocol']
+    require(pin['path'] == str(RECOVERY) and RECOVERY.stat().st_size == pin['bytes']
+            and digest(RECOVERY) == pin['sha256'], 'Recovery protocol identity differs')
+    cfg = json.loads(RECOVERY.read_text())
+    require(cfg['schema'] == 'vey.native-arch.modal-timeout-recovery-protocol.v1',
+            'Recovery protocol schema differs')
+    require(cfg['volume'] == VOLUME_NAME and cfg['original_volume'] == 'vey-native-arch-modal-v1'
+            and cfg['app'] == 'vey-native-arch-v2', 'Recovery isolation differs')
+    require(tuple(cfg['arms']) == ARMS and cfg['gpu'] == 'T4'
+            and cfg['train_timeout_seconds_per_arm'] == TRAIN_TIMEOUT
+            and cfg['smoke_timeout_seconds_per_arm'] == SMOKE_TIMEOUT
+            and cfg['preflight_timeout_seconds'] == SMOKE_TIMEOUT
+            and cfg['max_containers'] == 1 and cfg['retries'] == 0,
+            'Recovery execution bounds differ')
+    require(cfg['resume_allowed'] is False and cfg['input_files_changed'] is False
+            and cfg['quality_recipe_changed'] is False
+            and cfg['v1_evidence_authorizes_training'] is False,
+            'Recovery must remain a fresh unchanged-recipe restart')
+    failure_pin = cfg['original_failure_manifest']
+    failure_path = Path(failure_pin['path'])
+    require(failure_path.stat().st_size == failure_pin['bytes']
+            and digest(failure_path) == failure_pin['sha256'], 'Original failure identity differs')
+    failure = json.loads(failure_path.read_text())
+    require(failure['status'] == 'EXECUTION_TIMEOUT_NO_QUALITY_RESULT'
+            and failure['original_protocol'] == cfg['original_protocol']
+            and failure['source_transport'] == cfg['original_transport'],
+            'Recovery no longer binds the original timeout snapshots')
+    if retained:
+        for key in ('original_protocol', 'original_transport'):
+            original = cfg[key]
+            path = Path(original['path'])
+            require(path.stat().st_size == original['bytes'] and digest(path) == original['sha256'],
+                    'Original retained snapshot differs: ' + key)
+        original = json.loads(Path(cfg['original_protocol']['path']).read_text())
+        current = json.loads((HERE / 'native_arch_protocol.json').read_text())
+        require(current.pop('modal_timeout_recovery_amendment', None),
+                'Operational timeout recovery amendment absent')
+        current['resources']['modal_train_timeout_seconds_per_arm'] = original['resources']['modal_train_timeout_seconds_per_arm']
+        require(current == original, 'Recovery changed the original scientific protocol')
+    return cfg
+
+
+def require_preflight(receipt, expected_sha256, recovery_sha256):
+    require(receipt.get('schema') == 'vey.native-arch.modal-preflight.v1'
+            and receipt.get('status') == 'PASS'
+            and receipt.get('transport_sha256') == expected_sha256
+            and receipt.get('recovery_protocol_sha256') == recovery_sha256
+            and receipt.get('volume') == VOLUME_NAME
+            and receipt.get('stock_loading_verified_on_CPU') is True
+            and receipt.get('GPU_allocated') is False
+            and receipt.get('sealed_phases_accessed') is False,
+            'Fresh v2 preflight must pass under the current transport and recovery')
+
+
+def require_smoke(receipt, arm, expected_sha256, recovery_sha256):
+    require(receipt.get('schema') == 'vey.native-arch.modal-runtime.v1'
+            and receipt.get('arm') == arm and receipt.get('mode') == 'smoke'
+            and receipt.get('status') == 'COMPLETE'
+            and receipt.get('numerical_smoke_verified') is True
+            and receipt.get('transport_sha256') == expected_sha256
+            and receipt.get('recovery_protocol_sha256') == recovery_sha256
+            and receipt.get('volume') == VOLUME_NAME
+            and receipt.get('output') == str(ROOT / (arm + '-smoke')),
+            'Every actual v2 Modal liveness smoke must pass under the current transport and recovery')
+
+
+def check_prerequisites(mode, expected_sha256):
+    recovery_sha256 = digest(RECOVERY)
+    require_preflight(json.loads((ROOT / 'modal_preflight.json').read_text()),
+                      expected_sha256, recovery_sha256)
+    if mode == 'train':
+        for arm in ARMS:
+            receipt = json.loads((ROOT / ('modal_runtime_' + arm + '_smoke.json')).read_text())
+            require_smoke(receipt, arm, expected_sha256, recovery_sha256)
+            require(digest(ROOT / (arm + '-smoke') / 'metadata.json') == receipt['metadata_sha256'],
+                    'Required v2 smoke artifacts differ: ' + arm)
+
+
+app = modal.App('vey-native-arch-v2')
 volume = modal.Volume.from_name(VOLUME_NAME, create_if_missing=True, version=2)
 image = (
     modal.Image.debian_slim(python_version='3.11')
@@ -62,15 +144,18 @@ def check_transport(expected_sha256):
         path = Path(entry['path'])
         require(path.stat().st_size == entry['bytes'] and digest(path) == entry['sha256'],
                 'Remote immutable input/source differs: ' + str(path))
+    recovery(manifest)
     for name, version in PACKAGES.items():
         require(importlib.metadata.version(name) == version, 'Remote dependency differs: ' + name)
     return manifest
 
 
 @app.function(image=image, volumes={str(DATA): volume}, cpu=2, memory=8192,
-              timeout=600, max_containers=1, retries=0)
+              timeout=SMOKE_TIMEOUT, max_containers=1, retries=0)
 def preflight(expected_sha256):
     check_transport(expected_sha256)
+    require(not (ROOT / 'modal_preflight.json').exists(),
+            'Refusing to overwrite a remote preflight receipt')
     sys.path.insert(0, str(REPO))
     from research.endgame import native_field_data as data
     from research.endgame.native_arch_model import canonical_modules, load_arch_encoder
@@ -85,6 +170,7 @@ def preflight(expected_sha256):
     del tokenizer, encoder
     result = {'schema': 'vey.native-arch.modal-preflight.v1', 'status': 'PASS',
               'transport_sha256': expected_sha256, 'GPU_allocated': False,
+              'volume': VOLUME_NAME, 'recovery_protocol_sha256': digest(RECOVERY),
               'model_forwards': 0, 'sealed_phases_accessed': False,
               'dataset_manifest_sha256': digest(ROOT / 'dataset_manifest.json'),
               'phase_counts': {phase: len(records) for phase, records in phases.items()},
@@ -98,10 +184,13 @@ def preflight(expected_sha256):
 
 
 @app.function(image=image, volumes={str(DATA): volume}, gpu='T4', cpu=2, memory=8192,
-              timeout=14400, max_containers=1, retries=0)
+              timeout=TRAIN_TIMEOUT, max_containers=1, retries=0)
 def run_arm(arm, mode, expected_sha256):
     require(arm in ARMS and mode in ('smoke', 'train'), 'Unregistered arm/mode')
     check_transport(expected_sha256)
+    check_prerequisites(mode, expected_sha256)
+    require(not (ROOT / (arm if mode == 'train' else arm + '-smoke')).exists(),
+            'Recovery requires a fresh arm, never a partial-checkpoint resume')
     sys.path.insert(0, str(REPO))
     import torch
     from research.endgame import native_arch_train as trainer
@@ -116,6 +205,7 @@ def run_arm(arm, mode, expected_sha256):
     require(not receipt_path.exists(), 'Refusing to overwrite a remote execution receipt')
     result = {'schema': 'vey.native-arch.modal-runtime.v1', 'arm': arm, 'mode': mode,
               'status': 'STARTED', 'transport_sha256': expected_sha256,
+              'volume': VOLUME_NAME, 'recovery_protocol_sha256': digest(RECOVERY),
               'device': name, 'GPU_total_bytes': props.total_memory,
               'capability': list(torch.cuda.get_device_capability(0)),
               'torch': torch.__version__, 'CUDA_runtime': torch.version.cuda,
@@ -150,6 +240,7 @@ def run_arm(arm, mode, expected_sha256):
 
 
 def committed(manifest):
+    recovery(manifest, retained=True)
     for entry in manifest['source_files']:
         path = Path(entry['path'])
         require(path.stat().st_size == entry['bytes'] and digest(path) == entry['sha256'],
@@ -168,23 +259,20 @@ def main(stage: str = 'preflight'):
     committed(manifest)
     expected = digest(TRANSPORT)
     if stage == 'preflight':
-        # Exact explicit destinations, unlike implicit CLI basename/path copying.
-        with volume.batch_upload(force=False) as upload:
-            for entry in manifest['input_files']:
-                require(digest(entry['path']) == entry['sha256'], 'Local input changed before upload')
-                upload.put_file(entry['path'], '/' + Path(entry['path']).relative_to(DATA).as_posix())
+        # Inputs are transferred explicitly before preflight; never overwrite them.
+        for entry in manifest['input_files']:
+            require(digest(entry['path']) == entry['sha256'], 'Local input changed before preflight')
         result = preflight.remote(expected)
         print(json.dumps(result, sort_keys=True), flush=True)
         return
-    # CPU-only preflight precedes every billed GPU stage; no GPU auto-retries.
-    print(json.dumps(preflight.remote(expected), sort_keys=True), flush=True)
+    recovery_sha256 = digest(RECOVERY)
+    raw = b''.join(volume.read_file('endgame/native-field-v1/modal_preflight.json'))
+    require_preflight(json.loads(raw), expected, recovery_sha256)
+    if stage == 'train':
+        for arm in ARMS:
+            path = 'endgame/native-field-v1/modal_runtime_' + arm + '_smoke.json'
+            raw = b''.join(volume.read_file(path))
+            require_smoke(json.loads(raw), arm, expected, recovery_sha256)
     for arm in ARMS:
-        if stage == 'train':
-            for required_arm in ARMS:
-                path = 'endgame/native-field-v1/modal_runtime_' + required_arm + '_smoke.json'
-                raw = b''.join(volume.read_file(path))
-                receipt = json.loads(raw)
-                require(receipt['status'] == 'COMPLETE' and receipt['numerical_smoke_verified'],
-                        'Every actual Modal liveness smoke must pass before quality fits')
-        result = run_arm.with_options(timeout=600 if stage == 'smoke' else 14400).remote(arm, stage, expected)
+        result = run_arm.with_options(timeout=SMOKE_TIMEOUT if stage == 'smoke' else TRAIN_TIMEOUT).remote(arm, stage, expected)
         print(json.dumps(result, sort_keys=True), flush=True)

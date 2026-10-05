@@ -1,0 +1,74 @@
+{
+  "schema": "vey.native-arch.modal-timeout.v1",
+  "status": "EXECUTION_TIMEOUT_NO_QUALITY_RESULT",
+  "evidence_class": "MEASURED",
+  "app": "ap-nc3wpx15uFzShB8A49bmF6",
+  "arm": "cross",
+  "source_transport": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal-cross-timeout-v1/native_arch_modal_transport.json",
+    "bytes": 8737,
+    "sha256": "9e483b809234a8f57c6966ee5f679702499ecec56c8a59a213d319d504fb27e0"
+  },
+  "original_protocol": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal-cross-timeout-v1/native_arch_protocol.json",
+    "bytes": 12446,
+    "sha256": "44c5b54f772b6d2041675c8550d456d5e3e4a03a94f342b01229ebff2202a468"
+  },
+  "client_log_footer": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal-cross-timeout-v1/modal_client_timeout_footer.log",
+    "bytes": 5778,
+    "sha256": "dd49835debc0378034e31976c1c15e762011c141c03d361feec2c189345a101b"
+  },
+  "runtime_receipt": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal-cross-timeout-v1/modal_runtime_cross_train.json",
+    "bytes": 859,
+    "sha256": "3c90af8fb2d20dcb5df4d6270184cb7b1053c05bf8139739aeea24b237f28842"
+  },
+  "partial_artifacts": {
+    "history.json": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal-cross-timeout-v1/cross/history.json",
+      "bytes": 189880,
+      "sha256": "579c5a91f0a7010d6e0bae8ff635f04aa344412074e0c8a26b55127467899d15"
+    },
+    "liveness.json": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal-cross-timeout-v1/cross/liveness.json",
+      "bytes": 167109,
+      "sha256": "5f754afe6eef3194377f8dc3d118adf05a9852af0df0fc2d1245de55431be5d1"
+    },
+    "metadata.json": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal-cross-timeout-v1/cross/metadata.json",
+      "bytes": 10809,
+      "sha256": "555ace89caae2757ac8263828b000cf5a5d27f6b8dca6ee9816aa81c59a7e7b8"
+    },
+    "selected.safetensors": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal-cross-timeout-v1/cross/selected.safetensors",
+      "bytes": 282953132,
+      "sha256": "bfd0ea292d2364974d7052caeec730a17bafab732513a75a854cfd7fdf8f7fd8"
+    },
+    "selection.jsonl": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal-cross-timeout-v1/cross/selection.jsonl",
+      "bytes": 44529406,
+      "sha256": "cbea76c2529afdbe5b9e4ecaca9c4594528d26234a192fa2763188e99fbda141"
+    }
+  },
+  "completed_epochs": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "selected_partial_epoch": 6,
+  "strict_selected_restore_performed": false,
+  "calibration_performed": false,
+  "DEV_predictions_present": false,
+  "dual_or_pages_train_called": false,
+  "termination": "Authoritative client FunctionTimeoutError at registered14400second deadline; remote generic InputCancellation labels this as cancelled by user. No user cancellation instruction caused this attempt to terminate.",
+  "no_resumption_from_partial_selected_checkpoint": "Optimizer state and ongoing RNG state were not saved. Restart fresh; a selected model checkpoint alone cannot reproduce continuation of AdamW training.",
+  "prospective_recovery": "Same ten-epoch quality recipe and gates, fresh isolated volume and bounded43200second per-arm allowance; preserve failed volume and every partial artifact. No automatic retries.",
+  "quality_credit": false,
+  "performance_credit": false,
+  "B_STEF_allowed": false
+}

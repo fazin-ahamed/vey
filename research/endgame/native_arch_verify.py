@@ -992,20 +992,21 @@ def screen_arch(arch, accuracy, uncertainty, candidate, reversal, repeated, cfg)
     if arch == "cross":
         checks["cross_intent_accuracy_each_source"] = (
             accuracy >= gates["cross_intent_accuracy_each_source"])
-        if "cross_minus_pooled_accuracy" in uncertainty:
-            checks["cross_vs_pooled_accuracy_lower_nominal_bound"] = (
-                uncertainty["cross_minus_pooled_accuracy"]["ci95_bootstrap"][0]
-                >= gates["cross_vs_pooled_accuracy_lower_nominal_bound"])
-    elif arch == "dual":
-        if "dual_minus_cross_accuracy" in uncertainty:
-            checks["dual_minus_cross_accuracy_lower_nominal_bound"] = (
-                uncertainty["dual_minus_cross_accuracy"]["ci95_bootstrap"][0]
-                >= gates["dual_minus_cross_accuracy_lower_nominal_bound"])
-    elif arch == "pages":
-        if "pages_minus_cross_accuracy" in uncertainty:
-            checks["pages_minus_cross_accuracy_lower_nominal_bound"] = (
-                uncertainty["pages_minus_cross_accuracy"]["ci95_bootstrap"][0]
-                >= gates["pages_minus_cross_accuracy_lower_nominal_bound"])
+    comparison, gate = {
+        "cross": ("cross_minus_pooled_accuracy",
+                  "cross_vs_pooled_accuracy_lower_nominal_bound"),
+        "dual": ("dual_minus_cross_accuracy",
+                 "dual_minus_cross_accuracy_lower_nominal_bound"),
+        "pages": ("pages_minus_cross_accuracy",
+                  "pages_minus_cross_accuracy_lower_nominal_bound"),
+    }[arch]
+    evidence = uncertainty.get(comparison) if isinstance(uncertainty, dict) else None
+    interval = evidence.get("ci95_bootstrap") if isinstance(evidence, dict) else None
+    checks[gate] = (
+        isinstance(interval, (list, tuple)) and len(interval) == 2
+        and all(type(value) in (int, float) and math.isfinite(value) for value in interval)
+        and interval[0] <= interval[1]
+        and interval[0] >= gates[gate])
     return {"status": "passed" if all(checks.values()) else "failed",
             "checks": checks,
             "failed_checks": [name for name, ok in checks.items() if not ok],
@@ -1088,14 +1089,20 @@ def verify(root: Path):
                 architectures[arch]["coordinate_reversal"],
                 architectures[arch]["repeated_state"], cfg)
 
+    failed = [arch for arch in ARCHS if architectures[arch]["status"] == "failed"]
+    missing = [arch for arch in ARCHS if architectures[arch]["status"] == "no-data"]
     selection = {}
     for endpoint in endpoints:
         passing = [arch for arch in ARCHS
                    if screens[endpoint].get(arch, {}).get("status") == "passed"]
         selection[endpoint] = select_architecture(passing, architectures)
+        if failed or missing:
+            selection[endpoint].update(
+                architectures=[], earned=False,
+                reason="registered architecture study is failed or incomplete",
+                scope="Local passing-arm diagnostics only; no architecture selection credit")
+            selection[endpoint].pop("first_round_encoded_states", None)
 
-    failed = [arch for arch in ARCHS if architectures[arch]["status"] == "failed"]
-    missing = [arch for arch in ARCHS if architectures[arch]["status"] == "no-data"]
     status = "FAIL" if failed else ("INCOMPLETE" if missing else "PASS")
     return {"schema": "vey.native-arch.verification.v1", "status": status,
             "completed_architectures": [arch for arch in ARCHS if arch not in failed + missing],

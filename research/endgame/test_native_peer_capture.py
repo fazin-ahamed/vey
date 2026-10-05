@@ -49,6 +49,10 @@ def _patched(monkeypatch, tmp_path, agent, rows):
     monkeypatch.setattr(capture, "materialize", lambda root, route: (tmp_path, {}))
     monkeypatch.setattr(capture, "load_agent", lambda *_a: (_FakeRuntime(agent), None))
     monkeypatch.setattr(capture, "checked", lambda entry: Path(entry["path"]))
+    # main installs its offline guards directly; restore them with the fixture.
+    monkeypatch.setattr(capture.socket.socket, "connect", capture.socket.socket.connect)
+    monkeypatch.setattr(capture.socket.socket, "connect_ex", capture.socket.socket.connect_ex)
+    monkeypatch.setattr(capture.socket, "create_connection", capture.socket.create_connection)
 
 
 def test_dev_rows_are_choice_only_and_carry_native_inputs():
