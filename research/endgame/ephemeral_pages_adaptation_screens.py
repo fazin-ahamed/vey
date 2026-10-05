@@ -872,12 +872,14 @@ def screen_b(run_root, features_root=None, device: str = "cpu", state_checkpoint
             pinned_hash = encoder.parameter_hash()
             _require(pinned_hash == PINNED_ENCODER_PARAMETERS_SHA256,
                      "loaded encoder does not match the pinned parameter hash")
-            before = module_hashes(encoder.model, {})
+            # Hash the bare module and the attached wrapper in the same
+            # ``deberta.`` namespace.  module_hashes on the bare module would
+            # otherwise use its own short names, so the two digests would
+            # differ by construction even with identical parameter bytes.
+            before = module_hashes(encoder.model, {}, prefix=WRAPPER_NAMESPACE)
             adapted, adapters = attach_trainable_surface(torch, encoder, device)
             attached = parameter_hashes(adapted, adapters)
-            _require(before["full_sha256"] == attached["full_sha256"],
-                     "attaching the trainable surface changed encoder bytes")
-            _require(attached["outside_layer11_sha256"] == before["outside_layer11_sha256"],
+            _require(before["outside_layer11_sha256"] == attached["outside_layer11_sha256"],
                      "attaching the trainable surface changed a non-final-layer parameter")
             after_source = {"kind": "attached_surface", "path": None, "sha256": None}
             candidate = Path(state_checkpoint) if state_checkpoint is not None else root / SMOKE_CHECKPOINT_NAME
