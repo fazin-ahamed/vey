@@ -11,45 +11,45 @@
   },
   "operational_amendment": {
     "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_qasper_cross_transport_input_amendment.json",
-    "bytes": 7291,
-    "sha256": "62fd29ae4e41f0dcfdaa15588cfdf520bbb41a8f8df15f1a05597a606efa22f1"
+    "bytes": 7493,
+    "sha256": "6bf614eb33ebaf1b48fffa091a32ba04279c15ae7550fc12a335055a6cd453f2"
   },
   "derived_dataset": {
-    "root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/qnative-cross-v1/dataset-v2",
+    "root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/qnative-cross-v1/dataset-v3",
     "manifest": {
-      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/qnative-cross-v1/dataset-v2/dataset_manifest.json",
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/qnative-cross-v1/dataset-v3/dataset_manifest.json",
       "bytes": 8563,
-      "sha256": "65985ee7a84859527b3be7cf05cbfcc05da3b1c9be0d15e3ddc7446818dac582"
+      "sha256": "d85a6a1bf0cfbe1774b483a2bea4c73fb5692625bf4ec3dec81a5371f1d7922f"
     },
     "verification_receipt": {
-      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/qnative-cross-v1/dataset-v2/verification_receipt.json",
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/qnative-cross-v1/dataset-v3/verification_receipt.json",
       "bytes": 8078,
-      "sha256": "baad9f5a30f191b98bcfe1fe7785018aa532aea2b9019cd03899bfe08fa5b5b9"
+      "sha256": "36f8fd6098124dfc1fc2a4d3311762b1660f13cad45a43dba1ec5d8c054c8f64"
     }
   },
   "input_files": [
     {
-      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/qnative-cross-v1/dataset-v2/fit.jsonl.gz",
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/qnative-cross-v1/dataset-v3/fit.jsonl.gz",
       "bytes": 15015095,
       "sha256": "3d3bd787a085c4354a966ce1e194833b4e4b54e65e035ad5cd07e9f5b31eab8f"
     },
     {
-      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/qnative-cross-v1/dataset-v2/selection.jsonl.gz",
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/qnative-cross-v1/dataset-v3/selection.jsonl.gz",
       "bytes": 3486580,
       "sha256": "61ad8f1146a8092e3e0bed2346097d568fe7be256f038205598d9d4a9ecd12cb"
     },
     {
-      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/qnative-cross-v1/dataset-v2/calibration.jsonl.gz",
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/qnative-cross-v1/dataset-v3/calibration.jsonl.gz",
       "bytes": 3702209,
       "sha256": "9ec0132621f4cf66c34a7ba6de8aba21c5f18e93288b53a54a5cb5a75758065d"
     },
     {
-      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/qnative-cross-v1/dataset-v2/dev.jsonl.gz",
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/qnative-cross-v1/dataset-v3/dev.jsonl.gz",
       "bytes": 12193757,
       "sha256": "afec87f117f4ef8dcedb53c138e572ced3e3a4f74af00abc976487903b7a3c76"
     },
     {
-      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/qnative-cross-v1/dataset-v2/papers.jsonl.gz",
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/qnative-cross-v1/dataset-v3/papers.jsonl.gz",
       "bytes": 10953247,
       "sha256": "abe663166c09c0be8a655a874ad5c1790d808a6acf00b315f34ef9516263163c"
     },
@@ -94,14 +94,14 @@
       "sha256": "3f3978e0c036f2c2588cac34a6047cbb0af0b0dc1814254e291028529805496d"
     },
     {
-      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/qnative-cross-v1/dataset-v2/dataset_manifest.json",
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/qnative-cross-v1/dataset-v3/dataset_manifest.json",
       "bytes": 8563,
-      "sha256": "65985ee7a84859527b3be7cf05cbfcc05da3b1c9be0d15e3ddc7446818dac582"
+      "sha256": "d85a6a1bf0cfbe1774b483a2bea4c73fb5692625bf4ec3dec81a5371f1d7922f"
     },
     {
-      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/qnative-cross-v1/dataset-v2/verification_receipt.json",
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/qnative-cross-v1/dataset-v3/verification_receipt.json",
       "bytes": 8078,
-      "sha256": "baad9f5a30f191b98bcfe1fe7785018aa532aea2b9019cd03899bfe08fa5b5b9"
+      "sha256": "36f8fd6098124dfc1fc2a4d3311762b1660f13cad45a43dba1ec5d8c054c8f64"
     }
   ],
   "source_files": [
@@ -117,8 +117,8 @@
     },
     {
       "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_qasper_cross_transport_input_amendment.json",
-      "bytes": 7291,
-      "sha256": "62fd29ae4e41f0dcfdaa15588cfdf520bbb41a8f8df15f1a05597a606efa22f1"
+      "bytes": 7493,
+      "sha256": "6bf614eb33ebaf1b48fffa091a32ba04279c15ae7550fc12a335055a6cd453f2"
     },
     {
       "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_qasper_cross_data.py",
