@@ -99,6 +99,7 @@ def projection(cfg):
                     "candidate_ids": list(decision["candidate_ids"]),
                     "candidates": dict(decision["candidates"]),
                     "gold": decision["gold"],
+                    "state_sha256": hashlib.sha256(record["state"].encode("utf-8")).hexdigest(),
                 }
     return rows
 
@@ -132,6 +133,12 @@ def _distribution(row, ids, label, problems):
     return values
 
 
+def _state_digest(state):
+    """SHA-256 of the exact model-visible state text."""
+    require(isinstance(state, str), "Capture state is not source text")
+    return hashlib.sha256(state.encode("utf-8")).hexdigest()
+
+
 def reconstruct(rows, label, refs, problems):
     """Return per-id records with independently derived gold, correctness and inputs."""
     seen = set()
@@ -146,12 +153,14 @@ def reconstruct(rows, label, refs, problems):
         if ref is None:
             problems.append(label + ": row " + str(rid) + " absent from projection")
             continue
-        if row.get("candidate_ids") != ref["candidate_ids"]:
-            problems.append(label + ": row " + rid + " candidate order differs from projection")
-            continue
-        for field in ("group_id", "component_id", "locale", "endpoint"):
+        for field in ("state", "question"):
             if field in row and row[field] != ref[field]:
-                problems.append(label + ": row " + rid + " field " + field + " differs from projection")
+                problems.append(label + ": row " + rid + " " + field
+                                + " differs from the verified projection")
+        if "state" in row and hashlib.sha256(row["state"].encode("utf-8")).hexdigest() != ref["state_sha256"]:
+            problems.append(label + ": row " + rid + " state digest differs from the verified projection")
+        if "candidates" in row and row["candidates"] != ref["candidates"]:
+            problems.append(label + ": row " + rid + " candidate texts differ from the verified projection")
         values = _distribution(row, ref["candidate_ids"], label, problems)
         if values is None:
             continue
@@ -174,6 +183,90 @@ def reconstruct(rows, label, refs, problems):
     return out
 
 
+def confidence_statistics(confidences, correctness):
+    """Reconstruct probability confidence without splitting tied scores by gold."""
+    require(len(confidences) == len(correctness), "Confidence/label lengths differ")
+    require(all(type(value) in (int, float) and math.isfinite(value) and 0 <= value <= 1
+                for value in confidences), "Invalid probability confidence")
+    require(all(type(value) is bool for value in correctness), "Invalid correctness label")
+    n = len(confidences)
+    groups = []
+    for confidence, correct in sorted(zip(confidences, correctness)):
+        if not groups or groups[-1][0] != confidence:
+            groups.append([confidence, 0, 0])
+        groups[-1][1] += 1
+        groups[-1][2] += int(correct)
+
+    reliability = [{"lower": slot / 15, "upper": (slot + 1) / 15,
+                    "rows": 0, "confidence_sum": 0.0, "correct": 0}
+                   for slot in range(15)]
+    for confidence, count, correct in groups:
+        bucket = reliability[min(14, int(confidence * 15))]
+        bucket["rows"] += count
+        bucket["confidence_sum"] += confidence * count
+        bucket["correct"] += correct
+    for bucket in reliability:
+        count = bucket["rows"]
+        bucket["mean_confidence"] = bucket.pop("confidence_sum") / count if count else None
+        bucket["accuracy"] = bucket["correct"] / count if count else None
+
+    adaptive = []
+    count = correct = seen = 0
+    confidence_sum = 0.0
+    lower = None
+    for index, (confidence, group_count, group_correct) in enumerate(groups):
+        if lower is None:
+            lower = confidence
+        count += group_count
+        correct += group_correct
+        seen += group_count
+        confidence_sum += confidence * group_count
+        last = index == len(groups) - 1
+        target = math.ceil((len(adaptive) + 1) * n / 15)
+        if last or (len(adaptive) < 14 and seen >= target):
+            adaptive.append({"lower": lower, "upper": confidence, "rows": count,
+                             "mean_confidence": confidence_sum / count,
+                             "accuracy": correct / count})
+            count = correct = 0
+            confidence_sum = 0.0
+            lower = None
+    adaptive_ece = sum(bucket["rows"] / n *
+                       abs(bucket["mean_confidence"] - bucket["accuracy"])
+                       for bucket in adaptive) if n else None
+
+    positives = sum(correctness)
+    negatives = n - positives
+    wins = 0.0
+    lower_negatives = 0
+    for _confidence, count, correct in groups:
+        wrong = count - correct
+        wins += correct * (lower_negatives + wrong / 2)
+        lower_negatives += wrong
+    auroc = wins / (positives * negatives) if positives and negatives else None
+
+    selective = []
+    accepted = accepted_correct = 0
+    for confidence, count, correct in reversed(groups):
+        accepted += count
+        accepted_correct += correct
+        selective.append({"threshold": confidence, "accepted": accepted,
+                          "coverage": accepted / n,
+                          "errors": accepted - accepted_correct,
+                          "risk": (accepted - accepted_correct) / accepted})
+    fixed = []
+    for threshold in (0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 0.99):
+        accepted = sum(count for confidence, count, _correct in groups if confidence >= threshold)
+        correct = sum(correct for confidence, _count, correct in groups if confidence >= threshold)
+        errors = accepted - correct
+        fixed.append({"threshold": threshold, "accepted": accepted,
+                      "coverage": accepted / n if n else None, "errors": errors,
+                      "risk": errors / accepted if accepted else None})
+    return {"adaptive_ece15": adaptive_ece, "adaptive_reliability15": adaptive,
+            "reliability15": reliability, "confidence_correctness_auroc": auroc,
+            "selective_risk_coverage": selective, "fixed_confidence_risk_coverage": fixed,
+            "confidence_scope": "Maximum normalized serialized probability; descriptive, not a certificate"}
+
+
 def metrics(records, ids):
     """Top-1, NLL, Brier, ECE15 and confidence ranking for one arm.
 
@@ -183,7 +276,8 @@ def metrics(records, ids):
     """
     n = len(records)
     if n == 0:
-        return {"rows": 0, "top1_accuracy": None, "nll": None, "brier": None, "ece15": None}
+        return {"rows": 0, "top1_accuracy": None, "nll": None, "brier": None, "ece15": None,
+                **confidence_statistics([], [])}
     hits = 0
     nll = brier = 0.0
     conf, ok = [], []
@@ -204,7 +298,8 @@ def metrics(records, ids):
         if sel:
             ece += len(sel) / n * abs(sum(conf[j] for j in sel) / len(sel)
                                       - sum(ok[j] for j in sel) / len(sel))
-    return {"rows": n, "top1_accuracy": hits / n, "nll": nll / n, "brier": brier / n, "ece15": ece}
+    return {"rows": n, "top1_accuracy": hits / n, "nll": nll / n, "brier": brier / n, "ece15": ece,
+            **confidence_statistics(conf, ok)}
 
 
 def paired_delta(vey, laya, resamples=10000, seed=0):

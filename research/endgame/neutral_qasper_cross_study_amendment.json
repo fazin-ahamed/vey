@@ -271,8 +271,8 @@
     ],
     "extraction": [
       "per-observed-nonempty-native-annotation exact set match of raw strings",
-      "per-annotation token-set F1 over union of normalized tokens from all predicted versus all native span strings; lowercase, Unicode word tokens; multiplicity via Counter, no aliases or free-form answers",
-      "per-native-item exact string recall and source position coverage; unmatched items retained",
+      "per-annotation token-set F1 over union of normalized tokens from all predicted versus all native span strings; lowercase, Unicode word tokens; multiplicity via Counter, no aliases or free-form answers. An observed nonempty native array whose word normalization yields zero gold tokens (for example empty-string or punctuation-only spans) keeps its annotation and native-item denominators and is scored F1=0, never F1=1; a zero-token prediction against it is also F1=0. Conventional empty/empty agreement cannot award successful abstention",
+      "per-native-item exact string recall and source position coverage; unmatched items retained. Empty/unavailable target annotations stay separately reported and excluded from set/F1 denominators without invented accuracy",
       "empty/unavailable target annotations reported without invented accuracy"
     ],
     "original_intent": [

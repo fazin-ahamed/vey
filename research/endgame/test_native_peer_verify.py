@@ -121,3 +121,51 @@ def test_peer_header_mismatch_is_rejected(tmp_path):
     _write(vey_path, {"schema": "vey.native-field.predictions.v1"}, vey)
     with pytest.raises(RuntimeError, match="peer capture schema"):
         V.main(["--vey", str(vey_path), "--laya", str(laya_path)])
+
+
+def test_confidence_ties_cannot_be_split_into_selective_successes():
+    result = V.confidence_statistics([0.9] * 4, [True, False, True, False])
+    assert result["adaptive_ece15"] == pytest.approx(0.4)
+    assert result["confidence_correctness_auroc"] == 0.5
+    assert result["selective_risk_coverage"] == [
+        {"threshold": 0.9, "accepted": 4, "coverage": 1.0, "errors": 2, "risk": 0.5}
+    ]
+    assert [(row["rows"], row["accuracy"]) for row in result["adaptive_reliability15"]] == [(4, 0.5)]
+
+
+def test_confidence_ranking_counts_cross_class_ties_as_half_wins():
+    result = V.confidence_statistics([0.9, 0.9, 0.3, 0.1], [True, False, True, False])
+    assert result["confidence_correctness_auroc"] == 0.625
+    curve = result["selective_risk_coverage"]
+    assert [row["accepted"] for row in curve] == [2, 3, 4]
+    assert [row["risk"] for row in curve] == pytest.approx([0.5, 1 / 3, 0.5])
+
+
+def test_adaptive_reliability_preserves_large_equal_confidence_groups():
+    result = V.confidence_statistics([0.1] * 8 + [0.9] * 8, [False] * 8 + [True] * 8)
+    assert result["adaptive_ece15"] == pytest.approx(0.1)
+    assert [(row["rows"], row["accuracy"]) for row in result["adaptive_reliability15"]] == [
+        (8, 0.0), (8, 1.0)
+    ]
+    assert result["confidence_correctness_auroc"] == 1.0
+    populated = [row for row in result["reliability15"] if row["rows"]]
+    assert [row["mean_confidence"] for row in populated] == pytest.approx([0.1, 0.9])
+
+
+@pytest.mark.parametrize("correct", [True, False])
+def test_single_correctness_class_has_no_confidence_ranking_credit(correct):
+    result = V.confidence_statistics([0.6], [correct])
+    assert result["confidence_correctness_auroc"] is None
+    accepted, empty = result["fixed_confidence_risk_coverage"][0], result["fixed_confidence_risk_coverage"][-1]
+    assert accepted["threshold"] == 0.5 and accepted["accepted"] == 1
+    assert accepted["risk"] == int(not correct)
+    assert empty["threshold"] == 0.99 and empty["accepted"] == 0
+    assert empty["coverage"] == 0.0 and empty["risk"] is None
+
+
+@pytest.mark.parametrize("confidence,label", [
+    ([0.5], []), ([float("nan")], [True]), ([1.01], [True]), ([True], [False]), ([0.5], [1]),
+])
+def test_invalid_confidence_observations_fail_closed(confidence, label):
+    with pytest.raises(RuntimeError):
+        V.confidence_statistics(confidence, label)
