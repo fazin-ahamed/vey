@@ -6129,9 +6129,85 @@ receipt; selected smoke restore error is exactly zero, encoder bytes change,
 and every recorded active parameter delta is nonzero. The v2 preflight binds
 the original stock encoder fingerprint and unchanged input counts. Receipts
 are retained in `modal-recovery-v2`; `native_arch_modal_recovery_smoke_results.json`
-binds their hashes to preregistration `408f93b`. Fresh full quality execution
-has been launched, but no completed architecture result is yet verified.
-These are execution proofs, with no quality or performance credit.
+binds their hashes to preregistration `408f93b`. At that delivery, fresh full
+quality execution had launched but no completed architecture result was yet
+verified. Those receipts are execution proofs, with no quality or performance
+credit.
+
+### NATIVE-2 v2 completed quality comparison
+
+MEASURED all three fresh serialized Modal arms completed their registered
+ten-epoch recipe. Independent CPU reconstruction passes all architecture
+artifacts, comparison intervals, selection rules, calibration temperatures,
+candidate controls, checkpoint bytes and encoder fingerprints. All three
+selected epoch 10; each remote selected-checkpoint restore records zero
+maximum absolute output difference. Reconstruction does not constitute a new
+independent neural forward replay.
+
+Primary assessment is the same exposed English DEV as NATIVE-1:
+Banking77 has 1,027 rows in 1,024 components; MASSIVE has 1,252 rows in
+1,024 components. No resplit, DEV fit or sealed-final access occurred.
+
+| Architecture | Banking77 intent accuracy | MASSIVE intent accuracy | Registered quality screen |
+|---|---:|---:|---|
+| Frozen NATIVE-1 pooled reference | 0.819864 | 0.756390 | Reference only |
+| Cross | 0.888997 | 0.831470 | PASS on both endpoints |
+| Dual | 0.695229 | 0.705272 | FAIL on both endpoints |
+| Evidence Pages | 0.478092 | 0.539137 | FAIL on both endpoints |
+
+Row-weighted paired component-ratio bootstrap uses 10,000 draws, seed 0.
+Intervals below are nominal descriptive 95%, not simultaneous release
+non-inferiority evidence.
+
+| Comparison | Banking77 delta [interval] | MASSIVE delta [interval] |
+|---|---|---|
+| Cross minus pooled | +0.069133 [0.046738, 0.091797] | +0.075080 [0.051465, 0.098592] |
+| Dual minus cross | -0.193768 [-0.222763, -0.164557] | -0.126198 [-0.153723, -0.099285] |
+| Pages minus cross | -0.410906 [-0.443580, -0.378037] | -0.292332 [-0.325563, -0.259051] |
+
+Cross passes the per-source 0.80 accuracy and nonnegative comparison-lower-bound
+screens. Dual fails its -0.05 lower-bound requirement; Pages fails its -0.02
+requirement. The complete-study selector earns cross for these two development
+endpoints only. The pooled MASSIVE near-miss does not persist under this tested
+joint-input interface. This comparison does not isolate the causal reason
+for the gain or disprove every state-reuse architecture.
+
+Every arm's donor intervention changes probabilities on all 2,279 rows.
+Cross state-mask accuracy is 0.024343/0.055112 and swapped-state accuracy
+against the original targets is 0.000000/0.003195 for Banking77/MASSIVE.
+Dual mask accuracy is 0.012658/0.075879 and original-target swap accuracy is
+0.003895/0.011182. Pages mask accuracy is 0.007790/0.075879 and swap accuracy
+is 0.012658/0.013578. These are source-native state-sensitivity controls,
+not natural-variable-question or arbitrary-criterion transfer.
+
+All arms reconstruct candidate-ID winner invariance and the input-only nested
+candidate-count controls. Across the two public catalogues, first-round
+state-containing sequence counts are cross 137, dual 1, Pages 1.
+Every arm uses zero additional encoder forwards on exact later repeats.
+These counters establish cache structure, not latency or throughput gains.
+The foreign catalogue remains an unlabelled computational probe. Random
+subset membership earns no learned shortlist or retrieval credit.
+
+Temperature selection uses only disjoint calibration components: Banking77
+563 rows and MASSIVE 616 rows. Independently reconstructed temperatures are
+cross 1.813063/1.657227, dual 0.857345/1.057371 and Pages 1.265579/1.514785.
+No statistical certificate or probability-truth claim follows from temperature
+fitting or DEV accuracy.
+
+`native_arch_result_manifest.json` pins 41 completed/preserved artifacts,
+including all selected checkpoints, per-row predictions and controls,
+three COMPLETE remote receipts, independent verification and the earlier
+INCOMPLETE verification. Original v1 timeout and all prior failures stay
+retained. Execution uses Modal app `ap-NNmvCtA4nB2nlIoABuqenE`; no local GPU
+was used for this recovery. The independent verification SHA-256 is
+`af658cf3fb00615510e2034447cd226e4c767f8398659c0671029102ae07d377`.
+
+The registered cross-only branch proceeds to natural-variable-question
+transfer. QNATIVE-2 must freeze an explicit recovered-result lineage,
+cross-conditioned architecture and mechanism gates before any QASPER model
+load or forward. Retain dual/Pages negatives and the unresolved state-reuse
+branch; no capacity increase, many-axis, fresh-final, competitor, performance,
+shipping, Pareto or B-STEF promotion is earned.
 
 ## QNATIVE-1: natural-question source projection
 

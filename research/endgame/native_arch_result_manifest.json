@@ -1,0 +1,1095 @@
+{
+  "schema": "vey.native-arch.delivery.v1",
+  "experiment": "NATIVE-2 pooled/cross/dual/Evidence Pages source-native intent architecture comparison",
+  "evidence_class": "MEASURED English native DEV mechanism screens only",
+  "status": "INDEPENDENT_RECONSTRUCTION_PASS_CROSS_ONLY_QUALITY_PASS",
+  "preregistration_commit": "db12aa1",
+  "preexecution_corrected_implementation_commit": "74255c7",
+  "recovery_preregistration_commit": "408f93b",
+  "actual_v2_preflight_and_smoke_delivery_commit": "36ad44d",
+  "modal_app": "ap-NNmvCtA4nB2nlIoABuqenE",
+  "modal_app_URL": "https://modal.com/apps/fazin-ahamed/main/ap-NNmvCtA4nB2nlIoABuqenE",
+  "remote_all_three_arms_complete": true,
+  "transport_sha256": "0fd4e6c12dfdebc268722334237e7679183449e3d26a68c8fe45120ba9541e7c",
+  "recovery_protocol_sha256": "b0248bf26de6bb55b22759eee7ea9e6bf8ffc4df11889fc8523e265c06d7cc01",
+  "custody": {
+    "dataset_manifest_sha256": "67624183cb02d184383c36e0183c64a6aed91caa9f8031d5edd079545281337d",
+    "protocol_sha256": "4bc6c117d3cb2a2f1e5d4b5d3fcd4e76fbeecb1921c2d83ffda436d1cf6ad422",
+    "scope": "Committed NATIVE-1 dataset and protocol; no sealed phase read",
+    "sealed_phases_accessed": false,
+    "verifier_source_sha256": "470e21623997d1cda4f00cfb701a88557fd62cdbeef26dbfbe80676b19d62f2e"
+  },
+  "data_counts": {
+    "calibration": {
+      "banking77.intent": {
+        "components": 562,
+        "decisions": 563,
+        "distribution_rows": 563,
+        "native_ID_component_membership_sha256": "5aa8adf67e5ead9baa0df42c8c1845e600829401cd37ee99f211014822d6bee8",
+        "observed_raters_at_least3": 0,
+        "screen_eligible_rows": 563
+      },
+      "massive.grammar_score": {
+        "components": 0,
+        "decisions": 0,
+        "distribution_rows": null,
+        "native_ID_component_membership_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "observed_raters_at_least3": 0,
+        "screen_eligible_rows": 0
+      },
+      "massive.intent": {
+        "components": 555,
+        "decisions": 616,
+        "distribution_rows": 616,
+        "native_ID_component_membership_sha256": "ab81253dde7b33fed075d756f25348742fcbcebb0f3e8039d6c67a901e00da06",
+        "observed_raters_at_least3": 0,
+        "screen_eligible_rows": 616
+      },
+      "massive.spelling_score": {
+        "components": 0,
+        "decisions": 0,
+        "distribution_rows": null,
+        "native_ID_component_membership_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "observed_raters_at_least3": 0,
+        "screen_eligible_rows": 0
+      }
+    },
+    "dev": {
+      "banking77.intent": {
+        "components": 1024,
+        "decisions": 1027,
+        "distribution_rows": 1027,
+        "native_ID_component_membership_sha256": "4323aea938de8ee2f8212e511f0b8b1eddabcbb56d983c0669d42fb7e563dc30",
+        "observed_raters_at_least3": 0,
+        "screen_eligible_rows": 1027
+      },
+      "massive.grammar_score": {
+        "components": 0,
+        "decisions": 0,
+        "distribution_rows": null,
+        "native_ID_component_membership_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "observed_raters_at_least3": 0,
+        "screen_eligible_rows": 0
+      },
+      "massive.intent": {
+        "components": 1024,
+        "decisions": 1252,
+        "distribution_rows": 1252,
+        "native_ID_component_membership_sha256": "577d4986a186445608f7386644f9e266896ce42cedc4b1220659dcb52bff462a",
+        "observed_raters_at_least3": 0,
+        "screen_eligible_rows": 1252
+      },
+      "massive.spelling_score": {
+        "components": 0,
+        "decisions": 0,
+        "distribution_rows": null,
+        "native_ID_component_membership_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "observed_raters_at_least3": 0,
+        "screen_eligible_rows": 0
+      }
+    },
+    "fit": {
+      "banking77.intent": {
+        "components": 2909,
+        "decisions": 2915,
+        "distribution_rows": 2915,
+        "native_ID_component_membership_sha256": "2d8396c0f79c24e734cce56762c7cce78a4f7e6125d20f50cfcb8aa3327ddeb7",
+        "observed_raters_at_least3": 0,
+        "screen_eligible_rows": 2915
+      },
+      "massive.grammar_score": {
+        "components": 0,
+        "decisions": 0,
+        "distribution_rows": null,
+        "native_ID_component_membership_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "observed_raters_at_least3": 0,
+        "screen_eligible_rows": 0
+      },
+      "massive.intent": {
+        "components": 2563,
+        "decisions": 2773,
+        "distribution_rows": 2773,
+        "native_ID_component_membership_sha256": "34fb99e260adce1d94d68c6dac8c13cefa12b04d32fb12fbc2f24afd5e83d3c6",
+        "observed_raters_at_least3": 0,
+        "screen_eligible_rows": 2773
+      },
+      "massive.spelling_score": {
+        "components": 0,
+        "decisions": 0,
+        "distribution_rows": null,
+        "native_ID_component_membership_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "observed_raters_at_least3": 0,
+        "screen_eligible_rows": 0
+      }
+    },
+    "selection": {
+      "banking77.intent": {
+        "components": 625,
+        "decisions": 627,
+        "distribution_rows": 627,
+        "native_ID_component_membership_sha256": "2139df9e2da88143b0c45bd99a034fe64598eafa3683c345f65cd7e03bb95362",
+        "observed_raters_at_least3": 0,
+        "screen_eligible_rows": 627
+      },
+      "massive.grammar_score": {
+        "components": 0,
+        "decisions": 0,
+        "distribution_rows": null,
+        "native_ID_component_membership_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "observed_raters_at_least3": 0,
+        "screen_eligible_rows": 0
+      },
+      "massive.intent": {
+        "components": 534,
+        "decisions": 582,
+        "distribution_rows": 582,
+        "native_ID_component_membership_sha256": "3cd4f61302e50c7419cfae5ea1f918b1737beacc360c3539ae516ec9ee400122",
+        "observed_raters_at_least3": 0,
+        "screen_eligible_rows": 582
+      },
+      "massive.spelling_score": {
+        "components": 0,
+        "decisions": 0,
+        "distribution_rows": null,
+        "native_ID_component_membership_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "observed_raters_at_least3": 0,
+        "screen_eligible_rows": 0
+      }
+    }
+  },
+  "paired_comparisons": {
+    "banking77.intent": {
+      "accuracies": {
+        "cross": 0.8889970788704966,
+        "dual": 0.6952288218111002,
+        "pages": 0.4780915287244401,
+        "pooled": 0.8198636806231743
+      },
+      "controls": {
+        "cross": {
+          "masked_accuracy": 0.024342745861733205,
+          "swapped_accuracy_original_target": 0.0,
+          "swapped_rows": 1027
+        },
+        "dual": {
+          "masked_accuracy": 0.012658227848101266,
+          "swapped_accuracy_original_target": 0.0038948393378773127,
+          "swapped_rows": 1027
+        },
+        "pages": {
+          "masked_accuracy": 0.007789678675754625,
+          "swapped_accuracy_original_target": 0.012658227848101266,
+          "swapped_rows": 1027
+        }
+      },
+      "uncertainty": {
+        "cross_minus_pooled_accuracy": {
+          "ci95_bootstrap": [
+            0.04673807205452775,
+            0.091796875
+          ],
+          "components": 1024,
+          "estimand": "ratio of summed paired row differences to summed row counts",
+          "interval_scope": "Nominal descriptive 95%; not a simultaneous non-inferiority gate",
+          "lineage_groups": 1027,
+          "observed_delta": 0.0691333982473223,
+          "resamples": 10000,
+          "rows": 1027,
+          "seed": 0,
+          "unit": "input-only connected component"
+        },
+        "dual_minus_cross_accuracy": {
+          "ci95_bootstrap": [
+            -0.2227626459143969,
+            -0.16455696202531644
+          ],
+          "components": 1024,
+          "estimand": "ratio of summed paired row differences to summed row counts",
+          "interval_scope": "Nominal descriptive 95%; not a simultaneous non-inferiority gate",
+          "lineage_groups": 1027,
+          "observed_delta": -0.1937682570593963,
+          "resamples": 10000,
+          "rows": 1027,
+          "seed": 0,
+          "unit": "input-only connected component"
+        },
+        "pages_minus_cross_accuracy": {
+          "ci95_bootstrap": [
+            -0.44357976653696496,
+            -0.3780369290573372
+          ],
+          "components": 1024,
+          "estimand": "ratio of summed paired row differences to summed row counts",
+          "interval_scope": "Nominal descriptive 95%; not a simultaneous non-inferiority gate",
+          "lineage_groups": 1027,
+          "observed_delta": -0.41090555014605645,
+          "resamples": 10000,
+          "rows": 1027,
+          "seed": 0,
+          "unit": "input-only connected component"
+        }
+      }
+    },
+    "massive.intent": {
+      "accuracies": {
+        "cross": 0.8314696485623003,
+        "dual": 0.7052715654952076,
+        "pages": 0.5391373801916933,
+        "pooled": 0.7563897763578274
+      },
+      "controls": {
+        "cross": {
+          "masked_accuracy": 0.05511182108626198,
+          "swapped_accuracy_original_target": 0.003194888178913738,
+          "swapped_rows": 1252
+        },
+        "dual": {
+          "masked_accuracy": 0.07587859424920128,
+          "swapped_accuracy_original_target": 0.011182108626198083,
+          "swapped_rows": 1252
+        },
+        "pages": {
+          "masked_accuracy": 0.07587859424920128,
+          "swapped_accuracy_original_target": 0.013578274760383386,
+          "swapped_rows": 1252
+        }
+      },
+      "uncertainty": {
+        "cross_minus_pooled_accuracy": {
+          "ci95_bootstrap": [
+            0.05146476642913698,
+            0.09859154929577464
+          ],
+          "components": 1024,
+          "estimand": "ratio of summed paired row differences to summed row counts",
+          "interval_scope": "Nominal descriptive 95%; not a simultaneous non-inferiority gate",
+          "lineage_groups": 1252,
+          "observed_delta": 0.07507987220447285,
+          "resamples": 10000,
+          "rows": 1252,
+          "seed": 0,
+          "unit": "input-only connected component"
+        },
+        "dual_minus_cross_accuracy": {
+          "ci95_bootstrap": [
+            -0.15372297838270615,
+            -0.09928514694201747
+          ],
+          "components": 1024,
+          "estimand": "ratio of summed paired row differences to summed row counts",
+          "interval_scope": "Nominal descriptive 95%; not a simultaneous non-inferiority gate",
+          "lineage_groups": 1252,
+          "observed_delta": -0.12619808306709265,
+          "resamples": 10000,
+          "rows": 1252,
+          "seed": 0,
+          "unit": "input-only connected component"
+        },
+        "pages_minus_cross_accuracy": {
+          "ci95_bootstrap": [
+            -0.32556270096463025,
+            -0.2590506838294449
+          ],
+          "components": 1024,
+          "estimand": "ratio of summed paired row differences to summed row counts",
+          "interval_scope": "Nominal descriptive 95%; not a simultaneous non-inferiority gate",
+          "lineage_groups": 1252,
+          "observed_delta": -0.29233226837060705,
+          "resamples": 10000,
+          "rows": 1252,
+          "seed": 0,
+          "unit": "input-only connected component"
+        }
+      }
+    }
+  },
+  "screen_thresholds": {
+    "candidate_count_monotone_membership_frequency": true,
+    "cross_intent_accuracy_each_source": 0.8,
+    "cross_vs_pooled_accuracy_lower_nominal_bound": 0.0,
+    "dual_minus_cross_accuracy_lower_nominal_bound": -0.05,
+    "novel_catalogue_state_reuse": "dual/pages must encode one state-containing sequence across both public catalogues; cross must account for every joint pair",
+    "pages_minus_cross_accuracy_lower_nominal_bound": -0.02,
+    "reorder_winner_invariance": true,
+    "repeated_state_no_extra_state_encode": true,
+    "scope": "Development mechanism screens on identical native data. No sealed-final, competitor, many-axis, certificate or shipping credit."
+  },
+  "screens": {
+    "banking77.intent": {
+      "cross": {
+        "checks": {
+          "candidate_count_monotone_membership_frequency": true,
+          "cross_intent_accuracy_each_source": true,
+          "cross_vs_pooled_accuracy_lower_nominal_bound": true,
+          "novel_catalogue_state_reuse": true,
+          "reorder_winner_invariance": true,
+          "repeated_state_no_extra_state_encode": true
+        },
+        "failed_checks": [],
+        "scope": "Development mechanism screens on identical native data. No sealed-final, competitor, many-axis, certificate or shipping credit.",
+        "status": "passed"
+      },
+      "dual": {
+        "checks": {
+          "candidate_count_monotone_membership_frequency": true,
+          "dual_minus_cross_accuracy_lower_nominal_bound": false,
+          "novel_catalogue_state_reuse": true,
+          "reorder_winner_invariance": true,
+          "repeated_state_no_extra_state_encode": true
+        },
+        "failed_checks": [
+          "dual_minus_cross_accuracy_lower_nominal_bound"
+        ],
+        "scope": "Development mechanism screens on identical native data. No sealed-final, competitor, many-axis, certificate or shipping credit.",
+        "status": "failed"
+      },
+      "pages": {
+        "checks": {
+          "candidate_count_monotone_membership_frequency": true,
+          "novel_catalogue_state_reuse": true,
+          "pages_minus_cross_accuracy_lower_nominal_bound": false,
+          "reorder_winner_invariance": true,
+          "repeated_state_no_extra_state_encode": true
+        },
+        "failed_checks": [
+          "pages_minus_cross_accuracy_lower_nominal_bound"
+        ],
+        "scope": "Development mechanism screens on identical native data. No sealed-final, competitor, many-axis, certificate or shipping credit.",
+        "status": "failed"
+      }
+    },
+    "massive.intent": {
+      "cross": {
+        "checks": {
+          "candidate_count_monotone_membership_frequency": true,
+          "cross_intent_accuracy_each_source": true,
+          "cross_vs_pooled_accuracy_lower_nominal_bound": true,
+          "novel_catalogue_state_reuse": true,
+          "reorder_winner_invariance": true,
+          "repeated_state_no_extra_state_encode": true
+        },
+        "failed_checks": [],
+        "scope": "Development mechanism screens on identical native data. No sealed-final, competitor, many-axis, certificate or shipping credit.",
+        "status": "passed"
+      },
+      "dual": {
+        "checks": {
+          "candidate_count_monotone_membership_frequency": true,
+          "dual_minus_cross_accuracy_lower_nominal_bound": false,
+          "novel_catalogue_state_reuse": true,
+          "reorder_winner_invariance": true,
+          "repeated_state_no_extra_state_encode": true
+        },
+        "failed_checks": [
+          "dual_minus_cross_accuracy_lower_nominal_bound"
+        ],
+        "scope": "Development mechanism screens on identical native data. No sealed-final, competitor, many-axis, certificate or shipping credit.",
+        "status": "failed"
+      },
+      "pages": {
+        "checks": {
+          "candidate_count_monotone_membership_frequency": true,
+          "novel_catalogue_state_reuse": true,
+          "pages_minus_cross_accuracy_lower_nominal_bound": false,
+          "reorder_winner_invariance": true,
+          "repeated_state_no_extra_state_encode": true
+        },
+        "failed_checks": [
+          "pages_minus_cross_accuracy_lower_nominal_bound"
+        ],
+        "scope": "Development mechanism screens on identical native data. No sealed-final, competitor, many-axis, certificate or shipping credit.",
+        "status": "failed"
+      }
+    }
+  },
+  "selection": {
+    "banking77.intent": {
+      "architectures": [
+        "cross"
+      ],
+      "earned": true,
+      "first_round_encoded_states": 137,
+      "learned_retrieval_credit": 0,
+      "passing": [
+        "cross"
+      ],
+      "passing_first_round_encoded_states": {
+        "cross": 137
+      },
+      "scope": "Quality-passing development arms; exact repeats earn no selection credit"
+    },
+    "massive.intent": {
+      "architectures": [
+        "cross"
+      ],
+      "earned": true,
+      "first_round_encoded_states": 137,
+      "learned_retrieval_credit": 0,
+      "passing": [
+        "cross"
+      ],
+      "passing_first_round_encoded_states": {
+        "cross": 137
+      },
+      "scope": "Quality-passing development arms; exact repeats earn no selection credit"
+    }
+  },
+  "statistics": {
+    "estimand": "Row-weighted paired metric difference via component ratio bootstrap",
+    "intervals": "Nominal descriptive95%; not the endgame simultaneous gate",
+    "resamples": 10000,
+    "seed": 0,
+    "unit": "Input-only connected component, preserving descendants"
+  },
+  "checkpoint_and_cache_evidence": {
+    "cross": {
+      "selected_epoch": 10,
+      "epochs_including0": 11,
+      "selected_restore": {
+        "encoder_prefix": "scorer.pool.encoder.",
+        "encoder_state_dict_fingerprint": "e21733c08db05d35f22f8a1b15bfc523bf2f0f2018b282fac66166506aa48d64",
+        "numerical_max_abs_difference": 0.0,
+        "scope": "Actual model/encoder bytes independently hashed; restore-forward equality is a receipt, not an independent forward replay",
+        "state_dict_fingerprint": "2deea0a39993d8b8bf65c357b4dc0d54197328e3e2b87ac6a3edfcd80668221d",
+        "tensor_fingerprint_independently_reconstructed": true
+      },
+      "first_round_state_containing_sequences": 137,
+      "later_extra_encoder_forwards": 0,
+      "later_extra_state_encodes": 0,
+      "reorder": {
+        "rows": 2279,
+        "scope": "Reversed coordinate gathers reproduce the native winner by ID",
+        "status": "passed"
+      },
+      "candidate_count": {
+        "banking77.intent": {
+          "by_k": {
+            "16": {
+              "conditional_accuracy_gold_present": 0.9555555555555556,
+              "gold_present_rows": 225,
+              "membership_frequency": 0.21908471275559882,
+              "overall_accuracy": 0.20934761441090555,
+              "rows": 1027
+            },
+            "2": {
+              "conditional_accuracy_gold_present": 1.0,
+              "gold_present_rows": 34,
+              "membership_frequency": 0.033106134371957155,
+              "overall_accuracy": 0.033106134371957155,
+              "rows": 1027
+            },
+            "32": {
+              "conditional_accuracy_gold_present": 0.9410430839002267,
+              "gold_present_rows": 441,
+              "membership_frequency": 0.4294060370009737,
+              "overall_accuracy": 0.4040895813047712,
+              "rows": 1027
+            },
+            "4": {
+              "conditional_accuracy_gold_present": 0.9666666666666667,
+              "gold_present_rows": 60,
+              "membership_frequency": 0.05842259006815969,
+              "overall_accuracy": 0.05647517039922103,
+              "rows": 1027
+            },
+            "77": {
+              "conditional_accuracy_gold_present": 0.8889970788704966,
+              "gold_present_rows": 1027,
+              "membership_frequency": 1.0,
+              "overall_accuracy": 0.8889970788704966,
+              "rows": 1027
+            },
+            "8": {
+              "conditional_accuracy_gold_present": 0.9743589743589743,
+              "gold_present_rows": 117,
+              "membership_frequency": 0.11392405063291139,
+              "overall_accuracy": 0.11100292112950341,
+              "rows": 1027
+            }
+          },
+          "grid": [
+            2,
+            4,
+            8,
+            16,
+            32,
+            77
+          ],
+          "input_only_random_subsets": true,
+          "learned_retrieval_credit": false,
+          "monotone_membership_frequency": true
+        },
+        "massive.intent": {
+          "by_k": {
+            "16": {
+              "conditional_accuracy_gold_present": 0.9292604501607717,
+              "gold_present_rows": 311,
+              "membership_frequency": 0.24840255591054314,
+              "overall_accuracy": 0.23083067092651757,
+              "rows": 1252
+            },
+            "2": {
+              "conditional_accuracy_gold_present": 1.0,
+              "gold_present_rows": 43,
+              "membership_frequency": 0.034345047923322686,
+              "overall_accuracy": 0.034345047923322686,
+              "rows": 1252
+            },
+            "32": {
+              "conditional_accuracy_gold_present": 0.8893939393939394,
+              "gold_present_rows": 660,
+              "membership_frequency": 0.5271565495207667,
+              "overall_accuracy": 0.46884984025559107,
+              "rows": 1252
+            },
+            "4": {
+              "conditional_accuracy_gold_present": 1.0,
+              "gold_present_rows": 78,
+              "membership_frequency": 0.06230031948881789,
+              "overall_accuracy": 0.06230031948881789,
+              "rows": 1252
+            },
+            "60": {
+              "conditional_accuracy_gold_present": 0.8314696485623003,
+              "gold_present_rows": 1252,
+              "membership_frequency": 1.0,
+              "overall_accuracy": 0.8314696485623003,
+              "rows": 1252
+            },
+            "8": {
+              "conditional_accuracy_gold_present": 0.9787234042553191,
+              "gold_present_rows": 141,
+              "membership_frequency": 0.11261980830670927,
+              "overall_accuracy": 0.11022364217252396,
+              "rows": 1252
+            }
+          },
+          "grid": [
+            2,
+            4,
+            8,
+            16,
+            32,
+            60
+          ],
+          "input_only_random_subsets": true,
+          "learned_retrieval_credit": false,
+          "monotone_membership_frequency": true
+        }
+      },
+      "swap": {
+        "probability_changed_rows": 2279,
+        "rows": 2279,
+        "unchanged_rows": 0
+      }
+    },
+    "dual": {
+      "selected_epoch": 10,
+      "epochs_including0": 11,
+      "selected_restore": {
+        "encoder_prefix": "scorer.pool.encoder.",
+        "encoder_state_dict_fingerprint": "8c5e4b7189704d005d8e2b38e253cdee67d84ffc325e101084ccb1a49ad8d125",
+        "numerical_max_abs_difference": 0.0,
+        "scope": "Actual model/encoder bytes independently hashed; restore-forward equality is a receipt, not an independent forward replay",
+        "state_dict_fingerprint": "cac6bc6b016d43874db20ef135753ab26162f8abae6d88bb4d00944ce308fcb0",
+        "tensor_fingerprint_independently_reconstructed": true
+      },
+      "first_round_state_containing_sequences": 1,
+      "later_extra_encoder_forwards": 0,
+      "later_extra_state_encodes": 0,
+      "reorder": {
+        "rows": 2279,
+        "scope": "Reversed coordinate gathers reproduce the native winner by ID",
+        "status": "passed"
+      },
+      "candidate_count": {
+        "banking77.intent": {
+          "by_k": {
+            "16": {
+              "conditional_accuracy_gold_present": 0.9155555555555556,
+              "gold_present_rows": 225,
+              "membership_frequency": 0.21908471275559882,
+              "overall_accuracy": 0.2005842259006816,
+              "rows": 1027
+            },
+            "2": {
+              "conditional_accuracy_gold_present": 1.0,
+              "gold_present_rows": 34,
+              "membership_frequency": 0.033106134371957155,
+              "overall_accuracy": 0.033106134371957155,
+              "rows": 1027
+            },
+            "32": {
+              "conditional_accuracy_gold_present": 0.8503401360544217,
+              "gold_present_rows": 441,
+              "membership_frequency": 0.4294060370009737,
+              "overall_accuracy": 0.36514118792599803,
+              "rows": 1027
+            },
+            "4": {
+              "conditional_accuracy_gold_present": 1.0,
+              "gold_present_rows": 60,
+              "membership_frequency": 0.05842259006815969,
+              "overall_accuracy": 0.05842259006815969,
+              "rows": 1027
+            },
+            "77": {
+              "conditional_accuracy_gold_present": 0.6952288218111002,
+              "gold_present_rows": 1027,
+              "membership_frequency": 1.0,
+              "overall_accuracy": 0.6952288218111002,
+              "rows": 1027
+            },
+            "8": {
+              "conditional_accuracy_gold_present": 0.9658119658119658,
+              "gold_present_rows": 117,
+              "membership_frequency": 0.11392405063291139,
+              "overall_accuracy": 0.11002921129503408,
+              "rows": 1027
+            }
+          },
+          "grid": [
+            2,
+            4,
+            8,
+            16,
+            32,
+            77
+          ],
+          "input_only_random_subsets": true,
+          "learned_retrieval_credit": false,
+          "monotone_membership_frequency": true
+        },
+        "massive.intent": {
+          "by_k": {
+            "16": {
+              "conditional_accuracy_gold_present": 0.8295819935691319,
+              "gold_present_rows": 311,
+              "membership_frequency": 0.24840255591054314,
+              "overall_accuracy": 0.20607028753993611,
+              "rows": 1252
+            },
+            "2": {
+              "conditional_accuracy_gold_present": 0.9534883720930233,
+              "gold_present_rows": 43,
+              "membership_frequency": 0.034345047923322686,
+              "overall_accuracy": 0.03274760383386582,
+              "rows": 1252
+            },
+            "32": {
+              "conditional_accuracy_gold_present": 0.7757575757575758,
+              "gold_present_rows": 660,
+              "membership_frequency": 0.5271565495207667,
+              "overall_accuracy": 0.40894568690095845,
+              "rows": 1252
+            },
+            "4": {
+              "conditional_accuracy_gold_present": 0.9615384615384616,
+              "gold_present_rows": 78,
+              "membership_frequency": 0.06230031948881789,
+              "overall_accuracy": 0.05990415335463259,
+              "rows": 1252
+            },
+            "60": {
+              "conditional_accuracy_gold_present": 0.7052715654952076,
+              "gold_present_rows": 1252,
+              "membership_frequency": 1.0,
+              "overall_accuracy": 0.7052715654952076,
+              "rows": 1252
+            },
+            "8": {
+              "conditional_accuracy_gold_present": 0.9078014184397163,
+              "gold_present_rows": 141,
+              "membership_frequency": 0.11261980830670927,
+              "overall_accuracy": 0.10223642172523961,
+              "rows": 1252
+            }
+          },
+          "grid": [
+            2,
+            4,
+            8,
+            16,
+            32,
+            60
+          ],
+          "input_only_random_subsets": true,
+          "learned_retrieval_credit": false,
+          "monotone_membership_frequency": true
+        }
+      },
+      "swap": {
+        "probability_changed_rows": 2279,
+        "rows": 2279,
+        "unchanged_rows": 0
+      }
+    },
+    "pages": {
+      "selected_epoch": 10,
+      "epochs_including0": 11,
+      "selected_restore": {
+        "encoder_prefix": "encoder.",
+        "encoder_state_dict_fingerprint": "e130351d7ac727d011d2f801b48828b4752d7463b6dcd613afd79a9ff4b6e56a",
+        "numerical_max_abs_difference": 0.0,
+        "scope": "Actual model/encoder bytes independently hashed; restore-forward equality is a receipt, not an independent forward replay",
+        "state_dict_fingerprint": "2db94cb9a4e905ce62a368293113134145c7935687947170a4ba8e8cd924345e",
+        "tensor_fingerprint_independently_reconstructed": true
+      },
+      "first_round_state_containing_sequences": 1,
+      "later_extra_encoder_forwards": 0,
+      "later_extra_state_encodes": 0,
+      "reorder": {
+        "rows": 2279,
+        "scope": "Reversed coordinate gathers reproduce the native winner by ID",
+        "status": "passed"
+      },
+      "candidate_count": {
+        "banking77.intent": {
+          "by_k": {
+            "16": {
+              "conditional_accuracy_gold_present": 0.7688888888888888,
+              "gold_present_rows": 225,
+              "membership_frequency": 0.21908471275559882,
+              "overall_accuracy": 0.16845180136319376,
+              "rows": 1027
+            },
+            "2": {
+              "conditional_accuracy_gold_present": 1.0,
+              "gold_present_rows": 34,
+              "membership_frequency": 0.033106134371957155,
+              "overall_accuracy": 0.033106134371957155,
+              "rows": 1027
+            },
+            "32": {
+              "conditional_accuracy_gold_present": 0.6757369614512472,
+              "gold_present_rows": 441,
+              "membership_frequency": 0.4294060370009737,
+              "overall_accuracy": 0.2901655306718598,
+              "rows": 1027
+            },
+            "4": {
+              "conditional_accuracy_gold_present": 0.9166666666666666,
+              "gold_present_rows": 60,
+              "membership_frequency": 0.05842259006815969,
+              "overall_accuracy": 0.053554040895813046,
+              "rows": 1027
+            },
+            "77": {
+              "conditional_accuracy_gold_present": 0.4780915287244401,
+              "gold_present_rows": 1027,
+              "membership_frequency": 1.0,
+              "overall_accuracy": 0.4780915287244401,
+              "rows": 1027
+            },
+            "8": {
+              "conditional_accuracy_gold_present": 0.8376068376068376,
+              "gold_present_rows": 117,
+              "membership_frequency": 0.11392405063291139,
+              "overall_accuracy": 0.09542356377799416,
+              "rows": 1027
+            }
+          },
+          "grid": [
+            2,
+            4,
+            8,
+            16,
+            32,
+            77
+          ],
+          "input_only_random_subsets": true,
+          "learned_retrieval_credit": false,
+          "monotone_membership_frequency": true
+        },
+        "massive.intent": {
+          "by_k": {
+            "16": {
+              "conditional_accuracy_gold_present": 0.7588424437299035,
+              "gold_present_rows": 311,
+              "membership_frequency": 0.24840255591054314,
+              "overall_accuracy": 0.18849840255591055,
+              "rows": 1252
+            },
+            "2": {
+              "conditional_accuracy_gold_present": 1.0,
+              "gold_present_rows": 43,
+              "membership_frequency": 0.034345047923322686,
+              "overall_accuracy": 0.034345047923322686,
+              "rows": 1252
+            },
+            "32": {
+              "conditional_accuracy_gold_present": 0.65,
+              "gold_present_rows": 660,
+              "membership_frequency": 0.5271565495207667,
+              "overall_accuracy": 0.3426517571884984,
+              "rows": 1252
+            },
+            "4": {
+              "conditional_accuracy_gold_present": 0.9358974358974359,
+              "gold_present_rows": 78,
+              "membership_frequency": 0.06230031948881789,
+              "overall_accuracy": 0.05830670926517572,
+              "rows": 1252
+            },
+            "60": {
+              "conditional_accuracy_gold_present": 0.5391373801916933,
+              "gold_present_rows": 1252,
+              "membership_frequency": 1.0,
+              "overall_accuracy": 0.5391373801916933,
+              "rows": 1252
+            },
+            "8": {
+              "conditional_accuracy_gold_present": 0.8581560283687943,
+              "gold_present_rows": 141,
+              "membership_frequency": 0.11261980830670927,
+              "overall_accuracy": 0.09664536741214058,
+              "rows": 1252
+            }
+          },
+          "grid": [
+            2,
+            4,
+            8,
+            16,
+            32,
+            60
+          ],
+          "input_only_random_subsets": true,
+          "learned_retrieval_credit": false,
+          "monotone_membership_frequency": true
+        }
+      },
+      "swap": {
+        "probability_changed_rows": 2279,
+        "rows": 2279,
+        "unchanged_rows": 0
+      }
+    }
+  },
+  "artifacts": [
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/cross/calibration.jsonl",
+      "bytes": 6149818,
+      "sha256": "fc653c817e7d85abc834276fe79f11dae90545588f7a5be05f34273f1ebacb6e"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/cross/candidate_count.jsonl",
+      "bytes": 39695662,
+      "sha256": "56bd69ccb84de4d87a665407903aea142905c64c38a9818f344711e7dbcd0375"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/cross/coordinate_reversal.jsonl",
+      "bytes": 14928459,
+      "sha256": "b6d9de85abf83461095bcc6828fe69c9d5a3a7b8c6a999674ff501772a9a043e"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/cross/dev.jsonl",
+      "bytes": 14732400,
+      "sha256": "6991514dd65a553b6f246c4fc1c6ac1319b2a4cd3a1f33a527e7956467996546"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/cross/history.json",
+      "bytes": 316195,
+      "sha256": "89dbf5470259476e7f9a29d479340972c2337f1169c00559381edfe840f56273"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/cross/liveness.json",
+      "bytes": 206183,
+      "sha256": "f882e91cf53537ec077494053d56f7a1b2695039f97362de148cc3a67dc7cc7b"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/cross/masked.jsonl",
+      "bytes": 14453560,
+      "sha256": "cdc3f8413368f7fc6779a4f8bcf77152deaeb306f3f1a4508658966151b1a697"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/cross/repeated_state.jsonl",
+      "bytes": 42350,
+      "sha256": "1cbab02f5263f110b384f3954ce29ec13af5782176d367684b1aadd0b43e1bc6"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/cross/selected.safetensors",
+      "bytes": 282953132,
+      "sha256": "3275874bbb18d7df42fa041b4e5fa2ab18af3da70cc2bb6dfd0dd043b7e56c58"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/cross/selection.jsonl",
+      "bytes": 70093241,
+      "sha256": "fdfa4eff600d810569089c83686be5d51310f2cf1d2535a67cb54e673d3da4dd"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/cross/swapped.jsonl",
+      "bytes": 14914425,
+      "sha256": "b551fb952697d3a6b59d34b757a31e8c5a9731fe80ae8bcbdda718714c90b032"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/cross/metadata.json",
+      "bytes": 93694,
+      "sha256": "21bb4bcbe79c5565e825d04bc591e4dd25cb4409f3d6e681de49495639a3d6f9"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal-recovery-v2/modal_runtime_cross_train.json",
+      "bytes": 1149,
+      "sha256": "ed9de2453fdb0f81d7b1828b9720d448e4fdc03ddd43d28d08a2903f0b1c99c5"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/dual/calibration.jsonl",
+      "bytes": 6104920,
+      "sha256": "fb2a660378de4105cb0f05fb237af6b828d0b12b899be883fb6aeecc0ba66568"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/dual/candidate_count.jsonl",
+      "bytes": 39507434,
+      "sha256": "5330d7db0cfae6195fac3bb66419a2d017117f7059657ac0172c220d519841f1"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/dual/coordinate_reversal.jsonl",
+      "bytes": 14820625,
+      "sha256": "66328523addc692e9baa23be29a33d9725bc59b6ee89db68961482d16bd3d931"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/dual/dev.jsonl",
+      "bytes": 14624566,
+      "sha256": "00d5c644c33ce172705bbf85dfc407edcbe777fd655244fddf7976ca4ea28c47"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/dual/history.json",
+      "bytes": 315228,
+      "sha256": "7f7a4e608ef5d4d6bdc675cd558d8eef9c8c4afa32f812767fff4c0af7102ec1"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/dual/liveness.json",
+      "bytes": 204738,
+      "sha256": "32bfc85f148698051c2f9d25aef932b6bb9e3432160a33fa717ef8960584d4b5"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/dual/masked.jsonl",
+      "bytes": 14581645,
+      "sha256": "fffd158d4a45c34b9ce847d5f06e3b215305e6fe8b98b2b5198334793c7d6081"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/dual/repeated_state.jsonl",
+      "bytes": 42075,
+      "sha256": "cd57a14500d61efea47d80db7bb4b5d275affefd70da8cf25d019e2d9bab1ebf"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/dual/selected.safetensors",
+      "bytes": 283149660,
+      "sha256": "fa68d7e0d1f83bf44fc44e8714f640cf10295406074280c04bc00607f570de56"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/dual/selection.jsonl",
+      "bytes": 69368680,
+      "sha256": "e3d907ae7248f16ddf0432cd7b16821b8f6889d71a78e5d9c97e274cf21047b7"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/dual/swapped.jsonl",
+      "bytes": 14806640,
+      "sha256": "9c13344609b0dc3a517bdad2a69cc34e0ac314d9c8070b03af0597a6bbabf2b7"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/dual/metadata.json",
+      "bytes": 93657,
+      "sha256": "0f8ece53937e6035e0a6091a91c5004ceb6b45cfbb857dd310a8ad29e1068834"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal-recovery-v2/modal_runtime_dual_train.json",
+      "bytes": 1147,
+      "sha256": "7474d627e12c25dbadbadbb140b0ea399aaa0571e930751083a0e216bd4841db"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/pages/calibration.jsonl",
+      "bytes": 6107691,
+      "sha256": "a815baf0b12d678a40b2bdd9c71979a78388ec84a85ba22d4d07c43180b9b11f"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/pages/candidate_count.jsonl",
+      "bytes": 39571227,
+      "sha256": "30f9bdb02a0dde12f40b60d8a1e418d06b925af6683e2baa66e43f7a5c099f72"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/pages/coordinate_reversal.jsonl",
+      "bytes": 14803751,
+      "sha256": "4cc98a2dbd329506684052b83975e65d42690c2fa0f910366a5162da302f28e5"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/pages/dev.jsonl",
+      "bytes": 14607692,
+      "sha256": "abe64a730f68aba283d4ba69cb5fa3b6b9ff89f5c80b7597e5673f2b7c2d25f4"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/pages/history.json",
+      "bytes": 315218,
+      "sha256": "f7afae5607c01ab99b1a0fc27c02b5d19379d4e645b5a82c1fade04af5a1769a"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/pages/liveness.json",
+      "bytes": 203758,
+      "sha256": "ff82f2d86f5fa57792d8f44a776befd25a040a550194143ee27960f4887ad8f0"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/pages/masked.jsonl",
+      "bytes": 14524347,
+      "sha256": "e26d7146aef36970800132a6cc0cff5b6f0e1871364569bd0ef8124d8cc12a6c"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/pages/repeated_state.jsonl",
+      "bytes": 41961,
+      "sha256": "050ebcb086c1aa40d4561b1c6853f2b9d2999750168a1804a2a5e5ee87639cf0"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/pages/selected.safetensors",
+      "bytes": 284723684,
+      "sha256": "afb2617d57227728c5b29f559e5140efb2b5bb28be6450dfd0edd2aab56a0f4d"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/pages/selection.jsonl",
+      "bytes": 69632575,
+      "sha256": "4ab5d94d34655ba300ce4d80a268b56a4150e8872b0d1404378d2be5acc0bc5a"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/pages/swapped.jsonl",
+      "bytes": 14788898,
+      "sha256": "dd590a83ea55aabc9ab17138702b32769085d4fc68fb5d3c7c9012c986779bbf"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/pages/metadata.json",
+      "bytes": 93633,
+      "sha256": "ce796fdfae0019b827246f14e2eb524f63d39c591cfeb74d1fb4877e48306dad"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal-recovery-v2/modal_runtime_pages_train.json",
+      "bytes": 1149,
+      "sha256": "c030386f2938ec349a4663c20fe4e71821e3f9f9b1876d54c179853b6a7718f9"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/native_arch_verification.json",
+      "bytes": 23479061,
+      "sha256": "af658cf3fb00615510e2034447cd226e4c767f8398659c0671029102ae07d377"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/native_arch_verification_pre_modal_v2.json",
+      "bytes": 23441585,
+      "sha256": "1aff7bdaabdc83bc4cbeb12817a77b10b84b95a93fa27f514f5510b96ecaa420"
+    }
+  ],
+  "failure_retention": "Original mount, local migration/OOM, incomplete v1 remote timeout and synthetic fail-open verifier evidence preserved with original hashes. Old INCOMPLETE architecture verification retained separately, not silently replaced as original completed evidence.",
+  "mechanism_scope": "Cross beats the fixed pooled reference on both native intent endpoints under this recipe. Mask/swap and structural controls reconstructed. This is not an isolated causal proof of why joint encoding wins and does not prove all state-reuse architectures impossible. Exact repeats are generic memoization; random nested subset membership and foreign-catalogue probes earn zero learned retrieval/semantic transfer credit.",
+  "unknowns": [
+    "Natural-variable-question transfer, arbitrary criteria, aliases, many-axis, generic Boolean/Score and long-context behavior",
+    "Current Laya paired comparison still in progress; no direct Jev evaluation",
+    "No same-hardware latency/throughput/memory superiority, fresh final, replication, SSC or shipping claim"
+  ],
+  "next_branch": "Registered cross-only branch: retain failed dual/pages, keep state-reuse engineering open, prospectively freeze cross-conditioned natural-variable-question QNATIVE-2 with explicit v2 lineage and new gates before any QASPER model load or forward. MASSIVE pooled remains a negative reference; cross now clears its registered native intent screen. No larger capacity justified by this result.",
+  "independent_model_forward_replay": false,
+  "local_GPU_used": false,
+  "sealed_final_accessed": false,
+  "competitor_credit": false,
+  "performance_credit": false,
+  "many_axis_credit": false,
+  "shipping_credit": false,
+  "B_STEF_allowed": false,
+  "Pareto_credit": false,
+  "promotion": false,
+  "endgame_complete": false
+}
