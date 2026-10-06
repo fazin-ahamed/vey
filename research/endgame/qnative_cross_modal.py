@@ -215,7 +215,10 @@ def main(stage: str = 'preflight'):
             relative = str(Path(entry['path']).relative_to(DATA))
             parent = str(Path(relative).parent)
             if parent not in remote_dirs:
-                remote_dirs[parent] = {item.path for item in volume.iterdir(parent, recursive=False)}
+                try:
+                    remote_dirs[parent] = {item.path for item in volume.iterdir(parent, recursive=False)}
+                except modal.exception.NotFoundError:
+                    remote_dirs[parent] = set()
         skipped, pending = [], []
         for entry in manifest['input_files']:
             path = Path(entry['path'])
