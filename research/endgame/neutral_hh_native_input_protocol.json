@@ -1,0 +1,85 @@
+{
+  "schema": "vey.neutral.hh-native-input-census.v1",
+  "experiment": "HH-CENSUS-1 source-native human-preference input feasibility, helpful-base TRAIN only",
+  "status": "PROSPECTIVE_NO_ROWS_READ_NO_MODELS",
+  "hypothesis": "The published helpful-base TRAIN pair schema can expose a shared dialogue context and two distinct last-assistant response candidates without model-visible chosen/rejected labels. This is source preparation, not a semantic mechanism hypothesis.",
+  "source": {
+    "repository": "Anthropic/hh-rlhf",
+    "revision": "09be8c5bbc57cb3887f3a9732ad6aa7ec602a1fa",
+    "card": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/hh-native-v1/metadata/README.md",
+      "bytes": 5771,
+      "sha256": "f75f40db0268656ba07736ec8e59a9720c1910ce554c85354cec74b1c8bda175"
+    },
+    "card_URL": "https://huggingface.co/datasets/Anthropic/hh-rlhf/resolve/09be8c5bbc57cb3887f3a9732ad6aa7ec602a1fa/README.md",
+    "train_file": {
+      "path": "helpful-base/train.jsonl.gz",
+      "bytes": 16200131,
+      "sha256": "518a5bf288456fc9f3b7c980c54116fba0c52f274d3f4d344675d83e4058f6f4"
+    },
+    "file_identity_source": "https://huggingface.co/api/datasets/Anthropic/hh-rlhf/tree/09be8c5bbc57cb3887f3a9732ad6aa7ec602a1fa/helpful-base?expand=true",
+    "labels": "Publisher-reported human preference comparisons over model-generated assistant candidates, not factual truth or independent population probabilities. Annotator IDs and source-conversation IDs are not documented by the pair schema."
+  },
+  "rights": {
+    "declared_data_license": "MIT in pinned owner dataset card",
+    "license_class": "conditional/review",
+    "license_text_reference": "https://api.github.com/repos/anthropics/hh-rlhf/git/blobs/9b5ecf167745746037bf42e61f9fb7e96d0e318f",
+    "research_acquisition_review": "Pinned owner card explicitly releases preference data for reward-model research and declares MIT. This permits the bounded local research input census; do not train a generative dialogue agent, republish raw transcripts or infer permissions for private personal data.",
+    "shipping_training_allowed_now": false,
+    "remaining_review": "Source privacy, provenance and complete conversation grouping before any shipping training or final statistical claims. No shipping claim follows from this census.",
+    "attribution": "Anthropic; Bai et al. Training a Helpful and Harmless Assistant with Reinforcement Learning from Human Feedback, arXiv2204.05862. Retain card and copyright/license notices."
+  },
+  "exclusions": {
+    "test": "No TEST files downloaded or opened; no final labels decoded. Published TEST is not universally fresh.",
+    "other_tranches": "No helpful-online or rejection-sampled data; no red-team transcripts.",
+    "harmless_train": "Metadata VirusTotal scan reports suspicious1/76 for bf3e1ecd... on harmless-base/train. Do not download or parse this artifact in this study. This is a publisher scan report, not our malware finding."
+  },
+  "data": {
+    "root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/hh-native-v1",
+    "acquisition": "Only README already acquired and exact helpful-base TRAIN gzip; no remote dataset scripts, credentials, authenticated requests or model artifacts. Assert byte count and SHA256 before decompressing.",
+    "reader": "Direct gzip + strict JSON object parser, exact chosen/rejected string keys, no code execution. Bound each uncompressed JSON line to2MiB; any schema, hash or resource error retains partial output and fails the census, never drops rows.",
+    "allocation": "None. No train/dev/final reshuffle or fitting/calibration pool is created in this input-only census. Future study must freeze full source-conversation/dedup grouping and splits before scoring.",
+    "row_identity": "Preserve every source line ordinal and SHA256 of its original JSON bytes. Pair input fingerprint hashes a sorted array of full transcript SHA256s, invariant to exchanging chosen/rejected roles.",
+    "projection": "Split each transcript at its last exact newline-newline Assistant marker. Projectable only if prefixes match byte-for-byte, prefix starts with newline-newline Human marker, both suffixes are nonblank and suffixes differ. No truncation or inferred repair. Retain every nonprojectable row in the source denominator with one deterministic reason.",
+    "group_proxy": "For valid shared contexts hash NFKC+casefold+whitespace-normalized first Human turn before its first Assistant marker. This is an input-only conservative root-prompt proxy, NOT proof of original conversation independence; unavailable conversation and annotator identifiers remain a limitation.",
+    "persist": "Metadata row ledger only: ordinal/native-line hash/input-pair hash, projectability/reason, exact shared-context/response hashes, character counts and normalized root-prompt proxy. No plaintext transcripts, preferred side, scores or targets in exported census or Git."
+  },
+  "controls": [
+    "Role-swapping chosen/rejected leaves all input-census fields unchanged except original-line hash",
+    "Distinct responses required; duplicate and blank responses retained as unprojectable",
+    "Separate shared-context mismatch from missing formatting; never repair with outcome information",
+    "Independent reconstruction from exact pinned source bytes without calling the census projection function"
+  ],
+  "metrics": [
+    "Complete source row count",
+    "Projection reason counts and all-row denominator",
+    "Exact-context and root-prompt proxy unique counts and repeated-group sizes",
+    "Native pair duplicates and maximum characters, without token or context support claims"
+  ],
+  "statistics": "Deterministic source census only; no confidence interval, hypothesis-test outcome, quality gate or independent-example-count claim.",
+  "gates": {
+    "custody": "Committed protocol and implementation before TRAIN acquisition or parsing; exact pinned source bytes and no nonregistered artifact access.",
+    "coverage": "Every native TRAIN line persisted, including nonprojectable rows. No cap, cherry-picking or label-based filter.",
+    "reconstruction": "Independent exact ledger and manifest hashes must match; swapped-role and schema boundary regressions.",
+    "capability": "Always false; architecture, prompts, learned mechanisms, quality gates and training await a separate prospective study."
+  },
+  "resources": {
+    "CPU_threads": 1,
+    "BLAS_threads": 1,
+    "nice": 10,
+    "workers": 1,
+    "max_source_compressed_bytes": 16200131,
+    "max_decompressed_line_bytes": 2097152,
+    "wall_seconds": 600,
+    "GPU": false,
+    "model_loads": 0,
+    "paid_calls": 0,
+    "pause_available_RAM_GiB_below": 4
+  },
+  "failure": "Retain partial source/ledger and failure receipt. Fix implementation only prospectively with unchanged source bytes, row membership, source denominator and every original failure retained.",
+  "next_branch": "If custody and source projection feasibility pass, a separately preregistered natural-variable-question human-preference Choice study may use this source after NATIVE-2 evidence and question-conditioned interface selection. Unprojectable rows and lineage uncertainty remain explicit. No arbitrary-criteria, many-axis, Score, OOD, calibration, shipping or Pareto credit.",
+  "quality_credit": false,
+  "shipping_credit": false,
+  "sealed_TEST_accessed": false,
+  "B_STEF_allowed": false
+}

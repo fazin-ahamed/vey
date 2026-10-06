@@ -6213,6 +6213,59 @@ SHA-256 `42b5dbc6d3398da8bb1193db5216c455aa1beac877a8fd0e77dc8eff518e196a`
 and independent receipt. The next branch remains the deferred architecture and
 mechanism-gate amendment after NATIVE-2 evidence; this census changes no split.
 
+## HH-CENSUS-1: native human-preference input custody
+
+HYPOTHESIS: helpful-base TRAIN pairs can expose an exact shared dialogue
+context and two distinct last-assistant response candidates without using
+`chosen`/`rejected` field roles as model inputs. This is a source-feasibility
+census, not a learned mechanism or quality experiment.
+
+Prospective contract: `research/endgame/neutral_hh_native_input_protocol.json`,
+SHA-256 `44dbcc32b446654aac816403e6d9f6206e2ff3ced7affe35a0f34f14d03b3686`.
+The protocol and implementation must be committed before acquiring or opening
+TRAIN rows. No model, tokenizer, GPU, fitting, target export or split allocation
+is permitted. Every native line stays in the denominator, including mismatched
+contexts, absent formatting and blank or identical response candidates.
+Role-swapping must leave input features invariant. Independent reconstruction
+must match every persisted metadata row and the complete source census.
+
+MEASURED metadata only: the owner [HH-RLHF dataset card](https://huggingface.co/datasets/Anthropic/hh-rlhf/blob/09be8c5bbc57cb3887f3a9732ad6aa7ec602a1fa/README.md)
+declares MIT and preference/reward-model research as its intended use. It
+explicitly warns against supervised dialogue-agent training and documents
+potentially offensive content. The pinned revision is
+`09be8c5bbc57cb3887f3a9732ad6aa7ec602a1fa`; the card SHA-256 is
+`f75f40db0268656ba07736ec8e59a9720c1910ce554c85354cec74b1c8bda175`.
+The chosen/rejected observations are human judgments over model-generated
+responses, not factual truth, human-authored response targets or measured
+population probabilities. Rights classification remains `conditional/review`;
+local intended research custody does not authorize shipping training or
+redistribution of private information.
+
+Only `helpful-base/train.jsonl.gz` is registered for acquisition: 16,200,131
+compressed bytes, SHA-256
+`518a5bf288456fc9f3b7c980c54116fba0c52f274d3f4d344675d83e4058f6f4`.
+The retained publisher metadata reports VirusTotal 0/75 for that file.
+Harmless-base TRAIN is **unacquired** because its metadata reports suspicious
+1/76; this is a publisher scan report, not an independently reproduced malware
+finding. Helpful online/rejection-sampled tranches, red-team transcripts and
+all TEST rows are excluded from this census.
+
+Exact metadata/card/license bytes are retained outside Git under
+`vey-data/decisionmix/endgame/hh-native-v1/metadata/`; its receipt SHA-256 is
+`a3a509b61b1c68f914cfecf5cd72daa7f67034f1a7f406d5bcea939aca388755`.
+The normalized first-human-prompt grouping is only an input-derived proxy.
+Missing source conversation and annotator IDs prevent a claim of full original
+lineage isolation or an independent-example count.
+
+Primary outputs will be deterministic projection coverage, reason counts,
+context/root-prompt groups and duplicate input pairs. No confidence interval,
+accuracy, calibration, context-support, shipping or Pareto credit follows.
+Source row counts and projection feasibility remain unmeasured. A future
+natural-question human-preference Choice study requires a separate prospective
+architecture and gate contract after NATIVE-2 evidence; this census does not
+change the in-flight Modal study or permit B-STEF.
+
+
 
 
 
