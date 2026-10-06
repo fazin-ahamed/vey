@@ -13,7 +13,7 @@
   "source_membership_changed": false,
   "targets_changed": false,
   "training_or_gates_changed": false,
-  "derived_root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/qnative-cross-v1/dataset-v2",
+  "derived_root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/qnative-cross-v1/dataset-v3",
   "phases": [
     "fit",
     "selection",
@@ -78,6 +78,7 @@
   "Pareto_credit": false,
   "endgame_complete": false,
   "retained_failed_roots": [
-    "dataset-v1: empty directory; operational hash-binding stop before any emission, failure.json retained"
+    "dataset-v1: empty directory; operational hash-binding stop before any emission, failure.json retained",
+    "dataset-v2: complete and independently verified rows, but construction-source pins bind the pre-pair-layout-fix data module; superseded for custody identity, all files and both receipts retained"
   ]
 }
