@@ -1,0 +1,80 @@
+{
+  "schema": "vey.neutral.qasper.cross-transport-input-amendment.v1",
+  "status": "PROSPECTIVE_CPU_CUSTODIAN_ONLY_BEFORE_GPU",
+  "scientific_amendment": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_qasper_cross_study_amendment.json",
+    "bytes": 29593,
+    "sha256": "ce9873ea6ec7d06af3ad97ee392bee091f095ad3c73b0ae796534edb7c75b370"
+  },
+  "problem": "Original guarded QASPER reader requires the complete mixed source SQLite hash and symlink-free canonical local phase roots. Transporting raw mixed source labels or weakening those original guards is prohibited. Modal model container must receive only derived allowed phase records, not the original mixed source database.",
+  "decision": "Local CPU custodian materializes only registered fit/selection/calibration/dev derived study phases through unchanged QASPER open_phase(train/dev) and guarded native-field dataset reader, then independent CPU reconstruction checks every derived record and source identity before any remote model work. Remote loader verifies these immutable derived files, manifest and independent PASS receipt; original local reader remains authoritative for construction/reconstruction. This is operational input transport, not new source allocation or label repair.",
+  "scientific_changes": false,
+  "architecture_changed": false,
+  "source_membership_changed": false,
+  "targets_changed": false,
+  "training_or_gates_changed": false,
+  "derived_root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/qnative-cross-v1/dataset-v1",
+  "phases": [
+    "fit",
+    "selection",
+    "calibration",
+    "dev"
+  ],
+  "derived_schema": "vey.qnative.cross.dataset.v1",
+  "record_fields": [
+    "id",
+    "endpoint",
+    "component_id",
+    "phase",
+    "serving",
+    "blocks",
+    "target",
+    "paper_id",
+    "group_id",
+    "question_ordinal",
+    "input_sha256"
+  ],
+  "required_files": [
+    "fit.jsonl.gz",
+    "selection.jsonl.gz",
+    "calibration.jsonl.gz",
+    "dev.jsonl.gz",
+    "papers.jsonl.gz",
+    "dataset_manifest.json",
+    "verification_receipt.json"
+  ],
+  "serialization": "Finite canonical UTF8 JSON sorted keys/compact separators/ensure_ascii=False, one row per line sorted by stable decision ID, deterministic gzip mtime0. Exclusive creation, no overwrite/resume. All original native target masks and native unmatched-item counts unchanged.",
+  "storage": "Hydrated records have the scientific record fields plus external paper_id/group_id/question_ordinal/input_sha256 coordinates; none are neural text. Persist native records fully. QASPER stored rows omit serving.state and blocks, replacing them by top-level paper_ref=digest([state,blocks]) using canonical JSON SHA256. papers.jsonl.gz contains unique {id,state,blocks}; hydrate removes paper_ref and restores exact original serving.state and blocks, never normalizes or changes text. Manifest phases entries are {path,bytes,sha256,rows,components,endpoint_counts}, with a separate papers pin, protocol_sha256, transport_protocol_sha256 and source_pins.",
+  "verification_binding": "No cyclic hashes: dataset_manifest.json never hashes its own independent receipt. verification_receipt.json binds completed manifest and all phase/paper files and independently reconstructed original source rows. Final committed Modal transport inventory pins BOTH dataset manifest and verification receipt; remote checks both pins before checking receipt-to-manifest identity. Environment QNATIVE_TRANSPORT_MANIFEST points to that frozen explicit inventory, with derived_dataset.manifest and derived_dataset.verification_receipt pins; QNATIVE_DATASET_ROOT points only to the registered derived root.",
+  "CPU_verification_CLI": "neutral_qasper_cross_verify.py --mode dataset --root PATH creates verification_receipt.json after every derived row is reconstructed from original guarded sources; no model loads or forwards. Default run verification uses --root PATH and emits verification.json.",
+  "authority": "Manifest pins scientific amendment and this operational amendment, current construction/data source code, every historical/current scientific authority verified locally, exact original allowed phase sources and original paper phase membership files; each derived phase pin includes SHA256/size/count/endpoint counts/components. Independent reconstruction receipt binds manifest and all derived phase hashes with original projection and native custody.",
+  "independent_reconstruction": "Verify every derived id/endpoint/component/phase, exact original source-only serving mapping and block catalogue, exact separated native targets, native intent target distributions and fixed split, complete endpoint populations and no cross-phase components. Do not trust compiler copies or producer aggregate counts. Read original guarded source locally, do not open sealed roles or mixed DB queries. Hash/custody does not earn semantic credit.",
+  "remote_allowlist": "Only completed verified derived phase files/manifest/receipt; pinned selected initial cross checkpoint and needed original intent reference/calibration records; existing pinned stock snapshot files; source/protocol/custody metadata necessary to instantiate model and verify declared lineage. Full source/custody path strings in metadata are provenance, not permission to read/copy missing raw inputs remotely. A frozen explicit transport inventory must be committed before any Modal upload or execution.",
+  "remote_prohibitions": [
+    "mixed private.sqlite3",
+    "source calibration/confirmation/final/unused payloads",
+    "raw QASPER original archives or raw annotation provenance",
+    "worker/annotator personal identifiers",
+    "secrets/auth tokens/Jev credentials",
+    "unrelated model checkpoints",
+    "passing off a missing original authority as remotely rechecked raw source"
+  ],
+  "remote_custody": "Check derived dataset hashes and independent receipt before tokenizer/model, strict scientific/operational manifest identities, source committed snapshots and selected initial encoder/checkpoint fingerprints. Original raw-source reconstruction is local CPU evidence; remote may report only derived artifact custody. Never label the remote as independently accessing/verifying raw source labels.",
+  "resources": {
+    "CPU_threads": 1,
+    "BLAS_threads": 1,
+    "nice": 10,
+    "available_RAM_floor_GiB": 4,
+    "GPU_jobs": 0,
+    "all_model_work": "Serialized Modal GPU only after committed implementation, independent dataset PASS, explicit transport freeze, remote CPU preflight and actual numerical smoke"
+  },
+  "failure": "Retain every partial dataset and failure receipt, exclude failed/incomplete roots from model loader, refuse missing/nonfinite/wrong-type/wrong-count/hash/membership/authority receipts. Fix prospectively, unchanged source/target/gate semantics. Do not silently bypass the local guarded readers to repair transport.",
+  "sealed_labels_accessed": false,
+  "raw_mixed_database_transported": false,
+  "model_outputs": 0,
+  "quality_credit": false,
+  "shipping_credit": false,
+  "B_STEF_allowed": false,
+  "Pareto_credit": false,
+  "endgame_complete": false
+}
