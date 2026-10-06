@@ -1,0 +1,71 @@
+{
+  "schema": "vey.neutral.native-ordinal-rights-audit.v1",
+  "source": "stanfordnlp/sst",
+  "revision": "82523085b89b96509979ffe069ebb3075b0692a5",
+  "status": "ACQUISITION_HELD_UNRESOLVED_DATASET_GRANT",
+  "purpose": "Find a lawful source-native ordinal/sentiment source beyond the existing MASSIVE grammar/spelling rubrics without substituting synthetic categories for human ordinal data.",
+  "evidence_class": "MEASURED publisher metadata; no corpus evaluation",
+  "checked_UTC": "2026-10-06T09:12:01Z",
+  "urls": {
+    "owner-api.json": "https://huggingface.co/api/datasets/stanfordnlp/sst",
+    "README.md": "https://huggingface.co/datasets/stanfordnlp/sst/resolve/82523085b89b96509979ffe069ebb3075b0692a5/README.md",
+    "publisher-homepage.html": "https://nlp.stanford.edu/sentiment/",
+    "publisher-code-page.html": "https://nlp.stanford.edu/sentiment/code.html"
+  },
+  "artifacts": [
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/sst-rights-v1/metadata/owner-api.json",
+      "bytes": 3034,
+      "sha256": "85c7a56d44b6e0d1606b51a499c77cc03fe693b80e48752318d0eaa993404a90"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/sst-rights-v1/metadata/README.md",
+      "bytes": 6679,
+      "sha256": "6731d15097cab84a22c4d608c86cda1794b088c0169f930c2f601c4e27eaa043"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/sst-rights-v1/metadata/publisher-homepage.html",
+      "bytes": 11697,
+      "sha256": "10b032431d6844c7e187af486069d2a1d26e124cade5b8976f63d2ccf87ab1a8"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/sst-rights-v1/metadata/publisher-code-page.html",
+      "bytes": 10787,
+      "sha256": "9aae0779452b4c6cde174a8a0f5895159b84ed0896bdcd334c575c14386b79f0"
+    }
+  ],
+  "publisher_metadata": {
+    "declared_license": [
+      "unknown"
+    ],
+    "native_default_label": "float32 sentiment positivity0..1",
+    "native_ptb_label": "Published five-bin0..4 labels encoded in labelled parse trees",
+    "default_declared_counts": {
+      "train": 8544,
+      "validation": 1101,
+      "test": 2210
+    },
+    "counts_census_verified": false,
+    "source_text_creators": "Rotten Tomatoes reviewers according to pinned card",
+    "rater_probabilities": "Scalar aggregate/native ordinal bin is not a retained-rater frequency vector. The publisher links a raw-count archive, but its schema, counts and permissions were not acquired or verified."
+  },
+  "rights": {
+    "license_class": "research-eval-only",
+    "classification_limit": "This conservative repository class is not an affirmative grant. No source acquisition, training, scoring or redistribution is approved by this metadata-only audit.",
+    "shipping_training_allowed": false,
+    "research_corpus_acquisition_allowed_now": false,
+    "decision": "The official card says unknown and leaves Licensing Information unresolved; inspected original homepage/code page provide download and academic-model instructions but no explicit dataset grant. Availability, citation, or a model/code license cannot authorize corpus reuse.",
+    "next_permission_requirement": "An authoritative source-specific data and upstream text/annotation permission statement before a separately registered corpus acquisition; no external contact or legal-term acceptance performed."
+  },
+  "exposure": "Pinned card illustrative sentence/phrase and native labels were read; source partition unknown, these are exposed metadata examples and cannot be called fresh final material. No train/validation/test corpus file, dictionary, raw-count archive or labelled-tree archive acquired; no dataset script executed. SST is a legacy public benchmark with unknown backbone exposure.",
+  "future_projection_limits": "If a grant later clears: native state must not expose labelled PTB trees or scores; all parse/phrase descendants stay with their original parent sentence/source lineage, and dictionary contents cannot leak held phrases into fitting. Preserve publisher thresholds/native bins; do not invent per-rater probabilities from a mean. This is a future prerequisite, not an implemented corpus or chosen architecture.",
+  "model_loads": 0,
+  "model_forwards": 0,
+  "corpus_rows_scored": 0,
+  "quality_credit": false,
+  "shipping_credit": false,
+  "pareto_credit": false,
+  "B_STEF_allowed": false,
+  "terminal_block": false,
+  "next_branch": "Continue the already registered Modal architecture study and lawful QASPER/HH source branches. This single-source rights gap does not exhaust neutral ordinal alternatives or end the endgame."
+}

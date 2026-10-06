@@ -6302,6 +6302,50 @@ all-row task treatment. Do not silently discard the 239 unprojectable rows.
 All 17 live Modal transport source hashes remain unchanged. This census does
 not alter the in-flight study or permit B-STEF.
 
+## Native ordinal source review: SST rights
+
+HYPOTHESIS: native sentiment scores could extend the neutral ordinal source
+surface beyond MASSIVE grammar/spelling. This review inspected publisher
+metadata only; it did not acquire or evaluate a corpus.
+
+MEASURED metadata: the official [Stanford SST card](https://huggingface.co/datasets/stanfordnlp/sst/blob/82523085b89b96509979ffe069ebb3075b0692a5/README.md),
+revision `82523085b89b96509979ffe069ebb3075b0692a5`, declares the data license
+`unknown` and leaves Licensing Information unresolved. The [original publisher
+homepage](https://nlp.stanford.edu/sentiment/) and [code page](https://nlp.stanford.edu/sentiment/code.html)
+provide dataset downloads and model instructions, but the inspected pages do
+not establish an explicit dataset grant. Code/model permission, availability
+and academic citation cannot replace a data grant.
+
+Decision: **corpus acquisition held**. The conservative `research-eval-only`
+registry class does not itself grant research permission. No shipping training,
+research corpus acquisition, scoring or raw redistribution is approved by this
+audit. An authoritative source-specific data/upstream-text/annotation permission
+statement is required before a separately registered acquisition. No external
+contact, term acceptance or dataset-script execution occurred. This candidate
+rights gap is not a terminal endgame block.
+
+The card describes scalar positivity labels in 0..1 and native five-bin 0..4
+labels in PTB trees. Its declared sentence counts are 8,544/1,101/2,210 for
+train/validation/test; these are publisher metadata, not independently verified
+corpus counts. A scalar mean or native bin cannot recover per-rater probability
+frequencies. The publisher links a raw-count archive, but its schema, counts and
+permissions remain unverified. All labelled trees and phrase descendants would
+need target isolation and original-parent grouping before any model use.
+
+Card illustrative sentence/phrase labels are exposed metadata; their partition
+is unknown. No corpus split, dictionary, labelled-tree or raw-count archive was
+acquired. Public legacy SST and unknown backbone exposure cannot be called
+universally fresh. No model, quality, calibration, shipping or Pareto credit.
+
+`research/endgame/neutral_sst_rights_audit_manifest.json` records the exact owner
+API/card/homepage/code-page snapshots under
+`vey-data/decisionmix/endgame/sst-rights-v1/metadata/`. Card SHA-256:
+`6731d15097cab84a22c4d608c86cda1794b088c0169f930c2f601c4e27eaa043`.
+Next: continue the registered Modal architecture study and lawful natural
+question sources; the native ordinal source gap remains open without bypassing
+rights gates or changing the in-flight recipe.
+
+
 
 
 
