@@ -6123,6 +6123,16 @@ remote bytes and never overwrites inputs. No failed v1 execution receipt or
 checkpoint is copied into v2. Original QNATIVE-2 authority remains frozen;
 recovered-result use requires a separate lineage/architecture amendment.
 
+MEASURED actual v2 CPU preflight passes, followed by all three serialized T4
+numerical smokes. Downloaded metadata hashes match each COMPLETE runtime
+receipt; selected smoke restore error is exactly zero, encoder bytes change,
+and every recorded active parameter delta is nonzero. The v2 preflight binds
+the original stock encoder fingerprint and unchanged input counts. Receipts
+are retained in `modal-recovery-v2`; `native_arch_modal_recovery_smoke_results.json`
+binds their hashes to preregistration `408f93b`. Fresh full quality execution
+has been launched, but no completed architecture result is yet verified.
+These are execution proofs, with no quality or performance credit.
+
 ## QNATIVE-1: natural-question source projection
 
 Preregistered at `05e5d36`; allocation-order correctness repair at `34f8d73`.

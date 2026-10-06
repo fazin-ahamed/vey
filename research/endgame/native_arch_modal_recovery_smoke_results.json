@@ -1,0 +1,90 @@
+{
+  "schema": "vey.native-arch.modal-recovery-smoke-results.v1",
+  "status": "ALL_THREE_ACTUAL_V2_NUMERICAL_SMOKES_PASS",
+  "preregistration": "408f93b",
+  "volume": "vey-native-arch-modal-v2",
+  "transport": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_arch_modal_transport.json",
+    "bytes": 10166,
+    "sha256": "0fd4e6c12dfdebc268722334237e7679183449e3d26a68c8fe45120ba9541e7c"
+  },
+  "recovery_protocol": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_arch_modal_timeout_recovery_protocol.json",
+    "bytes": 2852,
+    "sha256": "b0248bf26de6bb55b22759eee7ea9e6bf8ffc4df11889fc8523e265c06d7cc01"
+  },
+  "preflight": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal-recovery-v2/modal_preflight.json",
+    "bytes": 1126,
+    "sha256": "0af946e51c6e6bf75c7dd48cdc4495d981e9f9b97cd8a58c9e96e7e3342eb0a5"
+  },
+  "arms": {
+    "cross": {
+      "runtime_receipt": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal-recovery-v2/modal_runtime_cross_smoke.json",
+        "bytes": 1191,
+        "sha256": "168ec1b39bacd3117a30dcc6fa1c35ec1bac6036f592284a004e02b03f2b36a5"
+      },
+      "metadata": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal-recovery-v2/cross-smoke/metadata.json",
+        "bytes": 70317,
+        "sha256": "571523051db9d044c096fa153b0e453971f2b96009540cc97d8e339c3cd40775"
+      },
+      "liveness": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal-recovery-v2/cross-smoke/liveness.json",
+        "bytes": 167006,
+        "sha256": "b597b3eff9c3417aea35d8df80a6dfae0c870d762b176c7d41d2e8597124f7a9"
+      },
+      "strict_restore_max_abs_difference": 0,
+      "encoder_changed": true,
+      "every_recorded_active_parameter_delta_nonzero": true
+    },
+    "dual": {
+      "runtime_receipt": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal-recovery-v2/modal_runtime_dual_smoke.json",
+        "bytes": 1189,
+        "sha256": "f7613068c73146af6119199197dbaa9c97ad9a7075495ebfb1a4c45bf38172fe"
+      },
+      "metadata": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal-recovery-v2/dual-smoke/metadata.json",
+        "bytes": 70315,
+        "sha256": "bc06c46e33e63e8832ecd53d0b72e18b4b5cc44efc99bb60348da20b74edd64e"
+      },
+      "liveness": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal-recovery-v2/dual-smoke/liveness.json",
+        "bytes": 165839,
+        "sha256": "47b5ff76ab603dc777f6db9465f6297e08df799be2a52d2a3a747ffe8c4c2a11"
+      },
+      "strict_restore_max_abs_difference": 0,
+      "encoder_changed": true,
+      "every_recorded_active_parameter_delta_nonzero": true
+    },
+    "pages": {
+      "runtime_receipt": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal-recovery-v2/modal_runtime_pages_smoke.json",
+        "bytes": 1191,
+        "sha256": "1bf5aae479d2340474056a56d46d5a5673928122f77e00bf5f233185ef26c83a"
+      },
+      "metadata": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal-recovery-v2/pages-smoke/metadata.json",
+        "bytes": 70317,
+        "sha256": "487fc8e2a5256cada3ea240de94bd157221b855f3a6d0d8585d13c81bbbacdf0"
+      },
+      "liveness": {
+        "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal-recovery-v2/pages-smoke/liveness.json",
+        "bytes": 164851,
+        "sha256": "054e8f0382dc56c9a5bf0a3e310a66df68b10ebbc7b67db3c75e9704888215a1"
+      },
+      "strict_restore_max_abs_difference": 0,
+      "encoder_changed": true,
+      "every_recorded_active_parameter_delta_nonzero": true
+    }
+  },
+  "fresh_quality_training_launched": true,
+  "quality_result_status": "RUNNING_NOT_VERIFIED",
+  "partial_artifacts_are_not_complete_quality_evidence": true,
+  "no_additional_peer_forward_until_entire_quality_study_complete": true,
+  "performance_credit": false,
+  "quality_credit": false,
+  "B_STEF_allowed": false
+}
