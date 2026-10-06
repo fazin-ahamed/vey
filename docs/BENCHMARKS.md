@@ -6078,6 +6078,34 @@ loads or forwards were performed for this correction. Published call semantics,
 membership, protocol and all 15 Modal transport source files remain unchanged.
 The historical three-row smoke cannot earn retrospective full-payload custody.
 
+### Current published-peer capture: retained resource stop
+
+MEASURED full current-Laya capture started only after the complete serialized
+NATIVE-2 study and independent verification. The actual published CPU eager
+typed API produced 924 valid records and 924 complete raw payloads, with
+identical unique-ID order and no unfinished JSON lines. The remaining 1,355
+of the registered 2,279 rows are unmeasured; partial aggregates are not a
+paired full-DEV comparison.
+
+Local `/proc/meminfo` then reported 12,163,384 KiB available RAM but only
+1,412 KiB free swap out of 8,388,604 KiB. The assistant paused the exact owned
+capture process, then terminated that paused model to release its memory.
+This was a resource stop, not user cancellation or a model-quality failure.
+The original capture and sidecar remain unchanged; their SHA-256 hashes are
+`1febcd41bb4320e13d0bb60bda041d97fc1e81b41a843eeeb56929520d39470c`
+and `22a4c1065a44bfb45f15c95e9aa5bb50a29424a2654e8b446841d31bd4be2816`.
+`native_peer_resource_stop_result_manifest.json` retains custody and scope.
+
+The published runtime warns that checkpoint temperature `choice:11+`
+is invalid: `0.10058280825614929` is clamped to `0.5`, with affected
+confidence explicitly uncalibrated. Preserve that warning and source behavior;
+do not present the rounded output masses as calibrated confidence.
+The capture script lacks a per-call RAM/swap governor despite the registered
+resource policy. A prospective operational recovery must enforce those guards,
+retain the existing valid/raw results, call only missing IDs through unchanged
+published semantics and independently reconstruct the complete merged universe.
+No confidence, performance, matrix-win or Pareto credit is earned.
+
 ### NATIVE-2 Modal timeout: retained incomplete training
 
 MEASURED execution failure on the original registered transport: the cross call
@@ -6286,8 +6314,48 @@ annotation text become model inputs. No model loads, forwards, architecture
 selection or sealed-phase access occurred.
 `neutral_qasper_question_split_result_manifest.json` binds the census manifest
 SHA-256 `42b5dbc6d3398da8bb1193db5216c455aa1beac877a8fd0e77dc8eff518e196a`
-and independent receipt. The next branch remains the deferred architecture and
-mechanism-gate amendment after NATIVE-2 evidence; this census changes no split.
+and independent receipt. At that delivery, the next branch was the deferred
+architecture and mechanism-gate amendment; the census changed no split.
+
+### QNATIVE-2: prospectively frozen cross transfer
+
+Preregistered after measured NATIVE-2 evidence at `fd21429`, with operational
+input custody at `d43fb4a`. The original deferred protocol and old NATIVE-2
+authority remain immutable; its historical hash resolves through the preserved
+timeout snapshot. The new amendment explicitly binds the completed v2 result,
+selected cross checkpoint, projection and paper-phase census.
+
+One selected cross encoder will serve original native intent and QASPER
+yes/no, answerability, evidence retrieval and extractive spans. Source-only
+question/block windows use every document token and preserve question tokens;
+simple binary/BIO output heads add the required endpoint readouts. FIT intent
+replay and measured original-intent nonregression are mandatory. It is not
+permitted to conceal a shared-model regression by routing intent to an old
+independent encoder.
+
+Registered comparisons include FIT-only Boolean priors, full-catalogue
+TF-IDF evidence retrieval, a verbatim top-block extraction baseline,
+question/state masks and same-paper question swaps. Unmatched native items,
+unsupported token-boundary spans, missing targets and unpaired controls remain
+explicit denominators. All primary question endpoints require at least 0.80
+on their declared metrics and positive nominal paired improvement bounds;
+question-mask sensitivity and original intent lower bounds of at least
+-0.01 are additional requirements. These are development screens, not
+simultaneous release evidence.
+
+The unchanged original source reader requires mixed database custody and
+symlink-free local roots. A local CPU custodian therefore constructs only the
+four registered derived study phases, with an independent exact-row receipt.
+Deduplicated source paper text hydrates back to unchanged serving/blocks.
+The frozen remote transport must pin both dataset manifest and receipt;
+it never receives the mixed source database, sealed source payloads or worker
+identifiers. Remote proof is derived-artifact custody, not a new raw-source
+verification.
+
+No QASPER model outcome, natural-question quality, 8K attention, state-once
+reuse, release or B-STEF credit is asserted by preregistration. Implementation,
+complete independent input reconstruction and actual serialized Modal
+numerical liveness precede the registered quality execution.
 
 ## HH-CENSUS-1: native human-preference input custody
 

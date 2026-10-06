@@ -1,0 +1,46 @@
+{
+  "schema": "vey.native-peer.resource-stop.v1",
+  "status": "INCOMPLETE_OWNED_RESOURCE_STOP",
+  "evidence_class": "MEASURED execution/resource and payload custody only",
+  "protocol": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_peer_protocol.json",
+    "bytes": 14240,
+    "sha256": "8ca37c2a64f22af5846c698a16ae1269e76f988770226aff4446d7abac3b31ca"
+  },
+  "captured_validated_rows": 924,
+  "captured_raw_returned_rows": 924,
+  "registered_rows": 2279,
+  "remaining_rows": 1355,
+  "raw_and_validated_id_order_identical": true,
+  "unfinished_json_lines": [],
+  "capture": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/peer-full-dev-v1/laya.jsonl",
+    "bytes": 12498813,
+    "sha256": "1febcd41bb4320e13d0bb60bda041d97fc1e81b41a843eeeb56929520d39470c"
+  },
+  "raw_sidecar": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/peer-full-dev-v1/laya.jsonl.raw.jsonl",
+    "bytes": 2619579,
+    "sha256": "22a4c1065a44bfb45f15c95e9aa5bb50a29424a2654e8b446841d31bd4be2816"
+  },
+  "resource_snapshot": {
+    "MemAvailable_KiB": 12163384,
+    "SwapTotal_KiB": 8388604,
+    "SwapFree_KiB": 1412,
+    "source": "Observed /proc/meminfo before owned resource pause",
+    "owned_process_PID": 2211593,
+    "owned_paused_process_status": "TNsl",
+    "owned_RSS_KiB": 2417496
+  },
+  "termination": "Assistant-issued SIGSTOP under nearly-full local swap; shell job returned148/Stopped. Assistant then sent SIGTERM followed by SIGCONT to release this exact owned model process. No user cancellation or user process kill. Both commands completed.",
+  "published_warning": "laya checkpoint invalid temperature choice:11+=0.10058280825614929 ->0.5, source runtime warns affected confidence uncalibrated. Warning retained, not suppressed or custom recalibrated. Positive clamp preserves the per-call score order; no confidence-quality claim.",
+  "scope": "924 valid results, not complete2279-row peer evidence. No aggregate comparison, confidence bound, matrix win, performance or quality promotion. Raw payloads and old source remain immutable.",
+  "implementation_observation": "Original capture enforces CPU/threads/offline/custody but has no per-call RAM/swap governor or resource event receipts. A prospective operational recovery must enforce the registered resource guard, retain every existing valid/raw result, and make only remaining calls without changing published API/model/membership.",
+  "prospective_recovery": "Source-identical current published typed CPU API, exclusive new attempt/output paths, immutable partial-ID/raw custody, complete all2279-ID final merge independently reconstructed. Resource guard before model/each call. No automatic retries or missing-row subset quality claim.",
+  "sealed_access": false,
+  "local_GPU_used": false,
+  "full_peer_capture_complete": false,
+  "quality_credit": false,
+  "performance_credit": false,
+  "Pareto_credit": false
+}
