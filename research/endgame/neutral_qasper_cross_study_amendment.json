@@ -1,0 +1,340 @@
+{
+  "schema": "vey.neutral.qasper.cross-study-amendment.v1",
+  "experiment": "QNATIVE-2 shared cross-conditioned natural-variable-question development transfer",
+  "status": "PROSPECTIVE_REQUIRES_COMMITTED_IMPLEMENTATION_AND_MODAL_LIVENESS",
+  "basis": "NATIVE-2 independently reconstructed complete cross-only development win. Both failed factorized arms retained. Architecture and gates chosen before any QASPER model forward; no QASPER model outcome selected them.",
+  "supersession": "Original question study and its old authority remain immutable. Resolve its original NATIVE-2 protocol through the byte-identical preserved timeout snapshot. This explicit amendment authorizes measured v2 lineage and fixes architecture/gates; source projections, membership and native targets unchanged.",
+  "authority": {
+    "projection_protocol": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_qasper_native_protocol.json",
+      "bytes": 13075,
+      "sha256": "87b016779e700d63f4426f1626735ed8e5efbe90cbfe18ab9953f19c985b95b0"
+    },
+    "projection_result_manifest": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_qasper_native_result_manifest.json",
+      "bytes": 13953,
+      "sha256": "7533451f9f290577a168e3bc922334a459141e42cca0c0a13f83c13283e1ef70"
+    },
+    "native_field_protocol": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_field_protocol.json",
+      "bytes": 10753,
+      "sha256": "f0f21d4695be2f930f2f0993be415dd8fee6e05ee1a888fe756cac0f7f94dfa3"
+    },
+    "train_manifest": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/train/manifest.json",
+      "bytes": 6116,
+      "sha256": "587af65377984bded768c56fcfe0b962b479bc30541a33f051d4709cb72507fd"
+    },
+    "dev_manifest": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/dev/manifest.json",
+      "bytes": 6108,
+      "sha256": "0790bdfb65728d352914e03995d5cefb094795220fd99d9558ac27b30658d0d3"
+    },
+    "train_serving": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/train/serving.jsonl.gz",
+      "bytes": 46879573,
+      "sha256": "6ffb8f06c1e4d86b925e83160ca8829b5e12ff005a6ac5a23244b5070d1bb489"
+    },
+    "train_decisions": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/train/decisions.jsonl.gz",
+      "bytes": 50728109,
+      "sha256": "ca86464dba0262226ed9dca7480a30ef7827c9c04b92cc438b724682821d92a6"
+    },
+    "train_targets": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/train/targets.jsonl.gz",
+      "bytes": 991064,
+      "sha256": "c680cdba8f1b86b4301d277baf2060e01628cdbdf05ca57eefe66f605f501227"
+    },
+    "train_provenance": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/train/provenance.jsonl.gz",
+      "bytes": 725728,
+      "sha256": "ad327e68163aec84ce750b60a0d40da026417431c53377cf1aa775e9727a4399"
+    },
+    "dev_serving": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/dev/serving.jsonl.gz",
+      "bytes": 27615577,
+      "sha256": "2b655221f63d1267226c2c5393fed5657a7822874c654dff97499e54af838078"
+    },
+    "dev_decisions": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/dev/decisions.jsonl.gz",
+      "bytes": 30111335,
+      "sha256": "20e6ccd97171294e0112fbf4dfbd0499ea52c54d2ee82c01a7bac1629d291446"
+    },
+    "dev_targets": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/dev/targets.jsonl.gz",
+      "bytes": 763483,
+      "sha256": "7ce4609e6aeb77985f410b84ea8c098026fa9e4662902cf5aa5323a3fb835f73"
+    },
+    "dev_provenance": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-train-dev-v1/dev/provenance.jsonl.gz",
+      "bytes": 468965,
+      "sha256": "3e5197a3566d2a7ac0e7dc81acbf37fab0e1d5170df106b5741e29cdce7f2640"
+    }
+  },
+  "historical_native_arch_protocol": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/modal-cross-timeout-v1/native_arch_protocol.json",
+    "bytes": 12446,
+    "sha256": "44c5b54f772b6d2041675c8550d456d5e3e4a03a94f342b01229ebff2202a468"
+  },
+  "current_authority": {
+    "deferred_question_protocol": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_qasper_question_study_protocol.json",
+      "bytes": 9068,
+      "sha256": "40d66173e91a827725dc107553a644894f39212f4667d4d47c33e45491f73f1f"
+    },
+    "current_native_arch_protocol": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_arch_protocol.json",
+      "bytes": 13447,
+      "sha256": "4bc6c117d3cb2a2f1e5d4b5d3fcd4e76fbeecb1921c2d83ffda436d1cf6ad422"
+    },
+    "recovery_protocol": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_arch_modal_timeout_recovery_protocol.json",
+      "bytes": 2852,
+      "sha256": "b0248bf26de6bb55b22759eee7ea9e6bf8ffc4df11889fc8523e265c06d7cc01"
+    },
+    "completed_native_arch_result": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_arch_result_manifest.json",
+      "bytes": 43886,
+      "sha256": "b71b83a049d06d9f752fde9561846e8e43373f986c127a95bf920c3cbac7153c"
+    },
+    "completed_native_arch_verification": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/native_arch_verification.json",
+      "bytes": 23479061,
+      "sha256": "af658cf3fb00615510e2034447cd226e4c767f8398659c0671029102ae07d377"
+    },
+    "selected_initial_cross_checkpoint": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/cross/selected.safetensors",
+      "bytes": 282953132,
+      "sha256": "3275874bbb18d7df42fa041b4e5fa2ab18af3da70cc2bb6dfd0dd043b7e56c58"
+    },
+    "selected_initial_cross_metadata": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/cross/metadata.json",
+      "bytes": 93694,
+      "sha256": "21bb4bcbe79c5565e825d04bc591e4dd25cb4409f3d6e681de49495639a3d6f9"
+    },
+    "question_split_result": {
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_qasper_question_split_result_manifest.json",
+      "bytes": 1948,
+      "sha256": "7d71f1fca8db981b4071440a98a506f4e92cbeab83c6a2762b97ed8972ab4a60"
+    },
+    "question_split_manifest": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-question-split-v1/manifest.json",
+      "bytes": 7168,
+      "sha256": "42b5dbc6d3398da8bb1193db5216c455aa1beac877a8fd0e77dc8eff518e196a"
+    },
+    "question_split_verification": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/neutral-source-v2/qasper/native-question-split-v1/verification_receipt.json",
+      "bytes": 1900,
+      "sha256": "3856650ea7195f4a720c284ccc29909ceeda3151c21920ba8b4d672b12ccbc31"
+    }
+  },
+  "data": {
+    "question_study": {
+      "reader": "Only neutral_qasper_native_compile.open_phase for train/dev; calibration/confirmation/final/unused stay sealed and unopened.",
+      "split": "Reuse the frozen NATIVE-1 inner component split (fit/selection/calibration) computed from component_id; QASPER train only. DEV is development assessment, never a sealed final.",
+      "endpoints": {
+        "qasper.yes_no": {
+          "task": "bool",
+          "rows": {
+            "train": 238,
+            "dev": 147
+          },
+          "target": "Native per-annotation yes_no; gold is the filtered retained-annotation distribution, never population truth."
+        },
+        "qasper.answerability": {
+          "task": "bool",
+          "rows": {
+            "train": 1580,
+            "dev": 1013
+          },
+          "target": "Exact complement of native unanswerable; null/absent never becomes a class."
+        },
+        "qasper.evidence_retrieval": {
+          "task": "retrieval",
+          "rows": {
+            "train": 1580,
+            "dev": 1013
+          },
+          "target": "Exact-block evidence; all unmatched native evidence retained in the denominator."
+        },
+        "qasper.extractive_answer": {
+          "task": "extract",
+          "rows": {
+            "train": 1580,
+            "dev": 1013
+          },
+          "target": "Exact substring spans; unmatched spans retained in the denominator."
+        }
+      },
+      "serving": "Exact source-only rendered state, original question (with the registered prefix for answerability/evidence), and source-only candidate catalogue. No gold, IDs, splits or annotations in model text."
+    },
+    "question_phase_counts": {
+      "fit": {
+        "rows": 3363,
+        "components": 354,
+        "endpoint_counts": {
+          "qasper.answerability": 1067,
+          "qasper.extractive_answer": 1067,
+          "qasper.evidence_retrieval": 1067,
+          "qasper.yes_no": 162
+        }
+      },
+      "selection": {
+        "rows": 785,
+        "components": 87,
+        "endpoint_counts": {
+          "qasper.evidence_retrieval": 249,
+          "qasper.answerability": 249,
+          "qasper.yes_no": 38,
+          "qasper.extractive_answer": 249
+        }
+      },
+      "calibration": {
+        "rows": 830,
+        "components": 91,
+        "endpoint_counts": {
+          "qasper.answerability": 264,
+          "qasper.evidence_retrieval": 264,
+          "qasper.extractive_answer": 264,
+          "qasper.yes_no": 38
+        }
+      },
+      "dev": {
+        "rows": 3186,
+        "components": 319,
+        "endpoint_counts": {
+          "qasper.evidence_retrieval": 1013,
+          "qasper.yes_no": 147,
+          "qasper.extractive_answer": 1013,
+          "qasper.answerability": 1013
+        }
+      }
+    },
+    "native_intent_replay": "All original NATIVE-1 FIT only, identical original train/selection/calibration/DEV membership. Replay Banking77/MASSIVE fit decisions through unchanged NATIVE-2 cross path; DEV never optimized.",
+    "joint_sources": "One shared encoder and retained native cross scorer, not an endpoint-dispatched second model. Original endpoints must be measured after question training.",
+    "model_visible": "Verbatim rendered question and exact source-only block text. IDs, phase, components, native annotations, target distributions, resolved gold spans and free-form answers are never model text. Blocks come from the registered source-only retrieval candidate catalogue, joined to other endpoints by custody IDs outside model text.",
+    "reader": "Only existing guarded open_phase(train/dev) for projection streams and guarded native_field_data reader for the original English intent phases; sealed phases remain closed.",
+    "denominators": "Every registered row retained. Native unmatched evidence and extraction strings remain native item denominators. Null/absent/empty arrays are separately reported, never fabricated into a gold class, negative token labels or successful abstention. Report support loss from token boundaries and window-length limitations separately. Never drop errors, unsupported rows or zero-control denominators."
+  },
+  "model": {
+    "architecture": "Shared NATIVE-2 cross encoder. Natural-question paths jointly encode question and each source block window; retain the existing cross scoring head for evidence relevance. Add one binary linear readout over pooled joint token states and one three-tag BIO linear readout over source token states. Native intent uses unchanged state+candidate cross path.",
+    "initialization": "Strict NATIVE-2 cross selected checkpoint (epoch10), complete encoder/head; seed7 for new readouts. No stock-only replacement or silent missing key. One resident model; no capacity/depth sweep, separate question encoder, state-only representation or learned candidate parser.",
+    "pair_tokens": 512,
+    "question_budget": "Preserve every question token. Per-block window capacity512 minus exact question and tokenizer pair-special token count. Input-only preflight refuses any question leaving no source token capacity before model work; never silently truncate questions.",
+    "document_windows": "All original blocks, all source tokens in deterministic overlapping windows. Overlap min(64,window_capacity-1), stride capacity-overlap. No gold- or score-dependent source truncation, lexical shortlist or top-k omission. Record token/char offsets, overlaps, original position, all window counts and full source coverage.",
+    "pool": "Use canonical masked_mean. Evidence score per block is maximum retained cross head score over its windows. Bool logits per question are relevance-softmax-weighted window binary logits, then categorical softmax. Span BIO uses source token positions only; question/special/padding tokens excluded.",
+    "span_decode": "Independent greedy BIO tags per source window: I without preceding B/I starts a source span; source offsets produce verbatim strings. Deduplicate equal (block,start,end) and merge intersecting intervals within a block, never across blocks; adjacency alone is not merged. Return all decoded spans, source order, with exact offsets. Never generate or repair answer text.",
+    "ranking": "Full source catalogue, descending block score, stable semantic block ID tie break. Output IDs are coordinates only and are never encoder text. Reorder keeps source IDs/blocks fixed.",
+    "repeated_state": "Joint encoding rereads source windows for distinct questions. Cache only exact input/weight-identity results; account for all state-containing sequences. Never claim question-independent state reuse, learned shortlist, latency or full-context attention from this chunked path."
+  },
+  "training": {
+    "seed": 7,
+    "epochs": 10,
+    "include_epoch0": true,
+    "dtype": "float32",
+    "optimizer": "AdamW, encoder lr0.00002; all scoring/output heads lr0.001; weight_decay0.01; no schedule or sweep",
+    "microbatch_windows": 8,
+    "effective_batch_endpoint_decisions": 32,
+    "activation_checkpointing": {
+      "enabled": true,
+      "use_reentrant": false,
+      "preserve_rng_state": true
+    },
+    "order": "Seeded shuffle of all FIT endpoint decisions per epoch. Accumulate one decision loss per eligible native target, mean over32 decisions including final shorter batch. Equal per-decision weights; record actual per-endpoint supervised counts and loss denominators.",
+    "intent_loss": "Unchanged native soft-target categorical CE.",
+    "bool_loss": "Categorical CE against retained-rater false/true distribution; missing target has no invented loss.",
+    "retrieval_loss": "Soft-target categorical CE over full block scores. Each exactly matched native item distributes its mass equally over duplicate block matches; average over matched native items. Record all unmatched items and zero-matched decisions; zero-matched native arrays supply no fabricated negative supervision.",
+    "BIO_loss": "Map only exact source-char spans aligning with tokenizer offsets and contained in at least one source window. Preserve each observed annotation and its multi-span set. Average one-hot BIO per token over supported annotations. For partially unsupported annotations supervise known positive span tokens only, never invent negative O labels elsewhere. Wholly unsupported/absent/no-native-item annotations are unlabelled. Mean over observed supervised source tokens with fixed class weights O1,B10,I10, normalize weighted loss by summed weights.",
+    "checkpoint": "Highest macro inner-selection primary metric across six endpoints (native2 top1, QASPER yes_no/answerability top1, native-item retrieval Recall@10, annotation token-set F1); target-unavailable rows remain coverage but not invented metric labels. Tie lower mean available Bool/intent NLL then earlier epoch. Keep epochs0..10, all candidate checkpoint selection predictions, restore strict selected fingerprint before calibration/DEV.",
+    "calibration": "Disjoint calibration components only. One temperature per categorical endpoint on101-point log-spaced0.5..10 grid, minimize NLL, then closest to1, then smaller temperature. For extraction report raw BIO confidence and observed calibration reliability; no certificate or pseudo-probability over arbitrary strings."
+  },
+  "baselines": {
+    "Bool": "FIT-only retained-rater mean probability per QASPER endpoint, constant for all inputs. Preserve majority class and raw proper scores.",
+    "retrieval": "Full source-catalogue word-token TF-IDF cosine. Token regex Unicode \\w+, lowercase only. IDF log((N+1)/(df+1))+1 fitted to deduplicated FIT source block texts; term frequency raw count, L2-normalized vectors. No DEV DF fit. Stable block ID ties.",
+    "extraction": "Return exact full text of the top TF-IDF block as one source-offset span, no native answers or gold shortlist. Report this baseline separately, never call it a learned extractor.",
+    "original_intent": "Fixed complete NATIVE-2 cross DEV and its calibration-only probabilities. Initial source checkpoint quality remains preserved separately."
+  },
+  "metrics": {
+    "Bool": [
+      "top1 against argmax retained-rater distribution, false on exact tie",
+      "retained-target NLL floor1e-12",
+      "two-class Brier",
+      "ECE15",
+      "equal-frequency adaptive ECE15",
+      "confidence-correctness AUROC, null if no class contrast",
+      "selective risk/coverage at fixed confidence thresholds0.5,0.6,0.7,0.8,0.9,0.95,0.99"
+    ],
+    "retrieval": [
+      "native-item Recall@1,@5,@10, an item hits if any exact duplicate block match is selected; unmatched items are misses",
+      "per-row, per-annotation and native-item counts; full/mixed/no support strata",
+      "full-catalogue posterior proper scores only where a native matched target exists; unmatched denominators separately retained"
+    ],
+    "extraction": [
+      "per-observed-nonempty-native-annotation exact set match of raw strings",
+      "per-annotation token-set F1 over union of normalized tokens from all predicted versus all native span strings; lowercase, Unicode word tokens; multiplicity via Counter, no aliases or free-form answers",
+      "per-native-item exact string recall and source position coverage; unmatched items retained",
+      "empty/unavailable target annotations reported without invented accuracy"
+    ],
+    "original_intent": [
+      "top1, NLL, Brier, ECE15, confidence ranking and paired delta versus original NATIVE-2 cross"
+    ],
+    "statistics": "Paper/input-only connected component ratio bootstrap10000 draws seed0, nominal descriptive95%, preserve all question/annotation descendants. Resampling for each endpoint reuses its frozen component universe; no annotation-as-independent-n. No simultaneous release claim."
+  },
+  "controls": {
+    "mask_question": "Public empty-question string, same exact document and source catalogue, full DEV.",
+    "mask_state": "Public empty-evidence text in every existing block coordinate, same question and coordinates, full DEV; never pretend changed text preserves semantic source labels.",
+    "question_swap": "Same-paper, same-endpoint donor, next distinct question in sorted question-ID order, wrapping. Keep document/candidates fixed. Donor labels are valid only because same paper/endpoint; report teacher-changing versus stable and unsupported-control denominators. Papers with no distinct eligible donor are explicitly unpaired, never counted as correct.",
+    "reorder": "Reverse complete source block order without changing IDs/text; stable semantic outputs and raw score-by-ID parity within1e-6.",
+    "candidate_count": "Input-only nested prefixes K2,4,8,16,32,64,128,255,512,1000 intersected with actual source catalogue sizes, plus full K. Preserve membership frequency separately from learned recall; no forced gold.",
+    "repeat": "First DEV paper/question by ID, first two distinct available questions, three rounds, fresh cache; persist exact encoded window/sequence counters and input/weight cache keys. Distinct-question reruns pay full joint encoding, exact repeats add zero. Unavailable second question is a missing diagnostic, not a pass.",
+    "required_outputs": "All DEV endpoint predictions, baseline outputs, errors/support masks, raw/calibrated probabilities, source span offsets, full retrieval scores, every intervention, calibration rows, epoch-selection rows, liveness gradients/deltas, all tensor checkpoint bytes/fingerprints, independent reconstruction and source pins."
+  },
+  "mechanism_gates": {
+    "completion": "All registered source rows and original intent rows, all controls, ten epochs, strict selected restore, independent reconstruction. Any missing/failed arm/control or absent/nonfinite/reversed required interval fails closed; no independent NN replay claim from byte reconstruction.",
+    "QASPER_Bool_each": "Top1>=0.80, model-minus-FIT-prior accuracy nominal lower bound>0 and prior-minus-model Brier improvement nominal lower bound>0. Model-minus-question-masked accuracy lower bound>0. Report every count, especially small147-row/38-calibration yes_no support.",
+    "retrieval": "All-native-item Recall@10>=0.80 and model-minus-TF-IDF native-item Recall@10 lower bound>0; model-minus-question-masked Recall@10 lower bound>0. Unmatched native items cannot be excluded.",
+    "extraction": "Observed-nonempty-native-annotation token-set F1>=0.80 and model-minus-whole-TF-IDF-block F1 lower bound>0; model-minus-question-masked F1 lower bound>0. Exact set match and all-native-item exact recall separately mandatory disclosures, not substituted for F1.",
+    "same_paper_question_swap": "Every endpoint reports native teacher-changing/stable/unpaired counts and correct-new donor outcome. Zero changing/paired count earns no causal-transfer credit. Bool conditional correct-new>=0.80 when any changing pair exists; do not additionally require student to change to count correct-new.",
+    "original_intent_nonregression": "Each original intent model-minus-original-cross nominal accuracy lower bound>=-0.01. Retain any regression as a negative, never silently route the endpoint to an old independent encoder.",
+    "structural": "All source tokens represented, no question truncation, source-only payloads, stable semantic outputs under order, complete counted repeated-work path, peak allocated GPU memory<=12GiB. Counters are not performance measurements.",
+    "decision": "Report per-endpoint PASS/FAIL/UNMEASURED and whole-study pass only if every mandatory quality/completion/structural/nonregression gate passes. All question endpoints remain source-native DEV evidence, not generic Boolean or transfer to arbitrary criteria."
+  },
+  "resources": {
+    "GPU": "Serialized Modal T4 only, never local GPU; one model resident",
+    "Modal_CPU_cores": 2,
+    "Modal_memory_MiB": 8192,
+    "Modal_preflight_timeout_seconds": 900,
+    "Modal_smoke_timeout_seconds": 1200,
+    "Modal_train_timeout_seconds": 86400,
+    "automatic_retries": 0,
+    "threads": 2,
+    "BLAS_threads": 1,
+    "dataloader_workers": 0,
+    "nice": 10,
+    "minimum_available_RAM_GiB": 4,
+    "pause_swap_growth_MiB": 256,
+    "minimum_free_GPU_MiB": 2048,
+    "input_loading": "Bounded streaming/deduplicated paper blocks; no all-core local model/tokenizer work. CPU source construction uses one thread.",
+    "billing": "User-authorized Modal; account credit/spend unobserved. Stop only on demonstrated account/resource error, preserve receipt, and continue reachable research."
+  },
+  "failure": "Preserve every failure and incomplete artifact. Implementation-only amendments must be prospective with unchanged sources/membership/targets/gates; no hidden retries or partial quality selection. Never modify transported sources while a registered run is active.",
+  "next_branch": "If all question mechanism and original-intent nonregression gates pass, preregister fresh transfer/replication/OOD and many-axis study before promotion. If question endpoints fail, diagnose support and source-blind/variable-query controls, retain negatives and audit the selected cross interface before capacity escalation. If quality passes but original intent regresses, the shared adaptation fails; investigate joint-interference mechanisms under a new preregistration, never route around the regression.",
+  "sealed_access": false,
+  "shipping_training": false,
+  "source_rights": "Retain existing QASPER licence/upstream/exposure boundaries; no new shipping grant, public raw corpus redistribution, free-form answer training or rater truth claim.",
+  "B_STEF_allowed": false,
+  "Pareto_credit": false,
+  "promotion": false,
+  "endgame_complete": false,
+  "implementation_contract": {
+    "owner_files": ["neutral_qasper_cross_data.py", "neutral_qasper_cross_model.py", "neutral_qasper_cross_train.py", "neutral_qasper_cross_verify.py", "test_neutral_qasper_cross.py"],
+    "data_interface": "load_phase(phase, protocol_path=AMENDMENT) -> list[dict], phase only fit/selection/calibration/dev. Record keys id, endpoint, component_id, phase, serving, blocks, target. serving is the exact source-only original mapping; blocks are [{id,text}] from that paper/question's registered evidence catalogue, outside the model are coordinates only. target is separate registered native ledger, never a serving mutation. For native intent blocks=[] and target carries original native distribution; use existing guarded native data and convert losslessly. Verify all pinned historical/current authorities, phase membership and complete counts before returning any rows. Derive input_sha256 from canonical UTF8 JSON of serving, sort_keys, compact separators, ensure_ascii=False. No target/helper fields in that digest.",
+    "trainer_CLI": "neutral_qasper_cross_train.py --mode preflight|smoke|train --out PATH; canonical root default from amendment, --root may override only output location. CUDA is required for smoke/train and all actual model work; preflight is CPU input-only/tokenizer/custody, never model loading. Refuse existing output mode-directory, create immutable failure receipt on exception, no auto-resume. Parent supplies isolated Modal transport after implementation.",
+    "outputs": "Exclusive per-mode directory, metadata.json, liveness.json, history.json, selected.safetensors, selection.jsonl.gz (every epoch0..10 row), calibration.jsonl.gz, dev.jsonl.gz, baselines.jsonl.gz, question_masked.jsonl.gz, state_masked.jsonl.gz, question_swapped.jsonl.gz, reordered.jsonl.gz, candidate_count.jsonl.gz, repeated_state.jsonl, support.jsonl.gz, runtime.json. Use deterministic gzip mtime0, finite JSON only; no result overwrite.",
+    "prediction_schema": "Header kind=header, schema=vey.qnative.cross.capture.v1, phase, condition, protocol_sha256, source_pins, checkpoint_sha256. Every prediction kind=prediction has id, endpoint, component_id, phase, condition, input_sha256, status OK|UNSUPPORTED|ERROR, error null|string, candidate_ids, raw_logits, raw_probabilities, probabilities, temperature, ranking and spans. Bool coordinates false,true; native intent original full catalogue; retrieval full block catalogue with raw block scores and normalized calibrated masses; extraction candidate_ids/logits/probabilities empty, spans exact [{block_id,start,end,text,confidence}], where confidence is raw mean BIO token confidence, explicitly not calibrated string correctness. Any unsupported/error row is retained with explicit reason, never fake model logits/probabilities or invented gold.",
+    "extraction_reconstruction": "For every extraction prediction persist source-only window trace: block_id, window_index, original source token indices, exact token char offsets and raw three-way BIO logits for each source token. Independent verifier reconstructs greedy BIO and merged verbatim spans from these traces; never merely trust copied producer spans. Persist input IDs/mask SHA and full source coverage census. Question/special/padding logits are not decoded.",
+    "support_and_interventions": "Support rows bind all native item counts, matching IDs/occurrences, model token-boundary/window support and supervision masks to the original target ledgers. Control rows retain original source ID, condition, changed serving digest, donor_id where applicable, and per-control runtime counters. Preserve all not-paired swap IDs and reasons. Candidate-count rows bind component-seeded input-only prefixes and subset scores, never force teacher membership. Repeated-state rows bind both question IDs, weight/input cache identity, encoded sequence/window counts and cumulative forwards.",
+    "verification_CLI": "neutral_qasper_cross_verify.py --root PATH -> verification.json, independent target/metric/custody/control/checkpoint/selection/calibration/interval/gate reconstruction. Return nonzero on incomplete, malformed, failed or absent required evidence; per-endpoint semantic failure is a measured negative, not reconstruction failure. Receipt separates evidence_reconstruction status from mechanism_gates and whole-study capability. Do not import producer model/loss/metric/decoder helpers or execute neural forwards."
+  },
+  "output_root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/qnative-cross-v1"
+}
