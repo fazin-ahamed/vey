@@ -153,6 +153,10 @@ def source_windows(tokenizer, question, blocks):
     question_encoding = backend.encode(question, add_special_tokens=False)
     qids = question_encoding.ids
     special_count = backend.num_special_tokens_to_add(True)
+    cls_id = getattr(tokenizer, "cls_token_id", None)
+    sep_id = getattr(tokenizer, "sep_token_id", None)
+    require(type(cls_id) is int and type(sep_id) is int and cls_id != sep_id,
+            "Tokenizer must expose distinct [CLS]/[SEP] ids")
     capacity = 512 - len(qids) - special_count
     require(capacity > 0, "Question leaves no source token capacity")
     overlap = min(64, capacity - 1)
@@ -169,9 +173,16 @@ def source_windows(tokenizer, question, blocks):
             require(chunk.ids == ids[start:end] and [list(o) for o in chunk.offsets] == offsets[start:end],
                     "Source window token identity changed")
             pair = backend.post_process(question_encoding, chunk, add_special_tokens=True)
-            positions = [i for i, sequence in enumerate(pair.sequence_ids) if sequence == 1]
-            question_positions = [i for i, sequence in enumerate(pair.sequence_ids) if sequence == 0]
-            require([pair.ids[i] for i in question_positions] == qids, "Question tokens changed")
+            # DeBERTa pair layout is [CLS] question [SEP] chunk [SEP]; specials and
+            # question tokens both carry sequence_id None, so positions are derived
+            # from the validated exact template, never from sequence ids.
+            q0, q1 = 1, 1 + len(qids)
+            s0, s1 = q1 + 1, q1 + 1 + len(chunk.ids)
+            require(pair.ids[0] == cls_id and pair.ids[q1] == sep_id and pair.ids[s1] == sep_id
+                    and len(pair.ids) == s1 + 1 and len(pair.ids) <= 512, "Pair template layout differs")
+            question_positions = list(range(q0, q1))
+            positions = list(range(s0, s1))
+            require(pair.ids[q0:q1] == qids, "Question tokens changed")
             require([pair.ids[i] for i in positions] == ids[start:end], "Pair source tokens changed")
             require(len(pair.ids) <= 512 and len(positions) == end - start, "Invalid pair layout")
             indices = list(range(start, end))
