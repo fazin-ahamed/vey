@@ -1,0 +1,72 @@
+{
+  "schema": "vey.native-peer.resource-recovery-protocol.v1",
+  "status": "PROSPECTIVE_BEFORE_ANY_RECOVERY_MODEL_CALL",
+  "original_protocol": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_peer_protocol.json",
+    "bytes": 14240,
+    "sha256": "8ca37c2a64f22af5846c698a16ae1269e76f988770226aff4446d7abac3b31ca"
+  },
+  "retained_resource_stop": {
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/native_peer_resource_stop_result_manifest.json",
+    "bytes": 2979,
+    "sha256": "c4eac2dcefc76d6a182186d18ec8887437cb5d294c82f4f2fd9544ac97ef526f"
+  },
+  "partial_capture": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/peer-full-dev-v1/laya.jsonl",
+    "bytes": 12498813,
+    "sha256": "1febcd41bb4320e13d0bb60bda041d97fc1e81b41a843eeeb56929520d39470c"
+  },
+  "partial_raw_sidecar": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/peer-full-dev-v1/laya.jsonl.raw.jsonl",
+    "bytes": 2619579,
+    "sha256": "22a4c1065a44bfb45f15c95e9aa5bb50a29424a2654e8b446841d31bd4be2816"
+  },
+  "registered_rows": 2279,
+  "retained_valid_rows": 924,
+  "remaining_rows": 1355,
+  "immutable_membership_call_model_and_API": true,
+  "CPU_only": true,
+  "source_semantics": "Pinned complete published0.3.27 English CPU eager Agent, same checkpoint/config/tokenizer/library/dependencies/typed call and native text/criteria, no hook or inference parameter override. Published eval/no_grad independent input call path; exact stateless state/question calls, no batch-shape change. Never rerun924 successfully retained returned payloads. One incomplete in-flight call at stop may have no retained return and is counted as unknown prior effort, not silently claimed nonexistent.",
+  "before_model": "Check original source/data/model/package/environment identities, resource-stop and partial artifact hashes, unique IDs, full raw/validated identical ordered universe, exact original inputs/targets, complete native count and original NATIVE2 dependency. Any invalid returned original payload or mismatched capture is a scientific/custody failure, not a reason to rerun/hide that row.",
+  "new_calls": "Remaining IDs only, original deterministic native DEV order. Use immutable existing published artifacts after exact hash check, or exclusive new identical materialization. One model resident; all model work CPU eagerly through unchanged system_one({text:state},{q:{type:choice,instructions:question,criteria:{id:text}}}). No custom temperature, float rounding, validation relaxation, model replacement or posterior fitting.",
+  "raw_custody": "Exclusive continuation validated/raw files with full headers and returned diagnostics flushed before checking. Retain explicit resource/runtime/validation failures, incomplete call IDs, processed IDs and resource events. Never modify original partial files.",
+  "full_merge": "Only after successful complete continuation, emit exclusive full merged validated/raw artifacts in original native order, preserving every original and new per-row value. Require exactly2279 unique matched IDs, original protocol/published release/input identities and no errors; independent original source membership/input/target/raw-payload verification before descriptive full metrics. Partial prefix is never full comparison evidence.",
+  "resource_enforcement": {
+    "CPU_threads": 1,
+    "interop_threads": 1,
+    "BLAS_threads": 1,
+    "nice": 10,
+    "one_model_resident": true,
+    "minimum_RAM_before_load_GiB": 10,
+    "minimum_available_RAM_before_each_call_GiB": 4,
+    "maximum_swap_growth_from_attempt_start_MiB": 256,
+    "on_pressure": "Stop gracefully before next call, persist resource snapshot/failure and exit to release own model memory. Do not keep a large paused resident model, kill user workloads, clear user swap, raise limits or fabricate missing predictions. No automatic retries.",
+    "wall_timeout_seconds": 7200,
+    "resources_monitored": "/proc/meminfo before load and every call; preserve startup and per250-call snapshots, minimum available RAM and maximum swap growth. Nice/threads enforced before library and constructor.",
+    "GPU": false,
+    "paid_calls": 0,
+    "offline": true
+  },
+  "warning": "Published invalid choice:11+ temperature0.10058280825614929 ->0.5 remains source behavior; affected confidence uncalibrated. Four-decimal source outputs retained, normalization only for documented secondary proper-score arithmetic.",
+  "independent_verifier": "Original native_peer_verify.py plus complete raw/validated custody verifier and missing registered secondary confidence metrics to be implemented/committed before continuation. All comparisons remain frozen NATIVE1 full versus Laya, not substituted NATIVE2 cross. Confidence/reliability metrics are descriptive, not a certificate.",
+  "source_probe": {
+    "file": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/competitor-runtime/laya-0.3.27-preparation/release-source/laya/agent.py",
+      "bytes": 120787,
+      "sha256": "fce3efddb648b7911d3054773b233873493ba57fedc023f073a60368f5e237b4"
+    },
+    "source_evidence": "system_one returns predict_batch([state],questions)[0] under torch.no_grad; model constructor calls eval; no model parameter optimization in this request path. Source inspection is not a numerical restart-equivalence test."
+  },
+  "output_root": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/peer-resource-recovery-v1",
+  "failure": "Keep every raw return, invalid payload, resource event and incomplete scope. Stop before risky work, preserve originals, correct operational implementation prospectively and continue reachable research. No quality/promotion claim from a partial capture.",
+  "model_training": false,
+  "membership_changed": false,
+  "published_model_changed": false,
+  "sealed_access": false,
+  "Jev_calls": 0,
+  "quality_promotion": false,
+  "performance_comparison": false,
+  "B_STEF_allowed": false,
+  "Pareto_credit": false,
+  "endgame_complete": false
+}
