@@ -1,0 +1,109 @@
+{
+  "schema": "vey.neutral.hh-native-input-census-delivery.v1",
+  "status": "INDEPENDENTLY_VERIFIED_SOURCE_CENSUS_ONLY",
+  "preregistration_and_implementation_commit": "4ad4283078b9a3c33df3b3fffa2779b3c97cc49e",
+  "hypothesis": "Native helpfulness TRAIN pairs expose a shared context and distinct response candidates without model-visible preference roles.",
+  "protocol": {
+    "bytes": 7423,
+    "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_hh_native_input_protocol.json",
+    "sha256": "44dbcc32b446654aac816403e6d9f6206e2ff3ced7affe35a0f34f14d03b3686"
+  },
+  "source_repository": "Anthropic/hh-rlhf",
+  "source_revision": "09be8c5bbc57cb3887f3a9732ad6aa7ec602a1fa",
+  "source_gzip": {
+    "bytes": 16200131,
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/hh-native-v1/raw/helpful-base/train.jsonl.gz",
+    "sha256": "518a5bf288456fc9f3b7c980c54116fba0c52f274d3f4d344675d83e4058f6f4"
+  },
+  "counts": {
+    "duplicate_input_pair_rows": 0,
+    "max_context_characters": 4543,
+    "max_response_characters": 3644,
+    "max_root_prompt_proxy_rows": 33,
+    "max_transcript_characters": 4728,
+    "projectable_rows": 43596,
+    "projection_reason_counts": {
+      "blank_response": 50,
+      "identical_response": 61,
+      "projectable": 43596,
+      "shared_context_mismatch": 128
+    },
+    "rows": 43835,
+    "unique_contexts": 43533,
+    "unique_input_pairs": 43835,
+    "unique_root_prompt_proxies": 15725,
+    "unprojectable_rows": 239
+  },
+  "evidence_class": "MEASURED deterministic source feasibility; no quality statistic",
+  "controls": "Independent exact every-row reconstruction, strict schema and native byte identity, unordered swapped-role features, all-row denominator, committed source/protocol custody.217 integrated CPU research tests passed; actual census and independent CLI executed.",
+  "statistical_unit": "None used.15725 normalized first-human-prompt proxies are not15725 independently verified source conversations or annotators.",
+  "artifacts": [
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/hh-native-v1/input-census-v1/manifest.json",
+      "bytes": 2191,
+      "sha256": "ecd89c3695693d70c85751064aac1c3a94de364e224b26a74f9883531bd3f800"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/hh-native-v1/input-census-v1/verification.json",
+      "bytes": 2521,
+      "sha256": "fb736d1fe715cea7b748e9b8b9edcad8ae9d736fc9a9e8caca7a8fda65c2bade"
+    },
+    {
+      "bytes": 33970944,
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/hh-native-v1/input-census-v1/rows.jsonl",
+      "sha256": "d61ead551f04e41ac983ea722c252b25fd1c197cd494161a0a36feeb29f2837d"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/hh-native-v1/metadata/receipt.json",
+      "bytes": 3572,
+      "sha256": "a3a509b61b1c68f914cfecf5cd72daa7f67034f1a7f406d5bcea939aca388755"
+    },
+    {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/hh-native-v1/metadata/LICENSE.txt",
+      "bytes": 1066,
+      "sha256": "d4fb18db48757e273261a5597b8a09381de8073da060474ce33d0643e06c875e"
+    },
+    {
+      "bytes": 5771,
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/hh-native-v1/metadata/README.md",
+      "sha256": "f75f40db0268656ba07736ec8e59a9720c1910ce554c85354cec74b1c8bda175"
+    },
+    {
+      "bytes": 11751,
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_hh_native_input_census.py",
+      "sha256": "c1df1d7eebf4f121fc7b5dd5896541feb60b6de9fddb4e030d9a0fec00d42cd5"
+    },
+    {
+      "bytes": 14073,
+      "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_hh_native_input_verify.py",
+      "sha256": "a761cda606fa064c12c9e55b7da98fe231f070d056ff895e861cd9a054903d3b"
+    }
+  ],
+  "rights": {
+    "declared_data_license": "MIT in owner card",
+    "license_class": "conditional/review",
+    "local_intended_preference_research_acquisition": "Reviewed source-native input census only",
+    "shipping_training_allowed": false,
+    "unresolved": "Source privacy and original conversation/annotator lineage; source-published TEST exposure prevents describing it as universally fresh."
+  },
+  "source_exposure": "Complete helpful-base TRAIN parsed after committed preregistration. Native chosen/rejected strings decoded for unordered input census; no preferred side or plaintext persisted in exported ledger, no labels inferred as model inputs. No TEST rows or other tranches acquired.",
+  "scan_exclusion": "Harmless-base/train remains unacquired: retained owner metadata reports suspicious VirusTotal1/76; not an independent malware finding. Helpful-base/train publisher report0/75, not a safety guarantee.",
+  "coverage_gate": "PASS every43835 source row independently reconstructed;239 unprojectable rows retained, never omitted from source denominator.",
+  "quality_gate": "NOT_RUN, no quality credit",
+  "unknowns": [
+    "No human-preference model utility, probability calibration, arbitrary-criterion transfer, candidate-order quality or OOD measured",
+    "Recorded maxima are Unicode character counts, not token/context support evidence.",
+    "Root-prompt normalization cannot prove full original conversation grouping or worker independence"
+  ],
+  "next_branch": "Separate prospective question-conditioned human-preference Choice protocol after measured NATIVE-2/QNATIVE-2 interface evidence; freeze privacy/lineage handling, all-row task treatment and new gates before scoring. Never silently drop239 nonprojectable rows.",
+  "live_native_transport_sha256": "0fd4e6c12dfdebc268722334237e7679183449e3d26a68c8fe45120ba9541e7c",
+  "live_native_transport_source_files_unchanged": 17,
+  "model_loads": 0,
+  "model_forwards": 0,
+  "GPU_runs": 0,
+  "sealed_TEST_accessed": false,
+  "quality_credit": false,
+  "shipping_credit": false,
+  "pareto_credit": false,
+  "B_STEF_allowed": false
+}

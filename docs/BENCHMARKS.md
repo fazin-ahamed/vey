@@ -6220,11 +6220,12 @@ context and two distinct last-assistant response candidates without using
 `chosen`/`rejected` field roles as model inputs. This is a source-feasibility
 census, not a learned mechanism or quality experiment.
 
-Prospective contract: `research/endgame/neutral_hh_native_input_protocol.json`,
+Preregistration and implementation: `4ad4283`,
+`research/endgame/neutral_hh_native_input_protocol.json`,
 SHA-256 `44dbcc32b446654aac816403e6d9f6206e2ff3ced7affe35a0f34f14d03b3686`.
-The protocol and implementation must be committed before acquiring or opening
-TRAIN rows. No model, tokenizer, GPU, fitting, target export or split allocation
-is permitted. Every native line stays in the denominator, including mismatched
+Both were committed before acquiring or opening TRAIN rows. No model, tokenizer,
+GPU, fitting, target export or split allocation was permitted.
+Every native line stays in the denominator, including mismatched
 contexts, absent formatting and blank or identical response candidates.
 Role-swapping must leave input features invariant. Independent reconstruction
 must match every persisted metadata row and the complete source census.
@@ -6257,13 +6258,49 @@ The normalized first-human-prompt grouping is only an input-derived proxy.
 Missing source conversation and annotator IDs prevent a claim of full original
 lineage isolation or an independent-example count.
 
-Primary outputs will be deterministic projection coverage, reason counts,
-context/root-prompt groups and duplicate input pairs. No confidence interval,
-accuracy, calibration, context-support, shipping or Pareto credit follows.
-Source row counts and projection feasibility remain unmeasured. A future
-natural-question human-preference Choice study requires a separate prospective
-architecture and gate contract after NATIVE-2 evidence; this census does not
-change the in-flight Modal study or permit B-STEF.
+MEASURED complete TRAIN census and independent source reconstruction:
+
+| Source-input result | Rows/count |
+|---|---:|
+| Native TRAIN lines, all retained | 43,835 |
+| Shared context and distinct nonblank response candidates | 43,596 |
+| Shared-context mismatch | 128 |
+| Blank response candidate | 50 |
+| Identical response candidates | 61 |
+| All unprojectable rows, retained in source denominator | 239 |
+| Unique exact projectable contexts | 43,533 |
+| Normalized first-human-prompt proxies | 15,725 |
+| Largest root-prompt proxy group | 33 |
+| Duplicate unordered full-transcript pairs across source rows | 0 |
+
+Independent verification reconstructed every row, every input fingerprint and
+the complete summary from the exact pinned gzip without calling the census
+projector. Gate PASS for source custody and all-row coverage; no quality gate
+was run. The integrated CPU research suite passed 217 tests. Actual census and
+independent verifier CLIs both completed. The 43,596/43,835 projection coverage
+is a formatting-feasibility result, not semantic accuracy.
+
+The maximum transcript/context/response lengths are 4,728/4,543/3,644 Unicode
+characters, respectively; these are not tokenizer or context-support evidence.
+No preferred-side target or plaintext is exported in the census ledger.
+The strict two-field source schema confirms that original conversation and
+annotator identifiers are unavailable here. Root-prompt counts must not be used
+as a proven number of independent conversations.
+
+`research/endgame/neutral_hh_native_input_result_manifest.json` binds the source,
+code, legal-metadata and output artifacts. Census manifest SHA-256:
+`ecd89c3695693d70c85751064aac1c3a94de364e224b26a74f9883531bd3f800`;
+independent verification receipt:
+`fb736d1fe715cea7b748e9b8b9edcad8ae9d736fc9a9e8caca7a8fda65c2bade`.
+
+Unknown: human-preference utility, probability calibration, arbitrary-criterion
+transfer, candidate-order quality, OOD and shipping eligibility. No confidence
+interval, quality, shipping or Pareto credit follows. Next branch: a separately
+preregistered natural-question human-preference Choice study after measured
+NATIVE-2/QNATIVE-2 interface evidence, with explicit privacy/lineage review and
+all-row task treatment. Do not silently discard the 239 unprojectable rows.
+All 17 live Modal transport source hashes remain unchanged. This census does
+not alter the in-flight study or permit B-STEF.
 
 
 
