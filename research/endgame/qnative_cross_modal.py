@@ -215,7 +215,7 @@ def main(stage: str = 'preflight'):
                 path = Path(entry['path'])
                 require(path.stat().st_size == entry['bytes'] and digest(path) == entry['sha256'],
                         'Local input changed before upload: ' + str(path))
-                batch.put_local_file(path, str(path.relative_to(DATA)))
+                batch.put_file(path, str(path.relative_to(DATA)))
         print(json.dumps({'uploaded': len(manifest['input_files'])}))
         return
     expected = digest(TRANSPORT)
