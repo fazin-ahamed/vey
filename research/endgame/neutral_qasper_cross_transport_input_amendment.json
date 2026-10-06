@@ -3,8 +3,8 @@
   "status": "PROSPECTIVE_CPU_CUSTODIAN_ONLY_BEFORE_GPU",
   "scientific_amendment": {
     "path": "/home/fazinahamed/Documents/vey-public/research/endgame/neutral_qasper_cross_study_amendment.json",
-    "bytes": 29593,
-    "sha256": "ce9873ea6ec7d06af3ad97ee392bee091f095ad3c73b0ae796534edb7c75b370"
+    "bytes": 30058,
+    "sha256": "73500b1914e66744ba06dea322b49bf58489c2f3c045a7dfe63bdb81e61dd268"
   },
   "problem": "Original guarded QASPER reader requires the complete mixed source SQLite hash and symlink-free canonical local phase roots. Transporting raw mixed source labels or weakening those original guards is prohibited. Modal model container must receive only derived allowed phase records, not the original mixed source database.",
   "decision": "Local CPU custodian materializes only registered fit/selection/calibration/dev derived study phases through unchanged QASPER open_phase(train/dev) and guarded native-field dataset reader, then independent CPU reconstruction checks every derived record and source identity before any remote model work. Remote loader verifies these immutable derived files, manifest and independent PASS receipt; original local reader remains authoritative for construction/reconstruction. This is operational input transport, not new source allocation or label repair.",
