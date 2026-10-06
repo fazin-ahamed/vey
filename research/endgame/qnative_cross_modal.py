@@ -210,13 +210,27 @@ def main(stage: str = 'preflight'):
         committed(manifest)
     if stage == 'upload':
         # Explicit one-time input transfer; existing remote inputs refused, never overwritten.
-        with volume.batch_upload(force=False) as batch:
-            for entry in manifest['input_files']:
-                path = Path(entry['path'])
-                require(path.stat().st_size == entry['bytes'] and digest(path) == entry['sha256'],
-                        'Local input changed before upload: ' + str(path))
-                batch.put_file(path, str(path.relative_to(DATA)))
-        print(json.dumps({'uploaded': len(manifest['input_files'])}))
+        remote_dirs = {}
+        for entry in manifest['input_files']:
+            relative = str(Path(entry['path']).relative_to(DATA))
+            parent = str(Path(relative).parent)
+            if parent not in remote_dirs:
+                remote_dirs[parent] = {item.path for item in volume.iterdir(parent, recursive=False)}
+        skipped, pending = [], []
+        for entry in manifest['input_files']:
+            path = Path(entry['path'])
+            require(path.stat().st_size == entry['bytes'] and digest(path) == entry['sha256'],
+                    'Local input changed before upload: ' + str(path))
+            relative = str(Path(entry['path']).relative_to(DATA))
+            if relative in remote_dirs[str(Path(relative).parent)]:
+                skipped.append(relative)
+            else:
+                pending.append((path, relative))
+        if pending:
+            with volume.batch_upload(force=False) as batch:
+                for path, relative in pending:
+                    batch.put_file(path, relative)
+        print(json.dumps({'uploaded': len(pending), 'already_present_pinned': len(skipped)}))
         return
     expected = digest(TRANSPORT)
     if stage == 'preflight':
