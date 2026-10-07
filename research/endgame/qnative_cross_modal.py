@@ -155,25 +155,28 @@ def smoke(expected_sha256):
 @app.function(image=image, volumes={str(DATA): volume}, gpu='T4', cpu=2, memory=8192,
               timeout=TRAIN_TIMEOUT, max_containers=1, retries=0)
 def train(expected_sha256):
-    receipt_path = ROOT / 'modal_runtime_train.json'
+    receipt_path = ROOT / 'modal_runtime_train_v2.json'
     require(not receipt_path.exists(), 'Refusing to overwrite a remote train receipt')
     smoke_receipt = json.loads((ROOT / 'modal_runtime_smoke.json').read_text())
     require(smoke_receipt.get('status') == 'COMPLETE'
             and smoke_receipt.get('numerical_smoke_verified') is True
             and smoke_receipt.get('transport_sha256') == expected_sha256,
             'Fresh smoke PASS under this transport required')
+    require(not (ROOT / 'modal_runtime_train.json').exists(),
+            'Original cancelled train receipt must remain untouched')
     import torch
     require(torch.cuda.is_available() and torch.cuda.device_count() == 1,
             'Exactly one Modal GPU required')
-    result = {'schema': 'vey.qnative.cross.modal-runtime.v1', 'mode': 'train', 'status': 'STARTED',
-              'transport_sha256': expected_sha256, 'volume': volume_name,
-              'device': torch.cuda.get_device_name(0),
+    result = {'schema': 'vey.qnative.cross.modal-runtime.v1', 'mode': 'train',
+              'status': 'STARTED', 'transport_sha256': expected_sha256,
+              'volume': volume_name, 'device': torch.cuda.get_device_name(0),
               'GPU_total_bytes': torch.cuda.get_device_properties(0).total_memory,
-              'performance_credit': False, 'quality_credit': False}
+              'performance_credit': False, 'quality_credit': False,
+              'previous_attempt': 'Original train attempt cancelled under client timeout; epoch0 evidence is retained under train/'}
     receipt_path.write_text(json.dumps(result, indent=2) + '\n')
     volume.commit()
     try:
-        directory = run_stage('train', expected_sha256)
+        directory = run_stage('train-v2', expected_sha256)
         check_transport(expected_sha256)
         metadata = json.loads((directory / 'metadata.json').read_text())
         require(metadata['status'] == 'train_complete', 'Incomplete remote training')
