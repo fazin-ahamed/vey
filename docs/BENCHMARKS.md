@@ -6106,6 +6106,25 @@ retain the existing valid/raw results, call only missing IDs through unchanged
 published semantics and independently reconstruct the complete merged universe.
 No confidence, performance, matrix-win or Pareto credit is earned.
 
+Recovery implementation `native_peer_capture_recovery.py` is committed with an
+11-test pure suite. Its dry-run custody gate PASSES: all nine pinned partial
+artifacts verify, 924 retained rows parse as a prefix of the registered DEV
+order, input identity matches the verifier's own projection, exactly 1,355
+rows remain, and no model loads or forwards occur. A live continuation launch
+then stopped itself before the model constructor: the governor's 10 GiB
+load floor saw 9.59-9.78 GiB available, so it wrote no capture rows and no
+fake receipt. That is the correct registered behavior, not a study failure;
+the continuation resumes when local headroom recovers, since transient
+concurrent Modal stages briefly lower MemAvailable without affecting the
+isolated T4 job. Untouched partials remain the only measured rows.
+
+The completed peer confidence metric reconstruction (adaptive ECE,
+reliability bins, selective risk/coverage, AUROC of confidence vs
+correctness) ran on the confirmed 924 Banking77 rows only. MEASURED
+descriptive values: top1 0.356061, ECE15 and adaptive ECE15 both 0.552096,
+AUROC 0.707893; MASSIVE has zero captured rows and remains null. These are
+not a paired full-DEV contrast.
+
 ### NATIVE-2 Modal timeout: retained incomplete training
 
 MEASURED execution failure on the original registered transport: the cross call
@@ -6356,6 +6375,38 @@ No QASPER model outcome, natural-question quality, 8K attention, state-once
 reuse, release or B-STEF credit is asserted by preregistration. Implementation,
 complete independent input reconstruction and actual serialized Modal
 numerical liveness precede the registered quality execution.
+
+### QNATIVE-2 execution: data custody passes; training in flight
+
+MEASURED derived custody and execution receipts. The local CPU custodian
+materialized dataset-v3 through unchanged guarded readers: fit 9,051,
+selection 1,994, calibration 2,009, DEV 5,465, matching the frozen phase
+census. Independent reconstruction from original guarded sources passes
+(`verification_receipt.json`, dataset-v3). Phase rows are byte-identical to
+the custody-superseded v2 emission; only producer-code pins changed after
+a pre-emission hash-binding stop (empty dataset-v1) and a pre-model pair
+layout fix (v2). Every retained root has its receipt.
+
+The fixed pair-layout bug: `Tokenizer.post_process` assigns `sequence_id`
+`None` to question tokens and specials, `1` only to the source chunk, so
+deriving question positions from `sequence_id == 0` matched nothing.
+Positions are now derived from the exact `[CLS] q [SEP] chunk [SEP]`
+template and validated token-for-token. No model forward ran on the broken
+layout.
+
+Remote custody: isolated volume `vey-qnative-cross-modal-v1`, transport
+`6bb0bd7519789a1bf2515c6ce37338427826fb5ef03dde9f3d1138d61e08e45e`.
+CPU preflight PASS (no model, no GPU). Numerical smoke COMPLETE on one T4:
+strict save/restore fingerprint equality, all active head gradients and
+optimizer deltas nonzero, peak own allocation 1.63 GB. Two earlier train
+attempts were cancelled when their local launcher was killed by the harness
+deadline (InputCancellation/KeyboardInterrupt); both receipts and epoch0
+artifacts are retained locally. A transport-hash edit between stages then
+correctly prevented a drifted rerun; receipts were re-issued under the
+current transport. A full 10-epoch joint fit is in flight under
+`modal_runtime_train_v2.json`. Incomplete produces no quality credit either
+way.
+
 
 ## HH-CENSUS-1: native human-preference input custody
 
