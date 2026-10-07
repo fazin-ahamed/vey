@@ -6125,6 +6125,30 @@ descriptive values: top1 0.356061, ECE15 and adaptive ECE15 both 0.552096,
 AUROC 0.707893; MASSIVE has zero captured rows and remains null. These are
 not a paired full-DEV contrast.
 
+### Current published-peer capture: complete DEV contrast
+
+MEASURED 2,279-row full DEV after resource-governed recovery. The 1,355 missing
+rows were captured by `native_peer_capture_recovery.py` in two stages: a
+governor refused the first relaunch at 9.59 GiB available RAM, then the same
+governor passed at 14.2 GiB. All 1,355 rows, every raw payload before
+validation, and a COMPLETE receipt are retained under
+`peer-resource-recovery-v1/`. The merge interleaves the 924 original rows and
+the new rows into the original native DEV order; independent reconstruction
+passes at `full_verification.json`. Frozen Vey NATIVE-1 full top1 is 0.7850;
+published Laya 0.3.27 English Choice top1 is 0.3791. Paired component-ratio
+bootstrap difference is +0.4059, 95% nominal CI [0.38097, 0.43088] over 2,048
+input-only connected components: Banking77 0.8199 vs 0.3700, MASSIVE 0.7564
+vs 0.3866. Vey-only 1,036 rows, Laya-only 111 rows. Control rows stay
+in folders and prove the supervised arm responds to state (masked 0.0461,
+swapped 0.0053, prior 0.0649) and the pretrained frozen arm is weaker than
+the trained (>0.7850), with Laya Confidence metrics (ECE15 0.4642,
+AUROC 0.7602) also worse than Vey's (ECE15 0.0287, AUROC 0.8672). This is
+descriptive development evidence only: NATIVE-1 DEV was the registered
+development assessment, not a sealed final, and the peer protocol forbids
+matrix promotion. No runtime claim is made: Vey was fast on GPU while Laya
+was slow on CPU, so latencies are not comparable. All prior receipt hashes
+are pinned in `native_peer_result_manifest.json`.
+
 ### NATIVE-2 Modal timeout: retained incomplete training
 
 MEASURED execution failure on the original registered transport: the cross call

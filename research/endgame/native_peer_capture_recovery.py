@@ -216,9 +216,14 @@ def main(argv=None):
     require(bool(args.attempt_out), "--attempt-out is required")
     require(not merge_mode or (args.merge_out and args.raw_merge_out),
             "Merge mode requires both --merge-out and --raw-merge-out")
-    for target in (args.attempt_out, args.merge_out, args.raw_merge_out):
+    for target in (args.merge_out, args.raw_merge_out):
         if target:
             require(not target.exists(), "Refusing to overwrite: " + str(target))
+    if merge_mode:
+        require(args.attempt_out.exists() and args.attempt_out.is_file(),
+                "Merge mode requires the complete continuation at --attempt-out")
+    else:
+        require(not args.attempt_out.exists(), "Refusing to overwrite: " + str(args.attempt_out))
 
     cfg, stop = custody()
     header, validated = load_jsonl(Path(stop["capture"]["path"]))

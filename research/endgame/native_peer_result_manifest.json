@@ -1,0 +1,69 @@
+{
+  "schema": "vey.native-peer.dev-comparison-result.v1",
+  "experiment": "Pinned NATIVE-1 full English intent DEV vs current published Laya 0.3.27 English choice",
+  "status": "INDEPENDENT_RECONSTRUCTION_PASS_DESCRIPTIVE_ONLY",
+  "evidence_class": "MEASURED development contrast on existing NATIVE-1 DEV; no fresh-final, no Jev, no release or matrix promotion",
+  "protocol_sha256": "8ca37c2a64f22af5846c698a16ae1269e76f988770226aff4446d7abac3b31ca",
+  "recovery_protocol_sha256": "3a09cf97a099335f44b28e7f463abaa5fcb0d6628d472d87f8953d0fec3901a6",
+  "artifacts": {
+    "full_verification": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/peer-resource-recovery-v1/full_verification.json",
+      "bytes": 2405256,
+      "sha256": "f645d103e3a055f8df3e109f1aa096cf7481f88742ebcad71b13fa040254e656"
+    },
+    "merged_capture": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/peer-resource-recovery-v1/laya-merged.jsonl",
+      "bytes": 24320171,
+      "sha256": "866ff425c47241672d54367c555c7e2bd399d4fb141254a70bff689e665ab003"
+    },
+    "merged_raw_sidecar": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/peer-resource-recovery-v1/laya-merged.raw.jsonl",
+      "bytes": 5365110,
+      "sha256": "7ff4c73ed738552af76ec503aa67504c2236a373d0c97717ddbfa4d3df73111f"
+    },
+    "continuation": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/peer-resource-recovery-v1/continuation.jsonl",
+      "bytes": 11914445,
+      "sha256": "9c6e7e31e05701dab81ce037560b119fd45195a0dac443741557bddb4867db92"
+    },
+    "continuation_raw": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/peer-resource-recovery-v1/continuation.jsonl.raw.jsonl",
+      "bytes": 2838622,
+      "sha256": "0105e0897ccfc634654252eab546031f50729ade343d08e845f6acee2375ebb1"
+    },
+    "continuation_receipt": {
+      "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/peer-resource-recovery-v1/continuation.jsonl.receipt.json",
+      "bytes": 1480,
+      "sha256": "0981e1c307deacc38e5aee6283a7c2d4a4ff0577f104896e846fc1c545050ad2"
+    }
+  },
+  "measured": {
+    "rows": 2279,
+    "components": 2048,
+    "vey_full_top1": 0.785,
+    "laya_top1": 0.3791,
+    "paired_delta": [
+      0.4058797718297499,
+      [
+        0.3809732573432705,
+        0.4308836395450569
+      ]
+    ],
+    "vey_ece15": 0.0287,
+    "vey_adaptive_ece15": 0.0269,
+    "vey_auroc": 0.8672,
+    "laya_ece15": 0.4642,
+    "laya_adaptive_ece15": 0.4642,
+    "laya_auroc": 0.7602,
+    "discordance_vey_only": 1036,
+    "discordance_laya_only": 111
+  },
+  "scope": "Nominal descriptive 95% intervals; NATIVE-1 DEV was the registered development assessment, never a sealed final. Laya masses are 4-decimal serialized with one invalid shipped temperature (choice:11+ clamped to 0.5). Vey full arm is the NATIVE-1 trained research candidate, not frozen shipped Vey2. No simultaneous family-wise gate, no performance comparison, no Pareto or matrix green.",
+  "failure_retention": "Original resource-stop partials (924 Banking77 rows) and all four local preflight/train cancellation receipts remain on disk untouched.",
+  "quality_claim": false,
+  "performance_claim": false,
+  "promotion": false,
+  "Jev_measured": false,
+  "sealed_final_accessed": false,
+  "Pareto_credit": false
+}
