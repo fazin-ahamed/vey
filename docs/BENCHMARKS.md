@@ -6400,7 +6400,7 @@ reuse, release or B-STEF credit is asserted by preregistration. Implementation,
 complete independent input reconstruction and actual serialized Modal
 numerical liveness precede the registered quality execution.
 
-### QNATIVE-2 execution: data custody passes; training in flight
+### QNATIVE-2 execution: data custody passes; first spawned fit ran
 
 MEASURED derived custody and execution receipts. The local CPU custodian
 materialized dataset-v3 through unchanged guarded readers: fit 9,051,
@@ -6427,9 +6427,33 @@ attempts were cancelled when their local launcher was killed by the harness
 deadline (InputCancellation/KeyboardInterrupt); both receipts and epoch0
 artifacts are retained locally. A transport-hash edit between stages then
 correctly prevented a drifted rerun; receipts were re-issued under the
-current transport. A full 10-epoch joint fit is in flight under
+current transport. A full 10-epoch joint fit was in flight under
 `modal_runtime_train_v2.json`. Incomplete produces no quality credit either
 way.
+
+### QNATIVE-2 execution stop: budget-driven cancellation
+
+MEASURED execution evidence, not a mechanism result. The spawned 10-epoch
+run (call `fc-01M4C2XFKBX9ZSEXJTYXS1RWX4`) was cancelled on 2026-10-08 at the
+host's direction after nearby Modal credit was measured at approximately $5
+remaining. The remote receipt records `InputCancellation`; this one is a true
+user-authorized budget stop, unlike the earlier harness-induced cancellations,
+which remain separately retained. Epoch-0 and cancelled-run evidence stay in
+`remote-train-cancelled-attempt` directories; the volume slot was cleared.
+
+Scientific consequence: QNATIVE-2 has NO completed joint result. All
+registered mechanism gates remain unanswered; no evidence was earned by these
+attempts and none is claimed. The completed dataset (v3, independently
+verified), the transport, the failed-run receipts and the current frozen
+implementations all remain valid inputs to any future rerun.
+
+Compute policy from this point: local RTX 3060 12GB is the research and
+development substrate (with an explicit temperature/duty-cycle governor because
+of sustained heating); Modal is reserved for measurement of hardware
+portability, a locally proven winning variant, and final confirmation, under a
+capped spend budget. The multi-GPU parallel sprint previously contemplated is
+disqualified by budget and replaced by compute-normalized successive
+elimination locally.
 
 
 ## HH-CENSUS-1: native human-preference input custody
