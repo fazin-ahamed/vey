@@ -6473,6 +6473,13 @@ intent candidates, Frozen Prefix Activation Warehouse, SplitCross, and
 multi-endpoint fusion. No Modal job may start without one of those arms
 having already survived a screen on the 5% ledger slice.
 
+Ladder result (committed, `ladder-result.json`): at 2,048 sequences over 357
+screen rows, FP32 batch 8 runs 4.60s forward versus batch 32 at 1.39s -
+a 3.3× throughput difference at 934 MB peak, far below the 12 GB envelope.
+AMP adds nothing at this scale, and no duty-cycle event fired. The batch-32
+arm therefore becomes the default measurement gate for any training candidate
+that follows.
+
 
 ## HH-CENSUS-1: native human-preference input custody
 
