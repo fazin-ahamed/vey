@@ -1,0 +1,46 @@
+{
+  "schema": "vey.accelerated-endgame.protocol.v1",
+  "experiment": "ACCEL-1: budget-bounded local 3060 research loop with Teacher Replay Warehouse, compute-normalized successive elimination and Modal-only confirmation",
+  "status": "PROSPECTIVE_BEFORE_ANY_ACCELERATED_RUN",
+  "authority": {
+    "evidence_basis": "QNATIVE-2 cancelled under ~$5-remaining Modal budget after retaining all failed receipts; NATIVE-2 completed cross-only development win preserved at ceee5d8.",
+    "supersedes_nothing": "No prior protocol, sealed gate or completed evidence is replaced. Historical QNATIVE-2 implementations, datasets and receipts stay valid and unused unless a future confirmatory rerun is preregistered as an isolated legacy lane.",
+    "budget": {"modal_usd_this_period_cap": 1.50, "emergency_reserve_after_capped_use": 3.50, "next_cycle_monthly_allocation": 30.0,
+                "justification_rows": {"T4_price_per_hour": 0.59, "L4_price_per_hour": 0.80, "A10_price_per_hour": 1.10, "A100_40GB_price_per_hour": 2.10},
+                "enforcement": "Every Modal call records GPU seconds and cost estimate; a spend ledger keeps a running total and refuses once cumulative cost plus a function reservation would exceed the cap. No exploratory multi-hour job may start.",
+                "overshoot_rule": "If any revert shows spend above the hard remaining budget, all pending Modal reservations are cancelled immediately and the overrun is reported as failure evidence."
+    },
+    "host_thermal_policy": {"rail": "RTX 3060 12GB, 12 CPU threads, 31GB RAM",
+                             "pause_above_C": 78, "resume_below_C": 70, "poll_seconds": 5,
+                             "duty_cycle": "Pause the training process with SIGSTOP immediately on exceeding the ceiling; resume with SIGCONT only after at least 60 cool-down seconds and the resume floor reached. Never run an unmanaged all-core or all-SM loop.",
+                             "power": "Power limits are not set in software without root; duty cycle plus pausing is the controlled mitigation.",
+                             "ram_floor_GiB": 4, "swap_growth_cap_MiB": 256},
+    "hardware_benchmark": {"purpose": "Only after a candidate can fit and be numerically proven on the 3060; compare T4/L4/A10/A100 on one bounded 10-minute workload",
+                           "modal_allowed": True, "function_timeout_seconds": 600, "per_gpu_max_gpu_seconds": 650,
+                           "metrics": ["wall_clock_seconds", "GPU_utilization", "peak_VRAM_bytes", "measured_GB/s", "cost_dollars_estimated"],
+                           "scope": "Measurement only; no quality claim."}
+  },
+  "research_method": {
+    "CNSR": "Compute-normalized successive research. Each candidate arm receives equal allowed GPU-seconds on the 3060 (round budget), not equal epochs. Quality gain per GPU-second decides advancement. This corrects equal-epoch unfairness for sparse mechanisms.",
+    "TRW": "Teacher Replay Warehouse. Run the existing NATIVE-2 cross checkpoint once over the FIT+selection QASPER/intent pools needed by accelerated arms; persist candidate logits, gold margins, token-level scores and block-level supervision targets. Every accelerated arm consumes the warehouse first; no arm reruns the teacher.",
+    "screening_ladder": ["5% FWS-aware QASPER screen + intent hard-negative screen at 1-2 fixed epochs", "20% survivors", "fuller 3060 fit only for the winner"],
+    "promotion": "A development winner must meet preregistered absolute-quality and per-compute gates on its own held-out screen, and must beat the NATIVE-2 cross quality on the exact QASPER DEV where applicable. No Modal run on an unproven arm."
+  },
+  "arms_to_screen": [
+    "AMP + sequence-batch ladder (8/16/32/64) on full-window cross training within VRAM",
+    "Frontier Window Sampling (FWS): all positive + hard negatives + coverage negatives; exact exhaustive evaluation retained",
+    "Hard candidate subsets for intent training with exact full-catalogue evaluation",
+    "Frozen Prefix Activation Warehouse (FPAW): freeze prefix, cached features, full-equivalence smoke",
+    "SplitCross lower-layer separation, later fused layers",
+    "Task-Factored Question Encoding / Multi-Endpoint Fusion (MEF)"
+  ],
+  "controls": {"necessary_controls": "Exact same input ledger, same random seeds, same evaluation pass over the full exhaustive DEV catalogues; dual lanes keep gold availability and dropout.",
+               "gold_leakage": "Never train with, evaluate or pretrain on DEV metadata beyond registered split and input-only window construction."},
+  "metrics": {"execution": ["encoder_forward_gpu_seconds", "optimizer_steps", "host_RAM_peak_bytes", "host_swap_growth_bytes", "GPU_peak_allocated_bytes", "wall_clock_seconds"],
+              "quality": "Per-arm DEV primary metric as registered in NATIVE-2 / QNATIVE-2 lineage, undecayed by partial training budget until final."},
+  "gates": {"screen_tournament": "Arms ranked by quality/GPU-second; cycle from round 1 to round 2 only when declared in protocol. No outcome-guided re-splits or seed shopping.",
+             "survivor": "The surviving mechanism must show a statistically real quality gain over the completed NATIVE-2 cross comparator on the same DEV units with 10,000-draw component bootstrap and nominal 95% intervals.",
+             "spend": "Modal spend ledger enforced client-side; budget breach aborts the queued job before start."},
+  "failure": "Retain every failed screen, thermal stop, OOM and quality result. The same mechanism family that fails three times (insufficient transfer, compute blowup or protocol violation) is retired; the next branch comes from this protocol, not silent tweaks.",
+  "next_branch": "If a local winner meets quality and compute gates, preregister one Modal final confirmatory run on T4/L4/A10 within $1.50 and one auxiliary hardware benchmark within the same cap. If no arm survives CNSR, the mechanism family stops and the research returns to intent/Choice/Score with the NATIVE-2 cross teacher as the only certified artifact."
+}
