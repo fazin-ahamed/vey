@@ -6480,6 +6480,18 @@ AMP adds nothing at this scale, and no duty-cycle event fired. The batch-32
 arm therefore becomes the default measurement gate for any training candidate
 that follows.
 
+Teacher Replay Warehouse commit evidence: `teacher_logits.jsonl` hash
+aace89160c365910e5fb638f52357272843d1420bc67b1371057dde5000ac70d covering
+357 slice rows and 24,429 encoded sequences at 19.77 forward GPU-seconds;
+manifest hash 3b46d7758a6b58007432658d627fa6e6254086d00b7267931779ab97ebec1cb8.
+Defect evidence for the pre-results wrong-pair run (question+candidate instead
+of state+candidate) is retained at `warehouse.defect-wrong-pairs-1/` with
+payload hash 087f0e6c093390c54ee9f2b42da69d6de9efdda2e1de297738bb0470da693f39
+and defect receipt 0bb8d97a13242cecf025fb79c6288c2d2dd3959e723a0767068cb042e102fe3e.
+Teacher top-1 on the slice is 0.9492/0.9389 (Banking77/MASSIVE), an
+in-distribution sanity signature rather than a capability claim, because the
+slice rows overlap the teacher's fit/selection phases by design.
+
 
 ## HH-CENSUS-1: native human-preference input custody
 
