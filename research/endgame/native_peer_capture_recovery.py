@@ -265,9 +265,10 @@ def main(argv=None):
 
     raw_out = args.attempt_out.with_name(args.attempt_out.name + ".raw.jsonl")
     require(not raw_out.exists(), "Refusing to overwrite: " + str(raw_out))
-    laya, torch = capture.load_agent(*reusable_materialization(cfg))
-    agent = laya.Agent(str(reusable_materialization(cfg)[1]), device="cpu", backend="eager",
-                       expected_sha256=reusable_materialization(cfg)[2])
+    source_root, directory, expected = reusable_materialization(cfg)
+    laya, torch = capture.load_agent(source_root, directory, expected)
+    agent = laya.Agent(str(directory), device="cpu", backend="eager",
+                       expected_sha256=expected)
     try:
         with args.attempt_out.open("x", encoding="utf-8") as stream, \
                 raw_out.open("x", encoding="utf-8") as raw_stream:
@@ -314,9 +315,8 @@ def main(argv=None):
 
 def reusable_materialization(cfg):
     """Verify and reuse the already-materialized published route directory."""
-    release = json.loads(Path(cfg["laya"]["complete_release_source"]["path"]).read_text(encoding="utf-8"))
+    manifest, compat, release, source_root, route = capture.custody(cfg)
     root = Path(cfg["data"]["root"])
-    route = capture.custody(cfg)[2]
     directory = root / "peer-capture-artifacts-v1" / capture.ROUTE
     require(directory.is_dir(), "Published route materialization missing")
     expected = {}
@@ -325,7 +325,7 @@ def reusable_materialization(cfg):
         require(target.exists() and capture.sha(target) == info["sha256"],
                 "Materialized route payload changed: " + relative)
         expected[relative] = info["sha256"]
-    return Path(release["source_root"]), directory, expected
+    return source_root, directory, expected
 
 
 if __name__ == "__main__":
