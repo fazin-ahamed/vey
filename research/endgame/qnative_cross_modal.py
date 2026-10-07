@@ -253,5 +253,9 @@ def main(stage: str = 'preflight'):
             receipt = json.loads(raw)
             require(receipt.get('transport_sha256') == expected, 'Transport drift in ' + name)
             require(receipt.get('status') in ('PASS', 'COMPLETE'), 'Prior stage incomplete: ' + name)
-        result = train.remote(expected)
+        call = train.spawn(expected)
+        # The remote function survives this local client's exit; completion is read
+        # back from the volume receipts, never from a bound local session.
+        result = {'spawned': True, 'call_id': call.object_id,
+                  'note': 'poll volume receipts; do not wait on this client'}
     print(json.dumps(result, sort_keys=True), flush=True)
