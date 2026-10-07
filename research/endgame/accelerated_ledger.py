@@ -34,6 +34,7 @@ def build_row(row, windows):
         "phase": row["phase"], "paper_id": row["paper_id"], "group_id": row["group_id"],
         "question_ordinal": row["question_ordinal"], "input_sha256": row["input_sha256"],
         "question": row["serving"]["question"],
+        "state": row["serving"].get("state"),
         "windows": windows,
         "candidates": row["serving"]["candidates"],
         "target_available": row["target"].get("target_available"),
