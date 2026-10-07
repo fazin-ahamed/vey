@@ -1,0 +1,24 @@
+{
+  "schema": "vey.native-peer.partial-metrics-result.v1",
+  "status": "MEASURED_PARTIAL_CONFIDENCE_RECONSTRUCTION",
+  "verifier_commit": "post-tolerance-fix commit on post-v2/cbf",
+  "partial_metrics": {
+    "path": "/home/fazinahamed/Documents/vey-data/decisionmix/endgame/native-field-v1/peer-full-dev-v1/partial_metrics_924.json",
+    "bytes": 112034,
+    "sha256": "f7eee319e7e86a0cb4d62a465d330aadd7b10ec58b05aa8a542f3643b1b93da4"
+  },
+  "scope": "924 retained Banking77 rows only; 1355 remaining rows unmeasured. No paired full-DEV contrast, no matrix cell, no promotion. adaptive ECE equals fixed-width ECE at this sample; AUROC 0.7079 on Banking77 partial.",
+  "registered_secondary_metrics_completed": [
+    "adaptive_ece15",
+    "adaptive_reliability15",
+    "reliability15",
+    "confidence_correctness_auroc",
+    "selective_risk_coverage",
+    "fixed_confidence_risk_coverage"
+  ],
+  "full_comparison_remaining": "Resource-governed remaining-ID continuation then complete merge verification.",
+  "quality_credit": false,
+  "performance_credit": false,
+  "promotion": false,
+  "Pareto_credit": false
+}
