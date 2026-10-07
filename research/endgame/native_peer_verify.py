@@ -127,7 +127,9 @@ def _distribution(row, ids, label, problems):
             or not 0 <= p <= 1) for p in values):
         problems.append(label + ": row " + row["id"] + " invalid probability value")
         return None
-    if abs(sum(values) - 1) > 1e-6:
+    # Published peer masses are serialized to a fixed decimal count; the original
+    # capture enforced len(values) * 5e-5 + 1e-6 and this reconstruction follows it.
+    if abs(sum(values) - 1) > len(values) * 0.00005 + 1e-6:
         problems.append(label + ": row " + row["id"] + " distribution does not sum to one")
         return None
     return values
