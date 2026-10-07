@@ -6455,6 +6455,24 @@ capped spend budget. The multi-GPU parallel sprint previously contemplated is
 disqualified by budget and replaced by compute-normalized successive
 elimination locally.
 
+### Accelerated endgame lane: preregistration and dispatch
+
+A new protocol is frozen at `accelerated_local_protocol.json` (commit
+a11ff8b). It fixes the memory shape of every future experiment in this line:
+the RTX 3060 probes temperature every five seconds and SIGSTOPs training at
+78°C until the GPU cools below 70°C with a 60 second minimum pause; the
+pretokenized ledger caches every registered input's windows once (CPU-only
+build, no model load) so repeated screen arms never re-tokenize; CNSR assigns
+equal GPU-seconds rather than equal epochs; the Teacher Replay Warehouse runs
+the NATIVE-2 cross checkpoint once over FIT/selection and persists candidate
+logits and token-level evidence for all distillations; Modal caps at $1.50
+this period for measurement, a locally proven winner confirmation and the
+final run only. Architecture screens to try in order of expected compute
+delta per quality point: batch-ladder plus AMP, FWS sparse windows, hard
+intent candidates, Frozen Prefix Activation Warehouse, SplitCross, and
+multi-endpoint fusion. No Modal job may start without one of those arms
+having already survived a screen on the 5% ledger slice.
+
 
 ## HH-CENSUS-1: native human-preference input custody
 
