@@ -155,11 +155,43 @@ def main(argv=None):
                 "target": targets[row["id"]]["target"],
             }
             stream.write(json.dumps(record, sort_keys=True, ensure_ascii=False) + "\n")
+        qasper_rows = [r for r in rows if r["endpoint"] not in ("banking77.intent", "massive.intent")]
+        for row in qasper_rows:
+            windows = row.get("windows") or []
+            if not windows:
+                continue
+            window_logits = []
+            torch.cuda.synchronize()
+            takeoff = time.monotonic()
+            for index in range(0, len(windows), batch_size):
+                chunk = windows[index:index + batch_size]
+                batch = tokenizer.pad([{k: w[k] for k in ("input_ids", "attention_mask")} for w in chunk],
+                                      padding=True, return_tensors="pt")
+                batch = {k: v.to("cuda") for k, v in batch.items()}
+                with torch.no_grad():
+                    ids = batch["input_ids"]
+                    mask = batch["attention_mask"]
+                    hidden = model.scorer.pool.encoder(input_ids=ids, attention_mask=mask).last_hidden_state
+                    pooled = (hidden * mask.unsqueeze(-1)).sum(1) / mask.sum(1, keepdim=True).clamp(min=1)
+                    scores = model.scorer.head(pooled).squeeze(-1)
+                encoded += len(chunk)
+                window_logits.extend(float(v) for v in scores.float().cpu())
+            torch.cuda.synchronize()
+            forward_seconds += time.monotonic() - takeoff
+            record = {
+                "id": row["id"], "endpoint": row["endpoint"], "component_id": row["component_id"],
+                "phase": row["phase"], "input_sha256": row["input_sha256"],
+                "window_logits": window_logits,
+                "window_block_ids": [w["block_id"] for w in windows],
+                "window_indices": [w["window_index"] for w in windows],
+                "target": targets[row["id"]]["target"],
+            }
+            stream.write(json.dumps(record, sort_keys=True, ensure_ascii=False) + "\n")
     manifest = {
         "schema": "vey.accel.teacher-warehouse.v1", "status": "MATERIALIZED",
         "protocol_pin": pin(PROTOCOL), "teacher_checkpoint": cfg["current_authority"]["selected_initial_cross_checkpoint"],
         "slice_manifest": pin(Path(args.slice_root) / "screen_slice_manifest.json"),
-        "out_rows": len(intent_rows), "encoded_sequences": encoded,
+        "out_rows": len(intent_rows) + len(qasper_rows), "encoded_sequences": encoded,
         "forward_gpu_seconds": round(forward_seconds, 3),
         "wall_seconds": round(time.monotonic() - start_wall, 1),
         "peak_vram_bytes": int(torch.cuda.max_memory_allocated()),
