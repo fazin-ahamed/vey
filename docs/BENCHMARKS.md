@@ -6473,6 +6473,13 @@ intent candidates, Frozen Prefix Activation Warehouse, SplitCross, and
 multi-endpoint fusion. No Modal job may start without one of those arms
 having already survived a screen on the 5% ledger slice.
 
+CNSR round-1 measurement (committed, `round1.json`): on the same frozen slice
+at 64 optimizer steps with batch 32, the unchanged cross arm costs 3.74s
+forward / 9.19s backward, while the hard-negative sparse arm at cap 16 costs
+1.69s/2.43s and reaches lower teacher-KL on the same rows. Both are screen
+results on slice rows already inside the teacher's ancestry; the winner is
+eligibility evidence only, not fresh quality confirmation.
+
 Ladder result (committed, `ladder-result.json`): at 2,048 sequences over 357
 screen rows, FP32 batch 8 runs 4.60s forward versus batch 32 at 1.39s -
 a 3.3× throughput difference at 934 MB peak, far below the 12 GB envelope.
