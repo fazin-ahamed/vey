@@ -43,6 +43,19 @@ def load_slice(root):
     return rows
 
 
+def teacher_subset_ids(row, teacher_logits, cap):
+    """Gold plus top-(cap-1) by teacher scores; original order preserved."""
+    ids = [c["id"] for c in row["candidates"]]
+    if cap <= 0 or len(ids) <= cap:
+        return ids, list(range(len(ids)))
+    distribution = row["target"]["distribution"]
+    gold_index = distribution.index(1.0) if 1.0 in distribution else None
+    require(gold_index is not None, "Screen slice rows used for arms must have singleton gold")
+    ranked = sorted(range(len(ids)), key=lambda i: (-teacher_logits[i], ids[i]))
+    keep = sorted(dict.fromkeys([gold_index] + ranked[:cap - 1]))
+    return [ids[i] for i in keep], keep
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--slice-root", type=Path, required=True)
@@ -52,6 +65,8 @@ def main(argv=None):
     parser.add_argument("--steps", type=int, default=64)
     parser.add_argument("--lr", type=float, default=1e-3)
     parser.add_argument("--arm", required=True)
+    parser.add_argument("--candidate-cap", type=int, default=0,
+                        help="Gold plus top-(cap-1) teacher candidates when positive")
     args = parser.parse_args(argv)
     require(not args.out.exists(), "Refusing to overwrite: " + str(args.out))
 
@@ -76,6 +91,8 @@ def main(argv=None):
     with (args.warehouse / "teacher_logits.jsonl").open() as stream:
         for line in stream:
             r = json.loads(line)
+            if "teacher_logits" not in r:
+                continue
             teacher[r["id"]] = r["teacher_logits"]
     require(teacher, "Warehouse empty")
     intent_rows = [r for r in intent_rows if r["id"] in teacher]
@@ -113,14 +130,21 @@ def main(argv=None):
     kl_batches = 0
     for step in range(args.steps):
         row = intent_rows[step % len(intent_rows)]
-        pairs = [row["state"] + "\n" + c["text"] for c in row["candidates"]]
+        teacher_logits = teacher[row["id"]]
+        if args.candidate_cap:
+            candidate_ids, keep = teacher_subset_ids(row, teacher_logits, args.candidate_cap)
+            pairs = [row["state"] + "\n" + row["candidates"][i]["text"] for i in keep]
+            target = torch.tensor([row["target"]["distribution"][i] for i in keep], device=device, dtype=torch.float32)
+        else:
+            candidate_ids = [c["id"] for c in row["candidates"]]
+            pairs = [row["state"] + "\n" + c["text"] for c in row["candidates"]]
+            target = torch.tensor(row["target"]["distribution"], device=device, dtype=torch.float32)
         batch = tokenizer(pairs, padding=True, truncation=True, max_length=512,
                           return_tensors="pt").to(device)
         takeoff = time.monotonic()
         ids = batch["input_ids"].unsqueeze(0)
         mask = batch["attention_mask"].unsqueeze(0)
         values = model.scorer(ids, mask).squeeze(0)
-        target = torch.tensor(row["target"]["distribution"], device=device, dtype=torch.float32)
         loss = -(target * F.log_softmax(values, 0)).sum()
         torch.cuda.synchronize()
         forward_gpu += time.monotonic() - takeoff
@@ -134,10 +158,43 @@ def main(argv=None):
         values = values.detach()
         dist = torch.log_softmax(values, 0)
         with torch.no_grad():
-            teacher_logits = torch.tensor(teacher[row["id"]], device=device, dtype=torch.float32)
+            reference = teacher[row["id"]]
+            if args.candidate_cap:
+                reference = [reference[i] for i in keep]
+            teacher_logits = torch.tensor(reference, device=device, dtype=torch.float32)
             teacher_probs = torch.softmax(teacher_logits, 0)
             kl_forward += float((teacher_probs * (torch.log_softmax(teacher_logits, 0) - dist)).sum().item())
             kl_batches += 1
+
+    model.eval()
+    eval_correct = 0
+    eval_total = 0
+    teacher_agree = 0
+    eval_seconds = 0.0
+    for row in intent_rows:
+        distribution = row["target"]["distribution"]
+        if 1.0 not in distribution:
+            continue
+        gold_index = distribution.index(1.0)
+        pairs = [row["state"] + "\n" + c["text"] for c in row["candidates"]]
+        logits = []
+        start_eval = time.monotonic()
+        for index in range(0, len(pairs), args.batch_size):
+            chunk = pairs[index:index + args.batch_size]
+            batch = tokenizer(chunk, padding=True, truncation=True, max_length=512,
+                              return_tensors="pt").to(device)
+            with torch.no_grad():
+                scores = model.scorer(batch["input_ids"].unsqueeze(0),
+                                      batch["attention_mask"].unsqueeze(0)).squeeze(0)
+            logits.extend(float(v) for v in scores.cpu().tolist())
+        eval_seconds += time.monotonic() - start_eval
+        eval_total += 1
+        winner = max(range(len(logits)), key=lambda i: logits[i])
+        if winner == gold_index:
+            eval_correct += 1
+        teacher_winner = max(range(len(teacher[row["id"]])), key=lambda i: teacher[row["id"]][i])
+        if winner == teacher_winner:
+            teacher_agree += 1
 
     receipt = {
         "schema": "vey.accel.arm-receipt.v1",
@@ -152,6 +209,9 @@ def main(argv=None):
         "backward_gpu_seconds": round(backward_gpu, 3),
         "gper_second_per_decision": round((forward_gpu + backward_gpu) / max(optimizer_micro_steps, 1), 6),
         "teacher_kl_mean": kl_forward / max(kl_batches, 1),
+        "eval_rows": eval_total, "eval_top1": eval_correct / max(eval_total, 1),
+        "teacher_agreement": teacher_agree / max(eval_total, 1),
+        "eval_gpu_seconds": round(eval_seconds, 3),
         "peak_vram_bytes": torch.cuda.max_memory_allocated(),
         "wall_seconds": round(time.monotonic() - start, 1),
         "status": "COMPLETE", "quality_credit": False, "performance_credit": False,
