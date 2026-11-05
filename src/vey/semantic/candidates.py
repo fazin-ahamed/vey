@@ -11,15 +11,18 @@ why no DeepSets / set-transformer / candidate self-attention layer is needed.
 """
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import numpy as np
 
-from .encoder import Embedder
+if TYPE_CHECKING:  # keeps this module importable without PyTorch
+    from .encoder import Embedder
 
 
 class CandidateMatcher:
     """Cosine matcher over cached candidate representations."""
 
-    def __init__(self, emb: Embedder):
+    def __init__(self, emb: "Embedder"):
         self.emb = emb
 
     def prepare(self, candidates: dict[str, str]) -> None:

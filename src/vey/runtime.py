@@ -23,6 +23,14 @@ from .decision import DecisionRequest, DecisionResult
 from .structured.exact import DictGrounder
 
 
+_TORCH_HINT = ("the {lane} lane needs PyTorch, which is optional: install it with "
+               "`pip install 'vey[torch]'`. The structured lane and the System One server do not need it.")
+
+
+def _needs_torch(lane: str) -> ImportError:
+    return ImportError(_TORCH_HINT.format(lane=lane))
+
+
 class Runtime:
     """Holds lane grounders. Learned grounders are created lazily and reused so
     models load at most once per process. Inject ``crux_grounder`` or
@@ -38,14 +46,21 @@ class Runtime:
 
     def _field_scorer(self):
         if self._field is None:
-            from .crux.field import FieldScorer
+            try:
+                from .crux.field import FieldScorer
+            except ModuleNotFoundError as e:
+                raise _needs_torch("field") from e
             self._field = FieldScorer(device=self.device)
         return self._field
 
     def _crux_grounder(self):
         if self._crux is None:
-            from .crux.grounding import SageGrounder
-            self._crux = SageGrounder(device=self.device)
+            try:
+                from .crux import backbone  # noqa: F401  (imports torch now, not at first use)
+                from .crux.grounding import SageGrounder
+                self._crux = SageGrounder(device=self.device)
+            except ModuleNotFoundError as e:
+                raise _needs_torch("crux") from e
         return self._crux
 
     def decide(self, request: DecisionRequest) -> DecisionResult:
@@ -68,7 +83,10 @@ class Runtime:
         when every stage is a MAX on a validated axis."""
         if not program:
             return False
-        from .crux.field import FIELD_AXES
+        try:
+            from .crux.field import FIELD_AXES
+        except ModuleNotFoundError:  # no PyTorch: the field lane cannot run, so never route to it
+            return False
         return all(s.kind == "MAX" and s.key in FIELD_AXES for s in program)
 
 
