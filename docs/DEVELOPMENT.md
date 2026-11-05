@@ -25,6 +25,15 @@ src/vey/
     controls.py      risk controls and calibration
     policy.py        deterministic action policy
   evaluation/        calibration and ranking metrics
+  systemone/         the Jev / Clef / Laya compatible server (docs/SYSTEMONE.md)
+    schema.py        request validation, published error shapes
+    engine.py        lanes: exact, matcher, NLI rerank, NLI yes/no, escalation
+    nli.py           ONNX zero-shot NLI, question-to-statement rewriting
+    calibration.py   temperatures, fitting, ECE
+    escalate.py      forwarding to another System One server
+    server.py        threaded stdlib HTTP server
+    console.html     the console
+scripts/             reproducible benchmarks: onnx_parity, systemone_eval, systemone_bench
 ```
 
 ## Why lanes are separate

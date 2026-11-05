@@ -11,20 +11,40 @@ requires-python = ">=3.10"
 license = { text = "FSL-1.1-MIT" }
 dependencies = [
   "numpy>=1.20",
+  "huggingface_hub>=0.20",
+  "onnxruntime>=1.17",
+  "tokenizers>=0.15",
+]
+
+[project.optional-dependencies]
+# PyTorch is optional: the System One server and the ONNX embedder run without it.
+# The CRUX field and comparator lanes, the pooled classifier and the structured
+# success head still need it.
+torch = [
   "torch>=2.0",
   "transformers>=4.48",
   "sentencepiece>=0.2",
   "safetensors>=0.4",
-  "huggingface_hub>=0.20",
 ]
-
-[project.optional-dependencies]
 parity = ["laya==0.3.20", "rank_bm25"]
 demo = ["rich>=13"]
-dev = ["pytest>=7"]
+dev = [
+  "pytest>=7",
+  "jsonschema>=4",
+  "torch>=2.0",
+  "transformers>=4.48",
+  "sentencepiece>=0.2",
+  "safetensors>=0.4",
+]
+
+[project.scripts]
+vey-serve = "vey.systemone.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+"vey.systemone" = ["console.html", "calibration_default.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

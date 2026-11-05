@@ -53,6 +53,29 @@ learned lane fails closed only if its own fetch fails, while the structured
 lane keeps running. See [docs/CRUX.md](docs/CRUX.md). The Vey 1
 trust-policy decision is unchanged and remains at `vey.trust.decide`.
 
+## System One server: Jev, Clef and Laya compatible
+
+`vey-serve` speaks the System One wire format (`POST /v1/systemone`, the one
+TypeSafe's Jev, Cloudflare's Clef and Laya's server share), so an existing client
+works by changing its base URL. It answers `noul`, `choice` and `score` questions
+with calibrated probabilities, runs on ONNX Runtime without PyTorch, and ships a
+console at `/`.
+
+```bash
+pip install -e .          # no PyTorch needed
+vey-serve --port 8000     # console at http://127.0.0.1:8000/
+curl -s localhost:8000/v1/systemone -H 'Content-Type: application/json' -d '{
+  "model": "vey-latest",
+  "state": "I was charged twice. Please refund the duplicate.",
+  "questions": {"billing": {"type": "noul", "instructions": "Is this message about billing?"}}}'
+```
+
+Each question runs on the cheapest lane that can answer it: an exact field match
+on a JSON state, the 24M encoder, an NLI model for yes/no, and, only when
+configured, another System One server for what Vey cannot read (images, `box`
+questions) or is unsure about. See [docs/SYSTEMONE.md](docs/SYSTEMONE.md) for the
+compatibility table, measured accuracy and memory, and what it does not do.
+
 ## What it combines
 
 - **Exact structured decisions**: typed candidate sets with hard eligibility
@@ -99,11 +122,13 @@ and methodology caveats.
 ## Install
 
 ```bash
-pip install -e .
+pip install -e .            # System One server, exact/structured/semantic lanes; no PyTorch
+pip install -e ".[torch]"   # also the CRUX field and comparator lanes and the pooled classifier
 ```
 
-The default encoder is fetched from the Hugging Face hub on first use; no weights
-are committed to this repository.
+PyTorch is optional. Models (the 24M encoder and, on first yes/no question, a
+small NLI model) are fetched from the Hugging Face hub on first use as ONNX
+files; no weights are committed to this repository.
 
 ## Use
 
@@ -148,6 +173,7 @@ loop. **It is not evidence that the routing head perceives raw game frames.**
 ## Documentation
 
 - [Architecture](docs/ARCHITECTURE.md): the lanes and why they are separate
+- [System One](docs/SYSTEMONE.md): the Jev / Clef / Laya compatible server and console
 - [CRUX](docs/CRUX.md): the Vey 2 semantic decision API and executor
 - [Development](docs/DEVELOPMENT.md): how to extend the package
 - [Model card](docs/MODEL_CARD.md): intended uses, non-intended uses, data

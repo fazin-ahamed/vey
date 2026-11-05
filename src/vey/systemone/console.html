@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vey Console</title>
+<style>
+:root {
+  --bg: #fff; --fg: #171717; --muted: #6b6b6b; --line: #e4e4e4; --soft: #f5f5f5; --card: #fafafa;
+  --accent: #2557d6; --accent-soft: #e8eefc; --ok: #1a7f4b; --warn: #b45309; --bad: #c0392b; --bar: #d9d9d9;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #121212; --fg: #ececec; --muted: #9a9a9a; --line: #2c2c2c; --soft: #1d1d1d; --card: #181818;
+          --accent: #7aa2ff; --accent-soft: #1c2740; --ok: #5ccf94; --warn: #f0a24b; --bad: #ff7b6b; --bar: #3a3a3a; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 13px/1.5 var(--sans); }
+header { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 12px 20px; border-bottom: 1px solid var(--line); }
+header h1 { font-size: 14px; font-weight: 600; margin: 0 8px 0 0; }
+.chip { font-size: 11px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.chip.on { color: var(--fg); }
+.meter { display: inline-block; width: 64px; height: 4px; border-radius: 2px; background: var(--bar); vertical-align: middle; margin-left: 6px; overflow: hidden; }
+.meter i { display: block; height: 100%; background: var(--accent); }
+main { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 24px; padding: 20px; max-width: 1280px; margin: 0 auto; }
+@media (max-width: 860px) { main { grid-template-columns: minmax(0, 1fr); } }
+h2 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin: 0 0 8px; }
+section { margin-bottom: 20px; min-width: 0; }
+textarea, input, select { width: 100%; font: 12px/1.5 var(--mono); color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; }
+textarea { resize: vertical; min-height: 96px; }
+textarea:focus, input:focus, select:focus, button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+button { font: 12px var(--sans); color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 5px 12px; cursor: pointer; }
+button:hover { background: var(--soft); }
+button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+button.primary:hover { filter: brightness(1.08); }
+button:disabled { opacity: .5; cursor: default; }
+.hint { color: var(--muted); font-size: 12px; }
+.err { color: var(--bad); font-size: 12px; white-space: pre-wrap; margin-top: 6px; }
+.answer { padding: 10px 0; border-top: 1px solid var(--line); }
+.answer:first-of-type { border-top: 0; padding-top: 0; }
+.answer .head { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; }
+.answer .name { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.answer .val { font-size: 15px; }
+.answer.below .val { color: var(--muted); }
+.lane { font-size: 11px; padding: 0 7px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.lane.exact { background: transparent; border: 1px solid var(--ok); color: var(--ok); }
+.lane.escalated { background: transparent; border: 1px solid var(--warn); color: var(--warn); }
+.flag { font-size: 11px; color: var(--warn); }
+.bars { margin-top: 6px; display: grid; gap: 3px; }
+.bar { display: grid; grid-template-columns: minmax(60px, 160px) 1fr 44px; gap: 8px; align-items: center; font-size: 11px; }
+.bar .lab { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted); }
+.bar .track { height: 6px; background: var(--bar); border-radius: 3px; position: relative; }
+.bar .fill { position: absolute; inset: 0 auto 0 0; background: var(--accent); border-radius: 3px; }
+.bar.top .lab { color: var(--fg); }
+.bar .tick { position: absolute; top: -3px; bottom: -3px; width: 1px; background: var(--fg); opacity: .55; }
+.bar .pct { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
+.wf { display: flex; height: 18px; gap: 2px; margin: 6px 0 4px; }
+.wf span { min-width: 3px; background: var(--accent); border-radius: 3px; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+pre { margin: 0; padding: 10px; background: var(--card); border: 1px solid var(--line); border-radius: 6px; font: 11px/1.5 var(--mono); overflow: auto; max-height: 320px; white-space: pre-wrap; word-break: break-word; }
+details summary { cursor: pointer; color: var(--muted); font-size: 12px; margin-bottom: 6px; }
+.stats { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.hist button { display: block; width: 100%; text-align: left; border: 0; border-top: 1px solid var(--line); border-radius: 0; padding: 6px 0; color: var(--muted); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+label.slider { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+label.slider input { width: 140px; padding: 0; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Vey Console</h1>
+  <span class="chip" id="c-model">connecting</span>
+  <span class="chip" id="c-mem">resident <span id="mem">…</span><span class="meter"><i id="memfill" style="width:0"></i></span></span>
+  <span class="chip" id="c-matcher">matcher</span>
+  <span class="chip" id="c-nli">NLI</span>
+  <span class="chip" id="c-esc">escalation off</span>
+</header>
+<main>
+  <div>
+    <section>
+      <h2>Example</h2>
+      <select id="preset" aria-label="Example request"></select>
+    </section>
+    <section>
+      <h2>State</h2>
+      <textarea id="state" spellcheck="false" aria-label="State: text, or a JSON object or array"></textarea>
+      <div class="hint" id="state-hint"></div>
+    </section>
+    <section>
+      <h2>Questions</h2>
+      <textarea id="questions" spellcheck="false" style="min-height:220px" aria-label="Questions as JSON"></textarea>
+      <div class="row" style="margin-top:6px">
+        <span class="hint">Add:</span>
+        <button data-add="noul">noul</button><button data-add="choice">choice</button><button data-add="score">score</button>
+      </div>
+      <div class="err" id="q-err" role="alert"></div>
+    </section>
+    <section>
+      <div class="row">
+        <button class="primary" id="run">Run</button>
+        <button id="copy-curl">Copy curl</button>
+        <span class="hint"><kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Enter</kbd></span>
+      </div>
+      <div id="keybox" style="display:none;margin-top:8px"><input id="key" type="password" placeholder="API key (kept in this tab only)" autocomplete="off" aria-label="API key"></div>
+      <div class="err" id="run-err" role="alert"></div>
+    </section>
+    <section class="hist">
+      <h2>Recent</h2>
+      <div id="hist"></div>
+    </section>
+  </div>
+  <div>
+    <section>
+      <div class="row" style="justify-content:space-between">
+        <h2 style="margin:0">Answers</h2>
+        <label class="slider">Ship at or above <input type="range" id="floor" min="0" max="99" value="60" aria-label="Confidence floor"><span id="floorv" style="min-width:30px"></span></label>
+      </div>
+      <div id="answers" style="margin-top:10px"><span class="hint">Run a request to see answers, the lane that produced each, and what it cost.</span></div>
+    </section>
+    <section>
+      <h2>Lane trace</h2>
+      <div id="trace"><span class="hint">Per-question time by lane appears here.</span></div>
+    </section>
+    <section>
+      <details><summary>Request JSON</summary><pre id="req-json"></pre></details>
+      <details><summary>Response JSON</summary><pre id="res-json"></pre></details>
+    </section>
+    <section>
+      <h2>Server</h2>
+      <div class="stats" id="stats"></div>
+    </section>
+  </div>
+</main>
+<script>
+{
+const $ = (id) => document.getElementById(id);
+const PRESETS = {
+  'Support ticket': {
+    state: "Hi, we were billed twice for March. Please refund the duplicate today or we will cancel our plan.",
+    questions: {
+      refund_requested: { type: "noul", instructions: "Is the customer asking for a refund?" },
+      team: { type: "choice", instructions: "Which team should handle this?", criteria: {
+        billing: "Charges, refunds and invoices", technical: "Bugs, outages and errors", shipping: "Delivery and parcels", other: "Everything else" } },
+      urgency: { type: "score", instructions: "How urgent is this ticket?", criteria: ["Can wait", "Needs attention this week", "Needs attention today"] }
+    }
+  },
+  'Structured invoice (exact lane)': {
+    state: { invoice: { vendor: "Acme", total: 1250, status: "overdue", is_large: true }, note: "Second reminder, please remit this week." },
+    questions: {
+      status: { type: "choice", instructions: "What is the invoice status?", criteria: { paid: "Invoice is paid.", overdue: "Invoice is past due.", draft: "Not sent." } },
+      is_large: { type: "noul", instructions: "Is the total above 1000 USD?" },
+      reminder: { type: "noul", instructions: "Does the note ask for payment?" }
+    }
+  },
+  'Hard case: tone': {
+    state: "I have now written three times about the same duplicate charge. This is unacceptable and I expect an answer today.",
+    questions: {
+      tone: { type: "choice", instructions: "What is the tone of this message?", criteria: {
+        angry: "An upset or hostile message", calm: "A neutral or polite message", excited: "An enthusiastic or eager message" } },
+      is_urgent: { type: "noul", criteria: { true: "The message conveys urgency or time-sensitivity.", false: "No urgency is expressed." } }
+    }
+  },
+  'Image + box (needs escalation)': {
+    state: "photo",
+    questions: { red_rectangle: { type: "box", instructions: "Locate the red rectangle." } },
+    assets: { photo: { type: "image", format: "png", data_base64: "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAHElEQVR4nGP4TyJgoKcGBgbsaFQDfTUQB4aDBgDAen2fpitsVAAAAABJRU5ErkJggg==" } }
+  }
+};
+const TEMPLATES = {
+  noul: { type: "noul", instructions: "Does this message mention a deadline?" },
+  choice: { type: "choice", instructions: "Which option fits best?", criteria: { first: "Describe the first option", second: "Describe the second option" } },
+  score: { type: "score", instructions: "How severe is this?", criteria: ["Minor", "Moderate", "Severe"] }
+};
+const st = { info: null, last: null, ms: 0, assets: null };
+const hist = JSON.parse(localStorage.getItem('vey-hist') || '[]');
+
+function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+function headers() {
+  const h = { 'Content-Type': 'application/json' };
+  const k = sessionStorage.getItem('vey-key'); if (k) h.Authorization = 'Bearer ' + k;
+  return h;
+}
+function parseState(t) {
+  const s = t.trim();
+  if (s.startsWith('{') || s.startsWith('[')) { try { return JSON.parse(s); } catch (_) { /* plain text */ } }
+  return t;
+}
+function buildBody() {
+  let questions;
+  try { questions = JSON.parse($('questions').value); $('q-err').textContent = ''; }
+  catch (e) { $('q-err').textContent = 'Questions are not valid JSON: ' + e.message; return null; }
+  const body = { model: (st.info && st.info.model) || 'vey-latest', state: parseState($('state').value), questions, explain: true };
+  if (st.assets) body.assets = st.assets;
+  return body;
+}
+
+async function loadInfo() {
+  try {
+    const r = await fetch('/v1/info', { headers: headers() });
+    if (r.status === 401) { $('keybox').style.display = 'block'; $('c-model').textContent = 'API key required'; return; }
+    const i = await r.json(); st.info = i;
+    $('c-model').textContent = i.model; $('c-model').classList.add('on');
+    const mb = i.resident_mb; $('mem').textContent = mb == null ? 'n/a' : mb + ' MB';
+    $('memfill').style.width = mb == null ? '0' : Math.min(100, mb / 1024 * 100) + '%';
+    $('c-matcher').textContent = 'matcher ' + (i.lanes.matcher.embedder === 'OnnxEmbedder' ? 'ONNX' : 'torch') + ', ' + i.lanes.matcher.cached_texts + ' cached';
+    $('c-nli').textContent = i.lanes.nli.error ? 'NLI unavailable' : (i.lanes.nli.loaded ? 'NLI loaded' : 'NLI loads on first yes/no');
+    const esc = i.lanes.escalation; $('c-esc').textContent = esc ? 'escalation → ' + esc.host : 'escalation off'; $('c-esc').classList.toggle('on', !!esc);
+    if (i.auth_required) $('keybox').style.display = 'block';
+    const c = i.counts; $('stats').replaceChildren(...['requests', 'questions', 'exact', 'matcher', 'matcher+nli', 'nli', 'escalated', 'below_floor'].map(k => el('span', '', k + ' ' + c[k])), el('span', '', 'uptime ' + Math.round(i.uptime_s) + ' s'), el('span', '', 'floor ' + i.floor));
+  } catch (e) { $('c-model').textContent = 'server unreachable'; }
+}
+
+function bar(label, p, top, floor) {
+  const b = el('div', 'bar' + (top ? ' top' : ''));
+  b.append(el('span', 'lab', label));
+  const t = el('span', 'track'); const f = el('span', 'fill'); f.style.width = (p * 100) + '%'; t.append(f);
+  const tk = el('span', 'tick'); tk.style.left = floor + '%'; t.append(tk);
+  b.append(t, el('span', 'pct', (p * 100).toFixed(1) + '%'));
+  return b;
+}
+function render() {
+  const res = st.last; if (!res) return;
+  const floor = +$('floor').value; $('floorv').textContent = floor + '%';
+  const root = $('answers'); root.replaceChildren();
+  const tr = (res.trace && res.trace.questions) || {};
+  for (const [name, a] of Object.entries(res.answers)) {
+    const t = tr[name] || {};
+    const conf = a.type === 'noul' ? Math.max(a.noul, 1 - a.noul) : (a.confidence ?? (t.confidence ?? 1));
+    const below = conf * 100 < floor && t.lane !== 'exact';
+    const box = el('div', 'answer' + (below ? ' below' : ''));
+    const top = el('div', 'head'); top.append(el('span', 'name', name + ' · ' + a.type));
+    let val = '';
+    if (a.type === 'noul') val = a.noul >= 0.5 ? 'Yes' : 'No';
+    else if (a.type === 'choice') val = a.choice;
+    else if (a.type === 'score') val = 'score ' + a.score.toFixed(2) + ' of ' + (Object.keys(a.legend).length - 1);
+    else if (a.type === 'box') val = JSON.stringify(a.box);
+    top.append(el('span', 'val', below ? 'Unknown, would escalate (best: ' + val + ')' : val));
+    if (t.lane) top.append(el('span', 'lane ' + t.lane, t.lane));
+    top.append(el('span', 'name', 'confidence ' + (conf * 100).toFixed(0) + '%' + (t.ms != null ? ' · ' + t.ms + ' ms' : '')));
+    if (t.below_floor) top.append(el('span', 'flag', 'server floor: below'));
+    box.append(top);
+    const bars = el('div', 'bars');
+    if (a.type === 'noul') bars.append(bar('P(yes)', a.noul, true, floor));
+    else if (a.probabilities) {
+      const best = Object.entries(a.probabilities).sort((x, y) => y[1] - x[1]);
+      const shown = best.slice(0, 6);
+      shown.forEach(([k, p], i) => bars.append(bar(a.type === 'score' ? k + ' ' + (typeof a.legend[k] === 'string' ? a.legend[k] : '') : k, p, i === 0, floor)));
+      if (best.length > shown.length) bars.append(el('div', 'hint', '+' + (best.length - shown.length) + ' more options'));
+    }
+    box.append(bars);
+    if (t.hypothesis) box.append(el('div', 'hint', 'checked: ' + t.hypothesis));
+    if (t.reranked) box.append(el('div', 'hint', 'matcher was unsure (' + (t.matcher_confidence * 100).toFixed(0) + '%); NLI reordered the top ' + t.reranked.length));
+    root.append(box);
+  }
+  const wf = el('div', 'wf'), lg = el('div', 'legend'); let sum = 0;
+  for (const [name, t] of Object.entries(tr)) { if (t.ms != null) { const s = el('span'); s.style.flex = Math.max(t.ms, 0.5); s.title = name + ' ' + t.ms + ' ms'; wf.append(s); lg.append(el('span', '', name + ' ' + t.lane + ' ' + t.ms + ' ms')); sum += t.ms; } }
+  $('trace').replaceChildren(wf, lg, el('div', 'hint', 'server ' + (res.trace ? res.trace.total_ms : '?') + ' ms · round trip ' + st.ms.toFixed(0) + ' ms · ' + res.usage.input_tokens + ' input tokens · model ' + res.model));
+}
+function renderHist() {
+  const h = $('hist'); h.replaceChildren();
+  hist.slice(0, 8).forEach((e) => { const b = el('button', '', e.title); b.onclick = () => { $('state').value = e.state; $('questions').value = e.questions; st.assets = e.assets || null; checkState(); }; h.append(b); });
+}
+async function run() {
+  const body = buildBody(); if (!body) return;
+  $('run-err').textContent = ''; $('run').disabled = true;
+  const t0 = performance.now();
+  try {
+    const r = await fetch('/v1/systemone', { method: 'POST', headers: headers(), body: JSON.stringify(body) });
+    st.ms = performance.now() - t0;
+    const text = await r.text(); let j; try { j = JSON.parse(text); } catch (_) { j = { detail: text }; }
+    $('req-json').textContent = JSON.stringify(body, null, 2);
+    $('res-json').textContent = JSON.stringify(j, null, 2);
+    if (!r.ok) {
+      const d = j.detail;
+      $('run-err').textContent = r.status + ': ' + (typeof d === 'string' ? d : Array.isArray(d) ? d.map(x => x.loc.slice(1).join('.') + ': ' + x.msg).join('\n') : JSON.stringify(d));
+      if (r.status === 401) $('keybox').style.display = 'block';
+    } else {
+      st.last = j; render();
+      const title = (typeof body.state === 'string' ? body.state : JSON.stringify(body.state)).slice(0, 70);
+      hist.unshift({ title, state: $('state').value, questions: $('questions').value, assets: st.assets });
+      localStorage.setItem('vey-hist', JSON.stringify(hist.slice(0, 20))); renderHist();
+    }
+  } catch (e) { $('run-err').textContent = 'Request failed: ' + e.message; }
+  $('run').disabled = false; loadInfo();
+}
+function checkState() {
+  const s = $('state').value.trim(); let kind = 'text';
+  if (s.startsWith('{') || s.startsWith('[')) { try { JSON.parse(s); kind = 'JSON (a field named like a question can answer it exactly)'; } catch (_) { kind = 'text (looks like JSON but is not valid)'; } }
+  $('state-hint').textContent = 'Read as ' + kind + '.';
+}
+function loadPreset(name) {
+  const p = PRESETS[name];
+  $('state').value = typeof p.state === 'string' ? p.state : JSON.stringify(p.state, null, 2);
+  $('questions').value = JSON.stringify(p.questions, null, 2); st.assets = p.assets || null; checkState();
+}
+Object.keys(PRESETS).forEach(n => { const o = el('option', '', n); o.value = n; $('preset').append(o); });
+$('preset').onchange = (e) => loadPreset(e.target.value);
+document.querySelectorAll('[data-add]').forEach(b => b.onclick = () => {
+  let q; try { q = JSON.parse($('questions').value || '{}'); } catch (_) { $('q-err').textContent = 'Fix the JSON before adding a question.'; return; }
+  const kind = b.dataset.add; let n = kind, i = 1; while (q[n]) n = kind + '_' + (++i);
+  q[n] = TEMPLATES[kind]; $('questions').value = JSON.stringify(q, null, 2); $('q-err').textContent = '';
+});
+$('run').onclick = run;
+$('state').oninput = checkState;
+$('floor').oninput = render;
+$('key').onchange = (e) => { sessionStorage.setItem('vey-key', e.target.value); loadInfo(); };
+document.addEventListener('keydown', (e) => { if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') run(); });
+$('copy-curl').onclick = async () => {
+  const body = buildBody(); if (!body) return;
+  const auth = sessionStorage.getItem('vey-key') ? " -H 'Authorization: Bearer $VEY_API_KEY'" : '';
+  const cmd = "curl -s " + location.origin + "/v1/systemone -H 'Content-Type: application/json'" + auth + " -d '" + JSON.stringify(body).replace(/'/g, "'\\''") + "'";
+  try { await navigator.clipboard.writeText(cmd); $('copy-curl').textContent = 'Copied'; setTimeout(() => $('copy-curl').textContent = 'Copy curl', 1200); } catch (_) { $('run-err').textContent = cmd; }
+};
+loadPreset('Support ticket'); $('floorv').textContent = $('floor').value + '%'; renderHist(); loadInfo();
+}
+</script>
+</body>
+</html>

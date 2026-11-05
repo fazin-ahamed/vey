@@ -1,0 +1,14 @@
+{
+  "eval_rows": 300,
+  "fit_rows": 400,
+  "source": "scripts/systemone_eval.py",
+  "temperatures": {
+    "choice:11+": 0.05,
+    "choice:2": 0.05,
+    "choice:3-5": 0.04239,
+    "choice:6-10": 0.06211,
+    "choice_nli": 3.03617,
+    "noul": 1.0,
+    "score": 0.05
+  }
+}
