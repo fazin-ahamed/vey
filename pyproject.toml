@@ -26,11 +26,21 @@ torch = [
   "sentencepiece>=0.2",
   "safetensors>=0.4",
 ]
+# Tier 2 of the System One server: Liquid AI's open d1-omni-600M, run as int8 on this machine.
+# The weights are under the LFM Open License v1.0, not Vey's; see src/vey/systemone/d1.py.
+d1 = [
+  "torch>=2.0",
+  "torchvision",
+  "transformers>=5.15,<6",
+  "safetensors>=0.4",
+  "pillow",
+]
 parity = ["laya==0.3.20", "rank_bm25"]
 demo = ["rich>=13"]
 dev = [
   "pytest>=7",
   "jsonschema>=4",
+  "pillow",
   "torch>=2.0",
   "transformers>=4.48",
   "sentencepiece>=0.2",
@@ -39,6 +49,7 @@ dev = [
 
 [project.scripts]
 vey-serve = "vey.systemone.cli:main"
+vey-d1-prepare = "vey.systemone.d1:prepare_main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

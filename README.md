@@ -76,6 +76,15 @@ configured, another System One server for what Vey cannot read (images, `box`
 questions) or is unsure about. See [docs/SYSTEMONE.md](docs/SYSTEMONE.md) for the
 compatibility table, measured accuracy and memory, and what it does not do.
 
+An optional Tier 2 (`vey-serve --d1`) runs Liquid AI's open d1-omni-600M as int8 on your
+machine, still using PyTorch. It lifts measured `score` accuracy from 0.22 to 0.49
+exact level; local image understanding is experimental and fails a basic colour
+control. The lean profile survived a bounded 1.25 GiB test with no headroom, but
+was OOM-killed on images under 1 GiB. Its weights are under the LFM Open License
+v1.0, which limits commercial use to entities under $10M annual revenue; Vey
+converts them locally and never redistributes them. Read the license, measurements
+and limitations in [docs/SYSTEMONE.md](docs/SYSTEMONE.md) first.
+
 ## What it combines
 
 - **Exact structured decisions**: typed candidate sets with hard eligibility

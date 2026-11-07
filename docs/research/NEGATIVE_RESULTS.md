@@ -2,7 +2,31 @@
 
 Rejections are the record's most valuable entries. Every mechanism below was
 measured, not guessed, and each closed a line of inquiry. Benchmark numbers
-for each entry live in docs/BENCHMARKS.md on the same commit.
+for each entry live in docs/BENCHMARKS.md on the same commit unless linked below.
+
+## System One shared-state head (2026-11-07)
+
+The frozen 354.5M d1 text trunk plus a re-trained 26.2M head is **not a safe
+drop-in replacement** for joint state/question encoding. The text-only experiment
+does not build a new multimodal foundation model.
+
+| Mechanism | Result | Decision |
+|---|---|---|
+| Independent state/question features + adapted head (A) | Best exploratory agreement 0.642; checkpoint selection used evaluation rows | Reject for serving; exploratory result only |
+| Per-layer prefix cache + adapted head (B) | SST-5 agreement 0.780 vs gate 0.950; Emotion accuracy 0.745 vs teacher 0.810 | Reject for serving despite speed gain |
+| Prefix cache, six questions, 79 state tokens | 1,191 to 641 ms, 1.86x; one question 255 to 318 ms | Speed gate passes at this length, not enough to offset failed quality gates |
+
+Variant B used 2,000 training and 400 validation rows; 200 evaluation rows per
+task were not used for that run's optimization or checkpoint selection. Earlier
+explorations already exposed the task suite. Calibration passed its gate, but
+no reliability or 1 GiB claim follows. Full controls, environment, commands and
+results: [SHARED_STATE_HEAD.md](SHARED_STATE_HEAD.md).
+
+Two deployment limits of ordinary T2 were also measured: a 1 GiB no-swap cap
+OOM-killed the server on its first image warmup, and a solid-red image was
+classified as blue by int8, fp32-vision and full-fp32 controls (2/3 colours correct
+in every path). Neither can be advertised as solved. See
+[SYSTEMONE.md](../SYSTEMONE.md#memory-and-latency-recheck-2026-11-07).
 
 ## Semantic field architecture
 

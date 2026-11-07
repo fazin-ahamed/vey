@@ -24,8 +24,16 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--threads", type=int, default=None, help="ONNX Runtime threads per model (default min(4, CPUs))")
     p.add_argument("--cache-size", type=int, default=50_000, help="embedding cache entries (LRU)")
     p.add_argument("--calibration", help="JSON file of temperatures from scripts/fit_calibration.py")
-    p.add_argument("--no-nli", action="store_true", help="disable the NLI lane; noul questions then need an exact field or escalation")
+    p.add_argument("--no-nli", action="store_true", help="disable the NLI lane; noul questions then need --d1 --d1-noul, an exact field, or escalation")
     p.add_argument("--nli-dir", help="a local directory with the NLI ONNX model instead of the Hub")
+    p.add_argument("--d1", action="store_true",
+                   help="enable Tier 2: Liquid AI's d1-omni-600M as int8 (needs `pip install 'vey[d1]'` and `vey-d1-prepare`; "
+                        "LFM Open License v1.0, see docs/SYSTEMONE.md). Answers images and the questions the lighter lanes are unsure of")
+    p.add_argument("--d1-dir", help="directory prepared by vey-d1-prepare (default ~/.cache/vey/d1/<revision>)")
+    p.add_argument("--d1-max-image-side", type=int, default=512, help="longest image side d1 reads; larger images are shrunk (default 512 = one tile)")
+    p.add_argument("--d1-choice-below", type=float, default=0.8, help="a choice the encoder is less sure of than this goes to d1 (default 0.8; 1.0 sends all eligible choices, up to 50 options)")
+    p.add_argument("--d1-noul", action="store_true", help="answer yes/no with d1 instead of the NLI model (slower, +1.4 points on the measured set)")
+    p.add_argument("--d1-batch-tokens", type=int, default=256, help="d1 batching budget; lower uses less memory (one long question can exceed it)")
     p.add_argument("--no-exact", action="store_true", help="disable the exact field-match lane")
     p.add_argument("--preload", action="store_true", help="load the NLI model at start instead of on first use")
     p.add_argument("--floor", type=float, default=0.0,
@@ -52,7 +60,8 @@ def build_engine(a: argparse.Namespace) -> Engine:
         kw = dict(variant=a.variant, threads=a.threads, cache_size=a.cache_size)
         embedder = OnnxEmbedder.from_dir(a.onnx_dir, **kw) if a.onnx_dir else OnnxEmbedder.from_hub(**kw)
     if a.no_nli:
-        nli = LazyNLI(loader=lambda: (_ for _ in ()).throw(RuntimeError("disabled with --no-nli")))
+        nli = LazyNLI()
+        nli.error = "disabled with --no-nli"
     elif a.nli_dir:
         nli = LazyNLI(loader=lambda: OnnxNLI.from_dir(a.nli_dir, threads=a.threads))
     else:
@@ -64,19 +73,36 @@ def build_engine(a: argparse.Namespace) -> Engine:
         escalator = Escalator(a.escalate_url, api_key=os.environ.get("VEY_ESCALATE_API_KEY"),
                               model=a.escalate_model, timeout=a.escalate_timeout)
     cal = Calibration.load(a.calibration) if a.calibration else Calibration.default()
-    cfg = EngineConfig(exact_lane=not a.no_exact, floor=a.floor, explain=a.explain)
-    return Engine(embedder, nli=nli, calibration=cal, escalator=escalator, config=cfg)
+    cfg = EngineConfig(exact_lane=not a.no_exact, floor=a.floor, explain=a.explain,
+                       d1_choice_below=a.d1_choice_below, d1_noul=a.d1_noul)
+    d1 = None
+    if a.d1:
+        from .d1 import D1Model, D1Unavailable
+
+        try:
+            d1 = D1Model(a.d1_dir, max_image_side=a.d1_max_image_side, batch_tokens=a.d1_batch_tokens, threads=a.threads)
+        except D1Unavailable as e:
+            raise SystemExit(f"vey-serve: --d1 is not available: {e}")
+    return Engine(embedder, nli=nli, calibration=cal, escalator=escalator, config=cfg, d1=d1)
 
 
 def main(argv: list[str] | None = None) -> int:
-    a = build_parser().parse_args(argv)
+    parser = build_parser()
+    a = parser.parse_args(argv)
+    for opt in ("d1_max_image_side", "d1_batch_tokens"):
+        if getattr(a, opt) <= 0:
+            parser.error(f"--{opt.replace('_', '-')} must be positive")
+    if not 0.0 <= a.d1_choice_below <= 1.0:
+        parser.error("--d1-choice-below must be between 0 and 1")
+    if a.d1_noul and not a.d1:
+        parser.error("--d1-noul requires --d1")
     api_key = a.api_key or os.environ.get("VEY_API_KEY")
     engine = build_engine(a)
     srv = make_server(engine, a.host, a.port, api_key=api_key, max_body=a.max_body,
                       max_proxy_body=a.max_proxy_body, quiet=a.quiet)
     host, port = srv.server_address[:2]
-    print(f"vey-serve: http://{host}:{port}  console at /  ({resident_mb()} MB resident, "
-          f"auth {'on' if api_key else 'off'}, escalation {'on' if engine.escalator else 'off'})", file=sys.stderr, flush=True)
+    print(f"vey-serve: http://{host}:{port}  console at /  ({resident_mb()} MiB resident, "
+          f"auth {'on' if api_key else 'off'}, d1 {'on' if engine.d1 else 'off'}, escalation {'on' if engine.escalator else 'off'})", file=sys.stderr, flush=True)
     try:
         srv.serve_forever()
     except KeyboardInterrupt:

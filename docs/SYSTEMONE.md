@@ -2,8 +2,9 @@
 
 `vey-serve` answers typed questions about a state over the wire format that
 TypeSafe's Jev, Cloudflare's Clef and Laya's server share (`POST /v1/systemone`),
-so a client written for one of them works by changing its base URL. It runs on
-ONNX Runtime with no PyTorch, and serves a console at `/`.
+so a client written for one of them works by changing its base URL. The base
+profile runs on ONNX Runtime with no PyTorch, and serves a console at `/`.
+The opt-in d1 lane below still uses PyTorch.
 
 ```bash
 pip install -e .          # no PyTorch
@@ -39,7 +40,8 @@ schemas, and answers the three request examples in that document. It is opt-in
 | `state` as string, object or array; instructions and criteria as string, object or array | yes |
 | Limits: 1 to 255 choices, 1 to 10 score levels, at least one question | yes, enforced with the published 422 shape |
 | `400 {"detail": ...}`, `422 {"detail": [{loc, msg, type}]}`, bearer auth, `GET /v1/models` | yes |
-| `box` questions, `assets` (images), multipart requests | only through escalation (below); otherwise a 400 that says so |
+| `assets` (images) as `data_base64` | with `--d1` (Tier 2, below), locally; otherwise through escalation |
+| `box` questions, multipart image parts | only through escalation (below); otherwise a 400 that says so |
 | `TypeSafe-Danger-Zone-*` headers | forwarded to the escalation target, ignored locally |
 | d1's `multiple` choices, `point`, `read`, `estimate` answer types | no |
 
@@ -64,12 +66,14 @@ Each question runs on the cheapest lane that can answer it.
 | `matcher` | `choice`, `score` | The encoder embeds the state once and each option; cosine becomes a probability through a temperature that depends on the option count |
 | `matcher+nli` | `choice` of 2 to 20 options | When the matcher's confidence is under `rerank_below` (0.6), the NLI model re-orders the matcher's top 5. The matcher's top-versus-rest probability mass is kept; the NLI model only orders within the top |
 | `nli` | `noul` | A zero-shot NLI model checks the state against a statement. A yes/no question is first rewritten into a statement (see below). P(yes) is a sigmoid of the entailment margin |
-| `escalated` | anything below `--floor`, and everything with images or `box` | The request is sent to another System One server |
+| `d1` | With `--d1`: images, `score`, and a `choice` the encoder is under 80% sure of | Liquid AI's d1-omni-600M, int8, local (Tier 2, below) |
+| `escalated` | anything below `--floor`, `box` questions, and images without `--d1` | The request is sent to another System One server |
 
-A state longer than a model can read is cut down with BM25 sentence selection against
-the question and options (the same long-context lane Vey uses elsewhere), not
-truncated from the right. A state that fits is embedded once and shared by every
-question in the request.
+The light lanes cut long states down with BM25 sentence selection against the
+question and options. A state that fits is embedded once and shared by every
+question in the request. d1 instead uses its own context and right truncation.
+A choice or score with only one legal answer is forced, with probability 1, even
+with `--no-exact`; no model needs to read it.
 
 **Phrase yes/no questions as statements, or give `criteria.true`.** The NLI model was
 trained on statements. On 200 SST-2 reviews, "This movie review is positive." scored
@@ -181,13 +185,142 @@ vey-serve --calibration calibration.json
 `vey.systemone.fit_temperature`, `fit_noul_temperature` and `ece` fit and check your own
 labelled rows directly.
 
+## Tier 2: d1-omni-600M, local
+
+`--d1` adds Liquid AI's open [d1-omni-600M](https://huggingface.co/LiquidAI/d1-omni-600M)
+(a 381M bidirectional LFM2.5-Encoder-350M trunk and decision head, a 94M SigLIP2 vision
+tower) as a local lane. It improves the measured text score and small-choice tasks
+below. Local vision is **experimental**, not an accuracy-validated image service.
+This lane uses PyTorch, not ONNX Runtime or ggml, and does not meet the 1 GiB target.
+
+**License: read this first.** The weights are under the
+[LFM Open License v1.0](https://huggingface.co/LiquidAI/d1-omni-600M/blob/main/LICENSE),
+not Vey's. Commercial use is licensed only while you and your affiliates have annual
+revenue under $10M; redistribution must carry the license text and a notice of changes; and
+an int8 conversion is a Derivative Work. So Vey never ships or hosts these weights.
+`vey-d1-prepare` downloads them from the Hub at a pinned revision and converts them on
+your machine, writing the license and a modification notice beside the result. It runs the
+model's own code from that pinned revision, the same trust as `trust_remote_code`. This is
+not legal advice.
+
+```bash
+pip install -e ".[d1]"        # PyTorch, transformers>=5.15, torchvision, Pillow
+vey-d1-prepare                # about 2.3 GB download, converted to ~480 MB int8, once
+vey-serve --d1 --no-nli --d1-noul
+```
+
+How questions route when `--d1` is on:
+
+| Question | Route | Why |
+|---|---|---|
+| exact field match | `exact` | unchanged, no model |
+| `score` | d1 | exact level 0.220 to 0.487, within one level 0.693 to 0.960 |
+| `choice` | the encoder first; d1 when its confidence is under `--d1-choice-below` (0.8) and there are at most 50 options | see the sweep below |
+| `noul` | the NLI model; d1 with `--d1-noul` | d1 was 0.953 against 0.939 at 15 times the time |
+| any question in a request with images | d1, all in one call so the images are encoded once | nothing lighter can read them |
+
+Images arrive as `assets` with `data_base64` (png, jpg, jpeg; up to 4 per request, 8 MiB
+decoded bytes each, within the server's overall `--max-body` limit). A placeholder
+matched as a whole token inside a string becomes "the attached image", a state that is only a
+placeholder becomes empty so d1 reads the images alone, and each image is shrunk to a
+longest side of 512 px (`--d1-max-image-side`), one 256-token tile. If d1 fails on a text
+request the answer falls back to the lane Vey used before; on an image request nothing can,
+so it is a 503. Image choices above 50 options need escalation (or return 400),
+rather than silently falling back to a text-only matcher.
+
+Measured (`scripts/systemone_eval.py --d1-only --d1-choice-below 0.6`, 150 held-out rows per task, the same rows in
+every column, 2 vCPU):
+
+| Task (options) | Light lanes | Routed at 0.6 | d1 alone | Rows sent to d1 | ms light / routed |
+|---|---:|---:|---:|---:|---:|
+| SST-2 sentiment (2) | 0.800 | 0.813 | 0.933 | 27% | 24 / 57 |
+| AG News topic (4) | 0.787 | 0.813 | 0.847 | 36% | 42 / 104 |
+| Emotion (6) | 0.673 | 0.813 | 0.853 | 77% | 68 / 181 |
+| Banking77 intent (77) | 0.633 | 0.633 | not run | 0% (over 50 options) | 3 / 0 |
+| SST-5 score (5) | 0.220 exact | 0.487 exact | | all | 3 / 225 |
+| Yes/no (148 rows) | NLI 0.939 | d1 0.953 | | | 14 / 220 |
+
+The "Routed" column above used a confidence threshold of 0.6. Sweeping it, on the same rows:
+
+| `--d1-choice-below` | SST-2 | AG News | Emotion | Share sent to d1 (SST-2 / AG / Emotion) | ms (SST-2 / AG / Emotion) |
+|---:|---:|---:|---:|---|---|
+| 0 (encoder only) | 0.720 | 0.687 | 0.500 | 0 / 0 / 0 | 3 / 5 / 3 |
+| 0.6 | 0.813 | 0.813 | 0.813 | 27% / 36% / 77% | 56 / 95 / 176 |
+| **0.8 (default)** | 0.927 | 0.827 | 0.847 | 78% / 69% / 93% | 154 / 179 / 231 |
+| 0.95 | 0.933 | 0.847 | 0.853 | 100% / 93% / 97% | 200 / 253 / 223 |
+| 1.0 (always d1) | 0.933 | 0.847 | 0.853 | 100% / 100% / 100% | 194 / 305 / 231 |
+
+The encoder is often confidently wrong on these label sets, so at 0.6 many mistakes never
+reach d1. At 0.8 most rows do, and the encoder mainly saves time on easy intents and on
+choices with more than 50 options. Above 0.95 there is almost nothing left to gain.
+The zero-threshold control is the encoder alone, not the NLI-reranked light cascade.
+The threshold was chosen using this sweep, so this is tuning evidence, not an
+untouched final estimate. Yes/no in the first table explicitly tests `--d1-noul`;
+default routing still uses NLI. d1's higher accuracy does not uniformly improve ECE:
+SST-5 ECE was 0.051 to 0.094, and yes/no 0.022 to 0.040.
+
+### Memory and latency recheck (2026-11-07)
+
+Lean profile: `vey-serve --d1 --no-nli --d1-noul --threads 2`, with the same 2 vCPU
+host above, Python 3.11.6, torch 2.15.0+cpu, transformers 5.22.1. No concurrent
+training or browser. `scripts/systemone_bench.py --images --skip-throughput --requests 9`
+checks each response's typed probabilities and weighted score as well as timing it.
+These are a new measurement with that script's longer support-ticket fixture, not
+the earlier short-ticket timings. Three warmups per workload, then nine round trips:
+
+| Workload | p50 | RSS after workload |
+|---|---:|---:|
+| exact field | 0.9 ms | 851.6 MiB |
+| choice, 4 options (cached matcher) | 1.4 ms | 854.7 MiB |
+| score, 3 levels (d1) | 239.4 ms | 870.4 MiB |
+| noul (d1) | 220.4 ms | 863.6 MiB |
+| 3 mixed questions | 368.4 ms | 872.6 MiB |
+| 512px receipt, 2 questions | 1,670.9 ms | 986.0 MiB |
+| 2000px receipt, 2 questions | 1,679.4 ms | 1009.0 MiB |
+
+Startup RSS: 799.6 MiB. Peak process RSS (`VmHWM`): 1283.4 MiB. Under a hard
+1.25 GiB cgroup, `memory.peak` reached the limit, 1,342,177,280 bytes, with 88
+`memory.events.max` events but zero `oom` and `oom_kill`. **There is no demonstrated
+headroom.** RSS and cgroup charge are different metrics. The historical wire field
+`resident_mb` holds MiB on Linux; the CLI and console now label it accordingly.
+
+Under a fresh hard **1 GiB** cap, with swap disabled, the same script completed
+the text workloads (902.1 MiB RSS after mixed questions) but the server was killed
+on the first image warmup: `memory.peak=1,073,741,824`, `oom=1`, `oom_kill=1`.
+This does not satisfy either a 1 GiB or a decimal 1 GB whole-server budget. The
+1.25 GiB result applies only to this lean, serial, bounded workload, not to
+`--d1` with the additional NLI model or to arbitrary long inputs and concurrency.
+Audio is not loaded. Conversion and training need more RAM than inference.
+
+Quantization: large weights are per-channel int8 and activations are quantized per token and
+multiplied with `torch._int_mm` when supported by the Torch build; otherwise the
+runtime falls back to weight-only int8, which has a different speed and memory
+envelope. The 16 trunk `out_proj` layers stay weight-only. Int8 is not bitwise
+equivalent to fp32.
+
+### Vision control and shared-state head
+
+`python scripts/systemone_eval.py --d1-vision-control` checks solid red, green and
+blue 512px images, comparing quantized inference, fp32 vision with the int8 trunk,
+and a full-fp32 control. **All three got only 2/3 right**: red was classified as
+blue, including 91.7% confidence in the quantized path. Green and blue were correct.
+The failure is not specific to vision quantization and survives the full-fp32
+control. This tiny control is not a broad vision benchmark, but it rules out a
+claim of reliable image accuracy. A confidence floor does not catch confident errors.
+
+The shared-state prototype encodes the state once and caches each trunk layer's
+attention keys/values and convolution boundary. A newly adapted head achieved
+1.86x speedup at six questions, but fails score agreement and unseen-task accuracy.
+It is **not wired into the server**. See the protocol, controls, results and commands
+in [SHARED_STATE_HEAD.md](research/SHARED_STATE_HEAD.md).
+
 ## Escalation
 
 Nothing leaves the machine unless you set `--escalate-url`. With it set:
 
 - a question answered below `--floor` goes to the target, and its answer replaces the local one;
-- a request with `assets` or a `box` question goes to the target whole, and a multipart
-  request is proxied byte for byte (up to `--max-proxy-body`);
+- a request with a `box` question, or with `assets` when `--d1` is off, goes to the target
+  whole, and a multipart request is proxied byte for byte (up to `--max-proxy-body`);
 - the model is replaced with `--escalate-model`, `explain` is never forwarded, and the
   `TypeSafe-Danger-Zone-*` headers are;
 - the target's key comes from the `VEY_ESCALATE_API_KEY` environment variable.
@@ -222,8 +355,8 @@ origin and renders all text with `textContent`.
 - CPU only, and tuned for small requests. The encoder reads 96 tokens and the NLI model 256.
 - Yes/no is only as good as the NLI model: 0.947 on sentiment and topic questions, weaker on
   properties such as urgency.
-- Not supported: `multiple` choices, `point`, `read` and `estimate` answers, a vision lane.
-  Images work only through escalation.
+- Not supported: `multiple` choices, `point`, `read` and `estimate` answers, `box` questions,
+  audio. Images are read locally only with `--d1`; otherwise they need escalation.
 
 ## Reproducing
 
@@ -233,3 +366,27 @@ python scripts/systemone_eval.py --write cal.json     # accuracy, calibration, r
 vey-serve --port 8000 & python scripts/systemone_bench.py http://127.0.0.1:8000
 VEY_NETWORK_TESTS=1 pytest tests/systemone            # includes the OpenAPI conformance tests
 ```
+
+For the T2 memory test, prepare the weights outside the cap, then start only the
+server inside a dedicated cgroup v2 scope. On a Linux host with systemd and sudo:
+
+```bash
+sudo systemd-run --scope --unit=vey-t2-test \
+  -p MemoryMax=1073741824 -p MemorySwapMax=0 \
+  runuser -u "$USER" -- env VEY_CACHE="${VEY_CACHE:-$HOME/.cache/vey}" \
+  "$(command -v vey-serve)" --port 8000 --d1 --no-nli --d1-noul --threads 2
+```
+
+In another terminal, outside that scope:
+
+```bash
+python scripts/systemone_bench.py http://127.0.0.1:8000 --requests 9 --images --skip-throughput
+```
+
+For 1.25 GiB use `MemoryMax=1342177280`. Record the server's `VmRSS` and `VmHWM`
+from `/proc/<server-pid>/status`, and `memory.max`, `memory.swap.max`,
+`memory.peak` and `memory.events` from its cgroup before removing the group.
+The scope path is given by `systemctl show vey-t2-test.scope -p ControlGroup`.
+Our orb runs used manually created, persistent cgroups with the same limits so
+the event files remained readable after the OOM; the benchmark client, browser
+and model conversion were outside those cgroups.

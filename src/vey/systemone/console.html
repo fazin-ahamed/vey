@@ -74,6 +74,7 @@ label.slider input { width: 140px; padding: 0; }
   <span class="chip" id="c-mem">resident <span id="mem">…</span><span class="meter"><i id="memfill" style="width:0"></i></span></span>
   <span class="chip" id="c-matcher">matcher</span>
   <span class="chip" id="c-nli">NLI</span>
+  <span class="chip" id="c-d1">d1 off</span>
   <span class="chip" id="c-esc">escalation off</span>
 </header>
 <main>
@@ -161,6 +162,14 @@ const PRESETS = {
       is_urgent: { type: "noul", criteria: { true: "The message conveys urgency or time-sensitivity.", false: "No urgency is expressed." } }
     }
   },
+  'Image colour (experimental, needs --d1)': {
+    state: "photo",
+    questions: {
+      colour: { type: "choice", instructions: "What is the colour of the rectangle?", criteria: { red: "red", green: "green", blue: "blue" } },
+      is_red: { type: "noul", instructions: "Is there a red rectangle?" }
+    },
+    assets: { photo: { type: "image", format: "png", data_base64: "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAHElEQVR4nGP4TyJgoKcGBgbsaFQDfTUQB4aDBgDAen2fpitsVAAAAABJRU5ErkJggg==" } }
+  },
   'Image + box (needs escalation)': {
     state: "photo",
     questions: { red_rectangle: { type: "box", instructions: "Locate the red rectangle." } },
@@ -201,13 +210,14 @@ async function loadInfo() {
     if (r.status === 401) { $('keybox').style.display = 'block'; $('c-model').textContent = 'API key required'; return; }
     const i = await r.json(); st.info = i;
     $('c-model').textContent = i.model; $('c-model').classList.add('on');
-    const mb = i.resident_mb; $('mem').textContent = mb == null ? 'n/a' : mb + ' MB';
+    const mb = i.resident_mb; $('mem').textContent = mb == null ? 'n/a' : mb + ' MiB';
     $('memfill').style.width = mb == null ? '0' : Math.min(100, mb / 1024 * 100) + '%';
     $('c-matcher').textContent = 'matcher ' + (i.lanes.matcher.embedder === 'OnnxEmbedder' ? 'ONNX' : 'torch') + ', ' + i.lanes.matcher.cached_texts + ' cached';
     $('c-nli').textContent = i.lanes.nli.error ? 'NLI unavailable' : (i.lanes.nli.loaded ? 'NLI loaded' : 'NLI loads on first yes/no');
+    const d1 = i.lanes.d1; $('c-d1').textContent = d1 ? 'd1 int8 · ' + (d1.loaded || []).join(' + ') : 'd1 off'; $('c-d1').classList.toggle('on', !!d1);
     const esc = i.lanes.escalation; $('c-esc').textContent = esc ? 'escalation → ' + esc.host : 'escalation off'; $('c-esc').classList.toggle('on', !!esc);
     if (i.auth_required) $('keybox').style.display = 'block';
-    const c = i.counts; $('stats').replaceChildren(...['requests', 'questions', 'exact', 'matcher', 'matcher+nli', 'nli', 'escalated', 'below_floor'].map(k => el('span', '', k + ' ' + c[k])), el('span', '', 'uptime ' + Math.round(i.uptime_s) + ' s'), el('span', '', 'floor ' + i.floor));
+    const c = i.counts; $('stats').replaceChildren(...['requests', 'questions', 'exact', 'matcher', 'matcher+nli', 'nli', 'd1', 'escalated', 'below_floor'].map(k => el('span', '', k + ' ' + c[k])), el('span', '', 'uptime ' + Math.round(i.uptime_s) + ' s'), el('span', '', 'floor ' + i.floor));
   } catch (e) { $('c-model').textContent = 'server unreachable'; }
 }
 
@@ -287,7 +297,7 @@ async function run() {
 function checkState() {
   const s = $('state').value.trim(); let kind = 'text';
   if (s.startsWith('{') || s.startsWith('[')) { try { JSON.parse(s); kind = 'JSON (a field named like a question can answer it exactly)'; } catch (_) { kind = 'text (looks like JSON but is not valid)'; } }
-  $('state-hint').textContent = 'Read as ' + kind + '.';
+  $('state-hint').textContent = 'Read as ' + kind + '.' + (st.assets ? ' Attached images: ' + Object.keys(st.assets).join(', ') + '. Local vision is experimental; confidence is not a guarantee of correctness.' : '');
 }
 function loadPreset(name) {
   const p = PRESETS[name];

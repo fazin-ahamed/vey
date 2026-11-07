@@ -129,10 +129,22 @@ def main() -> None:
     ap.add_argument("--rerank-below", type=float, default=0.6)
     ap.add_argument("--write", help="write fitted temperatures to this JSON file")
     ap.add_argument("--threads", type=int, default=2)
+    ap.add_argument("--d1", action="store_true",
+                    help="also measure Tier 2 (needs vey[d1] and a prepared model; LFM Open License v1.0)")
+    ap.add_argument("--d1-only", action="store_true", help="skip the fit and the lighter-lane tables; run only the d1 comparison")
+    ap.add_argument("--d1-rows", type=int, default=150, help="held-out rows per task for the d1 comparison")
+    ap.add_argument("--d1-choice-below", type=float, default=0.8, help="choice routing threshold in the d1 comparison")
+    ap.add_argument("--d1-vision-control", action="store_true", help="compare int8, fp32 vision, and full fp32 on solid colours (needs several GB RAM)")
     a = ap.parse_args()
 
+    if a.d1_vision_control:
+        d1_vision_control(a.threads)
+        return
     emb = OnnxEmbedder.from_hub(threads=a.threads)
     nli = LazyNLI(lambda: OnnxNLI.from_hub(threads=a.threads))
+    if a.d1_only:
+        d1_section(emb, nli, Calibration.default(), a.d1_rows, a.threads, a.d1_choice_below)
+        return
     base = Engine(emb, nli, Calibration(dict(_DEFAULTS)), config=EngineConfig(rerank_below=0.0))
 
     # ------------------------------------------------------------------ fit
@@ -265,6 +277,107 @@ def main() -> None:
     if a.write:
         with open(a.write, "w") as fh:
             fh.write(Calibration(shipped).to_json(fit_rows=a.fit_rows, eval_rows=a.eval_rows, source="scripts/systemone_eval.py"))
+    if a.d1:
+        d1_section(emb, nli, Calibration(shipped), a.d1_rows, a.threads, a.d1_choice_below)
+
+
+def d1_section(emb, nli, fitted, rows: int, threads: int, threshold: float) -> None:
+    """Tier 2 against the lighter lanes on the same rows, through the engine's own routing."""
+    from vey.systemone.d1 import D1Model
+
+    d1 = D1Model(threads=threads)
+    light = Engine(emb, nli, fitted, config=EngineConfig())
+    routed = Engine(emb, nli, fitted, config=EngineConfig(d1_choice_below=threshold), d1=d1)
+    alone = Engine(emb, nli, fitted, config=EngineConfig(d1_choice_below=1.0, d1_noul=True), d1=d1)
+
+    def run(engine, items):
+        out = []
+        for req, q, y in items:
+            t0 = time.perf_counter()
+            answers, trace, _ = engine._answer_all_local(req)
+            a, tr = answers[q.name], trace[q.name]
+            pred = a["choice"] if q.type == "choice" else int(round(a["score"])) if q.type == "score" else a["noul"] >= 0.5
+            conf = a["noul"] if q.type == "noul" else a["confidence"]
+            conf = max(conf, 1 - conf) if q.type == "noul" else conf
+            out.append((pred, tr["lane"], conf, y, (time.perf_counter() - t0) * 1000))
+        return out
+
+    acc = lambda r: float(np.mean([p == y for p, _, _, y, _ in r]))
+    e = lambda r: ece([c for _, _, c, _, _ in r], [p == y for p, _, _, y, _ in r])
+    ms = lambda r: float(np.mean([m for *_, m in r]))
+    print(f"\nTier 2 (d1-omni-600M int8), {rows} held-out rows per task, same rows for every column; threshold {threshold}")
+    print(f"{'task (options)':22s} {'light lanes':>12s} {'routed':>8s} {'d1 alone':>9s} {'to d1':>6s} {'ECE light':>10s} {'ECE routed':>11s} {'ms light':>9s} {'ms routed':>10s}")
+    for name in ("sst2", "ag_news", "emotion", "banking77"):
+        texts, labels, opts, instr = load_task(name, "test" if name != "sst2" else "validation", rows, seed=5)
+        keys = list(opts)
+        items = []
+        for t, y in zip(texts, labels):
+            req, q = choice_row(t, opts, instr)
+            items.append((req, q, keys[y]))
+        r_l, r_r = run(light, items), run(routed, items)
+        r_a = run(alone, items) if len(opts) <= 6 else None
+        share = float(np.mean([lane == "d1" for _, lane, *_ in r_r]))
+        print(f"{name + ' (' + str(len(opts)) + ')':22s} {acc(r_l):12.3f} {acc(r_r):8.3f} "
+              f"{(f'{acc(r_a):9.3f}' if r_a else '        -')} {share:6.2f} {e(r_l):10.3f} {e(r_r):11.3f} {ms(r_l):9.0f} {ms(r_r):10.0f}")
+    texts, labels, levels = load_score("test", rows, seed=5)
+    items = []
+    for t, y in zip(texts, labels):
+        q = Question("q", "score", "How positive is this movie review?", levels)
+        items.append((Request("eval", t, [q]), q, y))
+    r_l, r_r = run(light, items), run(routed, items)
+    w1 = lambda r: float(np.mean([abs(p - y) <= 1 for p, _, _, y, _ in r]))
+    print(f"{'sst5 score (5)':22s} exact {acc(r_l):.3f} -> {acc(r_r):.3f}; within one level {w1(r_l):.3f} -> {w1(r_r):.3f}; "
+          f"ECE {e(r_l):.3f} -> {e(r_r):.3f}; {ms(r_l):.0f} -> {ms(r_r):.0f} ms")
+    nrows = load_noul("test", rows, seed=5)
+    items = [(Request("eval", t, [Question("q", "noul", qt)]), Question("q", "noul", qt), bool(y)) for t, y, qt in nrows]
+    r_l, r_r = run(light, items), run(alone, items)
+    print(f"{'yes/no (' + str(len(items)) + ' rows)':22s} NLI {acc(r_l):.3f} -> d1 {acc(r_r):.3f}; "
+          f"ECE {e(r_l):.3f} -> {e(r_r):.3f}; {ms(r_l):.0f} -> {ms(r_r):.0f} ms")
+
+
+def d1_vision_control(threads: int) -> None:
+    """Isolate vision quantization, then trunk/head quantization, on a deliberately simple control."""
+    import gc
+
+    import torch
+    from PIL import Image
+    from huggingface_hub import hf_hub_download
+    from vey.systemone.d1 import D1Model, D1_REPO, D1_REVISION, _trim_heap
+
+    src = (os.path.join(os.environ["D1_FP32_DIR"], "model.safetensors") if os.environ.get("D1_FP32_DIR")
+           else hf_hub_download(D1_REPO, "model.safetensors", revision=D1_REVISION))
+    m = D1Model(threads=threads)
+    qs = [{"type": "choice", "instructions": "What is the colour of the image?",
+           "criteria": {c: c for c in ("red", "green", "blue")}}]
+    colours = list(qs[0]["criteria"])
+    Reader = m._classes[3]
+
+    for mode in ("int8", "fp32 vision", "full fp32"):
+        if mode != "int8":
+            target = m._skeleton()
+            f = Reader(src)
+            prefixes = ("vision.",) if mode == "fp32 vision" else ("encoder.", "head.", "vision.")
+            weights = {k: f.get_tensor(k) for k in f.keys() if k.startswith(prefixes)}
+            target.load_state_dict(weights, strict=False, assign=True)
+            f.close()
+            del weights
+            if mode == "fp32 vision":
+                m.model.vision = target.vision
+                m._loaded.add("vision")
+                del target
+            else:
+                m.model = target
+                orig = target._run
+                target._run = lambda rows: orig(rows, 256)
+            gc.collect()
+            _trim_heap()
+        ok = 0
+        for c in colours:
+            (p,) = m.probabilities(None, qs, [Image.new("RGB", (512, 512), c)])
+            pred = colours[int(np.argmax(p))]
+            ok += int(pred == c)
+            print(f"{mode:12s} gold {c:5s}, predicted {pred:5s}, p={np.round(p, 4).tolist()}", flush=True)
+        print(f"{mode}: {ok}/3 correct", flush=True)
 
 
 if __name__ == "__main__":

@@ -9,12 +9,12 @@ only when it cannot:
               once and each option; cosine becomes a probability by temperature.
     nli       ``noul``: a zero-shot NLI model checks the state against the
               statement. Loaded on first use.
+    d1        Opt-in int8 d1-omni: images, scores and low-confidence choices.
     escalate  Below the confidence floor, or when the request has images or a
-              ``box`` question: forwarded to another System One server.
+              ``box`` question no local lane can read: forwarded to another server.
 
-The engine never generates text. A long state is reduced with BM25 sentence
-selection before either model reads it, the same long-context lane Vey uses
-elsewhere.
+The engine never generates text. The light lanes use BM25 sentence selection
+for long states; d1 uses its own context and right truncation.
 """
 from __future__ import annotations
 
@@ -48,6 +48,11 @@ class EngineConfig:
     rerank_below: float = 0.6  # a choice the matcher is less sure of than this is reranked by the NLI model
     rerank_top: int = 5        # how many of the matcher's top options the NLI model reads
     rerank_max_options: int = 20  # no rerank beyond this many options: measured to hurt at 150, +1 point at 77
+    d1_noul: bool = False      # yes/no to d1 instead of the NLI model: 0.953 vs 0.939 at 15x the time, so off
+    d1_score: bool = True      # score to d1: exact level 0.22 -> 0.49, within one level 0.69 -> 0.96
+    d1_choice_below: float = 0.8   # a choice the matcher is less sure of than this goes to d1 (0.6 left too many confident misses)
+    d1_max_options: int = 50   # d1 reads every option in its context; keep large choices on the matcher
+    d1_max_images: int = 4
     explain: bool = False      # default for the ``explain`` request field
 
 
@@ -97,7 +102,8 @@ def find_field(state: Any, name: str, depth: int = 3) -> Any:
 
 class Engine:
     def __init__(self, embedder, nli: LazyNLI | None = None, calibration: Calibration | None = None,
-                 escalator: Escalator | None = None, config: EngineConfig | None = None):
+                 escalator: Escalator | None = None, config: EngineConfig | None = None, d1=None):
+        self.d1 = d1  # Tier 2 (vey.systemone.d1.D1Model) or any object with probabilities(state, questions, images)
         self.embedder = embedder
         self.nli = nli if nli is not None else LazyNLI()
         self.calibration = calibration or Calibration.default()
@@ -105,7 +111,7 @@ class Engine:
         self.cfg = config or EngineConfig()
         self.started = time.time()
         self._lock = threading.Lock()
-        self.counts = {"requests": 0, "questions": 0, "exact": 0, "matcher": 0, "matcher+nli": 0, "nli": 0, "escalated": 0,
+        self.counts = {"requests": 0, "questions": 0, "exact": 0, "matcher": 0, "matcher+nli": 0, "nli": 0, "d1": 0, "escalated": 0,
                        "below_floor": 0}
 
     # --------------------------------------------------------------- helpers
@@ -121,7 +127,9 @@ class Engine:
     # ----------------------------------------------------------------- lanes
 
     def _exact(self, state: Any, q: Question) -> dict[str, Any] | None:
-        """An answer read straight off the state, or None."""
+        """A forced answer or an answer read straight off the state, or None."""
+        if q.type in ("choice", "score") and len(q.options) == 1:
+            return {"p": [1.0]}  # the wire schema permits one option; d1 requires two
         if not self.cfg.exact_lane or not isinstance(state, dict):
             return None
         v = find_field(state, q.name)
@@ -191,7 +199,7 @@ class Engine:
         z = float((m[0] - m[1]) / 2) if (true_h and false_h) else float(m[0]) if true_h else float(-m[0])
         return z, {"hypothesis": hyps[0], "state_tokens": nli.count_tokens(state)}
 
-    def _matcher(self, req: Request, q: Question) -> tuple[np.ndarray, dict[str, Any]]:
+    def _matcher(self, req: Request, q: Question, rerank: bool = True) -> tuple[np.ndarray, dict[str, Any]]:
         """Probabilities over a ``choice`` / ``score`` question's options."""
         cos, state = self.cosines(req, q)
         tau = self.calibration.temperature(q.type, len(cos))
@@ -199,7 +207,7 @@ class Engine:
         order = np.sort(p)[::-1]
         info = {"temperature": tau, "margin": float(order[0] - order[1]) if len(order) > 1 else 1.0,
                 "state_tokens": self._count(state), "matcher_confidence": round(float(order[0]), 6)}
-        if (q.type == "choice" and 1 < len(p) <= self.cfg.rerank_max_options
+        if (rerank and q.type == "choice" and 1 < len(p) <= self.cfg.rerank_max_options
                 and order[0] < self.cfg.rerank_below):
             top = [int(i) for i in np.argsort(-p, kind="stable")[: self.cfg.rerank_top]]
             z = self.choice_margins(req, q, top)
@@ -252,16 +260,141 @@ class Engine:
                  "ms": round((time.perf_counter() - t0) * 1000, 2)}
         return answer, trace, conf
 
+    # ----------------------------------------------------------------- tier 2
+
+    def _d1_inputs(self, req: Request) -> tuple[Any, dict[str, dict[str, Any]], list]:
+        """State, question dicts and images for d1, with asset placeholders resolved.
+
+        A placeholder inside a string becomes "the attached image" and its asset joins the
+        image list in order of first appearance; a state that is only a placeholder becomes None
+        (d1 reads the images alone). Assets no string mentions are ignored.
+        """
+        from .d1 import decode_image
+
+        assets, order = req.assets or {}, []
+        names = sorted((re.escape(k) for k in assets if k), key=len, reverse=True)
+        pattern = re.compile(r"(?<!\w)(?:" + "|".join(names) + r")(?!\w)") if names else None
+
+        def replace(match) -> str:
+            ph = match.group()
+            if ph not in order:
+                order.append(ph)
+            return "the attached image"
+
+        def sub(v: Any) -> Any:
+            if isinstance(v, str):
+                return pattern.sub(replace, v) if pattern else v
+            if isinstance(v, dict):
+                return {k: sub(x) for k, x in v.items()}
+            if isinstance(v, list):
+                return [sub(x) for x in v]
+            return v
+
+        state = req.state
+        if isinstance(state, str) and state.strip() in assets:
+            order.append(state.strip())
+            state = None
+        else:
+            state = sub(state)
+        qs: dict[str, dict[str, Any]] = {}
+        for q in req.questions:
+            d: dict[str, Any] = {"type": q.type, "instructions": to_text(sub(q.instruction_text))}
+            if q.type == "choice":
+                d["criteria"] = {k: to_text(sub(v)) for k, v in q.criteria.items()}
+            elif q.type == "score":
+                d["criteria"] = [to_text(sub(v)) for v in q.criteria]
+            elif q.criteria:
+                d["criteria"] = {k: to_text(sub(v)) for k, v in q.criteria.items()}
+            qs[q.name] = d
+        if len(order) > self.cfg.d1_max_images:
+            raise bad_request(f"at most {self.cfg.d1_max_images} images per request are read locally, got {len(order)}")
+        return state, qs, [decode_image(assets[ph], ph) for ph in order]
+
+    @staticmethod
+    def _from_d1(q: Question, probs: list[float]) -> Any:
+        return float(probs[0]) if q.type == "noul" else [float(x) for x in probs]  # a noul is [yes, no]
+
+    def _answer_all_local(self, req: Request) -> tuple[dict[str, Any], dict[str, Any], list[str]]:
+        """Answer every question locally. Returns answers, traces and names below the floor."""
+        d1, has_images = self.d1, bool(req.assets) and self.d1 is not None
+        done: dict[str, tuple] = {}
+        pending: dict[str, dict[str, Any]] = {}
+        for q in req.questions:
+            t0 = time.perf_counter()
+            hit = self._exact(req.state, q)
+            if hit is not None:
+                a, conf = self._shape(q, hit["p"])
+                done[q.name] = (a, {"lane": "exact", "confidence": round(conf, 6),
+                                    "ms": round((time.perf_counter() - t0) * 1000, 2)}, conf)
+            elif d1 is not None and (has_images or (q.type == "noul" and self.cfg.d1_noul)
+                                     or (q.type == "score" and self.cfg.d1_score)):
+                pending[q.name] = {"q": q, "fallback": None}
+            elif d1 is not None and q.type == "choice":
+                p, info = self._matcher(req, q, rerank=False)
+                if len(p) <= self.cfg.d1_max_options and (self.cfg.d1_choice_below >= 1.0
+                                                         or float(p.max()) < self.cfg.d1_choice_below):
+                    pending[q.name] = {"q": q, "fallback": (p, info, t0)}
+                else:
+                    a, conf = self._shape(q, p)
+                    done[q.name] = (a, {"lane": "matcher", "confidence": round(conf, 6), **info,
+                                        "ms": round((time.perf_counter() - t0) * 1000, 2)}, conf)
+            else:
+                done[q.name] = self._answer_local(req, q)
+        if pending:
+            names = list(pending)
+            state, d1q, images = self._d1_inputs(req)
+            t0 = time.perf_counter()
+            try:
+                probs = d1.probabilities(state, [d1q[n] for n in names], images or None)
+                err = None
+            except Exception as e:  # out of memory, a bad image, ...
+                probs, err = None, f"{type(e).__name__}: {e}"
+            ms = (time.perf_counter() - t0) * 1000
+            for i, n in enumerate(names):
+                q, fb = pending[n]["q"], pending[n]["fallback"]
+                if err is None:
+                    a, conf = self._shape(q, self._from_d1(q, probs[i]))
+                    tr = {"lane": "d1", "confidence": round(conf, 6), "ms": round(ms / len(names), 2),
+                          "d1_call_ms": round(ms, 2), "images": len(images)}
+                    if fb:
+                        tr["matcher_confidence"] = fb[1]["matcher_confidence"]
+                    done[n] = (a, tr, conf)
+                elif fb:  # keep the matcher's answer
+                    p, info, t_q = fb
+                    a, conf = self._shape(q, p)
+                    done[n] = (a, {"lane": "matcher", "confidence": round(conf, 6), **info, "d1_error": err,
+                                   "ms": round((time.perf_counter() - t_q) * 1000, 2)}, conf)
+                elif images:
+                    raise ApiError(503, {"detail": f"the d1 lane failed on this image request: {err}"})
+                else:  # text: fall back to the lane Vey used before d1
+                    a, tr, conf = self._answer_local(req, q)
+                    tr["d1_error"] = err
+                    done[n] = (a, tr, conf)
+        answers = {q.name: done[q.name][0] for q in req.questions}
+        trace = {q.name: done[q.name][1] for q in req.questions}
+        low = [q.name for q in req.questions
+               if trace[q.name]["lane"] != "exact" and done[q.name][2] < self.cfg.floor]
+        for q in req.questions:
+            self._bump(trace[q.name]["lane"])
+        return answers, trace, low
+
     def answer(self, req: Request, raw_body: dict[str, Any] | None = None, headers: dict[str, str] | None = None,
                explain: bool | None = None) -> dict[str, Any]:
         """Answer every question of a validated request. Raises ApiError on a request that cannot be served."""
         t_start = time.perf_counter()
         explain = self.cfg.explain if explain is None else explain
-        unreadable = bool(req.assets) or any(q.type == "box" for q in req.questions)
+        reason = None
+        if any(q.type == "box" for q in req.questions):
+            reason = "a box question, which no local lane answers"
+        elif req.assets and self.d1 is None:
+            reason = "images, which need the d1 lane (start the server with --d1)"
+        elif req.assets and any(q.type == "choice" and len(q.options) > self.cfg.d1_max_options for q in req.questions):
+            reason = f"an image choice with more than {self.cfg.d1_max_options} options, which exceeds the local d1 limit"
+        unreadable = reason is not None
         if unreadable and self.escalator is None:
             raise bad_request(
-                "this request has images or a box question, which Vey's local lanes cannot read, and no "
-                "escalation endpoint is configured (start the server with --escalate-url)")
+                "this request has " + reason
+                + ", and no escalation endpoint is configured (start the server with --escalate-url)")
         answers: dict[str, Any] = {}
         trace: dict[str, Any] = {}
         remote_model = None
@@ -279,13 +412,7 @@ class Engine:
             usage = remote.get("usage", {"input_tokens": 0, "output_tokens": 0})
             self._bump("escalated", len(req.questions))
         else:
-            low: list[str] = []
-            for q in req.questions:
-                answer, tr, conf = self._answer_local(req, q)
-                answers[q.name], trace[q.name] = answer, tr
-                if tr["lane"] != "exact" and conf < self.cfg.floor:
-                    low.append(q.name)
-                self._bump(tr["lane"])
+            answers, trace, low = self._answer_all_local(req)
             for name in low:
                 trace[name]["below_floor"] = True
             if low:
@@ -333,6 +460,7 @@ class Engine:
                 "matcher": {"embedder": type(e).__name__, "dim": getattr(e, "dim", None),
                             "cached_texts": len(getattr(e, "_cache", {}))},
                 "nli": {"loaded": self.nli.loaded, "error": self.nli.error},
+                "d1": self.d1.info() if self.d1 is not None and hasattr(self.d1, "info") else bool(self.d1),
                 "escalation": {"host": self.escalator.host} if self.escalator else None,
             },
             "floor": self.cfg.floor,
